@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Chart.js for High-DPI, Crystal Clear Interactive Graphs -->
+  <!-- Chart.js for Clean, High-DPI Interactive Graph -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <!-- CSS Framework & Modular Sheets -->
@@ -289,7 +289,7 @@
       height: 38px;
       border-radius: 50%;
       object-fit: cover;
-      border: 1px solid #f1f5f9;
+      border: 1px solid #e2e8f0;
     }
 
     .demand-track {
@@ -538,7 +538,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="market-search-input" placeholder="Search commodity, APMC mandi, state, variety..." oninput="handleSearchTable(this.value)" />
+            <input type="text" id="market-search-input" placeholder="Search vegetable, commodity, APMC mandi, state..." oninput="handleSearchTable(this.value)" />
           </div>
           <div style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 7px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer; white-space: nowrap;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -712,13 +712,13 @@
 
           <!-- Produce Selection Chips Carousel with Images -->
           <div class="produce-chips-scroll" id="produce-chips-container">
-            <!-- Dynamically populated with crop images & rates -->
+            <!-- Dynamically populated with respective crop images & rates -->
           </div>
 
           <!-- Quick Summary Bar for Active Crop -->
           <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 18px; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
             <div style="display: flex; align-items: center; gap: 12px;">
-              <img id="active-crop-img" src="assets/images/tomato.jpg" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1.5px solid #0c5a36;" />
+              <img id="active-crop-img" src="assets/images/tomato.jpg" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid #0c5a36;" />
               <div>
                 <strong style="font-size: 1rem; color: #0f172a;" id="active-crop-title">Tomato (Hybrid Red)</strong>
                 <div style="font-size: 0.75rem; color: #64748b;" id="active-crop-location">Coimbatore APMC Mandi</div>
@@ -776,7 +776,7 @@
             </div>
 
             <div id="demand-items-container" style="display: flex; flex-direction: column; gap: 4px;">
-              <!-- Dynamically rendered with produce images -->
+              <!-- Dynamically rendered with respective produce images -->
             </div>
           </div>
 
@@ -807,7 +807,7 @@
 
             <!-- Forecast Items -->
             <div id="forecast-items-container" style="display: flex; flex-direction: column; gap: 4px;">
-              <!-- Dynamically rendered with produce images -->
+              <!-- Dynamically rendered with respective produce images -->
             </div>
           </div>
 
@@ -851,7 +851,7 @@
                 </tr>
               </thead>
               <tbody id="mandi-table-body">
-                <!-- Dynamically rendered with produce images -->
+                <!-- Dynamically rendered with respective produce images -->
               </tbody>
             </table>
           </div>
@@ -914,34 +914,47 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT: Dynamic Data, Simple In-Kg Chart & Produce Images -->
+  <!-- JAVASCRIPT: Dynamic Data, Semantic Image Mapping & Simple In-Kg Chart -->
   <script>
     let marketData = null;
     let chartInstance = null;
     let activeCropId = "tomato-hybrid";
     let selectedUnit = "kg"; // "kg" (default) or "qt"
 
-    // Produce Specific Images Mapping (All local in assets/images)
-    const produceImages = {
-      "Tomato": "assets/images/tomato.jpg",
-      "Onion": "assets/images/onion.jpg",
-      "Paddy": "assets/images/paddy.jpg",
-      "Turmeric": "assets/images/turmeric.jpg",
-      "Chilli": "assets/images/chilli.jpg",
-      "Cotton": "assets/images/cotton.jpg",
-      "Okra": "assets/images/okra.jpg",
-      "Maize": "assets/images/maize.jpg",
-      "Banana": "assets/images/banana.jpg",
-      "Brinjal": "assets/images/brinjal.jpg",
-      "Potato": "assets/images/potato.jpg",
-      "Guava": "assets/images/hero-field.jpg",
-      "Coconut": "assets/images/hero-field.jpg",
-      "Cabbage": "assets/images/hero-field.jpg"
-    };
-
+    // Comprehensive Semantic Produce Image Mapping for all 70+ vegetables and commodities
     function getProduceImage(cropName) {
-      const matchKey = Object.keys(produceImages).find(k => cropName.toLowerCase().includes(k.toLowerCase()));
-      return matchKey ? produceImages[matchKey] : "assets/images/tomato.jpg";
+      const name = cropName.toLowerCase();
+      
+      if (name.includes("tomato")) return "assets/images/tomato.jpg";
+      if (name.includes("onion")) return "assets/images/onion.jpg";
+      if (name.includes("paddy") || name.includes("rice") || name.includes("wheat") || name.includes("grain")) return "assets/images/paddy.jpg";
+      if (name.includes("turmeric")) return "assets/images/turmeric.jpg";
+      if (name.includes("chilli") || name.includes("pepper")) return "assets/images/chilli.jpg";
+      if (name.includes("cotton")) return "assets/images/cotton.jpg";
+      if (name.includes("okra") || name.includes("bhindi") || name.includes("ladies finger")) return "assets/images/okra.jpg";
+      if (name.includes("maize") || name.includes("corn")) return "assets/images/maize.jpg";
+      if (name.includes("banana")) return "assets/images/banana.jpg";
+      if (name.includes("brinjal") || name.includes("eggplant")) return "assets/images/brinjal.jpg";
+      if (name.includes("potato") || name.includes("tapioca") || name.includes("yam") || name.includes("colacasia") || name.includes("suran")) return "assets/images/potato.jpg";
+      if (name.includes("cabbage") || name.includes("knool khol")) return "assets/images/cabbage.jpg";
+      if (name.includes("cauliflower")) return "assets/images/cauliflower.jpg";
+      if (name.includes("carrot") || name.includes("raddish")) return "assets/images/carrot.jpg";
+      if (name.includes("beetroot")) return "assets/images/beetroot.jpg";
+      if (name.includes("capsicum")) return "assets/images/capsicum.jpg";
+      if (name.includes("garlic")) return "assets/images/garlic.jpg";
+      if (name.includes("lemon") || name.includes("lime") || name.includes("mousambi") || name.includes("orange")) return "assets/images/lemon.jpg";
+      if (name.includes("grape")) return "assets/images/grapes.jpg";
+      if (name.includes("papaya")) return "assets/images/papaya.jpg";
+      if (name.includes("coconut")) return "assets/images/coconut.jpg";
+      if (name.includes("drumstick")) return "assets/images/drumstick.jpg";
+      if (name.includes("gourd") || name.includes("snakeguard") || name.includes("ashgourd") || name.includes("ridgeguard") || name.includes("pumpkin") || name.includes("chow chow") || name.includes("thondekai")) return "assets/images/gourd.jpg";
+      if (name.includes("cucumber") || name.includes("kheera")) return "assets/images/cucumber.jpg";
+      if (name.includes("spinach") || name.includes("amaranthus") || name.includes("leafy") || name.includes("coriander") || name.includes("mint") || name.includes("pudina") || name.includes("betal")) return "assets/images/spinach.jpg";
+      if (name.includes("bean") || name.includes("peas") || name.includes("cowpea") || name.includes("avare") || name.includes("cluster") || name.includes("gram") || name.includes("soyabean") || name.includes("groundnut")) return "assets/images/beans.jpg";
+      if (name.includes("watermelon") || name.includes("melon") || name.includes("pineapple") || name.includes("jack fruit") || name.includes("mango") || name.includes("guava") || name.includes("apple") || name.includes("pomegranate") || name.includes("amla")) return "assets/images/watermelon.jpg";
+      
+      // Default natural farm asset fallback
+      return "assets/images/hero-field.jpg";
     }
 
     async function loadMarketData() {
@@ -1021,7 +1034,7 @@
       const distinct = [];
       const seen = new Set();
       commodities.forEach(c => {
-        if (!seen.has(c.commodity) && distinct.length < 8) {
+        if (!seen.has(c.commodity) && distinct.length < 12) {
           seen.add(c.commodity);
           distinct.push(c);
         }
@@ -1039,7 +1052,7 @@
         const card = document.createElement("div");
         card.className = `produce-chip ${isActive ? 'active' : ''}`;
         card.innerHTML = `
-          <img src="${imgUrl}" alt="${c.commodity}" class="produce-chip-thumb" onerror="this.src='assets/images/tomato.jpg'" />
+          <img src="${imgUrl}" alt="${c.commodity}" class="produce-chip-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
           <div>
             <div style="font-size: 0.86rem; font-weight: 800; color: #0f172a;">${c.commodity}</div>
             <div style="font-size: 0.74rem; font-weight: 700; color: #15803d;">${priceText}</div>
@@ -1165,7 +1178,7 @@
       const container = document.getElementById("demand-items-container");
       container.innerHTML = "";
 
-      const sorted = [...commodities].sort((a, b) => b.arrivals_qt - a.arrivals_qt).slice(0, 5);
+      const sorted = [...commodities].sort((a, b) => b.arrivals_qt - a.arrivals_qt).slice(0, 6);
       const totalVol = marketData.metadata.total_mandi_volume_qt || 18000;
 
       sorted.forEach((c) => {
@@ -1176,7 +1189,7 @@
         container.innerHTML += `
           <div class="demand-item">
             <div style="display: flex; align-items: center; gap: 10px; min-width: 120px;">
-              <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='assets/images/tomato.jpg'" />
+              <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
               <div>
                 <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">${c.commodity}</div>
                 <div style="font-size: 0.74rem; font-weight: 700; color: #15803d;">${priceText}</div>
@@ -1204,7 +1217,7 @@
         container.innerHTML += `
           <div class="forecast-row" onclick="openMandiModal('${c.id}')">
             <div style="display: flex; align-items: center; gap: 10px;">
-              <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='assets/images/tomato.jpg'" />
+              <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
               <div>
                 <span style="font-weight: 700; font-size: 0.88rem; color: #0f172a; display: block;">${c.commodity}</span>
                 <span style="font-size: 0.74rem; color: #64748b;">Target: ${formatPrice(c.forecast.target_price_7d)}</span>
@@ -1223,7 +1236,7 @@
       const tbody = document.getElementById("mandi-table-body");
       tbody.innerHTML = "";
 
-      commodities.slice(0, 15).forEach(c => {
+      commodities.slice(0, 20).forEach(c => {
         const imgUrl = getProduceImage(c.commodity);
         const isUp = c.change_1w_pct >= 0;
         const sign = isUp ? "↑" : "↓";
@@ -1243,7 +1256,7 @@
           <tr style="border-bottom: 1px solid #f1f5f9;">
             <td style="padding: 12px 10px;">
               <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="${imgUrl}" alt="${c.commodity}" class="table-crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
+                <img src="${imgUrl}" alt="${c.commodity}" class="table-crop-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
                 <div>
                   <strong style="font-size: 0.88rem; color: #0f172a; display: block;">${c.commodity}</strong>
                   <span style="font-size: 0.72rem; color: #64748b;">${c.variety}</span>
@@ -1260,7 +1273,7 @@
               </div>
             </td>
             <td style="padding: 12px 10px;">
-              <strong style="font-size: 0.94rem; color: #15803d;">${formatPrice(c.modal_price)}</strong>
+              <strong style="font-size: 0.94rem; color: #15803d;">₹ ${(c.modal_price / 100.0).toFixed(2)} /kg</strong>
             </td>
             <td style="padding: 12px 10px; font-size: 0.82rem; font-weight: 600; color: #475569;">
               ₹ ${c.modal_price.toLocaleString('en-IN')} /Qt
