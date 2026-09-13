@@ -1001,14 +1001,6 @@ function initLocationSwitcher() {
 // LOGISTICS, LORRY RECEIPT & ESCROW RELEASE
 // ==========================================
 
-// Global state for active arrival release
-let activeArrivalDisbursement = {
-  trackingId: 'TRK-EXP-9921-TN',
-  crop: 'Tomato (Shivam Hybrid)',
-  amount: 39000,
-  farmer: 'Murugan Palanisamy'
-};
-
 function openLorryReceiptModal(trackingId) {
   const modal = document.getElementById('modal-lorry-receipt');
   if (!modal) return;
@@ -1034,12 +1026,38 @@ function printLorryReceipt() {
   }, 900);
 }
 
-function openArrivalReleaseModal(trackingId, crop, amount, farmer) {
+let activeArrivalDisbursement = {
+  trackingId: 'ESC-TN-9921',
+  crop: 'Tomato (Shivam Hybrid 50 Qt)',
+  amount: 39000,
+  farmer: 'Murugan Palanisamy',
+  totalVal: 60000,
+  advVal: 21000,
+  cardId: 'escrow-card-1'
+};
+
+function openArrivalReleaseModal(trackingId, crop, amount, farmer, totalVal, advVal, cardId) {
+  const parsedAmt = typeof amount === 'number' ? amount : parseFloat(amount) || 39000;
+  const parsedTotal = typeof totalVal === 'number' ? totalVal : (parseFloat(totalVal) || Math.round(parsedAmt / 0.65));
+  const parsedAdv = typeof advVal === 'number' ? advVal : (parseFloat(advVal) || (parsedTotal - parsedAmt));
+
+  // Determine card ID if not supplied
+  let inferredCardId = cardId;
+  if (!inferredCardId) {
+    if (String(trackingId).includes('9921')) inferredCardId = 'escrow-card-1';
+    else if (String(trackingId).includes('4412')) inferredCardId = 'escrow-card-2';
+    else if (String(trackingId).includes('7730')) inferredCardId = 'escrow-card-3';
+    else inferredCardId = 'escrow-card-1';
+  }
+
   activeArrivalDisbursement = {
-    trackingId: trackingId || 'TRK-EXP-9921-TN',
-    crop: crop || 'Tomato (Shivam Hybrid)',
-    amount: amount || 39000,
-    farmer: farmer || 'Murugan Palanisamy'
+    trackingId: trackingId || 'ESC-TN-9921',
+    crop: crop || 'Tomato (Shivam Hybrid 50 Qt)',
+    amount: parsedAmt,
+    farmer: farmer || 'Murugan Palanisamy',
+    totalVal: parsedTotal,
+    advVal: parsedAdv,
+    cardId: inferredCardId
   };
 
   const modal = document.getElementById('modal-confirm-arrival');
@@ -1047,8 +1065,13 @@ function openArrivalReleaseModal(trackingId, crop, amount, farmer) {
 
   const trackEl = document.getElementById('arrival-tracking-id');
   const releaseEl = document.getElementById('arrival-release-val');
+  const totalEl = document.getElementById('arrival-total-val');
+  const advEl = document.getElementById('arrival-adv-val');
+
   if (trackEl) trackEl.textContent = `Consignment #${activeArrivalDisbursement.trackingId} • ${activeArrivalDisbursement.crop}`;
   if (releaseEl) releaseEl.textContent = `₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}`;
+  if (totalEl) totalEl.textContent = `₹ ${activeArrivalDisbursement.totalVal.toLocaleString('en-IN')}`;
+  if (advEl) advEl.textContent = `₹ ${activeArrivalDisbursement.advVal.toLocaleString('en-IN')}`;
 
   modal.classList.add('active');
 }
@@ -1061,39 +1084,90 @@ function closeArrivalReleaseModal() {
 function confirmReleaseEscrowAction() {
   closeArrivalReleaseModal();
   const amtStr = `₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}`;
+  const cardId = activeArrivalDisbursement.cardId;
 
-  // Update Escrow status and Stepper if present
-  const statusBadge = document.getElementById('escrow-status-badge');
+  // Determine contract index
+  let idx = '1';
+  if (cardId === 'escrow-card-2' || activeArrivalDisbursement.trackingId.includes('4412')) idx = '2';
+  else if (cardId === 'escrow-card-3' || activeArrivalDisbursement.trackingId.includes('7730')) idx = '3';
+
+  // 1. Update status badge
+  const statusBadge = document.getElementById(`escrow-status-badge-${idx}`) || document.getElementById('escrow-status-badge');
   if (statusBadge) {
-    statusBadge.className = 'badge badge-grade-a';
-    statusBadge.textContent = '100% Settled & Released';
+    statusBadge.className = 'badge';
+    statusBadge.style.background = '#15803d';
+    statusBadge.style.color = '#ffffff';
+    statusBadge.textContent = '✓ 100% Settled & Released';
   }
 
-  const dotSettled = document.getElementById('stepper-dot-settled');
+  // 2. Update Stepper dot 4
+  const dotSettled = document.getElementById(`stepper-dot-settled-${idx}`) || document.getElementById('stepper-dot-settled');
   if (dotSettled) {
     dotSettled.className = 'stepper-dot active';
     dotSettled.textContent = '✓';
+    dotSettled.style.background = '#15803d';
+    dotSettled.style.borderColor = '#15803d';
+    dotSettled.style.color = '#ffffff';
   }
 
-  const btnVault = document.getElementById('btn-escrow-vault-release');
+  // 3. Update release button
+  const btnVault = document.getElementById(`btn-escrow-vault-release-${idx}`) || document.getElementById('btn-escrow-vault-release');
   if (btnVault) {
     btnVault.disabled = true;
     btnVault.textContent = '✓ 100% Escrow Settled';
     btnVault.style.background = '#15803d';
     btnVault.style.borderColor = '#15803d';
+    btnVault.style.color = '#ffffff';
+    btnVault.style.cursor = 'default';
   }
 
+  // Also check if card element has any remaining release button
+  const cardEl = document.getElementById(cardId);
+  if (cardEl) {
+    const cardBtns = cardEl.querySelectorAll('button.btn-primary');
+    cardBtns.forEach(b => {
+      b.disabled = true;
+      b.textContent = '✓ 100% Escrow Settled';
+      b.style.background = '#15803d';
+      b.style.borderColor = '#15803d';
+      b.style.color = '#ffffff';
+    });
+  }
+
+  // 4. Update Consignment arrival button if present
   const btnArrival = document.getElementById('btn-arrival-release-1');
-  if (btnArrival) {
+  if (btnArrival && (idx === '1' || activeArrivalDisbursement.trackingId.includes('9921'))) {
     btnArrival.textContent = '✓ Delivered & Released';
     btnArrival.disabled = true;
     btnArrival.style.background = '#15803d';
     btnArrival.style.borderColor = '#15803d';
   }
 
+  // 5. Update top aggregate metric
   const settledTotalEl = document.getElementById('escrow-settled-total');
   if (settledTotalEl) {
-    settledTotalEl.textContent = '₹ 6,40,000';
+    const curVal = 580000 + (idx === '1' ? 60000 : (idx === '2' ? 144000 : 126000));
+    settledTotalEl.textContent = `₹ ${curVal.toLocaleString('en-IN')}`;
+  }
+
+  // 6. Insert new transaction record in Audit Ledger Table
+  const tbody = document.getElementById('escrow-ledger-tbody');
+  if (tbody) {
+    const newRow = document.createElement('tr');
+    newRow.setAttribute('data-type', 'final');
+    newRow.style.cssText = 'border-bottom: 1px solid #f1f5f9; background: #f0fdf4; transition: all 0.3s ease;';
+    const randomUtr = `ICIC000${Math.floor(100000 + Math.random() * 900000)}`;
+    const randomTxn = `TXN-REL-${Math.floor(1000 + Math.random() * 9000)}`;
+    newRow.innerHTML = `
+      <td style="padding: 10px 14px;"><strong>${randomTxn}</strong><br><span style="font-size: 0.72rem; color: #166534; font-weight: 700;">Just now (Live)</span></td>
+      <td style="padding: 10px 14px;"><span style="font-family: monospace; font-weight: 700; color: #0c5a36;">#${activeArrivalDisbursement.trackingId}</span></td>
+      <td style="padding: 10px 14px;"><strong>${activeArrivalDisbursement.farmer}</strong><br><span style="font-size: 0.72rem; color: #64748b;">${activeArrivalDisbursement.crop}</span></td>
+      <td style="padding: 10px 14px; font-weight: 800; color: #0c5a36;">₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}</td>
+      <td style="padding: 10px 14px;"><span class="badge" style="background: #15803d; color: #ffffff; font-size: 0.72rem; font-weight: 700;">✓ 100% Settled</span></td>
+      <td style="padding: 10px 14px;"><span style="font-size: 0.75rem; color: #0c5a36; font-family: monospace; font-weight: 700;">${randomUtr}</span></td>
+      <td style="padding: 10px 14px;"><button class="btn btn-outline btn-sm" onclick="showToast('✓ Stamped UTR Settlement Receipt #${activeArrivalDisbursement.trackingId} (PDF) downloaded!')" style="font-size: 0.72rem; padding: 2px 8px;">Receipt</button></td>
+    `;
+    tbody.insertBefore(newRow, tbody.firstChild);
   }
 
   showToast(`🎉 Quality verified! ${amtStr} released to ${activeArrivalDisbursement.farmer}. Contract 100% Settled!`, 'success');
@@ -1684,5 +1758,27 @@ function filterEscrowLedger(filterType, btnEl) {
     }
   });
 }
+
+// Window bindings for global HTML accessibility
+window.openDepositEscrowModal = openDepositEscrowModal;
+window.closeDepositEscrowModal = closeDepositEscrowModal;
+window.handleDepositEscrowSubmit = handleDepositEscrowSubmit;
+window.openEscrowDeedModal = openEscrowDeedModal;
+window.closeEscrowDeedModal = closeEscrowDeedModal;
+window.downloadEscrowStatement = downloadEscrowStatement;
+window.filterEscrowLedger = filterEscrowLedger;
+window.openArrivalReleaseModal = openArrivalReleaseModal;
+window.closeArrivalReleaseModal = closeArrivalReleaseModal;
+window.confirmReleaseEscrowAction = confirmReleaseEscrowAction;
+window.openBookTransportModal = openBookTransportModal;
+window.closeBookTransportModal = closeBookTransportModal;
+window.openGatePassModal = openGatePassModal;
+window.closeGatePassModal = closeGatePassModal;
+window.openLorryReceiptModal = openLorryReceiptModal;
+window.closeLorryReceiptModal = closeLorryReceiptModal;
+window.openGpsModal = openGpsModal;
+window.closeGpsModal = closeGpsModal;
+window.printLorryReceipt = printLorryReceipt;
+
 
 
