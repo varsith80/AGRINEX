@@ -42,11 +42,12 @@
 }
 
 .brand-title {
-  font-size: 1.18rem;
+  font-size: 1.3rem;
   font-weight: 800;
   color: #ffffff;
-  line-height: 1.1;
+  line-height: 1;
   letter-spacing: -0.02em;
+  margin: 0;
 }
 
 .brand-accent {
