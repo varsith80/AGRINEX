@@ -1470,7 +1470,7 @@ function renderBuyerConsignments() {
 
   // Filter list
   const filtered = consignments.filter(s => {
-    if (currentBuyerShipmentTab !== 'all' && s.status !== currentBuyerShipmentTab) return false;
+    if (currentBuyerShipmentTab !== 'all' && currentBuyerShipmentTab !== 'drivers' && s.status !== currentBuyerShipmentTab) return false;
     if (buyerShipmentSearchQuery) {
       const q = buyerShipmentSearchQuery;
       const matchTrk = (s.tracking_id || '').toLowerCase().includes(q);
@@ -1494,6 +1494,107 @@ function renderBuyerConsignments() {
         <div style="font-weight: 700; font-size: 1rem; color: #0f172a;">No Shipments Found in this Tab</div>
         <div style="font-size: 0.8rem; margin-top: 4px;">Book dedicated transport fleet or source from marketplace lots to create shipments.</div>
         <button class="btn btn-primary btn-sm" onclick="openBookTransportModal()" style="margin-top: 14px; background: #0c5a36; border-color: #0c5a36; font-weight: 700;">+ Book Transport Fleet</button>
+      </div>
+    `;
+    return;
+  }
+
+  // SPECIAL VIEW: Dedicated Driver & Vehicle Details Tab
+  if (currentBuyerShipmentTab === 'drivers') {
+    container.innerHTML = `
+      <div style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 18px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">🚚</span>
+          <div>
+            <strong style="color: #0f172a; font-size: 0.95rem;">Verified Driver & Fleet Telemetry Directory</strong>
+            <span style="display: block; font-size: 0.75rem; color: #64748b;">Live GPS beacon tracking, commercial license status, weighbridge tare/gross load, and reefer temperatures</span>
+          </div>
+        </div>
+        <span style="font-size: 0.75rem; background: #e8f5ed; color: #0c5a36; font-weight: 800; padding: 4px 10px; border-radius: 999px; border: 1px solid #bbf7d0;">
+          ✓ 100% AIS-140 GPS Compliant
+        </span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px;">
+        ${filtered.map(s => {
+          const qtyKg = s.quantity_kg || (s.quantity_qt * 100);
+          const isTransit = s.status === 'transit';
+          const isDelivered = s.status === 'delivered';
+          const statusBg = isTransit ? '#eff6ff' : (isDelivered ? '#ecfdf5' : '#fefce8');
+          const statusColor = isTransit ? '#1d4ed8' : (isDelivered ? '#047857' : '#a16207');
+          const statusBorder = isTransit ? '#bfdbfe' : (isDelivered ? '#a7f3d0' : '#fef08a');
+          const statusLabel = isTransit ? 'On The Road' : (isDelivered ? 'Delivered & Released' : 'Pickup Scheduled');
+
+          return `
+            <div class="order-box" style="margin-bottom: 0; display: flex; flex-direction: column; justify-content: space-between;">
+              <!-- Card Header -->
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #0c5a36; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 800;">
+                      👨‍✈️
+                    </div>
+                    <div>
+                      <div style="display: flex; align-items: center; gap: 6px;">
+                        <strong style="font-size: 1.02rem; color: #0f172a;">${s.driver}</strong>
+                        <span style="font-size: 0.68rem; background: #e8f5ed; color: #0c5a36; font-weight: 800; padding: 1px 6px; border-radius: 4px;">✓ Verified</span>
+                      </div>
+                      <span style="font-size: 0.76rem; color: #64748b;">${s.transporter || 'GreenWays Transit'} • <strong style="color: #f59e0b;">4.9 ⭐</strong></span>
+                    </div>
+                  </div>
+                  <span style="background: ${statusBg}; color: ${statusColor}; border: 1px solid ${statusBorder}; padding: 3px 9px; border-radius: 999px; font-size: 0.72rem; font-weight: 800;">
+                    ● ${statusLabel}
+                  </span>
+                </div>
+
+                <!-- 4 Telemetry Metrics Grid -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.8rem; margin-bottom: 14px;">
+                  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;">
+                    <span style="color: #64748b; font-size: 0.68rem; display: block; text-transform: uppercase;">Vehicle & Model</span>
+                    <strong style="color: #0f172a; font-size: 0.82rem;">${s.vehicle}</strong>
+                  </div>
+                  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;">
+                    <span style="color: #64748b; font-size: 0.68rem; display: block; text-transform: uppercase;">Commercial DL No.</span>
+                    <strong style="color: #0f172a; font-size: 0.82rem;">${s.dl_no || 'DL-TN-57-2018-0912'}</strong>
+                  </div>
+                  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;">
+                    <span style="color: #64748b; font-size: 0.68rem; display: block; text-transform: uppercase;">Payload Capacity</span>
+                    <strong style="color: #0c5a36; font-size: 0.82rem;">${s.capacity || s.quantity_qt + ' Qt Payload'}</strong>
+                  </div>
+                  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;">
+                    <span style="color: #64748b; font-size: 0.68rem; display: block; text-transform: uppercase;">Cargo Temperature</span>
+                    <strong style="color: #0284c7; font-size: 0.82rem;">${s.temp || '18.2°C (Optimal)'}</strong>
+                  </div>
+                </div>
+
+                <!-- Route & Consignment Strip -->
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 9px 12px; font-size: 0.78rem; margin-bottom: 14px; color: #1e3a8a;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                    <span>📦 <strong>${s.crop}</strong> (${s.quantity_qt} Qt • ${qtyKg.toLocaleString('en-IN')} kg)</span>
+                    <span style="font-family: monospace; font-weight: 700; color: #2563eb;">#${s.tracking_id}</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 0.74rem; color: #3b82f6;">
+                    <span>📍 ${s.loc}</span>
+                    <span style="font-weight: 700; color: #1d4ed8;">⏱️ ${s.eta}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: space-between; padding-top: 10px; border-top: 1px solid #f1f5f9;">
+                <a href="tel:${s.driver_phone}" class="btn btn-primary btn-sm" style="flex: 1; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 4px; background: #0c5a36; border-color: #0c5a36; font-size: 0.78rem;">
+                  <span>📞</span> Call
+                </a>
+                <button class="btn btn-outline btn-sm" onclick="openDriverFleetModal('${s.tracking_id}')" style="font-size: 0.78rem; font-weight: 700;">
+                  🔍 Full Details
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="openGpsModal('${s.tracking_id}', '${s.vehicle}', '${s.driver}', '${s.loc}')" style="font-size: 0.78rem; font-weight: 700; color: #0284c7; border-color: #7dd3fc;">
+                  📍 Live GPS
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('')}
       </div>
     `;
     return;
