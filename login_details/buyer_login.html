@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Buyer & Mill Portal Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="auth-navbar" style="background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);">
+    <a href="../index.html" class="auth-brand">
+      <div class="auth-logo-box">
+        <img src="../farmer-module/assets/images/wheat-logo.png" alt="AgriNex" />
+      </div>
+      <span class="auth-brand-title">Agri<span style="color: #60a5fa;">Nex</span></span>
+    </a>
+    <a href="../index.html" class="auth-back-link">
+      ← Back to Gateway Hub
+    </a>
+  </header>
+
+  <!-- Login Main -->
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <span class="auth-role-badge role-badge-buyer">🏢 Buyer & Mill Portal</span>
+      <h2 class="auth-title">Welcome, Enterprise Buyer</h2>
+      <p class="auth-subtitle">Source farm-direct produce, place bulk bids, and manage escrow contracts.</p>
+
+      <!-- Alert Message Box -->
+      <div id="auth-alert" class="auth-alert"></div>
+
+      <!-- Quick Demo Credentials Box -->
+      <div class="demo-creds-card">
+        <div class="demo-creds-header" style="color: #1d4ed8;">
+          <span>Demo Credentials:</span>
+          <button type="button" class="btn-one-click" style="background: #1d4ed8;" onclick="AgriNexAuth.quickLogin('buyer')">⚡ One-Click Login</button>
+        </div>
+        <div><strong>Email/Phone:</strong> buyer@agrifoods.com (or 9841011223)</div>
+        <div><strong>Password:</strong> Buyer@123</div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-login" onsubmit="handleAuthSubmit(event, 'buyer')">
+        <div class="form-group">
+          <label class="form-label">Corporate Email or GSTIN Registered Phone</label>
+          <input type="text" id="auth-identifier" class="form-input" placeholder="e.g. buyer@agrifoods.com" value="buyer@agrifoods.com" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="auth-password" class="form-input" placeholder="Enter your password" value="Buyer@123" required />
+        </div>
+
+        <div class="form-row-remember">
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" checked /> Remember session
+          </label>
+          <a href="javascript:void(0)" style="color: #1d4ed8;" onclick="alert('Password reset link sent to corporate email!')">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn-submit-auth" style="background-color: #1d4ed8;">
+          <span>Sign In to Buyer Procurement Hub</span>
+          <span>→</span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Looking for bulk procurement? <a href="javascript:void(0)" style="color: #1d4ed8;" onclick="alert('Enterprise onboarding requires GST and Mandi license verification.')">Apply for Buyer Account</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth_db.js"></script>
+  <script>
+    function handleAuthSubmit(e, role) {
+      e.preventDefault();
+      const identifier = document.getElementById("auth-identifier").value;
+      const password = document.getElementById("auth-password").value;
+      const alertBox = document.getElementById("auth-alert");
+
+      const result = AgriNexAuth.login(identifier, password, role);
+      if (result.success) {
+        alertBox.className = "auth-alert success";
+        alertBox.textContent = `Login successful! Welcome ${result.user.name}. Redirecting...`;
+        setTimeout(() => {
+          window.location.href = result.redirectUrl;
+        }, 800);
+      } else {
+        alertBox.className = "auth-alert error";
+        alertBox.textContent = result.message;
+      }
+    }
+  </script>
+</body>
+</html>

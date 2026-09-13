@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Logistics & Transit Portal Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="auth-navbar" style="background: linear-gradient(180deg, #4c1d95 0%, #6d28d9 100%);">
+    <a href="../index.html" class="auth-brand">
+      <div class="auth-logo-box">
+        <img src="../farmer-module/assets/images/wheat-logo.png" alt="AgriNex" />
+      </div>
+      <span class="auth-brand-title">Agri<span style="color: #c084fc;">Nex</span></span>
+    </a>
+    <a href="../index.html" class="auth-back-link">
+      ← Back to Gateway Hub
+    </a>
+  </header>
+
+  <!-- Login Main -->
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <span class="auth-role-badge role-badge-logistics">🚚 Logistics & Fleet Portal</span>
+      <h2 class="auth-title">Welcome, Logistics Partner</h2>
+      <p class="auth-subtitle">Track fleet dispatches, consignment checkpoints, and generate proof of delivery.</p>
+
+      <!-- Alert Message Box -->
+      <div id="auth-alert" class="auth-alert"></div>
+
+      <!-- Quick Demo Credentials Box -->
+      <div class="demo-creds-card">
+        <div class="demo-creds-header" style="color: #7e22ce;">
+          <span>Demo Credentials:</span>
+          <button type="button" class="btn-one-click" style="background: #7e22ce;" onclick="AgriNexAuth.quickLogin('logistics')">⚡ One-Click Login</button>
+        </div>
+        <div><strong>Email/Phone:</strong> transit@greenwayslogistics.in (or 9822099887)</div>
+        <div><strong>Password:</strong> Logistics@123</div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-login" onsubmit="handleAuthSubmit(event, 'logistics')">
+        <div class="form-group">
+          <label class="form-label">Fleet Manager Email / Registered Phone</label>
+          <input type="text" id="auth-identifier" class="form-input" placeholder="e.g. transit@greenwayslogistics.in" value="transit@greenwayslogistics.in" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="auth-password" class="form-input" placeholder="Enter your password" value="Logistics@123" required />
+        </div>
+
+        <div class="form-row-remember">
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" checked /> Remember vehicle session
+          </label>
+          <a href="javascript:void(0)" style="color: #7e22ce;" onclick="alert('Password reset link sent to fleet manager phone!')">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn-submit-auth" style="background-color: #7e22ce;">
+          <span>Sign In to Logistics Fleet Manager</span>
+          <span>→</span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Have a transport fleet? <a href="javascript:void(0)" style="color: #7e22ce;" onclick="alert('Join the verified AgriNex Agri-Transit network.')">Register Transport Fleet</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth_db.js"></script>
+  <script>
+    function handleAuthSubmit(e, role) {
+      e.preventDefault();
+      const identifier = document.getElementById("auth-identifier").value;
+      const password = document.getElementById("auth-password").value;
+      const alertBox = document.getElementById("auth-alert");
+
+      const result = AgriNexAuth.login(identifier, password, role);
+      if (result.success) {
+        alertBox.className = "auth-alert success";
+        alertBox.textContent = `Login successful! Welcome ${result.user.name}. Redirecting...`;
+        setTimeout(() => {
+          window.location.href = result.redirectUrl;
+        }, 800);
+      } else {
+        alertBox.className = "auth-alert error";
+        alertBox.textContent = result.message;
+      }
+    }
+  </script>
+</body>
+</html>

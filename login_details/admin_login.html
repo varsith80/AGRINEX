@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Admin & Mandi Governance Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="auth-navbar" style="background: linear-gradient(180deg, #7f1d1d 0%, #991b1b 100%);">
+    <a href="../index.html" class="auth-brand">
+      <div class="auth-logo-box">
+        <img src="../farmer-module/assets/images/wheat-logo.png" alt="AgriNex" />
+      </div>
+      <span class="auth-brand-title">Agri<span style="color: #fca5a5;">Nex</span></span>
+    </a>
+    <a href="../index.html" class="auth-back-link">
+      ← Back to Gateway Hub
+    </a>
+  </header>
+
+  <!-- Login Main -->
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <span class="auth-role-badge role-badge-admin">🛡️ Platform Admin & Governance</span>
+      <h2 class="auth-title">System Administration</h2>
+      <p class="auth-subtitle">Mandi price monitoring, escrow settlement clearances, KYC validation, and analytics.</p>
+
+      <!-- Alert Message Box -->
+      <div id="auth-alert" class="auth-alert"></div>
+
+      <!-- Quick Demo Credentials Box -->
+      <div class="demo-creds-card">
+        <div class="demo-creds-header" style="color: #b91c1c;">
+          <span>Admin Credentials:</span>
+          <button type="button" class="btn-one-click" style="background: #b91c1c;" onclick="AgriNexAuth.quickLogin('admin')">⚡ Admin One-Click</button>
+        </div>
+        <div><strong>Email/Phone:</strong> admin@agrinex.gov.in (or 9000000001)</div>
+        <div><strong>Password:</strong> Admin@123</div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-login" onsubmit="handleAuthSubmit(event, 'admin')">
+        <div class="form-group">
+          <label class="form-label">Administrator Official Email</label>
+          <input type="text" id="auth-identifier" class="form-input" placeholder="e.g. admin@agrinex.gov.in" value="admin@agrinex.gov.in" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="auth-password" class="form-input" placeholder="Enter your password" value="Admin@123" required />
+        </div>
+
+        <div class="form-row-remember">
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" checked /> Hardware 2FA Active
+          </label>
+          <a href="javascript:void(0)" style="color: #b91c1c;" onclick="alert('Contact AgriNex SecOps team for credentials recovery.')">SecOps Helpdesk</a>
+        </div>
+
+        <button type="submit" class="btn-submit-auth" style="background-color: #b91c1c;">
+          <span>Sign In to Admin Control Center</span>
+          <span>→</span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Strictly restricted to authorized AgriNex platform personnel.
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth_db.js"></script>
+  <script>
+    function handleAuthSubmit(e, role) {
+      e.preventDefault();
+      const identifier = document.getElementById("auth-identifier").value;
+      const password = document.getElementById("auth-password").value;
+      const alertBox = document.getElementById("auth-alert");
+
+      const result = AgriNexAuth.login(identifier, password, role);
+      if (result.success) {
+        alertBox.className = "auth-alert success";
+        alertBox.textContent = `Security clearance verified! Welcome, ${result.user.name}. Redirecting...`;
+        setTimeout(() => {
+          window.location.href = result.redirectUrl;
+        }, 800);
+      } else {
+        alertBox.className = "auth-alert error";
+        alertBox.textContent = result.message;
+      }
+    }
+  </script>
+</body>
+</html>
