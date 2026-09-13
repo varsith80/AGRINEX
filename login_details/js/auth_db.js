@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AgriNex Authentication Database & Session Engine
  */
 
@@ -12,6 +12,7 @@ const AGRINEX_ACCOUNTS = {
     name: "Ramesh Kumar",
     avatar: "../farmer-module/assets/images/farmer-avatar.jpg",
     location: "Erode, Tamil Nadu",
+    moduleDir: "farmer-module",
     redirectUrl: "../farmer-module/index.html",
     themeColor: "#15803d"
   },
@@ -24,7 +25,8 @@ const AGRINEX_ACCOUNTS = {
     name: "Suresh Singhania (AgriFoods Ltd.)",
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
     location: "Coimbatore, Tamil Nadu",
-    redirectUrl: "../farmer-module/index.html?role=buyer",
+    moduleDir: "buyer-module",
+    redirectUrl: "../buyer-module/index.html",
     themeColor: "#2563eb"
   },
   logistics: {
@@ -36,7 +38,8 @@ const AGRINEX_ACCOUNTS = {
     name: "Karthik Raja (GreenWays Transit)",
     avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80",
     location: "Salem Regional Hub, TN",
-    redirectUrl: "../farmer-module/index.html?role=logistics",
+    moduleDir: "logistics-module",
+    redirectUrl: "../logistics-module/index.html",
     themeColor: "#7c3aed"
   },
   admin: {
@@ -48,7 +51,8 @@ const AGRINEX_ACCOUNTS = {
     name: "Dr. A. Venkatesh",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80",
     location: "AgriNex HQ, Chennai",
-    redirectUrl: "../farmer-module/index.html?role=admin",
+    moduleDir: "admin-module",
+    redirectUrl: "../admin-module/index.html",
     themeColor: "#dc2626"
   }
 };
@@ -90,7 +94,9 @@ class AgriNexAuth {
         loginTime: new Date().toISOString()
       };
       localStorage.setItem("agrinex_active_session", JSON.stringify(session));
-      window.location.href = acc.redirectUrl;
+      const isRoot = !window.location.pathname.includes("login_details");
+      const targetPath = isRoot ? `${acc.moduleDir}/index.html` : acc.redirectUrl;
+      window.location.href = targetPath;
     }
   }
 

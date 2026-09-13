@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Buyer Procurement Portal | Direct Agricultural Sourcing</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR NAVIGATION (Compact Emerald Theme) -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header (Golden Wheat Logo) -->
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <img src="../farmer-module/assets/images/wheat-logo.png" alt="AgriNex" />
+          </div>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="sidebar-nav">
+          <li class="nav-item active">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              <span>Procurement Hub</span>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8" cy="21" r="1"></circle>
+                <circle cx="19" cy="21" r="1"></circle>
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+              </svg>
+              <span>Marketplace Lots</span>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m14 12 6-6"></path>
+                <path d="M9 17 3 23"></path>
+                <path d="m15.5 10.5 2 2"></path>
+                <path d="m7.5 18.5 2 2"></path>
+                <path d="M10 6 6 10l5 5 4-4-5-5z"></path>
+                <path d="m14 16 4 4 4-4-4-4-4 4z"></path>
+              </svg>
+              <span>My Active Bids</span>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                <path d="M15 18H9"></path>
+                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path>
+                <circle cx="17" cy="18" r="2"></circle>
+                <circle cx="7" cy="18" r="2"></circle>
+              </svg>
+              <span>Inbound Fleet</span>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+              <span>Escrow Wallet</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT AREA -->
+    <main class="main-wrapper">
+      
+      <!-- Top Extended Navbar Header -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="navbar-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" placeholder="Search direct farm lots, mandi crop grades, seller farmers..." />
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #1d4ed8; background: #eff6ff; padding: 6px 14px; border-radius: 999px; border: 1px solid #bfdbfe; white-space: nowrap;">
+            <span>🏢 AgriFoods Ltd. (Coimbatore)</span>
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <a href="../login_details/index.html" class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 12px;">Switch Role</a>
+          
+          <button class="notif-btn" title="Notifications" onclick="alert('No unread buyer alerts.')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            </svg>
+          </button>
+
+          <div class="profile-widget">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80" alt="Suresh Singhania" class="profile-avatar" />
+            <div class="profile-info">
+              <span class="profile-name">Suresh Singhania</span>
+              <span class="profile-role">Procurement Head</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        
+        <!-- 4 Stat Cards Grid -->
+        <section class="stat-cards-grid">
+          <!-- 1. Active Procurement Orders -->
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper green">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                  <line x1="3" x2="21" y1="6" y2="6"></line>
+                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Active Procurement</span>
+                <span class="stat-value">8 Lots</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>Direct Mill Contracts</span>
+              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+          </div>
+
+          <!-- 2. Active Bids -->
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper blue">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="m14 12 6-6"></path><path d="M9 17 3 23"></path><path d="m15.5 10.5 2 2"></path><path d="m7.5 18.5 2 2"></path>
+                </svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Live Bids Submitted</span>
+                <span class="stat-value">5 Bids</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>3 Currently Winning</span>
+              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+          </div>
+
+          <!-- 3. Inbound Shipments -->
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper purple">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                  <circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle>
+                </svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Inbound Transit</span>
+                <span class="stat-value">2 Trucks</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>ETA: Under 6 Hours</span>
+              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+          </div>
+
+          <!-- 4. Escrow Balance Locked -->
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper orange">
+                <span style="font-weight: 800; font-size: 1.35rem;">₹</span>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Escrow Locked</span>
+                <span class="stat-value">₹ 18,45,000</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>Wallet: ₹ 42.5L Avail</span>
+              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- Live Farmer Crop Lots Table -->
+        <section class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2.2">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+              </svg>
+              Live Farm Lots Open for Bidding
+            </h3>
+            <span style="font-size: 0.8rem; color: #64748b;">Direct Sourcing with Automated Escrow Protection</span>
+          </div>
+
+          <div class="listings-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Produce & Farmer</th>
+                  <th>Quality Grade</th>
+                  <th>Quantity</th>
+                  <th>Farmer Floor</th>
+                  <th>Current Best Bid</th>
+                  <th>Status</th>
+                  <th>Procurement Action</th>
+                </tr>
+              </thead>
+              <tbody id="buyer-lots-tbody">
+                <!-- Rendered dynamically by buyer/js/dashboard.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Bid Submit Modal -->
+  <div class="modal-overlay" id="modal-bid-submit">
+    <div class="modal-content">
+      <div id="modal-bid-content">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
