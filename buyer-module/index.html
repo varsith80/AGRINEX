@@ -2560,6 +2560,87 @@
     </div>
   </div>
 
+  <!-- MODAL: DRIVER & VEHICLE FLEET DETAILS -->
+  <div class="modal-overlay" id="modal-driver-fleet">
+    <div class="modal-content" style="max-width: 580px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            🚚
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 0;">Driver & Vehicle Telemetry Details</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="drv-modal-tracking-id">Consignment #TRK-EXP-9921-TN</span>
+          </div>
+        </div>
+        <button onclick="closeDriverFleetModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Driver Profile Card -->
+      <div style="display: flex; align-items: center; gap: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: #0c5a36; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 800; flex-shrink: 0;" id="drv-modal-avatar">
+          👨‍✈️
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <strong style="font-size: 1.05rem; color: #0f172a;" id="drv-modal-name">K. Selvam</strong>
+            <span class="badge" style="background: #e8f5ed; color: #0c5a36; font-size: 0.7rem; font-weight: 800; padding: 2px 7px; border-radius: 4px;">✓ Verified Commercial Driver</span>
+          </div>
+          <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+            Logistics Partner: <strong id="drv-modal-partner" style="color: #334155;">GreenWays Transit</strong> • Rating: <span style="color: #f59e0b; font-weight: 700;">4.9 ⭐</span>
+          </div>
+        </div>
+        <a id="drv-modal-call-btn" href="tel:+919443122901" class="btn btn-primary btn-sm" style="background: #0c5a36; border-color: #0c5a36; text-decoration: none; display: flex; align-items: center; gap: 4px; font-weight: 700;">
+          <span>📞</span> Call
+        </a>
+      </div>
+
+      <!-- Vehicle & Telemetry Grid -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.82rem; margin-bottom: 16px;">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px;">
+          <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">Vehicle & Number Plate</span>
+          <strong id="drv-modal-vehicle" style="color: #0f172a;">Bolero Maxi (TN 57 AH 4421)</strong>
+        </div>
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px;">
+          <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">Commercial Driving License</span>
+          <strong id="drv-modal-dl" style="color: #0f172a;">DL-TN-57-2018-0912</strong>
+        </div>
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px;">
+          <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">Vehicle Payload Capacity</span>
+          <strong id="drv-modal-capacity" style="color: #0c5a36;">2.5 MT (25 Qt / 2,500 kg)</strong>
+        </div>
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px;">
+          <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">FASTag & Toll Clearance</span>
+          <strong id="drv-modal-fastag" style="color: #15803d;">Active (₹ 1,450 Balance)</strong>
+        </div>
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px;">
+          <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">Weighbridge Gate Seal</span>
+          <strong id="drv-modal-seal" style="color: #0f172a;">#SEAL-88912</strong>
+        </div>
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px;">
+          <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">Reefer Cargo Temperature</span>
+          <strong id="drv-modal-temp" style="color: #0284c7;">18.2°C (Optimal Curing)</strong>
+        </div>
+      </div>
+
+      <!-- Current Route & Telemetry Strip -->
+      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.8rem; color: #1e40af;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <span>📍 <strong>Current Position:</strong> <span id="drv-modal-loc">Salem-Hosur NH 44 Corridor (KM 142)</span></span>
+          <span style="font-weight: 700; color: #2563eb;" id="drv-modal-eta">ETA: Today 4:30 PM</span>
+        </div>
+        <div style="font-size: 0.72rem; color: #3b82f6;">GPS Telemetry Beacon: <code id="drv-modal-gps-id" style="font-weight: 700;">GPS-AIS140-88120</code> • Satellite Speed: 54 km/h</div>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button type="button" class="btn btn-outline" onclick="closeDriverFleetModal()">Close</button>
+        <button type="button" class="btn btn-primary" id="drv-modal-track-btn" onclick="openGpsFromDriverModal()" style="background: #0284c7; border-color: #0284c7; font-weight: 700;">
+          📍 Live GPS Telemetry
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL 10: BOOK FARM-GATE TRANSPORT FLEET -->
   <div class="modal-overlay" id="modal-book-transport">
     <div class="modal-content" style="max-width: 600px;">

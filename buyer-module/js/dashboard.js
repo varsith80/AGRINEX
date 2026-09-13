@@ -1553,9 +1553,16 @@ function renderBuyerConsignments() {
           </div>
           <div>
             <div style="font-size:0.7rem; color:#64748b; font-weight:700; text-transform:uppercase;">DRIVER & TRUCK</div>
-            <div style="font-weight:800; color:#0f172a;">${s.driver}</div>
-            <div style="color:#334155;">${s.vehicle}</div>
-            <div style="color:#0284c7; font-weight:700;"><a href="tel:${s.driver_phone}" style="color:#0284c7; text-decoration:none;">${s.driver_phone}</a></div>
+            <div style="font-weight:800; color:#0f172a; display:flex; align-items:center; gap:6px;">
+              <span>${s.driver}</span>
+              <span style="font-size:0.68rem; background:#e0f2fe; color:#0369a1; padding:1px 5px; border-radius:3px; font-weight:700;">${s.transporter ? s.transporter.split(' ')[0] : 'Transit'}</span>
+            </div>
+            <div style="color:#334155; font-size:0.8rem; font-weight:600;">${s.vehicle}</div>
+            <div style="font-size:0.78rem; display:flex; gap:8px; align-items:center; margin-top:2px;">
+              <a href="tel:${s.driver_phone}" style="color:#0284c7; text-decoration:none; font-weight:700;">📞 ${s.driver_phone}</a>
+              ${s.temp ? `<span style="color:#059669; font-size:0.72rem; font-weight:700;">🌡️ ${s.temp.split(' ')[0]}</span>` : ''}
+            </div>
+            ${s.dl_no ? `<div style="font-size:0.68rem; color:#64748b;">DL: ${s.dl_no}</div>` : ''}
           </div>
           <div>
             <div style="font-size:0.7rem; color:#64748b; font-weight:700; text-transform:uppercase;">DELIVERY STATUS</div>
@@ -1571,6 +1578,9 @@ function renderBuyerConsignments() {
             Total: <strong>₹ ${s.total_val.toLocaleString('en-IN')}</strong> • <span style="color:#059669; font-weight:700;">35% Advance ₹ ${s.adv_paid.toLocaleString('en-IN')} locked in escrow</span>
           </div>
           <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn btn-outline btn-sm" onclick="openDriverFleetModal('${s.tracking_id}')" style="display:flex; align-items:center; gap:4px; font-weight:700; color:#0f172a; border-color:#94a3b8;">
+              <span>🚚</span> Driver & Vehicle
+            </button>
             <button class="btn btn-outline btn-sm" onclick="openLorryReceiptModal('${s.tracking_id}')">📑 Gate Pass</button>
             ${isTransit ? `
               <button class="btn btn-primary btn-sm" onclick="openGpsModal('${s.tracking_id}', '${s.vehicle}', '${s.driver}', '${s.loc}')">📍 Track Location</button>
@@ -1587,10 +1597,89 @@ function renderBuyerConsignments() {
   }).join('');
 }
 
+let currentSelectedShipmentId = 'TRK-EXP-9921-TN';
+
+function openDriverFleetModal(trackingId) {
+  const modal = document.getElementById('modal-driver-fleet');
+  if (!modal) return;
+
+  const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
+  const s = consignments.find(c => c.tracking_id === trackingId) || consignments[0];
+  if (!s) return;
+
+  currentSelectedShipmentId = s.tracking_id;
+
+  const trkEl = document.getElementById('drv-modal-tracking-id');
+  const nameEl = document.getElementById('drv-modal-name');
+  const partnerEl = document.getElementById('drv-modal-partner');
+  const callBtn = document.getElementById('drv-modal-call-btn');
+  const vehEl = document.getElementById('drv-modal-vehicle');
+  const dlEl = document.getElementById('drv-modal-dl');
+  const capEl = document.getElementById('drv-modal-capacity');
+  const fastagEl = document.getElementById('drv-modal-fastag');
+  const sealEl = document.getElementById('drv-modal-seal');
+  const tempEl = document.getElementById('drv-modal-temp');
+  const locEl = document.getElementById('drv-modal-loc');
+  const etaEl = document.getElementById('drv-modal-eta');
+  const gpsIdEl = document.getElementById('drv-modal-gps-id');
+
+  if (trkEl) trkEl.textContent = `Consignment #${s.tracking_id} • Gate Pass: ${s.gate_pass}`;
+  if (nameEl) nameEl.textContent = s.driver;
+  if (partnerEl) partnerEl.textContent = s.transporter || 'GreenWays Transit';
+  if (callBtn) {
+    callBtn.href = `tel:${s.driver_phone}`;
+    callBtn.innerHTML = `<span>📞</span> Call (${s.driver_phone})`;
+  }
+  if (vehEl) vehEl.textContent = s.vehicle;
+  if (dlEl) dlEl.textContent = s.dl_no || 'DL-TN-57-2018-0912';
+  const qtyKg = s.quantity_kg || (s.quantity_qt * 100);
+  if (capEl) capEl.textContent = s.capacity || `${s.quantity_qt} Qt (${qtyKg.toLocaleString('en-IN')} kg Payload)`;
+  if (fastagEl) fastagEl.textContent = s.fastag || 'Active (₹ 1,450 Balance)';
+  if (sealEl) sealEl.textContent = s.gate_seal || '#SEAL-88912';
+  if (tempEl) tempEl.textContent = s.temp || '18.2°C (Optimal)';
+  if (locEl) locEl.textContent = s.loc;
+  if (etaEl) etaEl.textContent = `ETA: ${s.eta}`;
+  if (gpsIdEl) gpsIdEl.textContent = s.gps_device_id || 'GPS-AIS140-88120';
+
+  modal.classList.add('active');
+}
+
+function closeDriverFleetModal() {
+  const modal = document.getElementById('modal-driver-fleet');
+  if (modal) modal.classList.remove('active');
+}
+
+function openGpsFromDriverModal() {
+  closeDriverFleetModal();
+  const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
+  const s = consignments.find(c => c.tracking_id === currentSelectedShipmentId) || consignments[0];
+  if (s) {
+    openGpsModal(s.tracking_id, s.vehicle, s.driver, s.loc);
+  } else {
+    openGpsModal();
+  }
+}
+
 function openLorryReceiptModal(trackingId) {
   const modal = document.getElementById('modal-lorry-receipt');
   if (!modal) return;
-  if (trackingId) {
+
+  const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
+  const s = consignments.find(c => c.tracking_id === trackingId) || consignments[0];
+
+  if (s) {
+    const titleEl = document.getElementById('lr-id-display');
+    const subEl = document.getElementById('lr-tracking-subtitle');
+    const cropEl = document.getElementById('lr-crop-title');
+    const vehEl = document.getElementById('lr-vehicle-display');
+    const driverEl = document.getElementById('lr-driver-display');
+
+    if (titleEl) titleEl.textContent = s.tracking_id;
+    if (subEl) subEl.textContent = `Gate Pass: ${s.gate_pass} • LR No: LR-${s.tracking_id.replace(/[^0-9]/g, '') || '9921'} • AgriNex Logistics`;
+    if (cropEl) cropEl.textContent = `${s.quantity_qt} Qt ${s.crop}`;
+    if (vehEl) vehEl.textContent = s.vehicle;
+    if (driverEl) driverEl.textContent = `${s.driver} (${s.driver_phone})`;
+  } else if (trackingId) {
     const titleEl = document.getElementById('lr-id-display');
     const subEl = document.getElementById('lr-tracking-subtitle');
     if (titleEl) titleEl.textContent = trackingId;
@@ -1776,27 +1865,24 @@ function confirmReleaseEscrowAction() {
 
 function openGatePassModal(trackingId) {
   openLorryReceiptModal(trackingId);
-  const cropEl = document.getElementById('lr-crop-title');
-  const vehEl = document.getElementById('lr-vehicle-display');
-  const driverEl = document.getElementById('lr-driver-display');
-  if (cropEl) cropEl.textContent = '80 Qt Red Onion (Nashik Export Quality)';
-  if (vehEl) vehEl.textContent = 'Eicher Pro 2049 (MH 15 DK 8810)';
-  if (driverEl) driverEl.textContent = 'Sanjay Patil (+91 98220-44911)';
 }
 
 function openGpsModal(trackingId, vehicle, driver, corridor) {
   const modal = document.getElementById('modal-gps-tracker');
   if (!modal) return;
 
+  const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
+  const s = consignments.find(c => c.tracking_id === trackingId) || consignments[0];
+
   const trackNumEl = document.getElementById('gps-tracking-num');
   const vehEl = document.getElementById('gps-vehicle-name');
   const driverEl = document.getElementById('gps-driver-name');
   const corridorEl = document.getElementById('gps-corridor-name');
 
-  if (trackNumEl) trackNumEl.textContent = trackingId || 'TRK-MH-4412-EICHER';
-  if (vehEl) vehEl.textContent = vehicle || 'Eicher Pro 2049 (MH 15 DK 8810)';
-  if (driverEl) driverEl.textContent = driver || 'Sanjay Patil';
-  if (corridorEl) corridorEl.textContent = corridor || 'NH 48 Pune-Bengaluru Corridor';
+  if (trackNumEl) trackNumEl.textContent = trackingId || (s ? s.tracking_id : 'TRK-EXP-9921-TN');
+  if (vehEl) vehEl.textContent = vehicle || (s ? s.vehicle : 'Bolero Maxi Truck (TN 57 AH 4421)');
+  if (driverEl) driverEl.textContent = driver || (s ? s.driver : 'K. Selvam');
+  if (corridorEl) corridorEl.textContent = corridor || (s ? s.loc : 'Salem-Hosur NH 44 Corridor');
 
   modal.classList.add('active');
 }
@@ -2762,7 +2848,7 @@ function handleEnwrPledgeSubmit(e) {
   }, 900);
 }
 
-// Storage Window Bindings
+// Storage & Logistics Window Bindings
 window.renderStorageFacilities = renderStorageFacilities;
 window.renderStorageBookings = renderStorageBookings;
 window.filterStorageFacilities = filterStorageFacilities;
@@ -2774,4 +2860,21 @@ window.handleBookStorageSubmit = handleBookStorageSubmit;
 window.openEnwrPledgeModal = openEnwrPledgeModal;
 window.closeEnwrPledgeModal = closeEnwrPledgeModal;
 window.handleEnwrPledgeSubmit = handleEnwrPledgeSubmit;
+window.openDriverFleetModal = openDriverFleetModal;
+window.closeDriverFleetModal = closeDriverFleetModal;
+window.openGpsFromDriverModal = openGpsFromDriverModal;
+window.filterBuyerShipmentsTab = filterBuyerShipmentsTab;
+window.handleBuyerShipmentSearch = handleBuyerShipmentSearch;
+window.renderBuyerConsignments = renderBuyerConsignments;
+window.openLorryReceiptModal = openLorryReceiptModal;
+window.closeLorryReceiptModal = closeLorryReceiptModal;
+window.openGpsModal = openGpsModal;
+window.closeGpsModal = closeGpsModal;
+window.openArrivalReleaseModal = openArrivalReleaseModal;
+window.closeArrivalReleaseModal = closeArrivalReleaseModal;
+window.confirmReleaseEscrowAction = confirmReleaseEscrowAction;
+window.openBookTransportModal = openBookTransportModal;
+window.closeBookTransportModal = closeBookTransportModal;
+window.calculateTransportEstimate = calculateTransportEstimate;
+window.updateTransportLotMeta = updateTransportLotMeta;
 
