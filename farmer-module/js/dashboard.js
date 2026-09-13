@@ -1,13 +1,167 @@
-/**
- * AgriNex Farmer Module - Dashboard Controller & Interactions
- */
-
 document.addEventListener("DOMContentLoaded", () => {
   renderListings();
+  renderFPOHub();
   setupModals();
   setupNavigation();
   setupLocationChange();
 });
+
+/**
+ * Render FPO Bulk Order Demand Cards
+ */
+function renderFPOHub() {
+  const container = document.getElementById("fpo-demands-container");
+  if (!container || !window.AgriNexFPOHub) return;
+
+  const demands = AgriNexFPOHub.getBulkDemands();
+  container.innerHTML = demands.map(d => {
+    const percent = Math.min(100, Math.round((d.currentPooledQty / d.totalRequiredNumber) * 100));
+    const isFull = percent >= 100;
+
+    return `
+      <div class="fpo-pool-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <span style="font-size: 0.72rem; color: #15803d; font-weight: 700; background: #e8f5ed; padding: 2px 8px; border-radius: 4px; border: 1px solid #bbf7d0;">
+              ${d.buyerLogo} Enterprise Demand
+            </span>
+            <h4 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-top: 6px;">${d.crop}</h4>
+            <div style="font-size: 0.76rem; color: #64748b;">Buyer: <strong>${d.buyerName}</strong></div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 1.1rem; font-weight: 800; color: #15803d;">${d.targetPricePerQt}</div>
+            <span style="font-size: 0.7rem; color: #64748b;">Escrow Guaranteed</span>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700;">
+            <span style="color: #334155;">Pooled: ${d.currentPooledQty} / ${d.totalRequiredQty}</span>
+            <span style="color: ${isFull ? '#166534' : '#15803d'};">${percent}% Filled</span>
+          </div>
+          <div class="fpo-progress-bar-wrap">
+            <div class="fpo-progress-bar-fill" style="width: ${percent}%;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b; margin-top: 4px;">
+            <span>⏱️ ${d.deadline}</span>
+            <span>📍 ${d.destination}</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 12px;">
+          <span style="font-size: 0.74rem; color: #64748b;">Min: <strong>${d.minContribution}</strong></span>
+          <button class="btn btn-primary" style="padding: 6px 14px; font-size: 0.8rem; background: ${isFull ? '#166534' : '#0c5a36'};" onclick="openFPOContributeModal('${d.id}')">
+            <span>+</span> ${isFull ? 'View Pool Summary' : 'Pool My Harvest'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function openFPOContributeModal(demandId) {
+  const demands = AgriNexFPOHub.getBulkDemands();
+  const demand = demands.find(d => d.id === demandId);
+  if (!demand) return;
+
+  const percent = Math.min(100, Math.round((demand.currentPooledQty / demand.totalRequiredNumber) * 100));
+  const detailModal = document.getElementById("modal-lot-detail");
+  const detailBody = document.getElementById("modal-lot-detail-content");
+
+  if (detailModal && detailBody) {
+    detailBody.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div>
+          <span class="badge badge-fpo">🌾 FPO Bulk Order Cooperative Pool</span>
+          <h3 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-top: 4px;">${demand.crop} - ${demand.totalRequiredQty} Bulk Order</h3>
+        </div>
+        <button style="font-size: 1.5rem; color: #64748b; cursor: pointer; border: none; background: none;" onclick="closeDetailModal()">&times;</button>
+      </div>
+
+      <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 18px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.88rem;">
+          <span style="color: #166534; font-weight: 700;">Corporate Buyer: ${demand.buyerName}</span>
+          <strong style="color: #15803d; font-size: 1.05rem;">Contract Price: ${demand.targetPricePerQt}</strong>
+        </div>
+        <p style="font-size: 0.8rem; color: #374151; line-height: 1.45; margin-bottom: 10px;">
+          An individual farmer cannot supply <strong>${demand.totalRequiredQty}</strong> alone. By contributing your crop into this collective FPO batch, your volume gets aggregated with other farmers and sold at institutional premium rates.
+        </p>
+        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: #166534;">
+          <span>Current Pool Progress:</span>
+          <span>${demand.currentPooledQty} / ${demand.totalRequiredQty} (${percent}%)</span>
+        </div>
+        <div class="fpo-progress-bar-wrap" style="height: 10px;">
+          <div class="fpo-progress-bar-fill" style="width: ${percent}%;"></div>
+        </div>
+      </div>
+
+      <!-- Farmer Contribution Form -->
+      <form onsubmit="submitFPOContribution(event, '${demand.id}')">
+        <div class="form-group">
+          <label class="form-label">Quantity You Want to Commit (in Quintals / Qt) *</label>
+          <input type="number" id="fpo-contrib-qty" class="form-input" placeholder="e.g. 25" min="5" required />
+          <span style="font-size: 0.72rem; color: #64748b; margin-top: 4px; display: block;">Minimum allowed commitment: ${demand.minContribution}</span>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 18px;">
+          <div style="font-size: 0.82rem; font-weight: 700; color: #0f172a; margin-bottom: 6px;">Cooperative Member Benefits:</div>
+          <ul style="font-size: 0.78rem; color: #475569; padding-left: 18px; line-height: 1.5;">
+            <li>Direct pickup arranged by AgriNex Logistics from your nearest mandi.</li>
+            <li>35% Advance Escrow locked immediately upon pool completion.</li>
+            <li>No intermediary middleman cuts — 100% contract rate paid to your bank account.</li>
+          </ul>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" class="btn btn-outline" onclick="closeDetailModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="background: #0c5a36;">
+            🤝 Commit My Harvest to Pool
+          </button>
+        </div>
+      </form>
+
+      <!-- Active Contributors History -->
+      <div style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
+        <h5 style="font-size: 0.82rem; font-weight: 800; color: #334155; margin-bottom: 8px;">Current Farmer Contributions (${demand.farmerContributors.length} Farmers):</h5>
+        <div style="max-height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;">
+          ${demand.farmerContributors.map(c => `
+            <div style="display: flex; justify-content: space-between; font-size: 0.76rem; background: #ffffff; border: 1px solid #f1f5f9; padding: 6px 10px; border-radius: 6px;">
+              <span style="font-weight: 600; color: #0f172a;">🧑‍🌾 ${c.name}</span>
+              <span style="font-weight: 700; color: #15803d;">+${c.qty} Qt (${c.status})</span>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `;
+    detailModal.classList.add("active");
+  }
+}
+
+function submitFPOContribution(e, demandId) {
+  e.preventDefault();
+  const qtyInput = document.getElementById("fpo-contrib-qty");
+  const qty = qtyInput ? qtyInput.value : 20;
+
+  const result = AgriNexFPOHub.contributeToPool(demandId, "Ramesh Kumar", qty);
+  if (result.success) {
+    renderFPOHub();
+    closeDetailModal();
+    showToast(`🎉 ${result.message}`);
+  } else {
+    alert(result.message);
+  }
+}
+
+function scrollToFPOHub() {
+  const section = document.getElementById("section-fpo-hub");
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    section.style.boxShadow = "0 0 0 3px #10b981";
+    setTimeout(() => {
+      section.style.boxShadow = "";
+    }, 2000);
+  }
+}
 
 function renderListings() {
   const tableBody = document.getElementById("listings-tbody");
@@ -66,11 +220,23 @@ function renderListings() {
   }).join("");
 }
 
+function openProfileModal() {
+  const modalProfile = document.getElementById("modal-profile");
+  if (modalProfile) modalProfile.classList.add("active");
+}
+
+function closeProfileModal() {
+  const modalProfile = document.getElementById("modal-profile");
+  if (modalProfile) modalProfile.classList.remove("active");
+}
+
 function setupModals() {
   const createBtn = document.getElementById("btn-open-create-modal");
   const modalCreate = document.getElementById("modal-create-listing");
   const closeCreateBtn = document.getElementById("btn-close-create-modal");
   const formCreate = document.getElementById("form-create-listing");
+
+  const formEditProfile = document.getElementById("form-edit-profile");
 
   if (createBtn && modalCreate) {
     createBtn.addEventListener("click", () => {
@@ -129,6 +295,34 @@ function setupModals() {
       formCreate.reset();
 
       showToast(`Crop listing for "${cropName}" published successfully! Buyers are being notified.`);
+    });
+  }
+
+  // Handle Profile Update Form
+  if (formEditProfile) {
+    formEditProfile.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const newName = document.getElementById("profile-input-name").value;
+      const newPhone = document.getElementById("profile-input-phone").value;
+      const newLocation = document.getElementById("profile-input-location").value;
+
+      if (farmerData && farmerData.profile) {
+        farmerData.profile.name = newName;
+        farmerData.profile.location = newLocation;
+      }
+
+      // Update UI elements
+      const nameEl = document.querySelector(".profile-name");
+      if (nameEl) nameEl.textContent = newName;
+
+      const heroNameEl = document.querySelector(".hero-title");
+      if (heroNameEl) heroNameEl.textContent = `Good Morning, ${newName}! 👋`;
+
+      const profileDisplayNameEl = document.getElementById("profile-display-name");
+      if (profileDisplayNameEl) profileDisplayNameEl.textContent = newName;
+
+      closeProfileModal();
+      showToast("Farmer Profile & KYC Information updated successfully!");
     });
   }
 }

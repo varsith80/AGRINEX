@@ -64,6 +64,20 @@
             </div>
           </li>
 
+          <!-- 4. FPO HUB (Bulk Order Pooling & Aggregation) -->
+          <li class="nav-item" onclick="scrollToFPOHub()">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>FPO Hub</span>
+            </div>
+            <span class="badge badge-fpo" style="font-size: 0.65rem; padding: 2px 5px;">Bulk</span>
+          </li>
+
           <li class="nav-item">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -163,7 +177,7 @@
           </button>
 
           <!-- Farmer Profile Info -->
-          <div class="profile-widget">
+          <div class="profile-widget" id="farmer-profile-widget" onclick="openProfileModal()" title="Click to view & edit farmer profile" style="cursor: pointer;">
             <img src="assets/images/farmer-avatar.jpg" alt="Ramesh Kumar" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80'" />
             <div class="profile-info">
               <span class="profile-name">Ramesh Kumar</span>
@@ -315,6 +329,34 @@
           </div>
         </section>
 
+        <!-- FPO COOPERATIVE HUB (Farmer Pooling for Massive Enterprise Orders) -->
+        <section class="card" id="section-fpo-hub" style="border: 1.5px solid #a7f3d0; background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);">
+          <div class="card-header" style="flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="badge badge-fpo">🌾 FPO Cooperative Network</span>
+                <span style="font-size: 0.78rem; color: #166534; font-weight: 700;">Kongu Farmers Producer Co. (340 Farmers)</span>
+              </div>
+              <h3 class="card-title" style="color: #064e3b; margin-top: 4px; font-size: 1.25rem;">
+                FPO Collective Bulk Order Pooling Hub
+              </h3>
+              <p style="font-size: 0.82rem; color: #4b5563; margin-top: 2px;">
+                Can't fulfill a 500+ Quintal buyer contract alone? <strong>Pool your harvest with fellow farmers</strong> to unlock premium bulk rates from corporate buyers (Nestle, ITC, Exporters) with guaranteed escrow payments.
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 0.82rem; font-weight: 700; color: #0c5a36; background: #ffffff; padding: 6px 12px; border-radius: 8px; border: 1px solid #bbf7d0;">
+                🏢 3 Enterprise Demands Active
+              </span>
+            </div>
+          </div>
+
+          <!-- Active Bulk Order Pooling Cards Grid -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 8px;" id="fpo-demands-container">
+            <!-- Rendered dynamically by fpo_hub.js / dashboard.js -->
+          </div>
+        </section>
+
         <!-- Bottom 2-Column: Live Mandi Prices & Price Forecast -->
         <section class="market-forecast-grid">
           
@@ -444,9 +486,100 @@
     </div>
   </div>
 
+  <!-- 3. Farmer Profile Modal -->
+  <div class="modal-overlay" id="modal-profile">
+    <div class="modal-content" style="max-width: 620px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">Farmer Profile & KYC Identity</h3>
+          <span class="badge badge-grade-a">✓ KYC Verified</span>
+        </div>
+        <button onclick="closeProfileModal()" style="font-size: 1.5rem; color: #64748b; font-weight: 700; cursor: pointer; background: none; border: none;">&times;</button>
+      </div>
+
+      <!-- Farmer Identity Header -->
+      <div style="background: linear-gradient(135deg, #0c5a36 0%, #063c22 100%); border-radius: 14px; padding: 20px; color: #ffffff; display: flex; align-items: center; gap: 16px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(12, 90, 54, 0.2);">
+        <img src="assets/images/farmer-avatar.jpg" alt="Ramesh Kumar" style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #4ade80; box-shadow: 0 2px 8px rgba(0,0,0,0.25);" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80'" />
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h4 style="font-size: 1.25rem; font-weight: 800; color: #ffffff;" id="profile-display-name">Ramesh Kumar</h4>
+            <span style="background: rgba(74, 222, 128, 0.25); color: #86efac; border: 1px solid #4ade80; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">ID: AGRI-FARM-8821</span>
+          </div>
+          <p style="font-size: 0.8rem; color: #bbf7d0; margin-top: 2px;">Verified Smallholder Farmer • Gobi Taluk, Erode, Tamil Nadu</p>
+          <div style="display: flex; gap: 12px; margin-top: 8px; font-size: 0.76rem; color: #f0fdf4;">
+            <span>⭐ <strong>4.9 / 5.0</strong> (42 Dispatches)</span>
+            <span>•</span>
+            <span>🛡️ <strong>PM-KISAN Linked</strong></span>
+            <span>•</span>
+            <span>🌱 <strong>NPOP Certified</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Form -->
+      <form id="form-edit-profile">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="profile-input-name" class="form-input" value="Ramesh Kumar" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mobile Number (WhatsApp Enabled)</label>
+            <input type="text" id="profile-input-phone" class="form-input" value="+91 98421 88390" required />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="profile-input-email" class="form-input" value="ramesh.kumar.erode@gmail.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Total Farm Landholding (Acres)</label>
+            <input type="number" id="profile-input-acres" class="form-input" value="8.5" step="0.5" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Primary Farm Location / Mandi Region</label>
+          <input type="text" id="profile-input-location" class="form-input" value="Erode Mandi Yard, Tamil Nadu" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Primary Cultivated Crops</label>
+          <input type="text" id="profile-input-crops" class="form-input" value="Tomato (Shivam Hybrid), Red Onion, 1121 Basmati Paddy, Cotton" required />
+        </div>
+
+        <!-- Bank & Escrow Payout Box -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin: 16px 0;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <strong style="font-size: 0.85rem; color: #0f172a; display: flex; align-items: center; gap: 6px;">
+              <span>🏦</span> Escrow Instant Payout Bank Account
+            </strong>
+            <span style="font-size: 0.72rem; color: #166534; font-weight: 700; background: #e8f5ed; padding: 2px 8px; border-radius: 6px; border: 1px solid #bbf7d0;">Instant 35% Advance Enabled</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-size: 0.8rem; color: #334155;">
+            <div>Bank: <strong style="color: #0f172a;">HDFC Bank Ltd.</strong></div>
+            <div>A/C: <strong style="color: #0f172a;">•••• •••• 8821</strong></div>
+            <div>IFSC: <strong style="color: #0f172a;">HDFC0001234</strong></div>
+          </div>
+          <div style="margin-top: 8px; font-size: 0.76rem; color: #64748b;">
+            Linked UPI ID: <strong style="color: #0c5a36;">ramesh.farmer@okhdfcbank</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 18px;">
+          <button type="button" class="btn btn-outline" onclick="closeProfileModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/data.js"></script>
   <script src="js/emergency_sale.js"></script>
+  <script src="js/fpo_hub.js"></script>
   <script src="js/charts.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
