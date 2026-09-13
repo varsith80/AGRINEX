@@ -525,7 +525,95 @@ function renderBuyerDemands() {
     .join('');
 }
 
-// Chat Messaging Functionality
+// Chat Messaging Data Store & Functionality
+const chatConversations = {
+  murugan: {
+    name: "Murugan Palanisamy",
+    avatar: "assets/images/farmer-avatar.jpg",
+    status: "● Online • Dindigul, Tamil Nadu",
+    lotId: "LOT-TOM-02",
+    crop: "Tomato (Shivam Hybrid)",
+    offerText: "Farmer countered at <strong style=\"color: #0c5a36;\">₹ 1,220/Qt</strong> for 50 Qt (Floor: ₹ 1,200)",
+    counterRate: 1220,
+    lockRateText: "Lock 35% Escrow (₹ 1,200/Qt)",
+    messages: [
+      { type: "incoming", text: "Hello Karthik sir, I saw your procurement demand for 50 Qt Shivam hybrid tomatoes." },
+      { type: "outgoing", text: "Hi Murugan! Yes, we need export/table grade tomatoes with moisture index below 85% by this Friday." },
+      { type: "incoming", text: "My lot is certified Grade A (70%) with moisture at 82.5%. Ask price is ₹ 1,200/Qt. Can you confirm the 35% advance escrow?" }
+    ]
+  },
+  patil: {
+    name: "Patil Rameshwar",
+    avatar: "assets/images/onion.jpg",
+    status: "● Online • Nashik, Maharashtra",
+    lotId: "LOT-ONI-01",
+    crop: "Red Onion (Nashik Export)",
+    offerText: "Farmer agreed at <strong style=\"color: #0c5a36;\">₹ 1,800/Qt</strong> for 80 Qt (Grade A Certified)",
+    counterRate: 1800,
+    lockRateText: "Lock 35% Escrow (₹ 1,800/Qt)",
+    messages: [
+      { type: "incoming", text: "Namaste Karthik ji, 80 Qt export-grade Bellary red onion harvested and moisture cured." },
+      { type: "outgoing", text: "Hello Patil ji! We are checking transport feasibility via Eicher reefer corridor." },
+      { type: "incoming", text: "Vehicle is ready at Nashik yard. Once 35% escrow is locked, we will dispatch immediately with Digital LR." }
+    ]
+  }
+};
+
+let activeChatKey = 'murugan';
+
+function selectChatContact(contactKey) {
+  if (!chatConversations[contactKey]) return;
+  activeChatKey = contactKey;
+  const chat = chatConversations[contactKey];
+
+  // Update active pill in sidebar
+  document.querySelectorAll('.chat-contact').forEach(c => c.classList.remove('active'));
+  const activeEl = document.getElementById(`chat-contact-${contactKey}`);
+  if (activeEl) activeEl.classList.add('active');
+
+  // Update Header
+  const header = document.querySelector('.chat-main .chat-header');
+  if (header) {
+    header.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="${chat.avatar}" alt="${chat.name}" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
+        <div>
+          <strong style="font-size: 0.9rem; color: #0f172a;">${chat.name}</strong>
+          <div style="font-size: 0.72rem; color: #166534; font-weight: 700;">${chat.status}</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')">Counter Offer</button>
+        <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${chat.lotId}')">${chat.lockRateText}</button>
+      </div>
+    `;
+  }
+
+  // Update Active Offer Banner
+  const banner = document.querySelector('.chat-main [style*="background: #fefce8"]');
+  if (banner) {
+    banner.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="background: #eab308; color: #ffffff; width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">⚡</span>
+        <span><strong>Active Offer:</strong> ${chat.offerText}</span>
+      </div>
+      <div style="display: flex; gap: 6px;">
+        <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('${chat.lotId}', ${chat.counterRate})" style="padding: 4px 10px; font-size: 0.75rem;">✓ Accept Counter</button>
+        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="padding: 4px 8px; font-size: 0.75rem;">Re-counter</button>
+      </div>
+    `;
+  }
+
+  // Render Messages
+  const container = document.getElementById('chat-messages-container');
+  if (container) {
+    container.innerHTML = chat.messages
+      .map(m => `<div class="chat-bubble ${m.type}">${m.text}</div>`)
+      .join('');
+    container.scrollTop = container.scrollHeight;
+  }
+}
+
 function sendChatMessage() {
   const input = document.getElementById('chat-input-field');
   const container = document.getElementById('chat-messages-container');
@@ -537,15 +625,28 @@ function sendChatMessage() {
   bubble.textContent = msg;
   container.appendChild(bubble);
 
+  if (chatConversations[activeChatKey]) {
+    chatConversations[activeChatKey].messages.push({ type: "outgoing", text: msg });
+  }
+
   input.value = '';
   container.scrollTop = container.scrollHeight;
 
   // Auto farmer reply after 1s
   setTimeout(() => {
+    const replyText = activeChatKey === 'murugan' 
+      ? "Thank you for confirming! I am preparing the dispatch consignment and loading the vehicle."
+      : "Noted with thanks! The Eicher Reefer truck is stationed at the farm gate and will be sealed with RFID tag.";
+    
     const reply = document.createElement('div');
     reply.className = 'chat-bubble incoming';
-    reply.textContent = "Thank you for confirming! I am preparing the dispatch consignment and loading the vehicle.";
+    reply.textContent = replyText;
     container.appendChild(reply);
+
+    if (chatConversations[activeChatKey]) {
+      chatConversations[activeChatKey].messages.push({ type: "incoming", text: replyText });
+    }
+
     container.scrollTop = container.scrollHeight;
   }, 1000);
 }
