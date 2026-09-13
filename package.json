@@ -1,0 +1,19 @@
+{
+  "name": "agrinex",
+  "version": "1.0.0",
+  "description": "AgriNex - Direct Trade Agricultural Ecosystem & AI Market Intelligence",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "agritech",
+    "farmer",
+    "buyer",
+    "logistics",
+    "market-intelligence"
+  ],
+  "author": "AgriNex Team",
+  "license": "MIT"
+}
