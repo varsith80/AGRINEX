@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AgriNex Farmer Module - Dashboard Controller & Interactions
  */
 
@@ -13,37 +13,57 @@ function renderListings() {
   const tableBody = document.getElementById("listings-tbody");
   if (!tableBody || !farmerData || !farmerData.listings) return;
 
-  tableBody.innerHTML = farmerData.listings.map(item => `
-    <tr>
-      <td>
-        <div class="crop-cell">
-          <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
-          <span class="crop-name">${item.crop}</span>
-        </div>
-      </td>
-      <td>
-        <span class="badge ${item.gradeBadgeClass}">${item.grade}</span>
-      </td>
-      <td>
-        <strong style="color: #0f172a; font-weight: 700;">${item.quantity}</strong>
-      </td>
-      <td>
-        <span class="price-main">${item.expectedPrice}</span>
-      </td>
-      <td>
-        <div class="crop-details">
-          <span class="price-main">${item.bestBid}</span>
-          <span class="price-subtext">(${item.buyerName})</span>
-        </div>
-      </td>
-      <td>
-        <span class="badge ${item.statusBadgeClass}">${item.status}</span>
-      </td>
-      <td>
-        <button class="btn btn-outline btn-view-lot" onclick="openLotDetail('${item.id}')">View</button>
-      </td>
-    </tr>
-  `).join("");
+  tableBody.innerHTML = farmerData.listings.map(item => {
+    const isEmergency = item.isEmergencySale;
+    const isSold = item.status && item.status.includes("Sold");
+
+    return `
+      <tr style="${isEmergency && !isSold ? 'background-color: #fffaf0;' : ''}">
+        <td>
+          <div class="crop-cell">
+            <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
+            <div>
+              <div class="crop-name">${item.crop}</div>
+              ${isEmergency && !isSold ? '<span style="font-size: 0.7rem; color: #dc2626; font-weight: 800;">⚡ Emergency Salvage Active</span>' : ''}
+            </div>
+          </div>
+        </td>
+        <td>
+          <span class="badge ${item.gradeBadgeClass}">${item.grade}</span>
+        </td>
+        <td>
+          <strong style="color: #0f172a; font-weight: 700;">${item.quantity}</strong>
+        </td>
+        <td>
+          <span class="price-main">${item.expectedPrice}</span>
+        </td>
+        <td>
+          <div class="crop-details">
+            <span class="price-main" style="${isEmergency ? 'color: #dc2626; font-weight: 800;' : ''}">${item.bestBid}</span>
+            <span class="price-subtext">(${item.buyerName})</span>
+          </div>
+        </td>
+        <td>
+          <span class="badge ${item.statusBadgeClass}">${item.status}</span>
+        </td>
+        <td>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <button class="btn btn-outline btn-view-lot" onclick="openLotDetail('${item.id}')">View</button>
+            ${!isSold && !isEmergency ? `
+              <button class="btn-emergency-action" onclick="openEmergencyModal('${item.id}')" title="No buyers? Activate instant breakeven sale with food processors, composters & caterers">
+                <span>🚨</span> Emergency Sale
+              </button>
+            ` : ''}
+            ${isEmergency && !isSold ? `
+              <button class="btn-emergency-action" style="background: #0c5a36;" onclick="openEmergencyOffersModal('${item.id}')" title="Review live salvage bids">
+                <span>⚡</span> Offers (${item.emergencyOffers ? item.emergencyOffers.length : 3})
+              </button>
+            ` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
 }
 
 function setupModals() {
@@ -150,9 +170,12 @@ function openLotDetail(lotId) {
           <strong style="color: #0f172a;">${lot.buyerName}</strong>
         </div>
       </div>
-      <div style="display: flex; gap: 12px; justify-content: flex-end;">
+      <div style="display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap;">
         <button class="btn btn-outline" onclick="closeDetailModal()">Close</button>
-        <button class="btn btn-primary" onclick="acceptBid('${lot.id}')">Accept Bid & Generate Order</button>
+        ${!lot.status.includes("Sold") ? `
+          <button class="btn btn-primary" onclick="acceptBid('${lot.id}')">Accept Regular Bid</button>
+          <button class="btn-emergency-action" onclick="closeDetailModal(); openEmergencyModal('${lot.id}');">🚨 Emergency Sale Mode</button>
+        ` : ''}
       </div>
     `;
     detailModal.classList.add("active");
@@ -166,7 +189,161 @@ function closeDetailModal() {
 
 function acceptBid(lotId) {
   closeDetailModal();
+  const lot = farmerData.listings.find(l => l.id === lotId);
+  if (lot) {
+    lot.status = "Dispatched (Escrow Locked)";
+    lot.statusBadgeClass = "badge-status-dispatched";
+    renderListings();
+  }
   showToast(`Bid accepted for ${lotId}! Generating Escrow Contract and Dispatch Order.`);
+}
+
+/**
+ * Open Emergency Sale Confirmation Modal
+ */
+function openEmergencyModal(lotId) {
+  const lot = farmerData.listings.find(l => l.id === lotId);
+  if (!lot) return;
+
+  const basePrice = parseInt(lot.expectedPrice.replace(/[^0-9]/g, "")) || 1000;
+  const breakEvenEstimate = Math.round(basePrice * 0.75);
+
+  const detailModal = document.getElementById("modal-lot-detail");
+  const detailBody = document.getElementById("modal-lot-detail-content");
+
+  if (detailModal && detailBody) {
+    detailBody.innerHTML = `
+      <div style="text-align: center; margin-bottom: 18px;">
+        <div style="width: 56px; height: 56px; background: #fee2e2; color: #dc2626; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 10px;">
+          🚨
+        </div>
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: #991b1b; margin-bottom: 4px;">Activate Emergency Sale</h3>
+        <p style="font-size: 0.85rem; color: #64748b;">Instant Breakeven Recovery Protocol for Short Shelf-Life / Unsold Produce</p>
+      </div>
+
+      <div style="background: #fffbeb; border: 1.5px solid #fef3c7; border-radius: 12px; padding: 16px; margin-bottom: 18px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <span style="font-size: 0.88rem; font-weight: 700; color: #92400e;">Target Crop: ${lot.crop} (${lot.quantity})</span>
+          <span class="badge" style="background: #fee2e2; color: #991b1b; font-weight: 800;">Low Shelf-Life</span>
+        </div>
+        <p style="font-size: 0.82rem; color: #78350f; line-height: 1.5; margin-bottom: 12px;">
+          When standard buyers are not buying, activating this protocol broadcasts your lot to verified <strong>Food Processing Units</strong>, <strong>Institutional Caterers</strong>, and <strong>Bio-Compost Manufacturers</strong> who buy immediately to ensure you recover your production cost and achieve breakeven with zero loss.
+        </p>
+
+        <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #fde68a; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.82rem;">
+          <div>
+            <span style="color: #64748b; display: block;">Original Expected:</span>
+            <strong style="color: #0f172a; font-size: 1rem;">${lot.expectedPrice}</strong>
+          </div>
+          <div>
+            <span style="color: #15803d; font-weight: 700; display: block;">Estimated Breakeven Offer:</span>
+            <strong style="color: #15803d; font-size: 1rem;">~ ₹ ${breakEvenEstimate} /Qt (Guaranteed)</strong>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <h4 style="font-size: 0.85rem; font-weight: 800; color: #334155; margin-bottom: 8px;">Active Emergency Network on Standby:</h4>
+        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.8rem; color: #475569;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span>🥫</span> <strong>Food Processing Plants:</strong> Buy for pastes, purees & juices at ~75% breakeven.
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span>🍲</span> <strong>Institutional Caterers:</strong> Bulk daily consumption at ~72% breakeven.
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span>🌱</span> <strong>Bio-Compost & Fertilizer Units:</strong> Zero-waste purchase at ~65% breakeven.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <button class="btn btn-outline" onclick="closeDetailModal()">Cancel</button>
+        <button class="btn-emergency-action" style="padding: 10px 18px; font-size: 0.88rem;" onclick="confirmEmergencyActivation('${lot.id}')">
+          ⚡ Broadcast Emergency Sale Now
+        </button>
+      </div>
+    `;
+    detailModal.classList.add("active");
+  }
+}
+
+function confirmEmergencyActivation(lotId) {
+  const result = AgriNexEmergencySale.triggerEmergencySale(lotId, farmerData.listings);
+  if (result) {
+    renderListings();
+    closeDetailModal();
+    showToast(`🚨 Emergency Sale Activated! ${result.offersCount} Instant Breakeven Offers Received.`);
+    setTimeout(() => {
+      openEmergencyOffersModal(lotId);
+    }, 600);
+  }
+}
+
+/**
+ * Open Emergency Offers Selection Modal
+ */
+function openEmergencyOffersModal(lotId) {
+  const lot = farmerData.listings.find(l => l.id === lotId);
+  if (!lot || !lot.emergencyOffers) return;
+
+  const detailModal = document.getElementById("modal-lot-detail");
+  const detailBody = document.getElementById("modal-lot-detail-content");
+
+  if (detailModal && detailBody) {
+    detailBody.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div>
+          <span class="badge badge-status-emergency">🚨 Emergency Salvage Mode Active</span>
+          <h3 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-top: 4px;">${lot.crop} (${lot.quantity}) - Instant Salvage Offers</h3>
+        </div>
+        <button style="font-size: 1.5rem; color: #64748b; cursor: pointer; border: none; background: none;" onclick="closeDetailModal()">&times;</button>
+      </div>
+
+      <p style="font-size: 0.84rem; color: #64748b; margin-bottom: 16px;">
+        Choose an instant emergency buyer below to lock payment and dispatch immediately to avoid crop spoilage loss:
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+        ${lot.emergencyOffers.map((o, idx) => `
+          <div style="border: 1.5px solid ${idx === 0 ? '#15803d' : '#e2e8f0'}; background: ${idx === 0 ? '#f0fdf4' : '#ffffff'}; padding: 14px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; transition: transform 0.15s;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 24px;">${o.icon}</span>
+              <div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <strong style="color: #0f172a; font-size: 0.92rem;">${o.buyerName}</strong>
+                  ${idx === 0 ? '<span class="badge badge-grade-a" style="font-size: 0.68rem; padding: 2px 6px;">Highest Breakeven</span>' : ''}
+                </div>
+                <div style="font-size: 0.76rem; color: #64748b; margin-top: 2px;">
+                  ${o.buyerType} · 📍 ${o.location} · ⏱️ Instant Escrow Settlement
+                </div>
+              </div>
+            </div>
+            <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+              <span style="font-size: 1.15rem; font-weight: 800; color: #15803d;">${o.offerPriceFormatted}</span>
+              <button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.78rem; background: ${idx === 0 ? '#15803d' : '#0c5a36'};" onclick="acceptEmergencyOffer('${lot.id}', '${o.buyerId}')">
+                Accept & Settle Escrow →
+              </button>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+
+      <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.78rem; color: #64748b; text-align: center;">
+        🛡️ AgriNex Guarantee: All emergency buyers are pre-funded with locked escrow to protect farmers from zero-value waste.
+      </div>
+    `;
+    detailModal.classList.add("active");
+  }
+}
+
+function acceptEmergencyOffer(lotId, buyerId) {
+  const result = AgriNexEmergencySale.acceptEmergencyOffer(lotId, buyerId, farmerData.listings);
+  if (result) {
+    renderListings();
+    closeDetailModal();
+    showToast(`✅ Emergency contract locked! ${result.offer.buyerName} has transferred ${result.offer.offerPriceFormatted} via Escrow.`);
+  }
 }
 
 function setupLocationChange() {

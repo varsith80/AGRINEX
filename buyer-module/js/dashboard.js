@@ -1,11 +1,131 @@
-﻿/**
+/**
  * AgriNex Buyer Module - Controller & Bid Engine
+ * Handles Standard Marketplace Bids + Emergency Salvage Buyouts (Breakeven Procurement)
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  renderBuyerEmergencyDesk();
   renderBuyerMarketplace();
   setupBuyerModals();
 });
+
+const DEFAULT_EMERGENCY_FEED = [
+  {
+    id: "EMG-LOT-TOM-99",
+    crop: "Shimla Tomatoes (Perishable)",
+    image: "../farmer-module/assets/images/tomato.jpg",
+    farmerName: "Ramesh Kumar",
+    mandi: "Erode Mandi Yard, TN",
+    quantity: "45 Qt",
+    floorPrice: "₹ 1,200 /Qt",
+    breakevenPrice: "₹ 890 /Qt",
+    targetUse: "Tomato Puree & Sauce",
+    targetUseBadge: "buyer-type-processing",
+    targetIcon: "🥫",
+    shelfLife: "⚡ 24-36 Hours Left",
+    status: "🚨 Active Salvage Call"
+  },
+  {
+    id: "EMG-LOT-ONI-88",
+    crop: "Bellary Red Onion Lot",
+    image: "../farmer-module/assets/images/onion.jpg",
+    farmerName: "Murugan Selvam",
+    mandi: "Dindigul Yard, TN",
+    quantity: "60 Qt",
+    floorPrice: "₹ 950 /Qt",
+    breakevenPrice: "₹ 710 /Qt",
+    targetUse: "Bulk Kitchen Catering",
+    targetUseBadge: "buyer-type-caterer",
+    targetIcon: "🍲",
+    shelfLife: "⚡ 48 Hours Left",
+    status: "🚨 Active Salvage Call"
+  }
+];
+
+function renderBuyerEmergencyDesk() {
+  const tbody = document.getElementById("emergency-buyer-tbody");
+  if (!tbody) return;
+
+  // Retrieve any dynamic emergency lots triggered by farmers
+  let dynamicEmergency = [];
+  try {
+    if (window.AgriNexEmergencySale) {
+      dynamicEmergency = AgriNexEmergencySale.getEmergencyLots().filter(item => !item.isSold);
+    }
+  } catch(e) {}
+
+  const allLots = [...dynamicEmergency.map(d => ({
+    id: d.id,
+    crop: `${d.crop} (${d.grade || 'Standard'})`,
+    image: d.image.startsWith("../") ? d.image : `../${d.image}`,
+    farmerName: "Ramesh Kumar (Farmer)",
+    mandi: "Erode Yard, TN",
+    quantity: d.quantity,
+    floorPrice: d.expectedPrice,
+    breakevenPrice: d.bestBid || "₹ 920 /Qt",
+    targetUse: "Purees, Catering & Bio-Compost",
+    targetUseBadge: "buyer-type-processing",
+    targetIcon: "🥫",
+    shelfLife: "⚡ 24-48 Hours Urgency",
+    status: d.status
+  })), ...DEFAULT_EMERGENCY_FEED];
+
+  tbody.innerHTML = allLots.map(item => `
+    <tr style="background-color: #fffdfa;">
+      <td>
+        <div class="crop-cell">
+          <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
+          <div>
+            <div class="crop-name" style="color: #991b1b; font-weight: 800;">${item.crop}</div>
+            <span style="font-size: 0.72rem; color: #dc2626; font-weight: 700;">${item.status}</span>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div style="font-weight: 700; color: #0f172a; font-size: 0.88rem;">${item.farmerName}</div>
+        <div style="font-size: 0.74rem; color: #64748b;">📍 ${item.mandi}</div>
+      </td>
+      <td>
+        <strong style="color: #0f172a; font-size: 0.95rem;">${item.quantity}</strong>
+      </td>
+      <td>
+        <div>
+          <span style="font-size: 1.05rem; font-weight: 800; color: #15803d;">${item.breakevenPrice}</span>
+          <div style="font-size: 0.72rem; color: #64748b; text-decoration: line-through;">Orig: ${item.floorPrice}</div>
+        </div>
+      </td>
+      <td>
+        <span class="badge-buyer-type ${item.targetUseBadge}">
+          <span>${item.targetIcon}</span> ${item.targetUse}
+        </span>
+      </td>
+      <td>
+        <span class="badge badge-status-emergency" style="font-size: 0.72rem;">
+          ${item.shelfLife}
+        </span>
+      </td>
+      <td>
+        <button class="btn btn-primary" style="background: #dc2626; font-size: 0.8rem; padding: 7px 14px; font-weight: 800; box-shadow: 0 2px 8px rgba(220,38,38,0.25);" onclick="executeEmergencyBuyout('${item.id}', '${item.crop}', '${item.breakevenPrice}')">
+          ⚡ Instant Buyout
+        </button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function executeEmergencyBuyout(lotId, cropName, price) {
+  if (confirm(`Execute Immediate Salvage Purchase for ${cropName} at ${price}?\n\nEscrow payment will be locked instantly and transit dispatch triggered.`)) {
+    // Settle in localStorage if active
+    try {
+      if (window.AgriNexEmergencySale) {
+        AgriNexEmergencySale.acceptEmergencyOffer(lotId, "EMG_BUYER_01", []);
+      }
+    } catch(e) {}
+
+    renderBuyerEmergencyDesk();
+    alert(`🎉 Success! Salvage purchase locked for ${cropName} at ${price}.\nEscrow payment released to farmer. Logistics dispatch assigned automatically!`);
+  }
+}
 
 function renderBuyerMarketplace() {
   const tbody = document.getElementById("buyer-lots-tbody");
@@ -15,7 +135,7 @@ function renderBuyerMarketplace() {
     <tr>
       <td>
         <div class="crop-cell">
-          <img src="${item.image}" alt="${item.crop}" class="crop-thumb" />
+          <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
           <div>
             <div class="crop-name">${item.crop}</div>
             <div style="font-size: 0.74rem; color: #64748b;">Farmer: ${item.farmerName} · 📍 ${item.mandi}</div>
@@ -56,7 +176,7 @@ function openBidModal(lotId) {
   if (modal && content) {
     content.innerHTML = `
       <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: center;">
-        <img src="${lot.image}" alt="${lot.crop}" style="width: 64px; height: 64px; border-radius: 12px; object-fit: cover; border: 1px solid #e2e8f0;" />
+        <img src="${lot.image}" alt="${lot.crop}" style="width: 64px; height: 64px; border-radius: 12px; object-fit: cover; border: 1px solid #e2e8f0;" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
         <div>
           <h3 style="font-size: 1.2rem; font-weight: 800; color: #1d4ed8;">${lot.crop} (${lot.quantity})</h3>
           <p style="font-size: 0.8rem; color: #64748b;">Farmer: <strong>${lot.farmerName}</strong> · Floor: <strong>${lot.floorPrice}</strong></p>
@@ -109,3 +229,4 @@ function setupBuyerModals() {
     }
   });
 }
+
