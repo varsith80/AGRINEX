@@ -44,7 +44,8 @@
             </div>
           </li>
 
-          <li class="nav-item">
+          <!-- 2. My Crops & Lots -->
+          <li class="nav-item" onclick="window.location.href='my-crops.html'">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
@@ -52,6 +53,7 @@
               </svg>
               <span>My Crops & Lots</span>
             </div>
+            <span class="badge badge-grade-a" style="font-size: 0.65rem; padding: 2px 6px;">6 Lots</span>
           </li>
 
           <!-- 3. Market Insights -->
@@ -302,7 +304,7 @@
               <button class="btn btn-primary" style="padding: 7px 14px; font-size: 0.82rem;" onclick="document.getElementById('modal-create-listing').classList.add('active')">
                 <span>+</span> Add New Lot
               </button>
-              <a href="javascript:void(0)" class="card-action-link" onclick="document.getElementById('modal-create-listing').classList.add('active')">
+              <a href="my-crops.html" class="card-action-link">
                 View All
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path d="M5 12h14M12 5l7 7-7 7"></path>

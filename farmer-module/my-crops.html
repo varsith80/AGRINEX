@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - My Crops & Lots | Direct Trade · Better Tomorrow</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- CSS Framework & Modular Sheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* Sidebar Active Styling for My Crops */
+    .sidebar-nav .nav-item.active-crops {
+      background: #ffffff !important;
+      color: #064e3b !important;
+      border-radius: 12px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .sidebar-nav .nav-item.active-crops svg {
+      stroke: #0c5a36 !important;
+    }
+    .sidebar-nav .nav-item.active-crops span {
+      color: #064e3b !important;
+      font-weight: 800;
+    }
+
+    /* Hero Banner for My Crops */
+    .crops-hero {
+      background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%);
+      border-radius: 20px;
+      padding: 24px 28px;
+      color: #ffffff;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 24px rgba(12, 90, 54, 0.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .crops-hero::after {
+      content: "";
+      position: absolute;
+      right: -30px;
+      top: -30px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(74, 222, 128, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+      border-radius: 50%;
+    }
+
+    /* Stats Row */
+    .crops-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 1024px) {
+      .crops-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .crop-stat-card {
+      background: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 16px;
+      padding: 18px 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .crop-stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    }
+
+    .crop-stat-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    /* Filter & Controls Toolbar */
+    .crops-toolbar {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pills-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-pill:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .filter-pill.active {
+      background: #0c5a36;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(12, 90, 54, 0.25);
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .view-switcher {
+      display: flex;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+    .view-btn {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .view-btn.active {
+      background: #ffffff;
+      color: #0c5a36;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    /* Grid Cards Layout */
+    .crops-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 1200px) {
+      .crops-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 768px) {
+      .crops-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .crop-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .crop-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      border-color: #cbd5e1;
+    }
+    .crop-card.emergency-active {
+      border: 2px solid #ef4444;
+      background: #fffdfa;
+    }
+
+    .crop-card-media {
+      position: relative;
+      height: 160px;
+      width: 100%;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+    .crop-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .crop-card:hover .crop-card-img {
+      transform: scale(1.04);
+    }
+
+    .crop-card-badges {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .crop-card-body {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .crop-card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .crop-card-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.3;
+    }
+    .crop-lot-code {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #0c5a36;
+      background: #e8f5ed;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid #bbf7d0;
+      white-space: nowrap;
+    }
+
+    .crop-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.76rem;
+      color: #64748b;
+      margin-bottom: 14px;
+    }
+
+    .price-box-container {
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .price-box-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .price-box-label {
+      font-size: 0.7rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .price-box-val {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .price-box-val.highlight {
+      color: #15803d;
+    }
+
+    .buyer-info-bar {
+      font-size: 0.78rem;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #f0fdf4;
+      border-radius: 8px;
+      border: 1px solid #dcfce7;
+      margin-bottom: 16px;
+    }
+
+    .crop-card-footer {
+      margin-top: auto;
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 14px;
+    }
+
+    /* Perishable Shelf Life Pill */
+    .shelf-life-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .shelf-life-perishable {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+    .shelf-life-stable {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header -->
+        <div class="sidebar-brand" style="cursor: pointer;" onclick="window.location.href='index.html'">
+          <div class="brand-logo-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nexx</span></h1>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="sidebar-nav">
+          <!-- 1. Dashboard -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              <span>Dashboard</span>
+            </div>
+          </li>
+
+          <!-- 2. My Crops & Lots (ACTIVE) -->
+          <li class="nav-item active-crops" onclick="window.location.href='my-crops.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+              </svg>
+              <span style="color: #064e3b; font-weight: 800;">My Crops & Lots</span>
+            </div>
+            <span class="badge badge-grade-a" style="font-size: 0.65rem; padding: 2px 6px;">6 Lots</span>
+          </li>
+
+          <!-- 3. Market Insights -->
+          <li class="nav-item" onclick="window.location.href='market-insights.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <span>Market Insights</span>
+            </div>
+          </li>
+
+          <!-- 4. FPO HUB -->
+          <li class="nav-item" onclick="window.location.href='fpo-hub.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>FPO Hub</span>
+            </div>
+            <span class="badge badge-fpo" style="font-size: 0.65rem; padding: 2px 5px;">Bulk</span>
+          </li>
+
+          <!-- 5. Bids & Offers -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m14 12 6-6"></path>
+                <path d="M9 17 3 23"></path>
+                <path d="m15.5 10.5 2 2"></path>
+                <path d="m7.5 18.5 2 2"></path>
+              </svg>
+              <span>Bids & Offers</span>
+            </div>
+            <span class="badge badge-orange" style="font-size: 0.65rem; padding: 2px 5px;">5 Bids</span>
+          </li>
+
+          <!-- 6. Orders & Shipments -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="14" x="2" y="5" rx="2"></rect>
+                <line x1="2" x2="22" y1="10" y2="10"></line>
+              </svg>
+              <span>Orders & Shipments</span>
+            </div>
+          </li>
+
+          <!-- 7. Escrow Tracking -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+              <span>Escrow Tracking</span>
+            </div>
+          </li>
+
+          <!-- 8. Profit Calculator -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="16" height="20" x="4" y="2" rx="2"></rect>
+                <line x1="8" x2="16" y1="6" y2="6"></line>
+                <line x1="16" x2="16" y1="14" y2="18"></line>
+                <path d="M16 10h.01"></path>
+                <path d="M12 10h.01"></path>
+                <path d="M8 10h.01"></path>
+                <path d="M12 14h.01"></path>
+                <path d="M8 14h.01"></path>
+                <path d="M12 18h.01"></path>
+                <path d="M8 18h.01"></path>
+              </svg>
+              <span>Profit Calculator</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Farmer KYC Sidebar Footer Card -->
+      <div class="sidebar-user-card" style="cursor: pointer;" onclick="openProfileModal()">
+        <img src="assets/images/farmer-avatar.jpg" alt="Ramesh Kumar" class="user-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80'" />
+        <div class="user-info">
+          <div class="user-name">Ramesh Kumar</div>
+          <div class="user-role">🌾 Verified Smallholder</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT AREA -->
+    <main class="main-wrapper">
+      
+      <!-- Top Extended Navbar Header -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="navbar-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="crops-search-input" placeholder="Search crop variety, lot ID, buyer bids, quality grade..." oninput="handleSearchCrops(this.value)" />
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer; white-space: nowrap;" onclick="openProfileModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Erode Mandi Yard, TN</span>
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <!-- Quick Action: List Crop -->
+          <button class="navbar-btn-create" onclick="openCreateListingModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>+ List New Crop Lot</span>
+          </button>
+
+          <!-- Notification Bell -->
+          <button class="notif-btn" title="Notifications" onclick="alert('5 buyers have placed live offers on your listed crop lots!')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            </svg>
+          </button>
+
+          <!-- User Profile -->
+          <div class="navbar-user" style="cursor: pointer;" onclick="openProfileModal()">
+            <img src="assets/images/farmer-avatar.jpg" alt="Ramesh Kumar" class="user-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80'" />
+            <div>
+              <div class="profile-name">Ramesh Kumar</div>
+              <div class="profile-role">🌾 Farmer • Erode, TN</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Scrollable Main Content -->
+      <div class="content-scroll">
+
+        <!-- Hero Header -->
+        <div class="crops-hero">
+          <div style="max-width: 680px; position: relative; z-index: 1;">
+            <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px); padding: 4px 12px; border-radius: 999px; font-size: 0.76rem; font-weight: 700; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.25);">
+              <span>🌾</span> Farmer Inventory & Harvest Lot Management
+            </div>
+            <h2 style="font-size: 1.65rem; font-weight: 800; line-height: 1.25; margin-bottom: 8px;">My Listed Crops & Harvest Lots</h2>
+            <p style="font-size: 0.88rem; color: #bbf7d0; line-height: 1.5; margin: 0;">
+              Manage your complete harvest catalogue across vegetables, grains, cash crops, and spices. Track live enterprise buyer bids, activate emergency salvage sale when needed, and coordinate instant escrow disbursements.
+            </p>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center; position: relative; z-index: 1;">
+            <button class="btn btn-primary" style="background: #ffffff; color: #0c5a36; font-weight: 800; padding: 10px 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.15);" onclick="openCreateListingModal()">
+              <span>+</span> List New Crop
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="crops-stats-grid">
+          <!-- Stat 1: Total Listed Volume -->
+          <div class="crop-stat-card">
+            <div class="crop-stat-icon" style="background: #e8f5ed; color: #10b981;">📦</div>
+            <div>
+              <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Total Listed Volume</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: #0f172a;" id="kpi-total-volume">305 Quintals</div>
+              <div style="font-size: 0.72rem; color: #166534; font-weight: 700;">Across 6 active crop lots</div>
+            </div>
+          </div>
+
+          <!-- Stat 2: Active Buyer Bids -->
+          <div class="crop-stat-card">
+            <div class="crop-stat-icon" style="background: #eff6ff; color: #3b82f6;">💼</div>
+            <div>
+              <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Active Buyer Bids</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: #0f172a;" id="kpi-active-bids">5 Live Offers</div>
+              <div style="font-size: 0.72rem; color: #2563eb; font-weight: 700;">Top: ₹ 5,920 /Qt (Cotton)</div>
+            </div>
+          </div>
+
+          <!-- Stat 3: Dispatched / In-Transit -->
+          <div class="crop-stat-card">
+            <div class="crop-stat-icon" style="background: #fff7ed; color: #f97316;">🚚</div>
+            <div>
+              <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">In Transit / Dispatched</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: #0f172a;" id="kpi-in-transit">1 Lot (100 Qt)</div>
+              <div style="font-size: 0.72rem; color: #c2410c; font-weight: 700;">Paddy (1121 Basmati)</div>
+            </div>
+          </div>
+
+          <!-- Stat 4: Total Expected Harvest Value -->
+          <div class="crop-stat-card">
+            <div class="crop-stat-icon" style="background: #fdf2f8; color: #ec4899;">💰</div>
+            <div>
+              <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Expected Gross Value</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: #15803d;" id="kpi-gross-value">₹ 7,42,500</div>
+              <div style="font-size: 0.72rem; color: #64748b; font-weight: 600;">100% Escrow Guaranteed</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & View Switcher Toolbar -->
+        <div class="crops-toolbar">
+          <div class="filter-pills-wrap">
+            <button class="filter-pill active" onclick="setFilter('all', this)">All Listed Crops (<span id="count-all">6</span>)</button>
+            <button class="filter-pill" onclick="setFilter('open', this)">Active Bids (<span id="count-open">3</span>)</button>
+            <button class="filter-pill" onclick="setFilter('negotiation', this)">Under Negotiation (<span id="count-negotiation">2</span>)</button>
+            <button class="filter-pill" onclick="setFilter('dispatched', this)">Dispatched (<span id="count-dispatched">1</span>)</button>
+            <button class="filter-pill" onclick="setFilter('emergency', this)" style="border-color: #fecaca; color: #dc2626;">⚡ Emergency Eligible</button>
+          </div>
+
+          <div class="toolbar-actions">
+            <!-- Category Filter Dropdown -->
+            <select id="category-select" class="form-select" style="padding: 6px 12px; font-size: 0.8rem; width: auto; font-weight: 600;" onchange="handleCategoryFilter(this.value)">
+              <option value="all">All Categories</option>
+              <option value="Vegetables">Vegetables</option>
+              <option value="Grains">Grains & Cereals</option>
+              <option value="Spices">Spices</option>
+              <option value="Cash Crops">Cash Crops</option>
+            </select>
+
+            <!-- View Switcher -->
+            <div class="view-switcher">
+              <button class="view-btn active" id="btn-view-grid" onclick="setViewMode('grid')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+                  <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+                  <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+                  <rect width="7" height="7" x="3" y="14" rx="1"></rect>
+                </svg>
+                Grid
+              </button>
+              <button class="view-btn" id="btn-view-table" onclick="setViewMode('table')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="8" x2="21" y1="6" y2="6"></line>
+                  <line x1="8" x2="21" y1="12" y2="12"></line>
+                  <line x1="8" x2="21" y1="18" y2="18"></line>
+                  <line x1="3" x2="3.01" y1="6" y2="6"></line>
+                  <line x1="3" x2="3.01" y1="12" y2="12"></line>
+                  <line x1="3" x2="3.01" y1="18" y2="18"></line>
+                </svg>
+                Table
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Grid View Container -->
+        <div id="crops-grid-view" class="crops-grid">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
+
+        <!-- Dynamic Table View Container (Hidden by default) -->
+        <div id="crops-table-view" class="card" style="display: none; padding: 0; overflow: hidden;">
+          <div class="listings-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Crop & Lot Details</th>
+                  <th>Quality Grade</th>
+                  <th>Volume (Qt)</th>
+                  <th>Expected Floor</th>
+                  <th>Current Best Bid</th>
+                  <th>Buyer & Verification</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="crops-table-tbody">
+                <!-- Rendered dynamically by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- MODALS -->
+
+  <!-- 1. Create Listing Modal -->
+  <div class="modal-overlay" id="modal-create-listing">
+    <div class="modal-content" style="max-width: 580px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">List New Crop Lot</h3>
+          <span class="badge badge-grade-a">Instant Match</span>
+        </div>
+        <button onclick="closeCreateListingModal()" style="font-size: 1.5rem; color: #64748b; font-weight: 700; cursor: pointer; background: none; border: none;">&times;</button>
+      </div>
+
+      <form id="form-create-listing-full" onsubmit="handleCreateCrop(event)">
+        <div class="form-group">
+          <label class="form-label">Crop Name & Variety</label>
+          <input type="text" id="new-crop-name" class="form-input" placeholder="e.g. Tomato (Shivam Hybrid), Red Onion, Paddy" required />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="new-crop-category" class="form-select">
+              <option value="Vegetables">Vegetables</option>
+              <option value="Grains">Grains & Cereals</option>
+              <option value="Spices">Spices</option>
+              <option value="Cash Crops">Cash Crops</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Quality Grade</label>
+            <select id="new-crop-grade" class="form-select">
+              <option value="Grade A">Grade A (Premium Retail/Export)</option>
+              <option value="Grade B">Grade B (Standard Mandi)</option>
+              <option value="Grade C">Grade C (Industrial/Processing)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Harvest Quantity (Quintals / Qt)</label>
+            <input type="number" id="new-crop-qty" class="form-input" placeholder="e.g. 50" min="1" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expected Floor Price (₹ / Qt)</label>
+            <input type="number" id="new-crop-price" class="form-input" placeholder="e.g. 1200" required />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Shelf Life / Perishability</label>
+            <select id="new-crop-shelflife" class="form-select">
+              <option value="3 Days (Perishable)">3 Days (High Perishable)</option>
+              <option value="7 Days (Perishable)">7 Days (Perishable)</option>
+              <option value="25 Days">25 Days (Semi-perishable)</option>
+              <option value="180 Days">180 Days (Grains/Stable)</option>
+              <option value="365 Days">365 Days (Cash Crops)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Pickup Mandi Location</label>
+            <input type="text" id="new-crop-location" class="form-input" value="Erode Mandi Yard, Tamil Nadu" required />
+          </div>
+        </div>
+
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px; margin: 16px 0; font-size: 0.78rem; color: #166534;">
+          🛡️ <strong>AgriNex Escrow Guarantee:</strong> Once a buyer accepts or matches your price, 35% advance is deposited instantly into escrow before transport dispatch.
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end;">
+          <button type="button" class="btn btn-outline" onclick="closeCreateListingModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Publish Crop Listing</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Lot Detail Modal -->
+  <div class="modal-overlay" id="modal-lot-detail">
+    <div class="modal-content" style="max-width: 620px;">
+      <div id="modal-lot-detail-content">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Farmer Profile & KYC Modal -->
+  <div class="modal-overlay" id="modal-profile">
+    <div class="modal-content" style="max-width: 620px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">Farmer Profile & KYC Identity</h3>
+          <span class="badge badge-grade-a">✓ KYC Verified</span>
+        </div>
+        <button onclick="closeProfileModal()" style="font-size: 1.5rem; color: #64748b; font-weight: 700; cursor: pointer; background: none; border: none;">&times;</button>
+      </div>
+
+      <div style="background: linear-gradient(135deg, #0c5a36 0%, #063c22 100%); border-radius: 14px; padding: 20px; color: #ffffff; display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+        <img src="assets/images/farmer-avatar.jpg" alt="Ramesh Kumar" style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80'" />
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h4 style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">Ramesh Kumar</h4>
+            <span style="background: rgba(74, 222, 128, 0.25); color: #86efac; border: 1px solid #4ade80; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">ID: AGRI-FARM-8821</span>
+          </div>
+          <p style="font-size: 0.8rem; color: #bbf7d0; margin-top: 2px;">Verified Smallholder Farmer • Gobi Taluk, Erode, Tamil Nadu</p>
+        </div>
+      </div>
+
+      <form onsubmit="event.preventDefault(); alert('Profile details saved!'); closeProfileModal();">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" value="Ramesh Kumar" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mobile Number</label>
+            <input type="text" class="form-input" value="+91 98421 88390" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Primary Farm Location</label>
+          <input type="text" class="form-input" value="Erode Mandi Yard, Tamil Nadu" required />
+        </div>
+        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 18px;">
+          <button type="button" class="btn btn-outline" onclick="closeProfileModal()">Close</button>
+          <button type="submit" class="btn btn-primary">Save Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/emergency_sale.js"></script>
+  <script src="js/fpo_hub.js"></script>
+  
+  <script>
+    let currentFilter = 'all';
+    let currentCategory = 'all';
+    let currentSearch = '';
+    let currentView = 'grid';
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderAllCrops();
+      updateKpis();
+    });
+
+    function updateKpis() {
+      if (!farmerData || !farmerData.listings) return;
+      const listings = farmerData.listings;
+      
+      let totalQt = 0;
+      let totalVal = 0;
+      let activeBids = 0;
+      let inTransit = 0;
+
+      listings.forEach(l => {
+        const qty = l.quantityNumber || parseInt(l.quantity) || 0;
+        const price = l.bestBidNumber || l.expectedPriceNumber || parseInt(l.expectedPrice.replace(/[^0-9]/g, "")) || 0;
+        totalQt += qty;
+        totalVal += (qty * price);
+        if (l.status.includes("Open") || l.status.includes("Negotiation")) activeBids++;
+        if (l.status.includes("Dispatched")) inTransit++;
+      });
+
+      const totalVolEl = document.getElementById("kpi-total-volume");
+      const activeBidsEl = document.getElementById("kpi-active-bids");
+      const inTransitEl = document.getElementById("kpi-in-transit");
+      const grossValEl = document.getElementById("kpi-gross-value");
+
+      if (totalVolEl) totalVolEl.textContent = `${totalQt} Quintals`;
+      if (activeBidsEl) activeBidsEl.textContent = `${activeBids} Live Offers`;
+      if (inTransitEl) inTransitEl.textContent = `${inTransit} Lot (${listings.find(l => l.status.includes("Dispatched"))?.crop || 'Paddy'})`;
+      if (grossValEl) grossValEl.textContent = `₹ ${totalVal.toLocaleString('en-IN')}`;
+
+      // Update badge counts
+      const countAll = document.getElementById("count-all");
+      const countOpen = document.getElementById("count-open");
+      const countNeg = document.getElementById("count-negotiation");
+      const countDisp = document.getElementById("count-dispatched");
+
+      if (countAll) countAll.textContent = listings.length;
+      if (countOpen) countOpen.textContent = listings.filter(l => l.status.includes("Open")).length;
+      if (countNeg) countNeg.textContent = listings.filter(l => l.status.includes("Negotiation")).length;
+      if (countDisp) countDisp.textContent = listings.filter(l => l.status.includes("Dispatched")).length;
+    }
+
+    function getFilteredListings() {
+      if (!farmerData || !farmerData.listings) return [];
+      return farmerData.listings.filter(item => {
+        // Status tab filter
+        if (currentFilter === 'open' && !item.status.includes("Open")) return false;
+        if (currentFilter === 'negotiation' && !item.status.includes("Negotiation")) return false;
+        if (currentFilter === 'dispatched' && !item.status.includes("Dispatched")) return false;
+        if (currentFilter === 'emergency' && (!item.shelfLife || !item.shelfLife.includes("Perishable"))) return false;
+
+        // Category filter
+        if (currentCategory !== 'all' && item.category !== currentCategory) return false;
+
+        // Search query filter
+        if (currentSearch) {
+          const q = currentSearch.toLowerCase();
+          const matchCrop = item.crop.toLowerCase().includes(q);
+          const matchId = item.id.toLowerCase().includes(q);
+          const matchBuyer = item.buyerName.toLowerCase().includes(q);
+          const matchGrade = item.grade.toLowerCase().includes(q);
+          if (!matchCrop && !matchId && !matchBuyer && !matchGrade) return false;
+        }
+
+        return true;
+      });
+    }
+
+    function renderAllCrops() {
+      const items = getFilteredListings();
+      renderGridView(items);
+      renderTableView(items);
+    }
+
+    function renderGridView(items) {
+      const grid = document.getElementById("crops-grid-view");
+      if (!grid) return;
+
+      if (items.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 3rem; margin-bottom: 12px;">🌾</div>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #0f172a;">No Listed Crops Found</h3>
+            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 16px;">Try clearing your filters or search keyword to see all your harvest lots.</p>
+            <button class="btn btn-primary" onclick="setFilter('all', document.querySelector('.filter-pill'))">Reset All Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = items.map(item => {
+        const isPerishable = item.shelfLife && item.shelfLife.includes("Perishable");
+        const isEmergency = item.isEmergencySale;
+        const isSold = item.status && item.status.includes("Sold");
+
+        return `
+          <div class="crop-card ${isEmergency ? 'emergency-active' : ''}">
+            <div class="crop-card-media">
+              <img src="${item.image}" alt="${item.crop}" class="crop-card-img" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500&auto=format&fit=crop&q=80'" />
+              <div class="crop-card-badges">
+                <span class="badge ${item.gradeBadgeClass}">${item.grade}</span>
+                <span class="badge ${item.statusBadgeClass}">${item.status}</span>
+              </div>
+            </div>
+
+            <div class="crop-card-body">
+              <div class="crop-card-title-row">
+                <div>
+                  <div class="crop-card-title">${item.crop}</div>
+                  <div style="font-size: 0.74rem; color: #64748b; margin-top: 2px;">Harvest: ${item.harvestDate || 'Fresh Lot'} • ${item.category || 'Agricultural Produce'}</div>
+                </div>
+                <span class="crop-lot-code">${item.id}</span>
+              </div>
+
+              <div class="crop-meta-row">
+                <span>📍 ${item.location || 'Erode Mandi Yard'}</span>
+                <span>•</span>
+                <span class="shelf-life-pill ${isPerishable ? 'shelf-life-perishable' : 'shelf-life-stable'}">
+                  ${isPerishable ? '⏱️ ' + item.shelfLife : '📦 ' + (item.shelfLife || 'Standard Shelf Life')}
+                </span>
+              </div>
+
+              <div class="price-box-container">
+                <div class="price-box-item">
+                  <span class="price-box-label">Listed Volume</span>
+                  <span class="price-box-val">${item.quantity}</span>
+                </div>
+                <div class="price-box-item">
+                  <span class="price-box-label">Expected Floor</span>
+                  <span class="price-box-val">${item.expectedPrice}</span>
+                </div>
+                <div class="price-box-item" style="grid-column: 1 / -1; border-top: 1px dashed #e2e8f0; padding-top: 8px; margin-top: 4px;">
+                  <span class="price-box-label">Current Best Buyer Bid</span>
+                  <span class="price-box-val highlight">${item.bestBid}</span>
+                </div>
+              </div>
+
+              <div class="buyer-info-bar">
+                <span>Buyer: <strong>${item.buyerName}</strong></span>
+                <span style="font-size: 0.72rem; color: #166534; font-weight: 700;">🛡️ Escrow Verified</span>
+              </div>
+
+              <div class="crop-card-footer">
+                <button class="btn btn-outline" style="flex: 1; justify-content: center; font-size: 0.78rem;" onclick="openLotDetail('${item.id}')">
+                  View Lot
+                </button>
+
+                ${!isSold && !isEmergency ? `
+                  <button class="btn-emergency-action" style="font-size: 0.76rem; padding: 6px 12px;" onclick="openEmergencyModal('${item.id}')" title="Breakeven Salvage for perishable/unsold lots">
+                    <span>🚨</span> Emergency Sale
+                  </button>
+                ` : ''}
+
+                ${isEmergency && !isSold ? `
+                  <button class="btn-emergency-action" style="font-size: 0.76rem; padding: 6px 12px; background: #0c5a36;" onclick="openEmergencyOffersModal('${item.id}')">
+                    <span>⚡</span> View Offers (${item.emergencyOffers ? item.emergencyOffers.length : 3})
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderTableView(items) {
+      const tbody = document.getElementById("crops-table-tbody");
+      if (!tbody) return;
+
+      tbody.innerHTML = items.map(item => {
+        const isEmergency = item.isEmergencySale;
+        const isSold = item.status && item.status.includes("Sold");
+
+        return `
+          <tr style="${isEmergency && !isSold ? 'background-color: #fffaf0;' : ''}">
+            <td>
+              <div class="crop-cell">
+                <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
+                <div>
+                  <div class="crop-name">${item.crop}</div>
+                  <div style="font-size: 0.72rem; color: #64748b;">${item.id} • ${item.shelfLife || 'Perishable'}</div>
+                  ${isEmergency && !isSold ? '<span style="font-size: 0.7rem; color: #dc2626; font-weight: 800;">⚡ Emergency Salvage Active</span>' : ''}
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge ${item.gradeBadgeClass}">${item.grade}</span>
+            </td>
+            <td>
+              <strong style="color: #0f172a; font-weight: 700;">${item.quantity}</strong>
+            </td>
+            <td>
+              <span class="price-main">${item.expectedPrice}</span>
+            </td>
+            <td>
+              <div class="crop-details">
+                <span class="price-main" style="${isEmergency ? 'color: #dc2626; font-weight: 800;' : 'color: #15803d; font-weight: 800;'}">${item.bestBid}</span>
+              </div>
+            </td>
+            <td>
+              <div style="font-size: 0.8rem; font-weight: 700; color: #1e293b;">${item.buyerName}</div>
+              <span style="font-size: 0.7rem; color: #166534;">✓ Escrow Verified</span>
+            </td>
+            <td>
+              <span class="badge ${item.statusBadgeClass}">${item.status}</span>
+            </td>
+            <td style="text-align: right;">
+              <div style="display: inline-flex; gap: 6px; align-items: center;">
+                <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.76rem;" onclick="openLotDetail('${item.id}')">View</button>
+                ${!isSold && !isEmergency ? `
+                  <button class="btn-emergency-action" style="padding: 5px 10px; font-size: 0.74rem;" onclick="openEmergencyModal('${item.id}')">
+                    <span>🚨</span> Emergency
+                  </button>
+                ` : ''}
+                ${isEmergency && !isSold ? `
+                  <button class="btn-emergency-action" style="padding: 5px 10px; font-size: 0.74rem; background: #0c5a36;" onclick="openEmergencyOffersModal('${item.id}')">
+                    <span>⚡</span> Offers
+                  </button>
+                ` : ''}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function setFilter(filter, el) {
+      currentFilter = filter;
+      document.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
+      if (el) el.classList.add("active");
+      renderAllCrops();
+    }
+
+    function handleCategoryFilter(cat) {
+      currentCategory = cat;
+      renderAllCrops();
+    }
+
+    function handleSearchCrops(query) {
+      currentSearch = query.trim();
+      renderAllCrops();
+    }
+
+    function setViewMode(mode) {
+      currentView = mode;
+      const gridView = document.getElementById("crops-grid-view");
+      const tableView = document.getElementById("crops-table-view");
+      const btnGrid = document.getElementById("btn-view-grid");
+      const btnTable = document.getElementById("btn-view-table");
+
+      if (mode === 'grid') {
+        gridView.style.display = 'grid';
+        tableView.style.display = 'none';
+        btnGrid.classList.add("active");
+        btnTable.classList.remove("active");
+      } else {
+        gridView.style.display = 'none';
+        tableView.style.display = 'block';
+        btnTable.classList.add("active");
+        btnGrid.classList.remove("active");
+      }
+    }
+
+    function openCreateListingModal() {
+      const modal = document.getElementById("modal-create-listing");
+      if (modal) modal.classList.add("active");
+    }
+
+    function closeCreateListingModal() {
+      const modal = document.getElementById("modal-create-listing");
+      if (modal) modal.classList.remove("active");
+    }
+
+    function handleCreateCrop(e) {
+      e.preventDefault();
+      const name = document.getElementById("new-crop-name").value;
+      const category = document.getElementById("new-crop-category").value;
+      const grade = document.getElementById("new-crop-grade").value;
+      const qty = parseInt(document.getElementById("new-crop-qty").value) || 50;
+      const price = parseInt(document.getElementById("new-crop-price").value) || 1200;
+      const shelfLife = document.getElementById("new-crop-shelflife").value;
+      const location = document.getElementById("new-crop-location").value;
+
+      let img = "assets/images/tomato.jpg";
+      const lower = name.toLowerCase();
+      if (lower.includes("onion")) img = "assets/images/onion.jpg";
+      else if (lower.includes("paddy") || lower.includes("rice")) img = "assets/images/paddy.jpg";
+      else if (lower.includes("cotton")) img = "assets/images/cotton.jpg";
+      else if (lower.includes("chilli")) img = "assets/images/chilli.jpg";
+      else if (lower.includes("okra") || lower.includes("ladyfinger")) img = "assets/images/okra.jpg";
+
+      const newListing = {
+        id: `LOT-${name.slice(0,3).toUpperCase()}-${Date.now().toString().slice(-3)}`,
+        crop: name,
+        category: category,
+        shelfLife: shelfLife,
+        harvestDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        image: img,
+        grade: grade,
+        gradeBadgeClass: grade === "Grade A" ? "badge-grade-a" : (grade === "Grade B" ? "badge-grade-b" : "badge-grade-b"),
+        quantity: `${qty} Qt`,
+        quantityNumber: qty,
+        expectedPrice: `₹ ${price.toLocaleString('en-IN')} /Qt`,
+        expectedPriceNumber: price,
+        bestBid: `Awaiting Bids`,
+        bestBidNumber: price,
+        buyerName: "Matching Enterprise Buyers...",
+        status: "Bids Open",
+        statusBadgeClass: "badge-status-open",
+        location: location
+      };
+
+      farmerData.listings.unshift(newListing);
+      closeCreateListingModal();
+      document.getElementById("form-create-listing-full").reset();
+
+      renderAllCrops();
+      updateKpis();
+      alert(`🎉 Crop Lot "${name}" has been published to the AgriNex exchange! Buyers are being matched.`);
+    }
+
+    function openLotDetail(lotId) {
+      const lot = farmerData.listings.find(l => l.id === lotId);
+      if (!lot) return;
+
+      const detailModal = document.getElementById("modal-lot-detail");
+      const detailBody = document.getElementById("modal-lot-detail-content");
+
+      if (detailModal && detailBody) {
+        detailBody.innerHTML = `
+          <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: center;">
+            <img src="${lot.image}" alt="${lot.crop}" style="width: 72px; height: 72px; border-radius: 12px; object-fit: cover; border: 1px solid #e2e8f0;" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
+            <div>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <h3 style="font-size: 1.3rem; font-weight: 800; color: #0c5a36;">${lot.crop}</h3>
+                <span class="crop-lot-code">${lot.id}</span>
+              </div>
+              <div style="margin-top: 4px; display: flex; gap: 6px;">
+                <span class="badge ${lot.gradeBadgeClass}">${lot.grade}</span>
+                <span class="badge ${lot.statusBadgeClass}">${lot.status}</span>
+                <span class="shelf-life-pill shelf-life-stable">${lot.shelfLife || 'Standard'}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; padding: 18px; border-radius: 14px; font-size: 0.88rem; line-height: 1.6; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #eef2f6; padding-bottom: 8px;">
+              <span style="color: #64748b;">Harvest Quantity:</span>
+              <strong style="color: #0f172a; font-size: 1rem;">${lot.quantity}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #eef2f6; padding-bottom: 8px;">
+              <span style="color: #64748b;">Expected Floor Price:</span>
+              <strong style="color: #0f172a;">${lot.expectedPrice}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #eef2f6; padding-bottom: 8px;">
+              <span style="color: #64748b;">Current Best Buyer Bid:</span>
+              <strong style="color: #15803d; font-size: 1.1rem;">${lot.bestBid}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="color: #64748b;">Interested Buyer / Mill:</span>
+              <strong style="color: #0f172a;">${lot.buyerName}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: #64748b;">Pickup Location:</span>
+              <span style="color: #334155; font-weight: 600;">${lot.location || 'Erode Mandi Yard, TN'}</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+            <button class="btn btn-outline" onclick="closeDetailModal()">Close</button>
+            ${!lot.status.includes("Sold") ? `
+              <button class="btn btn-primary" onclick="acceptRegularBid('${lot.id}')">Accept Best Bid</button>
+              <button class="btn-emergency-action" onclick="closeDetailModal(); openEmergencyModal('${lot.id}');">🚨 Activate Emergency Sale</button>
+            ` : ''}
+          </div>
+        `;
+        detailModal.classList.add("active");
+      }
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById("modal-lot-detail");
+      if (modal) modal.classList.remove("active");
+    }
+
+    function acceptRegularBid(lotId) {
+      const lot = farmerData.listings.find(l => l.id === lotId);
+      if (!lot) return;
+
+      lot.status = "✅ Deal Confirmed (Escrow Deposited)";
+      lot.statusBadgeClass = "badge-status-sold";
+      closeDetailModal();
+      renderAllCrops();
+      updateKpis();
+      alert(`🎉 Deal confirmed with ${lot.buyerName}! 35% advance escrow deposited instantly.`);
+    }
+
+    function openProfileModal() {
+      const modal = document.getElementById("modal-profile");
+      if (modal) modal.classList.add("active");
+    }
+
+    function closeProfileModal() {
+      const modal = document.getElementById("modal-profile");
+      if (modal) modal.classList.remove("active");
+    }
+
+    // Emergency Sale triggers
+    function openEmergencyModal(lotId) {
+      const lot = farmerData.listings.find(l => l.id === lotId);
+      if (!lot) return;
+
+      const basePrice = lot.expectedPriceNumber || parseInt(lot.expectedPrice.replace(/[^0-9]/g, "")) || 1000;
+      const breakeven = Math.round(basePrice * 0.72);
+
+      const detailModal = document.getElementById("modal-lot-detail");
+      const detailBody = document.getElementById("modal-lot-detail-content");
+
+      if (detailModal && detailBody) {
+        detailBody.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div>
+              <span class="badge badge-emergency">🚨 Emergency Salvage Mode</span>
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: #b91c1c; margin-top: 4px;">Activate Emergency Breakeven Sale</h3>
+            </div>
+            <button style="font-size: 1.5rem; color: #64748b; cursor: pointer; border: none; background: none;" onclick="closeDetailModal()">&times;</button>
+          </div>
+
+          <div style="background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 12px; padding: 16px; margin-bottom: 18px;">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <span style="font-size: 1.6rem;">⚡</span>
+              <div>
+                <strong style="color: #9f1239; font-size: 0.95rem;">Prevent 100% Crop Loss & Lock In Zero-Loss Breakeven</strong>
+                <p style="font-size: 0.8rem; color: #881337; margin-top: 4px; line-height: 1.45;">
+                  When no retail buyer matches your floor price and crop shelf life is running out, emergency sale instantly notifies vetted <strong>food processing units, compost manufacturers, and industrial caterers</strong> to buy out your lot immediately.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 18px; font-size: 0.85rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="color: #64748b;">Crop & Volume:</span>
+              <strong>${lot.crop} • ${lot.quantity}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="color: #64748b;">Original Floor Price:</span>
+              <span style="text-decoration: line-through; color: #64748b;">${lot.expectedPrice}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: #065f46; font-weight: 700;">Guaranteed Salvage Breakeven:</span>
+              <strong style="color: #0c5a36; font-size: 1.05rem;">₹ ${breakeven.toLocaleString('en-IN')} /Qt</strong>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; justify-content: flex-end;">
+            <button class="btn btn-outline" onclick="closeDetailModal()">Cancel</button>
+            <button class="btn-emergency-action" style="padding: 9px 18px;" onclick="confirmEmergencyActivation('${lot.id}')">
+              🚨 Broadcast to Emergency Buyers Now
+            </button>
+          </div>
+        `;
+        detailModal.classList.add("active");
+      }
+    }
+
+    function confirmEmergencyActivation(lotId) {
+      const res = AgriNexEmergencySale.triggerEmergencySale(lotId, farmerData.listings);
+      closeDetailModal();
+      renderAllCrops();
+      updateKpis();
+      alert(`⚡ Emergency sale broadcasted! 3 institutional buyers have submitted salvage offers for this lot.`);
+      openEmergencyOffersModal(lotId);
+    }
+
+    function openEmergencyOffersModal(lotId) {
+      const lot = farmerData.listings.find(l => l.id === lotId);
+      if (!lot || !lot.emergencyOffers) return;
+
+      const detailModal = document.getElementById("modal-lot-detail");
+      const detailBody = document.getElementById("modal-lot-detail-content");
+
+      if (detailModal && detailBody) {
+        detailBody.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div>
+              <span class="badge badge-emergency">⚡ Active Salvage Bids</span>
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-top: 4px;">Institutional Emergency Offers for ${lot.crop}</h3>
+            </div>
+            <button style="font-size: 1.5rem; color: #64748b; cursor: pointer; border: none; background: none;" onclick="closeDetailModal()">&times;</button>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+            ${lot.emergencyOffers.map(o => `
+              <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; gap: 12px; align-items: center;">
+                  <span style="font-size: 1.6rem;">${o.icon}</span>
+                  <div>
+                    <strong style="color: #0f172a; font-size: 0.95rem;">${o.buyerName}</strong>
+                    <div style="font-size: 0.76rem; color: #64748b;">${o.buyerType} • 📍 ${o.location}</div>
+                  </div>
+                </div>
+                <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+                  <strong style="font-size: 1.15rem; color: #0c5a36;">${o.offerPriceFormatted}</strong>
+                  <button class="btn btn-primary" style="padding: 5px 12px; font-size: 0.78rem;" onclick="acceptEmergencySaleOffer('${lot.id}', '${o.buyerId}')">
+                    Accept Instant Breakeven
+                  </button>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+
+          <div style="display: flex; justify-content: flex-end;">
+            <button class="btn btn-outline" onclick="closeDetailModal()">Close</button>
+          </div>
+        `;
+        detailModal.classList.add("active");
+      }
+    }
+
+    function acceptEmergencySaleOffer(lotId, buyerId) {
+      AgriNexEmergencySale.acceptEmergencyOffer(lotId, buyerId, farmerData.listings);
+      closeDetailModal();
+      renderAllCrops();
+      updateKpis();
+      alert(`✅ Emergency deal closed! Mandi logistics will dispatch the lot immediately with 100% instant payment clearance.`);
+    }
+
+    // Modal background click handler
+    window.addEventListener("click", (e) => {
+      if (e.target.classList.contains("modal-overlay")) {
+        e.target.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>
