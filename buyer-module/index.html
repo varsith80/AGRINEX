@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Wholesale Buyer Portal | Direct Trade · Better Tomorrow</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  
+  <style>
+    /* Tab View Display Controller */
+    .portal-view {
+      display: none;
+      animation: fadeInView 0.22s ease-in-out;
+    }
+    .portal-view.active-view {
+      display: block;
+    }
+    @keyframes fadeInView {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* In-App Chat UI */
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      background: #ffffff;
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      min-height: 520px;
+    }
+    .chat-sidebar {
+      border-right: 1px solid var(--border-default);
+      background: #f8fafc;
+      overflow-y: auto;
+    }
+    .chat-contact {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .chat-contact:hover, .chat-contact.active {
+      background: #e8f5ed;
+    }
+    .chat-main {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #ffffff;
+    }
+    .chat-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-default);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+    }
+    .chat-messages {
+      padding: 20px;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #fafafa;
+    }
+    .chat-bubble {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    .chat-bubble.incoming {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      align-self: flex-start;
+      color: #0f172a;
+    }
+    .chat-bubble.outgoing {
+      background: #0c5a36;
+      color: #ffffff;
+      align-self: flex-end;
+    }
+    .chat-input-bar {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border-default);
+      display: flex;
+      gap: 10px;
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR NAVIGATION (Full-Height Sticky) -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header (Golden Wheat Logo) -->
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <img src="assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" />
+          </div>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+            <div class="brand-tagline">BUYER PORTAL</div>
+          </div>
+        </div>
+
+        <!-- Portal Switcher Quick Button -->
+        <div style="margin-bottom: 12px;">
+          <a href="../farmer-module/index.html" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(255,255,255,0.12); color: #ffffff; padding: 7px 10px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s;">
+            <span>🌾 Switch to Farmer Portal</span>
+          </a>
+        </div>
+
+        <!-- Navigation Links (Data-View Controlled) -->
+        <ul class="sidebar-nav">
+          <li class="nav-item active" data-view="view-dashboard">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              <span>Dashboard</span>
+            </div>
+          </li>
+
+          <li class="nav-item" data-view="view-verified-produce">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                <path d="M3 6h18"></path>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+              <span>Verified Produce</span>
+            </div>
+          </li>
+
+          <li class="nav-item" data-view="view-bulk-demands">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <span>Bulk Demands</span>
+            </div>
+          </li>
+
+          <li class="nav-item" data-view="view-mandi-intel">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                <polyline points="16 7 22 7 22 13"></polyline>
+              </svg>
+              <span>Mandi Intel</span>
+            </div>
+          </li>
+
+          <li class="nav-item" data-view="view-consignments">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                <path d="M15 18H9"></path>
+                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path>
+                <circle cx="17" cy="18" r="2"></circle>
+                <circle cx="7" cy="18" r="2"></circle>
+              </svg>
+              <span>Consignments</span>
+            </div>
+          </li>
+
+          <li class="nav-item" data-view="view-escrow-vault">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+              <span>Escrow Vault</span>
+            </div>
+          </li>
+
+          <li class="nav-item" data-view="view-calculator">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="16" height="20" x="4" y="2" rx="2"></rect>
+                <line x1="8" x2="16" y1="6" y2="6"></line>
+                <line x1="16" x2="16" y1="14" y2="18"></line>
+                <path d="M16 10h.01"></path>
+                <path d="M12 10h.01"></path>
+                <path d="M8 10h.01"></path>
+                <path d="M12 14h.01"></path>
+                <path d="M8 14h.01"></path>
+                <path d="M12 18h.01"></path>
+                <path d="M8 18h.01"></path>
+              </svg>
+              <span>Landed Cost Calc</span>
+            </div>
+          </li>
+
+          <li class="nav-item" data-view="view-messages">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span>Messages</span>
+            </div>
+            <span class="badge-notification">2</span>
+          </li>
+
+          <li class="nav-item" data-view="view-grievance">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Grievances / Claims</span>
+            </div>
+            <span class="badge badge-grade-c" style="font-size: 0.65rem; padding: 2px 6px;">1 Open</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Sidebar Promotional Card -->
+      <div class="sidebar-promo-card">
+        <div class="promo-tag">DIRECT SOURCING</div>
+        <h4 class="promo-title">Verified Quality. Zero Commission.</h4>
+        <p class="promo-text">Lock high-grade farm harvests directly with automated 35% escrow guarantee.</p>
+        <button class="promo-btn" onclick="switchView('view-bulk-demands')">Post Demand &rarr;</button>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT AREA -->
+    <main class="main-wrapper">
+      
+      <!-- Top Extended Navbar Header -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="navbar-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="buyer-global-search" placeholder="Search verified farmer lots, crop varieties, mandi benchmarks..." oninput="handleBuyerSearch(this.value)" />
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer; white-space: nowrap;" id="btn-change-buyer-location" title="Click to change procurement hub">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span id="buyer-location-text">Hosur Hub, TN</span>
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <!-- Quick Action: Post Bulk Demand -->
+          <button class="navbar-btn-create" onclick="openPostDemandModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Post Bulk Demand</span>
+          </button>
+
+          <!-- Notification Bell -->
+          <button class="notif-btn" title="Notifications" onclick="showToast('3 new farmer lots match your active tomato quota!')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            </svg>
+          </button>
+
+          <!-- Buyer Profile Info -->
+          <div class="profile-widget" id="buyer-profile-widget" onclick="openBuyerProfileModal()" title="Click to view & edit buyer profile" style="cursor: pointer;">
+            <img src="assets/images/farmer-avatar.jpg" alt="Karthik Sundaram" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80'" />
+            <div class="profile-info">
+              <span class="profile-name">Karthik Sundaram</span>
+              <span class="profile-role">Procurement Lead (BigBasket)</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- VIEW 1: OVERVIEW DASHBOARD (Default Active) -->
+      <div id="view-dashboard" class="portal-view active-view dashboard-content">
+        
+        <!-- Buyer Hero Section -->
+        <section class="hero-banner">
+          <div class="hero-left">
+            <h2>Good Morning, Karthik! 🏢</h2>
+            <p>Direct farm-gate institutional procurement with certified quality grading and milestone escrow protection.</p>
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="openPostDemandModal()">
+              + Post Sourcing Quota
+            </button>
+            <button class="btn btn-outline" style="background: rgba(255,255,255,0.15); color: #ffffff; border-color: rgba(255,255,255,0.3);" onclick="switchView('view-verified-produce')">
+              📦 Browse Produce
+            </button>
+          </div>
+        </section>
+
+        <!-- 4-Column Stat Cards -->
+        <section class="stats-grid">
+          <div class="stat-card" style="cursor: pointer;" onclick="switchView('view-bulk-demands')">
+            <div class="stat-header">
+              <span class="stat-title">Active Demands</span>
+              <div class="stat-icon-box" style="background: #e8f5ed; color: #0c5a36;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value">4 Quotas</div>
+            <div class="stat-subtext">Active procurement quotas &rarr;</div>
+          </div>
+
+          <div class="stat-card" style="cursor: pointer;" onclick="switchView('view-verified-produce')">
+            <div class="stat-header">
+              <span class="stat-title">Matched Lots</span>
+              <div class="stat-icon-box" style="background: #eff6ff; color: #2563eb;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value">8 Lots</div>
+            <div class="stat-subtext">Verified farmer lots in radius &rarr;</div>
+          </div>
+
+          <div class="stat-card" style="cursor: pointer;" onclick="switchView('view-consignments')">
+            <div class="stat-header">
+              <span class="stat-title">In Transit</span>
+              <div class="stat-icon-box" style="background: #f0f9ff; color: #0284c7;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                  <circle cx="17" cy="18" r="2"></circle>
+                  <circle cx="7" cy="18" r="2"></circle>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value">2 Shipments</div>
+            <div class="stat-subtext">Consignments on the road &rarr;</div>
+          </div>
+
+          <div class="stat-card" style="cursor: pointer;" onclick="switchView('view-calculator')">
+            <div class="stat-header">
+              <span class="stat-title">Middleman Savings</span>
+              <div class="stat-icon-box" style="background: #fef3c7; color: #d97706;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <line x1="12" x2="12" y1="2" y2="22"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value" style="color: #0c5a36;">₹ 46,200</div>
+            <div class="stat-subtext">Saved vs traditional brokers &rarr;</div>
+          </div>
+        </section>
+
+        <!-- Main 2-Column Summary Grid -->
+        <div class="main-grid">
+          
+          <div class="left-column">
+            <!-- Table Preview -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                  </svg>
+                  <span>Featured Verified Lots Ready for Sourcing</span>
+                </h3>
+                <button class="card-action-link" onclick="switchView('view-verified-produce')">
+                  <span>View All 8 Lots &rarr;</span>
+                </button>
+              </div>
+
+              <div class="data-table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Crop & Farmer</th>
+                      <th>Quality Grade</th>
+                      <th>Farmer Trust</th>
+                      <th>Quantity</th>
+                      <th>Ask Price</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashboard-lots-tbody">
+                    <!-- Top lots preview rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Quick Mandi Sparklines -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
+                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                    <polyline points="16 7 22 7 22 13"></polyline>
+                  </svg>
+                  <span>Mandi Price Benchmarks</span>
+                </h3>
+                <button class="card-action-link" onclick="switchView('view-mandi-intel')">
+                  <span>Open Full Intel &rarr;</span>
+                </button>
+              </div>
+              <div class="mandi-grid" id="mandi-sparklines-container"></div>
+            </div>
+          </div>
+
+          <div class="right-column">
+            <!-- Active Consignment Escrow -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
+                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                  </svg>
+                  <span>Active Consignment</span>
+                </h3>
+                <span class="badge badge-status-transit">In Transit</span>
+              </div>
+
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+                <strong style="font-size: 0.92rem; color: #0f172a; display: block; margin-bottom: 4px;">Tomato (Shivam Hybrid) • 50 Qt</strong>
+                <div style="font-size: 0.76rem; color: #64748b; margin-bottom: 10px;">
+                  Farmer: <strong>Murugan P.</strong> • Tracking: <strong style="color: #0284c7;">TRK-EXP-9921-TN</strong>
+                </div>
+
+                <div class="stepper-container">
+                  <div class="stepper-step">
+                    <div class="stepper-dot active">✓</div>
+                    <span class="stepper-label">Contract</span>
+                  </div>
+                  <div class="stepper-step">
+                    <div class="stepper-dot active">✓</div>
+                    <span class="stepper-label">35% Locked</span>
+                  </div>
+                  <div class="stepper-step">
+                    <div class="stepper-dot active">🚚</div>
+                    <span class="stepper-label">Dispatched</span>
+                  </div>
+                  <div class="stepper-step">
+                    <div class="stepper-dot">4</div>
+                    <span class="stepper-label">Settled</span>
+                  </div>
+                </div>
+              </div>
+
+              <button class="btn btn-primary" style="width: 100%; font-size: 0.82rem;" onclick="switchView('view-escrow-vault')">
+                View Escrow Vault &rarr;
+              </button>
+            </div>
+
+            <!-- AI Sourcing Advisory -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
+                    <path d="M12 2v4"></path>
+                    <path d="m4.93 4.93 2.83 2.83"></path>
+                  </svg>
+                  <span>AI Procurement Advisor</span>
+                </h3>
+                <span class="badge badge-grade-a">ML Projection</span>
+              </div>
+              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px; font-size: 0.8rem; color: #166534;">
+                <strong>Tomato Inflow Peak:</strong> Heavy arrivals forecasted at Kolar & Dindigul mandis. Lock floor prices now via counter-bids.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- VIEW 2: VERIFIED PRODUCE LOTS (FULL-PAGE CATALOG) -->
+      <div id="view-verified-produce" class="portal-view dashboard-content">
+        <div class="card">
+          <div class="card-header" style="flex-wrap: wrap; gap: 14px;">
+            <div>
+              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">Verified Farm-Gate Produce Marketplace</h2>
+              <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">Direct institutional sourcing from authenticated farmers with certified 3-tier grading & moisture tests</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span id="lots-count-badge" class="badge badge-grade-a" style="font-size: 0.8rem; padding: 6px 12px;">Showing 8 Verified Lots</span>
+              <button class="btn btn-primary btn-sm" onclick="openPostDemandModal()">+ Post Demand</button>
+            </div>
+          </div>
+
+          <!-- Feature 4: Filter Toolbar & Chips + KG Unit Switcher -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+            
+            <!-- Grade Filter Pills -->
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;" id="grade-filter-group">
+              <span style="font-size: 0.76rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Grade:</span>
+              <button class="filter-pill active" onclick="filterByGrade('all', this)" style="background: #0c5a36; color: #ffffff; border: 1px solid #0c5a36; padding: 5px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; cursor: pointer;">All Lots</button>
+              <button class="filter-pill" onclick="filterByGrade('grade-a', this)" style="background: #ffffff; color: #166534; border: 1px solid #bbf7d0; padding: 5px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Grade A (Export &gt;=70%)</button>
+              <button class="filter-pill" onclick="filterByGrade('grade-b', this)" style="background: #ffffff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 5px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Grade B (Retail Pack)</button>
+              <button class="filter-pill" onclick="filterByGrade('grade-c', this)" style="background: #ffffff; color: #854d0e; border: 1px solid #fef08a; padding: 5px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Grade C (Processing)</button>
+            </div>
+
+            <!-- Unit Toggle & Dropdowns -->
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <!-- KG / Quintal Unit Toggle -->
+              <div style="display: flex; align-items: center; gap: 3px; background: #ffffff; padding: 3px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                <button type="button" class="unit-toggle-btn active" onclick="setUnitDisplay('both', this)" style="background: #0c5a36; color: #ffffff; border: 1px solid #0c5a36; padding: 4px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">Both (Qt + kg)</button>
+                <button type="button" class="unit-toggle-btn" onclick="setUnitDisplay('kg', this)" style="background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">⚖️ kg Only</button>
+                <button type="button" class="unit-toggle-btn" onclick="setUnitDisplay('qt', this)" style="background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">📦 Qt Only</button>
+              </div>
+
+              <select id="filter-category" onchange="applyFilters()" style="padding: 6px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.8rem; font-weight: 600; color: #334155; background: #ffffff; outline: none;">
+                <option value="all">All Commodity Types</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Grains">Grains & Paddy</option>
+                <option value="Cash Crops">Cash Crops & Spices</option>
+                <option value="Fruits">Fruits</option>
+              </select>
+
+              <select id="filter-sort" onchange="applyFilters()" style="padding: 6px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.8rem; font-weight: 600; color: #334155; background: #ffffff; outline: none;">
+                <option value="default">Sort: Default Match</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Farmer Trust Rating</option>
+                <option value="savings">Highest Mandi Savings</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Crop & Farmer</th>
+                  <th>Quality Grade</th>
+                  <th>Farmer Trust</th>
+                  <th>Quantity</th>
+                  <th>Ask Price</th>
+                  <th>Mandi Saving</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="verified-lots-tbody">
+                <!-- Verified lots table rendered via dashboard.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: BULK PROCUREMENT DEMANDS (FULL-PAGE BOARD) -->
+      <div id="view-bulk-demands" class="portal-view dashboard-content">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">Bulk Procurement Demands Board</h2>
+              <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">Broadcast institutional purchasing quotas. Nearby verified farmers are matched automatically.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openPostDemandModal()">
+              + Broadcast New Quota
+            </button>
+          </div>
+
+          <div id="demands-list-container">
+            <!-- Demands list rendered via dashboard.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 4: MANDI PRICE INTEL & FORECAST (FULL-PAGE) -->
+      <div id="view-mandi-intel" class="portal-view dashboard-content">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">APMC Mandi Price Intelligence & Forecasts</h2>
+              <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">Real-time wholesale terminal rates with ML supply arrival forecasting</p>
+            </div>
+            <span class="badge badge-grade-a">● LIVE APMC SYNC</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
+              <span style="font-size: 0.74rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Kolar APMC (Tomato)</span>
+              <div style="font-size: 1.4rem; font-weight: 800; color: #0c5a36; margin: 4px 0;">₹ 1,150 /Qt <span style="font-size: 0.8rem; color: #166534;">(+6.2%)</span></div>
+              <span style="font-size: 0.74rem; color: #64748b;">Arrivals: 4,200 Qt • Advisory: Buy Forward</span>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
+              <span style="font-size: 0.74rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Lasalgaon APMC (Onion)</span>
+              <div style="font-size: 1.4rem; font-weight: 800; color: #0c5a36; margin: 4px 0;">₹ 1,850 /Qt <span style="font-size: 0.8rem; color: #166534;">(+4.8%)</span></div>
+              <span style="font-size: 0.74rem; color: #64748b;">Arrivals: 9,800 Qt • Advisory: Stable</span>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
+              <span style="font-size: 0.74rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Guntur Yard (Chilli)</span>
+              <div style="font-size: 1.4rem; font-weight: 800; color: #0c5a36; margin: 4px 0;">₹ 5,800 /Qt <span style="font-size: 0.8rem; color: #991b1b;">(-1.2%)</span></div>
+              <span style="font-size: 0.74rem; color: #64748b;">Arrivals: 1,850 Qt • Advisory: Good Buying Opportunity</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 10px;">7-Day Sparkline Price Trajectory</h4>
+            <div class="mandi-grid" id="mandi-sparklines-intel-container"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 5: CONSIGNMENTS & ORDERS (FULL-PAGE) -->
+      <div id="view-consignments" class="portal-view dashboard-content">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">Consignments & Transit Logistics Tracker</h2>
+              <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">Track farm-gate dispatches, driver vehicle contacts, and digital gate pass weighbridge slips</p>
+            </div>
+            <span class="badge badge-status-transit">2 In Transit</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 12px;">
+            <!-- Consignment Item 1 -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                <div>
+                  <strong style="font-size: 1.05rem; color: #0f172a;">Consignment #TRK-EXP-9921-TN</strong>
+                  <div style="font-size: 0.78rem; color: #64748b;">Tomato (Shivam Hybrid) • 50 Qt • Farmer: Murugan Palanisamy (Dindigul)</div>
+                </div>
+                <span class="badge badge-status-transit">🚚 In Transit (ETA: 4 hrs)</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 12px; font-size: 0.8rem;">
+                <div>Vehicle: <strong>Bolero Maxi (TN 57 AH 4421)</strong></div>
+                <div>Driver: <strong>K. Selvam (+91 94431-22901)</strong></div>
+                <div>Escrow Locked: <strong>₹ 21,000 (35%)</strong></div>
+              </div>
+
+              <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn btn-outline btn-sm" onclick="showToast('Gate pass & digital weight slip verified!')">View Digital Lorry Receipt</button>
+                <button class="btn btn-primary btn-sm" onclick="showToast('Arrival confirmed! Final 65% balance released.')">Confirm Arrival & Release Escrow</button>
+              </div>
+            </div>
+
+            <!-- Consignment Item 2 -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                <div>
+                  <strong style="font-size: 1.05rem; color: #0f172a;">Consignment #TRK-MH-4412-EICHER</strong>
+                  <div style="font-size: 0.78rem; color: #64748b;">Red Onion (Export Grade) • 80 Qt • Farmer: Patil Rameshwar (Nashik)</div>
+                </div>
+                <span class="badge badge-status-transit">🚚 In Transit (ETA: Tomorrow 9 AM)</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 12px; font-size: 0.8rem;">
+                <div>Vehicle: <strong>Eicher Pro 2049 (MH 15 DK 8810)</strong></div>
+                <div>Driver: <strong>Sanjay Patil (+91 98220-44911)</strong></div>
+                <div>Escrow Locked: <strong>₹ 50,400 (35%)</strong></div>
+              </div>
+
+              <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn btn-outline btn-sm" onclick="showToast('Digital weighbridge slip download started...')">Download Gate Pass</button>
+                <button class="btn btn-primary btn-sm" onclick="showToast('Consignment tracking ping updated!')">Live GPS Ping</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 6: ESCROW VAULT & MILESTONES (FULL-PAGE) -->
+      <div id="view-escrow-vault" class="portal-view dashboard-content">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">AgriNex Smart Escrow Vault</h2>
+              <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">Zero payment defaults. Automated 35% advance deposit and milestone-based release upon arrival inspection.</p>
+            </div>
+            <span class="badge badge-grade-a">🛡️ 100% Guaranteed</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 16px 0;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Total Active Contracts</span>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 4px;">₹ 2,04,000</div>
+            </div>
+            <div style="background: #e8f5ed; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; text-align: center;">
+              <span style="font-size: 0.72rem; color: #0c5a36; font-weight: 800; text-transform: uppercase;">35% Advance In Escrow</span>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #0c5a36; margin-top: 4px;">₹ 71,400</div>
+            </div>
+            <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px; text-align: center;">
+              <span style="font-size: 0.72rem; color: #1d4ed8; font-weight: 800; text-transform: uppercase;">65% Delivery Balances</span>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #1d4ed8; margin-top: 4px;">₹ 1,32,600</div>
+            </div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Completed Settlements</span>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 4px;">₹ 5,80,000</div>
+            </div>
+          </div>
+
+          <h4 style="font-size: 1rem; font-weight: 700; margin: 20px 0 10px;">Active Escrow Contracts & Milestone Stepper</h4>
+
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <div>
+                <strong style="font-size: 0.95rem;">Contract #ESC-BB-9921 • Tomato (50 Qt)</strong>
+                <div style="font-size: 0.76rem; color: #64748b;">Farmer: Murugan Palanisamy • Total Contract: ₹ 60,000</div>
+              </div>
+              <span class="badge badge-grade-a">35% Locked (₹ 21,000)</span>
+            </div>
+
+            <div class="stepper-container" style="max-width: 600px; margin: 18px 0;">
+              <div class="stepper-step">
+                <div class="stepper-dot active">✓</div>
+                <span class="stepper-label">Contract Created</span>
+              </div>
+              <div class="stepper-step">
+                <div class="stepper-dot active">✓</div>
+                <span class="stepper-label">35% Locked</span>
+              </div>
+              <div class="stepper-step">
+                <div class="stepper-dot active">🚚</div>
+                <span class="stepper-label">Dispatched</span>
+              </div>
+              <div class="stepper-step">
+                <div class="stepper-dot">4</div>
+                <span class="stepper-label">100% Settled</span>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+              <button class="btn btn-primary btn-sm" onclick="showToast('Final 65% balance released directly to farmer account.')">
+                Release 65% Balance (₹ 39,000)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 7: LANDED COST & SAVINGS CALCULATOR (FULL-PAGE) -->
+      <div id="view-calculator" class="portal-view dashboard-content">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">Bulk Procurement Landed Cost & Savings Calculator</h2>
+              <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">Calculate true landed cost per quintal after vehicle haulage, tolls, and 0.75% escrow fee vs 11.5% APMC middleman commissions</p>
+            </div>
+            <span class="badge badge-grade-a">Interactive Tariff Engine</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <label class="form-label" style="margin-bottom: 0;">Sourcing Volume</label>
+                <div style="display: inline-flex; background: #e2e8f0; border-radius: 6px; padding: 2px; font-size: 0.7rem; font-weight: 700;">
+                  <button type="button" id="calc-unit-qt" class="calc-unit-btn active" onclick="setCalcUnit('qt')" style="padding: 2px 6px; border-radius: 4px; background: #0c5a36; color: #fff; cursor: pointer;">Qt</button>
+                  <button type="button" id="calc-unit-kg" class="calc-unit-btn" onclick="setCalcUnit('kg')" style="padding: 2px 6px; border-radius: 4px; color: #475569; cursor: pointer;">kg</button>
+                  <button type="button" id="calc-unit-mt" class="calc-unit-btn" onclick="setCalcUnit('mt')" style="padding: 2px 6px; border-radius: 4px; color: #475569; cursor: pointer;">MT</button>
+                </div>
+              </div>
+              <input type="number" id="calc-buyer-qty" class="form-input" value="50" min="1" step="5" />
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <label class="form-label" style="margin-bottom: 0;">Farmer Ask Rate</label>
+                <div style="display: inline-flex; background: #e2e8f0; border-radius: 6px; padding: 2px; font-size: 0.7rem; font-weight: 700;">
+                  <button type="button" id="calc-price-unit-qt" class="calc-price-unit-btn active" onclick="setCalcPriceUnit('qt')" style="padding: 2px 6px; border-radius: 4px; background: #0c5a36; color: #fff; cursor: pointer;">₹/Qt</button>
+                  <button type="button" id="calc-price-unit-kg" class="calc-price-unit-btn" onclick="setCalcPriceUnit('kg')" style="padding: 2px 6px; border-radius: 4px; color: #475569; cursor: pointer;">₹/kg</button>
+                </div>
+              </div>
+              <input type="number" id="calc-buyer-price" class="form-input" value="1200" step="20" />
+              <div id="calc-price-conversion-hint" style="font-size: 0.72rem; color: #166534; font-weight: 700; margin-top: 4px;">= ₹ 12.00 /kg</div>
+            </div>
+            <div>
+              <label class="form-label">Haulage Distance (km)</label>
+              <input type="number" id="calc-buyer-distance" class="form-input" value="80" step="5" />
+            </div>
+            <div>
+              <label class="form-label">Hauler Fleet Type</label>
+              <select id="calc-buyer-vehicle" class="form-select">
+                <option value="tata">Tata Ace (1.5 MT • ₹18/km)</option>
+                <option value="bolero">Bolero Maxi (2.5 MT • ₹24/km)</option>
+                <option value="eicher">Eicher Pro (5.0 MT • ₹38/km)</option>
+                <option value="ev">Euler EV Truck (1.2 MT • ₹11.5/km)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Calculator Output Grid -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; text-align: center; margin-bottom: 20px;">
+            <div>
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Farm Gate Purchase</span>
+              <div id="calc-purchase-cost" style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-top: 4px;">₹ 60,000</div>
+            </div>
+            <div>
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Vehicle Haulage</span>
+              <div id="calc-freight-cost" style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-top: 4px;">₹ 2,640</div>
+            </div>
+            <div>
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Escrow Fee (0.75%)</span>
+              <div id="calc-escrow-fee" style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-top: 4px;">₹ 450</div>
+            </div>
+            <div style="background: #eff6ff; padding: 10px; border-radius: 10px; border: 1px solid #bfdbfe;">
+              <span style="font-size: 0.72rem; color: #1d4ed8; font-weight: 800; text-transform: uppercase;">Total Landed Cost</span>
+              <div id="calc-landed-total" style="font-size: 1.25rem; font-weight: 800; color: #1d4ed8; margin-top: 4px;">₹ 63,090</div>
+              <div id="calc-landed-per-qt" style="font-size: 0.72rem; color: #2563eb; font-weight: 700;">(₹ 1,261.8 / Qt)</div>
+            </div>
+            <div style="background: #e8f5ed; padding: 10px; border-radius: 10px; border: 1px solid #bbf7d0;">
+              <span style="font-size: 0.72rem; color: #0c5a36; font-weight: 800; text-transform: uppercase;">Net Middleman Savings</span>
+              <div id="calc-savings-mandi" style="font-size: 1.35rem; font-weight: 800; color: #0c5a36; margin-top: 4px;">₹ 6,450</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 8: MESSAGES & NEGOTIATION (FULL-PAGE CHAT) -->
+      <div id="view-messages" class="portal-view dashboard-content">
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div class="chat-layout">
+            
+            <!-- Chat Sidebar Contacts -->
+            <div class="chat-sidebar">
+              <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-default); font-size: 0.88rem; font-weight: 800; color: #0c5a36;">
+                Farmer Negotiations
+              </div>
+              <div class="chat-contact active">
+                <img src="assets/images/farmer-avatar.jpg" alt="Murugan" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
+                <div style="flex: 1; min-width: 0;">
+                  <strong style="font-size: 0.85rem; color: #0f172a; display: block;">Murugan P. (Tomato)</strong>
+                  <span style="font-size: 0.72rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">Can we agree on ₹ 1,220/Qt for 50 Qt?</span>
+                </div>
+              </div>
+              <div class="chat-contact">
+                <img src="assets/images/onion.jpg" alt="Patil" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;" />
+                <div style="flex: 1; min-width: 0;">
+                  <strong style="font-size: 0.85rem; color: #0f172a; display: block;">Patil Rameshwar (Onion)</strong>
+                  <span style="font-size: 0.72rem; color: #64748b;">Export batch loaded on Eicher truck.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chat Active Window -->
+            <div class="chat-main">
+              <div class="chat-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <img src="assets/images/farmer-avatar.jpg" alt="Murugan" style="width: 34px; height: 34px; border-radius: 50%;" />
+                  <div>
+                    <strong style="font-size: 0.9rem; color: #0f172a;">Murugan Palanisamy</strong>
+                    <div style="font-size: 0.72rem; color: #166534; font-weight: 700;">● Online • Dindigul, Tamil Nadu</div>
+                  </div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <button class="btn btn-outline btn-sm" onclick="openBidModal('LOT-TOM-88')">Counter Offer</button>
+                  <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('LOT-TOM-88')">Lock 35% Escrow (₹ 1,200/Qt)</button>
+                </div>
+              </div>
+
+              <!-- Feature 6: Active Negotiation Notification Banner -->
+              <div style="background: #fefce8; border-bottom: 1px solid #fef08a; padding: 10px 18px; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="background: #eab308; color: #ffffff; width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">⚡</span>
+                  <span><strong>Active Offer:</strong> Farmer countered at <strong style="color: #0c5a36;">₹ 1,220/Qt</strong> for 50 Qt (Floor: ₹ 1,200)</span>
+                </div>
+                <div style="display: flex; gap: 6px;">
+                  <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('LOT-TOM-88', 1220)" style="padding: 4px 10px; font-size: 0.75rem;">✓ Accept Counter</button>
+                  <button class="btn btn-outline btn-sm" onclick="openBidModal('LOT-TOM-88')" style="padding: 4px 8px; font-size: 0.75rem;">Re-counter</button>
+                </div>
+              </div>
+
+              <div class="chat-messages" id="chat-messages-container">
+                <div class="chat-bubble incoming">
+                  Hello Karthik sir, I saw your procurement demand for 50 Qt Shivam hybrid tomatoes.
+                </div>
+                <div class="chat-bubble outgoing">
+                  Hi Murugan! Yes, we need export/table grade tomatoes with moisture index below 85% by this Friday.
+                </div>
+                <div class="chat-bubble incoming">
+                  My lot is certified Grade A (70%) with moisture at 82.5%. Ask price is ₹ 1,200/Qt. Can you confirm the 35% advance escrow?
+                </div>
+              </div>
+
+              <div class="chat-input-bar">
+                <input type="text" id="chat-input-field" placeholder="Type counter-offer or message to farmer..." style="flex: 1; padding: 10px 14px; border: 1px solid var(--border-default); border-radius: 8px; font-size: 0.85rem; outline: none;" />
+                <button class="btn btn-primary" onclick="sendChatMessage()">Send</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 7: GRIEVANCES & CLAIMS REDRESSAL -->
+      <div id="view-grievance" class="portal-view dashboard-content">
+        <div class="dash-header">
+          <div>
+            <h1 class="dash-title">Grievances, Claims & Dispute Redressal</h1>
+            <p class="dash-subtitle">Report quality assay mismatches, weighbridge shortages, or transit delays. 65% escrow balance remains locked until resolution.</p>
+          </div>
+          <div class="dash-actions">
+            <button class="btn btn-primary" onclick="openGrievanceModal()" style="background: #dc2626; border-color: #dc2626;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              File New Grievance / Claim
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric KPI Cards for Grievances -->
+        <div class="stats-grid" style="margin-bottom: 24px;">
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(220, 38, 38, 0.1); color: #dc2626;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="stat-label">Active Open Disputes</div>
+            <div class="stat-value" id="grv-active-count" style="color: #dc2626;">1 Case</div>
+            <div class="stat-change positive" style="color: #64748b;">Assigned to AgriNex QA Arbitrator</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(234, 179, 8, 0.1); color: #ca8a04;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+            <div class="stat-label">Escrow Withheld / Frozen</div>
+            <div class="stat-value" id="grv-frozen-amount" style="color: #0c5a36;">₹ 42,900</div>
+            <div class="stat-change positive">🔒 Protected in Safe Vault</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="stat-label">Claims Resolved & Settled</div>
+            <div class="stat-value" id="grv-resolved-count">1 Case</div>
+            <div class="stat-change positive">₹ 6,800 Credited Back</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #2563eb;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <div class="stat-label">Avg Resolution Turnaround</div>
+            <div class="stat-value">18.4 Hrs</div>
+            <div class="stat-change positive">⚡ Guaranteed < 24h SLA</div>
+          </div>
+        </div>
+
+        <!-- Escrow Protection Banner -->
+        <div style="background: linear-gradient(135deg, #fef2f2, #fff1f2); border: 1px solid #fecaca; border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #dc2626; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0;">
+              🛡️
+            </div>
+            <div>
+              <div style="font-weight: 700; color: #991b1b; font-size: 0.95rem;">AgriNex Zero-Risk Buyer Protection Guarantee</div>
+              <div style="color: #7f1d1d; font-size: 0.8rem; margin-top: 2px;">
+                Whenever you file a claim within 48 hours of lot delivery at your warehouse, the farmer's 65% balance payout is auto-frozen in the escrow smart contract until quality assays or weight slips are jointly ratified.
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="showNotification('Policy: AgriNex Buyer Protection covers up to 100% replacement/refund on Grade assay deviations > 5% or transit weight losses > 2%.', 'info')" style="white-space: nowrap; border-color: #dc2626; color: #dc2626;">
+            View Dispute Policy
+          </button>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center;">
+          <span style="font-size: 0.85rem; font-weight: 600; color: #64748b; margin-right: 4px;">Filter Claims:</span>
+          <button class="btn btn-primary btn-sm grv-filter-btn" id="filter-grv-all" onclick="filterGrievance('all', this)">All Claims (2)</button>
+          <button class="btn btn-outline btn-sm grv-filter-btn" id="filter-grv-open" onclick="filterGrievance('open', this)">Under Review (1)</button>
+          <button class="btn btn-outline btn-sm grv-filter-btn" id="filter-grv-resolved" onclick="filterGrievance('resolved', this)">Resolved & Settled (1)</button>
+        </div>
+
+        <!-- Grievances List Container -->
+        <div id="grievances-list-container" style="display: flex; flex-direction: column; gap: 18px;">
+          <!-- Dynamically populated via dashboard.js renderGrievances() -->
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- MODAL 1: POST BULK PROCUREMENT DEMAND -->
+  <div class="modal-overlay" id="modal-post-demand">
+    <div class="modal-content">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #0c5a36;">Post Bulk Sourcing Demand</h3>
+        <button onclick="closePostDemandModal()" style="font-size: 1.2rem; color: #64748b;">✕</button>
+      </div>
+
+      <form id="form-new-demand">
+        <div class="form-group">
+          <label class="form-label">Crop / Commodity Required</label>
+          <select id="demand-crop" class="form-select" required>
+            <option value="Tomato (Shivam Hybrid)">Tomato (Shivam Hybrid)</option>
+            <option value="Red Onion (Nashik Quality)">Red Onion (Nashik Quality)</option>
+            <option value="1121 Basmati Paddy">1121 Basmati Paddy</option>
+            <option value="Long Staple Cotton">Long Staple Cotton</option>
+            <option value="Salem Turmeric Finger">Salem Turmeric Finger</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Procurement Volume</label>
+            <div style="display: flex; gap: 6px;">
+              <input type="number" id="demand-tonnage" class="form-input" value="15" min="1" step="1" required style="flex: 1;" />
+              <select id="demand-unit" class="form-select" style="width: 100px; padding: 9px 8px;">
+                <option value="MT">MT</option>
+                <option value="Qt">Qt</option>
+                <option value="kg">kg</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label" style="margin-bottom: 0;">Target Price</label>
+              <select id="demand-price-unit" class="form-select" onchange="updateDemandPricePreview()" style="width: 80px; padding: 2px 6px; font-size: 0.72rem; height: 26px;">
+                <option value="qt">₹/Qt</option>
+                <option value="kg">₹/kg</option>
+              </select>
+            </div>
+            <input type="number" id="demand-price" class="form-input" value="1250" step="10" oninput="updateDemandPricePreview()" required />
+            <div id="demand-price-preview" style="font-size: 0.74rem; color: #166534; font-weight: 700; margin-top: 4px;">= ₹ 12.50 /kg</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Destination Warehouse Location</label>
+          <input type="text" class="form-input" value="Hosur Central Distribution Hub, TN" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Quality Grade Expectation</label>
+          <select class="form-select">
+            <option>Grade A (Export / Supermarket &gt;= 70%)</option>
+            <option>Grade B (Standard Retail Pack)</option>
+            <option>Grade C (Food Processing)</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 18px;">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Broadcast to Farmers</button>
+          <button type="button" class="btn btn-outline" onclick="closePostDemandModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: DIRECT ESCROW BUY (35% LOCK) -->
+  <div class="modal-overlay" id="modal-direct-buy">
+    <div class="modal-content">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #0c5a36;">Direct Escrow Purchase</h3>
+        <button onclick="closeDirectBuyModal()" style="font-size: 1.2rem; color: #64748b;">✕</button>
+      </div>
+
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px; margin-bottom: 16px;">
+        <h4 id="buy-modal-crop" style="font-size: 1.05rem; font-weight: 800; color: #064e3b; margin-bottom: 4px;">Crop</h4>
+        <div id="buy-modal-farmer" style="font-size: 0.78rem; color: #166534; margin-bottom: 8px;">Farmer details</div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 700;">
+          <span>Ask Rate:</span>
+          <span id="buy-modal-price" style="color: #0c5a36;">₹ 1,200 /Qt</span>
+        </div>
+      </div>
+
+      <form id="form-direct-buy">
+        <input type="hidden" id="buy-modal-lot-id" />
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; font-size: 0.8rem; color: #334155; margin-bottom: 16px;">
+          <p style="margin-bottom: 6px;">🔒 <strong>35% Advance Escrow Protection:</strong></p>
+          <p>Your deposit will be locked safely in AgriNex Escrow vault. Funds are only released when the farmer dispatches and goods pass quality inspection at your hub.</p>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Lock 35% Escrow & Confirm</button>
+          <button type="button" class="btn btn-outline" onclick="closeDirectBuyModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: PLACE COUNTER-OFFER BID -->
+  <div class="modal-overlay" id="modal-counter-bid">
+    <div class="modal-content">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #0c5a36;">Submit Counter-Offer Bid</h3>
+        <button onclick="closeBidModal()" style="font-size: 1.2rem; color: #64748b;">✕</button>
+      </div>
+
+      <div style="background: #fef3c7; border: 1px solid #fde68a; border-radius: 10px; padding: 12px; margin-bottom: 14px;">
+        <h4 id="bid-modal-crop" style="font-size: 0.95rem; font-weight: 800; color: #78350f;">Crop</h4>
+        <div id="bid-modal-ask" style="font-size: 0.76rem; color: #92400e;">Farmer Ask Price</div>
+      </div>
+
+      <form id="form-counter-bid">
+        <input type="hidden" id="bid-modal-lot-id" />
+        <div class="form-group">
+          <label class="form-label">Your Bid Price (₹ per Quintal)</label>
+          <input type="number" id="counter-bid-price" class="form-input" value="1220" step="10" oninput="updateBidKgPreview(this.value)" required />
+          <div id="counter-bid-kg-preview" style="font-size: 0.78rem; color: #0c5a36; font-weight: 700; margin-top: 6px; background: #e8f5ed; padding: 6px 10px; border-radius: 6px; border: 1px solid #bbf7d0;">
+            <span>⚖️ <strong>₹ 12.20 /kg</strong> • Total Lot Value: <strong>₹ 61,000</strong> (5,000 kg)</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Requested Delivery Date</label>
+          <input type="date" class="form-input" value="2026-09-22" required />
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 18px;">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Bid to Farmer</button>
+          <button type="button" class="btn btn-outline" onclick="closeBidModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: WHOLESALE BUYER PROFILE -->
+  <div class="modal-overlay" id="modal-buyer-profile">
+    <div class="modal-content" style="max-width: 620px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0c5a36;">Institutional Buyer Profile</h3>
+          <span class="badge badge-grade-a">✓ Enterprise Verified</span>
+        </div>
+        <button onclick="closeBuyerProfileModal()" style="font-size: 1.5rem; color: #64748b; font-weight: 700; cursor: pointer; background: none; border: none;">&times;</button>
+      </div>
+
+      <!-- Buyer Identity Header -->
+      <div style="background: linear-gradient(135deg, #0c5a36 0%, #063c22 100%); border-radius: 14px; padding: 20px; color: #ffffff; display: flex; align-items: center; gap: 16px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(12, 90, 54, 0.2);">
+        <img src="assets/images/farmer-avatar.jpg" alt="Karthik Sundaram" style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #4ade80; box-shadow: 0 2px 8px rgba(0,0,0,0.25);" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80'" />
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h4 style="font-size: 1.25rem; font-weight: 800; color: #ffffff;" id="buyer-display-name">Karthik Sundaram</h4>
+            <span style="background: rgba(74, 222, 128, 0.25); color: #86efac; border: 1px solid #4ade80; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">ID: AGRI-BUY-4402</span>
+          </div>
+          <p style="font-size: 0.8rem; color: #bbf7d0; margin-top: 2px;">Senior Procurement Lead • BigBasket (Innovative Retail Concepts Pvt Ltd)</p>
+          <div style="display: flex; gap: 12px; margin-top: 8px; font-size: 0.76rem; color: #f0fdf4;">
+            <span>🏢 <strong>FSSAI Registered</strong></span>
+            <span>•</span>
+            <span>GSTIN: <strong>33AAACI1234F1Z8</strong></span>
+            <span>•</span>
+            <span>🛡️ <strong>100% Escrow Backed</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buyer Form -->
+      <form id="form-edit-buyer-profile">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label">Procurement Officer Name</label>
+            <input type="text" id="buyer-input-name" class="form-input" value="Karthik Sundaram" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Enterprise / Company Name</label>
+            <input type="text" id="buyer-input-company" class="form-input" value="BigBasket Wholesale Ltd." required />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label">Work Email</label>
+            <input type="email" id="buyer-input-email" class="form-input" value="karthik.s@bigbasket.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contact Mobile</label>
+            <input type="text" id="buyer-input-phone" class="form-input" value="+91 94421 77310" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Central Receiving Hub Location</label>
+          <input type="text" id="buyer-input-hub" class="form-input" value="Hosur Central Distribution Hub, SIPCOT Phase 2, TN" required />
+        </div>
+
+        <!-- Escrow Treasury Line -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin: 16px 0;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <strong style="font-size: 0.85rem; color: #0f172a; display: flex; align-items: center; gap: 6px;">
+              <span>🛡️</span> Escrow Treasury & Credit Line
+            </strong>
+            <span style="font-size: 0.72rem; color: #166534; font-weight: 700; background: #e8f5ed; padding: 2px 8px; border-radius: 6px; border: 1px solid #bbf7d0;">Credit Active: ₹ 50,00,000</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-size: 0.8rem; color: #334155;">
+            <div>Bank: <strong style="color: #0f172a;">ICICI Corporate</strong></div>
+            <div>Escrow Deposit: <strong style="color: #0c5a36;">₹ 71,400 Locked</strong></div>
+            <div>Auto-Disburse: <strong style="color: #0f172a;">Weighbridge Pass</strong></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 18px;">
+          <button type="button" class="btn btn-outline" onclick="closeBuyerProfileModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 5: WHATSAPP / SMS LIVE NEGOTIATION FEEDBACK MODAL -->
+  <div class="modal-overlay" id="modal-negotiation-feedback">
+    <div class="modal-content" style="max-width: 540px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 800; font-size: 16px;">
+            💬
+          </div>
+          <h3 style="font-size: 1.18rem; font-weight: 800; color: #0c5a36;">Direct Farmer Bid Dispatch</h3>
+        </div>
+        <button onclick="closeNegotiationModal()" style="font-size: 1.4rem; color: #64748b; font-weight: 700; background: none; border: none; cursor: pointer;">&times;</button>
+      </div>
+
+      <!-- WhatsApp Simulation Card -->
+      <div style="background: #e5ddd5; border-radius: 12px; padding: 16px; margin-bottom: 18px; position: relative;">
+        <div style="font-size: 0.72rem; color: #54656f; text-align: center; margin-bottom: 10px; font-weight: 600;">
+          🔒 End-to-end encrypted • AgriNex Direct Farmer Channel
+        </div>
+        
+        <div style="background: #ffffff; border-radius: 8px 8px 8px 0; padding: 10px 14px; max-width: 85%; font-size: 0.82rem; color: #111b21; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.15);">
+          <strong style="color: #0c5a36; display: block; font-size: 0.85rem;" id="sim-farmer-name">Murugan Palanisamy</strong>
+          <span id="sim-farmer-phone" style="font-size: 0.72rem; color: #64748b;">+91 94431-22901 • Dindigul, TN</span>
+          <div style="margin-top: 6px; line-height: 1.4;" id="sim-farmer-msg">
+            "Hello! I received your counter-bid of ₹ 1,220/Qt for 50 Qt Shivam Tomatoes. I am willing to accept if you lock the 35% advance escrow (₹ 21,350) today."
+          </div>
+          <span style="font-size: 0.65rem; color: #8696a0; float: right; margin-top: 4px;">Just now ✓✓</span>
+          <div style="clear: both;"></div>
+        </div>
+      </div>
+
+      <!-- Next Step Action Grid -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.82rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: #64748b;">Agreed Price:</span>
+          <strong style="color: #0c5a36;" id="sim-agreed-rate">₹ 1,220 /Qt</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: #64748b;">Required 35% Advance Escrow:</span>
+          <strong style="color: #0c5a36;" id="sim-escrow-amount">₹ 21,350</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: #64748b;">Estimated Dispatch:</span>
+          <strong style="color: #0f172a;" id="sim-delivery-date">22 Sep 2026</strong>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeNegotiationModal()" style="flex: 1;">Close</button>
+        <button class="btn btn-primary" onclick="confirmEscrowFromCounter()" style="flex: 2;">Lock 35% Escrow & Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 6: FILE GRIEVANCE / QUALITY DISPUTE -->
+  <div class="modal-overlay" id="modal-file-grievance">
+    <div class="modal-content" style="max-width: 580px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 36px; height: 36px; border-radius: 8px; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+            ⚠️
+          </div>
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #991b1b; margin: 0;">File Quality / Delivery Claim</h3>
+            <span style="font-size: 0.75rem; color: #64748b;">AgriNex Escrow Redressal Cell</span>
+          </div>
+        </div>
+        <button onclick="closeGrievanceModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.78rem; color: #9a3412;">
+        <strong>🔒 Automated Escrow Freeze:</strong> Filing this complaint triggers an instant hold on the remaining 65% settlement escrow in the smart contract until resolved.
+      </div>
+
+      <form id="form-new-grievance">
+        <div class="form-group">
+          <label class="form-label">Select Disputed Order / Lot</label>
+          <select id="grv-lot-select" class="form-select" required>
+            <option value="LOT-TOM-88|Tomato (Shivam Hybrid)|Murugan Palanisamy">LOT-TOM-88 — Tomato (Shivam Hybrid) • Murugan Palanisamy (50 Qt)</option>
+            <option value="LOT-COT-102|Long Staple Cotton|Suresh Patel">LOT-COT-102 — Long Staple Cotton • Suresh Patel (80 Qt)</option>
+            <option value="LOT-TUR-45|Salem Turmeric Finger|Kavitha Rajan">LOT-TUR-45 — Salem Turmeric Finger • Kavitha Rajan (25 Qt)</option>
+            <option value="LOT-PADDY-04|1121 Basmati Paddy|Gurpreet Singh">LOT-PADDY-04 — 1121 Basmati Paddy • Gurpreet Singh (150 Qt)</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Grievance Category</label>
+            <select id="grv-category" class="form-select" required>
+              <option value="Quality Assay Deviation">Quality Assay Deviation (Grade / Moisture)</option>
+              <option value="Weighbridge Shortage">Weighbridge Shortage (> 2% Loss)</option>
+              <option value="Transit Spoilage / Damage">Transit Spoilage / Physical Damage</option>
+              <option value="Critical Delivery Delay">Critical Delivery Delay Breach</option>
+              <option value="Foreign Matter / Infestation">Foreign Matter / Pest Infestation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Claim Amount (₹)</label>
+            <input type="number" id="grv-claim-amount" class="form-input" placeholder="e.g. 15000" min="500" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Discrepancy Details / Evidence Summary</label>
+          <textarea id="grv-description" class="form-textarea" placeholder="Explain the specific issue e.g., Moisture tested at 87% vs certified 82%, 1.8 Qt missing on digital weighbridge slip, rotten crates..." rows="3" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Attach Supporting Evidence (Weighbridge Slip, Assay Report or Photo)</label>
+          <div style="border: 2px dashed #cbd5e1; border-radius: 8px; padding: 14px; text-align: center; background: #f8fafc; cursor: pointer;" onclick="document.getElementById('grv-file-input').click()">
+            <input type="file" id="grv-file-input" style="display: none;" onchange="handleGrievanceFileUpload(this)" />
+            <span id="grv-upload-label" style="font-size: 0.8rem; color: #64748b;">
+              📄 Click to upload Digital Assay Slip / Weight Receipt / Photo Proof
+            </span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button type="button" class="btn btn-outline" onclick="closeGrievanceModal()" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 2; background: #dc2626; border-color: #dc2626;">
+            Freeze Escrow & Submit Claim
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

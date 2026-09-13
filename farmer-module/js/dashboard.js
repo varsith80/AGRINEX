@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AgriNex Farmer Module - Dashboard Controller & Interactions
  */
 
@@ -46,11 +46,23 @@ function renderListings() {
   `).join("");
 }
 
+function openProfileModal() {
+  const modalProfile = document.getElementById("modal-profile");
+  if (modalProfile) modalProfile.classList.add("active");
+}
+
+function closeProfileModal() {
+  const modalProfile = document.getElementById("modal-profile");
+  if (modalProfile) modalProfile.classList.remove("active");
+}
+
 function setupModals() {
   const createBtn = document.getElementById("btn-open-create-modal");
   const modalCreate = document.getElementById("modal-create-listing");
   const closeCreateBtn = document.getElementById("btn-close-create-modal");
   const formCreate = document.getElementById("form-create-listing");
+
+  const formEditProfile = document.getElementById("form-edit-profile");
 
   if (createBtn && modalCreate) {
     createBtn.addEventListener("click", () => {
@@ -109,6 +121,34 @@ function setupModals() {
       formCreate.reset();
 
       showToast(`Crop listing for "${cropName}" published successfully! Buyers are being notified.`);
+    });
+  }
+
+  // Handle Profile Update Form
+  if (formEditProfile) {
+    formEditProfile.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const newName = document.getElementById("profile-input-name").value;
+      const newPhone = document.getElementById("profile-input-phone").value;
+      const newLocation = document.getElementById("profile-input-location").value;
+
+      if (farmerData && farmerData.profile) {
+        farmerData.profile.name = newName;
+        farmerData.profile.location = newLocation;
+      }
+
+      // Update UI elements
+      const nameEl = document.querySelector(".profile-name");
+      if (nameEl) nameEl.textContent = newName;
+
+      const heroNameEl = document.querySelector(".hero-title");
+      if (heroNameEl) heroNameEl.textContent = `Good Morning, ${newName}! 👋`;
+
+      const profileDisplayNameEl = document.getElementById("profile-display-name");
+      if (profileDisplayNameEl) profileDisplayNameEl.textContent = newName;
+
+      closeProfileModal();
+      showToast("Farmer Profile & KYC Information updated successfully!");
     });
   }
 }

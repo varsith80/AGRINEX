@@ -1,11 +1,53 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=farmer-module/index.html">
-  <title>AgriNex - Redirecting...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Agricultural Direct Trade Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: #04100c; color: #f0fdf4; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .portal-card { background: rgba(6, 78, 59, 0.4); border: 1px solid rgba(52, 211, 153, 0.25); border-radius: 20px; padding: 36px; max-width: 800px; width: 100%; text-align: center; box-shadow: 0 16px 40px rgba(0,0,0,0.5); backdrop-filter: blur(16px); }
+    h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: 8px; }
+    .accent { color: #4ade80; }
+    p { color: #bbf7d0; font-size: 0.95rem; margin-bottom: 32px; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .portal-box { background: rgba(255,255,255,0.06); border: 1.5px solid rgba(52, 211, 153, 0.3); border-radius: 16px; padding: 28px 24px; text-decoration: none; color: inherit; transition: all 0.25s ease; display: flex; flex-direction: column; align-items: center; }
+    .portal-box:hover { background: rgba(16, 185, 129, 0.18); border-color: #34d399; transform: translateY(-4px); box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3); }
+    .icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .box-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 6px; color: #ffffff; }
+    .box-desc { font-size: 0.8rem; color: #a7f3d0; line-height: 1.4; }
+    .btn { display: inline-block; margin-top: 18px; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; }
+    .btn-green { background: #10b981; color: #ffffff; }
+    .btn-dark { background: #059669; color: #ffffff; }
+    @media(max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
-  <p>Redirecting to <a href="farmer-module/index.html">Farmer Module Dashboard</a>...</p>
+  <div class="portal-card">
+    <h1>Agri<span class="accent">Nex</span></h1>
+    <p>Agricultural Intelligence & Direct Trade Platform · Real Buyers. Better Prices.</p>
+    
+    <div class="grid">
+      <!-- Farmer Portal -->
+      <a href="farmer-module/index.html" class="portal-box">
+        <div class="icon">🌾</div>
+        <div class="box-title">Farmer Module</div>
+        <div class="box-desc">List crops, standard 3-tier grading, live mandi intelligence, transport profit calculator & 35% advance escrow.</div>
+        <span class="btn btn-green">Open Farmer Dashboard &rarr;</span>
+      </a>
+
+      <!-- Wholesale Buyer Portal -->
+      <a href="buyer-module/index.html" class="portal-box">
+        <div class="icon">🏢</div>
+        <div class="box-title">Wholesale Buyer Module</div>
+        <div class="box-desc">Browse verified produce lots, post bulk procurement demands, counter-bids & direct escrow purchases.</div>
+        <span class="btn btn-dark">Open Buyer Dashboard &rarr;</span>
+      </a>
+    </div>
+  </div>
 </body>
 </html>
