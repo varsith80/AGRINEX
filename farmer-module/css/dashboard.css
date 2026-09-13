@@ -261,26 +261,28 @@
 
 /* Top Navbar (Spanning all the way to right side) */
 .top-navbar {
-  height: 58px;
+  min-height: 62px;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border-default);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
+  padding: 0 24px;
   position: sticky;
   top: 0;
   z-index: 90;
   width: 100%;
   box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  gap: 16px;
 }
 
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   flex: 1;
-  max-width: 480px;
+  max-width: 580px;
+  min-width: 0;
 }
 
 .navbar-search {
@@ -291,7 +293,8 @@
   border: 1px solid var(--border-default);
   border-radius: var(--radius-full);
   padding: 8px 16px;
-  width: 100%;
+  flex: 1;
+  min-width: 180px;
   transition: all 0.2s ease;
 }
 
@@ -310,10 +313,27 @@
   width: 100%;
 }
 
+.navbar-location-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0c5a36;
+  background: #e8f5ed;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #bbf7d0;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .navbar-btn-create {
