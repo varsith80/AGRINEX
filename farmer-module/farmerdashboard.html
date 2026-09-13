@@ -22,14 +22,26 @@
     <!-- LEFT SIDEBAR NAVIGATION (Full-Height Sticky) -->
     <aside class="sidebar">
       <div>
-        <!-- Brand Header -->
+        <!-- Brand Header (Professional Modern Logo) -->
         <div class="sidebar-brand">
           <svg class="brand-logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 36C12 36 10 20 26 12C26 12 30 26 18 34C16.5 35 14 36 12 36Z" fill="#15803d" />
-            <path d="M22 38C22 38 20 26 34 18C34 18 38 28 28 35C26 37 23.5 38 22 38Z" fill="#22c55e" />
+            <defs>
+              <linearGradient id="brandLogoGrad1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#4ade80" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+              <linearGradient id="brandLogoGrad2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#a7f3d0" />
+                <stop offset="100%" stop-color="#22c55e" />
+              </linearGradient>
+            </defs>
+            <rect x="2" y="2" width="44" height="44" rx="12" fill="rgba(255, 255, 255, 0.1)" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.2" />
+            <path d="M14 34C14 34 12 18 28 11C28 11 33 24 22 31C19.5 32.5 16.5 34 14 34Z" fill="url(#brandLogoGrad1)" />
+            <path d="M22 36C22 36 21 24 34 16C34 16 38 26 28 33C25.5 35 23 36 22 36Z" fill="url(#brandLogoGrad2)" />
+            <circle cx="28" cy="16" r="2.2" fill="#ffffff" />
           </svg>
           <div>
-            <h1 class="brand-title">AgriNex</h1>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
             <p class="brand-tagline">Direct Trade · Better Tomorrow</p>
           </div>
         </div>
