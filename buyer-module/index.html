@@ -851,24 +851,14 @@
         <div class="card" style="padding: 0; overflow: hidden;">
           <div class="chat-layout">
             
-            <!-- Chat Sidebar Contacts -->
+            <!-- Chat Sidebar Contacts (Dynamic for all farmers) -->
             <div class="chat-sidebar">
-              <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-default); font-size: 0.88rem; font-weight: 800; color: #0c5a36;">
-                Farmer Negotiations
+              <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-default); font-size: 0.88rem; font-weight: 800; color: #0c5a36; display: flex; align-items: center; justify-content: space-between;">
+                <span>Farmer Conversations</span>
+                <span id="chat-active-count-badge" class="badge" style="background: #e8f5ed; color: #0c5a36; font-size: 0.72rem; font-weight: 800;">9 Online</span>
               </div>
-              <div class="chat-contact active" id="chat-contact-murugan" onclick="selectChatContact('murugan')">
-                <img src="assets/images/farmer-avatar.jpg" alt="Murugan" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
-                <div style="flex: 1; min-width: 0;">
-                  <strong style="font-size: 0.85rem; color: #0f172a; display: block;">Murugan P. (Tomato)</strong>
-                  <span style="font-size: 0.72rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">Can we agree on ₹ 1,220/Qt for 50 Qt?</span>
-                </div>
-              </div>
-              <div class="chat-contact" id="chat-contact-patil" onclick="selectChatContact('patil')">
-                <img src="assets/images/onion.jpg" alt="Patil" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;" />
-                <div style="flex: 1; min-width: 0;">
-                  <strong style="font-size: 0.85rem; color: #0f172a; display: block;">Patil Rameshwar (Onion)</strong>
-                  <span style="font-size: 0.72rem; color: #64748b;">Export batch loaded on Eicher truck.</span>
-                </div>
+              <div id="chat-contacts-container" style="overflow-y: auto;">
+                <!-- Dynamically rendered via renderChatSidebar() -->
               </div>
             </div>
 

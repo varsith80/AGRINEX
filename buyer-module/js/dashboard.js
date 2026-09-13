@@ -365,13 +365,13 @@ function renderVerifiedLots(lotsToRender = null) {
                   </div>
                 </div>
 
-                <!-- Actions: Buy Now + WhatsApp -->
+                <!-- Actions: Buy Now + WhatsApp Chat -->
                 <div class="lot-actions-row">
                   <button class="btn-lot-buy" onclick="openDirectBuyModal('${lot.id}')">
                     <span>🛒</span>
                     <span>Buy Now</span>
                   </button>
-                  <button class="btn-lot-whatsapp" onclick="openBidModal('${lot.id}')" title="Direct Counter-Bid & WhatsApp Negotiation">
+                  <button class="btn-lot-whatsapp" onclick="openFarmerChat('${lot.id}')" title="Direct Chat & Negotiation with ${lot.farmerName}">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.316 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.818-1.001z"/>
                     </svg>
@@ -445,8 +445,8 @@ function renderVerifiedLots(lotsToRender = null) {
                   <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem;">
                     Buy Now
                   </button>
-                  <button class="btn btn-outline btn-sm" onclick="openBidModal('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem;">
-                    Bid
+                  <button class="btn btn-outline btn-sm" onclick="openFarmerChat('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem; display: flex; align-items: center; gap: 4px;">
+                    <span>💬</span> Chat
                   </button>
                 </div>
               </td>
@@ -525,42 +525,179 @@ function renderBuyerDemands() {
     .join('');
 }
 
-// Chat Messaging Data Store & Functionality
+// Chat Messaging Data Store & Functionality (Dynamic for ALL Marketplace Farmers)
 const chatConversations = {
-  murugan: {
-    name: "Murugan Palanisamy",
-    avatar: "assets/images/farmer-avatar.jpg",
-    status: "● Online • Dindigul, Tamil Nadu",
-    lotId: "LOT-TOM-02",
-    crop: "Tomato (Shivam Hybrid)",
-    offerText: "Farmer countered at <strong style=\"color: #0c5a36;\">₹ 1,220/Qt</strong> for 50 Qt (Floor: ₹ 1,200)",
-    counterRate: 1220,
-    lockRateText: "Lock 35% Escrow (₹ 1,200/Qt)",
+  gowran: {
+    name: "gowran",
+    avatar: "assets/images/onion.jpg",
+    status: "● Online • Erode, Tamil Nadu",
+    lotId: "LOT-ONI-01",
+    crop: "Onion (Grade A)",
+    farmerPhone: "+91 98422-77102",
+    offerText: "Farmer Ask Rate: <strong style=\"color: #0c5a36;\">₹ 30 /kg</strong> (₹ 3,000/Qt) for 15 kg (Near APMC Mandi)",
+    counterRate: 3000,
+    lockRateText: "Lock 35% Escrow (₹ 30/kg)",
     messages: [
-      { type: "incoming", text: "Hello Karthik sir, I saw your procurement demand for 50 Qt Shivam hybrid tomatoes." },
-      { type: "outgoing", text: "Hi Murugan! Yes, we need export/table grade tomatoes with moisture index below 85% by this Friday." },
-      { type: "incoming", text: "My lot is certified Grade A (70%) with moisture at 82.5%. Ask price is ₹ 1,200/Qt. Can you confirm the 35% advance escrow?" }
+      { type: "incoming", text: "Vanakkam Karthik sir! I have 15 kg export-graded red onions ready at Erode APMC gate." },
+      { type: "outgoing", text: "Hello gowran! We are looking for immediate institutional dispatch. Can you load today?" },
+      { type: "incoming", text: "Yes sir, weighing is completed. Once advance escrow is confirmed, truck can move immediately." }
     ]
   },
-  patil: {
-    name: "Patil Rameshwar",
-    avatar: "assets/images/onion.jpg",
-    status: "● Online • Nashik, Maharashtra",
-    lotId: "LOT-ONI-01",
-    crop: "Red Onion (Nashik Export)",
-    offerText: "Farmer agreed at <strong style=\"color: #0c5a36;\">₹ 1,800/Qt</strong> for 80 Qt (Grade A Certified)",
-    counterRate: 1800,
-    lockRateText: "Lock 35% Escrow (₹ 1,800/Qt)",
+  raman: {
+    name: "S. Raman",
+    avatar: "assets/images/tomato.jpg",
+    status: "● Online • Perundurai, Erode (2.4 km away)",
+    lotId: "LOT-TOM-02",
+    crop: "Roma Plum Tomato (Firm & Red)",
+    farmerPhone: "+91 94431-22901",
+    offerText: "Farmer countered at <strong style=\"color: #0c5a36;\">₹ 24 /kg</strong> (₹ 2,400/Qt) for 500 kg (Retail Ready)",
+    counterRate: 2400,
+    lockRateText: "Lock 35% Escrow (₹ 24/kg)",
     messages: [
-      { type: "incoming", text: "Namaste Karthik ji, 80 Qt export-grade Bellary red onion harvested and moisture cured." },
-      { type: "outgoing", text: "Hello Patil ji! We are checking transport feasibility via Eicher reefer corridor." },
-      { type: "incoming", text: "Vehicle is ready at Nashik yard. Once 35% escrow is locked, we will dispatch immediately with Digital LR." }
+      { type: "incoming", text: "Hello sir, my 500 kg Roma Plum harvest has 82% firmness index, perfect for retail packing." },
+      { type: "outgoing", text: "Hi Raman, what is your floor price for full 500 kg lot?" },
+      { type: "incoming", text: "I can offer ₹ 24/kg direct farm-gate price if payment is through AgriNex Escrow." }
+    ]
+  },
+  selvaraj: {
+    name: "K. Selvaraj",
+    avatar: "assets/images/tomato.jpg",
+    status: "● Online • Bhavani, Erode (4.1 km away)",
+    lotId: "LOT-TOM-03",
+    crop: "Organic Country Tomato (Naatu Thakkali)",
+    farmerPhone: "+91 97890-33412",
+    offerText: "Certified 100% Organic • Ask: <strong style=\"color: #0c5a36;\">₹ 32 /kg</strong> for 350 kg",
+    counterRate: 3200,
+    lockRateText: "Lock 35% Escrow (₹ 32/kg)",
+    messages: [
+      { type: "incoming", text: "Greetings Karthik! We have NPOP organic certified Naatu Thakkali harvest ready." },
+      { type: "outgoing", text: "Great quality! We need digital test reports for residue certification." },
+      { type: "incoming", text: "All lab assay slips uploaded on AgriNex ledger. Ready for dispatch!" }
+    ]
+  },
+  dhanapal: {
+    name: "M. Dhanapal",
+    avatar: "assets/images/tomato.jpg",
+    status: "● Online • Sathyamangalam (11.6 km away)",
+    lotId: "LOT-TOM-04",
+    crop: "Hybrid Red Salad Tomato – Bulk Harvest",
+    farmerPhone: "+91 98421-55890",
+    offerText: "Bulk Harvest: <strong style=\"color: #0c5a36;\">₹ 20 /kg</strong> for 2,000 kg",
+    counterRate: 2000,
+    lockRateText: "Lock 35% Escrow (₹ 20/kg)",
+    messages: [
+      { type: "incoming", text: "Vanakkam! 2,000 kg bulk tomato ready for institutional kitchen procurement." }
+    ]
+  },
+  muthusamy: {
+    name: "Muthusamy Soundar",
+    avatar: "assets/images/onion.jpg",
+    status: "● Online • Perundurai, Erode (2.8 km away)",
+    lotId: "LOT-ONI-05",
+    crop: "Premium Bellary Big Red Onion",
+    farmerPhone: "+91 94433-88190",
+    offerText: "Export Quality: <strong style=\"color: #0c5a36;\">₹ 32 /kg</strong> for 5,000 kg (50 Qt)",
+    counterRate: 3200,
+    lockRateText: "Lock 35% Escrow (₹ 32/kg)",
+    messages: [
+      { type: "incoming", text: "Namaste sir, 5 MT cured big red onion lot available for immediate dispatch." }
+    ]
+  },
+  revathi: {
+    name: "Revathi Balan",
+    avatar: "assets/images/onion.jpg",
+    status: "● Online • Anthiyur, Erode (15.2 km away)",
+    lotId: "LOT-ONI-06",
+    crop: "Sambar Shallots (Small Country Onion)",
+    farmerPhone: "+91 97892-44102",
+    offerText: "Traditional Sambar Grade: <strong style=\"color: #0c5a36;\">₹ 65 /kg</strong> for 600 kg",
+    counterRate: 6500,
+    lockRateText: "Lock 35% Escrow (₹ 65/kg)",
+    messages: [
+      { type: "incoming", text: "Hello Karthik sir, premium Anthiyur shallots graded and bagged in 25kg mesh sacks." }
+    ]
+  },
+  kavitha: {
+    name: "Kavitha Rajan",
+    avatar: "assets/images/wheat-logo.png",
+    status: "● Online • Salem (32 km away)",
+    lotId: "LOT-TUR-07",
+    crop: "Salem Turmeric Finger (High Curcumin)",
+    farmerPhone: "+91 94432-88190",
+    offerText: "Organic Desi A2: <strong style=\"color: #0c5a36;\">₹ 74 /kg</strong> for 2,500 kg",
+    counterRate: 7400,
+    lockRateText: "Lock 35% Escrow (₹ 74/kg)",
+    messages: [
+      { type: "incoming", text: "Vanakkam! 2.5 MT cured turmeric fingers with 4.8% curcumin content ready." }
+    ]
+  },
+  venkatesh: {
+    name: "Venkatesh Rao",
+    avatar: "assets/images/paddy.jpg",
+    status: "● Online • Karnal, HR ~ Direct Express Line",
+    lotId: "LOT-PAD-08",
+    crop: "1121 Basmati Paddy (Aromatic Long Grain)",
+    farmerPhone: "+91 98120-33410",
+    offerText: "Aged 1 Year: <strong style=\"color: #0c5a36;\">₹ 24 /kg</strong> for 12,000 kg (120 Qt)",
+    counterRate: 2400,
+    lockRateText: "Lock 35% Escrow (₹ 24/kg)",
+    messages: [
+      { type: "incoming", text: "Hello sir, 120 Qt 1121 Basmati paddy stored in moisture-controlled silos ready for train/container haulage." }
+    ]
+  },
+  kaliamurthi: {
+    name: "Kaliamurthi R",
+    avatar: "assets/images/cotton.jpg",
+    status: "● Online • Guntur, AP ~ Cotton Yard Hub",
+    lotId: "LOT-COT-09",
+    crop: "Long Staple Cotton (MCU-5 Fiber)",
+    farmerPhone: "+91 98480-11234",
+    offerText: "Grade A Export: <strong style=\"color: #0c5a36;\">₹ 56 /kg</strong> for 4,000 kg (40 Qt)",
+    counterRate: 5600,
+    lockRateText: "Lock 35% Escrow (₹ 56/kg)",
+    messages: [
+      { type: "incoming", text: "Greetings! 40 Qt MCU-5 pressed cotton bales ready for institutional textile sourcing." }
     ]
   }
 };
 
-let activeChatKey = 'murugan';
+let activeChatKey = 'gowran';
 
+// Render Dynamic Chat Sidebar with all active farmers
+function renderChatSidebar() {
+  const container = document.getElementById('chat-contacts-container');
+  if (!container) return;
+
+  const keys = Object.keys(chatConversations);
+  const badge = document.getElementById('chat-active-count-badge');
+  if (badge) badge.textContent = `${keys.length} Online`;
+
+  container.innerHTML = keys
+    .map(key => {
+      const chat = chatConversations[key];
+      const lastMsg = chat.messages && chat.messages.length > 0 
+        ? chat.messages[chat.messages.length - 1].text 
+        : `Ask: ${chat.offerText.replace(/<[^>]*>/g, '')}`;
+      const isActive = key === activeChatKey ? 'active' : '';
+
+      return `
+        <div class="chat-contact ${isActive}" id="chat-contact-${key}" onclick="selectChatContact('${key}')">
+          <img src="${chat.avatar}" alt="${chat.name}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; flex-shrink: 0;" onerror="this.src='assets/images/tomato.jpg'" />
+          <div style="flex: 1; min-width: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <strong style="font-size: 0.85rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${chat.name}</strong>
+              <span style="font-size: 0.65rem; color: #166534; font-weight: 700;">● Online</span>
+            </div>
+            <div style="font-size: 0.72rem; color: #0c5a36; font-weight: 700; margin-top: 1px;">${chat.crop}</div>
+            <span style="font-size: 0.7rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 1px;">${lastMsg}</span>
+          </div>
+        </div>
+      `;
+    })
+    .join('');
+}
+
+// Select a specific Farmer Chat Contact
 function selectChatContact(contactKey) {
   if (!chatConversations[contactKey]) return;
   activeChatKey = contactKey;
@@ -576,10 +713,10 @@ function selectChatContact(contactKey) {
   if (header) {
     header.innerHTML = `
       <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="${chat.avatar}" alt="${chat.name}" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
+        <img src="${chat.avatar}" alt="${chat.name}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
         <div>
-          <strong style="font-size: 0.9rem; color: #0f172a;">${chat.name}</strong>
-          <div style="font-size: 0.72rem; color: #166534; font-weight: 700;">${chat.status}</div>
+          <strong style="font-size: 0.92rem; color: #0f172a;">${chat.name}</strong>
+          <div style="font-size: 0.74rem; color: #166534; font-weight: 700;">${chat.status} • ${chat.crop}</div>
         </div>
       </div>
       <div style="display: flex; gap: 8px;">
@@ -594,12 +731,12 @@ function selectChatContact(contactKey) {
   if (banner) {
     banner.innerHTML = `
       <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="background: #eab308; color: #ffffff; width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">⚡</span>
+        <span style="background: #eab308; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">⚡</span>
         <span><strong>Active Offer:</strong> ${chat.offerText}</span>
       </div>
       <div style="display: flex; gap: 6px;">
-        <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('${chat.lotId}', ${chat.counterRate})" style="padding: 4px 10px; font-size: 0.75rem;">✓ Accept Counter</button>
-        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="padding: 4px 8px; font-size: 0.75rem;">Re-counter</button>
+        <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('${chat.lotId}', ${chat.counterRate})" style="padding: 5px 12px; font-size: 0.78rem;">✓ Accept & Lock</button>
+        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="padding: 5px 10px; font-size: 0.78rem;">Re-counter</button>
       </div>
     `;
   }
@@ -612,6 +749,50 @@ function selectChatContact(contactKey) {
       .join('');
     container.scrollTop = container.scrollHeight;
   }
+}
+
+// Open Chat directly with any Farmer from Marketplace Lot Card
+function openFarmerChat(lotId) {
+  let matchedKey = 'gowran';
+  
+  // Find matching key for lotId
+  for (const [key, conv] of Object.entries(chatConversations)) {
+    if (conv.lotId === lotId) {
+      matchedKey = key;
+      break;
+    }
+  }
+
+  // If not found in presets, create dynamic session from buyerData.verifiedLots
+  if (!chatConversations[matchedKey] || chatConversations[matchedKey].lotId !== lotId) {
+    const lot = buyerData.verifiedLots.find(l => l.id === lotId);
+    if (lot) {
+      const slug = lot.farmerName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      const kgPrice = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
+      chatConversations[slug] = {
+        name: lot.farmerName,
+        avatar: lot.image || 'assets/images/farmer-avatar.jpg',
+        status: `● Online • ${lot.farmerLocation}`,
+        lotId: lot.id,
+        crop: lot.crop,
+        farmerPhone: lot.farmerPhone || '+91 98422-00000',
+        offerText: `Farmer Ask: <strong style="color: #0c5a36;">₹ ${kgPrice} /kg</strong> (${lot.askPrice}) for ${lot.quantity}`,
+        counterRate: lot.priceNum,
+        lockRateText: `Lock 35% Escrow (₹ ${kgPrice}/kg)`,
+        messages: [
+          { type: "incoming", text: `Vanakkam Karthik sir! I am ${lot.farmerName}. My lot of ${lot.crop} (${lot.quantity}) is ready for immediate procurement.` }
+        ]
+      };
+      matchedKey = slug;
+    }
+  }
+
+  renderChatSidebar();
+  selectChatContact(matchedKey);
+  switchView('view-messages');
+
+  const farmerObj = chatConversations[matchedKey];
+  showToast(`💬 Direct negotiation room opened with ${farmerObj.name} (${farmerObj.crop})!`);
 }
 
 function sendChatMessage() {
@@ -633,22 +814,30 @@ function sendChatMessage() {
   container.scrollTop = container.scrollHeight;
 
   // Auto farmer reply after 1s
+  const currentKey = activeChatKey;
+  const currentFarmer = chatConversations[currentKey] ? chatConversations[currentKey].name : 'Farmer';
+  const currentCrop = chatConversations[currentKey] ? chatConversations[currentKey].crop : 'produce';
+
   setTimeout(() => {
-    const replyText = activeChatKey === 'murugan' 
-      ? "Thank you for confirming! I am preparing the dispatch consignment and loading the vehicle."
-      : "Noted with thanks! The Eicher Reefer truck is stationed at the farm gate and will be sealed with RFID tag.";
-    
+    let replyText = `Thank you for your message! As agreed for ${currentCrop}, we will prepare the vehicle weighing pass once escrow advance is initiated.`;
+    if (msg.toLowerCase().includes('price') || msg.toLowerCase().includes('rate') || msg.toLowerCase().includes('discount') || msg.toLowerCase().includes('offer')) {
+      replyText = `Understood Karthik sir. I can offer an instant discount of ₹ 1.50/kg if you confirm bulk lifting with verified lorry receipt today!`;
+    } else if (msg.toLowerCase().includes('sample') || msg.toLowerCase().includes('assay') || msg.toLowerCase().includes('quality')) {
+      replyText = `Digital moisture and assay report is verified at ${chatConversations[currentKey]?.status?.split('•')[1] || 'farm gate'}. Quality is 100% guaranteed.`;
+    }
+
     const reply = document.createElement('div');
     reply.className = 'chat-bubble incoming';
     reply.textContent = replyText;
     container.appendChild(reply);
 
-    if (chatConversations[activeChatKey]) {
-      chatConversations[activeChatKey].messages.push({ type: "incoming", text: replyText });
+    if (chatConversations[currentKey]) {
+      chatConversations[currentKey].messages.push({ type: "incoming", text: replyText });
     }
 
+    renderChatSidebar();
     container.scrollTop = container.scrollHeight;
-  }, 1000);
+  }, 900);
 }
 
 // Direct Buy Escrow Modal
@@ -1184,6 +1373,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderVerifiedLots();
   renderBuyerDemands();
   renderGrievances();
+  renderChatSidebar();
   initLocationSwitcher();
 
   // Handle enter key in chat
