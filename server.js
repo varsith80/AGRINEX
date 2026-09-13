@@ -524,6 +524,114 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
+    // Emergency Sale Activation
+    if (urlPath.startsWith('/api/crops/') && urlPath.endsWith('/emergency') && req.method === 'POST') {
+      const id = urlPath.split('/')[3];
+      const crop = db.crops.find(c => String(c.id) === String(id));
+      if (!crop) return sendJSON(res, 404, { error: 'Crop lot not found' });
+
+      crop.isEmergencySale = true;
+      crop.status = "🚨 Emergency Sale Active";
+      crop.statusBadgeClass = "badge-status-emergency";
+      crop.emergencyActivatedAt = new Date().toISOString();
+      
+      const basePrice = crop.price_per_qt || 2000;
+      crop.emergencyOffers = [
+        {
+          buyerId: "EMG_BUYER_01",
+          buyerName: "Sri Balaji Food Processing & Purees",
+          buyerType: "Food Processing Unit",
+          icon: "🥫",
+          location: "Erode SIPCOT, TN",
+          offerPricePerQt: Math.round(basePrice * 0.76),
+          offerPriceFormatted: `₹ ${(Math.round(basePrice * 0.76)/100).toFixed(2)} /kg (₹ ${Math.round(basePrice * 0.76).toLocaleString()} /Qt)`,
+          status: "Active Offer",
+          timestamp: "Just now"
+        },
+        {
+          buyerId: "EMG_BUYER_02",
+          buyerName: "Annapoorna Institutional Catering Network",
+          buyerType: "Commercial Caterers",
+          icon: "🍲",
+          location: "Coimbatore Industrial Zone, TN",
+          offerPricePerQt: Math.round(basePrice * 0.74),
+          offerPriceFormatted: `₹ ${(Math.round(basePrice * 0.74)/100).toFixed(2)} /kg (₹ ${Math.round(basePrice * 0.74).toLocaleString()} /Qt)`,
+          status: "Active Offer",
+          timestamp: "Just now"
+        },
+        {
+          buyerId: "EMG_BUYER_03",
+          buyerName: "GreenEarth Organic Bio-Compost & Fertilizer Corp",
+          buyerType: "Compost & Bio-Energy Manufacturer",
+          icon: "🌱",
+          location: "Salem Agricultural Park, TN",
+          offerPricePerQt: Math.round(basePrice * 0.65),
+          offerPriceFormatted: `₹ ${(Math.round(basePrice * 0.65)/100).toFixed(2)} /kg (₹ ${Math.round(basePrice * 0.65).toLocaleString()} /Qt)`,
+          status: "Active Offer",
+          timestamp: "Just now"
+        }
+      ];
+
+      saveDB(db);
+      return sendJSON(res, 200, { success: true, crop });
+    }
+
+    // Emergency Sale Accept Offer
+    if (urlPath.startsWith('/api/crops/') && urlPath.endsWith('/emergency-accept') && req.method === 'POST') {
+      const id = urlPath.split('/')[3];
+      const body = await parseBody(req);
+      const crop = db.crops.find(c => String(c.id) === String(id));
+      if (!crop) return sendJSON(res, 404, { error: 'Crop lot not found' });
+
+      const offer = (crop.emergencyOffers && crop.emergencyOffers.find(o => o.buyerId === body.buyerId)) || {
+        buyerName: body.buyerName || "Sri Balaji Food Processing",
+        offerPricePerQt: Math.round((crop.price_per_qt || 2000) * 0.76),
+        offerPriceFormatted: `₹ ${Math.round((crop.price_per_qt || 2000) * 0.76).toLocaleString()} /Qt`
+      };
+
+      crop.status = "✅ Emergency Sold (Breakeven Cleared)";
+      crop.statusBadgeClass = "badge-status-sold";
+      crop.isSold = true;
+      crop.isEmergencySale = false;
+      crop.buyerName = offer.buyerName;
+      crop.bestBid = offer.offerPriceFormatted;
+
+      // Auto create escrow contract for emergency salvage
+      const contractNo = "ESC-EMG-" + Math.floor(1000 + Math.random() * 9000);
+      const total = (crop.quantity_qt || 50) * offer.offerPricePerQt;
+      const advance = Math.round(total * 0.35);
+
+      const escrow = {
+        contract_no: contractNo,
+        bank_ref: "HDFC-EMG-" + Math.floor(100000 + Math.random() * 900000),
+        crop: crop.crop + " (Emergency Salvage)",
+        buyer_name: offer.buyerName,
+        total_amount: total,
+        advance_amount: advance,
+        balance_amount: total - advance,
+        status: "Locked",
+        payout_status: "Disbursed",
+        delivery_status: "Pickup Arranged",
+        created_at: new Date().toISOString()
+      };
+      db.escrow_contracts.unshift(escrow);
+      saveDB(db);
+
+      return sendJSON(res, 200, { success: true, crop, escrow });
+    }
+
+    // Update Crop Generic (PUT)
+    if (urlPath.startsWith('/api/crops/') && req.method === 'PUT') {
+      const id = urlPath.replace('/api/crops/', '');
+      const body = await parseBody(req);
+      const crop = db.crops.find(c => String(c.id) === String(id));
+      if (!crop) return sendJSON(res, 404, { error: 'Crop not found' });
+
+      Object.assign(crop, body);
+      saveDB(db);
+      return sendJSON(res, 200, { success: true, crop });
+    }
+
     // Delete Crop
     if (urlPath.startsWith('/api/crops/') && req.method === 'DELETE') {
       const id = urlPath.replace('/api/crops/', '');

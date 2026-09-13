@@ -188,22 +188,92 @@ function scrollToFPOHub() {
   window.location.href = 'fpo-hub.html';
 }
 
+window.currentProduceFilter = 'all';
+
+function setProduceFilter(filterType) {
+  window.currentProduceFilter = filterType;
+
+  // Update tabs UI
+  const tabAll = document.getElementById("tab-produce-all");
+  const tabActive = document.getElementById("tab-produce-active");
+  const tabEmergency = document.getElementById("tab-produce-emergency");
+
+  if (tabAll) tabAll.classList.toggle("active", filterType === 'all');
+  if (tabActive) tabActive.classList.toggle("active", filterType === 'active');
+  if (tabEmergency) tabEmergency.classList.toggle("active", filterType === 'emergency');
+
+  renderListings();
+}
+
 function renderListings() {
   const tableBody = document.getElementById("listings-tbody");
   if (!tableBody || !farmerData || !farmerData.listings) return;
 
-  tableBody.innerHTML = farmerData.listings.map(item => {
-    const isEmergency = item.isEmergencySale;
-    const isSold = item.status && item.status.includes("Sold");
+  // Compute live counters
+  const allCount = farmerData.listings.length;
+  const activeCount = farmerData.listings.filter(item => !item.status || !item.status.includes("Sold")).length;
+  const emergencyEligibleCount = farmerData.listings.filter(item => 
+    item.isEmergencySale || 
+    (item.shelfLife && item.shelfLife.toLowerCase().includes("perishable")) || 
+    (item.crop && (item.crop.toLowerCase().includes("tomato") || item.crop.toLowerCase().includes("chilli")))
+  ).length;
+
+  const countAllEl = document.getElementById("count-all-produce");
+  if (countAllEl) countAllEl.textContent = allCount;
+
+  const countActiveEl = document.getElementById("count-active-produce");
+  if (countActiveEl) countActiveEl.textContent = activeCount;
+
+  const countEmgEl = document.getElementById("count-emergency-produce");
+  if (countEmgEl) countEmgEl.textContent = emergencyEligibleCount;
+
+  const emgEligibleBtnEl = document.getElementById("emergency-eligible-count");
+  if (emgEligibleBtnEl) emgEligibleBtnEl.textContent = emergencyEligibleCount;
+
+  const statTotalLots = document.getElementById("stat-total-lots");
+  if (statTotalLots) statTotalLots.textContent = activeCount;
+
+  // Filter listings based on selected tab
+  let items = farmerData.listings;
+  if (window.currentProduceFilter === 'active') {
+    items = items.filter(item => !item.status || !item.status.includes("Sold"));
+  } else if (window.currentProduceFilter === 'emergency') {
+    items = items.filter(item => 
+      item.isEmergencySale || 
+      (item.shelfLife && item.shelfLife.toLowerCase().includes("perishable")) || 
+      (item.crop && (item.crop.toLowerCase().includes("tomato") || item.crop.toLowerCase().includes("chilli")))
+    );
+  }
+
+  if (items.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; padding: 28px; color: #64748b; font-size: 0.9rem;">
+          No produce lots matching <strong>${window.currentProduceFilter}</strong> filter. 
+          <button class="btn btn-outline" style="margin-left: 10px; padding: 4px 10px; font-size: 0.78rem;" onclick="setProduceFilter('all')">Show All</button>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tableBody.innerHTML = items.map(item => {
+    const isEmergency = Boolean(item.isEmergencySale);
+    const isSold = Boolean(item.status && item.status.includes("Sold"));
+    const isPerishable = Boolean(item.shelfLife && item.shelfLife.toLowerCase().includes("perishable"));
 
     return `
-      <tr style="${isEmergency && !isSold ? 'background-color: #fffaf0;' : ''}">
+      <tr style="${isEmergency && !isSold ? 'background-color: #fffaf0; border-left: 4px solid #dc2626;' : ''}">
         <td>
           <div class="crop-cell">
             <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
             <div>
               <div class="crop-name">${item.crop}</div>
-              ${isEmergency && !isSold ? '<span style="font-size: 0.7rem; color: #dc2626; font-weight: 800;">⚡ Emergency Salvage Active</span>' : ''}
+              ${isEmergency && !isSold ? `
+                <span class="badge badge-status-emergency" style="font-size: 0.68rem; padding: 2px 6px; margin-top: 2px;">⚡ Emergency Salvage Active</span>
+              ` : (isPerishable && !isSold ? `
+                <span style="font-size: 0.68rem; color: #dc2626; font-weight: 700;">⏳ ${item.shelfLife}</span>
+              ` : '')}
             </div>
           </div>
         </td>
@@ -226,8 +296,8 @@ function renderListings() {
           <span class="badge ${item.statusBadgeClass}">${item.status}</span>
         </td>
         <td>
-          <div style="display: flex; gap: 6px; align-items: center;">
-            <button class="btn btn-outline btn-view-lot" onclick="openLotDetail('${item.id}')">View</button>
+          <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-view-lot" style="padding: 5px 10px; font-size: 0.78rem;" onclick="openLotDetail('${item.id}')">View</button>
             ${!isSold && !isEmergency ? `
               <button class="btn-emergency-action" onclick="openEmergencyModal('${item.id}')" title="No buyers? Activate instant breakeven sale with food processors, composters & caterers">
                 <span>🚨</span> Emergency Sale
@@ -316,7 +386,6 @@ function setupModals() {
       if (totalLotsEl) totalLotsEl.textContent = farmerData.stats.totalLots;
 
       renderListings();
-  syncListingsFromBackend();
       modalCreate.classList.remove("active");
       formCreate.reset();
 
@@ -414,7 +483,6 @@ function acceptBid(lotId) {
     lot.status = "Dispatched (Escrow Locked)";
     lot.statusBadgeClass = "badge-status-dispatched";
     renderListings();
-  syncListingsFromBackend();
   }
   showToast(`Bid accepted for ${lotId}! Generating Escrow Contract and Dispatch Order.`);
 }
@@ -489,17 +557,23 @@ function openEmergencyModal(lotId) {
   }
 }
 
-function confirmEmergencyActivation(lotId) {
+async function confirmEmergencyActivation(lotId) {
   const result = AgriNexEmergencySale.triggerEmergencySale(lotId, farmerData.listings);
-  if (result) {
-    renderListings();
-  syncListingsFromBackend();
-    closeDetailModal();
-    showToast(`🚨 Emergency Sale Activated! ${result.offersCount} Instant Breakeven Offers Received.`);
-    setTimeout(() => {
-      openEmergencyOffersModal(lotId);
-    }, 600);
+
+  if (window.AgriNexAPI) {
+    try {
+      await AgriNexAPI.activateEmergencySale(lotId);
+    } catch (err) {
+      console.warn("Backend emergency activation fallback:", err.message);
+    }
   }
+
+  renderListings();
+  closeDetailModal();
+  showToast(`🚨 Emergency Sale Activated! ${result ? result.offersCount : 3} Instant Breakeven Offers Received.`);
+  setTimeout(() => {
+    openEmergencyOffersModal(lotId);
+  }, 400);
 }
 
 /**
@@ -528,7 +602,7 @@ function openEmergencyOffersModal(lotId) {
 
       <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
         ${lot.emergencyOffers.map((o, idx) => `
-          <div style="border: 1.5px solid ${idx === 0 ? '#15803d' : '#e2e8f0'}; background: ${idx === 0 ? '#f0fdf4' : '#ffffff'}; padding: 14px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; transition: transform 0.15s;">
+          <div style="border: 1.5px solid ${idx === 0 ? '#15803d' : '#e2e8f0'}; background: ${idx === 0 ? '#f0fdf4' : '#ffffff'}; padding: 14px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; transition: transform 0.15s; flex-wrap: wrap; gap: 10px;">
             <div style="display: flex; align-items: center; gap: 12px;">
               <span style="font-size: 24px;">${o.icon}</span>
               <div>
@@ -559,13 +633,23 @@ function openEmergencyOffersModal(lotId) {
   }
 }
 
-function acceptEmergencyOffer(lotId, buyerId) {
+async function acceptEmergencyOffer(lotId, buyerId) {
   const result = AgriNexEmergencySale.acceptEmergencyOffer(lotId, buyerId, farmerData.listings);
-  if (result) {
-    renderListings();
-  syncListingsFromBackend();
-    closeDetailModal();
+
+  if (window.AgriNexAPI) {
+    try {
+      await AgriNexAPI.acceptEmergencyOffer(lotId, buyerId);
+    } catch (err) {
+      console.warn("Backend emergency accept fallback:", err.message);
+    }
+  }
+
+  renderListings();
+  closeDetailModal();
+  if (result && result.offer) {
     showToast(`✅ Emergency contract locked! ${result.offer.buyerName} has transferred ${result.offer.offerPriceFormatted} via Escrow.`);
+  } else {
+    showToast("✅ Emergency contract locked via Escrow!");
   }
 }
 
@@ -635,26 +719,67 @@ async function syncListingsFromBackend() {
     if (window.AgriNexAPI) {
       const crops = await AgriNexAPI.getCrops();
       if (crops && crops.length > 0) {
-        farmerData.listings = crops.map(c => ({
-          id: c.id,
-          crop: c.crop + (c.variety ? ` (${c.variety})` : ''),
-          category: c.category || 'Vegetables',
-          shelfLife: c.shelf_life || '7 Days',
-          harvestDate: 'Current Season',
-          image: c.image || 'assets/images/tomato.jpg',
-          grade: c.grade || 'Grade A',
-          gradeBadgeClass: c.grade === 'Grade B' ? 'badge-grade-b' : 'badge-grade-a',
-          quantity: c.quantity || `${c.quantity_qt} Qt (${c.quantity_qt * 100} kg)`,
-          quantityNumber: c.quantity_qt,
-          expectedPrice: c.expectedPrice || `₹ ${c.price_per_kg ? c.price_per_kg.toFixed(2) : (c.price_per_qt/100).toFixed(2)} /kg (₹ ${c.price_per_qt.toLocaleString()} /Qt)`,
-          expectedPriceNumber: c.price_per_qt,
-          bestBid: c.bestBid || `₹ ${((c.price_per_qt * 1.02)/100).toFixed(2)} /kg (₹ ${Math.round(c.price_per_qt * 1.02).toLocaleString()} /Qt)`,
-          bestBidNumber: Math.round(c.price_per_qt * 1.02),
-          buyerName: c.buyerName || "Reliance Retail Hub",
-          status: c.status || "Active",
-          statusBadgeClass: c.statusBadgeClass || "badge-status-open",
-          location: c.mandi || "Surat Mandi Yard"
-        }));
+        // Retrieve locally saved emergency state
+        const storedEmergencyLots = window.AgriNexEmergencySale ? AgriNexEmergencySale.getEmergencyLots() : [];
+        const emergencyMap = {};
+        storedEmergencyLots.forEach(el => {
+          if (el && el.id) emergencyMap[el.id] = el;
+        });
+
+        farmerData.listings = crops.map(c => {
+          const emg = emergencyMap[c.id] || {};
+          const isEmergency = Boolean(c.isEmergencySale || emg.isEmergencySale);
+          const isSold = Boolean((c.status && c.status.includes("Sold")) || emg.isSold);
+          const offers = c.emergencyOffers || emg.emergencyOffers || null;
+
+          const cropTitle = (c.crop || c.crop_name || "Produce") + (c.variety ? ` (${c.variety})` : '');
+          const qtyQt = c.quantity_qt || c.quantityNumber || 50;
+          const priceQt = c.price_per_qt || c.expectedPriceNumber || 2000;
+          const priceKg = c.price_per_kg ? c.price_per_kg : (priceQt / 100);
+
+          let shelfLife = c.shelf_life || c.shelfLife || "14 Days";
+          const lowerName = cropTitle.toLowerCase();
+          if (lowerName.includes("tomato")) shelfLife = "3 Days (Perishable)";
+          else if (lowerName.includes("chilli")) shelfLife = "5 Days (Perishable)";
+
+          let currentStatus = c.status || "Active (Bids Open)";
+          let currentStatusBadge = c.statusBadgeClass || "badge-status-open";
+          let bestBidText = c.bestBid || `₹ ${(priceKg * 1.02).toFixed(2)} /kg (₹ ${Math.round(priceQt * 1.02).toLocaleString()} /Qt)`;
+          let buyerText = c.buyerName || c.buyer_name || "Reliance Retail Hub";
+
+          if (isSold) {
+            currentStatus = c.status && c.status.includes("Sold") ? c.status : "✅ Sold (Under Escrow)";
+            currentStatusBadge = "badge-status-dispatched";
+          } else if (isEmergency) {
+            currentStatus = "🚨 Emergency Sale Active";
+            currentStatusBadge = "badge-status-emergency";
+            if (emg.bestBid) bestBidText = emg.bestBid;
+            if (emg.buyerName) buyerText = emg.buyerName;
+          }
+
+          return {
+            id: c.id,
+            crop: cropTitle,
+            category: c.category || 'Vegetables',
+            shelfLife: shelfLife,
+            harvestDate: c.harvestDate || 'Current Season',
+            image: c.image || c.image_url || 'assets/images/tomato.jpg',
+            grade: c.grade || 'Grade A',
+            gradeBadgeClass: c.grade === 'Grade B' ? 'badge-grade-b' : 'badge-grade-a',
+            quantity: c.quantity || `${qtyQt} Qt (${(qtyQt * 100).toLocaleString()} kg)`,
+            quantityNumber: qtyQt,
+            expectedPrice: c.expectedPrice || `₹ ${priceKg.toFixed(2)} /kg (₹ ${priceQt.toLocaleString()} /Qt)`,
+            expectedPriceNumber: priceQt,
+            bestBid: bestBidText,
+            bestBidNumber: Math.round(priceQt * 1.02),
+            buyerName: buyerText,
+            status: currentStatus,
+            statusBadgeClass: currentStatusBadge,
+            isEmergencySale: isEmergency && !isSold,
+            emergencyOffers: offers,
+            location: c.mandi || "Surat Mandi Yard"
+          };
+        });
         renderListings();
       }
     }

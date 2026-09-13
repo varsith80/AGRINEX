@@ -117,6 +117,20 @@ const AgriNexAPI = {
   async getProfitEstimate(params) {
     const query = new URLSearchParams(params).toString();
     return await this.request(`/api/calculator/estimate?${query}`);
+  },
+
+  // 9. Emergency Sale Salvage
+  async activateEmergencySale(cropId) {
+    return await this.request(`/api/crops/${cropId}/emergency`, {
+      method: 'POST'
+    });
+  },
+
+  async acceptEmergencyOffer(cropId, buyerId) {
+    return await this.request(`/api/crops/${cropId}/emergency-accept`, {
+      method: 'POST',
+      body: JSON.stringify({ buyerId })
+    });
   }
 };
 
