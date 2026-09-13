@@ -1,4 +1,4 @@
-﻿/* Main Layout Architecture */
+/* Main Layout Architecture */
 .app-container {
   display: flex;
   min-height: 100vh;
@@ -344,7 +344,7 @@
 }
 
 .hero-text-group {
-  max-width: 60%;
+  max-width: 100%;
   z-index: 2;
 }
 
