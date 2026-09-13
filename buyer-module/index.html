@@ -407,9 +407,15 @@
                 </div>
               </div>
 
-              <button class="btn btn-primary" style="width: 100%; font-size: 0.82rem;" onclick="switchView('view-escrow-vault')">
-                View Escrow Vault &rarr;
-              </button>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn btn-outline" style="flex: 1; font-size: 0.8rem; padding: 8px 10px;" onclick="switchView('view-consignments')">
+                  Track All &rarr;
+                </button>
+                <button class="btn btn-primary" style="flex: 1.5; font-size: 0.8rem; padding: 8px 10px; background: #0c5a36; border-color: #0c5a36; display: flex; align-items: center; justify-content: center; gap: 4px;" onclick="openBookTransportModal()">
+                  <span>🚚</span>
+                  <span>Book Fleet</span>
+                </button>
+              </div>
             </div>
 
             <!-- AI Sourcing Advisory -->
