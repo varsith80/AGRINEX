@@ -2108,6 +2108,21 @@ function filterEscrowLedger(filterType, btnEl) {
   });
 }
 
+// Buyer Profile Modal Handlers
+function openBuyerProfileModal() {
+  const modal = document.getElementById('modal-buyer-profile');
+  if (modal) modal.classList.add('active');
+}
+
+function closeBuyerProfileModal() {
+  const modal = document.getElementById('modal-buyer-profile');
+  if (modal) modal.classList.remove('active');
+}
+
+function showNotification(msg, type = 'info') {
+  showToast(msg, type === 'error' ? 'error' : 'success');
+}
+
 // Window bindings for global HTML accessibility
 window.openDepositEscrowModal = openDepositEscrowModal;
 window.closeDepositEscrowModal = closeDepositEscrowModal;
@@ -2144,3 +2159,6 @@ window.clearDemandFilters = clearDemandFilters;
 window.openPostDemandModal = openPostDemandModal;
 window.closePostDemandModal = closePostDemandModal;
 window.updateDemandPricePreview = updateDemandPricePreview;
+window.openBuyerProfileModal = openBuyerProfileModal;
+window.closeBuyerProfileModal = closeBuyerProfileModal;
+window.showNotification = showNotification;
