@@ -1,4 +1,4 @@
-/* AgriNex Authentication & Login Styles */
+﻿/* AgriNex Enterprise Design System - Authentication Stylesheet */
 :root {
   --primary-dark: #063c22;
   --primary: #0c5a36;
@@ -9,18 +9,35 @@
   --primary-border: #bbf7d0;
 
   --accent-gold: #f59e0b;
+  --accent-gold-light: #fef3c7;
   --accent-blue: #2563eb;
+  --accent-blue-light: #eff6ff;
   --accent-purple: #7c3aed;
+  --accent-purple-light: #f5f3ff;
   --accent-red: #dc2626;
+  --accent-red-light: #fee2e2;
+  --accent-emerald: #10b981;
 
   --text-main: #0f172a;
   --text-secondary: #334155;
   --text-muted: #64748b;
   --text-light: #94a3b8;
+  --text-white: #ffffff;
 
   --bg-page: #f8fafc;
   --bg-card: #ffffff;
   --border-default: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+  --shadow-elevated: 0 20px 35px -8px rgba(15, 23, 42, 0.12), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
+
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
 
   --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -45,26 +62,28 @@ body {
 .auth-navbar {
   height: 64px;
   background: linear-gradient(180deg, #063c22 0%, #0a4d2c 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 36px;
+  padding: 0 40px;
   color: #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 12px rgba(6, 60, 34, 0.2);
+  position: relative;
+  z-index: 50;
 }
 
 .auth-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
 }
 
 .auth-logo-box {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
   background: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.4);
   display: flex;
@@ -72,6 +91,7 @@ body {
   justify-content: center;
   overflow: hidden;
   padding: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .auth-logo-box img {
@@ -81,7 +101,7 @@ body {
 }
 
 .auth-brand-title {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 800;
   color: #ffffff;
   letter-spacing: -0.02em;
@@ -94,16 +114,22 @@ body {
 .auth-back-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  color: rgba(255, 255, 255, 0.85);
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 0.84rem;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
-  transition: color 0.15s;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
 }
 
 .auth-back-link:hover {
+  background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
+  transform: translateX(-2px);
 }
 
 /* Auth Main Body */
@@ -112,30 +138,37 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
-  background: radial-gradient(circle at 50% 10%, #ecfdf5 0%, #f8fafc 80%);
+  padding: 44px 20px;
+  background: radial-gradient(circle at 50% 0%, #ecfdf5 0%, #f8fafc 70%);
+  position: relative;
 }
 
 .auth-card {
-  background: #ffffff;
+  background: var(--bg-card);
   border: 1px solid var(--border-default);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
-  max-width: 460px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  max-width: 470px;
   width: 100%;
-  padding: 32px 30px;
+  padding: 36px 32px;
   position: relative;
+  transition: box-shadow 0.25s ease;
+}
+
+.auth-card:hover {
+  box-shadow: var(--shadow-elevated);
 }
 
 .auth-role-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 12px;
-  border-radius: 999px;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
   font-size: 0.76rem;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
 }
 
 .role-badge-farmer { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
@@ -144,28 +177,28 @@ body {
 .role-badge-admin { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
 
 .auth-title {
-  font-size: 1.45rem;
+  font-size: 1.55rem;
   font-weight: 800;
   color: var(--text-main);
   margin-bottom: 6px;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .auth-subtitle {
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   color: var(--text-muted);
   margin-bottom: 22px;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 /* Demo Credentials Box */
 .demo-creds-card {
   background: #f8fafc;
   border: 1px dashed #cbd5e1;
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin-bottom: 20px;
-  font-size: 0.8rem;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 22px;
+  font-size: 0.82rem;
   color: var(--text-secondary);
 }
 
@@ -173,7 +206,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   font-weight: 700;
   color: #0c5a36;
 }
@@ -183,15 +216,21 @@ body {
   color: #ffffff;
   font-size: 0.74rem;
   font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
   border: none;
-  transition: background 0.15s;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .btn-one-click:hover {
-  background: #084c2d;
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
 
 /* Form Styles */
@@ -211,8 +250,8 @@ body {
   width: 100%;
   padding: 10px 14px;
   background-color: #ffffff;
-  border: 1px solid var(--border-default);
-  border-radius: 8px;
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-sm);
   font-size: 0.88rem;
   color: var(--text-main);
   transition: all 0.15s ease;
@@ -221,7 +260,7 @@ body {
 
 .form-input:focus {
   border-color: #0c5a36;
-  box-shadow: 0 0 0 3px rgba(12, 90, 54, 0.12);
+  box-shadow: 0 0 0 3.5px rgba(12, 90, 54, 0.12);
 }
 
 .form-row-remember {
@@ -235,7 +274,12 @@ body {
 
 .form-row-remember a {
   color: #0c5a36;
-  font-weight: 600;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.form-row-remember a:hover {
+  text-decoration: underline;
 }
 
 .btn-submit-auth {
@@ -243,9 +287,9 @@ body {
   background-color: #0c5a36;
   color: #ffffff;
   font-weight: 700;
-  font-size: 0.92rem;
+  font-size: 0.94rem;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -253,33 +297,50 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-shadow: 0 2px 8px rgba(12, 90, 54, 0.2);
 }
 
 .btn-submit-auth:hover {
-  background-color: #084c2d;
-  box-shadow: 0 4px 14px rgba(12, 90, 54, 0.25);
-  transform: translateY(-1px);
+  filter: brightness(1.08);
+  box-shadow: 0 6px 18px rgba(12, 90, 54, 0.25);
+  transform: translateY(-1.5px);
+}
+
+.btn-submit-auth:active {
+  transform: translateY(0);
 }
 
 .auth-footer {
-  margin-top: 22px;
+  margin-top: 24px;
   text-align: center;
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   color: var(--text-muted);
 }
 
 .auth-footer a {
   color: #0c5a36;
   font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
 }
 
 .auth-alert {
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 0.82rem;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   display: none;
+  line-height: 1.4;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .auth-alert.error {
@@ -301,9 +362,10 @@ body {
   display: flex;
   background: #f1f5f9;
   padding: 4px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   margin-bottom: 22px;
   gap: 4px;
+  border: 1px solid var(--border-default);
 }
 
 .auth-tab-btn {
@@ -311,13 +373,13 @@ body {
   padding: 8px 12px;
   font-size: 0.84rem;
   font-weight: 700;
-  border-radius: 7px;
+  border-radius: var(--radius-sm);
   text-align: center;
   color: var(--text-muted);
   cursor: pointer;
   border: none;
   background: transparent;
-  transition: all 0.15s ease;
+  transition: all 0.18s ease;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -328,7 +390,7 @@ body {
 .auth-tab-btn.active {
   background: #ffffff;
   color: var(--text-main);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
 }
 
 .auth-tab-btn:hover:not(.active) {
@@ -360,14 +422,15 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 10px 12px;
   border: 1.5px solid var(--border-default);
-  border-radius: 8px;
-  font-size: 0.8rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   background: #f8fafc;
+  user-select: none;
 }
 
 .role-chip-label input[type="radio"] {
@@ -377,11 +440,12 @@ body {
 .role-chip-label:hover {
   border-color: #cbd5e1;
   background: #ffffff;
+  transform: translateY(-1px);
 }
 
 .role-chip-label.active {
   border-color: var(--primary);
   background: var(--primary-tint);
   color: var(--primary);
+  box-shadow: 0 2px 6px rgba(12, 90, 54, 0.08);
 }
-
