@@ -531,17 +531,23 @@
       <!-- VIEW 4: CONSIGNMENTS & ORDERS (FULL-PAGE) -->
       <div id="view-consignments" class="portal-view dashboard-content">
         <div class="card">
-          <div class="card-header">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
             <div>
               <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">Consignments & Transit Logistics Tracker</h2>
               <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">Track farm-gate dispatches, driver vehicle contacts, and digital gate pass weighbridge slips</p>
             </div>
-            <span class="badge badge-status-transit">2 In Transit</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="badge badge-status-transit" id="consignments-count-badge">2 In Transit</span>
+              <button class="btn btn-primary btn-sm" onclick="openBookTransportModal()" style="display: flex; align-items: center; gap: 6px; padding: 7px 14px; font-size: 0.82rem; background: #0c5a36; border-color: #0c5a36;">
+                <span>🚚</span>
+                <span>+ Book Transport Fleet</span>
+              </button>
+            </div>
           </div>
 
-          <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 12px;">
+          <div id="consignments-list-container" style="display: flex; flex-direction: column; gap: 16px; margin-top: 12px;">
             <!-- Consignment Item 1 -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px;" id="consignment-card-1">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
                 <div>
                   <strong style="font-size: 1.05rem; color: #0f172a;">Consignment #TRK-EXP-9921-TN</strong>
@@ -563,7 +569,7 @@
             </div>
 
             <!-- Consignment Item 2 -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px;" id="consignment-card-2">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
                 <div>
                   <strong style="font-size: 1.05rem; color: #0f172a;">Consignment #TRK-MH-4412-EICHER</strong>
@@ -1413,6 +1419,111 @@
           🔄 Refresh GPS Ping
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL 10: BOOK FARM-GATE TRANSPORT FLEET -->
+  <div class="modal-overlay" id="modal-book-transport">
+    <div class="modal-content" style="max-width: 600px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #e8f5ed; color: #0c5a36; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            🚚
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">Book Farm-Gate Transport Fleet</h3>
+            <span style="font-size: 0.75rem; color: #64748b;">AgriNex Verified Cold-Chain & Haulage Network</span>
+          </div>
+        </div>
+        <button onclick="closeBookTransportModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <form id="form-book-transport">
+        <!-- 1. Select Lot / Commodity -->
+        <div class="form-group">
+          <label class="form-label">Select Purchased Lot to Transport</label>
+          <select id="transport-lot-select" class="form-select" onchange="updateTransportLotMeta(this.value)" required>
+            <option value="LOT-TOM-88|Tomato (Shivam Hybrid)|50 Qt|Murugan Farm, Dindigul, TN|Murugan Palanisamy|21000">LOT-TOM-88 — Tomato (Shivam Hybrid) • 50 Qt (Dindigul, TN)</option>
+            <option value="LOT-COT-102|Long Staple Cotton|80 Qt|Suresh Cotton Ginning, Rajkot, GJ|Suresh Patel|48000">LOT-COT-102 — Long Staple Cotton • 80 Qt (Rajkot, GJ)</option>
+            <option value="LOT-TUR-45|Salem Turmeric Finger|25 Qt|Rajan Agro Fields, Salem, TN|Kavitha Rajan|18500">LOT-TUR-45 — Salem Turmeric Finger • 25 Qt (Salem, TN)</option>
+            <option value="LOT-PADDY-04|1121 Basmati Paddy|120 Qt|Gurpreet Singh Farms, Karnal, HR|Gurpreet Singh|72000">LOT-PADDY-04 — 1121 Basmati Paddy • 120 Qt (Karnal, HR)</option>
+          </select>
+        </div>
+
+        <!-- 2. Origin & Destination -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Pickup Origin (Farm-Gate)</label>
+            <input type="text" id="transport-origin" class="form-input" value="Murugan Farm, Dindigul, TN" readonly style="background: #f8fafc;" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Receiving Hub Destination</label>
+            <select id="transport-destination" class="form-select" onchange="calculateTransportEstimate()">
+              <option value="Hosur Institutional Hub, TN|280 km">Hosur Institutional Hub, TN (280 km)</option>
+              <option value="Navi Mumbai Terminal, MH|1150 km">Navi Mumbai Terminal, MH (1,150 km)</option>
+              <option value="Kolar Central Warehouse, KA|310 km">Kolar Central Warehouse, KA (310 km)</option>
+              <option value="Guntur Yard, AP|540 km">Guntur Yard, AP (540 km)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 3. Vehicle Type Selection -->
+        <div class="form-group">
+          <label class="form-label">Select Dedicated Vehicle Category</label>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <label style="border: 1.5px solid #0c5a36; background: #e8f5ed; border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; display: block;" class="vehicle-choice-label">
+              <input type="radio" name="vehicle-type" value="Bolero Maxi Truck (TN 57 AH 4421)|5800" checked onchange="calculateTransportEstimate()" style="margin-bottom: 4px;" />
+              <div style="font-weight: 700; font-size: 0.8rem; color: #0f172a;">Bolero Maxi Truck</div>
+              <span style="font-size: 0.7rem; color: #64748b;">Cap: 2.5 MT / 50 Qt</span>
+            </label>
+
+            <label style="border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; display: block;" class="vehicle-choice-label">
+              <input type="radio" name="vehicle-type" value="Eicher Pro Reefer (MH 15 DK 8810)|9400" onchange="calculateTransportEstimate()" style="margin-bottom: 4px;" />
+              <div style="font-weight: 700; font-size: 0.8rem; color: #0f172a;">Eicher Reefer</div>
+              <span style="font-size: 0.7rem; color: #64748b;">Cap: 5 MT (Cold Chain)</span>
+            </label>
+
+            <label style="border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; display: block;" class="vehicle-choice-label">
+              <input type="radio" name="vehicle-type" value="Tata LPT 1613 Heavy (KA 01 EK 7712)|16500" onchange="calculateTransportEstimate()" style="margin-bottom: 4px;" />
+              <div style="font-weight: 700; font-size: 0.8rem; color: #0f172a;">Tata 1613 Multi-Axle</div>
+              <span style="font-size: 0.7rem; color: #64748b;">Cap: 12 MT Bulk</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. Transporter Partner -->
+        <div class="form-group">
+          <label class="form-label">Certified Logistics Partner</label>
+          <select id="transport-partner" class="form-select">
+            <option value="GreenWays Transit (Verified • 4.9★)|K. Selvam|+91 94431-22901|TN 57 AH 4421">GreenWays Transit (Verified Partner • 4.9★ • Instant Dispatch)</option>
+            <option value="KisanVahan Logistics (4.8★)|M. Anand|+91 98422-33100|TN 38 BR 1904">KisanVahan Logistics (4.8★ • GPS Telemetry Linked)</option>
+            <option value="AgriCold Chain India (4.9★)|R. Murugan|+91 97890-55214|KA 01 EK 7712">AgriCold Chain India (4.9★ • Multi-Sensor Reefer)</option>
+          </select>
+        </div>
+
+        <!-- 5. Cost Summary & Escrow Breakdown -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.82rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #64748b;">Haulage Base Freight:</span>
+            <strong style="color: #0f172a;" id="transport-base-fee">₹ 5,800</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #64748b;">Tolls & Digital LR Insurance (0.5%):</span>
+            <strong style="color: #64748b;" id="transport-toll-fee">₹ 350</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding-top: 6px; border-top: 1px solid #e2e8f0; margin-top: 6px;">
+            <span style="font-weight: 700; color: #0c5a36;">Total Landed Transport Cost:</span>
+            <strong style="font-size: 1.05rem; color: #0c5a36;" id="transport-total-fee">₹ 6,150</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-outline" onclick="closeBookTransportModal()" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 2; background: #0c5a36; border-color: #0c5a36;">
+            🚚 Confirm Booking & Dispatch Driver
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 

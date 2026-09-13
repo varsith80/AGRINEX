@@ -727,6 +727,59 @@ function closeGpsModal() {
   if (modal) modal.classList.remove('active');
 }
 
+// Book Farm-Gate Transport Modal
+function openBookTransportModal() {
+  const modal = document.getElementById('modal-book-transport');
+  if (modal) {
+    modal.classList.add('active');
+    calculateTransportEstimate();
+  }
+}
+
+function closeBookTransportModal() {
+  const modal = document.getElementById('modal-book-transport');
+  if (modal) modal.classList.remove('active');
+}
+
+function updateTransportLotMeta(lotRaw) {
+  if (!lotRaw) return;
+  const parts = lotRaw.split('|');
+  const origin = parts[3] || 'Farm-Gate Pickup';
+  const originInput = document.getElementById('transport-origin');
+  if (originInput) originInput.value = origin;
+  calculateTransportEstimate();
+}
+
+function calculateTransportEstimate() {
+  const vehicleChecked = document.querySelector('input[name="vehicle-type"]:checked');
+  const destSelect = document.getElementById('transport-destination');
+  const baseFeeEl = document.getElementById('transport-base-fee');
+  const tollFeeEl = document.getElementById('transport-toll-fee');
+  const totalFeeEl = document.getElementById('transport-total-fee');
+
+  let baseRate = 5800;
+  if (vehicleChecked) {
+    const valParts = vehicleChecked.value.split('|');
+    baseRate = parseFloat(valParts[1]) || 5800;
+  }
+
+  let distKm = 280;
+  if (destSelect && destSelect.value) {
+    const dParts = destSelect.value.split('|');
+    distKm = parseInt(dParts[1]) || 280;
+  }
+
+  // Adjust freight by distance ratio (normalized to 280 km)
+  const distMultiplier = distKm / 280;
+  const calculatedBase = Math.round(baseRate * distMultiplier);
+  const tollInsurance = Math.round(calculatedBase * 0.06);
+  const totalLanded = calculatedBase + tollInsurance;
+
+  if (baseFeeEl) baseFeeEl.textContent = `₹ ${calculatedBase.toLocaleString('en-IN')}`;
+  if (tollFeeEl) tollFeeEl.textContent = `₹ ${tollInsurance.toLocaleString('en-IN')}`;
+  if (totalFeeEl) totalFeeEl.textContent = `₹ ${totalLanded.toLocaleString('en-IN')}`;
+}
+
 // Grievances & Claims Redressal System
 function openGrievanceModal() {
   const modal = document.getElementById('modal-file-grievance');
@@ -1076,6 +1129,76 @@ if (demandForm) {
       renderGrievances();
       showToast(`🔒 Claim ${newGrvId} lodged! 65% escrow settlement auto-frozen in vault.`, 'error');
       switchView('view-grievance');
+    });
+  }
+
+  // Book Farm-Gate Transport Fleet submit
+  const transportForm = document.getElementById('form-book-transport');
+  if (transportForm) {
+    transportForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const lotRaw = document.getElementById('transport-lot-select')?.value || '';
+      const [lotId, cropName, quantity, originAddr, farmerName, escrowAmt] = lotRaw.split('|');
+
+      const destRaw = document.getElementById('transport-destination')?.value || 'Hosur Institutional Hub, TN|280 km';
+      const [destName, distStr] = destRaw.split('|');
+
+      const partnerRaw = document.getElementById('transport-partner')?.value || 'GreenWays Transit|K. Selvam|+91 94431-22901|TN 57 AH 4421';
+      const [partnerName, driverName, driverPhone, vehicleNum] = partnerRaw.split('|');
+
+      const selectedVehEl = document.querySelector('input[name="vehicle-type"]:checked');
+      const vehRaw = selectedVehEl ? selectedVehEl.value : 'Bolero Maxi Truck (TN 57 AH 4421)|5800';
+      const vehName = vehRaw.split('|')[0];
+
+      const totalCostText = document.getElementById('transport-total-fee')?.textContent || '₹ 6,150';
+      const newTrkId = `TRK-GW-${Math.floor(1000 + Math.random() * 9000)}-TN`;
+
+      const container = document.getElementById('consignments-list-container');
+      if (container) {
+        const newCard = document.createElement('div');
+        newCard.id = `consignment-card-${Date.now()}`;
+        newCard.style.cssText = 'background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 18px; box-shadow: 0 4px 12px rgba(12, 90, 54, 0.08); transition: all 0.3s ease;';
+        newCard.innerHTML = `
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <strong style="font-size: 1.05rem; color: #0c5a36;">Consignment #${newTrkId}</strong>
+                <span class="badge" style="background: #10b981; color: #ffffff; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 4px;">JUST DISPATCHED</span>
+              </div>
+              <div style="font-size: 0.78rem; color: #475569; margin-top: 2px;">
+                ${cropName || 'Direct Farm Lot'} • ${quantity || '50 Qt'} • Origin: <strong>${originAddr || 'Farm-Gate'}</strong> ➔ Destination: <strong>${destName}</strong>
+              </div>
+            </div>
+            <span class="badge badge-status-transit">🚚 In Transit (Dispatched)</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #bbf7d0; margin-bottom: 12px; font-size: 0.8rem;">
+            <div>Vehicle: <strong>${vehName}</strong></div>
+            <div>Driver: <strong>${driverName} (${driverPhone})</strong></div>
+            <div>Landed Haulage: <strong style="color: #0c5a36;">${totalCostText}</strong></div>
+          </div>
+
+          <div style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button class="btn btn-outline btn-sm" onclick="openGatePassModal('${newTrkId}')">Download Gate Pass</button>
+            <button class="btn btn-outline btn-sm" onclick="openLorryReceiptModal('${newTrkId}')">View Digital Lorry Receipt</button>
+            <button class="btn btn-primary btn-sm" onclick="openGpsModal('${newTrkId}', '${vehName}', '${driverName}', '${originAddr || 'Farm-Gate'} ➔ ${destName}')">Live GPS Ping</button>
+            <button class="btn btn-primary btn-sm" style="background: #0c5a36; border-color: #0c5a36;" onclick="openArrivalReleaseModal('${newTrkId}', '${cropName || 'Farm Lot'}', 45000, '${farmerName || 'Farmer'}')">Confirm Arrival & Release Escrow</button>
+          </div>
+        `;
+        container.prepend(newCard);
+      }
+
+      // Update badge count
+      const badge = document.getElementById('consignments-count-badge');
+      if (badge) {
+        const count = container ? container.children.length : 3;
+        badge.textContent = `${count} In Transit`;
+      }
+
+      closeBookTransportModal();
+      showToast(`🚚 Fleet booked successfully! Consignment #${newTrkId} dispatched for ${cropName || 'Farm Lot'}.`);
+      switchView('view-consignments');
     });
   }
 });
