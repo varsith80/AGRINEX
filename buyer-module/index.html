@@ -557,8 +557,8 @@
               </div>
 
               <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                <button class="btn btn-outline btn-sm" onclick="showToast('Gate pass & digital weight slip verified!')">View Digital Lorry Receipt</button>
-                <button class="btn btn-primary btn-sm" onclick="showToast('Arrival confirmed! Final 65% balance released.')">Confirm Arrival & Release Escrow</button>
+                <button class="btn btn-outline btn-sm" onclick="openLorryReceiptModal('TRK-EXP-9921-TN')">View Digital Lorry Receipt</button>
+                <button class="btn btn-primary btn-sm" id="btn-arrival-release-1" onclick="openArrivalReleaseModal('TRK-EXP-9921-TN', 'Tomato (Shivam Hybrid)', 39000, 'Murugan Palanisamy')">Confirm Arrival & Release Escrow</button>
               </div>
             </div>
 
@@ -579,15 +579,15 @@
               </div>
 
               <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                <button class="btn btn-outline btn-sm" onclick="showToast('Digital weighbridge slip download started...')">Download Gate Pass</button>
-                <button class="btn btn-primary btn-sm" onclick="showToast('Consignment tracking ping updated!')">Live GPS Ping</button>
+                <button class="btn btn-outline btn-sm" onclick="openGatePassModal('TRK-MH-4412-EICHER')">Download Gate Pass</button>
+                <button class="btn btn-primary btn-sm" onclick="openGpsModal('TRK-MH-4412-EICHER', 'Eicher Pro 2049 (MH 15 DK 8810)', 'Sanjay Patil', 'NH 48 Pune-Bengaluru Corridor')">Live GPS Ping</button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- VIEW 6: ESCROW VAULT & MILESTONES (FULL-PAGE) -->
+      <!-- VIEW 5: ESCROW VAULT & MILESTONES (FULL-PAGE) -->
       <div id="view-escrow-vault" class="portal-view dashboard-content">
         <div class="card">
           <div class="card-header">
@@ -613,7 +613,7 @@
             </div>
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
               <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Completed Settlements</span>
-              <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 4px;">₹ 5,80,000</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 4px;" id="escrow-settled-total">₹ 5,80,000</div>
             </div>
           </div>
 
@@ -625,7 +625,7 @@
                 <strong style="font-size: 0.95rem;">Contract #ESC-BB-9921 • Tomato (50 Qt)</strong>
                 <div style="font-size: 0.76rem; color: #64748b;">Farmer: Murugan Palanisamy • Total Contract: ₹ 60,000</div>
               </div>
-              <span class="badge badge-grade-a">35% Locked (₹ 21,000)</span>
+              <span class="badge badge-grade-a" id="escrow-status-badge">35% Locked (₹ 21,000)</span>
             </div>
 
             <div class="stepper-container" style="max-width: 600px; margin: 18px 0;">
@@ -638,17 +638,17 @@
                 <span class="stepper-label">35% Locked</span>
               </div>
               <div class="stepper-step">
-                <div class="stepper-dot active">🚚</div>
+                <div class="stepper-dot active" id="stepper-dot-dispatch">🚚</div>
                 <span class="stepper-label">Dispatched</span>
               </div>
               <div class="stepper-step">
-                <div class="stepper-dot">4</div>
+                <div class="stepper-dot" id="stepper-dot-settled">4</div>
                 <span class="stepper-label">100% Settled</span>
               </div>
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
-              <button class="btn btn-primary btn-sm" onclick="showToast('Final 65% balance released directly to farmer account.')">
+              <button class="btn btn-primary btn-sm" id="btn-escrow-vault-release" onclick="openArrivalReleaseModal('ESC-BB-9921', 'Tomato (Shivam Hybrid)', 39000, 'Murugan Palanisamy')">
                 Release 65% Balance (₹ 39,000)
               </button>
             </div>
@@ -1240,6 +1240,179 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL 7: DIGITAL LORRY RECEIPT & GATE PASS -->
+  <div class="modal-overlay" id="modal-lorry-receipt">
+    <div class="modal-content" style="max-width: 620px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #e8f5ed; color: #0c5a36; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            📄
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">Digital Lorry Receipt (LR) & Gate Pass</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="lr-tracking-subtitle">LR No: LR-TN-2026-9921 • AgriNex Logistics System</span>
+          </div>
+        </div>
+        <button onclick="closeLorryReceiptModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Printable LR Voucher Card -->
+      <div id="lr-printable-card" style="background: #ffffff; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 18px; margin-bottom: 18px; font-size: 0.82rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;">
+          <div>
+            <span style="font-size: 0.7rem; color: #166534; font-weight: 800; background: #e8f5ed; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">Verified Transit Consignment</span>
+            <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-top: 4px;" id="lr-crop-title">50 Qt Shivam Hybrid Tomato (Grade A)</div>
+            <span style="font-size: 0.75rem; color: #64748b;">Consignor: Murugan Palanisamy (Dindigul) → Consignee: BigBasket Hosur Hub</span>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-family: monospace; font-weight: 800; font-size: 0.95rem; color: #0c5a36;" id="lr-id-display">TRK-EXP-9921-TN</div>
+            <span style="font-size: 0.68rem; color: #64748b;">Security Gate Seal: <strong>#SEAL-88912</strong></span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; background: #f8fafc; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+          <div><strong>Vehicle:</strong> <span id="lr-vehicle-display">Bolero Maxi Truck (TN 57 AH 4421)</span></div>
+          <div><strong>Driver:</strong> <span id="lr-driver-display">K. Selvam (+91 94431-22901)</span></div>
+          <div><strong>Gross Weight:</strong> 7,850 kg (Digital Certified)</div>
+          <div><strong>Tare Weight:</strong> 2,850 kg (Empty Truck)</div>
+          <div><strong>Certified Net Cargo:</strong> <strong style="color: #0c5a36;">5,000 kg (50.0 Qt)</strong></div>
+          <div><strong>Assay Moisture:</strong> 82.5% (Grade A Compliant)</div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; font-size: 0.72rem; color: #64748b;">
+          <span>🔒 Digitally Signed by AgriNex Weighbridge Terminal</span>
+          <span>Timestamp: 13 Sep 2026, 06:30 AM</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeLorryReceiptModal()" style="flex: 1;">Close</button>
+        <button class="btn btn-primary" onclick="printLorryReceipt()" style="flex: 2;">
+          🖨️ Print / Download Official LR PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 8: CONFIRM ARRIVAL & ESCROW RELEASE -->
+  <div class="modal-overlay" id="modal-confirm-arrival">
+    <div class="modal-content" style="max-width: 560px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #e8f5ed; color: #0c5a36; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            ✅
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">Arrival QC & Escrow Release</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="arrival-tracking-id">Consignment #TRK-EXP-9921-TN</span>
+          </div>
+        </div>
+        <button onclick="closeArrivalReleaseModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.82rem;">
+        <strong style="color: #0f172a; display: block; margin-bottom: 8px;">Physical Receiving Checklist:</strong>
+        <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer;">
+          <input type="checkbox" id="qc-weight" checked />
+          <span>Digital Weighbridge Net Weight Verified (50 Qt / 5,000 kg)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer;">
+          <input type="checkbox" id="qc-moisture" checked />
+          <span>Moisture Index within acceptable tolerance (82.5% vs max 85%)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="qc-grade" checked />
+          <span>Quality Grade A Certification Ratified by Receiving Officer</span>
+        </label>
+      </div>
+
+      <!-- Financial Disbursement Card -->
+      <div style="background: #e8f5ed; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px; margin-bottom: 18px; font-size: 0.82rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span style="color: #64748b;">Total Trade Contract:</span>
+          <strong style="color: #0f172a;" id="arrival-total-val">₹ 60,000</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span style="color: #64748b;">35% Advance Escrow (Already Deposited):</span>
+          <strong style="color: #166534;" id="arrival-adv-val">₹ 21,000</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding-top: 6px; border-top: 1px solid #bbf7d0; margin-top: 6px;">
+          <span style="font-weight: 700; color: #0c5a36;">Final 65% Settlement to Disburse:</span>
+          <strong style="font-size: 1.1rem; color: #0c5a36;" id="arrival-release-val">₹ 39,000</strong>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeArrivalReleaseModal()" style="flex: 1;">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmReleaseEscrowAction()" style="flex: 2; background: #0c5a36;">
+          ✓ Ratify QC & Release Escrow
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 9: LIVE GPS VEHICLE TELEMETRY -->
+  <div class="modal-overlay" id="modal-gps-tracker">
+    <div class="modal-content" style="max-width: 580px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            🛰️
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e3a8a; margin: 0;">Live Satellite GPS Telemetry</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="gps-tracking-num">TRK-MH-4412-EICHER</span>
+          </div>
+        </div>
+        <button onclick="closeGpsModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Live GPS Telemetry Dashboard -->
+      <div style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 18px; margin-bottom: 16px; font-size: 0.82rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <span style="color: #94a3b8; font-size: 0.72rem; text-transform: uppercase;">Vehicle & Transporter</span>
+            <div style="font-size: 0.95rem; font-weight: 800; color: #38bdf8;" id="gps-vehicle-name">Eicher Pro 2049 (MH 15 DK 8810)</div>
+          </div>
+          <span style="background: #166534; color: #86efac; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px;">
+            <span style="width: 6px; height: 6px; background: #4ade80; border-radius: 50%;"></span> Online (58 km/h)
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: rgba(255,255,255,0.06); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+          <div>
+            <span style="color: #94a3b8; font-size: 0.7rem; display: block;">Driver</span>
+            <strong id="gps-driver-name">Sanjay Patil</strong>
+          </div>
+          <div>
+            <span style="color: #94a3b8; font-size: 0.7rem; display: block;">Distance Remaining</span>
+            <strong style="color: #fbbf24;">142 km</strong>
+          </div>
+          <div>
+            <span style="color: #94a3b8; font-size: 0.7rem; display: block;">Live ETA</span>
+            <strong style="color: #4ade80;">Tomorrow 9:15 AM</strong>
+          </div>
+        </div>
+
+        <div style="font-size: 0.78rem; color: #cbd5e1; margin-bottom: 4px;">
+          📍 Current Corridor: <strong id="gps-corridor-name">NH 48 Pune-Bengaluru Corridor (Near Belagavi Bypass)</strong>
+        </div>
+        <div style="font-size: 0.7rem; color: #64748b;">
+          Satellite Fix: 15.8497° N, 74.4977° E • Reefer Temp: 18.2°C (Optimal)
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-outline" onclick="showToast('Calling driver Sanjay Patil (+91 98220-44911)...', 'info')" style="flex: 1;">
+          📞 Call Driver
+        </button>
+        <button class="btn btn-primary" onclick="showToast('Satellite telemetry ping refreshed! Location updated.', 'success')" style="flex: 2;">
+          🔄 Refresh GPS Ping
+        </button>
+      </div>
     </div>
   </div>
 

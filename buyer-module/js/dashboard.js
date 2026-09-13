@@ -593,6 +593,140 @@ function initLocationSwitcher() {
   });
 }
 
+// ==========================================
+// LOGISTICS, LORRY RECEIPT & ESCROW RELEASE
+// ==========================================
+
+// Global state for active arrival release
+let activeArrivalDisbursement = {
+  trackingId: 'TRK-EXP-9921-TN',
+  crop: 'Tomato (Shivam Hybrid)',
+  amount: 39000,
+  farmer: 'Murugan Palanisamy'
+};
+
+function openLorryReceiptModal(trackingId) {
+  const modal = document.getElementById('modal-lorry-receipt');
+  if (!modal) return;
+  if (trackingId) {
+    const titleEl = document.getElementById('lr-id-display');
+    const subEl = document.getElementById('lr-tracking-subtitle');
+    if (titleEl) titleEl.textContent = trackingId;
+    if (subEl) subEl.textContent = `LR No: LR-${trackingId.slice(4)} • AgriNex Logistics System`;
+  }
+  modal.classList.add('active');
+}
+
+function closeLorryReceiptModal() {
+  const modal = document.getElementById('modal-lorry-receipt');
+  if (modal) modal.classList.remove('active');
+}
+
+function printLorryReceipt() {
+  showToast('Generating official AgriNex Digital Lorry Receipt PDF with QR verification seal...');
+  setTimeout(() => {
+    closeLorryReceiptModal();
+    showToast('✓ Lorry Receipt & Digital Gate Pass downloaded successfully!');
+  }, 900);
+}
+
+function openArrivalReleaseModal(trackingId, crop, amount, farmer) {
+  activeArrivalDisbursement = {
+    trackingId: trackingId || 'TRK-EXP-9921-TN',
+    crop: crop || 'Tomato (Shivam Hybrid)',
+    amount: amount || 39000,
+    farmer: farmer || 'Murugan Palanisamy'
+  };
+
+  const modal = document.getElementById('modal-confirm-arrival');
+  if (!modal) return;
+
+  const trackEl = document.getElementById('arrival-tracking-id');
+  const releaseEl = document.getElementById('arrival-release-val');
+  if (trackEl) trackEl.textContent = `Consignment #${activeArrivalDisbursement.trackingId} • ${activeArrivalDisbursement.crop}`;
+  if (releaseEl) releaseEl.textContent = `₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}`;
+
+  modal.classList.add('active');
+}
+
+function closeArrivalReleaseModal() {
+  const modal = document.getElementById('modal-confirm-arrival');
+  if (modal) modal.classList.remove('active');
+}
+
+function confirmReleaseEscrowAction() {
+  closeArrivalReleaseModal();
+  const amtStr = `₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}`;
+
+  // Update Escrow status and Stepper if present
+  const statusBadge = document.getElementById('escrow-status-badge');
+  if (statusBadge) {
+    statusBadge.className = 'badge badge-grade-a';
+    statusBadge.textContent = '100% Settled & Released';
+  }
+
+  const dotSettled = document.getElementById('stepper-dot-settled');
+  if (dotSettled) {
+    dotSettled.className = 'stepper-dot active';
+    dotSettled.textContent = '✓';
+  }
+
+  const btnVault = document.getElementById('btn-escrow-vault-release');
+  if (btnVault) {
+    btnVault.disabled = true;
+    btnVault.textContent = '✓ 100% Escrow Settled';
+    btnVault.style.background = '#15803d';
+    btnVault.style.borderColor = '#15803d';
+  }
+
+  const btnArrival = document.getElementById('btn-arrival-release-1');
+  if (btnArrival) {
+    btnArrival.textContent = '✓ Delivered & Released';
+    btnArrival.disabled = true;
+    btnArrival.style.background = '#15803d';
+    btnArrival.style.borderColor = '#15803d';
+  }
+
+  const settledTotalEl = document.getElementById('escrow-settled-total');
+  if (settledTotalEl) {
+    settledTotalEl.textContent = '₹ 6,40,000';
+  }
+
+  showToast(`🎉 Quality verified! ${amtStr} released to ${activeArrivalDisbursement.farmer}. Contract 100% Settled!`, 'success');
+}
+
+function openGatePassModal(trackingId) {
+  openLorryReceiptModal(trackingId);
+  const cropEl = document.getElementById('lr-crop-title');
+  const vehEl = document.getElementById('lr-vehicle-display');
+  const driverEl = document.getElementById('lr-driver-display');
+  if (cropEl) cropEl.textContent = '80 Qt Red Onion (Nashik Export Quality)';
+  if (vehEl) vehEl.textContent = 'Eicher Pro 2049 (MH 15 DK 8810)';
+  if (driverEl) driverEl.textContent = 'Sanjay Patil (+91 98220-44911)';
+}
+
+function openGpsModal(trackingId, vehicle, driver, corridor) {
+  const modal = document.getElementById('modal-gps-tracker');
+  if (!modal) return;
+
+  const trackNumEl = document.getElementById('gps-tracking-num');
+  const vehEl = document.getElementById('gps-vehicle-name');
+  const driverEl = document.getElementById('gps-driver-name');
+  const corridorEl = document.getElementById('gps-corridor-name');
+
+  if (trackNumEl) trackNumEl.textContent = trackingId || 'TRK-MH-4412-EICHER';
+  if (vehEl) vehEl.textContent = vehicle || 'Eicher Pro 2049 (MH 15 DK 8810)';
+  if (driverEl) driverEl.textContent = driver || 'Sanjay Patil';
+  if (corridorEl) corridorEl.textContent = corridor || 'NH 48 Pune-Bengaluru Corridor';
+
+  modal.classList.add('active');
+}
+
+function closeGpsModal() {
+  const modal = document.getElementById('modal-gps-tracker');
+  if (modal) modal.classList.remove('active');
+}
+
 // Grievances & Claims Redressal System
 function openGrievanceModal() {
   const modal = document.getElementById('modal-file-grievance');
