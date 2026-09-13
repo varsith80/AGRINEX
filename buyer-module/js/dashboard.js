@@ -187,9 +187,18 @@ function switchView(viewId) {
     }
   });
 
+  if (viewId === 'view-consignments' && typeof renderConsignments === 'function') {
+    renderConsignments();
+  }
+  if (viewId === 'view-storage' && typeof renderStorageFacilities === 'function') {
+    renderStorageFacilities();
+    renderStorageBookings();
+  }
+
   // Scroll to top of main wrapper
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+window.switchView = switchView;
 
 // Setup Sidebar Click Handlers
 function setupSidebarNav() {
