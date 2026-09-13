@@ -909,3 +909,7 @@ const buyerData = {
     }
   ]
 };
+
+if (typeof window !== 'undefined') {
+  window.buyerData = buyerData;
+}

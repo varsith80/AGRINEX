@@ -3,6 +3,8 @@
  * Handles Standard Marketplace Bids + Emergency Salvage Buyouts (Breakeven Procurement)
  */
 
+var buyerData = (typeof window !== 'undefined' && window.buyerData) ? window.buyerData : (typeof buyerData !== 'undefined' ? buyerData : {});
+
 const DEFAULT_EMERGENCY_FEED = [
   {
     id: "EMG-LOT-TOM-99",
@@ -2241,7 +2243,21 @@ function showNotification(msg, type = 'info') {
   showToast(msg, type === 'error' ? 'error' : 'success');
 }
 
-// Window bindings for global HTML accessibility
+function updateDemandPricePreview() {
+  const targetPriceInput = document.getElementById('post-demand-target-price');
+  const previewEl = document.getElementById('demand-price-kg-preview');
+  if (targetPriceInput && previewEl) {
+    const qtPrice = parseFloat(targetPriceInput.value || 0);
+    const kgPrice = (qtPrice / 100).toFixed(2);
+    previewEl.textContent = `₹ ${kgPrice} /kg`;
+  }
+}
+
+// Safe Window bindings for global HTML accessibility
+window.showNotification = showNotification;
+window.updateDemandPricePreview = updateDemandPricePreview;
+window.openBuyerProfileModal = openBuyerProfileModal;
+window.closeBuyerProfileModal = closeBuyerProfileModal;
 window.openDepositEscrowModal = openDepositEscrowModal;
 window.closeDepositEscrowModal = closeDepositEscrowModal;
 window.handleDepositEscrowSubmit = handleDepositEscrowSubmit;
@@ -2276,10 +2292,6 @@ window.filterDemandsByHub = filterDemandsByHub;
 window.clearDemandFilters = clearDemandFilters;
 window.openPostDemandModal = openPostDemandModal;
 window.closePostDemandModal = closePostDemandModal;
-window.updateDemandPricePreview = updateDemandPricePreview;
-window.openBuyerProfileModal = openBuyerProfileModal;
-window.closeBuyerProfileModal = closeBuyerProfileModal;
-window.showNotification = showNotification;
 
 // ==========================================
 // FEATURE 9: COLD STORAGE, HERMETIC SILOS & e-NWR FINANCING
@@ -2625,11 +2637,21 @@ window.handleEnwrPledgeSubmit = handleEnwrPledgeSubmit;
 let activeShipmentTab = 'all';
 let shipmentSearchQuery = '';
 
+function getBuyerConsignments() {
+  if (typeof window !== 'undefined' && window.buyerData && window.buyerData.consignments) {
+    return window.buyerData.consignments;
+  }
+  if (typeof buyerData !== 'undefined' && buyerData.consignments) {
+    return buyerData.consignments;
+  }
+  return [];
+}
+
 function renderConsignments() {
   const container = document.getElementById('consignments-list-container');
   if (!container) return;
 
-  const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
+  const consignments = getBuyerConsignments();
 
   // Calculate & update KPI counters
   const activeTrucks = consignments.filter(s => s.status === 'transit').length;
@@ -2811,7 +2833,8 @@ function openGatePassModal(trackingId) {
   const modal = document.getElementById('modal-gate-pass');
   if (!modal) return;
 
-  const consignment = (buyerData.consignments || []).find(c => c.trackingId === trackingId) || buyerData.consignments[0];
+  const consignments = getBuyerConsignments();
+  const consignment = consignments.find(c => c.trackingId === trackingId) || consignments[0];
   if (consignment) {
     const idEl = document.getElementById('gp-modal-id');
     const trkEl = document.getElementById('gp-modal-tracking');
@@ -2855,7 +2878,8 @@ function openGpsModal(trackingId) {
   const modal = document.getElementById('modal-gps-track');
   if (!modal) return;
 
-  const consignment = (buyerData.consignments || []).find(c => c.trackingId === trackingId) || buyerData.consignments[0];
+  const consignments = getBuyerConsignments();
+  const consignment = consignments.find(c => c.trackingId === trackingId) || consignments[0];
   if (consignment) {
     const titleEl = document.getElementById('gps-modal-title');
     const subEl = document.getElementById('gps-modal-sub');
@@ -2895,7 +2919,8 @@ function openQcReleaseModal(trackingId) {
   const modal = document.getElementById('modal-qc-release');
   if (!modal) return;
 
-  const consignment = (buyerData.consignments || []).find(c => c.trackingId === trackingId) || buyerData.consignments[0];
+  const consignments = getBuyerConsignments();
+  const consignment = consignments.find(c => c.trackingId === trackingId) || consignments[0];
   if (consignment) {
     const idEl = document.getElementById('qc-modal-id');
     const targetInput = document.getElementById('qc-target-tracking-id');
@@ -2927,7 +2952,8 @@ function handleQcReleaseSubmit(e) {
   const inwardWt = parseFloat(document.getElementById('qc-inward-weight')?.value || 10000);
   const gradeScore = document.getElementById('qc-grade-score')?.value || 94;
 
-  const consignment = (buyerData.consignments || []).find(c => c.trackingId === targetId);
+  const consignments = getBuyerConsignments();
+  const consignment = consignments.find(c => c.trackingId === targetId);
   if (consignment) {
     consignment.status = 'delivered';
     consignment.step = 4;
