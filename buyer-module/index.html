@@ -741,90 +741,87 @@
         </div>
       </div>
 
-      <!-- VIEW 4: CONSIGNMENTS & ORDERS (FULL-PAGE TRACKING) -->
+      <!-- VIEW 4: CONSIGNMENTS & SHIPMENT TRACKING (FARMER MODULE PARITY) -->
       <div id="view-consignments" class="portal-view dashboard-content">
         
         <!-- HEADER -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
           <div>
-            <h1 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin: 0;">Orders & Shipments Tracking</h1>
-            <p style="font-size: 0.82rem; color: #64748b; margin: 2px 0 0;">Track farm-gate crop pickups, live satellite GPS truck telemetry, digital gate passes & arrival QC escrow releases</p>
+            <h1 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin: 0;">Orders & Shipments Tracking</h1>
+            <p style="font-size: 0.8rem; color: #64748b; margin: 2px 0 0;">Track your crop pickup, truck telematics, and digital gate passes in real time</p>
           </div>
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn-outline btn-sm" onclick="renderBuyerConsignments(); showToast('Telemetry & GPS pings refreshed!');">
-              ↻ Refresh Telemetry
-            </button>
-            <button class="btn btn-primary btn-sm" onclick="openBookTransportModal()" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
-              🚚 + Book Transport Fleet
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="btn btn-outline btn-sm" onclick="renderBuyerShipments()" style="font-weight: 700;">↻ Refresh</button>
+            <button class="btn btn-primary btn-sm" onclick="openBookTransportModal()" style="display: flex; align-items: center; gap: 6px; background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
+              <span>🚚</span>
+              <span>+ Book Transport Fleet</span>
             </button>
           </div>
         </div>
 
-        <!-- 4 STATS CARDS (FARMER MODULE PARITY) -->
+        <!-- 4 COMPACT METRIC STATS -->
         <div class="simple-stats-grid">
           <div class="stat-card-compact">
             <div class="stat-icon-sq" style="background: #e0f2fe; color: #0284c7;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
             </div>
             <div>
               <div style="font-size: 0.72rem; font-weight: 600; color: #64748b;">Active Trucks</div>
-              <div style="font-size: 1.2rem; font-weight: 800; color: #0f172a;" id="stat-active-trucks">2 On Road</div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a;" id="buyer-shipment-active-count">2 On Road</div>
             </div>
           </div>
 
           <div class="stat-card-compact">
-            <div class="stat-icon-sq" style="background: #e8f5ed; color: #10b981;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            <div class="stat-icon-sq" style="background: #e8f5ed; color: #0c5a36;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l9 4.9V17L12 22l-9-5V6.9L12 2z"></path></svg>
             </div>
             <div>
               <div style="font-size: 0.72rem; font-weight: 600; color: #64748b;">Volume in Transit</div>
-              <div style="font-size: 1.15rem; font-weight: 800; color: #0c5a36;" id="stat-volume-transit">160 Qt <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">(16,000 kg)</span></div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: #0c5a36;" id="buyer-shipment-transit-vol">160 Qt <span style="font-size: 0.72rem; font-weight: 600; color: #64748b;">(16,000 kg)</span></div>
             </div>
           </div>
 
           <div class="stat-card-compact">
-            <div class="stat-icon-sq" style="background: #f3e8ff; color: #a855f7;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18"></path><path d="m14 9 3 3-3 3"></path></svg>
+            <div class="stat-icon-sq" style="background: #f3e8ff; color: #7e22ce;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="9" x2="9" y1="2" y2="22"></line></svg>
             </div>
             <div>
-              <div style="font-size: 0.72rem; font-weight: 600; color: #64748b;">Digital Gate Passes</div>
-              <div style="font-size: 1.2rem; font-weight: 800; color: #0f172a;" id="stat-gate-passes">3 Ready</div>
+              <div style="font-size: 0.72rem; font-weight: 600; color: #64748b;">Gate Passes</div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a;" id="buyer-shipment-gp-count">3 Ready</div>
             </div>
           </div>
 
           <div class="stat-card-compact">
             <div class="stat-icon-sq" style="background: #ffedd5; color: #f97316;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             </div>
             <div>
-              <div style="font-size: 0.72rem; font-weight: 600; color: #64748b;">Delivery & QC Success</div>
-              <div style="font-size: 1.2rem; font-weight: 800; color: #059669;">99.6%</div>
+              <div style="font-size: 0.72rem; font-weight: 600; color: #64748b;">Delivery Success</div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">99.4%</div>
             </div>
           </div>
         </div>
 
-        <!-- FILTER TABS & SEARCH -->
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
-          <div class="filter-tabs-row" style="margin-bottom: 0;">
-            <button class="filter-tab active" id="tab-shipment-all" onclick="setShipmentTab('all', this)">All Orders (4)</button>
-            <button class="filter-tab" id="tab-shipment-transit" onclick="setShipmentTab('transit', this)">On The Road (2)</button>
-            <button class="filter-tab" id="tab-shipment-scheduled" onclick="setShipmentTab('scheduled', this)">Pickup Scheduled (1)</button>
-            <button class="filter-tab" id="tab-shipment-delivered" onclick="setShipmentTab('delivered', this)">Delivered & Settled (1)</button>
-          </div>
-
-          <!-- Quick Search -->
-          <div style="position: relative; min-width: 280px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input type="text" id="shipment-search-input" placeholder="Search tracking ID, plate, driver, crop..." oninput="handleShipmentSearch(this.value)" style="width: 100%; padding: 8px 14px 8px 36px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.82rem; outline: none; background: #ffffff;" />
-          </div>
+        <!-- SEARCH BAR -->
+        <div style="position: relative; margin-bottom: 14px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="buyer-shipment-search" placeholder="Search tracking ID, truck plate, driver, crop, or farmer..." oninput="handleShipmentSearch(this.value)" style="width: 100%; padding: 10px 18px 10px 46px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.88rem; background: #ffffff; outline: none; transition: all 0.2s;" onfocus="this.style.borderColor='#0c5a36'; this.style.boxShadow='0 0 0 3px rgba(12,90,54,0.12)';" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none';" />
         </div>
 
-        <!-- DYNAMIC SHIPMENTS LIST CONTAINER -->
-        <div id="consignments-list-container">
-          <!-- Rendered dynamically via dashboard.js renderBuyerConsignments() -->
+        <!-- FILTER TABS -->
+        <div class="filter-tabs-row" id="buyer-shipment-tabs">
+          <button class="filter-tab active" onclick="setBuyerShipmentTab('all', this)">All Orders (<span id="tab-count-all">4</span>)</button>
+          <button class="filter-tab" onclick="setBuyerShipmentTab('transit', this)">On The Road (<span id="tab-count-transit">2</span>)</button>
+          <button class="filter-tab" onclick="setBuyerShipmentTab('scheduled', this)">Pickup Scheduled (<span id="tab-count-scheduled">1</span>)</button>
+          <button class="filter-tab" onclick="setBuyerShipmentTab('delivered', this)">Delivered (<span id="tab-count-delivered">1</span>)</button>
+        </div>
+
+        <!-- ORDERS / SHIPMENTS LIST -->
+        <div id="buyer-shipments-container" style="display: flex; flex-direction: column; gap: 14px;">
+          <!-- Dynamically rendered via dashboard.js renderBuyerShipments() -->
         </div>
 
       </div>

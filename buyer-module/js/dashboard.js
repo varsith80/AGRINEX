@@ -1430,18 +1430,218 @@ function initLocationSwitcher() {
 }
 
 // ==========================================
+// FEATURE: ORDERS & SHIPMENTS TRACKING (FARMER MODULE PARITY)
+// ==========================================
+
+let currentBuyerShipmentTab = 'all';
+let buyerShipmentSearchQuery = '';
+
+function renderBuyerShipments() {
+  const container = document.getElementById('buyer-shipments-container');
+  if (!container) return;
+
+  const shipments = buyerData.buyerShipments || [];
+
+  // Update Top Metric Stat Counters
+  const activeCountEl = document.getElementById('buyer-shipment-active-count');
+  const transitVolEl = document.getElementById('buyer-shipment-transit-vol');
+  const gpCountEl = document.getElementById('buyer-shipment-gp-count');
+
+  const onRoadList = shipments.filter(s => s.status === 'transit');
+  const scheduledList = shipments.filter(s => s.status === 'scheduled');
+  const deliveredList = shipments.filter(s => s.status === 'delivered');
+
+  const transitQt = onRoadList.reduce((sum, s) => sum + (s.quantity_qt || 0), 0);
+  const transitKg = onRoadList.reduce((sum, s) => sum + (s.quantity_kg || (s.quantity_qt * 100)), 0);
+
+  if (activeCountEl) activeCountEl.textContent = `${onRoadList.length} On Road`;
+  if (transitVolEl) transitVolEl.innerHTML = `${transitQt} Qt <span style="font-size: 0.72rem; font-weight: 600; color: #64748b;">(${transitKg.toLocaleString('en-IN')} kg)</span>`;
+  if (gpCountEl) gpCountEl.textContent = `${shipments.filter(s => s.gate_pass).length} Ready`;
+
+  // Update tab counts
+  const countAll = document.getElementById('tab-count-all');
+  const countTransit = document.getElementById('tab-count-transit');
+  const countSched = document.getElementById('tab-count-scheduled');
+  const countDeliv = document.getElementById('tab-count-delivered');
+
+  if (countAll) countAll.textContent = shipments.length;
+  if (countTransit) countTransit.textContent = onRoadList.length;
+  if (countSched) countSched.textContent = scheduledList.length;
+  if (countDeliv) countDeliv.textContent = deliveredList.length;
+
+  // Filter list
+  let filtered = shipments.filter(s => {
+    if (currentBuyerShipmentTab === 'all') return true;
+    return s.status === currentBuyerShipmentTab;
+  });
+
+  if (buyerShipmentSearchQuery) {
+    const q = buyerShipmentSearchQuery;
+    filtered = filtered.filter(s => 
+      (s.tracking_id && s.tracking_id.toLowerCase().includes(q)) ||
+      (s.gate_pass && s.gate_pass.toLowerCase().includes(q)) ||
+      (s.lr_no && s.lr_no.toLowerCase().includes(q)) ||
+      (s.crop && s.crop.toLowerCase().includes(q)) ||
+      (s.farmer && s.farmer.toLowerCase().includes(q)) ||
+      (s.driver && s.driver.toLowerCase().includes(q)) ||
+      (s.vehicle && s.vehicle.toLowerCase().includes(q)) ||
+      (s.destination && s.destination.toLowerCase().includes(q)) ||
+      (s.loc && s.loc.toLowerCase().includes(q))
+    );
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 40px 20px; text-align: center; color: #64748b;">
+        <div style="font-size: 2.2rem; margin-bottom: 8px;">🚚</div>
+        <strong style="font-size: 1rem; color: #0f172a; display: block; margin-bottom: 4px;">No consignments found</strong>
+        <p style="font-size: 0.82rem; margin-bottom: 12px;">No shipments match the active filter or search query.</p>
+        <button class="btn btn-outline btn-sm" onclick="setBuyerShipmentTab('all', document.querySelector('.filter-tab'))">View All Orders</button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(s => {
+    const isTransit = s.status === 'transit';
+    const isDelivered = s.status === 'delivered';
+    const isScheduled = s.status === 'scheduled';
+
+    const statusBadgeBg = isTransit ? '#eff6ff' : isDelivered ? '#ecfdf5' : '#fefce8';
+    const statusBadgeColor = isTransit ? '#1d4ed8' : isDelivered ? '#047857' : '#a16207';
+    const statusBorderColor = isTransit ? '#bfdbfe' : isDelivered ? '#a7f3d0' : '#fef08a';
+    const statusLabel = isTransit ? '● On The Road' : isDelivered ? '● Delivered' : '● Pickup Scheduled';
+
+    const step2Done = s.step >= 2;
+    const step3Active = s.step === 3;
+    const step3Done = s.step > 3;
+    const step4Done = s.step >= 4;
+
+    return `
+      <div class="order-box" id="shipment-card-${s.tracking_id}">
+        <div class="order-header-row">
+          <div>
+            <strong style="font-size: 1rem; color: #0f172a;">${s.tracking_id}</strong>
+            <span style="margin: 0 8px; color: #cbd5e1;">|</span>
+            <span style="font-size: 0.8rem; color: #059669; font-weight: 700;">Gate Pass: ${s.gate_pass}</span>
+            <span style="margin: 0 8px; color: #cbd5e1;">|</span>
+            <span style="font-size: 0.78rem; color: #64748b;">Contract: <strong>#${s.contract_ref}</strong></span>
+          </div>
+          <span style="background: ${statusBadgeBg}; color: ${statusBadgeColor}; border: 1px solid ${statusBorderColor}; padding: 3px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 800;">
+            ${statusLabel}
+          </span>
+        </div>
+
+        <!-- 4-Step Clean Progress Line (Farmer Parity) -->
+        <div class="step-track">
+          <div>
+            <div class="step-dot done">✓</div>
+            <div style="font-size: 0.72rem; font-weight: 700; color: #0f172a;">Confirmed</div>
+            <div style="font-size: 0.65rem; color: #64748b;">Bid Ratified</div>
+          </div>
+          <div>
+            <div class="step-dot ${step2Done ? 'done' : ''}">${step2Done ? '✓' : '2'}</div>
+            <div style="font-size: 0.72rem; font-weight: 700; color: #0f172a;">35% Advance Paid</div>
+            <div style="font-size: 0.65rem; color: #166534; font-weight: 700;">₹ ${(s.adv_paid).toLocaleString('en-IN')} in Escrow</div>
+          </div>
+          <div>
+            <div class="step-dot ${step3Active ? 'active' : (step3Done ? 'done' : '')}">${step3Done ? '✓' : (step3Active ? '🚚' : '3')}</div>
+            <div style="font-size: 0.72rem; font-weight: 700; color: #0f172a;">In Truck</div>
+            <div style="font-size: 0.65rem; color: #0284c7; font-weight: 700;">${isTransit ? 'GPS Online' : (isDelivered ? 'Unloaded' : 'Scheduled')}</div>
+          </div>
+          <div>
+            <div class="step-dot ${step4Done ? 'done' : ''}">${step4Done ? '✓' : '4'}</div>
+            <div style="font-size: 0.72rem; font-weight: 700; color: #0f172a;">Delivered</div>
+            <div style="font-size: 0.65rem; color: ${step4Done ? '#166534' : '#64748b'}; font-weight: 700;">${step4Done ? '65% Disbursed' : 'QC Pending'}</div>
+          </div>
+        </div>
+
+        <!-- 3-Column Detailed Info Strip -->
+        <div class="info-strip">
+          <div>
+            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">PRODUCE & FARMER</div>
+            <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">${s.crop}</div>
+            <div style="color: #059669; font-weight: 700; margin: 2px 0;">${s.quantity_qt} Qt (${(s.quantity_kg).toLocaleString('en-IN')} kg)</div>
+            <div style="color: #475569; font-size: 0.78rem;">Farmer: <strong>${s.farmer}</strong></div>
+            <div style="color: #64748b; font-size: 0.72rem;">📍 Origin: ${s.farmer_origin}</div>
+          </div>
+          <div>
+            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">DRIVER & TRUCK</div>
+            <div style="font-weight: 800; color: #0f172a;">${s.driver}</div>
+            <div style="color: #334155; font-size: 0.8rem; margin: 2px 0;">${s.vehicle}</div>
+            <div style="font-size: 0.78rem;"><a href="tel:${s.phone}" style="color: #0284c7; text-decoration: none; font-weight: 700;">📞 ${s.phone}</a></div>
+            <div style="color: #64748b; font-size: 0.72rem; margin-top: 2px;">Cargo Temp: <strong>${s.temp}</strong></div>
+          </div>
+          <div>
+            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">DELIVERY STATUS</div>
+            <div style="color: #0f172a; font-weight: 700;">${s.destination}</div>
+            <div style="color: #0284c7; font-weight: 700; font-size: 0.78rem; margin: 2px 0;">📍 ${s.loc}</div>
+            <div style="color: #d97706; font-weight: 700; font-size: 0.78rem;">⏱️ ETA: ${s.eta}</div>
+            <div style="color: #64748b; font-size: 0.72rem; margin-top: 2px;">Speed: <strong>${s.speed}</strong> • Dist: <strong>${s.dist_remaining}</strong></div>
+          </div>
+        </div>
+
+        <!-- Action Footer & Escrow Release -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+          <div style="font-size: 0.82rem; color: #475569;">
+            Contract Value: <strong style="color: #0f172a;">₹ ${(s.total_val).toLocaleString('en-IN')}</strong> • 
+            <span style="color: #059669; font-weight: 700;">35% Advance ₹ ${(s.adv_paid).toLocaleString('en-IN')} in Escrow</span>
+            ${s.bal_due > 0 ? ` • <span style="color: #64748b;">(65% Balance: ₹ ${s.bal_due.toLocaleString('en-IN')})</span>` : ''}
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-sm" onclick="openGatePassModal('${s.tracking_id}')" style="font-size: 0.76rem; padding: 4px 10px;">📑 Gate Pass</button>
+            <button class="btn btn-outline btn-sm" onclick="openLorryReceiptModal('${s.tracking_id}')" style="font-size: 0.76rem; padding: 4px 10px;">📄 Digital LR</button>
+            ${isTransit ? `
+              <button class="btn btn-primary btn-sm" onclick="openGpsModal('${s.tracking_id}', '${s.vehicle}', '${s.driver}', '${s.loc}')" style="font-size: 0.76rem; padding: 4px 10px; background: #0284c7; border-color: #0284c7;">📍 Track Location</button>
+              <button class="btn btn-primary btn-sm" onclick="openArrivalReleaseModal('${s.tracking_id}', '${s.crop}', ${s.bal_due || 39000}, '${s.farmer}', ${s.total_val}, ${s.adv_paid}, 'shipment-card-${s.tracking_id}')" style="font-size: 0.76rem; padding: 4px 12px; background: #0c5a36; border-color: #0c5a36; font-weight: 700;">✓ Confirm Arrival & Release Escrow</button>
+            ` : isScheduled ? `
+              <a href="tel:${s.phone}" class="btn btn-primary btn-sm" style="text-decoration: none; font-size: 0.76rem; padding: 4px 12px; background: #0c5a36; border-color: #0c5a36;">📞 Call Transporter</a>
+            ` : `
+              <span class="badge" style="background: #e8f5ed; color: #166534; font-weight: 800; font-size: 0.76rem; padding: 4px 10px; border-radius: 6px;">✓ 100% Escrow Settled</span>
+            `}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function setBuyerShipmentTab(tab, btn) {
+  currentBuyerShipmentTab = tab;
+  const tabs = document.querySelectorAll('#buyer-shipment-tabs .filter-tab');
+  tabs.forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderBuyerShipments();
+}
+
+function handleShipmentSearch(query) {
+  buyerShipmentSearchQuery = (query || '').toLowerCase().trim();
+  renderBuyerShipments();
+}
+
+// ==========================================
 // LOGISTICS, LORRY RECEIPT & ESCROW RELEASE
 // ==========================================
 
 function openLorryReceiptModal(trackingId) {
   const modal = document.getElementById('modal-lorry-receipt');
   if (!modal) return;
-  if (trackingId) {
-    const titleEl = document.getElementById('lr-id-display');
+
+  const shipment = (buyerData.buyerShipments || []).find(s => s.tracking_id === trackingId || s.gate_pass === trackingId) || buyerData.buyerShipments[0];
+  if (shipment) {
+    const titleEl = document.getElementById('lr-crop-title');
+    const idEl = document.getElementById('lr-id-display');
     const subEl = document.getElementById('lr-tracking-subtitle');
-    if (titleEl) titleEl.textContent = trackingId;
-    if (subEl) subEl.textContent = `LR No: LR-${trackingId.slice(4)} • AgriNex Logistics System`;
+    const vehEl = document.getElementById('lr-vehicle-display');
+    const drvEl = document.getElementById('lr-driver-display');
+
+    if (titleEl) titleEl.textContent = `${shipment.quantity_qt} Qt ${shipment.crop}`;
+    if (idEl) idEl.textContent = shipment.tracking_id;
+    if (subEl) subEl.textContent = `Gate Pass: ${shipment.gate_pass} • LR No: ${shipment.lr_no} • AgriNex Logistics`;
+    if (vehEl) vehEl.textContent = shipment.vehicle;
+    if (drvEl) drvEl.textContent = `${shipment.driver} (${shipment.phone})`;
   }
+
   modal.classList.add('active');
 }
 
@@ -1451,11 +1651,19 @@ function closeLorryReceiptModal() {
 }
 
 function printLorryReceipt() {
-  showToast('Generating official AgriNex Digital Lorry Receipt PDF with QR verification seal...');
+  showToast('Generating official AgriNex Digital Lorry Receipt & Gate Pass PDF with QR verification seal...');
   setTimeout(() => {
     closeLorryReceiptModal();
     showToast('✓ Lorry Receipt & Digital Gate Pass downloaded successfully!');
   }, 900);
+}
+
+function openGatePassModal(trackingId) {
+  openLorryReceiptModal(trackingId);
+}
+
+function closeGatePassModal() {
+  closeLorryReceiptModal();
 }
 
 let activeArrivalDisbursement = {
@@ -1469,24 +1677,24 @@ let activeArrivalDisbursement = {
 };
 
 function openArrivalReleaseModal(trackingId, crop, amount, farmer, totalVal, advVal, cardId) {
-  const parsedAmt = typeof amount === 'number' ? amount : parseFloat(amount) || 39000;
-  const parsedTotal = typeof totalVal === 'number' ? totalVal : (parseFloat(totalVal) || Math.round(parsedAmt / 0.65));
-  const parsedAdv = typeof advVal === 'number' ? advVal : (parseFloat(advVal) || (parsedTotal - parsedAmt));
+  const shipment = (buyerData.buyerShipments || []).find(s => s.tracking_id === trackingId || s.contract_ref === trackingId);
+  const parsedAmt = typeof amount === 'number' ? amount : (shipment ? shipment.bal_due : (parseFloat(amount) || 39000));
+  const parsedTotal = typeof totalVal === 'number' ? totalVal : (shipment ? shipment.total_val : (parseFloat(totalVal) || Math.round(parsedAmt / 0.65)));
+  const parsedAdv = typeof advVal === 'number' ? advVal : (shipment ? shipment.adv_paid : (parseFloat(advVal) || (parsedTotal - parsedAmt)));
 
-  // Determine card ID if not supplied
   let inferredCardId = cardId;
   if (!inferredCardId) {
-    if (String(trackingId).includes('9921')) inferredCardId = 'escrow-card-1';
+    if (String(trackingId).includes('9921') || String(trackingId).includes('9884')) inferredCardId = 'escrow-card-1';
     else if (String(trackingId).includes('4412')) inferredCardId = 'escrow-card-2';
-    else if (String(trackingId).includes('7730')) inferredCardId = 'escrow-card-3';
+    else if (String(trackingId).includes('7730') || String(trackingId).includes('9950')) inferredCardId = 'escrow-card-3';
     else inferredCardId = 'escrow-card-1';
   }
 
   activeArrivalDisbursement = {
-    trackingId: trackingId || 'ESC-TN-9921',
-    crop: crop || 'Tomato (Shivam Hybrid 50 Qt)',
+    trackingId: trackingId || (shipment ? shipment.tracking_id : 'TRK-9884'),
+    crop: crop || (shipment ? shipment.crop : 'Tomato (Shivam Hybrid 50 Qt)'),
     amount: parsedAmt,
-    farmer: farmer || 'Murugan Palanisamy',
+    farmer: farmer || (shipment ? shipment.farmer : 'Murugan Palanisamy'),
     totalVal: parsedTotal,
     advVal: parsedAdv,
     cardId: inferredCardId
@@ -1518,12 +1726,22 @@ function confirmReleaseEscrowAction() {
   const amtStr = `₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}`;
   const cardId = activeArrivalDisbursement.cardId;
 
+  // 1. Update Shipment record in buyerData.buyerShipments if present
+  const shipment = (buyerData.buyerShipments || []).find(s => s.tracking_id === activeArrivalDisbursement.trackingId || s.contract_ref === activeArrivalDisbursement.trackingId);
+  if (shipment) {
+    shipment.status = 'delivered';
+    shipment.step = 4;
+    shipment.bal_due = 0;
+    shipment.loc = 'Delivered & Digital Weighbridge QC Ratified';
+    shipment.eta = 'Completed';
+  }
+
   // Determine contract index
   let idx = '1';
-  if (cardId === 'escrow-card-2' || activeArrivalDisbursement.trackingId.includes('4412')) idx = '2';
-  else if (cardId === 'escrow-card-3' || activeArrivalDisbursement.trackingId.includes('7730')) idx = '3';
+  if (cardId === 'escrow-card-2' || activeArrivalDisbursement.trackingId.includes('4412') || activeArrivalDisbursement.trackingId.includes('9921')) idx = '2';
+  else if (cardId === 'escrow-card-3' || activeArrivalDisbursement.trackingId.includes('7730') || activeArrivalDisbursement.trackingId.includes('9950')) idx = '3';
 
-  // 1. Update status badge
+  // 2. Update status badge
   const statusBadge = document.getElementById(`escrow-status-badge-${idx}`) || document.getElementById('escrow-status-badge');
   if (statusBadge) {
     statusBadge.className = 'badge';
@@ -1532,7 +1750,7 @@ function confirmReleaseEscrowAction() {
     statusBadge.textContent = '✓ 100% Settled & Released';
   }
 
-  // 2. Update Stepper dot 4
+  // 3. Update Stepper dot 4
   const dotSettled = document.getElementById(`stepper-dot-settled-${idx}`) || document.getElementById('stepper-dot-settled');
   if (dotSettled) {
     dotSettled.className = 'stepper-dot active';
@@ -1542,7 +1760,7 @@ function confirmReleaseEscrowAction() {
     dotSettled.style.color = '#ffffff';
   }
 
-  // 3. Update release button
+  // 4. Update release button
   const btnVault = document.getElementById(`btn-escrow-vault-release-${idx}`) || document.getElementById('btn-escrow-vault-release');
   if (btnVault) {
     btnVault.disabled = true;
@@ -1566,15 +1784,6 @@ function confirmReleaseEscrowAction() {
     });
   }
 
-  // 4. Update Consignment arrival button if present
-  const btnArrival = document.getElementById('btn-arrival-release-1');
-  if (btnArrival && (idx === '1' || activeArrivalDisbursement.trackingId.includes('9921'))) {
-    btnArrival.textContent = '✓ Delivered & Released';
-    btnArrival.disabled = true;
-    btnArrival.style.background = '#15803d';
-    btnArrival.style.borderColor = '#15803d';
-  }
-
   // 5. Update top aggregate metric
   const settledTotalEl = document.getElementById('escrow-settled-total');
   if (settledTotalEl) {
@@ -1594,40 +1803,37 @@ function confirmReleaseEscrowAction() {
       <td style="padding: 10px 14px;"><strong>${randomTxn}</strong><br><span style="font-size: 0.72rem; color: #166534; font-weight: 700;">Just now (Live)</span></td>
       <td style="padding: 10px 14px;"><span style="font-family: monospace; font-weight: 700; color: #0c5a36;">#${activeArrivalDisbursement.trackingId}</span></td>
       <td style="padding: 10px 14px;"><strong>${activeArrivalDisbursement.farmer}</strong><br><span style="font-size: 0.72rem; color: #64748b;">${activeArrivalDisbursement.crop}</span></td>
+      <td style="padding: 10px 14px;"><strong>${activeArrivalDisbursement.crop}</strong></td>
+      <td style="padding: 10px 14px;"><span style="color: #0c5a36; font-weight: 700;">65% Final Released</span></td>
       <td style="padding: 10px 14px; font-weight: 800; color: #0c5a36;">₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}</td>
-      <td style="padding: 10px 14px;"><span class="badge" style="background: #15803d; color: #ffffff; font-size: 0.72rem; font-weight: 700;">✓ 100% Settled</span></td>
       <td style="padding: 10px 14px;"><span style="font-size: 0.75rem; color: #0c5a36; font-family: monospace; font-weight: 700;">${randomUtr}</span></td>
-      <td style="padding: 10px 14px;"><button class="btn btn-outline btn-sm" onclick="showToast('✓ Stamped UTR Settlement Receipt #${activeArrivalDisbursement.trackingId} (PDF) downloaded!')" style="font-size: 0.72rem; padding: 2px 8px;">Receipt</button></td>
+      <td style="padding: 10px 14px;"><span class="badge" style="background: #15803d; color: #ffffff; font-size: 0.72rem; font-weight: 700;">✓ 100% Settled</span></td>
+      <td style="padding: 10px 14px; text-align: right;"><button class="btn btn-outline btn-sm" onclick="showToast('✓ Stamped UTR Settlement Receipt #${activeArrivalDisbursement.trackingId} (PDF) downloaded!')" style="font-size: 0.72rem; padding: 2px 8px;">Receipt</button></td>
     `;
     tbody.insertBefore(newRow, tbody.firstChild);
   }
 
-  showToast(`🎉 Quality verified! ${amtStr} released to ${activeArrivalDisbursement.farmer}. Contract 100% Settled!`, 'success');
-}
+  // Refresh Shipment UI
+  renderBuyerShipments();
 
-function openGatePassModal(trackingId) {
-  openLorryReceiptModal(trackingId);
-  const cropEl = document.getElementById('lr-crop-title');
-  const vehEl = document.getElementById('lr-vehicle-display');
-  const driverEl = document.getElementById('lr-driver-display');
-  if (cropEl) cropEl.textContent = '80 Qt Red Onion (Nashik Export Quality)';
-  if (vehEl) vehEl.textContent = 'Eicher Pro 2049 (MH 15 DK 8810)';
-  if (driverEl) driverEl.textContent = 'Sanjay Patil (+91 98220-44911)';
+  showToast(`🎉 Quality verified! ${amtStr} released to ${activeArrivalDisbursement.farmer}. Contract 100% Settled!`, 'success');
 }
 
 function openGpsModal(trackingId, vehicle, driver, corridor) {
   const modal = document.getElementById('modal-gps-tracker');
   if (!modal) return;
 
+  const shipment = (buyerData.buyerShipments || []).find(s => s.tracking_id === trackingId) || buyerData.buyerShipments[0];
+
   const trackNumEl = document.getElementById('gps-tracking-num');
   const vehEl = document.getElementById('gps-vehicle-name');
   const driverEl = document.getElementById('gps-driver-name');
   const corridorEl = document.getElementById('gps-corridor-name');
 
-  if (trackNumEl) trackNumEl.textContent = trackingId || 'TRK-MH-4412-EICHER';
-  if (vehEl) vehEl.textContent = vehicle || 'Eicher Pro 2049 (MH 15 DK 8810)';
-  if (driverEl) driverEl.textContent = driver || 'Sanjay Patil';
-  if (corridorEl) corridorEl.textContent = corridor || 'NH 48 Pune-Bengaluru Corridor';
+  if (trackNumEl) trackNumEl.textContent = trackingId || (shipment ? shipment.tracking_id : 'TRK-9884');
+  if (vehEl) vehEl.textContent = vehicle || (shipment ? shipment.vehicle : 'Bolero Maxi Truck (TN 57 AH 4421)');
+  if (driverEl) driverEl.textContent = driver || (shipment ? `${shipment.driver} (${shipment.phone})` : 'K. Selvam');
+  if (corridorEl) corridorEl.textContent = corridor || (shipment ? shipment.loc : 'NH 44 Salem-Dharmapuri Corridor');
 
   modal.classList.add('active');
 }
@@ -1878,6 +2084,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupSidebarNav();
   renderVerifiedLots();
   renderBuyerDemands();
+  renderBuyerShipments();
   renderGrievances();
   renderBuyerEmergencyDesk();
   renderChatSidebar();
@@ -2251,6 +2458,9 @@ window.closeLorryReceiptModal = closeLorryReceiptModal;
 window.openGpsModal = openGpsModal;
 window.closeGpsModal = closeGpsModal;
 window.printLorryReceipt = printLorryReceipt;
+window.renderBuyerShipments = renderBuyerShipments;
+window.setBuyerShipmentTab = setBuyerShipmentTab;
+window.handleShipmentSearch = handleShipmentSearch;
 
 // Demand Board Window Bindings
 window.openDemandBidsModal = openDemandBidsModal;
@@ -2608,555 +2818,4 @@ window.handleBookStorageSubmit = handleBookStorageSubmit;
 window.openEnwrPledgeModal = openEnwrPledgeModal;
 window.closeEnwrPledgeModal = closeEnwrPledgeModal;
 window.handleEnwrPledgeSubmit = handleEnwrPledgeSubmit;
-
-// ==========================================
-// FEATURE: SHIPMENTS & CONSIGNMENT TRACKING (FARMER MODULE PARITY)
-// ==========================================
-let currentShipmentTab = 'all';
-let shipmentSearchQuery = '';
-
-function setShipmentTab(tab, btn) {
-  currentShipmentTab = tab;
-  const tabs = document.querySelectorAll('.filter-tabs-row .filter-tab');
-  tabs.forEach(t => t.classList.remove('active'));
-  if (btn) {
-    btn.classList.add('active');
-  } else {
-    const targetBtn = document.getElementById(`tab-shipment-${tab}`);
-    if (targetBtn) targetBtn.classList.add('active');
-  }
-  renderBuyerConsignments();
-}
-
-function handleShipmentSearch(query) {
-  shipmentSearchQuery = (query || '').toLowerCase().trim();
-  renderBuyerConsignments();
-}
-
-function renderBuyerConsignments() {
-  const container = document.getElementById('consignments-list-container');
-  if (!container || !buyerData || !buyerData.consignments) return;
-
-  const allConsignments = buyerData.consignments;
-
-  // 1. Calculate and update stats cards & tab counters
-  const activeTrucks = allConsignments.filter(c => c.status === 'transit');
-  const scheduledTrucks = allConsignments.filter(c => c.status === 'scheduled');
-  const deliveredTrucks = allConsignments.filter(c => c.status === 'delivered');
-
-  const transitVolQt = activeTrucks.reduce((sum, c) => sum + (c.quantity_qt || 0), 0);
-  const transitVolKg = activeTrucks.reduce((sum, c) => sum + (c.quantity_kg || 0), 0);
-
-  const statActiveTrucks = document.getElementById('stat-active-trucks');
-  const statVolumeTransit = document.getElementById('stat-volume-transit');
-  const statGatePasses = document.getElementById('stat-gate-passes');
-
-  if (statActiveTrucks) statActiveTrucks.textContent = `${activeTrucks.length} On Road`;
-  if (statVolumeTransit) statVolumeTransit.innerHTML = `${transitVolQt} Qt <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">(${transitVolKg.toLocaleString('en-IN')} kg)</span>`;
-  if (statGatePasses) statGatePasses.textContent = `${allConsignments.length} Ready`;
-
-  // Update tab labels with live counts
-  const tabAll = document.getElementById('tab-shipment-all');
-  const tabTransit = document.getElementById('tab-shipment-transit');
-  const tabScheduled = document.getElementById('tab-shipment-scheduled');
-  const tabDelivered = document.getElementById('tab-shipment-delivered');
-
-  if (tabAll) tabAll.textContent = `All Orders (${allConsignments.length})`;
-  if (tabTransit) tabTransit.textContent = `On The Road (${activeTrucks.length})`;
-  if (tabScheduled) tabScheduled.textContent = `Pickup Scheduled (${scheduledTrucks.length})`;
-  if (tabDelivered) tabDelivered.textContent = `Delivered & Settled (${deliveredTrucks.length})`;
-
-  // 2. Filter list
-  const filtered = allConsignments.filter(s => {
-    // Tab filter
-    if (currentShipmentTab !== 'all' && s.status !== currentShipmentTab) {
-      return false;
-    }
-    // Search query filter
-    if (shipmentSearchQuery) {
-      const q = shipmentSearchQuery;
-      const haystack = `${s.tracking_id} ${s.gate_pass} ${s.lorry_receipt || ''} ${s.crop} ${s.farmer} ${s.driver} ${s.vehicle} ${s.destination} ${s.loc}`.toLowerCase();
-      if (!haystack.includes(q)) return false;
-    }
-    return true;
-  });
-
-  if (filtered.length === 0) {
-    container.innerHTML = `
-      <div style="background: #ffffff; border: 1.5px dashed #cbd5e1; border-radius: 14px; padding: 48px 24px; text-align: center; color: #64748b;">
-        <div style="font-size: 2.5rem; margin-bottom: 10px;">🚚</div>
-        <strong style="font-size: 1.1rem; color: #0f172a; display: block; margin-bottom: 6px;">No consignments found</strong>
-        <p style="font-size: 0.85rem; margin-bottom: 16px;">No transit orders match your selected tab or search query.</p>
-        <button class="btn btn-outline btn-sm" onclick="setShipmentTab('all')">View All Consignments</button>
-      </div>
-    `;
-    return;
-  }
-
-  // 3. Render Order Boxes (Matching Farmer Module layout)
-  container.innerHTML = filtered.map(s => {
-    const isTransit = s.status === 'transit';
-    const isDelivered = s.status === 'delivered';
-    const isScheduled = s.status === 'scheduled';
-
-    const statusBadgeBg = isTransit ? '#eff6ff' : (isDelivered ? '#ecfdf5' : '#fefce8');
-    const statusBadgeColor = isTransit ? '#1d4ed8' : (isDelivered ? '#047857' : '#a16207');
-    const statusBadgeBorder = isTransit ? '#bfdbfe' : (isDelivered ? '#a7f3d0' : '#fef08a');
-    const statusText = isTransit ? '● On The Road (GPS Active)' : (isDelivered ? '✓ Delivered & 100% Settled' : '⏱️ Pickup Scheduled');
-
-    const balDue = s.bal_due || (s.total_val - s.adv_paid);
-
-    return `
-      <div class="order-box" id="consignment-card-${s.tracking_id}">
-        <!-- Top Row: Tracking ID + Gate Pass & Status Badge -->
-        <div class="order-header-row">
-          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-            <strong style="font-size: 1.05rem; color: #0f172a;">${s.tracking_id}</strong>
-            <span style="color: #cbd5e1;">|</span>
-            <span style="font-size: 0.8rem; color: #059669; font-weight: 700; background: #e8f5ed; padding: 2px 8px; border-radius: 4px;">Gate Pass: ${s.gate_pass}</span>
-            <span style="font-size: 0.76rem; color: #2563eb; font-weight: 700; background: #eff6ff; padding: 2px 8px; border-radius: 4px;">LR: ${s.lorry_receipt || 'LR-2026-GEN'}</span>
-          </div>
-          <div>
-            <span style="background: ${statusBadgeBg}; color: ${statusBadgeColor}; border: 1px solid ${statusBadgeBorder}; padding: 4px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 800; display: inline-flex; align-items: center; gap: 6px;">
-              ${isTransit ? `<span style="width: 7px; height: 7px; background: #2563eb; border-radius: 50%; display: inline-block; animation: pulseDot 1.5s infinite;"></span>` : ''}
-              ${statusText}
-            </span>
-          </div>
-        </div>
-
-        <!-- 4-Step Clean Progress Line (Farmer Module Parity) -->
-        <div class="step-track">
-          <div>
-            <div class="step-dot done">✓</div>
-            <div style="font-size: 0.72rem; font-weight: 700; color: #0f172a;">Confirmed</div>
-            <span style="font-size: 0.65rem; color: #64748b;">Contract Signed</span>
-          </div>
-          <div>
-            <div class="step-dot ${s.step >= 2 ? 'done' : ''}">${s.step >= 2 ? '✓' : '2'}</div>
-            <div style="font-size: 0.72rem; font-weight: 700; color: #0f172a;">35% Advance Paid</div>
-            <span style="font-size: 0.65rem; color: #166534; font-weight: 700;">₹ ${s.adv_paid.toLocaleString('en-IN')}</span>
-          </div>
-          <div>
-            <div class="step-dot ${s.step >= 3 ? (s.step === 3 ? 'active' : 'done') : ''}">${s.step > 3 ? '✓' : (s.step === 3 ? '🚚' : '3')}</div>
-            <div style="font-size: 0.72rem; font-weight: 700; color: #0f172a;">In Truck (Transit)</div>
-            <span style="font-size: 0.65rem; color: #0284c7; font-weight: 600;">${isTransit ? s.speed : isDelivered ? 'Arrived' : 'Loading'}</span>
-          </div>
-          <div>
-            <div class="step-dot ${s.step >= 4 ? 'done' : ''}">${s.step === 4 ? '✓' : '4'}</div>
-            <div style="font-size: 0.72rem; font-weight: 700; color: #0f172a;">Delivered & Settled</div>
-            <span style="font-size: 0.65rem; color: ${isDelivered ? '#059669' : '#64748b'}; font-weight: 600;">${isDelivered ? '65% Disbursed' : 'QC Pending'}</span>
-          </div>
-        </div>
-
-        <!-- 3-Column Info Strip (Farmer Module Parity) -->
-        <div class="info-strip">
-          <div>
-            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">PRODUCE & FARMER SOURCE</div>
-            <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a; margin-top: 2px;">${s.crop}</div>
-            <div style="color: #059669; font-weight: 800; font-size: 0.9rem; margin-top: 1px;">
-              ${s.quantity_qt} Qt <span style="font-size: 0.75rem; color: #475569; font-weight: 600;">(${s.quantity_kg.toLocaleString('en-IN')} kg)</span>
-            </div>
-            <div style="color: #64748b; font-size: 0.75rem; margin-top: 3px;">
-              Farmer: <strong style="color: #0f172a;">${s.farmer}</strong> • 📍 ${s.origin}
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">DRIVER & TRUCK</div>
-            <div style="font-weight: 800; color: #0f172a; font-size: 0.92rem; margin-top: 2px;">${s.driver}</div>
-            <div style="color: #334155; font-size: 0.78rem; font-weight: 600;">${s.vehicle}</div>
-            <div style="color: #0284c7; font-weight: 700; font-size: 0.78rem; margin-top: 3px;">
-              <a href="tel:${s.phone}" style="color: #0284c7; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-                <span>📞</span> ${s.phone}
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">DELIVERY STATUS & LOCATION</div>
-            <div style="color: #0f172a; font-weight: 700; font-size: 0.85rem; margin-top: 2px;">📍 ${s.destination}</div>
-            <div style="color: #0284c7; font-weight: 700; font-size: 0.78rem; margin-top: 2px;">
-              ${isDelivered ? '✓ Arrived at Receiving Gate' : `📍 ${s.loc}`}
-            </div>
-            <div style="color: #d97706; font-weight: 700; font-size: 0.78rem; margin-top: 2px;">
-              ${isDelivered ? '⏱️ Settle Complete' : `⏱️ ${s.eta} • ${s.speed}`}
-            </div>
-          </div>
-        </div>
-
-        <!-- Action Footer Row: Escrow Breakdown + Action Buttons -->
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 4px;">
-          <div style="font-size: 0.8rem; color: #475569;">
-            Total Trade: <strong style="color: #0f172a;">₹ ${s.total_val.toLocaleString('en-IN')}</strong> • 
-            <span style="color: #059669; font-weight: 700;">35% Advance ₹ ${s.adv_paid.toLocaleString('en-IN')} in Escrow</span> • 
-            Balance Due: <strong style="color: #0c5a36;">₹ ${balDue.toLocaleString('en-IN')}</strong>
-          </div>
-
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button class="btn btn-outline btn-sm" onclick="openGatePassModal('${s.tracking_id}')" style="font-size: 0.76rem; padding: 5px 10px; font-weight: 700;">
-              📑 Gate Pass
-            </button>
-
-            <button class="btn btn-outline btn-sm" onclick="openLorryReceiptModal('${s.tracking_id}')" style="font-size: 0.76rem; padding: 5px 10px; font-weight: 700;">
-              📄 Digital LR
-            </button>
-
-            ${isTransit ? `
-              <button class="btn btn-outline btn-sm" onclick="openGpsModal('${s.tracking_id}')" style="font-size: 0.76rem; padding: 5px 10px; font-weight: 700; color: #0284c7; border-color: #bfdbfe; background: #eff6ff;">
-                📍 Track GPS
-              </button>
-            ` : ''}
-
-            ${!isDelivered ? `
-              <a href="tel:${s.phone}" class="btn btn-outline btn-sm" style="font-size: 0.76rem; padding: 5px 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-                📞 Call Driver
-              </a>
-              <button class="btn btn-primary btn-sm" onclick="openArrivalReleaseModal('${s.tracking_id}', '${s.crop}', ${balDue}, '${s.farmer}', ${s.total_val}, ${s.adv_paid}, 'consignment-card-${s.tracking_id}')" style="background: #0c5a36; border-color: #0c5a36; font-size: 0.76rem; padding: 5px 12px; font-weight: 800;">
-                ✓ Confirm Arrival & Release Escrow
-              </button>
-            ` : `
-              <span style="font-size: 0.76rem; color: #059669; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background: #e8f5ed; border-radius: 6px;">
-                ✓ 100% Escrow Disbursed
-              </span>
-            `}
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-// Gate Pass & Lorry Receipt Modals
-function openGatePassModal(trackingId) {
-  openLorryReceiptModal(trackingId);
-}
-
-function openLorryReceiptModal(trackingId) {
-  const modal = document.getElementById('modal-lorry-receipt');
-  if (!modal) return;
-
-  const consignment = (buyerData.consignments || []).find(c => c.tracking_id === trackingId) || buyerData.consignments[0];
-  if (consignment) {
-    const titleEl = document.getElementById('lr-tracking-subtitle');
-    const cropTitle = document.getElementById('lr-crop-title');
-    const idDisplay = document.getElementById('lr-id-display');
-    const vehDisplay = document.getElementById('lr-vehicle-display');
-    const drvDisplay = document.getElementById('lr-driver-display');
-
-    if (titleEl) titleEl.textContent = `LR No: ${consignment.lorry_receipt || 'LR-2026-9921'} • Gate Pass: ${consignment.gate_pass}`;
-    if (cropTitle) cropTitle.textContent = `${consignment.quantity_qt} Qt ${consignment.crop}`;
-    if (idDisplay) idDisplay.textContent = consignment.tracking_id;
-    if (vehDisplay) vehDisplay.textContent = consignment.vehicle;
-    if (drvDisplay) drvDisplay.textContent = `${consignment.driver} (${consignment.phone})`;
-  }
-
-  modal.classList.add('active');
-}
-
-function closeLorryReceiptModal() {
-  const modal = document.getElementById('modal-lorry-receipt');
-  if (modal) modal.classList.remove('active');
-}
-
-function printLorryReceipt() {
-  showToast('🖨️ Generating printable Gate Pass & Digital LR PDF document...');
-  window.print();
-}
-
-// GPS Modal
-function openGpsModal(trackingId) {
-  const modal = document.getElementById('modal-gps-tracker');
-  if (!modal) return;
-
-  const consignment = (buyerData.consignments || []).find(c => c.tracking_id === trackingId) || buyerData.consignments[0];
-  if (consignment) {
-    const trkNum = document.getElementById('gps-tracking-num');
-    const vehName = document.getElementById('gps-vehicle-name');
-    const drvName = document.getElementById('gps-driver-name');
-    const corridor = document.getElementById('gps-corridor-name');
-
-    if (trkNum) trkNum.textContent = consignment.tracking_id;
-    if (vehName) vehName.textContent = consignment.vehicle;
-    if (drvName) drvName.textContent = `${consignment.driver} (${consignment.phone})`;
-    if (corridor) corridor.textContent = consignment.loc;
-  }
-
-  modal.classList.add('active');
-}
-
-function closeGpsModal() {
-  const modal = document.getElementById('modal-gps-tracker');
-  if (modal) modal.classList.remove('active');
-}
-
-// Arrival Release Modal
-let activeArrivalReleaseTarget = null;
-
-function openArrivalReleaseModal(trackingId, crop, balDue, farmer, totalVal, advVal, cardId) {
-  const modal = document.getElementById('modal-confirm-arrival');
-  if (!modal) return;
-
-  activeArrivalReleaseTarget = {
-    trackingId,
-    crop,
-    balDue,
-    farmer,
-    totalVal,
-    advVal,
-    cardId
-  };
-
-  const trkIdEl = document.getElementById('arrival-tracking-id');
-  const totValEl = document.getElementById('arrival-total-val');
-  const advValEl = document.getElementById('arrival-adv-val');
-  const relValEl = document.getElementById('arrival-release-val');
-
-  if (trkIdEl) trkIdEl.textContent = `Consignment #${trackingId} • ${crop}`;
-  if (totValEl) totValEl.textContent = `₹ ${Number(totalVal || 60000).toLocaleString('en-IN')}`;
-  if (advValEl) advValEl.textContent = `₹ ${Number(advVal || 21000).toLocaleString('en-IN')}`;
-  if (relValEl) relValEl.textContent = `₹ ${Number(balDue || 39000).toLocaleString('en-IN')}`;
-
-  modal.classList.add('active');
-}
-
-function closeArrivalReleaseModal() {
-  const modal = document.getElementById('modal-confirm-arrival');
-  if (modal) modal.classList.remove('active');
-  activeArrivalReleaseTarget = null;
-}
-
-function confirmReleaseEscrowAction() {
-  if (!activeArrivalReleaseTarget) {
-    closeArrivalReleaseModal();
-    return;
-  }
-
-  const { trackingId, farmer, balDue, crop } = activeArrivalReleaseTarget;
-
-  // Update data state
-  const consignment = (buyerData.consignments || []).find(c => c.tracking_id === trackingId);
-  if (consignment) {
-    consignment.status = 'delivered';
-    consignment.statusLabel = 'Delivered & Settled';
-    consignment.step = 4;
-    consignment.loc = 'Delivered & QC Passed at Receiving Gate';
-    consignment.speed = '0 km/h (Docked)';
-    consignment.eta = 'Completed';
-  }
-
-  closeArrivalReleaseModal();
-  renderBuyerConsignments();
-  showToast(`🎉 QC Passed! ₹ ${Number(balDue || 39000).toLocaleString('en-IN')} escrow balance released instantly to ${farmer || 'farmer'}!`, 'success');
-}
-
-// Book Transport Modal Handlers
-function openBookTransportModal() {
-  const modal = document.getElementById('modal-book-transport');
-  if (modal) {
-    calculateTransportEstimate();
-    modal.classList.add('active');
-  }
-}
-
-function closeBookTransportModal() {
-  const modal = document.getElementById('modal-book-transport');
-  if (modal) modal.classList.remove('active');
-}
-
-function updateTransportLotMeta(val) {
-  if (!val) return;
-  const parts = val.split('|');
-  const originInput = document.getElementById('transport-origin');
-  if (originInput && parts[3]) {
-    originInput.value = parts[3];
-  }
-  calculateTransportEstimate();
-}
-
-function calculateTransportEstimate() {
-  const destSelect = document.getElementById('transport-destination');
-  const selectedDest = destSelect ? destSelect.value : 'Hosur Institutional Hub, TN|280 km';
-  const km = parseInt(selectedDest.split('|')[1]) || 280;
-
-  const vehicleRadio = document.querySelector('input[name="vehicle-type"]:checked');
-  const vehicleVal = vehicleRadio ? vehicleRadio.value : 'Bolero Maxi Truck (TN 57 AH 4421)|5800';
-  const baseRate = parseInt(vehicleVal.split('|')[1]) || 5800;
-
-  const calculatedBase = Math.round(baseRate * (km / 280));
-  const tollFee = Math.round(calculatedBase * 0.06);
-  const total = calculatedBase + tollFee;
-
-  const baseEl = document.getElementById('transport-base-fee');
-  const tollEl = document.getElementById('transport-toll-fee');
-  const totalEl = document.getElementById('transport-total-fee');
-
-  if (baseEl) baseEl.textContent = `₹ ${calculatedBase.toLocaleString('en-IN')}`;
-  if (tollEl) tollEl.textContent = `₹ ${tollFee.toLocaleString('en-IN')}`;
-  if (totalEl) totalEl.textContent = `₹ ${total.toLocaleString('en-IN')}`;
-}
-
-const formBookTransport = document.getElementById('form-book-transport');
-if (formBookTransport) {
-  formBookTransport.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const lotVal = document.getElementById('transport-lot-select')?.value || '';
-    const [lotId, cropName, qtyText, origin, farmerName, advVal] = lotVal.split('|');
-
-    const destVal = document.getElementById('transport-destination')?.value || '';
-    const destName = destVal.split('|')[0] || 'BigBasket Hosur Hub';
-
-    const vehicleRadio = document.querySelector('input[name="vehicle-type"]:checked');
-    const vehicleName = vehicleRadio ? vehicleRadio.value.split('|')[0] : 'Bolero Maxi Truck (TN 57 AH 4421)';
-
-    const partnerSelect = document.getElementById('transport-partner');
-    const partnerVal = partnerSelect ? partnerSelect.value : 'GreenWays Transit|K. Selvam|+91 94431-22901|TN 57 AH 4421';
-    const [company, driverName, driverPhone, plate] = partnerVal.split('|');
-
-    const newTrackingId = `TRK-${Math.floor(1000 + Math.random() * 9000)}-EXP`;
-    const newGatePass = `GP-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-    const newLR = `LR-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-
-    const qtyQt = parseFloat(qtyText) || 50;
-    const qtyKg = qtyQt * 100;
-    const totalVal = qtyQt * 1200;
-    const advance = Math.round(totalVal * 0.35);
-    const balance = totalVal - advance;
-
-    const newConsignment = {
-      tracking_id: newTrackingId,
-      gate_pass: newGatePass,
-      lorry_receipt: newLR,
-      crop: cropName || 'Agricultural Produce',
-      quantity_qt: qtyQt,
-      quantity_kg: qtyKg,
-      farmer: farmerName || 'Verified Farmer',
-      farmer_phone: driverPhone || '+91 94431-22901',
-      origin: origin || 'Farm Origin Yard',
-      destination: destName,
-      driver: driverName || 'K. Selvam',
-      phone: driverPhone || '+91 94431-22901',
-      vehicle: `${vehicleName.split('(')[0]} (${plate || 'TN 57 AH 4421'})`,
-      status: 'scheduled',
-      statusLabel: 'Pickup Scheduled',
-      step: 2,
-      loc: `Truck dispatched to ${origin || 'Farm Gate'}`,
-      speed: '0 km/h (Docked)',
-      eta: 'Today 5:30 PM',
-      total_val: totalVal,
-      adv_paid: advance,
-      bal_due: balance,
-      moisture: '82.0%',
-      assayScore: '96% Grade A'
-    };
-
-    buyerData.consignments.unshift(newConsignment);
-    closeBookTransportModal();
-    renderBuyerConsignments();
-    showToast(`🚚 Fleet Booked! Tracking ID ${newTrackingId} assigned with Gate Pass ${newGatePass}.`, 'success');
-  });
-}
-
-// Deposit Escrow Modal Handlers
-function openDepositEscrowModal() {
-  const modal = document.getElementById('modal-deposit-escrow');
-  if (modal) modal.classList.add('active');
-}
-
-function closeDepositEscrowModal() {
-  const modal = document.getElementById('modal-deposit-escrow');
-  if (modal) modal.classList.remove('active');
-}
-
-function handleDepositEscrowSubmit(e) {
-  if (e) e.preventDefault();
-  const amt = parseFloat(document.getElementById('escrow-deposit-amount')?.value || 50000);
-  closeDepositEscrowModal();
-  showToast(`💳 Processing ₹ ${amt.toLocaleString('en-IN')} escrow deposit via ICICI Nodal Virtual Account...`);
-  setTimeout(() => {
-    showToast(`✓ ₹ ${amt.toLocaleString('en-IN')} credited to your AgriNex Smart Escrow Pool!`, 'success');
-  }, 1000);
-}
-
-// Escrow Deed Modal Handlers
-function openEscrowDeedModal(contractRef, crop, farmer, totalVal, advVal) {
-  const modal = document.getElementById('modal-escrow-deed');
-  if (!modal) return;
-
-  const refEl = document.getElementById('deed-contract-ref');
-  const farmEl = document.getElementById('deed-farmer-name');
-  const cropEl = document.getElementById('deed-produce-lot');
-  const totEl = document.getElementById('deed-total-val');
-  const lockEl = document.getElementById('deed-locked-amt');
-
-  if (refEl) refEl.textContent = `Contract Reference: #${contractRef}`;
-  if (farmEl) farmEl.textContent = farmer;
-  if (cropEl) cropEl.textContent = crop;
-  if (totEl) totEl.textContent = `₹ ${Number(totalVal).toLocaleString('en-IN')}`;
-  if (lockEl) lockEl.textContent = `₹ ${Number(advVal).toLocaleString('en-IN')}`;
-
-  modal.classList.add('active');
-}
-
-function closeEscrowDeedModal() {
-  const modal = document.getElementById('modal-escrow-deed');
-  if (modal) modal.classList.remove('active');
-}
-
-function filterEscrowLedger(filterType, btnEl) {
-  if (btnEl && btnEl.parentElement) {
-    const btns = btnEl.parentElement.querySelectorAll('button');
-    btns.forEach(b => b.classList.remove('active'));
-    btnEl.classList.add('active');
-  }
-
-  const rows = document.querySelectorAll('#escrow-ledger-tbody tr');
-  rows.forEach(row => {
-    const rowType = row.getAttribute('data-type');
-    if (filterType === 'all' || rowType === filterType || (filterType === 'final' && rowType === 'completed')) {
-      row.style.display = '';
-    } else {
-      row.style.display = 'none';
-    }
-  });
-}
-
-function downloadEscrowStatement() {
-  showToast('📄 Downloading AgriNex Escrow Trust Statement & Audit Trail (PDF)...', 'info');
-}
-
-// Window Bindings for Consignments & Escrow
-window.setShipmentTab = setShipmentTab;
-window.handleShipmentSearch = handleShipmentSearch;
-window.renderBuyerConsignments = renderBuyerConsignments;
-window.openGatePassModal = openGatePassModal;
-window.openLorryReceiptModal = openLorryReceiptModal;
-window.closeLorryReceiptModal = closeLorryReceiptModal;
-window.printLorryReceipt = printLorryReceipt;
-window.openGpsModal = openGpsModal;
-window.closeGpsModal = closeGpsModal;
-window.openArrivalReleaseModal = openArrivalReleaseModal;
-window.closeArrivalReleaseModal = closeArrivalReleaseModal;
-window.confirmReleaseEscrowAction = confirmReleaseEscrowAction;
-window.openBookTransportModal = openBookTransportModal;
-window.closeBookTransportModal = closeBookTransportModal;
-window.updateTransportLotMeta = updateTransportLotMeta;
-window.calculateTransportEstimate = calculateTransportEstimate;
-window.openDepositEscrowModal = openDepositEscrowModal;
-window.closeDepositEscrowModal = closeDepositEscrowModal;
-window.handleDepositEscrowSubmit = handleDepositEscrowSubmit;
-window.openEscrowDeedModal = openEscrowDeedModal;
-window.closeEscrowDeedModal = closeEscrowDeedModal;
-window.filterEscrowLedger = filterEscrowLedger;
-window.downloadEscrowStatement = downloadEscrowStatement;
-
-// INITIALIZE ALL DASHBOARD COMPONENTS ON LOAD
-document.addEventListener('DOMContentLoaded', function() {
-  setupSidebarNav();
-  renderVerifiedLots();
-  renderBuyerDemands();
-  renderBuyerConsignments();
-  renderStorageFacilities('all');
-  renderStorageBookings();
-  renderBuyerEmergencyDesk();
-});
 
