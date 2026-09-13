@@ -151,7 +151,7 @@
       color: #0284c7;
     }
 
-    /* Clear Graph Section */
+    /* Simple & Clear Graph Hero Card */
     .graph-hero-card {
       background: #ffffff;
       border: 1px solid #e2e8f0;
@@ -161,74 +161,80 @@
       margin-bottom: 22px;
     }
 
-    .graph-controls-header {
+    .graph-top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 14px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       padding-bottom: 16px;
       border-bottom: 1px solid #f1f5f9;
     }
 
-    .graph-mode-tabs {
+    .unit-toggle-wrap {
       display: flex;
+      align-items: center;
       background: #f1f5f9;
-      padding: 4px;
-      border-radius: 12px;
-      gap: 4px;
+      padding: 3px;
+      border-radius: 999px;
+      gap: 2px;
     }
 
-    .graph-tab-btn {
+    .unit-toggle-btn {
       border: none;
       background: transparent;
       padding: 6px 14px;
-      border-radius: 9px;
-      font-size: 0.82rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
       font-weight: 700;
       color: #64748b;
       cursor: pointer;
       transition: all 0.15s ease;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
-    .graph-tab-btn.active {
-      background: #ffffff;
-      color: #064e3b;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    .unit-toggle-btn.active {
+      background: #064e3b;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(6, 78, 59, 0.2);
     }
 
-    .crop-filter-chips {
+    /* Produce Selector Carousel Chips */
+    .produce-chips-scroll {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 4px 2px 14px 2px;
+      scrollbar-width: thin;
     }
 
-    .crop-chip-btn {
+    .produce-chip {
       background: #ffffff;
       border: 1.5px solid #e2e8f0;
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #475569;
-      cursor: pointer;
-      display: inline-flex;
+      border-radius: 14px;
+      padding: 8px 14px;
+      display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
+      cursor: pointer;
       transition: all 0.15s ease;
+      flex-shrink: 0;
     }
-    .crop-chip-btn:hover {
+    .produce-chip:hover {
       border-color: #cbd5e1;
-      background: #f8fafc;
+      transform: translateY(-1px);
     }
-    .crop-chip-btn.active {
-      background: #0f172a;
-      color: #ffffff;
-      border-color: #0f172a;
+    .produce-chip.active {
+      border-color: #0c5a36;
+      background: #f0fdf4;
+      box-shadow: 0 4px 12px rgba(12, 90, 54, 0.08);
+    }
+
+    .produce-chip-thumb {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #e2e8f0;
     }
 
     /* 2 Column Lower Section */
@@ -316,8 +322,8 @@
 
     /* Table Styling */
     .table-crop-thumb {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       object-fit: cover;
       border: 1px solid #e2e8f0;
@@ -586,10 +592,10 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
               </svg>
-              Live Agmarknet (data.gov.in) & e-NAM Feeds
+              Live Agmarknet (data.gov.in) API Feed
             </span>
             <span style="font-size: 0.82rem; color: #065f46; font-weight: 700;">
-              AI & ML Analytics Engine (Holt-Winters + Demand Elasticity)
+              AI & ML Analytics Engine (Daily Live Mandi Seeding)
             </span>
           </div>
 
@@ -617,8 +623,8 @@
               </svg>
             </div>
             <div>
-              <div style="font-size: 0.82rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Average Price (Today)</div>
-              <div style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;" id="kpi-avg-price">₹ 2,150 <span style="font-size: 0.85rem; font-weight: 600; color: #64748b;">/Qt</span></div>
+              <div style="font-size: 0.82rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Average Mandi Price</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;" id="kpi-avg-price">₹ 21.50 <span style="font-size: 0.85rem; font-weight: 600; color: #64748b;">/kg</span></div>
               <div style="font-size: 0.78rem; font-weight: 700; color: #10b981;" id="kpi-avg-delta">
                 ↑ 6.2% <span style="color: #64748b; font-weight: 500;">vs. last week</span>
               </div>
@@ -654,7 +660,7 @@
               </svg>
             </div>
             <div>
-              <div style="font-size: 0.82rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Top Gainer Commodity</div>
+              <div style="font-size: 0.82rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Top Gainer Produce</div>
               <div style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;" id="kpi-top-crop">Tomato</div>
               <div style="font-size: 0.78rem; font-weight: 700; color: #d97706;" id="kpi-top-delta">
                 +14.4% price increase
@@ -680,70 +686,75 @@
           </div>
         </section>
 
-        <!-- CLEAR INTERACTIVE GRAPH HERO SECTION -->
+        <!-- SIMPLE & CLEAR GRAPH CARD (SHOWN IN KG) -->
         <section class="graph-hero-card">
-          <!-- Controls Header -->
-          <div class="graph-controls-header">
+          <!-- Top Controls Bar -->
+          <div class="graph-top-bar">
             <div>
               <div style="display: flex; align-items: center; gap: 10px;">
-                <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;">Mandi Price Dynamics & AI Forecasting</h3>
-                <span style="font-size: 0.74rem; font-weight: 800; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 2px 8px; border-radius: 999px;">High-DPI Live Chart</span>
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;">Market Price Trend & 7-Day Forecast</h3>
+                <span style="font-size: 0.74rem; font-weight: 800; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 2px 8px; border-radius: 999px;">Live Agmarknet</span>
               </div>
               <p style="font-size: 0.82rem; color: #64748b; margin: 4px 0 0 0;">
-                Live 7-Day APMC historical records combined with 7-Day forward Holt-Winters ML projections and supply volume correlation.
+                Clear daily prices in <strong>₹ per kg</strong> with simple 7-day forward AI projected trends.
               </p>
             </div>
 
-            <!-- Visualization Mode Switcher -->
-            <div class="graph-mode-tabs">
-              <button class="graph-tab-btn active" id="tab-forecast" onclick="switchGraphMode('forecast', this)">
-                <span>📈</span> Price & 7D Forecast
-              </button>
-              <button class="graph-tab-btn" id="tab-volume" onclick="switchGraphMode('volume', this)">
-                <span>📊</span> Supply vs Price (Dual-Axis)
-              </button>
-              <button class="graph-tab-btn" id="tab-arbitrage" onclick="switchGraphMode('arbitrage', this)">
-                <span>📍</span> Mandi Arbitrage Matrix
-              </button>
+            <!-- Unit Switcher (kg vs Quintal) -->
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 0.78rem; color: #64748b; font-weight: 700;">Unit:</span>
+              <div class="unit-toggle-wrap">
+                <button class="unit-toggle-btn active" id="unit-btn-kg" onclick="setPriceUnit('kg')">₹ / kg</button>
+                <button class="unit-toggle-btn" id="unit-btn-qt" onclick="setPriceUnit('qt')">₹ / Quintal</button>
+              </div>
             </div>
           </div>
 
-          <!-- Commodity Filter Chips -->
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
-            <div class="crop-filter-chips" id="graph-crop-chips">
-              <!-- Dynamically populated -->
+          <!-- Produce Selection Chips Carousel with Images -->
+          <div class="produce-chips-scroll" id="produce-chips-container">
+            <!-- Dynamically populated with crop images & rates -->
+          </div>
+
+          <!-- Quick Summary Bar for Active Crop -->
+          <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 18px; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <img id="active-crop-img" src="assets/images/tomato.jpg" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1.5px solid #0c5a36;" />
+              <div>
+                <strong style="font-size: 1rem; color: #0f172a;" id="active-crop-title">Tomato (Hybrid Red)</strong>
+                <div style="font-size: 0.75rem; color: #64748b;" id="active-crop-location">Coimbatore APMC Mandi</div>
+              </div>
             </div>
 
-            <!-- Quick Stats Summary for Selected Commodity -->
-            <div style="display: flex; align-items: center; gap: 14px; font-size: 0.82rem; background: #f8fafc; padding: 6px 14px; border-radius: 999px; border: 1px solid #e2e8f0;">
-              <span>Selected: <strong style="color: #0f172a;" id="active-crop-name">Tomato</strong></span>
-              <span>Spot: <strong style="color: #15803d;" id="active-crop-price">₹ 2,150/Qt</strong></span>
-              <span>7D Target: <strong style="color: #2563eb;" id="active-crop-target">₹ 2,444/Qt (+13.7%)</strong></span>
+            <div style="display: flex; align-items: center; gap: 20px; font-size: 0.84rem;">
+              <div>
+                <span style="color: #64748b; font-size: 0.74rem; display: block;">Today's Rate:</span>
+                <strong style="color: #15803d; font-size: 1.1rem;" id="active-spot-rate">₹ 21.50 / kg</strong>
+              </div>
+              <div>
+                <span style="color: #64748b; font-size: 0.74rem; display: block;">7-Day AI Target:</span>
+                <strong style="color: #2563eb; font-size: 1.1rem;" id="active-forecast-target">₹ 24.40 / kg (+13.7%)</strong>
+              </div>
             </div>
           </div>
 
-          <!-- Canvas Graph Container -->
-          <div style="position: relative; height: 340px; width: 100%;">
-            <canvas id="marketLiveChart"></canvas>
+          <!-- Simple Clean Canvas Chart -->
+          <div style="position: relative; height: 320px; width: 100%;">
+            <canvas id="marketSimpleChart"></canvas>
           </div>
 
-          <!-- Chart Footnote Legend -->
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid #f1f5f9; font-size: 0.76rem; color: #64748b; flex-wrap: wrap; gap: 8px;">
+          <!-- Simple Chart Legend -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid #f1f5f9; font-size: 0.78rem; color: #64748b; flex-wrap: wrap; gap: 8px;">
             <div style="display: flex; align-items: center; gap: 16px;">
               <span style="display: flex; align-items: center; gap: 6px;">
                 <span style="width: 14px; height: 3px; background: #059669; display: inline-block; border-radius: 2px;"></span>
-                Solid Line: Historical APMC Actuals
+                Solid Green: Past 7 Days Actual Price
               </span>
               <span style="display: flex; align-items: center; gap: 6px;">
-                <span style="width: 14px; height: 2px; border-top: 2px dashed #3b82f6; display: inline-block;"></span>
-                Dashed Line: 7-Day Forward AI Projections
-              </span>
-              <span style="display: flex; align-items: center; gap: 6px;">
-                <span style="width: 12px; height: 10px; background: rgba(59, 130, 246, 0.15); display: inline-block; border-radius: 2px;"></span>
-                Shaded Area: 95% Statistical Confidence Band
+                <span style="width: 14px; height: 2px; border-top: 2px dashed #2563eb; display: inline-block;"></span>
+                Dashed Blue: Next 7 Days AI Forecast
               </span>
             </div>
-            <span>Source: data.gov.in & e-NAM Verified</span>
+            <span>Official APMC Mandi Data (data.gov.in)</span>
           </div>
         </section>
 
@@ -759,13 +770,13 @@
                   <path d="M18 20V4"></path>
                   <path d="M6 20v-4"></path>
                 </svg>
-                Top Demanded Crops
+                Top Demanded Produce
               </div>
-              <span style="font-size: 0.76rem; color: #64748b; font-weight: 600;">By Arrival Volume Share</span>
+              <span style="font-size: 0.76rem; color: #64748b; font-weight: 600;">By Arrival Volume</span>
             </div>
 
             <div id="demand-items-container" style="display: flex; flex-direction: column; gap: 4px;">
-              <!-- Dynamically rendered -->
+              <!-- Dynamically rendered with produce images -->
             </div>
           </div>
 
@@ -796,7 +807,7 @@
 
             <!-- Forecast Items -->
             <div id="forecast-items-container" style="display: flex; flex-direction: column; gap: 4px;">
-              <!-- Dynamically rendered -->
+              <!-- Dynamically rendered with produce images -->
             </div>
           </div>
 
@@ -819,9 +830,9 @@
             </div>
 
             <div style="display: flex; gap: 8px;">
-              <button class="crop-chip-btn active" onclick="filterTableByState('all', this)">All Mandis</button>
-              <button class="crop-chip-btn" onclick="filterTableByState('Tamil Nadu', this)">Tamil Nadu Hubs</button>
-              <button class="crop-chip-btn" onclick="filterTableByState('National', this)">National Benchmark</button>
+              <button class="unit-toggle-btn active" onclick="filterTableByState('all', this)">All Mandis</button>
+              <button class="unit-toggle-btn" onclick="filterTableByState('Tamil Nadu', this)">Tamil Nadu Hubs</button>
+              <button class="unit-toggle-btn" onclick="filterTableByState('National', this)">National Benchmark</button>
             </div>
           </div>
 
@@ -829,18 +840,18 @@
             <table class="data-table" style="width: 100%; border-collapse: collapse;">
               <thead>
                 <tr style="border-bottom: 1px solid #e2e8f0; text-align: left;">
-                  <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">COMMODITY</th>
+                  <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">PRODUCE</th>
                   <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">GRADE</th>
                   <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">MANDI / LOCATION</th>
-                  <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">MODAL PRICE</th>
-                  <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">MIN - MAX RANGE</th>
+                  <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">RATE (PER KG)</th>
+                  <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">RATE (PER QT)</th>
                   <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">CHANGE (1W)</th>
                   <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">TREND SPARK</th>
                   <th style="padding: 12px 10px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase; text-align: right;">AI ARBITRAGE</th>
                 </tr>
               </thead>
               <tbody id="mandi-table-body">
-                <!-- Dynamically rendered -->
+                <!-- Dynamically rendered with produce images -->
               </tbody>
             </table>
           </div>
@@ -875,8 +886,8 @@
         <p style="font-size: 0.84rem; color: #166534; margin: 0;" id="modal-ai-rationale">Prices projected to gain +13.7% over 7 days due to tightening arrivals.</p>
       </div>
 
-      <!-- 7-Day ML Forecast Trajectory -->
-      <h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin: 0 0 10px 0;">7-Day Forward Price Projections (Holt-Winters Regression)</h4>
+      <!-- 7-Day ML Forecast Trajectory (Shown in kg & Quintal) -->
+      <h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin: 0 0 10px 0;">7-Day Forward Price Projections (In ₹ per kg)</h4>
       <div id="modal-forecast-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 24px;">
         <!-- Dynamically rendered -->
       </div>
@@ -889,7 +900,7 @@
             <tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; text-align: left;">
               <th style="padding: 10px 12px; font-weight: 700; color: #64748b;">DESTINATION MANDI</th>
               <th style="padding: 10px 12px; font-weight: 700; color: #64748b;">DISTANCE</th>
-              <th style="padding: 10px 12px; font-weight: 700; color: #64748b;">MODAL RATE</th>
+              <th style="padding: 10px 12px; font-weight: 700; color: #64748b;">MODAL RATE (KG / QT)</th>
               <th style="padding: 10px 12px; font-weight: 700; color: #64748b;">FREIGHT COST</th>
               <th style="padding: 10px 12px; font-weight: 700; color: #64748b;">NET SPREAD / GAIN</th>
               <th style="padding: 10px 12px; font-weight: 700; color: #64748b; text-align: right;">ACTION</th>
@@ -903,27 +914,15 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT: Dynamic Data & Chart.js Engine -->
+  <!-- JAVASCRIPT: Dynamic Data, Simple In-Kg Chart & Produce Images -->
   <script>
     let marketData = null;
     let chartInstance = null;
-    let currentGraphMode = "forecast"; // "forecast" | "volume" | "arbitrage"
     let activeCropId = "tomato-hybrid";
+    let selectedUnit = "kg"; // "kg" (default) or "qt"
 
-    const cropColors = {
-      "tomato-hybrid": { stroke: "#ef4444", fill: "rgba(239, 68, 68, 0.12)" },
-      "onion-nashik": { stroke: "#8b5cf6", fill: "rgba(139, 92, 246, 0.12)" },
-      "paddy-basmati": { stroke: "#10b981", fill: "rgba(16, 185, 129, 0.12)" },
-      "turmeric-erode": { stroke: "#eab308", fill: "rgba(234, 179, 8, 0.12)" },
-      "turmeric-salem": { stroke: "#eab308", fill: "rgba(234, 179, 8, 0.12)" },
-      "chilli-teja": { stroke: "#ea580c", fill: "rgba(234, 88, 12, 0.12)" },
-      "cotton-tirupur": { stroke: "#3b82f6", fill: "rgba(59, 130, 246, 0.12)" },
-      "cotton-shankar": { stroke: "#3b82f6", fill: "rgba(59, 130, 246, 0.12)" },
-      "okra-green": { stroke: "#14b8a6", fill: "rgba(20, 184, 166, 0.12)" },
-      "maize-yellow": { stroke: "#d97706", fill: "rgba(217, 119, 6, 0.12)" }
-    };
-
-    const cropImages = {
+    // Produce Specific Images Mapping (All local in assets/images)
+    const produceImages = {
       "Tomato": "assets/images/tomato.jpg",
       "Onion": "assets/images/onion.jpg",
       "Paddy": "assets/images/paddy.jpg",
@@ -931,8 +930,19 @@
       "Chilli": "assets/images/chilli.jpg",
       "Cotton": "assets/images/cotton.jpg",
       "Okra": "assets/images/okra.jpg",
-      "Maize": "assets/images/maize.jpg"
+      "Maize": "assets/images/maize.jpg",
+      "Banana": "assets/images/banana.jpg",
+      "Brinjal": "assets/images/brinjal.jpg",
+      "Potato": "assets/images/potato.jpg",
+      "Guava": "assets/images/hero-field.jpg",
+      "Coconut": "assets/images/hero-field.jpg",
+      "Cabbage": "assets/images/hero-field.jpg"
     };
+
+    function getProduceImage(cropName) {
+      const matchKey = Object.keys(produceImages).find(k => cropName.toLowerCase().includes(k.toLowerCase()));
+      return matchKey ? produceImages[matchKey] : "assets/images/tomato.jpg";
+    }
 
     async function loadMarketData() {
       try {
@@ -946,6 +956,30 @@
       }
     }
 
+    function setPriceUnit(unit) {
+      selectedUnit = unit;
+      document.getElementById("unit-btn-kg").classList.toggle("active", unit === "kg");
+      document.getElementById("unit-btn-qt").classList.toggle("active", unit === "qt");
+      renderDashboard();
+    }
+
+    function formatPrice(valInQt) {
+      if (selectedUnit === "kg") {
+        const perKg = (valInQt / 100.0).toFixed(2);
+        return `₹ ${perKg} /kg`;
+      } else {
+        return `₹ ${valInQt.toLocaleString('en-IN')} /Qt`;
+      }
+    }
+
+    function formatPriceNum(valInQt) {
+      if (selectedUnit === "kg") {
+        return Number((valInQt / 100.0).toFixed(2));
+      } else {
+        return valInQt;
+      }
+    }
+
     function renderDashboard() {
       if (!marketData) return;
 
@@ -954,7 +988,7 @@
 
       // Update KPI Header Cards
       document.getElementById("live-timestamp").textContent = `Synced: ${meta.generated_at}`;
-      document.getElementById("kpi-avg-price").innerHTML = `₹ ${meta.avg_modal_price.toLocaleString('en-IN')} <span style="font-size: 0.85rem; font-weight: 600; color: #64748b;">/Qt</span>`;
+      document.getElementById("kpi-avg-price").innerHTML = `${formatPrice(meta.avg_modal_price)}`;
       document.getElementById("kpi-total-demand").innerHTML = `${meta.total_mandi_volume_qt.toLocaleString('en-IN')} <span style="font-size: 0.85rem; font-weight: 600; color: #64748b;">Qt</span>`;
       
       if (meta.top_gainer) {
@@ -963,11 +997,11 @@
       }
       document.getElementById("kpi-market-trend").textContent = meta.overall_market_trend;
 
-      // Render Crop Filter Chips
-      renderCropChips(commodities);
+      // Render Produce Chips
+      renderProduceChips(commodities);
 
-      // Render Clear Graph
-      renderClearGraph();
+      // Render Simple Chart in KG
+      renderSimpleChart();
 
       // Render Demanded Crops
       renderDemandedCrops(commodities);
@@ -979,11 +1013,11 @@
       renderMandiTable(commodities);
     }
 
-    function renderCropChips(commodities) {
-      const container = document.getElementById("graph-crop-chips");
+    function renderProduceChips(commodities) {
+      const container = document.getElementById("produce-chips-container");
       container.innerHTML = "";
 
-      // Select top distinct commodities
+      // Top distinct commodities
       const distinct = [];
       const seen = new Set();
       commodities.forEach(c => {
@@ -993,272 +1027,138 @@
         }
       });
 
-      // Ensure activeCropId exists in distinct list
       if (!distinct.some(d => d.id === activeCropId) && distinct.length > 0) {
         activeCropId = distinct[0].id;
       }
 
       distinct.forEach(c => {
         const isActive = c.id === activeCropId;
-        const color = (cropColors[c.id] || {}).stroke || "#10b981";
-        const btn = document.createElement("button");
-        btn.className = `crop-chip-btn ${isActive ? 'active' : ''}`;
-        btn.innerHTML = `<span style="width: 8px; height: 8px; border-radius: 50%; background: ${color};"></span> ${c.commodity}`;
-        btn.onclick = () => selectCropForGraph(c.id);
-        container.appendChild(btn);
+        const imgUrl = getProduceImage(c.commodity);
+        const priceText = formatPrice(c.modal_price);
+
+        const card = document.createElement("div");
+        card.className = `produce-chip ${isActive ? 'active' : ''}`;
+        card.innerHTML = `
+          <img src="${imgUrl}" alt="${c.commodity}" class="produce-chip-thumb" onerror="this.src='assets/images/tomato.jpg'" />
+          <div>
+            <div style="font-size: 0.86rem; font-weight: 800; color: #0f172a;">${c.commodity}</div>
+            <div style="font-size: 0.74rem; font-weight: 700; color: #15803d;">${priceText}</div>
+          </div>
+        `;
+        card.onclick = () => {
+          activeCropId = c.id;
+          renderProduceChips(marketData.commodities);
+          renderSimpleChart();
+        };
+        container.appendChild(card);
       });
     }
 
-    function selectCropForGraph(cropId) {
-      activeCropId = cropId;
-      renderCropChips(marketData.commodities);
-      renderClearGraph();
-    }
-
-    function switchGraphMode(mode, btn) {
-      currentGraphMode = mode;
-      document.querySelectorAll(".graph-tab-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      renderClearGraph();
-    }
-
-    function renderClearGraph() {
+    function renderSimpleChart() {
       if (!marketData) return;
-      const ctx = document.getElementById("marketLiveChart").getContext("2d");
+      const ctx = document.getElementById("marketSimpleChart").getContext("2d");
 
       const c = marketData.commodities.find(item => item.id === activeCropId) || marketData.commodities[0];
       if (!c) return;
 
-      // Update Top Status Bar
-      document.getElementById("active-crop-name").textContent = `${c.commodity} (${c.market})`;
-      document.getElementById("active-crop-price").textContent = `₹ ${c.modal_price.toLocaleString('en-IN')}/Qt`;
-      document.getElementById("active-crop-target").textContent = `₹ ${c.forecast.target_price_7d.toLocaleString('en-IN')}/Qt (${c.forecast.pct_change_7d >= 0 ? '+' : ''}${c.forecast.pct_change_7d}%)`;
+      // Update Summary Bar
+      document.getElementById("active-crop-img").src = getProduceImage(c.commodity);
+      document.getElementById("active-crop-title").textContent = `${c.commodity} (${c.variety})`;
+      document.getElementById("active-crop-location").textContent = `${c.market}, ${c.district} • ${c.grade}`;
+      document.getElementById("active-spot-rate").textContent = formatPrice(c.modal_price);
+      document.getElementById("active-forecast-target").textContent = `${formatPrice(c.forecast.target_price_7d)} (${c.forecast.pct_change_7d >= 0 ? '+' : ''}${c.forecast.pct_change_7d}%)`;
 
       if (chartInstance) {
         chartInstance.destroy();
       }
 
-      const color = cropColors[c.id] || { stroke: "#10b981", fill: "rgba(16, 185, 129, 0.12)" };
+      // X-Axis Labels: 7 Days Past + 7 Days Future
+      const histLabels = marketData.metadata.chart_days || ["Day -6", "Day -5", "Day -4", "Day -3", "Day -2", "Day -1", "Today"];
+      const foreLabels = marketData.metadata.forecast_days || ["Day +1", "Day +2", "Day +3", "Day +4", "Day +5", "Day +6", "Day +7"];
+      const allLabels = [...histLabels, ...foreLabels];
 
-      if (currentGraphMode === "forecast") {
-        // MODE 1: 7-Day History + 7-Day Forecast + Confidence Band
-        const histLabels = marketData.metadata.chart_days || ["Day -6", "Day -5", "Day -4", "Day -3", "Day -2", "Day -1", "Today"];
-        const foreLabels = marketData.metadata.forecast_days || ["Day +1", "Day +2", "Day +3", "Day +4", "Day +5", "Day +6", "Day +7"];
-        const allLabels = [...histLabels, ...foreLabels];
+      // Convert prices to selected unit (kg or Quintal)
+      const histPrices = c.history_7d.map(p => formatPriceNum(p));
+      const histSeries = [...histPrices, ...new Array(7).fill(null)];
 
-        // Historical series (padded with nulls for future)
-        const histData = [...c.history_7d, ...new Array(7).fill(null)];
+      const forecastSeries = new Array(6).fill(null);
+      forecastSeries.push(histPrices[histPrices.length - 1]); // Anchor
+      c.forecast.forecast_points.forEach(pt => forecastSeries.push(formatPriceNum(pt.forecast_price)));
 
-        // Forecast series (connects from today's last price)
-        const forecastData = new Array(6).fill(null);
-        forecastData.push(c.history_7d[c.history_7d.length - 1]); // Anchor point
-        c.forecast.forecast_points.forEach(p => forecastData.push(p.forecast_price));
-
-        // Upper & Lower Confidence Envelopes
-        const upperData = new Array(6).fill(null);
-        upperData.push(c.history_7d[c.history_7d.length - 1]);
-        c.forecast.forecast_points.forEach(p => upperData.push(p.upper_bound));
-
-        const lowerData = new Array(6).fill(null);
-        lowerData.push(c.history_7d[c.history_7d.length - 1]);
-        c.forecast.forecast_points.forEach(p => lowerData.push(p.lower_bound));
-
-        chartInstance = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: allLabels,
-            datasets: [
-              {
-                label: 'Historical Mandi Modal Price',
-                data: histData,
-                borderColor: color.stroke,
-                backgroundColor: color.fill,
-                fill: true,
-                borderWidth: 3,
-                tension: 0.35,
-                pointRadius: 4.5,
-                pointBackgroundColor: color.stroke,
-                pointBorderColor: '#ffffff',
-                pointBorderWidth: 2
-              },
-              {
-                label: '7-Day AI Projected Forecast',
-                data: forecastData,
-                borderColor: '#2563eb',
-                borderDash: [6, 6],
-                borderWidth: 2.8,
-                tension: 0.35,
-                pointRadius: 4,
-                pointBackgroundColor: '#2563eb',
-                fill: false
-              },
-              {
-                label: '95% Confidence Upper Band',
-                data: upperData,
-                borderColor: 'rgba(37, 99, 235, 0.25)',
-                borderDash: [3, 3],
-                borderWidth: 1.5,
-                pointRadius: 0,
-                fill: '+1',
-                backgroundColor: 'rgba(37, 99, 235, 0.08)'
-              },
-              {
-                label: '95% Confidence Lower Band',
-                data: lowerData,
-                borderColor: 'rgba(37, 99, 235, 0.25)',
-                borderDash: [3, 3],
-                borderWidth: 1.5,
-                pointRadius: 0,
-                fill: false
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
-            plugins: {
-              legend: {
-                display: true,
-                position: 'top',
-                labels: {
-                  boxWidth: 14,
-                  font: { family: 'Plus Jakarta Sans', weight: '700', size: 11 },
-                  filter: item => !item.text.includes('Lower') // Clean up legend
-                }
-              },
-              tooltip: {
-                backgroundColor: '#0f172a',
-                padding: 12,
-                titleFont: { family: 'Plus Jakarta Sans', weight: '800', size: 12 },
-                bodyFont: { family: 'Plus Jakarta Sans', size: 12 },
-                callbacks: {
-                  label: ctx => `${ctx.dataset.label}: ₹ ${ctx.parsed.y ? ctx.parsed.y.toLocaleString('en-IN') : '--'}/Qt`
-                }
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: allLabels,
+          datasets: [
+            {
+              label: `Past Actual Price (${selectedUnit === 'kg' ? '₹/kg' : '₹/Qt'})`,
+              data: histSeries,
+              borderColor: '#059669',
+              backgroundColor: 'rgba(5, 150, 105, 0.10)',
+              fill: true,
+              borderWidth: 3,
+              tension: 0.35,
+              pointRadius: 5,
+              pointBackgroundColor: '#059669',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2
+            },
+            {
+              label: `7-Day AI Forecast (${selectedUnit === 'kg' ? '₹/kg' : '₹/Qt'})`,
+              data: forecastSeries,
+              borderColor: '#2563eb',
+              borderDash: [6, 6],
+              borderWidth: 2.8,
+              tension: 0.35,
+              pointRadius: 4.5,
+              pointBackgroundColor: '#2563eb',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                boxWidth: 14,
+                font: { family: 'Plus Jakarta Sans', weight: '700', size: 12 }
               }
             },
-            scales: {
-              x: {
-                grid: { color: '#f1f5f9' },
-                ticks: { font: { family: 'Plus Jakarta Sans', weight: '600', size: 11 } }
-              },
-              y: {
-                grid: { color: '#f1f5f9' },
-                ticks: {
-                  font: { family: 'Plus Jakarta Sans', weight: '700', size: 11 },
-                  callback: val => `₹ ${val.toLocaleString('en-IN')}`
+            tooltip: {
+              backgroundColor: '#0f172a',
+              padding: 12,
+              titleFont: { family: 'Plus Jakarta Sans', weight: '800', size: 12 },
+              bodyFont: { family: 'Plus Jakarta Sans', size: 12 },
+              callbacks: {
+                label: ctx => {
+                  if (ctx.parsed.y === null || isNaN(ctx.parsed.y)) return '';
+                  return `${ctx.dataset.label}: ₹ ${ctx.parsed.y} /${selectedUnit}`;
                 }
               }
             }
-          }
-        });
-
-      } else if (currentGraphMode === "volume") {
-        // MODE 2: Dual-Axis Modal Price vs Daily Arrival Volume (Qt)
-        const histLabels = marketData.metadata.chart_days || ["Day -6", "Day -5", "Day -4", "Day -3", "Day -2", "Day -1", "Today"];
-        const prices = c.history_7d;
-        const arrivals = c.arrivals_history_7d;
-
-        chartInstance = new Chart(ctx, {
-          data: {
-            labels: histLabels,
-            datasets: [
-              {
-                type: 'bar',
-                label: 'Arrival Volume (Quintals)',
-                data: arrivals,
-                backgroundColor: 'rgba(148, 163, 184, 0.4)',
-                borderRadius: 6,
-                yAxisID: 'yVolume'
-              },
-              {
-                type: 'line',
-                label: 'Modal Price (₹/Qt)',
-                data: prices,
-                borderColor: color.stroke,
-                backgroundColor: color.fill,
-                borderWidth: 3,
-                tension: 0.3,
-                pointRadius: 5,
-                pointBackgroundColor: color.stroke,
-                yAxisID: 'yPrice'
-              }
-            ]
           },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
-            plugins: {
-              legend: {
-                display: true,
-                position: 'top',
-                labels: { font: { family: 'Plus Jakarta Sans', weight: '700', size: 11 } }
-              },
-              tooltip: {
-                backgroundColor: '#0f172a',
-                padding: 12
-              }
+          scales: {
+            x: {
+              grid: { color: '#f1f5f9' },
+              ticks: { font: { family: 'Plus Jakarta Sans', weight: '600', size: 11 } }
             },
-            scales: {
-              x: { grid: { color: '#f1f5f9' } },
-              yPrice: {
-                type: 'linear',
-                position: 'left',
-                grid: { color: '#f1f5f9' },
-                ticks: { callback: val => `₹ ${val.toLocaleString('en-IN')}` }
-              },
-              yVolume: {
-                type: 'linear',
-                position: 'right',
-                grid: { drawOnChartArea: false },
-                ticks: { callback: val => `${val} Qt` }
+            y: {
+              grid: { color: '#f1f5f9' },
+              ticks: {
+                font: { family: 'Plus Jakarta Sans', weight: '700', size: 11 },
+                callback: val => `₹ ${val}`
               }
             }
           }
-        });
-
-      } else if (currentGraphMode === "arbitrage") {
-        // MODE 3: Regional Inter-Mandi Price Arbitrage Bar Graph
-        const arbList = c.arbitrage_matrix || [];
-        const labels = [c.market, ...arbList.map(a => a.target_mandi)];
-        const dataValues = [c.modal_price, ...arbList.map(a => a.mandi_modal_price)];
-        const backgroundColors = ['#0c5a36', ...arbList.map(a => a.is_viable ? '#10b981' : '#cbd5e1')];
-
-        chartInstance = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: 'Modal Rate (₹/Qt)',
-              data: dataValues,
-              backgroundColor: backgroundColors,
-              borderRadius: 8
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                backgroundColor: '#0f172a',
-                padding: 12,
-                callbacks: {
-                  label: ctx => `Modal Price: ₹ ${ctx.parsed.y.toLocaleString('en-IN')}/Qt`
-                }
-              }
-            },
-            scales: {
-              x: { grid: { display: false } },
-              y: {
-                grid: { color: '#f1f5f9' },
-                ticks: { callback: val => `₹ ${val.toLocaleString('en-IN')}` }
-              }
-            }
-          }
-        });
-      }
+        }
+      });
     }
 
     function renderDemandedCrops(commodities) {
@@ -1270,20 +1170,20 @@
 
       sorted.forEach((c) => {
         const share = Math.round((c.arrivals_qt / totalVol) * 100);
-        const color = (cropColors[c.id] || {}).stroke || "#10b981";
-        const imgUrl = cropImages[c.commodity] || "assets/images/tomato.jpg";
+        const imgUrl = getProduceImage(c.commodity);
+        const priceText = formatPrice(c.modal_price);
 
         container.innerHTML += `
           <div class="demand-item">
-            <div style="display: flex; align-items: center; gap: 10px; min-width: 100px;">
-              <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=100&auto=format&fit=crop&q=80'" />
+            <div style="display: flex; align-items: center; gap: 10px; min-width: 120px;">
+              <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='assets/images/tomato.jpg'" />
               <div>
                 <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">${c.commodity}</div>
-                <div style="font-size: 0.74rem; color: #64748b;">${c.arrivals_qt.toLocaleString('en-IN')} Qt</div>
+                <div style="font-size: 0.74rem; font-weight: 700; color: #15803d;">${priceText}</div>
               </div>
             </div>
             <div class="demand-track">
-              <div class="demand-fill" style="width: ${Math.max(share, 8)}%; background: ${color};"></div>
+              <div class="demand-fill" style="width: ${Math.max(share, 8)}%; background: #0c5a36;"></div>
             </div>
             <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; min-width: 32px; text-align: right;">${share}%</div>
           </div>
@@ -1296,7 +1196,7 @@
       container.innerHTML = "";
 
       commodities.slice(0, 5).forEach(c => {
-        const imgUrl = cropImages[c.commodity] || "assets/images/tomato.jpg";
+        const imgUrl = getProduceImage(c.commodity);
         const pct = c.forecast.pct_change_7d;
         const isUp = pct >= 0;
         const sign = isUp ? "+" : "";
@@ -1304,10 +1204,10 @@
         container.innerHTML += `
           <div class="forecast-row" onclick="openMandiModal('${c.id}')">
             <div style="display: flex; align-items: center; gap: 10px;">
-              <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=100&auto=format&fit=crop&q=80'" />
+              <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='assets/images/tomato.jpg'" />
               <div>
                 <span style="font-weight: 700; font-size: 0.88rem; color: #0f172a; display: block;">${c.commodity}</span>
-                <span style="font-size: 0.72rem; color: #64748b;">Target: ₹ ${c.forecast.target_price_7d.toLocaleString('en-IN')}</span>
+                <span style="font-size: 0.74rem; color: #64748b;">Target: ${formatPrice(c.forecast.target_price_7d)}</span>
               </div>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
@@ -1324,7 +1224,7 @@
       tbody.innerHTML = "";
 
       commodities.slice(0, 15).forEach(c => {
-        const imgUrl = cropImages[c.commodity] || "assets/images/tomato.jpg";
+        const imgUrl = getProduceImage(c.commodity);
         const isUp = c.change_1w_pct >= 0;
         const sign = isUp ? "↑" : "↓";
         const color = isUp ? "#10b981" : "#ef4444";
@@ -1343,7 +1243,7 @@
           <tr style="border-bottom: 1px solid #f1f5f9;">
             <td style="padding: 12px 10px;">
               <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="${imgUrl}" alt="${c.commodity}" class="table-crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=100&auto=format&fit=crop&q=80'" />
+                <img src="${imgUrl}" alt="${c.commodity}" class="table-crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
                 <div>
                   <strong style="font-size: 0.88rem; color: #0f172a; display: block;">${c.commodity}</strong>
                   <span style="font-size: 0.72rem; color: #64748b;">${c.variety}</span>
@@ -1360,10 +1260,10 @@
               </div>
             </td>
             <td style="padding: 12px 10px;">
-              <strong style="font-size: 0.94rem; color: #0f172a;">₹ ${c.modal_price.toLocaleString('en-IN')}</strong> <span style="font-size: 0.76rem; color: #64748b;">/Qt</span>
+              <strong style="font-size: 0.94rem; color: #15803d;">${formatPrice(c.modal_price)}</strong>
             </td>
-            <td style="padding: 12px 10px; font-size: 0.8rem; color: #64748b;">
-              ₹ ${c.min_price.toLocaleString('en-IN')} - ₹ ${c.max_price.toLocaleString('en-IN')}
+            <td style="padding: 12px 10px; font-size: 0.82rem; font-weight: 600; color: #475569;">
+              ₹ ${c.modal_price.toLocaleString('en-IN')} /Qt
             </td>
             <td style="padding: 12px 10px; font-size: 0.84rem; font-weight: 700; color: ${color};">
               ${sign} ${Math.abs(c.change_1w_pct)}%
@@ -1387,16 +1287,16 @@
       const c = marketData.commodities.find(item => item.id === cropId);
       if (!c) return;
 
-      document.getElementById("modal-crop-img").src = cropImages[c.commodity] || "assets/images/tomato.jpg";
+      document.getElementById("modal-crop-img").src = getProduceImage(c.commodity);
       document.getElementById("modal-crop-title").textContent = `${c.commodity} (${c.variety})`;
-      document.getElementById("modal-crop-subtitle").textContent = `${c.market}, ${c.district} • ${c.grade} • Modal: ₹ ${c.modal_price.toLocaleString('en-IN')}/Qt`;
+      document.getElementById("modal-crop-subtitle").textContent = `${c.market}, ${c.district} • ${c.grade} • Spot Rate: ${formatPrice(c.modal_price)}`;
 
       // Advisory
       document.getElementById("modal-ai-confidence").textContent = `${c.forecast.confidence_pct}% ML Confidence`;
       document.getElementById("modal-ai-verdict").textContent = c.advisory.verdict;
       document.getElementById("modal-ai-rationale").textContent = c.advisory.rationale;
 
-      // 7-Day Forecast Grid
+      // 7-Day Forecast Grid in KG
       const fGrid = document.getElementById("modal-forecast-grid");
       fGrid.innerHTML = "";
       c.forecast.forecast_points.forEach((pt, idx) => {
@@ -1404,8 +1304,8 @@
         fGrid.innerHTML += `
           <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 6px; text-align: center;">
             <div style="font-size: 0.7rem; color: #64748b; font-weight: 600;">${dayLabel}</div>
-            <div style="font-size: 0.88rem; font-weight: 800; color: #0f172a; margin: 3px 0;">₹${pt.forecast_price.toLocaleString('en-IN')}</div>
-            <div style="font-size: 0.65rem; color: #166534;">±₹${(pt.upper_bound - pt.forecast_price).toLocaleString('en-IN')}</div>
+            <div style="font-size: 0.88rem; font-weight: 800; color: #0f172a; margin: 3px 0;">₹${(pt.forecast_price / 100.0).toFixed(2)}/kg</div>
+            <div style="font-size: 0.65rem; color: #166534;">₹${pt.forecast_price.toLocaleString('en-IN')}/Qt</div>
           </div>
         `;
       });
@@ -1420,10 +1320,12 @@
             <tr style="border-bottom: 1px solid #f1f5f9;">
               <td style="padding: 10px 12px; font-weight: 700; color: #0f172a;">${arb.target_mandi} (${arb.state})</td>
               <td style="padding: 10px 12px; color: #64748b;">${arb.distance_km} km</td>
-              <td style="padding: 10px 12px; font-weight: 700; color: #0f172a;">₹ ${arb.mandi_modal_price.toLocaleString('en-IN')}/Qt</td>
-              <td style="padding: 10px 12px; color: #dc2626;">- ₹ ${arb.freight_cost_qt}/Qt</td>
+              <td style="padding: 10px 12px; font-weight: 700; color: #0f172a;">
+                ₹ ${(arb.mandi_modal_price / 100.0).toFixed(2)}/kg <span style="font-size: 0.74rem; color: #64748b;">(₹${arb.mandi_modal_price}/Qt)</span>
+              </td>
+              <td style="padding: 10px 12px; color: #dc2626;">- ₹ ${(arb.freight_cost_qt / 100.0).toFixed(2)}/kg</td>
               <td style="padding: 10px 12px; font-weight: 800; color: ${isViable ? '#166534' : '#64748b'};">
-                ${isViable ? '+ ₹ ' + arb.net_gain_qt.toLocaleString('en-IN') + ' /Qt (' + arb.roi_pct + '%)' : 'No net gain'}
+                ${isViable ? '+ ₹ ' + (arb.net_gain_qt / 100.0).toFixed(2) + ' /kg (+' + arb.roi_pct + '%)' : 'No net gain'}
               </td>
               <td style="padding: 10px 12px; text-align: right;">
                 <button style="padding: 4px 10px; border-radius: 999px; border: 1px solid ${isViable ? '#166534' : '#cbd5e1'}; background: ${isViable ? '#dcfce7' : '#ffffff'}; color: ${isViable ? '#166534' : '#64748b'}; font-weight: 700; font-size: 0.72rem; cursor: pointer;">
@@ -1464,7 +1366,7 @@
     }
 
     function filterTableByState(filter, btn) {
-      document.querySelectorAll(".card-header-clean .crop-chip-btn").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".card-header-clean .unit-toggle-btn").forEach(p => p.classList.remove("active"));
       btn.classList.add("active");
 
       if (!marketData) return;
