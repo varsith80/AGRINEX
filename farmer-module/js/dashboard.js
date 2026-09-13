@@ -153,14 +153,7 @@ function submitFPOContribution(e, demandId) {
 }
 
 function scrollToFPOHub() {
-  const section = document.getElementById("section-fpo-hub");
-  if (section) {
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    section.style.boxShadow = "0 0 0 3px #10b981";
-    setTimeout(() => {
-      section.style.boxShadow = "";
-    }, 2000);
-  }
+  window.location.href = 'fpo-hub.html';
 }
 
 function renderListings() {

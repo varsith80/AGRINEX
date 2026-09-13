@@ -9,10 +9,13 @@ const FPO_COOPERATIVE_DATA = {
     fpoId: "FPO-TN-ERODE-09",
     regNo: "FPO/TN/2023/8892",
     totalMemberFarmers: 340,
-    activePoolsCount: 3,
-    location: "Erode Central Hub, Tamil Nadu",
-    president: "R. Shanmugam",
-    fpoWalletLocked: "₹ 48,50,000"
+    activePoolsCount: 4,
+    location: "Erode Central Mandi Hub, Tamil Nadu",
+    president: "R. Shanmugam (Managing Director)",
+    cooperativeSecretary: "S. Kaliappan",
+    fpoWalletLocked: "₹ 74,85,000",
+    nabardStatus: "NABARD & SFAC Grade-A Certified",
+    auditStatus: "FY 2025-26 Clean Audit ✓"
   },
   
   // High-Volume Enterprise Bulk Orders Open for Farmer Pooling
@@ -20,8 +23,10 @@ const FPO_COOPERATIVE_DATA = {
     {
       id: "BULK-DEM-TOM-01",
       crop: "Tomato (Shimla Red / Processing Grade)",
+      image: "assets/images/tomato.jpg",
       buyerName: "Kissan & Nestle India Procurements",
       buyerLogo: "🍅",
+      buyerCategory: "Food Processing Giant",
       totalRequiredQty: "500 Qt",
       totalRequiredNumber: 500,
       currentPooledQty: 380,
@@ -31,6 +36,8 @@ const FPO_COOPERATIVE_DATA = {
       deadline: "2 Days Remaining",
       destination: "Nestle SIPCOT Agro Park, Tirupur",
       status: "Pooling Active (76% Filled)",
+      qualitySpecs: "TSS > 4.5%, Uniform Red, Moisture < 88%, Zero Pest Damage",
+      advancePercent: "35% Advance",
       farmerContributors: [
         { name: "Ramesh Kumar (You)", qty: 50, timestamp: "Today 10:15 AM", status: "Committed (Escrow Locked)" },
         { name: "K. Subramaniam", qty: 120, timestamp: "Yesterday", status: "Verified" },
@@ -41,8 +48,10 @@ const FPO_COOPERATIVE_DATA = {
     {
       id: "BULK-DEM-ONI-02",
       crop: "Red Onions (Export Quality Grade A)",
+      image: "assets/images/onion.jpg",
       buyerName: "Dubai Agro-Gulf Exporters Ltd.",
       buyerLogo: "🧅",
+      buyerCategory: "International Export Consortium",
       totalRequiredQty: "1,000 Qt",
       totalRequiredNumber: 1000,
       currentPooledQty: 650,
@@ -52,6 +61,8 @@ const FPO_COOPERATIVE_DATA = {
       deadline: "4 Days Remaining",
       destination: "Tuticorin Port Cold Terminal",
       status: "Pooling Active (65% Filled)",
+      qualitySpecs: "Bulb Size 45-65mm, Clean Dried Outer Skin, Phyto-Certified",
+      advancePercent: "35% Advance",
       farmerContributors: [
         { name: "M. Velusamy", qty: 250, timestamp: "Yesterday", status: "Verified" },
         { name: "Dindigul Onion Club (6 Farmers)", qty: 400, timestamp: "2 days ago", status: "Verified" }
@@ -60,8 +71,10 @@ const FPO_COOPERATIVE_DATA = {
     {
       id: "BULK-DEM-PAD-03",
       crop: "Paddy / Rice (Sona Masoori A-Grade)",
+      image: "assets/images/paddy.jpg",
       buyerName: "ITC Agri-Business Division",
       buyerLogo: "🌾",
+      buyerCategory: "Institutional Corporate Buyer",
       totalRequiredQty: "2,000 Qt",
       totalRequiredNumber: 2000,
       currentPooledQty: 1850,
@@ -71,11 +84,68 @@ const FPO_COOPERATIVE_DATA = {
       deadline: "1 Day Remaining",
       destination: "ITC Rice Mill Hub, Salem",
       status: "Near Completion (92.5% Filled)",
+      qualitySpecs: "Moisture 13-14%, Grain Length > 6.6mm, Discolored Grains < 1%",
+      advancePercent: "35% Advance",
       farmerContributors: [
         { name: "Thanjavur Delta Syndicate (14 Farmers)", qty: 1500, timestamp: "3 days ago", status: "Verified" },
         { name: "C. Ganesan", qty: 350, timestamp: "Yesterday", status: "Verified" }
       ]
+    },
+    {
+      id: "BULK-DEM-COT-04",
+      crop: "Raw Cotton (MCU-5 Long Staple)",
+      image: "assets/images/cotton.jpg",
+      buyerName: "Coimbatore Textile Spinners Guild",
+      buyerLogo: "☁️",
+      buyerCategory: "Textile Mills Consortium",
+      totalRequiredQty: "800 Qt",
+      totalRequiredNumber: 800,
+      currentPooledQty: 480,
+      targetPricePerQt: "₹ 6,800 /Qt",
+      targetPriceNumber: 6800,
+      minContribution: "15 Qt",
+      deadline: "5 Days Remaining",
+      destination: "Palladam Spinning Cluster, Tirupur",
+      status: "Pooling Active (60% Filled)",
+      qualitySpecs: "Staple Length 32mm+, Micronaire 3.8-4.2, Trash Content < 3%",
+      advancePercent: "35% Advance",
+      farmerContributors: [
+        { name: "Bhavani Cotton Union (8 Farmers)", qty: 320, timestamp: "Yesterday", status: "Verified" },
+        { name: "S. Palanisamy", qty: 160, timestamp: "2 days ago", status: "Verified" }
+      ]
     }
+  ],
+
+  // Historical Completed FPO Contracts
+  completedShipments: [
+    {
+      id: "FPO-DISP-882",
+      crop: "Tomato (Roma Hybrid)",
+      buyer: "Hindustan Unilever (Kissan Factory)",
+      totalQty: "600 Qt (Pooled from 18 Farmers)",
+      contractValue: "₹ 8,10,000",
+      settlementStatus: "100% Escrow Released to Farmers",
+      dispatchDate: "04 Sep 2026",
+      transportAgent: "GreenWays Agro Transit (TN-33-AX-8910)"
+    },
+    {
+      id: "FPO-DISP-841",
+      crop: "Basmati Paddy 1121",
+      buyer: "Adani Wilmar Agri Foods",
+      totalQty: "1,500 Qt (Pooled from 32 Farmers)",
+      contractValue: "₹ 34,50,000",
+      settlementStatus: "100% Escrow Released to Farmers",
+      dispatchDate: "22 Aug 2026",
+      transportAgent: "Southern Express Fleet (TN-28-BZ-4411)"
+    }
+  ],
+
+  // Governance & Member Board
+  boardMembers: [
+    { name: "R. Shanmugam", role: "President & Managing Director", village: "Gobi, Erode", phone: "+91 98421 11200", term: "2023 - 2028" },
+    { name: "S. Kaliappan", role: "Vice President (Horticulture Lead)", village: "Perundurai", phone: "+91 98422 33411", term: "2023 - 2028" },
+    { name: "Dr. K. Jayaraman", role: "NABARD Nodal Technical Advisor", village: "TNAU Coimbatore", phone: "+91 94433 99881", term: "Permanent Nominee" },
+    { name: "Ramesh Kumar (You)", role: "Elected Farmer Executive (Erode Zone)", village: "Gobi Taluk", phone: "+91 98421 88390", term: "2024 - 2027" }
   ]
 };
 
@@ -127,6 +197,43 @@ class AgriNexFPOHub {
       percent,
       message: `Successfully pooled ${qtyNum} Qt of ${demand.crop}! Total pool is now ${demand.currentPooledQty}/${demand.totalRequiredQty} (${percent}%).`
     };
+  }
+
+  static getCompletedShipments() {
+    return FPO_COOPERATIVE_DATA.completedShipments;
+  }
+
+  static getBoardMembers() {
+    return FPO_COOPERATIVE_DATA.boardMembers;
+  }
+
+  static getMyCommitments(farmerName = "Ramesh Kumar") {
+    const demands = this.getBulkDemands();
+    const commitments = [];
+    demands.forEach(d => {
+      if (d.farmerContributors) {
+        const found = d.farmerContributors.filter(c => c.name.includes(farmerName) || c.name.includes("You"));
+        found.forEach(c => {
+          const totalEarn = c.qty * d.targetPriceNumber;
+          const advanceEarn = Math.round(totalEarn * 0.35);
+          commitments.push({
+            demandId: d.id,
+            crop: d.crop,
+            buyer: d.buyerName,
+            myQty: `${c.qty} Qt`,
+            qtyNumber: c.qty,
+            unitPrice: d.targetPricePerQt,
+            totalEstimatedPayout: `₹ ${totalEarn.toLocaleString('en-IN')}`,
+            advanceEscrow: `₹ ${advanceEarn.toLocaleString('en-IN')} (35%)`,
+            poolProgress: `${d.currentPooledQty} / ${d.totalRequiredQty}`,
+            poolPercent: Math.min(100, Math.round((d.currentPooledQty / d.totalRequiredNumber) * 100)),
+            status: c.status,
+            destination: d.destination
+          });
+        });
+      }
+    });
+    return commitments;
   }
 }
 
