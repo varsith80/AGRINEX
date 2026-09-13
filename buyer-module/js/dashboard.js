@@ -90,10 +90,16 @@ function setupSidebarNav() {
 // FEATURE 4: INSTANT SEARCH, GRADE & KG UNIT FILTER
 // ==========================================
 
-// Global Search handler from Top Navbar
+// Global Search handler // Search input handler
 function handleBuyerSearch(query) {
-  buyerFilterState.search = (query || '').trim().toLowerCase();
-  
+  const rawQuery = query || '';
+  buyerFilterState.search = rawQuery.trim().toLowerCase();
+
+  const globalInput = document.getElementById('buyer-global-search');
+  const marketInput = document.getElementById('marketplace-search-input');
+  if (globalInput && globalInput.value !== rawQuery) globalInput.value = rawQuery;
+  if (marketInput && marketInput.value !== rawQuery) marketInput.value = rawQuery;
+
   // If user is searching and not currently in verified produce view, switch to it
   const activeView = document.querySelector('.portal-view.active-view');
   if (buyerFilterState.search && activeView && activeView.id !== 'view-verified-produce' && activeView.id !== 'view-dashboard') {
@@ -227,20 +233,159 @@ function resetBuyerFilters() {
 }
 
 // Render Verified Farmer Lots in Table (Full & Dashboard preview with KG unit support)
+// Toggle between Grid and Table View in Marketplace
+function setMarketViewMode(mode, btn) {
+  const gridContainer = document.getElementById('market-lots-grid');
+  const tableWrapper = document.getElementById('market-lots-table-wrapper');
+  const gridBtn = document.getElementById('btn-view-grid');
+  const tableBtn = document.getElementById('btn-view-table');
+
+  if (mode === 'grid') {
+    if (gridContainer) gridContainer.style.display = 'grid';
+    if (tableWrapper) tableWrapper.style.display = 'none';
+    if (gridBtn) {
+      gridBtn.style.background = '#0c5a36';
+      gridBtn.style.color = '#ffffff';
+    }
+    if (tableBtn) {
+      tableBtn.style.background = 'transparent';
+      tableBtn.style.color = '#475569';
+    }
+  } else {
+    if (gridContainer) gridContainer.style.display = 'none';
+    if (tableWrapper) tableWrapper.style.display = 'block';
+    if (tableBtn) {
+      tableBtn.style.background = '#0c5a36';
+      tableBtn.style.color = '#ffffff';
+    }
+    if (gridBtn) {
+      gridBtn.style.background = 'transparent';
+      gridBtn.style.color = '#475569';
+    }
+  }
+}
+
+// Category filter pills on Marketplace hero
+function filterByCategoryPill(category, btn) {
+  const pills = document.querySelectorAll('#market-category-pills .market-pill');
+  pills.forEach(p => {
+    p.classList.remove('active');
+    p.style.background = '#ffffff';
+    p.style.color = '#334155';
+    p.style.borderColor = '#cbd5e1';
+  });
+
+  if (btn) {
+    btn.classList.add('active');
+    btn.style.background = '#0c5a36';
+    btn.style.color = '#ffffff';
+    btn.style.borderColor = '#0c5a36';
+  }
+
+  buyerFilterState.category = category;
+  applyFilters();
+}
+
+// Render Verified Farmer Lots in 3-Column Grid + Table + Dashboard preview
 function renderVerifiedLots(lotsToRender = null) {
+  const grid = document.getElementById('market-lots-grid');
   const tbody = document.getElementById('verified-lots-tbody');
   const dashTbody = document.getElementById('dashboard-lots-tbody');
   const countBadge = document.getElementById('lots-count-badge');
+  const marketCountBadge = document.getElementById('market-lots-count');
   
   if (!buyerData.verifiedLots) return;
   const lots = lotsToRender !== null ? lotsToRender : buyerData.verifiedLots;
   const unitMode = buyerFilterState.unitDisplay || 'both';
 
   // Update badge count
-  if (countBadge) {
-    countBadge.textContent = `Showing ${lots.length} of ${buyerData.verifiedLots.length} Verified Lots`;
+  const countText = `${lots.length} Lots`;
+  if (countBadge) countBadge.textContent = `Showing ${lots.length} of ${buyerData.verifiedLots.length} Verified Lots`;
+  if (marketCountBadge) marketCountBadge.textContent = `${lots.length} Lots Available`;
+
+  // 1. Render 3-Column Visual Grid (Screenshot Match)
+  if (grid) {
+    if (lots.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column: 1 / -1; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 48px 24px; text-align: center; color: #64748b;">
+          <div style="font-size: 2.5rem; margin-bottom: 10px;">🌾</div>
+          <strong style="font-size: 1.1rem; color: #0f172a; display: block; margin-bottom: 6px;">No farm-direct lots found matching your filter</strong>
+          <p style="font-size: 0.85rem; margin-bottom: 16px;">Try adjusting your keyword search or selecting a different crop category.</p>
+          <button class="btn btn-outline btn-sm" onclick="resetBuyerFilters()">Reset All Filters</button>
+        </div>
+      `;
+    } else {
+      grid.innerHTML = lots
+        .map((lot) => {
+          const kgRate = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
+          const availQty = lot.availableQtyKg ? `${lot.availableQtyKg.toLocaleString('en-IN')} kg` : `${(lot.qtyNum * 100).toLocaleString('en-IN')} kg`;
+          const gradeText = lot.grade || 'Grade A';
+
+          return `
+            <div class="farm-lot-card" id="card-${lot.id}">
+              <!-- Visual Image Box with Gradient Overlay & Badges -->
+              <div class="lot-img-container">
+                <img src="${lot.image}" alt="${lot.crop}" class="lot-img" onerror="this.src='assets/images/tomato.jpg'" />
+                <div class="lot-img-gradient-overlay"></div>
+                
+                <!-- Top Badges -->
+                <div class="lot-top-badges">
+                  <span class="lot-badge-farmer-tag">🌿 Farmer</span>
+                  <span class="lot-badge-grade-tag">${gradeText}</span>
+                </div>
+
+                <!-- Bottom Price & Quantity Overlay -->
+                <div class="lot-bottom-overlay">
+                  <div class="lot-overlay-price">
+                    ₹${kgRate} <span>/ kg</span>
+                  </div>
+                  <div class="lot-overlay-qty">
+                    Available Qty: ${availQty}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Body Info -->
+              <div class="lot-card-body">
+                <div>
+                  <div class="lot-title">${lot.crop}</div>
+                  <div class="lot-farmer-meta">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span><strong>${lot.farmerName}</strong> • ${lot.farmerRating || '4.9 ⭐'}</span>
+                  </div>
+                  <div class="lot-location-meta">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>${lot.farmerLocation}</span>
+                  </div>
+                </div>
+
+                <!-- Actions: Buy Now + WhatsApp -->
+                <div class="lot-actions-row">
+                  <button class="btn-lot-buy" onclick="openDirectBuyModal('${lot.id}')">
+                    <span>🛒</span>
+                    <span>Buy Now</span>
+                  </button>
+                  <button class="btn-lot-whatsapp" onclick="openBidModal('${lot.id}')" title="Direct Counter-Bid & WhatsApp Negotiation">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.316 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.818-1.001z"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+    }
   }
 
+  // 2. Render Tabular View (when table mode selected)
   if (tbody) {
     if (lots.length === 0) {
       tbody.innerHTML = `
@@ -248,7 +393,7 @@ function renderVerifiedLots(lotsToRender = null) {
           <td colspan="7" style="text-align: center; padding: 40px 20px; color: #64748b;">
             <div style="font-size: 2rem; margin-bottom: 8px;">🌾</div>
             <strong style="font-size: 1rem; color: #0f172a; display: block; margin-bottom: 4px;">No matching farmer lots found</strong>
-            <p style="font-size: 0.82rem; margin-bottom: 12px;">Try adjusting your search query, grade tier, or category filter.</p>
+            <p style="font-size: 0.82rem; margin-bottom: 12px;">Try adjusting your search query or category filter.</p>
             <button class="btn btn-outline btn-sm" onclick="resetBuyerFilters()">Reset All Filters</button>
           </td>
         </tr>
@@ -256,45 +401,10 @@ function renderVerifiedLots(lotsToRender = null) {
     } else {
       tbody.innerHTML = lots
         .map((lot) => {
-          const kgRate = (lot.priceNum / 100).toFixed(2);
-          const totalKg = (lot.qtyNum * 100).toLocaleString('en-IN');
+          const kgRate = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
+          const totalKg = lot.availableQtyKg ? lot.availableQtyKg.toLocaleString('en-IN') : (lot.qtyNum * 100).toLocaleString('en-IN');
           const mandiNum = parseFloat(lot.mandiRate.replace(/[^0-9.]/g, '')) || 0;
-          const mandiKgRate = (mandiNum / 100).toFixed(2);
-
-          // Quantity Cell formatting based on active unit mode
-          let qtyHtml = '';
-          if (unitMode === 'kg') {
-            qtyHtml = `<strong style="font-size: 0.92rem; color: #0f172a;">${totalKg} kg</strong><span style="font-size: 0.72rem; color: #64748b; display: block;">(${lot.quantity})</span>`;
-          } else if (unitMode === 'qt') {
-            qtyHtml = `<strong style="font-size: 0.92rem; color: #0f172a;">${lot.quantity}</strong>`;
-          } else {
-            qtyHtml = `<strong style="font-size: 0.92rem; color: #0f172a;">${lot.quantity}</strong><span style="font-size: 0.72rem; color: #64748b; font-weight: 600; display: block;">(${totalKg} kg)</span>`;
-          }
-
-          // Price Cell formatting based on active unit mode
-          let priceHtml = '';
-          if (unitMode === 'kg') {
-            priceHtml = `
-              <strong style="color: #0c5a36; font-size: 0.96rem;">₹ ${kgRate} /kg</strong>
-              <div style="font-size: 0.7rem; color: #64748b; text-decoration: line-through;">Mandi: ₹ ${mandiKgRate} /kg</div>
-              <span style="font-size: 0.68rem; color: #64748b;">(${lot.askPrice})</span>
-            `;
-          } else if (unitMode === 'qt') {
-            priceHtml = `
-              <strong style="color: #0c5a36; font-size: 0.96rem;">${lot.askPrice}</strong>
-              <div style="font-size: 0.7rem; color: #64748b; text-decoration: line-through;">Mandi: ${lot.mandiRate}</div>
-            `;
-          } else {
-            priceHtml = `
-              <div style="display: flex; align-items: baseline; gap: 4px; flex-wrap: wrap;">
-                <strong style="color: #0c5a36; font-size: 0.96rem;">${lot.askPrice}</strong>
-                <span style="background: #e8f5ed; color: #166534; font-size: 0.72rem; font-weight: 800; padding: 1px 6px; border-radius: 4px; border: 1px solid #bbf7d0;">₹ ${kgRate} /kg</span>
-              </div>
-              <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">
-                Mandi: <span style="text-decoration: line-through;">${lot.mandiRate}</span> <span style="color: #64748b;">(₹ ${mandiKgRate}/kg)</span>
-              </div>
-            `;
-          }
+          const mandiKgRate = (mandiNum / 100).toFixed(0);
 
           return `
             <tr>
@@ -303,7 +413,7 @@ function renderVerifiedLots(lotsToRender = null) {
                   <img src="${lot.image}" alt="${lot.crop}" class="crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
                   <div>
                     <strong style="display: block; font-size: 0.88rem; color: #0f172a;">${lot.crop}</strong>
-                    <span style="font-size: 0.72rem; color: #64748b;">${lot.id} • ${lot.farmerLocation}</span>
+                    <span style="font-size: 0.72rem; color: #64748b;">${lot.farmerLocation}</span>
                   </div>
                 </div>
               </td>
@@ -316,10 +426,16 @@ function renderVerifiedLots(lotsToRender = null) {
                 <div style="font-size: 0.72rem; color: #d97706; font-weight: 700;">${lot.farmerRating}</div>
               </td>
               <td>
-                ${qtyHtml}
+                <strong style="font-size: 0.92rem; color: #0f172a;">${totalKg} kg</strong>
+                <span style="font-size: 0.72rem; color: #64748b; display: block;">(${lot.quantity})</span>
               </td>
               <td>
-                ${priceHtml}
+                <div style="display: flex; align-items: baseline; gap: 4px;">
+                  <strong style="color: #0c5a36; font-size: 0.96rem;">₹ ${kgRate} /kg</strong>
+                </div>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">
+                  Mandi: <span style="text-decoration: line-through;">${lot.mandiRate}</span>
+                </div>
               </td>
               <td>
                 <span class="badge badge-grade-a">${lot.savings}</span>
@@ -327,7 +443,7 @@ function renderVerifiedLots(lotsToRender = null) {
               <td>
                 <div style="display: flex; gap: 6px;">
                   <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem;">
-                    Buy (Escrow)
+                    Buy Now
                   </button>
                   <button class="btn btn-outline btn-sm" onclick="openBidModal('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem;">
                     Bid
@@ -341,12 +457,12 @@ function renderVerifiedLots(lotsToRender = null) {
     }
   }
 
-  // Dashboard preview (always top 3)
+  // 3. Dashboard preview (always top 3)
   if (dashTbody) {
     dashTbody.innerHTML = buyerData.verifiedLots
       .slice(0, 3)
       .map((lot) => {
-        const kgRate = (lot.priceNum / 100).toFixed(2);
+        const kgRate = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
         return `
           <tr>
             <td>
@@ -361,12 +477,11 @@ function renderVerifiedLots(lotsToRender = null) {
             <td><span class="badge ${lot.gradeBadgeClass}">${lot.grade}</span></td>
             <td><strong>${lot.farmerName}</strong></td>
             <td>
-              <strong>${lot.quantity}</strong>
-              <div style="font-size: 0.68rem; color: #64748b;">${(lot.qtyNum * 100).toLocaleString('en-IN')} kg</div>
+              <strong>${lot.availableQtyKg ? lot.availableQtyKg.toLocaleString('en-IN') + ' kg' : lot.quantity}</strong>
             </td>
             <td>
-              <strong style="color: #0c5a36;">${lot.askPrice}</strong>
-              <div style="font-size: 0.68rem; color: #166534; font-weight: 700;">₹ ${kgRate}/kg</div>
+              <strong style="color: #0c5a36;">₹ ${kgRate}/kg</strong>
+              <div style="font-size: 0.68rem; color: #64748b;">(${lot.askPrice})</div>
             </td>
             <td>
               <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${lot.id}')" style="padding: 4px 8px; font-size: 0.75rem;">
@@ -379,7 +494,6 @@ function renderVerifiedLots(lotsToRender = null) {
       .join('');
   }
 }
-
 
 // Render Active Bulk Procurement Demands
 function renderBuyerDemands() {

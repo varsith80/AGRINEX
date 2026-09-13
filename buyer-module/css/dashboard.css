@@ -567,12 +567,372 @@
   color: var(--text-secondary);
 }
 
-/* Responsive */
+/* Marketplace & Farm-Direct Produce Grid (Screenshot Match) */
+.market-hero-banner {
+  background: linear-gradient(135deg, #073b22 0%, #0c5a36 60%, #166534 100%);
+  border-radius: 14px;
+  padding: 22px 28px;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(12, 90, 54, 0.18);
+}
+
+.market-hero-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin: 0 0 4px 0;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.market-hero-sub {
+  font-size: 0.88rem;
+  color: #bbf7d0;
+  margin: 0;
+}
+
+.market-location-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.market-location-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* 4 Metric Pill Cards */
+.market-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.market-stat-pill {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.market-stat-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.market-stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.market-stat-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.market-stat-num {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.15;
+}
+
+/* Category Filter Pills */
+.market-category-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.market-pill {
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+.market-pill:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.market-pill.active {
+  background: #0c5a36;
+  color: #ffffff;
+  border-color: #0c5a36;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(12, 90, 54, 0.25);
+}
+
+/* Procurement On-Demand Banner */
+.market-demand-callout {
+  background: #093720;
+  border-radius: 14px;
+  padding: 18px 24px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(9, 55, 32, 0.18);
+}
+
+/* 3-Column Farm-Direct Lots Card Grid */
+.market-lots-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.farm-lot-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.farm-lot-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  border-color: #86efac;
+}
+
+.lot-img-container {
+  height: 165px;
+  position: relative;
+  overflow: hidden;
+  background: #1e293b;
+}
+
+.lot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.farm-lot-card:hover .lot-img {
+  transform: scale(1.04);
+}
+
+.lot-img-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%);
+  pointer-events: none;
+}
+
+.lot-top-badges {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+  flex-wrap: wrap;
+}
+
+.lot-badge-farmer-tag {
+  background: #10b981;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lot-badge-grade-tag {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  color: #f8fafc;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.lot-bottom-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  z-index: 2;
+  color: #ffffff;
+}
+
+.lot-overlay-price {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  line-height: 1;
+}
+
+.lot-overlay-price span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.lot-overlay-qty {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.45);
+  padding: 3px 8px;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+
+.lot-card-body {
+  padding: 14px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.lot-title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.lot-farmer-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #475569;
+  margin-bottom: 4px;
+}
+
+.lot-location-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  color: #64748b;
+  margin-bottom: 14px;
+}
+
+.lot-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.btn-lot-buy {
+  flex: 1;
+  background: #0c5a36;
+  color: #ffffff;
+  border: 1px solid #0c5a36;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-lot-buy:hover {
+  background: #084328;
+  border-color: #084328;
+}
+
+.btn-lot-whatsapp {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #25d366;
+  border: 1px solid #22c55e;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-lot-whatsapp:hover {
+  background: #1eb858;
+  transform: scale(1.05);
+}
+
+/* Responsive Grid */
 @media (max-width: 1180px) {
   .main-grid {
     grid-template-columns: 1fr;
   }
   .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .market-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .market-lots-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -590,4 +950,21 @@
   .stats-grid {
     grid-template-columns: 1fr;
   }
+  .market-stats-row {
+    grid-template-columns: 1fr;
+  }
+  .market-lots-grid {
+    grid-template-columns: 1fr;
+  }
+  .market-hero-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .market-demand-callout {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 }
+
