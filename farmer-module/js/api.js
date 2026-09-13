@@ -131,6 +131,24 @@ const AgriNexAPI = {
       method: 'POST',
       body: JSON.stringify({ buyerId })
     });
+  },
+
+  // 10. Grievances & Claims Redressal
+  async getGrievances() {
+    return await this.request('/api/grievances');
+  },
+
+  async fileGrievance(grievanceData) {
+    return await this.request('/api/grievances', {
+      method: 'POST',
+      body: JSON.stringify(grievanceData)
+    });
+  },
+
+  async resolveGrievance(grievanceId) {
+    return await this.request(`/api/grievances/${grievanceId}/resolve`, {
+      method: 'POST'
+    });
   }
 };
 

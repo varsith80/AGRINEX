@@ -22,7 +22,7 @@
       "quantity": "50 Qt (5,000 kg)",
       "quantityNumber": 50,
       "price_per_qt": 2400,
-      "price_per_kg": 24.0,
+      "price_per_kg": 24,
       "expectedPrice": "₹ 24.00 /kg (₹ 2,400 /Qt)",
       "expectedPriceNumber": 2400,
       "bestBid": "₹ 24.50 /kg (₹ 2,450 /Qt)",
@@ -50,7 +50,7 @@
       "quantity": "35 Qt (3,500 kg)",
       "quantityNumber": 35,
       "price_per_qt": 3200,
-      "price_per_kg": 32.0,
+      "price_per_kg": 32,
       "expectedPrice": "₹ 32.00 /kg (₹ 3,200 /Qt)",
       "expectedPriceNumber": 3200,
       "bestBid": "₹ 32.80 /kg (₹ 3,280 /Qt)",
@@ -78,7 +78,7 @@
       "quantity": "80 Qt (8,000 kg)",
       "quantityNumber": 80,
       "price_per_qt": 2800,
-      "price_per_kg": 28.0,
+      "price_per_kg": 28,
       "expectedPrice": "₹ 28.00 /kg (₹ 2,800 /Qt)",
       "expectedPriceNumber": 2800,
       "bestBid": "₹ 28.50 /kg (₹ 2,850 /Qt)",
@@ -106,7 +106,7 @@
       "quantity": "120 Qt (12,000 kg)",
       "quantityNumber": 120,
       "price_per_qt": 1800,
-      "price_per_kg": 18.0,
+      "price_per_kg": 18,
       "expectedPrice": "₹ 18.00 /kg (₹ 1,800 /Qt)",
       "expectedPriceNumber": 1800,
       "bestBid": "₹ 18.50 /kg (₹ 1,850 /Qt)",
@@ -134,7 +134,7 @@
       "quantity": "150 Qt (15,000 kg)",
       "quantityNumber": 150,
       "price_per_qt": 2600,
-      "price_per_kg": 26.0,
+      "price_per_kg": 26,
       "expectedPrice": "₹ 26.00 /kg (₹ 2,600 /Qt)",
       "expectedPriceNumber": 2600,
       "bestBid": "₹ 26.50 /kg (₹ 2,650 /Qt)",
@@ -162,7 +162,7 @@
       "quantity": "60 Qt (6,000 kg)",
       "quantityNumber": 60,
       "price_per_qt": 7100,
-      "price_per_kg": 71.0,
+      "price_per_kg": 71,
       "expectedPrice": "₹ 71.00 /kg (₹ 7,100 /Qt)",
       "expectedPriceNumber": 7100,
       "bestBid": "₹ 72.00 /kg (₹ 7,200 /Qt)",
@@ -718,6 +718,120 @@
       "status": "In Transit",
       "lat": 20.3893,
       "lng": 72.9106
+    }
+  ],
+  "grievances": [
+    {
+      "id": "GRV-2026-780",
+      "farmer_name": "Ramesh Patel",
+      "category": "Quality Grade Contest by Buyer",
+      "lot_ref": "LOT-TOM-01 (Tomato)",
+      "subject": "Buyer claiming Grade B instead of agreed Grade A",
+      "description": "Dispatched Grade A Shivam hybrid. Buyer claims Grade B without photographic proof.",
+      "priority": "Critical",
+      "status": "Resolved & Settled",
+      "status_badge": "badge-status-open",
+      "filed_date": "Today, 09:14 PM",
+      "assigned_officer": "Surat APMC Mandi Officer - K. Mehta",
+      "sla_hours": 24,
+      "steps": [
+        {
+          "title": "Grievance Logged",
+          "done": true,
+          "time": "Just now"
+        },
+        {
+          "title": "Mandi Officer Assigned",
+          "done": true,
+          "time": "Within 2 Hours"
+        },
+        {
+          "title": "Escrow & Buyer Audit",
+          "done": true,
+          "time": "Pending Review"
+        },
+        {
+          "title": "Resolution & Payout Adjustment",
+          "done": true,
+          "time": "Target: 24h"
+        }
+      ],
+      "created_at": "2026-09-13T15:44:45.411Z"
+    },
+    {
+      "id": "GRV-2026-104",
+      "farmer_name": "Ramesh Patel",
+      "category": "Logistics Pickup Schedule",
+      "lot_ref": "LOT-ONI-02 (Nashik Red Onion)",
+      "subject": "Truck gate pass delay at Surat Mandi Yard Gate 2",
+      "description": "Produce has been packed and weighed. Logistics truck driver requested an updated digital gate pass for weighbridge clearance.",
+      "priority": "High",
+      "status": "Under Review",
+      "status_badge": "badge-status-emergency",
+      "filed_date": "Today, 10:15 AM",
+      "assigned_officer": "Surat APMC Mandi Officer - K. Mehta",
+      "sla_hours": 24,
+      "steps": [
+        {
+          "title": "Grievance Logged",
+          "done": true,
+          "time": "10:15 AM"
+        },
+        {
+          "title": "Mandi Officer Assigned",
+          "done": true,
+          "time": "10:45 AM"
+        },
+        {
+          "title": "Escrow & Logistics Audit",
+          "done": false,
+          "time": "In Progress"
+        },
+        {
+          "title": "Gate Pass Clearance",
+          "done": false,
+          "time": "Target: 02:00 PM"
+        }
+      ],
+      "created_at": "2026-09-13T14:45:00.000Z"
+    },
+    {
+      "id": "GRV-2026-081",
+      "farmer_name": "Ramesh Patel",
+      "category": "Payment / Escrow Advance",
+      "lot_ref": "LOT-TOM-01 (Reliance Retail Hub)",
+      "subject": "Verification of 35% Advance Escrow Release",
+      "description": "Consignment dispatched yesterday. Requesting confirmation of 35% advance deposit in linked HDFC bank account.",
+      "priority": "Medium",
+      "status": "Resolved & Credited",
+      "status_badge": "badge-status-open",
+      "filed_date": "12 Sep 2026",
+      "assigned_officer": "AgriNex Nodal Escrow Desk - P. Sharma",
+      "sla_hours": 12,
+      "steps": [
+        {
+          "title": "Grievance Logged",
+          "done": true,
+          "time": "12 Sep, 09:30 AM"
+        },
+        {
+          "title": "Nodal Desk Verified",
+          "done": true,
+          "time": "12 Sep, 10:00 AM"
+        },
+        {
+          "title": "Bank IMPS Release",
+          "done": true,
+          "time": "12 Sep, 11:15 AM"
+        },
+        {
+          "title": "Disbursed to Farmer A/C",
+          "done": true,
+          "time": "12 Sep, 11:20 AM"
+        }
+      ],
+      "resolution_note": "Rs 38,587 advance credited via IMPS (UTR: HDFC9901824). Remaining 65% locked under escrow.",
+      "created_at": "2026-09-12T10:00:00.000Z"
     }
   ]
 }

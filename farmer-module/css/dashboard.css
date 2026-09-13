@@ -125,6 +125,78 @@
   stroke-width: 2.2;
 }
 
+/* Red Grievance Module Navigation Styling */
+.nav-item-grievance {
+  color: #fca5a5 !important;
+  background: rgba(220, 38, 38, 0.12) !important;
+  border: 1.5px solid rgba(239, 68, 68, 0.38) !important;
+  margin-top: 6px !important;
+  border-radius: var(--radius-xs);
+  transition: all 0.2s ease;
+}
+
+.nav-item-grievance .nav-icon {
+  stroke: #ef4444 !important;
+  filter: drop-shadow(0 1px 2px rgba(239, 68, 68, 0.4));
+}
+
+.nav-item-grievance:hover {
+  background: rgba(220, 38, 38, 0.28) !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+  transform: translateX(2px);
+}
+
+.nav-item-grievance.active {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35) !important;
+}
+
+.nav-item-grievance.active .nav-icon {
+  stroke: #ffffff !important;
+}
+
+.grv-badge-red {
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 1px 4px rgba(220, 38, 38, 0.4);
+}
+
+.navbar-btn-grievance {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fef2f2;
+  border: 1.5px solid #f87171;
+  color: #dc2626;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 13px;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navbar-btn-grievance:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(220, 38, 38, 0.25);
+}
+
+.navbar-btn-grievance:hover svg {
+  stroke: #ffffff !important;
+}
+
 /* Sidebar Promotional Card */
 .sidebar-promo-card {
   margin-top: 24px;

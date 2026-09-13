@@ -341,8 +341,52 @@ const DEFAULT_DATA = {
       speed: "0 km/h",
       eta: "Today, 4:30 PM",
       total_value: 222000,
-      advance_paid: 77700,
       image: "assets/images/potato.jpg"
+    }
+  ],
+  grievances: [
+    {
+      id: "GRV-2026-104",
+      farmer_name: "Ramesh Patel",
+      category: "Logistics Pickup Schedule",
+      lot_ref: "LOT-ONI-02 (Nashik Red Onion)",
+      subject: "Truck gate pass delay at Surat Mandi Yard Gate 2",
+      description: "Produce has been packed and weighed. Logistics truck driver requested an updated digital gate pass for weighbridge clearance.",
+      priority: "High",
+      status: "Under Review",
+      status_badge: "badge-status-emergency",
+      filed_date: "Today, 10:15 AM",
+      assigned_officer: "Surat APMC Mandi Officer - K. Mehta",
+      sla_hours: 24,
+      steps: [
+        { title: "Grievance Logged", done: true, time: "10:15 AM" },
+        { title: "Mandi Officer Assigned", done: true, time: "10:45 AM" },
+        { title: "Escrow & Logistics Audit", done: false, time: "In Progress" },
+        { title: "Gate Pass Clearance", done: false, time: "Target: 02:00 PM" }
+      ],
+      created_at: new Date().toISOString()
+    },
+    {
+      id: "GRV-2026-081",
+      farmer_name: "Ramesh Patel",
+      category: "Payment / Escrow Advance",
+      lot_ref: "LOT-TOM-01 (Reliance Retail Hub)",
+      subject: "Verification of 35% Advance Escrow Release",
+      description: "Consignment dispatched yesterday. Requesting confirmation of 35% advance deposit in linked HDFC bank account.",
+      priority: "Medium",
+      status: "Resolved & Credited",
+      status_badge: "badge-status-open",
+      filed_date: "12 Sep 2026",
+      assigned_officer: "AgriNex Nodal Escrow Desk - P. Sharma",
+      sla_hours: 12,
+      steps: [
+        { title: "Grievance Logged", done: true, time: "12 Sep, 09:30 AM" },
+        { title: "Nodal Desk Verified", done: true, time: "12 Sep, 10:00 AM" },
+        { title: "Bank IMPS Release", done: true, time: "12 Sep, 11:15 AM" },
+        { title: "Disbursed to Farmer A/C", done: true, time: "12 Sep, 11:20 AM" }
+      ],
+      resolution_note: "₹38,587 advance credited via IMPS (UTR: HDFC9901824). Remaining 65% locked under escrow.",
+      created_at: new Date(Date.now() - 86400000).toISOString()
     }
   ]
 };
@@ -894,6 +938,54 @@ const server = http.createServer(async (req, res) => {
         escrow_advance_35: Math.round(platformNet * 0.35),
         escrow_balance_65: Math.round(platformNet * 0.65)
       });
+    }
+
+    // 10. Grievances & Redressal Endpoints
+    if (urlPath === '/api/grievances') {
+      if (req.method === 'GET') {
+        return sendJSON(res, 200, db.grievances || []);
+      }
+      if (req.method === 'POST') {
+        const body = await parseBody(req);
+        const grvId = "GRV-2026-" + Math.floor(100 + Math.random() * 900);
+        const newGrv = {
+          id: grvId,
+          farmer_name: db.profile.name || "Ramesh Patel",
+          category: body.category || "Payment / Escrow Redressal",
+          lot_ref: body.lot_ref || "General Grievance",
+          subject: body.subject || "Farmer Assistance Request",
+          description: body.description || "",
+          priority: body.priority || "High",
+          status: "Under Review",
+          status_badge: "badge-status-emergency",
+          filed_date: "Today, " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          assigned_officer: "Surat APMC Mandi Officer - K. Mehta",
+          sla_hours: 24,
+          steps: [
+            { title: "Grievance Logged", done: true, time: "Just now" },
+            { title: "Mandi Officer Assigned", done: true, time: "Within 2 Hours" },
+            { title: "Escrow & Buyer Audit", done: false, time: "Pending Review" },
+            { title: "Resolution & Payout Adjustment", done: false, time: "Target: 24h" }
+          ],
+          created_at: new Date().toISOString()
+        };
+        if (!db.grievances) db.grievances = [];
+        db.grievances.unshift(newGrv);
+        saveDB(db);
+        return sendJSON(res, 201, { success: true, message: "Grievance lodged successfully!", grievance: newGrv });
+      }
+    }
+
+    if (urlPath.startsWith('/api/grievances/') && urlPath.endsWith('/resolve') && req.method === 'POST') {
+      const parts = urlPath.split('/');
+      const id = parts[3];
+      const grv = (db.grievances || []).find(g => String(g.id) === String(id));
+      if (!grv) return sendJSON(res, 404, { error: 'Grievance not found' });
+      grv.status = "Resolved & Settled";
+      grv.status_badge = "badge-status-open";
+      if (grv.steps) grv.steps.forEach(s => s.done = true);
+      saveDB(db);
+      return sendJSON(res, 200, { success: true, message: "Grievance marked as resolved!", grievance: grv });
     }
 
     return sendJSON(res, 404, { error: "Endpoint not found" });
