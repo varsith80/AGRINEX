@@ -961,10 +961,208 @@
     align-items: flex-start;
     gap: 12px;
   }
-  .market-demand-callout {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
+/* ==========================================
+   ORDERS & SHIPMENTS TRACKER SYSTEM STYLES
+   ========================================== */
+.simple-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+@media (max-width: 1024px) {
+  .simple-stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .simple-stats-grid { grid-template-columns: 1fr; }
 }
 
+.stat-card-compact {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.stat-card-compact:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.stat-icon-sq {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.filter-tabs-row {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.filter-tab {
+  background: none;
+  border: none;
+  padding: 10px 18px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.filter-tab:hover {
+  color: #0c5a36;
+  background: #f8fafc;
+}
+.filter-tab.active {
+  color: #0c5a36;
+  background: #ffffff;
+  border-bottom: 3px solid #0c5a36;
+  font-weight: 800;
+}
+
+.order-box {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+.order-box:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.order-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.order-track-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.order-gate-pass-badge {
+  font-size: 0.8rem;
+  color: #0c5a36;
+  font-weight: 700;
+  background: #e8f5ed;
+  border: 1px solid #bbf7d0;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+/* 4-Step Clean Progress Stepper */
+.step-track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 18px 0 20px;
+  gap: 8px;
+  text-align: center;
+  position: relative;
+}
+.step-track::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: #e2e8f0;
+  z-index: 1;
+}
+
+.step-item {
+  position: relative;
+  z-index: 2;
+}
+
+.step-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #64748b;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+}
+.step-dot.done {
+  background: #059669;
+  border-color: #059669;
+  color: #ffffff;
+}
+.step-dot.active {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.2);
+}
+
+.step-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #475569;
+}
+.step-title.active {
+  color: #0284c7;
+  font-weight: 800;
+}
+.step-title.done {
+  color: #059669;
+}
+
+.info-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 0.84rem;
+  margin-bottom: 16px;
+}
+@media (max-width: 860px) {
+  .info-strip { grid-template-columns: 1fr; gap: 10px; }
+}
+
+.order-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}

@@ -1884,6 +1884,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLocationSwitcher();
   renderStorageFacilities();
   renderStorageBookings();
+  renderConsignments();
 
   // Handle enter key in chat
   const chatInput = document.getElementById('chat-input-field');
@@ -2608,4 +2609,360 @@ window.handleBookStorageSubmit = handleBookStorageSubmit;
 window.openEnwrPledgeModal = openEnwrPledgeModal;
 window.closeEnwrPledgeModal = closeEnwrPledgeModal;
 window.handleEnwrPledgeSubmit = handleEnwrPledgeSubmit;
+
+// ==========================================
+// FEATURE: ORDERS & SHIPMENTS REAL-TIME TRACKER
+// ==========================================
+let activeShipmentTab = 'all';
+let shipmentSearchQuery = '';
+
+function renderConsignments() {
+  const container = document.getElementById('consignments-list-container');
+  if (!container) return;
+
+  const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
+
+  // Calculate & update KPI counters
+  const activeTrucks = consignments.filter(s => s.status === 'transit').length;
+  const transitQt = consignments
+    .filter(s => s.status === 'transit' || s.status === 'scheduled')
+    .reduce((sum, s) => sum + (s.quantityQt || 0), 0);
+  const transitKg = consignments
+    .filter(s => s.status === 'transit' || s.status === 'scheduled')
+    .reduce((sum, s) => sum + (s.quantityKg || 0), 0);
+  const gatePassesCount = consignments.filter(s => s.gatePassNo).length;
+
+  const statTrucksEl = document.getElementById('stat-active-trucks');
+  const statVolumeEl = document.getElementById('stat-volume-transit');
+  const statGateEl = document.getElementById('stat-gate-passes');
+
+  if (statTrucksEl) statTrucksEl.textContent = `${activeTrucks} On Road`;
+  if (statVolumeEl) statVolumeEl.innerHTML = `${transitQt} Qt <span style="font-size: 0.75rem; color: #64748b; font-weight: 600;">(${transitKg.toLocaleString('en-IN')} kg)</span>`;
+  if (statGateEl) statGateEl.textContent = `${gatePassesCount} Ready`;
+
+  // Filter list
+  const filtered = consignments.filter(s => {
+    // Tab filter
+    if (activeShipmentTab === 'on-road' && s.status !== 'transit') return false;
+    if (activeShipmentTab === 'pickup-scheduled' && s.status !== 'scheduled') return false;
+    if (activeShipmentTab === 'delivered' && s.status !== 'delivered') return false;
+
+    // Search filter
+    if (shipmentSearchQuery) {
+      const q = shipmentSearchQuery.toLowerCase();
+      const match = (s.trackingId && s.trackingId.toLowerCase().includes(q)) ||
+                    (s.gatePassNo && s.gatePassNo.toLowerCase().includes(q)) ||
+                    (s.crop && s.crop.toLowerCase().includes(q)) ||
+                    (s.farmerName && s.farmerName.toLowerCase().includes(q)) ||
+                    (s.driverName && s.driverName.toLowerCase().includes(q)) ||
+                    (s.vehiclePlate && s.vehiclePlate.toLowerCase().includes(q)) ||
+                    (s.destination && s.destination.toLowerCase().includes(q));
+      if (!match) return false;
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="background: #ffffff; border: 1.5px dashed #cbd5e1; border-radius: 14px; padding: 40px 20px; text-align: center;">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">🚚</div>
+        <h3 style="font-size: 1.1rem; color: #0f172a; font-weight: 800; margin: 0 0 6px;">No Shipments Found</h3>
+        <p style="font-size: 0.82rem; color: #64748b; margin: 0 0 16px;">No orders match your current filter selection or search query.</p>
+        <button class="btn btn-primary btn-sm" onclick="filterConsignments('all', document.querySelector('.filter-tab'))">
+          Reset Filter to All Orders
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(s => {
+    const statusBg = s.status === 'transit' ? '#eff6ff' : (s.status === 'delivered' ? '#ecfdf5' : '#fefce8');
+    const statusColor = s.status === 'transit' ? '#1d4ed8' : (s.status === 'delivered' ? '#047857' : '#a16207');
+    const statusBorder = s.status === 'transit' ? '#bfdbfe' : (s.status === 'delivered' ? '#a7f3d0' : '#fef08a');
+    const statusLabel = s.status === 'transit' ? 'On The Road' : (s.status === 'delivered' ? 'Delivered & Settled' : 'Pickup Scheduled');
+
+    return `
+      <div class="order-box">
+        <!-- Order Header Row -->
+        <div class="order-header-row">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <strong class="order-track-title">${s.trackingId}</strong>
+            <span style="color: #cbd5e1;">|</span>
+            <span class="order-gate-pass-badge">Gate Pass: ${s.gatePassNo}</span>
+          </div>
+          <span style="background: ${statusBg}; color: ${statusColor}; border: 1px solid ${statusBorder}; padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 800; display: inline-flex; align-items: center; gap: 5px;">
+            <span>●</span> ${statusLabel}
+          </span>
+        </div>
+
+        <!-- 4-Step Progress Stepper -->
+        <div class="step-track">
+          <div class="step-item">
+            <div class="step-dot done">✓</div>
+            <div class="step-title done">Confirmed</div>
+          </div>
+          <div class="step-item">
+            <div class="step-dot ${s.step >= 2 ? 'done' : ''}">${s.step >= 2 ? '✓' : '2'}</div>
+            <div class="step-title ${s.step >= 2 ? 'done' : ''}">35% Advance Paid</div>
+          </div>
+          <div class="step-item">
+            <div class="step-dot ${s.step > 3 ? 'done' : (s.step === 3 ? 'active' : '')}">${s.step > 3 ? '✓' : (s.step === 3 ? '3' : '3')}</div>
+            <div class="step-title ${s.step > 3 ? 'done' : (s.step === 3 ? 'active' : '')}">In Truck</div>
+          </div>
+          <div class="step-item">
+            <div class="step-dot ${s.step >= 4 ? 'done' : ''}">${s.step >= 4 ? '✓' : '4'}</div>
+            <div class="step-title ${s.step >= 4 ? 'done' : ''}">Delivered</div>
+          </div>
+        </div>
+
+        <!-- 3-Column Info Strip -->
+        <div class="info-strip">
+          <div>
+            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">PRODUCE & FARMER</div>
+            <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">${s.crop}</div>
+            <div style="color: #059669; font-weight: 700; font-size: 0.82rem;">${s.quantity}</div>
+            <div style="color: #64748b; font-size: 0.78rem; margin-top: 2px;">👨‍🌾 ${s.farmerName} • <span style="font-size: 0.72rem;">${s.farmerLocation}</span></div>
+          </div>
+
+          <div>
+            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">DRIVER & TRUCK</div>
+            <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">${s.driverName}</div>
+            <div style="color: #334155; font-size: 0.8rem; font-weight: 600;">🚛 ${s.vehiclePlate}</div>
+            <div style="margin-top: 3px;">
+              <a href="tel:${s.driverPhone}" style="color: #0284c7; font-weight: 700; text-decoration: none; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px;">
+                <span>📞</span> ${s.driverPhone}
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">DELIVERY STATUS</div>
+            <div style="color: #0f172a; font-weight: 700; font-size: 0.82rem;">🏢 ${s.destination}</div>
+            <div style="color: #0284c7; font-weight: 700; font-size: 0.78rem; margin-top: 2px;">📍 ${s.currentLocation}</div>
+            <div style="color: #d97706; font-weight: 700; font-size: 0.78rem; margin-top: 2px;">⏱️ ${s.eta}</div>
+          </div>
+        </div>
+
+        <!-- Action and Escrow Settlement Bar -->
+        <div class="order-action-row">
+          <div style="font-size: 0.82rem; color: #475569;">
+            Total: <strong style="color: #0f172a; font-size: 0.95rem;">₹ ${s.totalValue.toLocaleString('en-IN')}</strong> • 
+            <span style="color: #059669; font-weight: 700;">35% Advance ₹ ${s.advancePaid.toLocaleString('en-IN')} in Escrow</span> • 
+            <span style="color: #2563eb; font-weight: 600;">65% Balance ₹ ${s.remainingEscrow.toLocaleString('en-IN')} on Delivery QC</span>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-sm" onclick="openGatePassModal('${s.trackingId}')" style="display: flex; align-items: center; gap: 4px; font-weight: 700; font-size: 0.78rem; padding: 6px 12px;">
+              <span>📑</span> Gate Pass / LR
+            </button>
+            ${s.status === 'transit' ? `
+              <button class="btn btn-outline btn-sm" onclick="openGpsModal('${s.trackingId}')" style="display: flex; align-items: center; gap: 4px; font-weight: 700; color: #0284c7; border-color: #0284c7; font-size: 0.78rem; padding: 6px 12px;">
+                <span>📍</span> Track Location
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="openQcReleaseModal('${s.trackingId}')" style="display: flex; align-items: center; gap: 4px; font-weight: 800; background: #0c5a36; border-color: #0c5a36; font-size: 0.78rem; padding: 6px 14px;">
+                <span>✓</span> Confirm Arrival & QC Pass
+              </button>
+            ` : s.status === 'scheduled' ? `
+              <button class="btn btn-outline btn-sm" onclick="openGpsModal('${s.trackingId}')" style="display: flex; align-items: center; gap: 4px; font-weight: 700; font-size: 0.78rem; padding: 6px 12px;">
+                <span>📍</span> Mandi Loading Status
+              </button>
+              <a href="tel:${s.driverPhone}" class="btn btn-primary btn-sm" style="display: flex; align-items: center; gap: 4px; font-weight: 700; background: #0284c7; border-color: #0284c7; text-decoration: none; font-size: 0.78rem; padding: 6px 12px;">
+                <span>📞</span> Call Driver
+              </a>
+            ` : `
+              <span class="badge badge-grade-a" style="font-size: 0.75rem; padding: 6px 12px;">
+                ✓ 100% Escrow Settled & Inward Closed
+              </span>
+            `}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function filterConsignments(tab, btnEl) {
+  activeShipmentTab = tab;
+  const tabs = document.querySelectorAll('#shipment-filter-tabs .filter-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  if (btnEl) {
+    btnEl.classList.add('active');
+  }
+  renderConsignments();
+}
+
+function handleShipmentSearch(query) {
+  shipmentSearchQuery = (query || '').trim();
+  renderConsignments();
+}
+
+// Modal Handlers: Gate Pass
+function openGatePassModal(trackingId) {
+  const modal = document.getElementById('modal-gate-pass');
+  if (!modal) return;
+
+  const consignment = (buyerData.consignments || []).find(c => c.trackingId === trackingId) || buyerData.consignments[0];
+  if (consignment) {
+    const idEl = document.getElementById('gp-modal-id');
+    const trkEl = document.getElementById('gp-modal-tracking');
+    const cropEl = document.getElementById('gp-modal-crop');
+    const wtEl = document.getElementById('gp-modal-weight');
+    const orgEl = document.getElementById('gp-modal-origin');
+    const farmEl = document.getElementById('gp-modal-farmer');
+    const drvEl = document.getElementById('gp-modal-driver');
+    const vehEl = document.getElementById('gp-modal-vehicle');
+    const dstEl = document.getElementById('gp-modal-dest');
+
+    if (idEl) idEl.textContent = consignment.gatePassNo;
+    if (trkEl) trkEl.textContent = consignment.trackingId;
+    if (cropEl) cropEl.textContent = consignment.crop;
+    if (wtEl) wtEl.textContent = consignment.quantity;
+    if (orgEl) orgEl.textContent = consignment.farmerLocation;
+    if (farmEl) farmEl.textContent = `Farmer: ${consignment.farmerName} (${consignment.farmerPhone})`;
+    if (drvEl) drvEl.textContent = `${consignment.driverName} (${consignment.driverPhone})`;
+    if (vehEl) vehEl.textContent = consignment.vehiclePlate;
+    if (dstEl) dstEl.textContent = consignment.destination;
+  }
+
+  modal.classList.add('active');
+}
+
+function closeGatePassModal() {
+  const modal = document.getElementById('modal-gate-pass');
+  if (modal) modal.classList.remove('active');
+}
+
+function downloadGatePassPdf() {
+  closeGatePassModal();
+  showToast('📄 Generating official Mandi Gate Pass & Lorry Receipt (LR) PDF...');
+  setTimeout(() => {
+    showToast('✓ Gate Pass & LR downloaded successfully! Ready for weighbridge check-in.', 'success');
+  }, 1000);
+}
+
+// Modal Handlers: GPS Fleet Telemetry
+function openGpsModal(trackingId) {
+  const modal = document.getElementById('modal-gps-track');
+  if (!modal) return;
+
+  const consignment = (buyerData.consignments || []).find(c => c.trackingId === trackingId) || buyerData.consignments[0];
+  if (consignment) {
+    const titleEl = document.getElementById('gps-modal-title');
+    const subEl = document.getElementById('gps-modal-sub');
+    const plateEl = document.getElementById('gps-modal-plate');
+    const locEl = document.getElementById('gps-modal-location');
+    const etaEl = document.getElementById('gps-modal-eta');
+    const tempEl = document.getElementById('gps-modal-temp');
+    const humEl = document.getElementById('gps-modal-humidity');
+    const spdEl = document.getElementById('gps-modal-speed');
+    const drvEl = document.getElementById('gps-modal-driver');
+    const phEl = document.getElementById('gps-modal-phone');
+    const callBtn = document.getElementById('gps-modal-call-btn');
+
+    if (titleEl) titleEl.textContent = `Live Telemetry: ${consignment.trackingId}`;
+    if (subEl) subEl.textContent = `${consignment.crop} • ${consignment.quantity}`;
+    if (plateEl) plateEl.textContent = consignment.vehiclePlate;
+    if (locEl) locEl.textContent = consignment.currentLocation;
+    if (etaEl) etaEl.textContent = `ETA: ${consignment.eta}`;
+    if (tempEl) tempEl.textContent = consignment.tempSensor;
+    if (humEl) humEl.textContent = consignment.humiditySensor;
+    if (spdEl) spdEl.textContent = consignment.speedSensor;
+    if (drvEl) drvEl.textContent = consignment.driverName;
+    if (phEl) phEl.textContent = consignment.driverPhone;
+    if (callBtn) callBtn.href = `tel:${consignment.driverPhone}`;
+  }
+
+  modal.classList.add('active');
+}
+
+function closeGpsModal() {
+  const modal = document.getElementById('modal-gps-track');
+  if (modal) modal.classList.remove('active');
+}
+
+// Modal Handlers: QC Inspection & Escrow Release
+function openQcReleaseModal(trackingId) {
+  const modal = document.getElementById('modal-qc-release');
+  if (!modal) return;
+
+  const consignment = (buyerData.consignments || []).find(c => c.trackingId === trackingId) || buyerData.consignments[0];
+  if (consignment) {
+    const idEl = document.getElementById('qc-modal-id');
+    const targetInput = document.getElementById('qc-target-tracking-id');
+    const cropEl = document.getElementById('qc-modal-crop');
+    const qtyEl = document.getElementById('qc-modal-qty');
+    const escEl = document.getElementById('qc-modal-escrow-amt');
+    const wtInput = document.getElementById('qc-inward-weight');
+
+    if (idEl) idEl.textContent = `${consignment.trackingId} • ${consignment.gatePassNo}`;
+    if (targetInput) targetInput.value = consignment.trackingId;
+    if (cropEl) cropEl.textContent = consignment.crop;
+    if (qtyEl) qtyEl.textContent = consignment.quantity;
+    if (escEl) escEl.textContent = `₹ ${consignment.remainingEscrow.toLocaleString('en-IN')}`;
+    if (wtInput) wtInput.value = consignment.quantityKg;
+  }
+
+  modal.classList.add('active');
+}
+
+function closeQcReleaseModal() {
+  const modal = document.getElementById('modal-qc-release');
+  if (modal) modal.classList.remove('active');
+}
+
+function handleQcReleaseSubmit(e) {
+  if (e) e.preventDefault();
+
+  const targetId = document.getElementById('qc-target-tracking-id')?.value;
+  const inwardWt = parseFloat(document.getElementById('qc-inward-weight')?.value || 10000);
+  const gradeScore = document.getElementById('qc-grade-score')?.value || 94;
+
+  const consignment = (buyerData.consignments || []).find(c => c.trackingId === targetId);
+  if (consignment) {
+    consignment.status = 'delivered';
+    consignment.step = 4;
+    consignment.eta = 'Delivered & Accepted Just Now';
+    consignment.currentLocation = 'Unloaded & QC Pass at Central Dock';
+    consignment.tempSensor = `QC Inspection Score: ${gradeScore}% Pass`;
+    consignment.humiditySensor = `Weighbridge Inward: ${inwardWt.toLocaleString('en-IN')} kg`;
+  }
+
+  closeQcReleaseModal();
+  showToast('⚖️ Digital weighbridge slip generated & smart escrow disbursement triggered...');
+
+  setTimeout(() => {
+    showToast(`✓ Quality Inspection Passed (${gradeScore}%)! 65% balance disbursed to farmer bank account. Inward closed.`, 'success');
+    renderConsignments();
+  }, 900);
+}
+
+// Window Bindings for Consignments Controller
+window.renderConsignments = renderConsignments;
+window.filterConsignments = filterConsignments;
+window.handleShipmentSearch = handleShipmentSearch;
+window.openGatePassModal = openGatePassModal;
+window.closeGatePassModal = closeGatePassModal;
+window.downloadGatePassPdf = downloadGatePassPdf;
+window.openGpsModal = openGpsModal;
+window.closeGpsModal = closeGpsModal;
+window.openQcReleaseModal = openQcReleaseModal;
+window.closeQcReleaseModal = closeQcReleaseModal;
+window.handleQcReleaseSubmit = handleQcReleaseSubmit;
+
+// Initial Auto-Render on script load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof renderConsignments === 'function') renderConsignments();
+    if (typeof renderStorageFacilities === 'function') renderStorageFacilities();
+    if (typeof renderStorageBookings === 'function') renderStorageBookings();
+    if (typeof setupSidebarNav === 'function') setupSidebarNav();
+  });
+} else {
+  if (typeof renderConsignments === 'function') renderConsignments();
+  if (typeof renderStorageFacilities === 'function') renderStorageFacilities();
+  if (typeof renderStorageBookings === 'function') renderStorageBookings();
+  if (typeof setupSidebarNav === 'function') setupSidebarNav();
+}
+
 
