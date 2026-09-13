@@ -160,16 +160,6 @@
             </div>
           </li>
 
-          <li class="nav-item" data-view="view-mandi-intel">
-            <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                <polyline points="16 7 22 7 22 13"></polyline>
-              </svg>
-              <span>Mandi Intel</span>
-            </div>
-          </li>
-
           <li class="nav-item" data-view="view-consignments">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -409,23 +399,6 @@
                 </table>
               </div>
             </div>
-
-            <!-- Quick Mandi Sparklines -->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
-                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                    <polyline points="16 7 22 7 22 13"></polyline>
-                  </svg>
-                  <span>Mandi Price Benchmarks</span>
-                </h3>
-                <button class="card-action-link" onclick="switchView('view-mandi-intel')">
-                  <span>Open Full Intel &rarr;</span>
-                </button>
-              </div>
-              <div class="mandi-grid" id="mandi-sparklines-container"></div>
-            </div>
           </div>
 
           <div class="right-column">
@@ -588,45 +561,7 @@
         </div>
       </div>
 
-      <!-- VIEW 4: MANDI PRICE INTEL & FORECAST (FULL-PAGE) -->
-      <div id="view-mandi-intel" class="portal-view dashboard-content">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">APMC Mandi Price Intelligence & Forecasts</h2>
-              <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">Real-time wholesale terminal rates with ML supply arrival forecasting</p>
-            </div>
-            <span class="badge badge-grade-a">● LIVE APMC SYNC</span>
-          </div>
-
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0;">
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
-              <span style="font-size: 0.74rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Kolar APMC (Tomato)</span>
-              <div style="font-size: 1.4rem; font-weight: 800; color: #0c5a36; margin: 4px 0;">₹ 1,150 /Qt <span style="font-size: 0.8rem; color: #166534;">(+6.2%)</span></div>
-              <span style="font-size: 0.74rem; color: #64748b;">Arrivals: 4,200 Qt • Advisory: Buy Forward</span>
-            </div>
-
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
-              <span style="font-size: 0.74rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Lasalgaon APMC (Onion)</span>
-              <div style="font-size: 1.4rem; font-weight: 800; color: #0c5a36; margin: 4px 0;">₹ 1,850 /Qt <span style="font-size: 0.8rem; color: #166534;">(+4.8%)</span></div>
-              <span style="font-size: 0.74rem; color: #64748b;">Arrivals: 9,800 Qt • Advisory: Stable</span>
-            </div>
-
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
-              <span style="font-size: 0.74rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Guntur Yard (Chilli)</span>
-              <div style="font-size: 1.4rem; font-weight: 800; color: #0c5a36; margin: 4px 0;">₹ 5,800 /Qt <span style="font-size: 0.8rem; color: #991b1b;">(-1.2%)</span></div>
-              <span style="font-size: 0.74rem; color: #64748b;">Arrivals: 1,850 Qt • Advisory: Good Buying Opportunity</span>
-            </div>
-          </div>
-
-          <div style="margin-top: 16px;">
-            <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 10px;">7-Day Sparkline Price Trajectory</h4>
-            <div class="mandi-grid" id="mandi-sparklines-intel-container"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- VIEW 5: CONSIGNMENTS & ORDERS (FULL-PAGE) -->
+      <!-- VIEW 4: CONSIGNMENTS & ORDERS (FULL-PAGE) -->
       <div id="view-consignments" class="portal-view dashboard-content">
         <div class="card">
           <div class="card-header">
