@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AgriNex - Emergency Sale & Salvage Procurement Data Store
  * Coordinates between Farmer lots facing expiry/no-bids and Emergency Institutional Buyers
  */
@@ -83,7 +83,7 @@ class AgriNexEmergencySale {
         icon: b.icon,
         location: b.location,
         offerPricePerQt: offerPrice,
-        offerPriceFormatted: ₹  /Qt,
+        offerPriceFormatted: `₹ ${offerPrice.toLocaleString('en-IN')} /Qt`,
         status: "Active Offer",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
@@ -99,7 +99,7 @@ class AgriNexEmergencySale {
     lot.statusBadgeClass = "badge-status-emergency";
     if (bestOffer) {
       lot.bestBid = bestOffer.offerPriceFormatted;
-      lot.buyerName = ${bestOffer.buyerName} ();
+      lot.buyerName = `${bestOffer.buyerName} (${bestOffer.buyerType})`;
     }
 
     // Persist in global emergency pool for buyers to see
