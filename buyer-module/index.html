@@ -837,13 +837,13 @@
           <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px;">
             <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px 16px;">
               <div style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Total Active Quota Volume</div>
-              <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 4px;" id="stat-demand-target-vol">140 MT <span style="font-size: 0.8rem; font-weight: 600; color: #64748b;">(1,400 Qt)</span></div>
-              <div style="font-size: 0.72rem; color: #0c5a36; font-weight: 600; margin-top: 4px;">Across 6 Strategic Commodities</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 4px;" id="stat-demand-target-vol">600 Qt <span style="font-size: 0.8rem; font-weight: 600; color: #64748b;">(60,000 kg)</span></div>
+              <div style="font-size: 0.72rem; color: #0c5a36; font-weight: 600; margin-top: 4px;">Across 4 Strategic Commodities</div>
             </div>
 
             <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 14px 16px;">
               <div style="font-size: 0.72rem; color: #166534; font-weight: 700; text-transform: uppercase;">Fulfilled / Sourced Volume</div>
-              <div style="font-size: 1.35rem; font-weight: 800; color: #15803d; margin-top: 4px;" id="stat-demand-fulfilled-vol">104 MT <span style="font-size: 0.8rem; font-weight: 700; color: #166534;">(74.2% Filled)</span></div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #15803d; margin-top: 4px;" id="stat-demand-fulfilled-vol">435 Qt <span style="font-size: 0.8rem; font-weight: 700; color: #166534;">(43,500 kg • 72.5% Filled)</span></div>
               <div style="font-size: 0.72rem; color: #166534; font-weight: 600; margin-top: 4px;">✓ 100% Quality Assay Passed</div>
             </div>
 
@@ -1445,7 +1445,6 @@
                   <div style="display: inline-flex; background: #e2e8f0; border-radius: 6px; padding: 2px; font-size: 0.68rem; font-weight: 700;">
                     <button type="button" id="calc-unit-qt" class="calc-unit-btn active" onclick="setCalcUnit('qt')" style="padding: 2px 6px; border-radius: 4px; background: #0c5a36; color: #fff; cursor: pointer; border: none;">Qt</button>
                     <button type="button" id="calc-unit-kg" class="calc-unit-btn" onclick="setCalcUnit('kg')" style="padding: 2px 6px; border-radius: 4px; color: #475569; cursor: pointer; border: none; background: transparent;">kg</button>
-                    <button type="button" id="calc-unit-mt" class="calc-unit-btn" onclick="setCalcUnit('mt')" style="padding: 2px 6px; border-radius: 4px; color: #475569; cursor: pointer; border: none; background: transparent;">MT</button>
                   </div>
                 </div>
                 <input type="number" id="calc-buyer-qty" class="form-input" value="50" min="1" step="5" style="font-size: 0.86rem; font-weight: 700;" />
@@ -1548,13 +1547,13 @@
               <div style="margin-bottom: 12px;">
                 <label class="form-label" style="font-size: 0.76rem;">Hauler Fleet Type</label>
                 <select id="calc-buyer-vehicle" class="form-select" style="font-size: 0.84rem;">
-                  <option value="tata" selected>🚚 Tata Ace Mini (1.5 MT • ₹18/km)</option>
-                  <option value="dost">🚚 Ashok Leyland Dost (2.5 MT • ₹22/km)</option>
-                  <option value="bolero">🚛 Bolero Maxi (3.0 MT • ₹25/km)</option>
-                  <option value="eicher">🚛 Eicher Pro 1110 (7.5 MT • ₹34/km)</option>
-                  <option value="bharatbenz">🚛 BharatBenz Heavy (16 MT • ₹48/km)</option>
-                  <option value="reefer">❄️ Cold-Chain Reefer (8 MT • ₹52/km)</option>
-                  <option value="ev">⚡ Euler EV Cargo (1.2 MT • ₹11.5/km)</option>
+                  <option value="tata" selected>🚚 Tata Ace Mini (15 Qt / 1,500 kg • ₹18/km)</option>
+                  <option value="dost">🚚 Ashok Leyland Dost (25 Qt / 2,500 kg • ₹22/km)</option>
+                  <option value="bolero">🚛 Bolero Maxi (30 Qt / 3,000 kg • ₹25/km)</option>
+                  <option value="eicher">🚛 Eicher Pro 1110 (75 Qt / 7,500 kg • ₹34/km)</option>
+                  <option value="bharatbenz">🚛 BharatBenz Heavy (160 Qt / 16,000 kg • ₹48/km)</option>
+                  <option value="reefer">❄️ Cold-Chain Reefer (80 Qt / 8,000 kg • ₹52/km)</option>
+                  <option value="ev">⚡ Euler EV Cargo (12 Qt / 1,200 kg • ₹11.5/km)</option>
                 </select>
               </div>
 
@@ -2051,7 +2050,6 @@
               <select id="demand-unit" class="form-select" style="width: 110px; padding: 9px 8px;">
                 <option value="Qt" selected>Qt (Quintal)</option>
                 <option value="kg">kg (Kilogram)</option>
-                <option value="MT">MT (Tonne)</option>
               </select>
             </div>
           </div>
@@ -2101,7 +2099,7 @@
           </div>
           <div>
             <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;" id="bids-modal-title">Matching Farmer Proposals</h3>
-            <span style="font-size: 0.75rem; color: #64748b;" id="bids-modal-subtitle">Quota #DEM-BB-101 • Tomato (Shivam Hybrid / Roma) (15 MT)</span>
+            <span style="font-size: 0.75rem; color: #64748b;" id="bids-modal-subtitle">Quota #DEM-BB-101 • Tomato (Shivam Hybrid / Roma) (150 Qt • 15,000 kg)</span>
           </div>
         </div>
         <button onclick="closeDemandBidsModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
@@ -2119,7 +2117,7 @@
         </div>
         <div>
           <span style="color: #64748b;">Remaining to Source:</span>
-          <strong style="color: #166534; margin-left: 4px;" id="bids-modal-remaining">4 MT (40 Qt)</strong>
+          <strong style="color: #166534; margin-left: 4px;" id="bids-modal-remaining">40 Qt (4,000 kg)</strong>
         </div>
       </div>
 
@@ -2631,7 +2629,7 @@
         </div>
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px;">
           <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">Vehicle Payload Capacity</span>
-          <strong id="drv-modal-capacity" style="color: #0c5a36;">2.5 MT (25 Qt / 2,500 kg)</strong>
+          <strong id="drv-modal-capacity" style="color: #0c5a36;">25 Qt (2,500 kg Payload)</strong>
         </div>
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px;">
           <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">FASTag & Toll Clearance</span>
@@ -2717,19 +2715,19 @@
             <label style="border: 1.5px solid #0c5a36; background: #e8f5ed; border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; display: block;" class="vehicle-choice-label">
               <input type="radio" name="vehicle-type" value="Bolero Maxi Truck (TN 57 AH 4421)|5800" checked onchange="calculateTransportEstimate()" style="margin-bottom: 4px;" />
               <div style="font-weight: 700; font-size: 0.8rem; color: #0f172a;">Bolero Maxi Truck</div>
-              <span style="font-size: 0.7rem; color: #64748b;">Cap: 2.5 MT / 50 Qt</span>
+              <span style="font-size: 0.7rem; color: #64748b;">Cap: 25 Qt (2,500 kg)</span>
             </label>
 
             <label style="border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; display: block;" class="vehicle-choice-label">
               <input type="radio" name="vehicle-type" value="Eicher Pro Reefer (MH 15 DK 8810)|9400" onchange="calculateTransportEstimate()" style="margin-bottom: 4px;" />
               <div style="font-weight: 700; font-size: 0.8rem; color: #0f172a;">Eicher Reefer</div>
-              <span style="font-size: 0.7rem; color: #64748b;">Cap: 5 MT (Cold Chain)</span>
+              <span style="font-size: 0.7rem; color: #64748b;">Cap: 50 Qt (5,000 kg Reefer)</span>
             </label>
 
             <label style="border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; display: block;" class="vehicle-choice-label">
               <input type="radio" name="vehicle-type" value="Tata LPT 1613 Heavy (KA 01 EK 7712)|16500" onchange="calculateTransportEstimate()" style="margin-bottom: 4px;" />
               <div style="font-weight: 700; font-size: 0.8rem; color: #0f172a;">Tata 1613 Multi-Axle</div>
-              <span style="font-size: 0.7rem; color: #64748b;">Cap: 12 MT Bulk</span>
+              <span style="font-size: 0.7rem; color: #64748b;">Cap: 120 Qt (12,000 kg Bulk)</span>
             </label>
           </div>
         </div>

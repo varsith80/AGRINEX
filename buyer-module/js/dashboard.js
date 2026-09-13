@@ -759,7 +759,7 @@ function renderBuyerDemands() {
         <div style="margin-bottom: 14px;">
           <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.76rem; margin-bottom: 5px;">
             <span style="color: #64748b;">
-              Sourced: <strong style="color: ${progressColor};">${dem.fulfilledTonnage || 0} / ${dem.tonnageNum || 15} ${dem.unit || 'MT'}</strong>
+              Sourced: <strong style="color: ${progressColor};">${dem.fulfilledTonnage || 0} / ${dem.tonnageNum || 150} ${dem.unit || 'Qt'}</strong> <span style="font-size: 0.72rem; color: #64748b;">(${((dem.fulfilledTonnage || 0) * 100).toLocaleString('en-IN')} / ${((dem.tonnageNum || 150) * 100).toLocaleString('en-IN')} kg)</span>
             </span>
             <strong style="color: ${progressColor};">${fulfilledPct}% Fulfilled</strong>
           </div>
@@ -821,8 +821,8 @@ function openDemandBidsModal(demandId) {
   if (ceilingEl) ceilingEl.textContent = demand.targetPrice;
   if (destEl) destEl.textContent = demand.location;
   if (remainingEl) {
-    const rem = Math.max(0, (demand.tonnageNum || 15) - (demand.fulfilledTonnage || 0));
-    remainingEl.textContent = `${rem} ${demand.unit || 'MT'} (${rem * 10} Qt)`;
+    const rem = Math.max(0, (demand.tonnageNum || 150) - (demand.fulfilledTonnage || 0));
+    remainingEl.textContent = `${rem} ${demand.unit || 'Qt'} (${(rem * 100).toLocaleString('en-IN')} kg)`;
   }
 
   if (listContainer) {
@@ -891,7 +891,7 @@ function acceptDemandFarmerBid(demandId, bidId) {
   const bid = demand.bids ? demand.bids.find(b => b.bidId === bidId) : null;
   const farmerName = bid ? bid.farmerName : 'Farmer';
   const bidPrice = bid ? bid.bidPrice : demand.targetPrice;
-  const offeredQty = bid ? bid.offeredQty : '5 MT (50 Qt)';
+  const offeredQty = bid ? bid.offeredQty : '50 Qt (5,000 kg)';
 
   // Calculate 35% escrow
   const totalVal = (bid ? bid.bidPriceNum : 1200) * 50;
@@ -902,7 +902,7 @@ function acceptDemandFarmerBid(demandId, bidId) {
 
   setTimeout(() => {
     // Increment fulfilled volume
-    demand.fulfilledTonnage = Math.min(demand.tonnageNum, (demand.fulfilledTonnage || 0) + 5);
+    demand.fulfilledTonnage = Math.min(demand.tonnageNum, (demand.fulfilledTonnage || 0) + 50);
     demand.fulfilledPct = Math.round((demand.fulfilledTonnage / demand.tonnageNum) * 100);
     if (demand.fulfilledPct >= 100) {
       demand.statusLabel = '✓ 100% Contracted & Fulfilled';
@@ -1032,7 +1032,7 @@ const chatConversations = {
     counterRate: 3200,
     lockRateText: "Lock 35% Escrow (₹ 32/kg)",
     messages: [
-      { type: "incoming", text: "Namaste sir, 5 MT cured big red onion lot available for immediate dispatch." }
+      { type: "incoming", text: "Namaste sir, 50 Qt (5,000 kg) cured big red onion lot available for immediate dispatch." }
     ]
   },
   revathi: {
@@ -1060,7 +1060,7 @@ const chatConversations = {
     counterRate: 7400,
     lockRateText: "Lock 35% Escrow (₹ 74/kg)",
     messages: [
-      { type: "incoming", text: "Vanakkam! 2.5 MT cured turmeric fingers with 4.8% curcumin content ready." }
+      { type: "incoming", text: "Vanakkam! 25 Qt (2,500 kg) cured turmeric fingers with 4.8% curcumin content ready." }
     ]
   },
   venkatesh: {
@@ -2286,8 +2286,8 @@ if (demandForm) {
   demandForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const crop = document.getElementById('demand-crop').value;
-    const tonnage = parseFloat(document.getElementById('demand-tonnage').value) || 10;
-    const unit = document.getElementById('demand-unit')?.value || 'MT';
+    const tonnage = parseFloat(document.getElementById('demand-tonnage').value) || 50;
+    const unit = document.getElementById('demand-unit')?.value || 'Qt';
     const price = document.getElementById('demand-price').value;
     const priceUnit = document.getElementById('demand-price-unit')?.value || 'qt';
     const numPrice = parseFloat(price) || 1250;
@@ -2300,15 +2300,17 @@ if (demandForm) {
     }
 
     const newId = `DEM-BB-${Math.floor(100 + Math.random() * 900)}`;
+    const displayTonnage = unit === 'kg' ? `${tonnage.toLocaleString('en-IN')} kg (${(tonnage / 100).toFixed(1)} Qt)` : `${tonnage} Qt (${(tonnage * 100).toLocaleString('en-IN')} kg)`;
+    const numQt = unit === 'kg' ? Math.round(tonnage / 100) : tonnage;
 
     buyerData.buyerDemands.unshift({
       id: newId,
       crop: crop,
       category: "Agricultural Crop",
       image: crop.toLowerCase().includes('onion') ? 'assets/images/onion.jpg' : 'assets/images/tomato.jpg',
-      tonnage: `${tonnage} ${unit}`,
-      tonnageNum: tonnage,
-      unit: unit,
+      tonnage: displayTonnage,
+      tonnageNum: numQt,
+      unit: "Qt",
       targetPrice: `₹ ${pricePerKg}/kg (₹ ${pricePerQt.toLocaleString('en-IN')} /Qt)`,
       targetPriceNum: pricePerQt,
       pricePerKg: parseFloat(pricePerKg),

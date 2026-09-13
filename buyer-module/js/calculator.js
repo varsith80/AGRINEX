@@ -459,7 +459,7 @@ const COMMODITY_CATALOG = {
 // Logistics Fleet Specs
 const FLEET_TYPES = {
   tata: {
-    name: 'Tata Ace Mini (1.5 MT)',
+    name: 'Tata Ace Mini (15 Qt / 1,500 kg)',
     capacityKg: 1500,
     baseFare: 1200,
     ratePerKm: 18.0,
@@ -467,7 +467,7 @@ const FLEET_TYPES = {
     isReefer: false
   },
   dost: {
-    name: 'Ashok Leyland Dost (2.5 MT)',
+    name: 'Ashok Leyland Dost (25 Qt / 2,500 kg)',
     capacityKg: 2500,
     baseFare: 1800,
     ratePerKm: 22.0,
@@ -475,7 +475,7 @@ const FLEET_TYPES = {
     isReefer: false
   },
   bolero: {
-    name: 'Mahindra Bolero Maxi (3.0 MT)',
+    name: 'Mahindra Bolero Maxi (30 Qt / 3,000 kg)',
     capacityKg: 3000,
     baseFare: 2200,
     ratePerKm: 25.0,
@@ -483,7 +483,7 @@ const FLEET_TYPES = {
     isReefer: false
   },
   eicher: {
-    name: 'Eicher Pro 1110 (7.5 MT)',
+    name: 'Eicher Pro 1110 (75 Qt / 7,500 kg)',
     capacityKg: 7500,
     baseFare: 4000,
     ratePerKm: 34.0,
@@ -491,7 +491,7 @@ const FLEET_TYPES = {
     isReefer: false
   },
   bharatbenz: {
-    name: 'BharatBenz Heavy (16.0 MT)',
+    name: 'BharatBenz Heavy (160 Qt / 16,000 kg)',
     capacityKg: 16000,
     baseFare: 6500,
     ratePerKm: 48.0,
@@ -499,7 +499,7 @@ const FLEET_TYPES = {
     isReefer: false
   },
   reefer: {
-    name: '❄️ Cold-Chain Reefer Truck (8.0 MT)',
+    name: '❄️ Cold-Chain Reefer Truck (80 Qt / 8,000 kg)',
     capacityKg: 8000,
     baseFare: 7000,
     ratePerKm: 52.0,
@@ -507,7 +507,7 @@ const FLEET_TYPES = {
     isReefer: true
   },
   ev: {
-    name: '⚡ Euler EV Cargo (1.2 MT)',
+    name: '⚡ Euler EV Cargo (12 Qt / 1,200 kg)',
     capacityKg: 1200,
     baseFare: 900,
     ratePerKm: 11.5,
