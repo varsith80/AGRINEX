@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Farm Net Profit & Freight Calculator</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+  <style>
+    .calc-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .calc-layout { grid-template-columns: 1fr; }
+    }
+    .calc-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #0f172a;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .form-input:focus {
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5,150,105,0.1);
+    }
+    .result-box {
+      background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .dual-price-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          </div>
+          <span class="logo-text">Agri<span>Nex</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <span class="nav-section-title">Farmer Portal</span>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link" title="Overview & quick actions">
+                <i data-lucide="layout-dashboard" class="nav-icon"></i>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="my-crops.html" class="nav-link" title="Listed produce & lots">
+                <i data-lucide="sprout" class="nav-icon"></i>
+                <span class="nav-text">My Crops</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="market-insights.html" class="nav-link" title="Daily mandi rates & AI forecast">
+                <i data-lucide="trending-up" class="nav-icon"></i>
+                <span class="nav-text">Market Insights</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="fpo-hub.html" class="nav-link" title="Bulk group selling">
+                <i data-lucide="users" class="nav-icon"></i>
+                <span class="nav-text">FPO Hub</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="bids-offers.html" class="nav-link" title="Live buyer quotes">
+                <i data-lucide="gavel" class="nav-icon"></i>
+                <span class="nav-text">Bids & Offers</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="orders-shipments.html" class="nav-link" title="Active transit & Gate passes">
+                <i data-lucide="truck" class="nav-icon"></i>
+                <span class="nav-text">Orders & Shipments</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="escrow-tracking.html" class="nav-link" title="35% advance & 65% balance">
+                <i data-lucide="shield-check" class="nav-icon"></i>
+                <span class="nav-text">Escrow Tracking</span>
+              </a>
+            </li>
+            <li class="nav-item active">
+              <a href="profit-calculator.html" class="nav-link" title="Net returns & freight check">
+                <i data-lucide="calculator" class="nav-icon"></i>
+                <span class="nav-text">Profit Calculator</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">
+            <span>RP</span>
+          </div>
+          <div class="user-info">
+            <span class="user-name">Ramesh Patel</span>
+            <span class="user-role">Verified Farmer • Surat</span>
+          </div>
+        </div>
+        <a href="../login_details/farmer_login.html" class="logout-btn" title="Logout">
+          <i data-lucide="log-out"></i>
+        </a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-header">
+        <div class="header-left">
+          <h1 class="page-title">Net Profit & Freight Calculator</h1>
+          <p class="page-subtitle">Calculate real net returns after freight, compare Local Mandi vs AgriNex direct sales</p>
+        </div>
+      </header>
+
+      <div class="calc-layout">
+        <!-- Input Parameters -->
+        <div class="calc-card">
+          <h2 style="font-size:1.15rem; font-weight:800; color:#0f172a; margin-bottom:18px;">
+            🌾 Crop & Distance Parameters
+          </h2>
+
+          <div class="form-group">
+            <label class="form-label">Select Produce</label>
+            <select class="form-input" id="cropSelect" onchange="recalculate()">
+              <option value="Tomato">Tomato (Hybrid Red)</option>
+              <option value="Onion">Onion (Nashik Red)</option>
+              <option value="Potato">Potato (Jyoti Grade A)</option>
+              <option value="Wheat">Wheat (Sharbati)</option>
+              <option value="Cotton">Cotton (Medium Staple)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Harvest Quantity in Quintals (Qt)</label>
+            <input type="number" class="form-input" id="qtInput" value="50" min="1" oninput="recalculate()" />
+            <div style="font-size:0.75rem; color:#64748b; margin-top:4px;" id="kgEquivalent">Equivalent to: 5,000 kg</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Local Mandi Rate (₹ / Quintal)</label>
+            <input type="number" class="form-input" id="mandiRateInput" value="2200" oninput="recalculate()" />
+            <div style="font-size:0.75rem; color:#059669; margin-top:4px;" id="mandiRateKg">Rate in kg: ₹ 22.00 / kg</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Delivery Distance to Buyer (km)</label>
+            <input type="number" class="form-input" id="distanceInput" value="45" oninput="recalculate()" />
+          </div>
+        </div>
+
+        <!-- Profit Comparison Results -->
+        <div class="calc-card">
+          <h2 style="font-size:1.15rem; font-weight:800; color:#0f172a; margin-bottom:18px;">
+            📊 Comparative Earnings Report
+          </h2>
+
+          <div class="result-box">
+            <div style="font-size:0.85rem; opacity:0.9;">EXTRA NET GAIN WITH AGRINEX</div>
+            <div style="font-size:2.2rem; font-weight:800; margin: 4px 0;" id="extraGainText">+ ₹ 8,260</div>
+            <div class="dual-price-tag">
+              <span>Direct Corporate Premium: <strong>+ 8% over Mandi</strong></span>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:16px;">
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px;">
+              <div style="font-size:0.75rem; color:#64748b; font-weight:600;">LOCAL MANDI EARNINGS</div>
+              <div style="font-size:1.2rem; font-weight:800; color:#475569;" id="mandiGrossText">₹ 1,10,000</div>
+              <div style="font-size:0.75rem; color:#94a3b8;">Rate: ₹ 22.00 /kg (₹ 2,200 /Qt)</div>
+            </div>
+
+            <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:12px;">
+              <div style="font-size:0.75rem; color:#065f46; font-weight:600;">AGRINEX DIRECT BUYER</div>
+              <div style="font-size:1.2rem; font-weight:800; color:#059669;" id="platformGrossText">₹ 1,18,800</div>
+              <div style="font-size:0.75rem; color:#065f46;" id="platformRateText">Rate: ₹ 23.76 /kg (₹ 2,376 /Qt)</div>
+            </div>
+          </div>
+
+          <div style="background:#f1f5f9; border-radius:10px; padding:12px; font-size:0.85rem; color:#334155;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span>Estimated Logistics Freight:</span>
+              <strong id="freightText">₹ 540 (₹ 12/km)</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span>Platform Commission:</span>
+              <strong style="color:#059669;">₹ 0 (Free for Farmers)</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-top:1px solid #cbd5e1; padding-top:6px; font-weight:700; color:#0f172a;">
+              <span>Net Take-Home Money:</span>
+              <span style="color:#059669;" id="netTakeHomeText">₹ 1,18,260</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    function recalculate() {
+      const qt = parseFloat(document.getElementById('qtInput').value) || 0;
+      const mandiRate = parseFloat(document.getElementById('mandiRateInput').value) || 0;
+      const dist = parseFloat(document.getElementById('distanceInput').value) || 0;
+
+      const kg = qt * 100;
+      document.getElementById('kgEquivalent').innerText = 'Equivalent to: ' + kg.toLocaleString() + ' kg';
+      document.getElementById('mandiRateKg').innerText = 'Rate in kg: ₹ ' + (mandiRate / 100).toFixed(2) + ' / kg';
+
+      const platformRate = mandiRate * 1.08;
+      const mandiGross = mandiRate * qt;
+      const platformGross = platformRate * qt;
+      const freight = dist * 12;
+      const netTakeHome = platformGross - freight;
+      const extraGain = netTakeHome - mandiGross;
+
+      document.getElementById('extraGainText').innerText = '+ ₹ ' + Math.round(extraGain).toLocaleString();
+      document.getElementById('mandiGrossText').innerText = '₹ ' + Math.round(mandiGross).toLocaleString();
+      document.getElementById('platformGrossText').innerText = '₹ ' + Math.round(platformGross).toLocaleString();
+      document.getElementById('platformRateText').innerText = 'Rate: ₹ ' + (platformRate / 100).toFixed(2) + ' /kg (₹ ' + Math.round(platformRate).toLocaleString() + ' /Qt)';
+      document.getElementById('freightText').innerText = '₹ ' + Math.round(freight).toLocaleString() + ' (₹ 12/km)';
+      document.getElementById('netTakeHomeText').innerText = '₹ ' + Math.round(netTakeHome).toLocaleString();
+    }
+
+    recalculate();
+  </script>
+</body>
+</html>

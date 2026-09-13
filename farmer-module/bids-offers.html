@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Bids & Buyer Offers</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+  <style>
+    .bids-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 1100px) {
+      .bids-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .stat-card-simple {
+      background: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .stat-icon-sq {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bid-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      transition: all 0.2s ease;
+    }
+    .bid-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+    }
+    .price-pill {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .btn-accept {
+      background: #059669;
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-accept:hover { background: #047857; }
+    .btn-counter {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-counter:hover { background: #f1f5f9; }
+    .btn-whatsapp {
+      background: #25d366;
+      color: #ffffff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          </div>
+          <span class="logo-text">Agri<span>Nex</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <span class="nav-section-title">Farmer Portal</span>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link" title="Overview & quick actions">
+                <i data-lucide="layout-dashboard" class="nav-icon"></i>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="my-crops.html" class="nav-link" title="Listed produce & lots">
+                <i data-lucide="sprout" class="nav-icon"></i>
+                <span class="nav-text">My Crops</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="market-insights.html" class="nav-link" title="Daily mandi rates & AI forecast">
+                <i data-lucide="trending-up" class="nav-icon"></i>
+                <span class="nav-text">Market Insights</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="fpo-hub.html" class="nav-link" title="Bulk group selling">
+                <i data-lucide="users" class="nav-icon"></i>
+                <span class="nav-text">FPO Hub</span>
+              </a>
+            </li>
+            <li class="nav-item active">
+              <a href="bids-offers.html" class="nav-link" title="Live buyer quotes">
+                <i data-lucide="gavel" class="nav-icon"></i>
+                <span class="nav-text">Bids & Offers</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="orders-shipments.html" class="nav-link" title="Active transit & Gate passes">
+                <i data-lucide="truck" class="nav-icon"></i>
+                <span class="nav-text">Orders & Shipments</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="escrow-tracking.html" class="nav-link" title="35% advance & 65% balance">
+                <i data-lucide="shield-check" class="nav-icon"></i>
+                <span class="nav-text">Escrow Tracking</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="profit-calculator.html" class="nav-link" title="Net returns & freight check">
+                <i data-lucide="calculator" class="nav-icon"></i>
+                <span class="nav-text">Profit Calculator</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">
+            <span>RP</span>
+          </div>
+          <div class="user-info">
+            <span class="user-name">Ramesh Patel</span>
+            <span class="user-role">Verified Farmer • Surat</span>
+          </div>
+        </div>
+        <a href="../login_details/farmer_login.html" class="logout-btn" title="Logout">
+          <i data-lucide="log-out"></i>
+        </a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-header">
+        <div class="header-left">
+          <h1 class="page-title">Live Buyer Bids & Offers</h1>
+          <p class="page-subtitle">Review incoming purchase offers from verified corporate buyers and local traders</p>
+        </div>
+        <div class="header-right">
+          <button class="btn btn-primary" onclick="refreshBids()">
+            <i data-lucide="refresh-cw"></i> Refresh Bids
+          </button>
+        </div>
+      </header>
+
+      <!-- Stat Highlights -->
+      <div class="bids-grid">
+        <div class="stat-card-simple">
+          <div class="stat-icon-sq" style="background:#e8f5ed; color:#10b981;">
+            <i data-lucide="gavel"></i>
+          </div>
+          <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">ACTIVE BIDS</div>
+            <div style="font-size:1.25rem; font-weight:800; color:#0f172a;" id="activeBidsCount">4 Offers</div>
+          </div>
+        </div>
+        <div class="stat-card-simple">
+          <div class="stat-icon-sq" style="background:#e0f2fe; color:#0284c7;">
+            <i data-lucide="trending-up"></i>
+          </div>
+          <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">HIGHEST BID RATE</div>
+            <div style="font-size:1.1rem; font-weight:800; color:#0f172a;">₹ 28.50 /kg <span style="font-size:0.75rem; color:#64748b; font-weight:500;">(₹ 2,850 /Qt)</span></div>
+          </div>
+        </div>
+        <div class="stat-card-simple">
+          <div class="stat-icon-sq" style="background:#fef3c7; color:#d97706;">
+            <i data-lucide="badge-percent"></i>
+          </div>
+          <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">AVG PREMIUM OVER MANDI</div>
+            <div style="font-size:1.25rem; font-weight:800; color:#059669;">+ 8.4%</div>
+          </div>
+        </div>
+        <div class="stat-card-simple">
+          <div class="stat-icon-sq" style="background:#f3e8ff; color:#a855f7;">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">ESCROW ADVANCE</div>
+            <div style="font-size:1.25rem; font-weight:800; color:#0f172a;">35% Instant Lock</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bids List Container -->
+      <div id="bidsListContainer">
+        <!-- Rendered via JS -->
+      </div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    let bidsData = [];
+
+    async function loadBids() {
+      try {
+        const res = await fetch('/api/bids');
+        bidsData = await res.json();
+        renderBids();
+      } catch (err) {
+        console.error('Error fetching bids:', err);
+      }
+    }
+
+    function renderBids() {
+      const container = document.getElementById('bidsListContainer');
+      if (!bidsData || !bidsData.length) {
+        container.innerHTML = '<div class="card p-6 text-center text-muted">No bids received yet.</div>';
+        return;
+      }
+
+      document.getElementById('activeBidsCount').innerText = bidsData.length + ' Offers';
+
+      container.innerHTML = bidsData.map(bid => `
+        <div class="bid-card">
+          <div style="display:flex; gap:16px; align-items:center;">
+            <div style="width:48px; height:48px; border-radius:10px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-size:1.4rem;">
+              🌱
+            </div>
+            <div>
+              <div style="font-size:1.05rem; font-weight:800; color:#0f172a; margin-bottom:2px;">
+                ${bid.crop_name}
+              </div>
+              <div style="font-size:0.82rem; color:#64748b;">
+                Buyer: <strong>${bid.buyer_name}</strong> • ${bid.buyer_company || 'Verified Trader'} • <span style="color:#059669; font-weight:600;">${bid.created_at}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
+            <div class="text-right">
+              <div style="font-size:0.75rem; color:#64748b; font-weight:600;">OFFERED PRICE</div>
+              <div class="price-pill">
+                ₹ ${(bid.bid_price_per_kg || (bid.bid_price_per_qt / 100)).toFixed(2)} /kg 
+                <span style="font-size:0.75rem; color:#065f46; font-weight:600;">(₹ ${bid.bid_price_per_qt.toLocaleString()} /Qt)</span>
+              </div>
+            </div>
+
+            <div class="text-right" style="min-width:110px;">
+              <div style="font-size:0.75rem; color:#64748b; font-weight:600;">QUANTITY & TOTAL</div>
+              <div style="font-weight:800; color:#0f172a; font-size:0.95rem;">${bid.quantity_qt} Qt (${bid.quantity_qt * 100} kg)</div>
+              <div style="font-size:0.8rem; color:#059669; font-weight:700;">₹ ${(bid.bid_price_per_qt * bid.quantity_qt).toLocaleString()}</div>
+            </div>
+
+            <div style="display:flex; gap:8px;">
+              ${bid.status === 'Accepted' ? `
+                <span style="background:#ecfdf5; border:1px solid #10b981; color:#065f46; padding:8px 14px; border-radius:8px; font-weight:700; font-size:0.85rem;">
+                  ✓ Accepted (Escrow Active)
+                </span>
+              ` : `
+                <button class="btn-accept" onclick="acceptBid(${bid.id})">
+                  <i data-lucide="check" style="width:16px; height:16px;"></i> Accept Bid
+                </button>
+                <button class="btn-counter" onclick="counterBid(${bid.id})">
+                  Counter Offer
+                </button>
+                <a href="https://wa.me/${(bid.buyer_phone || '').replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(bid.buyer_name)},%20regarding%20your%20bid%20on%20AgriNex%20for%20${encodeURIComponent(bid.crop_name)}" target="_blank" class="btn-whatsapp">
+                  💬 WhatsApp
+                </a>
+              `}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    async function acceptBid(bidId) {
+      if (confirm('Accept this bid? This will automatically generate an Escrow Contract with 35% advance locking.')) {
+        try {
+          const res = await fetch(`/api/bids/${bidId}/action`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'Accepted' })
+          });
+          if (res.ok) {
+            alert('Bid Accepted! Gate Pass and 35% Escrow Advance Contract created.');
+            loadBids();
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+
+    function counterBid(bidId) {
+      const counterRate = prompt('Enter your counter price in ₹ / Qt (e.g. 2500):', '2500');
+      if (counterRate) {
+        alert('Counter offer of ₹ ' + counterRate + ' /Qt sent to buyer via SMS & WhatsApp.');
+      }
+    }
+
+    function refreshBids() {
+      loadBids();
+    }
+
+    loadBids();
+  </script>
+</body>
+</html>

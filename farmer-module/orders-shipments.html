@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Orders & Shipments Tracking</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+  <style>
+    .shipments-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 1100px) {
+      .shipments-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .stat-card-simple {
+      background: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .stat-icon-sq {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .order-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .badge-transit { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .badge-scheduled { background: #fefce8; color: #a16207; border: 1px solid #fef08a; }
+    .badge-delivered { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .step-timeline {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin: 20px 0 10px;
+    }
+    .step-timeline::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 20px;
+      right: 20px;
+      height: 2px;
+      background: #e2e8f0;
+      z-index: 1;
+    }
+    .step-item {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    .step-dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+    }
+    .step-dot.active {
+      background: #059669;
+      border-color: #059669;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          </div>
+          <span class="logo-text">Agri<span>Nex</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <span class="nav-section-title">Farmer Portal</span>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link" title="Overview & quick actions">
+                <i data-lucide="layout-dashboard" class="nav-icon"></i>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="my-crops.html" class="nav-link" title="Listed produce & lots">
+                <i data-lucide="sprout" class="nav-icon"></i>
+                <span class="nav-text">My Crops</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="market-insights.html" class="nav-link" title="Daily mandi rates & AI forecast">
+                <i data-lucide="trending-up" class="nav-icon"></i>
+                <span class="nav-text">Market Insights</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="fpo-hub.html" class="nav-link" title="Bulk group selling">
+                <i data-lucide="users" class="nav-icon"></i>
+                <span class="nav-text">FPO Hub</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="bids-offers.html" class="nav-link" title="Live buyer quotes">
+                <i data-lucide="gavel" class="nav-icon"></i>
+                <span class="nav-text">Bids & Offers</span>
+              </a>
+            </li>
+            <li class="nav-item active">
+              <a href="orders-shipments.html" class="nav-link" title="Active transit & Gate passes">
+                <i data-lucide="truck" class="nav-icon"></i>
+                <span class="nav-text">Orders & Shipments</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="escrow-tracking.html" class="nav-link" title="35% advance & 65% balance">
+                <i data-lucide="shield-check" class="nav-icon"></i>
+                <span class="nav-text">Escrow Tracking</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="profit-calculator.html" class="nav-link" title="Net returns & freight check">
+                <i data-lucide="calculator" class="nav-icon"></i>
+                <span class="nav-text">Profit Calculator</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">
+            <span>RP</span>
+          </div>
+          <div class="user-info">
+            <span class="user-name">Ramesh Patel</span>
+            <span class="user-role">Verified Farmer • Surat</span>
+          </div>
+        </div>
+        <a href="../login_details/farmer_login.html" class="logout-btn" title="Logout">
+          <i data-lucide="log-out"></i>
+        </a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-header">
+        <div class="header-left">
+          <h1 class="page-title">Orders & Shipments Tracking</h1>
+          <p class="page-subtitle">Track pickup schedules, live truck GPS telemetry, and digital Gate Passes</p>
+        </div>
+        <div class="header-right">
+          <button class="btn btn-outline" onclick="loadShipments()">
+            <i data-lucide="refresh-cw"></i> Refresh Status
+          </button>
+        </div>
+      </header>
+
+      <!-- Stats -->
+      <div class="shipments-grid">
+        <div class="stat-card-simple">
+          <div class="stat-icon-sq" style="background:#e8f5ed; color:#10b981;">
+            <i data-lucide="truck"></i>
+          </div>
+          <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">ACTIVE CONSIGNMENTS</div>
+            <div style="font-size:1.25rem; font-weight:800; color:#0f172a;" id="activeShipmentsCount">2 Active</div>
+          </div>
+        </div>
+        <div class="stat-card-simple">
+          <div class="stat-icon-sq" style="background:#e0f2fe; color:#0284c7;">
+            <i data-lucide="navigation"></i>
+          </div>
+          <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">IN-TRANSIT VOLUME</div>
+            <div style="font-size:1.25rem; font-weight:800; color:#0f172a;">160 Qt (16,000 kg)</div>
+          </div>
+        </div>
+        <div class="stat-card-simple">
+          <div class="stat-icon-sq" style="background:#fef3c7; color:#d97706;">
+            <i data-lucide="file-check"></i>
+          </div>
+          <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">GATE PASSES READY</div>
+            <div style="font-size:1.25rem; font-weight:800; color:#0f172a;">2 Verified</div>
+          </div>
+        </div>
+        <div class="stat-card-simple">
+          <div class="stat-icon-sq" style="background:#f3e8ff; color:#a855f7;">
+            <i data-lucide="clock"></i>
+          </div>
+          <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">AVG ON-TIME DELIVERY</div>
+            <div style="font-size:1.25rem; font-weight:800; color:#059669;">99.2%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders Container -->
+      <div id="shipmentsContainer"></div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    let shipments = [];
+
+    async function loadShipments() {
+      try {
+        const res = await fetch('/api/logistics/shipments');
+        shipments = await res.json();
+        renderShipments();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function renderShipments() {
+      const container = document.getElementById('shipmentsContainer');
+      document.getElementById('activeShipmentsCount').innerText = shipments.length + ' Active';
+
+      container.innerHTML = shipments.map(s => `
+        <div class="order-card">
+          <div class="order-header">
+            <div>
+              <span style="font-size:0.75rem; color:#64748b; font-weight:700;">TRACKING ID: </span>
+              <strong style="color:#0f172a; font-size:1rem;">${s.tracking_id}</strong>
+              <span style="margin: 0 8px; color:#cbd5e1;">|</span>
+              <span style="font-size:0.85rem; color:#475569;">Contract Ref: ${s.contract_no}</span>
+            </div>
+            <div>
+              <span class="status-badge ${s.status === 'In Transit' ? 'badge-transit' : (s.status === 'Delivered' ? 'badge-delivered' : 'badge-scheduled')}">
+                ● ${s.status}
+              </span>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:16px; margin-bottom:16px;">
+            <div>
+              <div style="font-size:0.75rem; color:#64748b; font-weight:600;">PRODUCE LOT</div>
+              <div style="font-weight:800; font-size:1.05rem; color:#0f172a;">${s.crop_name}</div>
+              <div style="font-size:0.85rem; color:#059669; font-weight:700;">${s.quantity_qt} Qt (${s.quantity_qt * 100} kg)</div>
+            </div>
+
+            <div>
+              <div style="font-size:0.75rem; color:#64748b; font-weight:600;">DRIVER & TRUCK</div>
+              <div style="font-weight:700; color:#0f172a;">${s.driver_name} (${s.vehicle_no})</div>
+              <div style="font-size:0.85rem; color:#64748b;">Phone: <a href="tel:${s.driver_phone}" style="color:#0284c7; font-weight:600;">${s.driver_phone}</a></div>
+            </div>
+
+            <div>
+              <div style="font-size:0.75rem; color:#64748b; font-weight:600;">DESTINATION & ETA</div>
+              <div style="font-weight:700; color:#0f172a;">${s.destination}</div>
+              <div style="font-size:0.85rem; color:#d97706; font-weight:700;">ETA: ${s.eta}</div>
+            </div>
+          </div>
+
+          <!-- Progress Stepper -->
+          <div class="step-timeline">
+            <div class="step-item">
+              <div class="step-dot active">✓</div>
+              <div style="font-size:0.75rem; font-weight:700; color:#0f172a;">Order Confirmed</div>
+            </div>
+            <div class="step-item">
+              <div class="step-dot active">✓</div>
+              <div style="font-size:0.75rem; font-weight:700; color:#0f172a;">35% Advance Locked</div>
+            </div>
+            <div class="step-item">
+              <div class="step-dot ${s.status === 'In Transit' || s.status === 'Delivered' ? 'active' : ''}">
+                ${s.status === 'In Transit' || s.status === 'Delivered' ? '✓' : '3'}
+              </div>
+              <div style="font-size:0.75rem; font-weight:700; color:#0f172a;">Farm Pickup Done</div>
+            </div>
+            <div class="step-item">
+              <div class="step-dot ${s.status === 'Delivered' ? 'active' : ''}">
+                ${s.status === 'Delivered' ? '✓' : '4'}
+              </div>
+              <div style="font-size:0.75rem; font-weight:700; color:#0f172a;">Buyer Delivery</div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px; border-top:1px solid #f8fafc; padding-top:10px;">
+            <button class="btn btn-outline btn-sm" onclick="alert('Digital Gate Pass GP-2026-X downloaded (Verified for Toll & Checkpost)')">
+              📄 Download Gate Pass
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="alert('Live GPS Location: Surat-Mumbai Expressway KM 84. Speed: 52 km/h.')">
+              📍 Track Live Location
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    loadShipments();
+  </script>
+</body>
+</html>
