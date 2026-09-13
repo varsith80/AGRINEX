@@ -704,124 +704,93 @@
   <div class="app-container">
     
     <!-- LEFT SIDEBAR NAVIGATION -->
+    <!-- LEFT SIDEBAR NAVIGATION (Full-Height Sticky) -->
     <aside class="sidebar">
       <div>
         <!-- Brand Header (Golden Wheat Logo) -->
-        <div class="sidebar-brand" style="cursor: pointer;" onclick="window.location.href='index.html'">
+        <div class="sidebar-brand">
           <div class="brand-logo-box">
             <img src="assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" />
           </div>
           <div>
             <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+            <div class="brand-tagline">Direct Trade · Better Tomorrow</div>
           </div>
         </div>
 
         <!-- Navigation Links -->
         <ul class="sidebar-nav">
-          <!-- 1. Dashboard -->
           <li class="nav-item" onclick="window.location.href='index.html'">
             <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
               <span>Dashboard</span>
             </div>
+            
           </li>
-
-          <!-- 2. My Crops & Lots (ACTIVE) -->
-          <li class="nav-item active-crops" onclick="window.location.href='my-crops.html'">
+          <li class="nav-item active" onclick="window.location.href='my-crops.html'">
             <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
-              </svg>
-              <span style="color: #064e3b; font-weight: 800;">My Crops & Lots</span>
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
+              <span>My Crops & Lots</span>
             </div>
             <span class="badge badge-grade-a" style="font-size: 0.65rem; padding: 2px 6px;">6 Lots</span>
           </li>
-
-          <!-- 3. Market Insights -->
           <li class="nav-item" onclick="window.location.href='market-insights.html'">
             <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="20" x2="18" y2="10"></line>
-                <line x1="12" y1="20" x2="12" y2="4"></line>
-                <line x1="6" y1="20" x2="6" y2="14"></line>
-              </svg>
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
               <span>Market Insights</span>
             </div>
+            
           </li>
-
-          <!-- 4. FPO HUB -->
           <li class="nav-item" onclick="window.location.href='fpo-hub.html'">
             <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
               <span>FPO Hub</span>
             </div>
             <span class="badge badge-fpo" style="font-size: 0.65rem; padding: 2px 5px;">Bulk</span>
           </li>
-
-          <!-- 5. Bids & Offers -->
-          <li class="nav-item" onclick="window.location.href='index.html'">
+          <li class="nav-item" onclick="window.location.href='bids-offers.html'">
             <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m14 12 6-6"></path>
-                <path d="M9 17 3 23"></path>
-                <path d="m15.5 10.5 2 2"></path>
-                <path d="m7.5 18.5 2 2"></path>
-              </svg>
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m14 12 6-6"></path><path d="M9 17 3 23"></path><path d="m15.5 10.5 2 2"></path><path d="m7.5 18.5 2 2"></path><path d="M10 6 6 10l5 5 4-4-5-5z"></path><path d="m14 16 4 4 4-4-4-4-4 4z"></path></svg>
               <span>Bids & Offers</span>
             </div>
-            <span class="badge badge-orange" style="font-size: 0.65rem; padding: 2px 5px;">5 Bids</span>
+            <span class="badge" style="background:#fef3c7; color:#b45309; font-size:0.65rem; padding:2px 6px; font-weight:700;">5 Bids</span>
           </li>
-
-          <!-- 6. Orders & Shipments -->
-          <li class="nav-item" onclick="window.location.href='index.html'">
+          <li class="nav-item" onclick="window.location.href='orders-shipments.html'">
             <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="20" height="14" x="2" y="5" rx="2"></rect>
-                <line x1="2" x2="22" y1="10" y2="10"></line>
-              </svg>
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
               <span>Orders & Shipments</span>
             </div>
+            <span class="badge" style="background:#eff6ff; color:#1d4ed8; font-size:0.65rem; padding:2px 6px; font-weight:700;">2 Live</span>
           </li>
-
-          <!-- 7. Escrow Tracking -->
-          <li class="nav-item" onclick="window.location.href='index.html'">
+          <li class="nav-item" onclick="window.location.href='escrow-tracking.html'">
             <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
               <span>Escrow Tracking</span>
             </div>
+            <span class="badge" style="background:#ecfdf5; color:#065f46; font-size:0.65rem; padding:2px 6px; font-weight:700;">35/65</span>
           </li>
-
-          <!-- 8. Profit Calculator -->
-          <li class="nav-item" onclick="window.location.href='index.html'">
+          <li class="nav-item" onclick="window.location.href='profit-calculator.html'">
             <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="16" height="20" x="4" y="2" rx="2"></rect>
-                <line x1="8" x2="16" y1="6" y2="6"></line>
-                <line x1="16" x2="16" y1="14" y2="18"></line>
-                <path d="M16 10h.01"></path>
-                <path d="M12 10h.01"></path>
-                <path d="M8 10h.01"></path>
-                <path d="M12 14h.01"></path>
-                <path d="M8 14h.01"></path>
-                <path d="M12 18h.01"></path>
-                <path d="M8 18h.01"></path>
-              </svg>
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
               <span>Profit Calculator</span>
             </div>
+            
           </li>
         </ul>
+      </div>
+
+      <!-- User Profile at bottom -->
+      <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
+        <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
+          <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+          <div style="min-width:0; flex:1;">
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Ramesh Patel</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Surat</div>
+          </div>
+          <a href="../login_details/farmer_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </a>
+        </div>
       </div>
     </aside>
 

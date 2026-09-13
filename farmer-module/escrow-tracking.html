@@ -3,298 +3,554 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgriNex - Escrow Payment & Payout Ledger</title>
-  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
-
+  <title>AgriNex - Escrow Payment Protection Ledger | 35% Advance & 65% Balance</title>
   <style>
-    .escrow-grid {
+    .provenance-ribbon {
+      background: linear-gradient(90deg, #ecfdf5 0%, #f0fdf4 100%);
+      border: 1px solid #a7f3d0;
+      border-radius: 12px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .provenance-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #065f46;
+      background: #ffffff;
+      border: 1px solid #6ee7b7;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .fpo-stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 12px;
       margin-bottom: 18px;
     }
     @media (max-width: 1100px) {
-      .escrow-grid { grid-template-columns: repeat(2, 1fr); }
+      .fpo-stats-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    .stat-card-simple {
+    .fpo-stat-card {
       background: #ffffff;
       border: 1px solid #eef2f6;
       border-radius: 12px;
       padding: 12px 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    .stat-icon-sq {
+    .stat-icon-square {
       width: 38px;
       height: 38px;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
-    .escrow-card {
+    .stat-icon-green { background: #e8f5ed; color: #10b981; }
+    .stat-icon-purple { background: #f3e8ff; color: #a855f7; }
+    .stat-icon-orange { background: #ffedd5; color: #f97316; }
+    .stat-icon-blue { background: #e0f2fe; color: #0284c7; }
+
+    /* Explainer Hero Box */
+    .escrow-hero-card {
+      background: linear-gradient(135deg, #064e3b 0%, #0c5a36 100%);
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 18px 24px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .escrow-stage-box {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 10px 16px;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    /* Ledger Card */
+    .contract-ledger-card {
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 14px;
-      padding: 20px;
+      padding: 20px 22px;
       margin-bottom: 16px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      transition: all 0.2s ease;
     }
-    .payout-split-bar {
+    .contract-ledger-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+    }
+
+    .escrow-progress-bar {
       height: 10px;
-      border-radius: 999px;
       background: #e2e8f0;
-      display: flex;
+      border-radius: 999px;
       overflow: hidden;
-      margin: 14px 0 8px;
+      display: flex;
+      margin: 12px 0 6px;
     }
-    .split-advance {
-      background: #10b981;
-      width: 35%;
+    .prog-advance { background: #059669; width: 35%; }
+    .prog-balance { background: #0284c7; width: 65%; }
+    .prog-balance.settled { background: #10b981; }
+
+    /* Modal Backdrop */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
     }
-    .split-balance {
-      background: #0284c7;
-      width: 65%;
+    .modal-overlay.active { display: flex; }
+    .modal-card {
+      background: #ffffff;
+      border-radius: 16px;
+      max-width: 540px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
-  <div class="dashboard-layout">
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <a href="index.html" class="logo">
-          <div class="logo-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+  <div class="app-container">
+    <!-- LEFT SIDEBAR NAVIGATION (Full-Height Sticky) -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header (Golden Wheat Logo) -->
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <img src="assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" />
           </div>
-          <span class="logo-text">Agri<span>Nex</span></span>
-        </a>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+            <div class="brand-tagline">Direct Trade · Better Tomorrow</div>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="sidebar-nav">
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span>Dashboard</span>
+            </div>
+            
+          </li>
+          <li class="nav-item" onclick="window.location.href='my-crops.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
+              <span>My Crops & Lots</span>
+            </div>
+            <span class="badge badge-grade-a" style="font-size: 0.65rem; padding: 2px 6px;">6 Lots</span>
+          </li>
+          <li class="nav-item" onclick="window.location.href='market-insights.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              <span>Market Insights</span>
+            </div>
+            
+          </li>
+          <li class="nav-item" onclick="window.location.href='fpo-hub.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              <span>FPO Hub</span>
+            </div>
+            <span class="badge badge-fpo" style="font-size: 0.65rem; padding: 2px 5px;">Bulk</span>
+          </li>
+          <li class="nav-item" onclick="window.location.href='bids-offers.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m14 12 6-6"></path><path d="M9 17 3 23"></path><path d="m15.5 10.5 2 2"></path><path d="m7.5 18.5 2 2"></path><path d="M10 6 6 10l5 5 4-4-5-5z"></path><path d="m14 16 4 4 4-4-4-4-4 4z"></path></svg>
+              <span>Bids & Offers</span>
+            </div>
+            <span class="badge" style="background:#fef3c7; color:#b45309; font-size:0.65rem; padding:2px 6px; font-weight:700;">5 Bids</span>
+          </li>
+          <li class="nav-item" onclick="window.location.href='orders-shipments.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+              <span>Orders & Shipments</span>
+            </div>
+            <span class="badge" style="background:#eff6ff; color:#1d4ed8; font-size:0.65rem; padding:2px 6px; font-weight:700;">2 Live</span>
+          </li>
+          <li class="nav-item active" onclick="window.location.href='escrow-tracking.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+              <span>Escrow Tracking</span>
+            </div>
+            <span class="badge" style="background:#ecfdf5; color:#065f46; font-size:0.65rem; padding:2px 6px; font-weight:700;">35/65</span>
+          </li>
+          <li class="nav-item" onclick="window.location.href='profit-calculator.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+              <span>Profit Calculator</span>
+            </div>
+            
+          </li>
+        </ul>
       </div>
 
-      <nav class="sidebar-nav">
-        <div class="nav-section">
-          <span class="nav-section-title">Farmer Portal</span>
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="index.html" class="nav-link" title="Overview & quick actions">
-                <i data-lucide="layout-dashboard" class="nav-icon"></i>
-                <span class="nav-text">Dashboard</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="my-crops.html" class="nav-link" title="Listed produce & lots">
-                <i data-lucide="sprout" class="nav-icon"></i>
-                <span class="nav-text">My Crops</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="market-insights.html" class="nav-link" title="Daily mandi rates & AI forecast">
-                <i data-lucide="trending-up" class="nav-icon"></i>
-                <span class="nav-text">Market Insights</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="fpo-hub.html" class="nav-link" title="Bulk group selling">
-                <i data-lucide="users" class="nav-icon"></i>
-                <span class="nav-text">FPO Hub</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="bids-offers.html" class="nav-link" title="Live buyer quotes">
-                <i data-lucide="gavel" class="nav-icon"></i>
-                <span class="nav-text">Bids & Offers</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="orders-shipments.html" class="nav-link" title="Active transit & Gate passes">
-                <i data-lucide="truck" class="nav-icon"></i>
-                <span class="nav-text">Orders & Shipments</span>
-              </a>
-            </li>
-            <li class="nav-item active">
-              <a href="escrow-tracking.html" class="nav-link" title="35% advance & 65% balance">
-                <i data-lucide="shield-check" class="nav-icon"></i>
-                <span class="nav-text">Escrow Tracking</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="profit-calculator.html" class="nav-link" title="Net returns & freight check">
-                <i data-lucide="calculator" class="nav-icon"></i>
-                <span class="nav-text">Profit Calculator</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="user-profile">
-          <div class="avatar">
-            <span>RP</span>
+      <!-- User Profile at bottom -->
+      <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
+        <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
+          <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+          <div style="min-width:0; flex:1;">
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Ramesh Patel</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Surat</div>
           </div>
-          <div class="user-info">
-            <span class="user-name">Ramesh Patel</span>
-            <span class="user-role">Verified Farmer • Surat</span>
-          </div>
+          <a href="../login_details/farmer_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </a>
         </div>
-        <a href="../login_details/farmer_login.html" class="logout-btn" title="Logout">
-          <i data-lucide="log-out"></i>
-        </a>
       </div>
     </aside>
 
-    <main class="main-content">
-      <header class="top-header">
-        <div class="header-left">
-          <h1 class="page-title">Escrow Payment Security Ledger</h1>
-          <p class="page-subtitle">Track automated 35% advance locking, quality verification, and instant bank payout releases</p>
+    <main class="main-wrapper">
+      <!-- Top Extended Navbar Header -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="navbar-search" style="min-width: 340px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="page-search-input" placeholder="Search contracts, escrow bank reference, buyer names, UTR numbers..." oninput="handleSearch(this.value)" />
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer;" title="Change Mandi Location">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Surat Mandi Hub, Gujarat</span>
+          </div>
         </div>
-        <div class="header-right">
-          <div style="background:#ecfdf5; border:1px solid #a7f3d0; padding:6px 14px; border-radius:10px; font-size:0.85rem; font-weight:700; color:#065f46; display:flex; align-items:center; gap:6px;">
-            <i data-lucide="shield-check"></i> HDFC Escrow Protected
+
+        <div class="navbar-right">
+          <button class="btn btn-outline btn-sm" onclick="window.location.href='index.html'" style="font-weight: 700;">
+            &larr; Dashboard
+          </button>
+          <button class="notif-btn" title="Notifications" onclick="alert('Notification: Reliance Retail placed a new bid of ₹ 24.50 /kg on your Tomato lot!')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            </svg>
+          </button>
+          <div class="profile-widget" style="cursor: pointer;" onclick="window.location.href='my-crops.html'">
+            <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+            <div>
+              <div class="profile-name">Ramesh Patel</div>
+              <div class="profile-role">ID: FARM-88210</div>
+            </div>
           </div>
         </div>
       </header>
 
-      <!-- Stats -->
-      <div class="escrow-grid">
-        <div class="stat-card-simple">
-          <div class="stat-icon-sq" style="background:#e8f5ed; color:#10b981;">
-            <i data-lucide="lock"></i>
+      <div class="dashboard-content" style="padding: 24px 30px;">
+        
+        <!-- PROVENANCE RIBBON -->
+        <div class="provenance-ribbon">
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span class="provenance-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+              RBI-Regulated Nodal Escrow
+            </span>
+            <span style="font-size: 0.82rem; color: #065f46; font-weight: 700;">
+              HDFC Bank Nodal Account No: 50200088921004 • Zero Payment Default Guarantee
+            </span>
           </div>
-          <div>
-            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">TOTAL ESCROW LOCKED</div>
-            <div style="font-size:1.25rem; font-weight:800; color:#0f172a;">₹ 5,78,000</div>
-          </div>
-        </div>
-        <div class="stat-card-simple">
-          <div class="stat-icon-sq" style="background:#e0f2fe; color:#0284c7;">
-            <i data-lucide="wallet"></i>
-          </div>
-          <div>
-            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">35% ADVANCE DISBURSED</div>
-            <div style="font-size:1.25rem; font-weight:800; color:#0f172a;">₹ 2,02,300</div>
-          </div>
-        </div>
-        <div class="stat-card-simple">
-          <div class="stat-icon-sq" style="background:#fef3c7; color:#d97706;">
-            <i data-lucide="arrow-down-circle"></i>
-          </div>
-          <div>
-            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">PENDING 65% BALANCE</div>
-            <div style="font-size:1.25rem; font-weight:800; color:#0f172a;">₹ 3,75,700</div>
-          </div>
-        </div>
-        <div class="stat-card-simple">
-          <div class="stat-icon-sq" style="background:#f3e8ff; color:#a855f7;">
-            <i data-lucide="check-check"></i>
-          </div>
-          <div>
-            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">TOTAL SETTLED THIS MONTH</div>
-            <div style="font-size:1.25rem; font-weight:800; color:#059669;">₹ 2,60,000</div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Contracts Container -->
-      <div id="escrowContainer"></div>
+          <div style="display: flex; align-items: center; gap: 10px; font-size: 0.78rem; color: #047857; font-weight: 700;">
+            <span>⚡ Instant NEFT/IMPS Direct Bank Credit</span>
+            <span>•</span>
+            <span>📑 100% Tax Compliant</span>
+          </div>
+        </div>
+
+        <!-- 4 OVERVIEW STATS -->
+        <section class="fpo-stats-grid">
+          <div class="fpo-stat-card">
+            <div class="stat-icon-square stat-icon-green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">Total Escrow Protected</div>
+              <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">₹ 5,78,000</div>
+              <div style="font-size: 0.72rem; font-weight: 700; color: #059669;">Across 3 Active Contracts</div>
+            </div>
+          </div>
+
+          <div class="fpo-stat-card">
+            <div class="stat-icon-square stat-icon-blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">35% Advance Disbursed</div>
+              <div style="font-size: 1.25rem; font-weight: 800; color: #0284c7; margin-bottom: 2px;">₹ 2,02,300</div>
+              <div style="font-size: 0.72rem; font-weight: 700; color: #0284c7;">Credited to Ramesh Patel A/C</div>
+            </div>
+          </div>
+
+          <div class="fpo-stat-card">
+            <div class="stat-icon-square stat-icon-orange">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">65% In-Transit Escrow</div>
+              <div style="font-size: 1.25rem; font-weight: 800; color: #d97706; margin-bottom: 2px;">₹ 3,75,700</div>
+              <div style="font-size: 0.72rem; font-weight: 700; color: #d97706;">Releases upon DC arrival</div>
+            </div>
+          </div>
+
+          <div class="fpo-stat-card">
+            <div class="stat-icon-square stat-icon-purple">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">Lifetime Settled Payouts</div>
+              <div style="font-size: 1.25rem; font-weight: 800; color: #7c3aed; margin-bottom: 2px;">₹ 14,85,000</div>
+              <div style="font-size: 0.72rem; font-weight: 700; color: #7c3aed;">100% On-Time Record</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DUAL-STAGE EXPLAINER HERO CARD -->
+        <div class="escrow-hero-card">
+          <div style="max-width: 400px;">
+            <div style="font-size: 1.15rem; font-weight: 800; margin-bottom: 4px;">How AgriNex Dual-Stage Escrow Protects You</div>
+            <div style="font-size: 0.78rem; opacity: 0.9; line-height: 1.4;">
+              No middleman delays or cheque bounces. 100% of the funds are deposited into the bank before your crop leaves the farm gate.
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; flex: 1;">
+            <div class="escrow-stage-box">
+              <div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.85;">Stage 1 (At Pickup)</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #4ade80;">35% Advance Disbursed</div>
+              <div style="font-size: 0.72rem; opacity: 0.85;">Direct IMPS to farmer bank when truck is loaded.</div>
+            </div>
+
+            <div class="escrow-stage-box">
+              <div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.85;">Stage 2 (At Delivery)</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #38bdf8;">65% Balance Released</div>
+              <div style="font-size: 0.72rem; opacity: 0.85;">Automatically disbursed within 2 hours of digital sign-off.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESCROW CONTRACTS LEDGER -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <h2 style="font-size:1.1rem; font-weight:800; color:#0f172a; margin:0;">Active Escrow Contracts & Bank Guarantees</h2>
+          <button class="btn btn-outline btn-sm" onclick="alert('Downloading consolidated financial statement (PDF) for bank loan verification.')">
+            📥 Download Statement
+          </button>
+        </div>
+
+        <div id="escrow-contracts-list">
+          <!-- Dynamically Generated -->
+        </div>
+
+      </div>
     </main>
   </div>
 
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- GUARANTEE CERTIFICATE MODAL -->
+  <div class="modal-overlay" id="guaranteeModal">
+    <div class="modal-card">
+      <div style="padding:18px 22px; background:#064e3b; color:#ffffff; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:800; font-size:1.05rem;">Official Escrow Bank Guarantee Letter</div>
+          <div style="font-size:0.75rem; color:#86efac;">Issued by HDFC Bank Nodal Treasury Branch</div>
+        </div>
+        <button onclick="closeModal('guaranteeModal')" style="background:none; border:none; font-size:1.4rem; color:#ffffff; cursor:pointer;">&times;</button>
+      </div>
+      <div style="padding:22px;">
+        <div style="border:1px solid #cbd5e1; border-radius:12px; padding:18px; background:#f8fafc; font-size:0.82rem; line-height:1.5; color:#334155; margin-bottom:16px;">
+          <div style="text-align:center; font-weight:800; font-size:0.95rem; color:#064e3b; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+            IRREVOCABLE BANK ESCROW CONFIRMATION
+          </div>
+          <p><strong>Nodal Bank Reference:</strong> <span id="modal-bank-ref">HDFC-ESC-908123-IN</span></p>
+          <p><strong>Beneficiary (Farmer):</strong> Ramesh Patel (A/C: *******1234, IFSC: HDFC0001234)</p>
+          <p><strong>Contract No:</strong> <span id="modal-cert-contract">ESC-2026-0891</span></p>
+          <p><strong>Total Guaranteed Value:</strong> <span id="modal-cert-amount" style="font-weight:800; color:#059669;">₹ 2,22,000</span></p>
+          <p style="margin-top:10px; font-size:0.75rem; color:#64748b;">
+            This certifies that 100% of the above contract funds are irrevocably deposited in Escrow Account #50200088921004. Release of 35% advance and 65% balance is governed by digital consignment acceptance triggers.
+          </p>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button class="btn btn-outline" onclick="closeModal('guaranteeModal')">Close</button>
+          <button class="btn btn-primary" onclick="alert('Bank Guarantee Certificate PDF saved to your downloads.')">
+            📥 Save Certificate
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    lucide.createIcons();
-
-    let contracts = [];
-
-    async function loadEscrow() {
-      try {
-        const res = await fetch('/api/escrow/contracts');
-        contracts = await res.json();
-        renderContracts();
-      } catch (err) {
-        console.error(err);
+    const ESCROW_DATA = [
+      {
+        contract_no: 'ESC-2026-0891',
+        bank_ref: 'HDFC-ESC-908123',
+        crop: 'Potato',
+        variety: 'Jyoti Grade A (120 Qt / 12,000 kg)',
+        buyer: 'Balaji Wafers Procurement',
+        total_amount: 222000,
+        advance_amount: 77700,
+        advance_status: 'Disbursed (UTR: HDFC9901824)',
+        balance_amount: 144300,
+        balance_status: 'Locked in Nodal Escrow',
+        overall_status: 'Advance Disbursed, Balance Locked',
+        date: 'Today, 09:30 AM'
+      },
+      {
+        contract_no: 'ESC-2026-0842',
+        bank_ref: 'HDFC-ESC-884102',
+        crop: 'Tomato',
+        variety: 'Hybrid Red (40 Qt / 4,000 kg)',
+        buyer: 'Swiggy Instamart Agri',
+        total_amount: 96000,
+        advance_amount: 33600,
+        advance_status: 'Disbursed (UTR: HDFC8829104)',
+        balance_amount: 62400,
+        balance_status: 'Locked in Nodal Escrow (Transit)',
+        overall_status: 'In Transit Escrow',
+        date: 'Yesterday'
+      },
+      {
+        contract_no: 'ESC-2026-0799',
+        bank_ref: 'HDFC-ESC-772910',
+        crop: 'Wheat',
+        variety: 'Sharbati Lokwan (100 Qt / 10,000 kg)',
+        buyer: 'Aashirvaad ITC Foods',
+        total_amount: 260000,
+        advance_amount: 91000,
+        advance_status: 'Settled',
+        balance_amount: 169000,
+        balance_status: 'Settled (UTR: HDFC7710291)',
+        overall_status: '100% Settled & Released',
+        date: '10 Sep 2026'
       }
-    }
+    ];
 
-    function renderContracts() {
-      const container = document.getElementById('escrowContainer');
-
-      container.innerHTML = contracts.map(c => `
-        <div class="escrow-card">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:12px; margin-bottom:14px;">
+    function renderEscrow() {
+      const container = document.getElementById('escrow-contracts-list');
+      container.innerHTML = ESCROW_DATA.map(c => `
+        <div class="contract-ledger-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:12px; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
             <div>
-              <span style="font-size:0.75rem; color:#64748b; font-weight:700;">CONTRACT NO: </span>
-              <strong style="color:#0f172a;">${c.contract_no}</strong>
+              <span style="font-size:0.75rem; color:#64748b; font-weight:700;">CONTRACT: </span>
+              <strong style="color:#0f172a; font-size:1rem;">${c.contract_no}</strong>
               <span style="margin:0 8px; color:#cbd5e1;">|</span>
-              <span style="font-size:0.85rem; color:#059669; font-weight:600;">Ref: ${c.bank_ref}</span>
+              <span style="font-size:0.8rem; color:#059669; font-weight:700;">Bank Ref: ${c.bank_ref}</span>
             </div>
             <div>
-              <span style="background:${c.status === 'Settled' ? '#ecfdf5' : '#f0f9ff'}; color:${c.status === 'Settled' ? '#047857' : '#0369a1'}; border:1px solid ${c.status === 'Settled' ? '#a7f3d0' : '#bae6fd'}; padding:4px 12px; border-radius:999px; font-size:0.8rem; font-weight:700;">
-                ● ${c.status}
+              <span style="background:${c.overall_status.includes('100% Settled') ? '#ecfdf5' : '#eff6ff'}; color:${c.overall_status.includes('100% Settled') ? '#047857' : '#1d4ed8'}; border:1px solid ${c.overall_status.includes('100% Settled') ? '#a7f3d0' : '#bfdbfe'}; padding:4px 12px; border-radius:999px; font-size:0.78rem; font-weight:800;">
+                ● ${c.overall_status}
               </span>
             </div>
           </div>
 
-          <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:14px;">
+          <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:14px; margin-bottom:12px;">
             <div>
-              <div style="font-size:0.75rem; color:#64748b; font-weight:600;">PRODUCE & BUYER</div>
-              <div style="font-weight:800; font-size:1rem; color:#0f172a;">${c.crop_name}</div>
-              <div style="font-size:0.85rem; color:#64748b;">Buyer: ${c.buyer_name}</div>
+              <div style="font-size:0.72rem; color:#64748b; font-weight:700; text-transform:uppercase;">Produce & Buyer</div>
+              <div style="font-weight:800; font-size:0.95rem; color:#0f172a;">${c.crop}</div>
+              <div style="font-size:0.75rem; color:#64748b;">${c.variety}</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#334155; margin-top:2px;">🏢 ${c.buyer}</div>
             </div>
 
             <div>
-              <div style="font-size:0.75rem; color:#64748b; font-weight:600;">TOTAL CONTRACT VALUE</div>
-              <div style="font-weight:800; font-size:1.1rem; color:#0f172a;">₹ ${c.total_amount.toLocaleString()}</div>
-              <div style="font-size:0.8rem; color:#64748b;">${c.quantity_qt} Qt (${c.quantity_qt * 100} kg)</div>
+              <div style="font-size:0.72rem; color:#64748b; font-weight:700; text-transform:uppercase;">Total Deal Value</div>
+              <div style="font-weight:800; font-size:1.15rem; color:#0f172a;">₹ ${c.total_amount.toLocaleString()}</div>
+              <div style="font-size:0.72rem; color:#059669; font-weight:700;">100% Escrow Guaranteed</div>
             </div>
 
             <div>
-              <div style="font-size:0.75rem; color:#64748b; font-weight:600;">35% ADVANCE (ON DISPATCH)</div>
+              <div style="font-size:0.72rem; color:#64748b; font-weight:700; text-transform:uppercase;">35% Advance (At Pickup)</div>
               <div style="font-weight:800; font-size:1.05rem; color:#059669;">₹ ${c.advance_amount.toLocaleString()}</div>
-              <div style="font-size:0.8rem; color:#059669; font-weight:600;">✓ Bank Locked</div>
+              <div style="font-size:0.72rem; color:#059669; font-weight:600;">✓ ${c.advance_status}</div>
             </div>
 
             <div>
-              <div style="font-size:0.75rem; color:#64748b; font-weight:600;">65% BALANCE (ON DELIVERY)</div>
+              <div style="font-size:0.72rem; color:#64748b; font-weight:700; text-transform:uppercase;">65% Balance (At Delivery)</div>
               <div style="font-weight:800; font-size:1.05rem; color:#0284c7;">₹ ${c.balance_amount.toLocaleString()}</div>
-              <div style="font-size:0.8rem; color:#0284c7; font-weight:600;">Escrow Account</div>
+              <div style="font-size:0.72rem; color:#0284c7; font-weight:600;">${c.balance_status}</div>
             </div>
           </div>
 
-          <!-- Payout split visualizer -->
-          <div class="payout-split-bar">
-            <div class="split-advance"></div>
-            <div class="split-balance"></div>
+          <!-- Split Bar -->
+          <div class="escrow-progress-bar">
+            <div class="prog-advance"></div>
+            <div class="prog-balance ${c.overall_status.includes('100% Settled') ? 'settled' : ''}"></div>
           </div>
-          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#64748b; font-weight:600;">
-            <span>35% Upfront Payout</span>
-            <span>65% Delivery Payout</span>
+          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#64748b; font-weight:700;">
+            <span>Stage 1: 35% Advance Disbursed</span>
+            <span>Stage 2: 65% Balance Delivery Trigger</span>
           </div>
 
           <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px; border-top:1px solid #f8fafc; padding-top:10px;">
-            <button class="btn btn-outline btn-sm" onclick="alert('Viewing Bank Guarantee certificate issued by HDFC Bank Nodal Branch.')">
-              📜 View Escrow Guarantee
+            <button class="btn btn-outline btn-sm" onclick="openGuarantee('${c.contract_no}')">
+              📜 Bank Guarantee Letter
             </button>
-            <button class="btn btn-primary btn-sm" onclick="alert('Payout Ledger receipt downloaded.')">
-              📥 Download Receipt
+            <button class="btn btn-outline btn-sm" onclick="alert('Transaction receipt downloaded. UTR verified on NPCI network.')">
+              🧾 Download UTR Receipt
+            </button>
+            <button class="btn btn-sm" style="background:#fee2e2; color:#b91c1c; border:1px solid #fecaca; font-weight:700;" onclick="alert('Escrow Officer assigned to ticket #ESC-HELP-91. An agent will call you within 15 minutes.')">
+              ⚠️ Raise Issue
             </button>
           </div>
         </div>
       `).join('');
-
-      lucide.createIcons();
     }
 
-    loadEscrow();
+    function openGuarantee(contractNo) {
+      const c = ESCROW_DATA.find(x => x.contract_no === contractNo);
+      if (!c) return;
+      document.getElementById('modal-bank-ref').innerText = `${c.bank_ref}-IN`;
+      document.getElementById('modal-cert-contract').innerText = c.contract_no;
+      document.getElementById('modal-cert-amount').innerText = `₹ ${c.total_amount.toLocaleString()}`;
+      document.getElementById('guaranteeModal').classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function handleSearch(val) {
+      const query = val.toLowerCase();
+      document.querySelectorAll('.contract-ledger-card').forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(query) ? 'block' : 'none';
+      });
+    }
+
+    renderEscrow();
   </script>
 </body>
 </html>
