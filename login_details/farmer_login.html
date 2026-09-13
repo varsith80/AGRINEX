@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Farmer Portal Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="auth-navbar">
+    <a href="../index.html" class="auth-brand">
+      <div class="auth-logo-box">
+        <img src="../farmer-module/assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" onerror="this.src='../assets/images/wheat-logo.png'" />
+      </div>
+      <span class="auth-brand-title">Agri<span class="auth-brand-accent">Nex</span></span>
+    </a>
+    <a href="../index.html" class="auth-back-link">
+      ← Back to Gateway Hub
+    </a>
+  </header>
+
+  <!-- Login Main -->
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <span class="auth-role-badge role-badge-farmer">🌾 Farmer Portal</span>
+      <h2 class="auth-title">Welcome, Farmer</h2>
+      <p class="auth-subtitle">Access your crop listings, buyer bids, and escrow payments directly.</p>
+
+      <!-- Alert Message Box -->
+      <div id="auth-alert" class="auth-alert"></div>
+
+      <!-- Quick Demo Credentials Box -->
+      <div class="demo-creds-card">
+        <div class="demo-creds-header">
+          <span>Demo Credentials:</span>
+          <button type="button" class="btn-one-click" onclick="AgriNexAuth.quickLogin('farmer')">⚡ One-Click Login</button>
+        </div>
+        <div><strong>Email/Phone:</strong> farmer@agrinex.in (or 9876543210)</div>
+        <div><strong>Password:</strong> Farmer@123</div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-login" onsubmit="handleAuthSubmit(event, 'farmer')">
+        <div class="form-group">
+          <label class="form-label">Email Address or Registered Mobile</label>
+          <input type="text" id="auth-identifier" class="form-input" placeholder="e.g. farmer@agrinex.in or 9876543210" value="farmer@agrinex.in" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="auth-password" class="form-input" placeholder="Enter your password" value="Farmer@123" required />
+        </div>
+
+        <div class="form-row-remember">
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" checked /> Remember me
+          </label>
+          <a href="javascript:void(0)" onclick="alert('Password reset OTP sent to registered mobile!')">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn-submit-auth">
+          <span>Sign In to Farmer Dashboard</span>
+          <span>→</span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        New Farmer on AgriNex? <a href="register.html?role=farmer">Create Farmer Account</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth_db.js"></script>
+  <script>
+    function handleAuthSubmit(e, role) {
+      e.preventDefault();
+      const identifier = document.getElementById("auth-identifier").value;
+      const password = document.getElementById("auth-password").value;
+      const alertBox = document.getElementById("auth-alert");
+
+      const result = AgriNexAuth.login(identifier, password, role);
+      if (result.success) {
+        alertBox.className = "auth-alert success";
+        alertBox.textContent = `Login successful! Welcome back, ${result.user.name}. Redirecting...`;
+        setTimeout(() => {
+          window.location.href = result.redirectUrl;
+        }, 800);
+      } else {
+        alertBox.className = "auth-alert error";
+        alertBox.textContent = result.message;
+      }
+    }
+  </script>
+</body>
+</html>

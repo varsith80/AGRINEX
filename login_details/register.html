@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Create an Account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="auth-navbar">
+    <a href="../index.html" class="auth-brand">
+      <div class="auth-logo-box">
+        <img src="../farmer-module/assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" onerror="this.src='../assets/images/wheat-logo.png'" />
+      </div>
+      <span class="auth-brand-title">Agri<span class="auth-brand-accent">Nex</span></span>
+    </a>
+    <a href="../index.html" class="auth-back-link">
+      ← Back to Master Hub
+    </a>
+  </header>
+
+  <!-- Register Main Body -->
+  <main class="auth-wrapper">
+    <div class="auth-card" style="max-width: 520px;">
+      
+      <!-- Tab Navigation Switcher -->
+      <div class="auth-tabs">
+        <a href="index.html" class="auth-tab-btn">
+          <span>🔑 Role Login</span>
+        </a>
+        <a href="register.html" class="auth-tab-btn active">
+          <span>✨ Create Account</span>
+        </a>
+      </div>
+
+      <h2 class="auth-title">Join AgriNex Platform</h2>
+      <p class="auth-subtitle">Create your verified account for Direct Agricultural Trade & Smart Logistics.</p>
+
+      <!-- Alert Message Box -->
+      <div id="auth-alert" class="auth-alert"></div>
+
+      <!-- Quick Demo Access Banner -->
+      <div class="demo-creds-card" style="background: #f0fdf4; border-color: #86efac;">
+        <div class="demo-creds-header" style="color: #15803d;">
+          <span>⚡ Want to test without creating an account?</span>
+        </div>
+        <p style="margin-bottom: 8px; font-size: 0.78rem; color: #166534;">Use pre-configured instant demo profiles with full features unlocked:</p>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;">
+          <button type="button" class="btn-one-click" style="background: #15803d;" onclick="AgriNexAuth.quickLogin('farmer')">🌾 Farmer Demo</button>
+          <button type="button" class="btn-one-click" style="background: #1d4ed8;" onclick="AgriNexAuth.quickLogin('buyer')">🏢 Buyer Demo</button>
+          <button type="button" class="btn-one-click" style="background: #7e22ce;" onclick="AgriNexAuth.quickLogin('logistics')">🚚 Logistics Demo</button>
+          <button type="button" class="btn-one-click" style="background: #b91c1c;" onclick="AgriNexAuth.quickLogin('admin')">🛡️ Admin Demo</button>
+        </div>
+      </div>
+
+      <!-- Registration Form -->
+      <form id="form-register" onsubmit="handleRegisterSubmit(event)">
+        
+        <div class="form-group">
+          <label class="form-label">Select Your Account Type *</label>
+          <div class="role-chips-group">
+            <label class="role-chip-label active" id="chip-farmer">
+              <input type="radio" name="accountRole" value="farmer" checked onchange="updateRoleTheme('farmer')" />
+              <span>🌾 Farmer</span>
+            </label>
+            <label class="role-chip-label" id="chip-buyer">
+              <input type="radio" name="accountRole" value="buyer" onchange="updateRoleTheme('buyer')" />
+              <span>🏢 Buyer / Mill</span>
+            </label>
+            <label class="role-chip-label" id="chip-logistics">
+              <input type="radio" name="accountRole" value="logistics" onchange="updateRoleTheme('logistics')" />
+              <span>🚚 Logistics Fleet</span>
+            </label>
+            <label class="role-chip-label" id="chip-admin">
+              <input type="radio" name="accountRole" value="admin" onchange="updateRoleTheme('admin')" />
+              <span>🛡️ Mandi Admin</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input type="text" id="reg-name" class="form-input" placeholder="e.g. Ramesh Kumar" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mobile Number *</label>
+            <input type="tel" id="reg-phone" class="form-input" placeholder="e.g. 9876543210" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address *</label>
+          <input type="email" id="reg-email" class="form-input" placeholder="e.g. yourname@example.com" required />
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" id="lbl-org-name">Farm / Business Name</label>
+            <input type="text" id="reg-org" class="form-input" placeholder="e.g. Green Valley Farms" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Location / District *</label>
+            <input type="text" id="reg-location" class="form-input" placeholder="e.g. Erode, Tamil Nadu" required />
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Password *</label>
+            <input type="password" id="reg-password" class="form-input" placeholder="Create password" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Password *</label>
+            <input type="password" id="reg-password-confirm" class="form-input" placeholder="Repeat password" required />
+          </div>
+        </div>
+
+        <div class="form-row-remember" style="margin-bottom: 18px;">
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.78rem;">
+            <input type="checkbox" id="reg-terms" required checked /> I agree to AgriNex Terms & Fair Trade Policy
+          </label>
+        </div>
+
+        <button type="submit" id="btn-submit-reg" class="btn-submit-auth">
+          <span>Create Account & Enter Dashboard</span>
+          <span>→</span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account? <a href="index.html">Sign in to Portal</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth_db.js"></script>
+  <script>
+    // Read query parameter for initial role
+    const urlParams = new URLSearchParams(window.location.search);
+    const preRole = urlParams.get('role');
+    if (preRole && ['farmer', 'buyer', 'logistics', 'admin'].includes(preRole)) {
+      const radio = document.querySelector(input[name="accountRole"][value=""]);
+      if (radio) {
+        radio.checked = true;
+        updateRoleTheme(preRole);
+      }
+    }
+
+    function updateRoleTheme(role) {
+      document.querySelectorAll('.role-chip-label').forEach(el => el.classList.remove('active'));
+      const activeChip = document.getElementById(chip-);
+      if (activeChip) activeChip.classList.add('active');
+
+      const submitBtn = document.getElementById('btn-submit-reg');
+      const orgLabel = document.getElementById('lbl-org-name');
+      const orgInput = document.getElementById('reg-org');
+
+      if (role === 'farmer') {
+        submitBtn.style.backgroundColor = '#0c5a36';
+        orgLabel.textContent = 'Farm / Land Name (Optional)';
+        orgInput.placeholder = 'e.g. Green Valley Farms';
+      } else if (role === 'buyer') {
+        submitBtn.style.backgroundColor = '#1d4ed8';
+        orgLabel.textContent = 'Company / Mill Name *';
+        orgInput.placeholder = 'e.g. AgriFoods Processing Ltd.';
+      } else if (role === 'logistics') {
+        submitBtn.style.backgroundColor = '#7e22ce';
+        orgLabel.textContent = 'Fleet / Transport Agency *';
+        orgInput.placeholder = 'e.g. GreenWays Transit Corp';
+      } else if (role === 'admin') {
+        submitBtn.style.backgroundColor = '#b91c1c';
+        orgLabel.textContent = 'Mandi Authority / APMC Dept *';
+        orgInput.placeholder = 'e.g. Tamil Nadu Agricultural Board';
+      }
+    }
+
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const alertBox = document.getElementById('auth-alert');
+      const role = document.querySelector('input[name="accountRole"]:checked').value;
+      const name = document.getElementById('reg-name').value;
+      const phone = document.getElementById('reg-phone').value;
+      const email = document.getElementById('reg-email').value;
+      const org = document.getElementById('reg-org').value;
+      const location = document.getElementById('reg-location').value;
+      const password = document.getElementById('reg-password').value;
+      const confirmPassword = document.getElementById('reg-password-confirm').value;
+
+      if (password !== confirmPassword) {
+        alertBox.className = 'auth-alert error';
+        alertBox.textContent = 'Passwords do not match. Please re-enter.';
+        return;
+      }
+
+      if (password.length < 4) {
+        alertBox.className = 'auth-alert error';
+        alertBox.textContent = 'Password must be at least 4 characters long.';
+        return;
+      }
+
+      const result = AgriNexAuth.register({
+        roleKey: role,
+        name: name,
+        email: email,
+        phone: phone,
+        password: password,
+        location: location,
+        businessName: org
+      });
+
+      if (result.success) {
+        alertBox.className = 'auth-alert success';
+        alertBox.textContent = result.message;
+        setTimeout(() => {
+          window.location.href = result.redirectUrl;
+        }, 800);
+      } else {
+        alertBox.className = 'auth-alert error';
+        alertBox.textContent = result.message;
+      }
+    }
+  </script>
+</body>
+</html>

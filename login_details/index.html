@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Authentication & Role Access Gateway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <style>
+    .gateway-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 900px;
+      width: 100%;
+    }
+    .module-card {
+      background: #ffffff;
+      border: 1px solid var(--border-default);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    .module-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
+      border-color: #cbd5e1;
+    }
+    .module-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .module-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .module-info h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+    .module-info p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+    .module-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid var(--border-default);
+      transition: all 0.15s;
+    }
+    .module-card:hover .module-btn {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+    @media (max-width: 768px) {
+      .gateway-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="auth-navbar">
+    <a href="../index.html" class="auth-brand">
+      <div class="auth-logo-box">
+        <img src="../farmer-module/assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" onerror="this.src='../assets/images/wheat-logo.png'" />
+      </div>
+      <span class="auth-brand-title">Agri<span class="auth-brand-accent">Nex</span></span>
+    </a>
+    <a href="../index.html" class="auth-back-link">
+      ← Back to Master Hub
+    </a>
+  </header>
+
+  <!-- Main Gateway Hub -->
+  <main class="auth-wrapper" style="flex-direction: column; gap: 24px;">
+    <!-- Tab Navigation Switcher -->
+    <div class="auth-tabs" style="max-width: 420px; width: 100%; margin-bottom: 0;">
+      <a href="index.html" class="auth-tab-btn active">
+        <span>🔑 Role Login</span>
+      </a>
+      <a href="register.html" class="auth-tab-btn">
+        <span>✨ Create Account</span>
+      </a>
+    </div>
+
+    <div style="text-align: center; max-width: 600px;">
+      <h2 style="font-size: 2rem; font-weight: 800; color: #064e3b; margin-bottom: 8px; letter-spacing: -0.02em;">Choose Your Role & Portal</h2>
+      <p style="font-size: 0.95rem; color: #64748b;">Select your access level to enter the secure AgriNex Agricultural Ecosystem, or <a href="register.html" style="color: #0c5a36; font-weight: 700;">Create a new account</a>.</p>
+    </div>
+
+    <div class="gateway-grid">
+      
+      <!-- 1. Farmer Portal -->
+      <a href="farmer_login.html" class="module-card">
+        <div class="module-top">
+          <div class="module-icon" style="background: #dcfce7; color: #15803d;">🌾</div>
+          <div class="module-info">
+            <span class="auth-role-badge role-badge-farmer">Farmer Module</span>
+            <h3>Farmer Portal</h3>
+            <p>List crop lots, evaluate direct buyer bids, monitor Mandi rates, and receive verified escrow payments.</p>
+          </div>
+        </div>
+        <div class="module-btn">
+          <span>Login to Farmer Module</span>
+          <span>→</span>
+        </div>
+      </a>
+
+      <!-- 2. Buyer Portal -->
+      <a href="buyer_login.html" class="module-card">
+        <div class="module-top">
+          <div class="module-icon" style="background: #dbeafe; color: #1d4ed8;">🏢</div>
+          <div class="module-info">
+            <span class="auth-role-badge role-badge-buyer">Buyer & Mill Module</span>
+            <h3>Buyer & Mill Portal</h3>
+            <p>Procure farm-fresh crops in bulk directly from growers, submit bids, and manage escrow deposits.</p>
+          </div>
+        </div>
+        <div class="module-btn">
+          <span>Login to Buyer Module</span>
+          <span>→</span>
+        </div>
+      </a>
+
+      <!-- 3. Logistics Portal -->
+      <a href="logistics_login.html" class="module-card">
+        <div class="module-top">
+          <div class="module-icon" style="background: #f3e8ff; color: #7e22ce;">🚚</div>
+          <div class="module-info">
+            <span class="auth-role-badge role-badge-logistics">Logistics Module</span>
+            <h3>Logistics & Transit Portal</h3>
+            <p>Manage fleet dispatches, consignment checkpoints, transit temperature, and generate delivery proofs.</p>
+          </div>
+        </div>
+        <div class="module-btn">
+          <span>Login to Logistics Module</span>
+          <span>→</span>
+        </div>
+      </a>
+
+      <!-- 4. Admin Portal -->
+      <a href="admin_login.html" class="module-card">
+        <div class="module-top">
+          <div class="module-icon" style="background: #fee2e2; color: #b91c1c;">🛡️</div>
+          <div class="module-info">
+            <span class="auth-role-badge role-badge-admin">Admin Module</span>
+            <h3>Platform Governance</h3>
+            <p>State-wide Mandi analytics, KYC authorization, dispute handling, and escrow clearance management.</p>
+          </div>
+        </div>
+        <div class="module-btn">
+          <span>Login to Admin Center</span>
+          <span>→</span>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <script src="js/auth_db.js"></script>
+</body>
+</html>
