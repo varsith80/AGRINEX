@@ -216,6 +216,18 @@
             <span class="badge-notification">2</span>
           </li>
 
+          <li class="nav-item" data-view="view-storage">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                <path d="M12 2v20"></path>
+              </svg>
+              <span>Cold Storage & Silos</span>
+            </div>
+            <span class="badge" style="background: #3b82f6; color: #ffffff; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">e-NWR</span>
+          </li>
+
           <li class="nav-item" data-view="view-grievance">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -1693,6 +1705,141 @@
 
       </div>
 
+      <!-- VIEW 8: COLD STORAGE, HERMETIC SILOS & e-NWR WAREHOUSING -->
+      <div id="view-storage" class="portal-view dashboard-content">
+        <div class="dash-header">
+          <div>
+            <h1 class="dash-title">Cold Storage, Hermetic Silos & e-NWR Warehouse Network</h1>
+            <p class="dash-subtitle">Book temperature-controlled cold chambers, dry grain silos, and unlock WDRA-regulated electronic Negotiable Warehouse Receipts (e-NWR) for 70% instant pledge loans.</p>
+          </div>
+          <div class="dash-actions">
+            <button class="btn btn-outline" onclick="openDepositEscrowModal()" style="border-color: #0c5a36; color: #0c5a36;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Escrow Credit Pool
+            </button>
+            <button class="btn btn-primary" onclick="openBookStorageModal('WH-ERD-01')">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              + Book Chamber Space
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric KPI Cards for Storage -->
+        <div class="stats-grid" style="margin-bottom: 24px;">
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(12, 90, 54, 0.1); color: #0c5a36;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            </div>
+            <div class="stat-label">Active Space Booked</div>
+            <div class="stat-value" id="storage-active-space" style="color: #0c5a36;">50 Qt</div>
+            <div class="stat-change positive">5,000 kg in Chamber #4-B</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(37, 99, 235, 0.1); color: #2563eb;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            </div>
+            <div class="stat-label">Regional Available Capacity</div>
+            <div class="stat-value" id="storage-avail-space">21,200 Qt</div>
+            <div class="stat-change positive">Across 4 Accredited Hubs</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(234, 179, 8, 0.1); color: #ca8a04;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="stat-label">e-NWR Pledge Credit Line</div>
+            <div class="stat-value" id="storage-pledge-credit" style="color: #166534;">₹ 42,000</div>
+            <div class="stat-change positive">⚡ 70% LTV Instant Disbursal</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div class="stat-label">WDRA Accreditation</div>
+            <div class="stat-value">100% Verified</div>
+            <div class="stat-change positive">Govt Regulated & Insured</div>
+          </div>
+        </div>
+
+        <!-- e-NWR Warehouse Financing Banner -->
+        <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 1.5px solid #93c5fd; border-radius: 12px; padding: 18px 22px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; background: #2563eb; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(37,99,235,0.3);">
+              🏛️
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <h3 style="font-weight: 800; color: #1e3a8a; font-size: 1rem; margin: 0;">Electronic Negotiable Warehouse Receipts (e-NWR) & Pledge Financing</h3>
+                <span class="badge" style="background: #1e40af; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 2px 7px; border-radius: 4px;">WDRA REGULATED</span>
+              </div>
+              <p style="color: #1e40af; font-size: 0.82rem; margin-top: 3px; max-width: 780px; line-height: 1.4;">
+                Store harvested crops in certified AgriNex cold chain chambers or hermetic silos during seasonal mandi gluts. Receive instant digital <strong>e-NWR certificates</strong> and draw up to <strong>70% loan value</strong> against deposited inventory while awaiting higher market prices.
+              </p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-outline btn-sm" onclick="showToast('e-NWR guidelines: Regulated under Warehousing (Development & Regulation) Act 2007. Loans disbursed by SBI, ICICI & HDFC Agri.', 'info')" style="background: #ffffff; border-color: #2563eb; color: #1e40af; font-weight: 700;">
+              e-NWR Policy
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="openEnwrPledgeModal('STR-2026-901')" style="background: #2563eb; border-color: #2563eb; font-weight: 800;">
+              ⚡ Draw 70% Pledge Loan
+            </button>
+          </div>
+        </div>
+
+        <!-- Active Stored Produce Inventory & e-NWR Ledger -->
+        <div class="card" style="margin-bottom: 26px;">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
+                <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+              </svg>
+              <span>Your Active Storage Holdings & e-NWR Pledges</span>
+            </h3>
+            <span class="badge badge-grade-a">1 Active Chamber Holding</span>
+          </div>
+
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Booking ID & Facility</th>
+                  <th>Commodity Lot</th>
+                  <th>Quantity (Qt & kg)</th>
+                  <th>Live IoT Telemetry</th>
+                  <th>Storage Tenure</th>
+                  <th>e-NWR Receipt & Pledge Value</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="storage-bookings-tbody">
+                <!-- Rendered dynamically via dashboard.js renderStorageBookings() -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Storage Facilities Directory & Filter Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: #475569; margin-right: 4px;">Filter Facilities:</span>
+            <button class="btn btn-primary btn-sm storage-filter-btn active" onclick="filterStorageFacilities('all', this)">All Hubs (4)</button>
+            <button class="btn btn-outline btn-sm storage-filter-btn" onclick="filterStorageFacilities('cold-storage', this)">❄️ Cold Storage (0-4°C)</button>
+            <button class="btn btn-outline btn-sm storage-filter-btn" onclick="filterStorageFacilities('dry-silo', this)">🌾 Hermetic Dry Silos</button>
+            <button class="btn btn-outline btn-sm storage-filter-btn" onclick="filterStorageFacilities('solar-onion', this)">☀️ Solar Onion Complex</button>
+          </div>
+          <span style="font-size: 0.78rem; color: #64748b;">All rates in ₹/Qt/month & ₹/kg/month</span>
+        </div>
+
+        <!-- Facilities Cards Grid -->
+        <div id="storage-facilities-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 20px;">
+          <!-- Dynamically populated via dashboard.js renderStorageFacilities() -->
+        </div>
+
+      </div>
+
     </main>
 
   </div>
@@ -2464,6 +2611,166 @@
           📄 Download Stamped PDF
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL 11: BOOK COLD STORAGE & SILO CHAMBER -->
+  <div class="modal-overlay" id="modal-book-storage">
+    <div class="modal-content" style="max-width: 620px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #e8f5ed; color: #0c5a36; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            ❄️
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">Book Cold Storage / Silo Space</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="storage-modal-facility-title">Erode Central Agro Cold Hub & Reefer Park</span>
+          </div>
+        </div>
+        <button onclick="closeBookStorageModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <form id="form-book-storage" onsubmit="handleBookStorageSubmit(event)">
+        <input type="hidden" id="storage-facility-id" value="WH-ERD-01" />
+
+        <!-- Facility Specs Info Box -->
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 0.8rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+          <div>
+            <span style="color: #166534; font-size: 0.72rem; display: block;">Temperature Control</span>
+            <strong id="storage-modal-temp" style="color: #065f46;">0°C – 4°C (Optimal)</strong>
+          </div>
+          <div>
+            <span style="color: #166534; font-size: 0.72rem; display: block;">Humidity Index</span>
+            <strong id="storage-modal-humidity" style="color: #065f46;">85% - 90% RH</strong>
+          </div>
+          <div>
+            <span style="color: #166534; font-size: 0.72rem; display: block;">WDRA Accreditation</span>
+            <strong style="color: #166534;">✓ e-NWR Eligible</strong>
+          </div>
+        </div>
+
+        <!-- 1. Select Commodity Lot -->
+        <div class="form-group">
+          <label class="form-label">Select Commodity / Lot to Store</label>
+          <select id="storage-lot-select" class="form-select" onchange="updateStorageBookingCrop(this.value)" required>
+            <option value="LOT-TOM-88|Tomato (Shivam Hybrid)|50 Qt (5,000 kg)">LOT-TOM-88 — Tomato (Shivam Hybrid) • 50 Qt (5,000 kg)</option>
+            <option value="LOT-ONI-34|Red Onion (Nashik Quality)|80 Qt (8,000 kg)">LOT-ONI-34 — Red Onion (Nashik Quality) • 80 Qt (8,000 kg)</option>
+            <option value="LOT-TUR-45|Salem Turmeric Finger|25 Qt (2,500 kg)">LOT-TUR-45 — Salem Turmeric Finger • 25 Qt (2,500 kg)</option>
+            <option value="LOT-PADDY-04|1121 Basmati Paddy|120 Qt (12,000 kg)">LOT-PADDY-04 — 1121 Basmati Paddy • 120 Qt (12,000 kg)</option>
+          </select>
+        </div>
+
+        <!-- 2. Quantity & Tenure -->
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Storage Quantity</label>
+            <div style="display: flex; gap: 6px;">
+              <input type="number" id="storage-book-qty" class="form-input" value="50" min="5" step="1" required oninput="calculateStorageCostPreview()" style="flex: 1;" />
+              <select id="storage-book-unit" class="form-select" style="width: 100px;" onchange="calculateStorageCostPreview()">
+                <option value="Qt" selected>Qt</option>
+                <option value="kg">kg</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Storage Tenure</label>
+            <select id="storage-book-tenure" class="form-select" onchange="calculateStorageCostPreview()" required>
+              <option value="15">15 Days (Short-term)</option>
+              <option value="30" selected>1 Month (30 Days)</option>
+              <option value="60">2 Months (60 Days)</option>
+              <option value="90">3 Months (Quarterly)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 3. Cost Estimate & e-NWR Check -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.82rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #64748b;">Chamber Tariff Rate:</span>
+            <strong style="color: #0f172a;" id="storage-rate-display">₹ 45 /Qt /Month (₹ 0.45 /kg)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #64748b;">Insurance & IoT Telemetry Fee:</span>
+            <strong style="color: #64748b;">₹ 75 (Free during trial)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding-top: 6px; border-top: 1px solid #e2e8f0; margin-top: 6px;">
+            <span style="font-weight: 700; color: #0c5a36;">Estimated Total Storage Fee:</span>
+            <strong style="font-size: 1.1rem; color: #0c5a36;" id="storage-total-fee-display">₹ 2,250</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-outline" onclick="closeBookStorageModal()" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 2; background: #0c5a36; border-color: #0c5a36; font-weight: 800;">
+            ❄️ Confirm Chamber Booking & Issue Gate Pass
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 12: e-NWR PLEDGE LOAN FINANCING MODAL -->
+  <div class="modal-overlay" id="modal-enwr-pledge">
+    <div class="modal-content" style="max-width: 600px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #eff6ff; color: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            🏛️
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e3a8a; margin: 0;">e-NWR Warehouse Pledge Loan</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="enwr-receipt-ref">WDRA Receipt #eNWR-TN-2026-88192</span>
+          </div>
+        </div>
+        <button onclick="closeEnwrPledgeModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <form id="form-enwr-pledge" onsubmit="handleEnwrPledgeSubmit(event)">
+        <input type="hidden" id="enwr-booking-id" value="STR-2026-901" />
+
+        <!-- Valuation Card -->
+        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.82rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #64748b;">Stored Collateral:</span>
+            <strong style="color: #0f172a;" id="enwr-modal-lot">Tomato (Shivam Hybrid) • 50 Qt (5,000 kg)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #64748b;">AgriNex Mandi Benchmark Value:</span>
+            <strong style="color: #0f172a;" id="enwr-modal-val">₹ 60,000 (₹ 12.00 /kg)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding-top: 6px; border-top: 1px solid #86efac; margin-top: 6px;">
+            <span style="font-weight: 800; color: #166534;">Maximum 70% Loan-to-Value (LTV):</span>
+            <strong style="font-size: 1.15rem; color: #15803d;" id="enwr-modal-max-loan">₹ 42,000</strong>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Select Partner Financing Bank</label>
+          <select id="enwr-bank-partner" class="form-select" required>
+            <option value="SBI Agri Warehouse Financing (6.8% p.a.)">State Bank of India (SBI) Agri Credit (6.8% p.a. • Instant Disbursal)</option>
+            <option value="ICICI Bank Commodity Finance (7.1% p.a.)">ICICI Bank Commodity Financing (7.1% p.a. • Direct Escrow Credit)</option>
+            <option value="HDFC Kisan Credit Pledge (7.0% p.a.)">HDFC Bank Kisan Gold Credit (7.0% p.a. • Flexible Repayment)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Requested Loan Amount (₹)</label>
+          <input type="number" id="enwr-draw-amount" class="form-input" value="42000" min="5000" max="42000" step="1000" required style="font-size: 1.1rem; font-weight: 800; color: #15803d;" />
+          <span style="font-size: 0.72rem; color: #64748b; margin-top: 4px; display: block;">Funds will be credited to your linked Escrow Liquidity Pool within 2 hours of digital lien marking.</span>
+        </div>
+
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 10px 12px; margin-bottom: 16px; font-size: 0.76rem; color: #1e40af;">
+          🛡️ <strong>Lien Marking:</strong> The electronic Negotiable Warehouse Receipt will be marked with a digital lien in favor of the lending bank under WDRA portal registry.
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-outline" onclick="closeEnwrPledgeModal()" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 2; background: #2563eb; border-color: #2563eb; font-weight: 800;">
+            ✓ Mark Lien & Disburse ₹ Loan
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
