@@ -1001,7 +1001,7 @@
 
       // Update KPI Header Cards
       document.getElementById("live-timestamp").textContent = `Synced: ${meta.generated_at}`;
-      document.getElementById("kpi-avg-price").innerHTML = `${formatPrice(meta.avg_modal_price)}`;
+      document.getElementById("kpi-avg-price").innerHTML = `₹ ${(meta.avg_modal_price / 100.0).toFixed(2)} <span style="font-size: 0.75rem; font-weight: 600; color: #64748b;">/kg (₹ ${meta.avg_modal_price.toLocaleString('en-IN')}/Qt)</span>`;
       document.getElementById("kpi-total-demand").innerHTML = `${meta.total_mandi_volume_qt.toLocaleString('en-IN')} <span style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Quintals</span>`;
       
       if (meta.top_gainer) {
@@ -1061,7 +1061,8 @@
       distinct.forEach(c => {
         const isActive = c.id === activeCropId;
         const imgUrl = getProduceImage(c.commodity);
-        const priceText = formatPrice(c.modal_price);
+        const priceKg = (c.modal_price / 100.0).toFixed(2);
+        const priceQt = c.modal_price.toLocaleString('en-IN');
 
         const card = document.createElement("div");
         card.className = `produce-chip ${isActive ? 'active' : ''}`;
@@ -1069,7 +1070,7 @@
           <img src="${imgUrl}" alt="${c.commodity}" class="produce-chip-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
           <div>
             <div style="font-size: 0.86rem; font-weight: 800; color: #0f172a;">${c.commodity}</div>
-            <div style="font-size: 0.74rem; font-weight: 700; color: #15803d;">${priceText}</div>
+            <div style="font-size: 0.74rem; font-weight: 700; color: #15803d;">₹ ${priceKg}/kg <span style="font-size: 0.68rem; color: #64748b; font-weight: 600;">(₹${priceQt}/Qt)</span></div>
           </div>
         `;
         card.onclick = () => {
@@ -1088,12 +1089,17 @@
       const c = marketData.commodities.find(item => item.id === activeCropId) || marketData.commodities[0];
       if (!c) return;
 
+      const spotKg = (c.modal_price / 100.0).toFixed(2);
+      const spotQt = c.modal_price.toLocaleString('en-IN');
+      const targetKg = (c.forecast.target_price_7d / 100.0).toFixed(2);
+      const targetQt = c.forecast.target_price_7d.toLocaleString('en-IN');
+
       // Update Summary Bar
       document.getElementById("active-crop-img").src = getProduceImage(c.commodity);
       document.getElementById("active-crop-title").textContent = `${c.commodity} (${c.variety})`;
       document.getElementById("active-crop-location").textContent = `${c.market}, ${c.district} • ${c.grade}`;
-      document.getElementById("active-spot-rate").textContent = formatPrice(c.modal_price);
-      document.getElementById("active-forecast-target").textContent = `${formatPrice(c.forecast.target_price_7d)} (${c.forecast.pct_change_7d >= 0 ? '+' : ''}${c.forecast.pct_change_7d}%)`;
+      document.getElementById("active-spot-rate").innerHTML = `₹ ${spotKg} /kg <span style="font-size: 0.76rem; font-weight: 600; color: #64748b;">(₹ ${spotQt} /Qt)</span>`;
+      document.getElementById("active-forecast-target").innerHTML = `₹ ${targetKg} /kg <span style="font-size: 0.76rem; font-weight: 600; color: #64748b;">(₹ ${targetQt} /Qt)</span> <span style="font-size: 0.78rem; font-weight: 800; color: ${c.forecast.pct_change_7d >= 0 ? '#10b981' : '#ef4444'};">(${c.forecast.pct_change_7d >= 0 ? '+' : ''}${c.forecast.pct_change_7d}%)</span>`;
 
       if (chartInstance) {
         chartInstance.destroy();
@@ -1166,7 +1172,14 @@
               callbacks: {
                 label: ctx => {
                   if (ctx.parsed.y === null || isNaN(ctx.parsed.y)) return '';
-                  return `${ctx.dataset.label}: ₹ ${ctx.parsed.y} /${selectedUnit}`;
+                  const val = ctx.parsed.y;
+                  if (selectedUnit === 'kg') {
+                    const inQt = Math.round(val * 100);
+                    return `${ctx.dataset.label}: ₹ ${val} /kg (₹ ${inQt.toLocaleString('en-IN')} /Qt)`;
+                  } else {
+                    const inKg = (val / 100.0).toFixed(2);
+                    return `${ctx.dataset.label}: ₹ ${val.toLocaleString('en-IN')} /Qt (₹ ${inKg} /kg)`;
+                  }
                 }
               }
             }
@@ -1198,7 +1211,8 @@
       sorted.forEach((c) => {
         const share = Math.round((c.arrivals_qt / totalVol) * 100);
         const imgUrl = getProduceImage(c.commodity);
-        const priceText = formatPrice(c.modal_price);
+        const priceKg = (c.modal_price / 100.0).toFixed(2);
+        const priceQt = c.modal_price.toLocaleString('en-IN');
 
         container.innerHTML += `
           <div class="demand-item">
@@ -1206,7 +1220,7 @@
               <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
               <div>
                 <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">${c.commodity}</div>
-                <div style="font-size: 0.74rem; font-weight: 700; color: #15803d;">${priceText}</div>
+                <div style="font-size: 0.74rem; font-weight: 700; color: #15803d;">₹ ${priceKg}/kg <span style="font-size: 0.68rem; color: #64748b; font-weight: 600;">(₹${priceQt}/Qt)</span></div>
               </div>
             </div>
             <div class="demand-track">
@@ -1227,6 +1241,8 @@
         const pct = c.forecast.pct_change_7d;
         const isUp = pct >= 0;
         const sign = isUp ? "+" : "";
+        const targetKg = (c.forecast.target_price_7d / 100.0).toFixed(2);
+        const targetQt = c.forecast.target_price_7d.toLocaleString('en-IN');
 
         container.innerHTML += `
           <div class="forecast-row" onclick="openMandiModal('${c.id}')">
@@ -1234,7 +1250,7 @@
               <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
               <div>
                 <span style="font-weight: 700; font-size: 0.88rem; color: #0f172a; display: block;">${c.commodity}</span>
-                <span style="font-size: 0.74rem; color: #64748b;">Target: ${formatPrice(c.forecast.target_price_7d)}</span>
+                <span style="font-size: 0.74rem; color: #64748b;">Target: <strong style="color: #0f172a;">₹ ${targetKg}/kg</strong> <span style="font-size: 0.68rem;">(₹${targetQt}/Qt)</span></span>
               </div>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
@@ -1316,7 +1332,9 @@
 
       document.getElementById("modal-crop-img").src = getProduceImage(c.commodity);
       document.getElementById("modal-crop-title").textContent = `${c.commodity} (${c.variety})`;
-      document.getElementById("modal-crop-subtitle").textContent = `${c.market}, ${c.district} • ${c.grade} • Spot Rate: ${formatPrice(c.modal_price)}`;
+      const spotKg = (c.modal_price / 100.0).toFixed(2);
+      const spotQt = c.modal_price.toLocaleString('en-IN');
+      document.getElementById("modal-crop-subtitle").textContent = `${c.market}, ${c.district} • ${c.grade} • Spot Rate: ₹ ${spotKg}/kg (₹ ${spotQt}/Qt)`;
 
       // Advisory
       document.getElementById("modal-ai-confidence").textContent = `${c.forecast.confidence_pct}% ML Confidence`;
