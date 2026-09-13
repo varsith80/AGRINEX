@@ -9,58 +9,27 @@
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
-  <title>AgriNex - Live Buyer Bids & Offers | Direct Corporate Procurement</title>
+  <title>AgriNex - Buyer Bids & Offers</title>
   <style>
-    /* Dedicated Page Styles */
-    .provenance-ribbon {
-      background: linear-gradient(90deg, #ecfdf5 0%, #f0fdf4 100%);
-      border: 1px solid #a7f3d0;
-      border-radius: 12px;
-      padding: 10px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .provenance-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.76rem;
-      font-weight: 800;
-      color: #065f46;
-      background: #ffffff;
-      border: 1px solid #6ee7b7;
-      padding: 4px 10px;
-      border-radius: 999px;
-    }
-    .fpo-stats-grid {
+    .simple-stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 12px;
       margin-bottom: 18px;
     }
-    @media (max-width: 1100px) {
-      .fpo-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 1024px) {
+      .simple-stats-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    .fpo-stat-card {
+    .stat-card-compact {
       background: #ffffff;
-      border: 1px solid #eef2f6;
+      border: 1px solid #e2e8f0;
       border-radius: 12px;
       padding: 12px 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
       display: flex;
       align-items: center;
       gap: 12px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .fpo-stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    }
-    .stat-icon-square {
+    .stat-icon-sq {
       width: 38px;
       height: 38px;
       border-radius: 10px;
@@ -69,51 +38,41 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .stat-icon-green { background: #e8f5ed; color: #10b981; }
-    .stat-icon-purple { background: #f3e8ff; color: #a855f7; }
-    .stat-icon-orange { background: #ffedd5; color: #f97316; }
-    .stat-icon-blue { background: #e0f2fe; color: #0284c7; }
 
-    .fpo-tabs-container {
+    .filter-tabs-row {
       display: flex;
       gap: 8px;
       border-bottom: 2px solid #e2e8f0;
-      margin-bottom: 16px;
-      padding-bottom: 2px;
+      margin-bottom: 14px;
       overflow-x: auto;
     }
-    .fpo-tab-btn {
+    .filter-tab {
       background: none;
       border: none;
-      padding: 9px 16px;
-      font-size: 0.86rem;
+      padding: 8px 14px;
+      font-size: 0.85rem;
       font-weight: 700;
       color: #64748b;
       cursor: pointer;
-      border-radius: 8px 8px 0 0;
-      transition: all 0.2s ease;
+      border-radius: 6px 6px 0 0;
       white-space: nowrap;
     }
-    .fpo-tab-btn:hover { color: #0c5a36; background: #f0fdf4; }
-    .fpo-tab-btn.active {
+    .filter-tab.active {
       color: #0c5a36;
       background: #ffffff;
       border-bottom: 3px solid #0c5a36;
       font-weight: 800;
     }
 
-    .crop-filter-chips {
+    .crop-chips-row {
       display: flex;
       gap: 8px;
+      margin-bottom: 16px;
       overflow-x: auto;
-      margin-bottom: 18px;
-      padding-bottom: 4px;
+      padding-bottom: 2px;
     }
-    .crop-chip-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
+    .chip-btn {
+      padding: 5px 12px;
       border-radius: 999px;
       border: 1px solid #cbd5e1;
       background: #ffffff;
@@ -122,120 +81,88 @@
       color: #475569;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.2s ease;
     }
-    .crop-chip-btn:hover { border-color: #0c5a36; color: #0c5a36; background: #f0fdf4; }
-    .crop-chip-btn.active {
+    .chip-btn.active {
       background: #0c5a36;
       color: #ffffff;
       border-color: #0c5a36;
     }
 
-    /* Bid Item Card */
-    .bid-item-card {
+    /* Clean Bid Card */
+    .bid-card-box {
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 14px;
-      padding: 18px 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      padding: 16px 18px;
+      margin-bottom: 12px;
       display: grid;
-      grid-template-columns: 280px 1fr auto;
+      grid-template-columns: 260px 1fr auto;
       align-items: center;
-      gap: 20px;
-      transition: all 0.2s ease;
+      gap: 16px;
+      transition: all 0.15s ease;
     }
-    .bid-item-card:hover {
+    .bid-card-box:hover {
       border-color: #cbd5e1;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.04);
-      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
     }
-    @media (max-width: 1024px) {
-      .bid-item-card { grid-template-columns: 1fr; gap: 14px; }
+    @media (max-width: 900px) {
+      .bid-card-box { grid-template-columns: 1fr; gap: 12px; }
     }
 
-    .dual-price-box {
+    .price-tag-dual {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 10px;
-      padding: 10px 14px;
+      padding: 8px 12px;
     }
-    .dual-price-highlight {
+    .price-kg-text {
       color: #0c5a36;
       font-size: 1.25rem;
       font-weight: 800;
       line-height: 1.2;
     }
-    .dual-price-sub {
+    .price-qt-text {
       color: #047857;
       font-size: 0.85rem;
       font-weight: 700;
-      margin-top: 2px;
     }
-    .mandi-diff-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      margin-top: 6px;
-    }
-    .mandi-diff-pos { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
-    .mandi-diff-even { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
 
-    /* Action Buttons */
-    .btn-accept-escrow {
-      background: linear-gradient(180deg, #059669 0%, #047857 100%);
+    .btn-green {
+      background: #059669;
       color: #ffffff;
       border: none;
-      padding: 9px 18px;
+      padding: 8px 14px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 2px 6px rgba(5,150,105,0.25);
-      transition: all 0.2s ease;
     }
-    .btn-accept-escrow:hover {
-      background: #047857;
-      transform: translateY(-1px);
-    }
-    .btn-counter-quote {
+    .btn-green:hover { background: #047857; }
+    .btn-outline-sm {
       background: #ffffff;
       color: #334155;
       border: 1px solid #cbd5e1;
-      padding: 8px 14px;
+      padding: 7px 12px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       cursor: pointer;
-      transition: all 0.15s ease;
     }
-    .btn-counter-quote:hover {
-      background: #f1f5f9;
-      border-color: #94a3b8;
-    }
-    .btn-wa-negotiate {
+    .btn-outline-sm:hover { background: #f1f5f9; }
+    .btn-wa-sm {
       background: #25d366;
       color: #ffffff;
       border: none;
-      padding: 8px 14px;
+      padding: 7px 12px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       cursor: pointer;
+      text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      transition: all 0.15s ease;
+      gap: 4px;
     }
-    .btn-wa-negotiate:hover { background: #20ba59; }
 
     /* Modal Backdrop */
     .modal-overlay {
@@ -250,35 +177,12 @@
       padding: 16px;
     }
     .modal-overlay.active { display: flex; }
-    .modal-card {
+    .modal-box {
       background: #ffffff;
-      border-radius: 16px;
-      max-width: 520px;
+      border-radius: 14px;
+      max-width: 480px;
       width: 100%;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       overflow: hidden;
-      animation: modalFadeIn 0.2s ease-out;
-    }
-    @keyframes modalFadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    .modal-top {
-      padding: 18px 22px;
-      background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .modal-body { padding: 22px; }
-    .modal-foot {
-      padding: 16px 22px;
-      background: #f8fafc;
-      border-top: 1px solid #e2e8f0;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
     }
   </style>
 </head>
@@ -383,7 +287,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="page-search-input" placeholder="Search active bids, buyer companies, crop lots..." oninput="handleSearch(this.value)" />
+            <input type="text" id="page-search-input" placeholder="Search crop, buyer, or offer..." oninput="handleSearch(this.value)" />
           </div>
           <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer;" title="Change Mandi Location">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -414,419 +318,263 @@
         </div>
       </header>
 
-      <div class="dashboard-content" style="padding: 24px 30px;">
+      <div class="dashboard-content" style="padding: 20px 24px;">
         
-        <!-- PROVENANCE & ESCROW BADGE RIBBON -->
-        <div class="provenance-ribbon">
-          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <span class="provenance-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-              Corporate Direct Sourcing
-            </span>
-            <span style="font-size: 0.82rem; color: #065f46; font-weight: 700;">
-              Zero Middleman Commission • 35% Advance Escrow Bank Locked on Acceptance
-            </span>
+        <!-- PAGE HEADER -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <h1 style="font-size:1.3rem; font-weight:800; color:#0f172a; margin:0;">Buyer Bids & Offers</h1>
+            <p style="font-size:0.8rem; color:#64748b; margin:2px 0 0;">Direct price offers from verified buyers for your produce</p>
           </div>
-
-          <div style="display: flex; align-items: center; gap: 10px; font-size: 0.78rem; color: #047857; font-weight: 700;">
-            <span>🏢 100% Verified Corporate Buyers</span>
-            <span>•</span>
-            <span>⚖️ Dual Pricing (₹/kg & ₹/Qt)</span>
+          <div style="font-size:0.78rem; font-weight:700; color:#065f46; background:#ecfdf5; border:1px solid #a7f3d0; padding:5px 12px; border-radius:999px;">
+            ⚡ 35% Advance Paid at Pickup
           </div>
         </div>
 
-        <!-- 4 COMPACT OVERVIEW METRIC CARDS -->
-        <section class="fpo-stats-grid">
-          <!-- Card 1 -->
-          <div class="fpo-stat-card">
-            <div class="stat-icon-square stat-icon-purple">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m14 12 6-6"></path><path d="M9 17 3 23"></path><path d="m15.5 10.5 2 2"></path><path d="m7.5 18.5 2 2"></path><path d="M10 6 6 10l5 5 4-4-5-5z"></path><path d="m14 16 4 4 4-4-4-4-4 4z"></path></svg>
+        <!-- 4 SIMPLE STATS -->
+        <div class="simple-stats-grid">
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#f3e8ff; color:#a855f7;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m14 12 6-6"></path><path d="M9 17 3 23"></path><path d="m15.5 10.5 2 2"></path><path d="m7.5 18.5 2 2"></path><path d="M10 6 6 10l5 5 4-4-5-5z"></path></svg>
             </div>
-            <div style="min-width: 0;">
-              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">Active Buyer Bids</div>
-              <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;" id="stat-active-bids">5 Live Offers</div>
-              <div style="font-size: 0.72rem; font-weight: 700; color: #a855f7;">
-                2 New Offers Today
-              </div>
+            <div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Active Offers</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#0f172a;" id="stat-bids-count">5 Bids</div>
             </div>
           </div>
 
-          <!-- Card 2 -->
-          <div class="fpo-stat-card">
-            <div class="stat-icon-square stat-icon-green">
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#e8f5ed; color:#10b981;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
             </div>
-            <div style="min-width: 0;">
-              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">Highest Offer Rate</div>
-              <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">₹ 28.50 /kg</div>
-              <div style="font-size: 0.72rem; font-weight: 700; color: #10b981;">
-                ₹ 2,850 /Qt (Nashik Onion)
-              </div>
+            <div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Highest Offer</div>
+              <div style="font-size:1.1rem; font-weight:800; color:#0c5a36;">₹ 28.50 /kg <span style="font-size:0.72rem; color:#64748b; font-weight:600;">(₹ 2,850 /Qt)</span></div>
             </div>
           </div>
 
-          <!-- Card 3 -->
-          <div class="fpo-stat-card">
-            <div class="stat-icon-square stat-icon-blue">
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#e0f2fe; color:#0284c7;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
             </div>
-            <div style="min-width: 0;">
-              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">Avg Mandi Premium</div>
-              <div style="font-size: 1.25rem; font-weight: 800; color: #059669; margin-bottom: 2px;">+ 8.6% Higher</div>
-              <div style="font-size: 0.72rem; font-weight: 700; color: #0284c7;">
-                Over APMC Surat rates
-              </div>
+            <div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Over Mandi Rate</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#059669;">+ 8.6% More</div>
             </div>
           </div>
 
-          <!-- Card 4 -->
-          <div class="fpo-stat-card">
-            <div class="stat-icon-square stat-icon-orange">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#ffedd5; color:#f97316;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             </div>
-            <div style="min-width: 0;">
-              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">Total Negotiating Value</div>
-              <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">₹ 6,67,250</div>
-              <div style="font-size: 0.72rem; font-weight: 700; color: #d97706;">
-                ₹ 2.33 Lakh 35% Advance
-              </div>
+            <div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Total Value</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#0f172a;">₹ 6,67,250</div>
             </div>
           </div>
-        </section>
-
-        <!-- TABS CONTAINER -->
-        <div class="fpo-tabs-container">
-          <button class="fpo-tab-btn active" onclick="setTab('all', this)">All Bids & Quotes (5)</button>
-          <button class="fpo-tab-btn" onclick="setTab('pending', this)">Pending Your Action (3)</button>
-          <button class="fpo-tab-btn" onclick="setTab('accepted', this)">Accepted & Escrow Active (1)</button>
-          <button class="fpo-tab-btn" onclick="setTab('countered', this)">Countered / In Chat (1)</button>
         </div>
 
-        <!-- CROP FILTER CHIPS -->
-        <div class="crop-filter-chips">
-          <button class="crop-chip-btn active" onclick="setCrop('All', this)">All Produce</button>
-          <button class="crop-chip-btn" onclick="setCrop('Tomato', this)">🍅 Tomato (2)</button>
-          <button class="crop-chip-btn" onclick="setCrop('Onion', this)">🧅 Onion (1)</button>
-          <button class="crop-chip-btn" onclick="setCrop('Potato', this)">🥔 Potato (1)</button>
-          <button class="crop-chip-btn" onclick="setCrop('Wheat', this)">🌾 Wheat (1)</button>
+        <!-- TABS -->
+        <div class="filter-tabs-row">
+          <button class="filter-tab active" onclick="setTab('all', this)">All Bids (5)</button>
+          <button class="filter-tab" onclick="setTab('pending', this)">New Bids (3)</button>
+          <button class="filter-tab" onclick="setTab('accepted', this)">Accepted (1)</button>
+          <button class="filter-tab" onclick="setTab('countered', this)">Countered (1)</button>
         </div>
 
-        <!-- BIDS LIST CONTAINER -->
+        <!-- CHIPS -->
+        <div class="crop-chips-row">
+          <button class="chip-btn active" onclick="setCrop('All', this)">All</button>
+          <button class="chip-btn" onclick="setCrop('Tomato', this)">🍅 Tomato</button>
+          <button class="chip-btn" onclick="setCrop('Onion', this)">🧅 Onion</button>
+          <button class="chip-btn" onclick="setCrop('Potato', this)">🥔 Potato</button>
+          <button class="chip-btn" onclick="setCrop('Wheat', this)">🌾 Wheat</button>
+        </div>
+
+        <!-- BIDS LIST -->
         <div id="bids-container">
-          <!-- Dynamically Rendered -->
+          <!-- Rendered via JS -->
         </div>
 
       </div>
     </main>
   </div>
 
-  <!-- ACCEPT BID MODAL -->
+  <!-- ACCEPT MODAL -->
   <div class="modal-overlay" id="acceptModal">
-    <div class="modal-card">
-      <div class="modal-top">
-        <div style="font-weight:800; font-size:1.1rem; color:#0f172a;">Confirm & Accept Buyer Bid</div>
-        <button onclick="closeModal('acceptModal')" style="background:none; border:none; font-size:1.4rem; cursor:pointer; color:#64748b;">&times;</button>
+    <div class="modal-box">
+      <div style="padding:16px 20px; background:#f8fafc; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-weight:800; font-size:1.05rem; color:#0f172a;">Accept Offer</div>
+        <button onclick="closeModal('acceptModal')" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:#64748b;">&times;</button>
       </div>
-      <div class="modal-body">
-        <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:12px 14px; margin-bottom:16px;">
-          <div style="font-size:0.8rem; font-weight:700; color:#065f46; margin-bottom:4px;">🛡️ AgriNex 35% Advance Escrow Guarantee</div>
-          <div style="font-size:0.75rem; color:#047857; line-height:1.4;">
-            Upon accepting this bid, a binding digital contract is generated. The buyer's bank immediately locks 35% of the total amount in the HDFC Nodal Escrow account, credited to your account upon dispatch.
+      <div style="padding:18px 20px;">
+        <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:0.8rem; color:#065f46; line-height:1.4;">
+          ✓ <strong>35% Advance Payment</strong> will be locked in bank and transferred to your account as soon as the truck arrives at your farm.
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.82rem; margin-bottom:14px;">
+          <div><span style="color:#64748b;">Produce:</span> <strong id="m-crop" style="color:#0f172a; display:block;">Tomato</strong></div>
+          <div><span style="color:#64748b;">Buyer:</span> <strong id="m-buyer" style="color:#0f172a; display:block;">Reliance Fresh</strong></div>
+          <div><span style="color:#64748b;">Price:</span> <strong id="m-rate" style="color:#0c5a36; display:block;">₹ 24.50 /kg (₹ 2,450 /Qt)</strong></div>
+          <div><span style="color:#64748b;">Total Amount:</span> <strong id="m-total" style="color:#0f172a; display:block;">₹ 1,10,250</strong></div>
+        </div>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; margin-bottom:16px; font-size:0.8rem;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span>35% Advance (At Pickup):</span>
+            <strong style="color:#059669;" id="m-adv">₹ 38,587</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span>65% Balance (On Delivery):</span>
+            <strong style="color:#0284c7;" id="m-bal">₹ 71,663</strong>
           </div>
         </div>
-
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:14px;">
-          <div>
-            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">PRODUCE LOT</div>
-            <div style="font-weight:800; font-size:0.95rem; color:#0f172a;" id="modal-crop-name">Tomato (Hybrid Red)</div>
-          </div>
-          <div>
-            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">BUYER NAME</div>
-            <div style="font-weight:800; font-size:0.95rem; color:#0f172a;" id="modal-buyer-name">Reliance Retail Hub</div>
-          </div>
-          <div>
-            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">AGREED RATE (DUAL)</div>
-            <div style="font-weight:800; font-size:1.05rem; color:#0c5a36;" id="modal-rate">₹ 24.50 /kg (₹ 2,450 /Qt)</div>
-          </div>
-          <div>
-            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">TOTAL DEAL VALUE</div>
-            <div style="font-weight:800; font-size:1.05rem; color:#0f172a;" id="modal-total">₹ 1,10,250</div>
-          </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button class="btn-outline-sm" onclick="closeModal('acceptModal')">Cancel</button>
+          <button class="btn-green" onclick="confirmAccept()">✓ Accept & Confirm Order</button>
         </div>
-
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin-bottom:14px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:0.82rem;">
-            <span style="color:#64748b;">35% Advance on Pickup:</span>
-            <strong style="color:#059669;" id="modal-advance">₹ 38,587</strong>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:0.82rem;">
-            <span style="color:#64748b;">65% Balance on Delivery:</span>
-            <strong style="color:#0284c7;" id="modal-balance">₹ 71,663</strong>
-          </div>
-        </div>
-
-        <div style="font-size:0.75rem; color:#64748b;">
-          Assigned Transporter will arrive at your farm hub within 24 hours of confirmation.
-        </div>
-      </div>
-      <div class="modal-foot">
-        <button class="btn btn-outline" onclick="closeModal('acceptModal')">Cancel</button>
-        <button class="btn-accept-escrow" id="confirmAcceptBtn" onclick="confirmAccept()">✓ Lock Escrow & Accept Bid</button>
       </div>
     </div>
   </div>
 
-  <!-- COUNTER OFFER MODAL -->
+  <!-- COUNTER MODAL -->
   <div class="modal-overlay" id="counterModal">
-    <div class="modal-card">
-      <div class="modal-top">
-        <div style="font-weight:800; font-size:1.1rem; color:#0f172a;">Submit Counter Offer</div>
-        <button onclick="closeModal('counterModal')" style="background:none; border:none; font-size:1.4rem; cursor:pointer; color:#64748b;">&times;</button>
+    <div class="modal-box">
+      <div style="padding:16px 20px; background:#f8fafc; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-weight:800; font-size:1.05rem; color:#0f172a;">Counter Offer</div>
+        <button onclick="closeModal('counterModal')" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:#64748b;">&times;</button>
       </div>
-      <div class="modal-body">
-        <div style="margin-bottom:14px;">
-          <div style="font-size:0.75rem; color:#64748b; font-weight:600;">ORIGINAL BUYER OFFER</div>
-          <div style="font-weight:800; font-size:0.95rem; color:#475569;" id="counter-orig-price">₹ 23.80 /kg (₹ 2,380 /Qt)</div>
+      <div style="padding:18px 20px;">
+        <div style="margin-bottom:12px; font-size:0.82rem;">
+          <span style="color:#64748b;">Buyer's Offer:</span>
+          <strong id="c-orig" style="color:#475569;">₹ 23.80 /kg (₹ 2,380 /Qt)</strong>
         </div>
-
-        <div style="margin-bottom:16px;">
-          <label style="display:block; font-size:0.82rem; font-weight:700; color:#334155; margin-bottom:6px;">
-            Your Counter Price per Kilogram (₹ / kg)
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-size:0.8rem; font-weight:700; color:#334155; margin-bottom:4px;">
+            Enter Your Price (₹ / kg):
           </label>
-          <div style="display:flex; gap:10px; align-items:center;">
-            <input type="number" step="0.5" id="counterInputKg" style="flex:1; padding:10px 14px; border:1px solid #cbd5e1; border-radius:8px; font-weight:800; font-size:1.1rem; color:#0c5a36;" oninput="syncCounterFromKg(this.value)" />
-            <span style="font-weight:700; color:#64748b;">=</span>
-            <div style="flex:1; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-weight:800; font-size:0.95rem; color:#047857;" id="counterEquivalentQt">
+          <div style="display:flex; gap:8px; align-items:center;">
+            <input type="number" step="0.5" id="c-input-kg" style="flex:1; padding:8px 12px; border:1px solid #cbd5e1; border-radius:8px; font-weight:800; font-size:1.05rem; color:#0c5a36;" oninput="syncCounter(this.value)" />
+            <div style="padding:8px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-weight:800; font-size:0.9rem; color:#047857;" id="c-equiv-qt">
               ₹ 2,500 /Qt
             </div>
           </div>
         </div>
-
         <div style="margin-bottom:16px;">
-          <label style="display:block; font-size:0.82rem; font-weight:700; color:#334155; margin-bottom:6px;">
-            Note for Buyer (Optional)
+          <label style="display:block; font-size:0.8rem; font-weight:700; color:#334155; margin-bottom:4px;">
+            Message for Buyer (Optional):
           </label>
-          <input type="text" id="counterNote" placeholder="e.g. Graded farm produce ready in plastic crates for immediate dispatch" style="width:100%; padding:10px 14px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.85rem; box-sizing:border-box;" />
+          <input type="text" id="c-note" placeholder="e.g. Ready in crates for immediate pickup" style="width:100%; padding:8px 12px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.82rem; box-sizing:border-box;" />
         </div>
-      </div>
-      <div class="modal-foot">
-        <button class="btn btn-outline" onclick="closeModal('counterModal')">Cancel</button>
-        <button class="btn btn-primary" onclick="submitCounterOffer()">Send Counter Offer</button>
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button class="btn-outline-sm" onclick="closeModal('counterModal')">Cancel</button>
+          <button class="btn-green" onclick="submitCounter()">Send Counter</button>
+        </div>
       </div>
     </div>
   </div>
 
+  <script src="js/api.js"></script>
   <script>
-    const BIDS_DATA = [
-      {
-        id: 101,
-        crop: 'Tomato',
-        variety: 'Hybrid Red (Firm Grade A)',
-        quantity_qt: 45,
-        quantity_kg: 4500,
-        buyer: 'FreshCart Supply Chain',
-        buyer_type: 'National Supermarket Retailer',
-        buyer_rating: '4.9 ★ (Verified Corporate)',
-        phone: '919823411223',
-        bid_rate_kg: 24.50,
-        bid_rate_qt: 2450,
-        mandi_ref_kg: 22.50,
-        mandi_ref_qt: 2250,
-        premium_pct: '+8.9%',
-        total_value: 110250,
-        advance_35: 38587,
-        status: 'pending',
-        time_ago: '15 mins ago',
-        image: 'assets/images/tomato.jpg'
-      },
-      {
-        id: 102,
-        crop: 'Onion',
-        variety: 'Nashik Red Export Grade',
-        quantity_qt: 80,
-        quantity_kg: 8000,
-        buyer: 'Mahyco Bulk Exporters',
-        buyer_type: 'Agricultural Export House',
-        buyer_rating: '4.8 ★ (Verified Exporter)',
-        phone: '919712377889',
-        bid_rate_kg: 28.50,
-        bid_rate_qt: 2850,
-        mandi_ref_kg: 26.00,
-        mandi_ref_qt: 2600,
-        premium_pct: '+9.6%',
-        total_value: 228000,
-        advance_35: 79800,
-        status: 'pending',
-        time_ago: '40 mins ago',
-        image: 'assets/images/onion.jpg'
-      },
-      {
-        id: 103,
-        crop: 'Potato',
-        variety: 'Jyoti Grade A Processing Chip Grade',
-        quantity_qt: 120,
-        quantity_kg: 12000,
-        buyer: 'Balaji Wafers Procurement',
-        buyer_type: 'Food Processing Enterprise',
-        buyer_rating: '5.0 ★ (Anchor Buyer)',
-        phone: '919900122334',
-        bid_rate_kg: 18.50,
-        bid_rate_qt: 1850,
-        mandi_ref_kg: 17.20,
-        mandi_ref_qt: 1720,
-        premium_pct: '+7.5%',
-        total_value: 222000,
-        advance_35: 77700,
-        status: 'accepted',
-        time_ago: 'Yesterday',
-        image: 'assets/images/potato.jpg'
-      },
-      {
-        id: 104,
-        crop: 'Wheat',
-        variety: 'Sharbati Lokwan Golden Wheat',
-        quantity_qt: 150,
-        quantity_kg: 15000,
-        buyer: 'ITC Aashirvaad Sourcing',
-        buyer_type: 'FMCG Conglomerate',
-        buyer_rating: '5.0 ★ (Anchor Buyer)',
-        phone: '919899044556',
-        bid_rate_kg: 26.50,
-        bid_rate_qt: 2650,
-        mandi_ref_kg: 24.80,
-        mandi_ref_qt: 2480,
-        premium_pct: '+6.8%',
-        total_value: 397500,
-        advance_35: 139125,
-        status: 'pending',
-        time_ago: '2 hours ago',
-        image: 'assets/images/hero-field.jpg'
-      },
-      {
-        id: 105,
-        crop: 'Tomato',
-        variety: 'Hybrid Red (Cooking Grade)',
-        quantity_qt: 40,
-        quantity_kg: 4000,
-        buyer: 'Swiggy Instamart Agri',
-        buyer_type: 'Quick Commerce Procurement',
-        buyer_rating: '4.9 ★ (Verified Hub)',
-        phone: '919823411223',
-        bid_rate_kg: 24.00,
-        bid_rate_qt: 2400,
-        mandi_ref_kg: 22.50,
-        mandi_ref_qt: 2250,
-        premium_pct: '+6.6%',
-        total_value: 96000,
-        advance_35: 33600,
-        status: 'countered',
-        time_ago: '3 hours ago',
-        image: 'assets/images/tomato.jpg'
-      }
+    let BIDS_DATA = [
+      { id: 101, crop: 'Tomato', variety: 'Hybrid Red', quantity_qt: 45, quantity_kg: 4500, buyer_name: 'FreshCart Retail', phone: '919823411223', bid_rate_kg: 24.50, bid_rate_qt: 2450, mandi_ref_kg: 22.50, premium_pct: '+8.9%', total_value: 110250, advance_35: 38587, status: 'pending', time_ago: '15 mins ago', image: 'assets/images/tomato.jpg' },
+      { id: 102, crop: 'Onion', variety: 'Nashik Red', quantity_qt: 80, quantity_kg: 8000, buyer_name: 'Mahyco Agro Traders', phone: '919712377889', bid_rate_kg: 28.50, bid_rate_qt: 2850, mandi_ref_kg: 26.00, premium_pct: '+9.6%', total_value: 228000, advance_35: 79800, status: 'pending', time_ago: '40 mins ago', image: 'assets/images/onion.jpg' },
+      { id: 103, crop: 'Potato', variety: 'Jyoti Grade A', quantity_qt: 120, quantity_kg: 12000, buyer_name: 'Balaji Wafers Procurement', phone: '919900122334', bid_rate_kg: 18.50, bid_rate_qt: 1850, mandi_ref_kg: 17.20, premium_pct: '+7.5%', total_value: 222000, advance_35: 77700, status: 'accepted', time_ago: 'Yesterday', image: 'assets/images/potato.jpg' },
+      { id: 104, crop: 'Wheat', variety: 'Sharbati Lokwan', quantity_qt: 150, quantity_kg: 15000, buyer_name: 'ITC Aashirvaad Sourcing', phone: '919899044556', bid_rate_kg: 26.50, bid_rate_qt: 2650, mandi_ref_kg: 24.80, premium_pct: '+6.8%', total_value: 397500, advance_35: 139125, status: 'pending', time_ago: '2 hours ago', image: 'assets/images/hero-field.jpg' },
+      { id: 105, crop: 'Tomato', variety: 'Hybrid Red', quantity_qt: 40, quantity_kg: 4000, buyer_name: 'Swiggy Instamart Agri', phone: '919823411223', bid_rate_kg: 24.00, bid_rate_qt: 2400, mandi_ref_kg: 22.50, premium_pct: '+6.6%', total_value: 96000, advance_35: 33600, status: 'countered', time_ago: '3 hours ago', image: 'assets/images/tomato.jpg' }
     ];
 
     let currentTab = 'all';
     let currentCrop = 'All';
-    let searchQuery = '';
-    let activeBidForAction = null;
+    let activeBid = null;
+
+    async function loadBids() {
+      try {
+        if (window.AgriNexAPI) {
+          const res = await AgriNexAPI.getBids();
+          if (res && res.length > 0) {
+            BIDS_DATA = res.map(b => ({
+              id: b.id,
+              crop: b.crop || 'Produce',
+              variety: b.variety || 'Standard',
+              quantity_qt: b.quantity_qt || 40,
+              quantity_kg: b.quantity_kg || ((b.quantity_qt || 40) * 100),
+              buyer_name: b.buyer_name || 'Buyer',
+              phone: (b.buyer_phone || '919800000000').replace(/[^0-9]/g, ''),
+              bid_rate_kg: b.bid_rate_kg || (b.bid_rate_qt / 100),
+              bid_rate_qt: b.bid_rate_qt || (b.bid_rate_kg * 100),
+              mandi_ref_kg: b.mandi_ref_kg || 22.50,
+              premium_pct: b.premium_pct || '+8.5%',
+              total_value: b.total_value || (b.bid_rate_qt * b.quantity_qt),
+              advance_35: b.advance_35 || Math.round((b.total_value || 100000) * 0.35),
+              status: (b.status || 'pending').toLowerCase(),
+              time_ago: b.time_ago || 'Recent',
+              image: b.image || 'assets/images/tomato.jpg'
+            }));
+          }
+        }
+      } catch (e) {}
+      renderBids();
+    }
 
     function renderBids() {
       const container = document.getElementById('bids-container');
       const filtered = BIDS_DATA.filter(b => {
         const matchTab = (currentTab === 'all') || (b.status === currentTab);
         const matchCrop = (currentCrop === 'All') || (b.crop.toLowerCase() === currentCrop.toLowerCase());
-        const matchSearch = !searchQuery || 
-          b.crop.toLowerCase().includes(searchQuery.toLowerCase()) || 
-          b.buyer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          b.variety.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchTab && matchCrop && matchSearch;
+        return matchTab && matchCrop;
       });
 
+      document.getElementById('stat-bids-count').innerText = BIDS_DATA.filter(b => b.status === 'pending').length + ' Bids';
+
       if (!filtered.length) {
-        container.innerHTML = `
-          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:14px; padding:40px; text-align:center;">
-            <div style="font-size:2rem; margin-bottom:8px;">🔍</div>
-            <div style="font-weight:700; color:#0f172a; font-size:1.05rem;">No matching buyer bids found</div>
-            <div style="color:#64748b; font-size:0.85rem; margin-top:4px;">Try changing your crop filters or search term.</div>
-          </div>
-        `;
+        container.innerHTML = '<div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:32px; text-align:center; color:#64748b;">No offers found in this tab.</div>';
         return;
       }
 
       container.innerHTML = filtered.map(b => `
-        <div class="bid-item-card">
-          <!-- Column 1: Produce & Buyer Info -->
-          <div style="display:flex; gap:14px; align-items:center;">
-            <img src="${b.image}" alt="${b.crop}" style="width:58px; height:58px; border-radius:12px; object-fit:cover; border:1px solid #e2e8f0; flex-shrink:0;" onerror="this.src='assets/images/hero-field.jpg'" />
-            <div style="min-width:0;">
-              <div style="display:flex; align-items:center; gap:6px; margin-bottom:2px;">
-                <span style="font-weight:800; font-size:1.05rem; color:#0f172a;">${b.crop}</span>
-                <span style="background:#e8f5ed; color:#065f46; font-size:0.68rem; font-weight:800; padding:2px 6px; border-radius:4px;">Grade A</span>
-              </div>
-              <div style="font-size:0.75rem; color:#64748b; margin-bottom:4px;">${b.variety}</div>
-              <div style="font-size:0.78rem; font-weight:700; color:#334155;">
-                🏢 ${b.buyer}
-              </div>
-              <div style="font-size:0.7rem; color:#059669; font-weight:600;">
-                ${b.buyer_rating} • <span style="color:#64748b;">${b.time_ago}</span>
-              </div>
+        <div class="bid-card-box">
+          <div style="display:flex; gap:12px; align-items:center;">
+            <img src="${b.image}" alt="${b.crop}" style="width:52px; height:52px; border-radius:10px; object-fit:cover; border:1px solid #e2e8f0;" onerror="this.src='assets/images/hero-field.jpg'" />
+            <div>
+              <div style="font-size:1rem; font-weight:800; color:#0f172a;">${b.crop}</div>
+              <div style="font-size:0.75rem; color:#64748b;">${b.variety}</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#0f172a; margin-top:2px;">🏢 ${b.buyer_name}</div>
             </div>
           </div>
 
-          <!-- Column 2: Dual Pricing & Mandi Comparison -->
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
-            <div class="dual-price-box">
-              <div style="font-size:0.72rem; color:#64748b; font-weight:700; text-transform:uppercase;">Buyer Bid Offer</div>
-              <div class="dual-price-highlight">₹ ${b.bid_rate_kg.toFixed(2)} <span style="font-size:0.8rem; font-weight:700; color:#64748b;">/kg</span></div>
-              <div class="dual-price-sub">₹ ${b.bid_rate_qt.toLocaleString()} /Qt</div>
-              <div class="mandi-diff-tag mandi-diff-pos">
-                ▲ ${b.premium_pct} vs Mandi (₹ ${b.mandi_ref_kg.toFixed(2)}/kg)
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+            <div class="price-tag-dual">
+              <div style="font-size:0.7rem; color:#64748b; font-weight:700;">OFFERED PRICE</div>
+              <div class="price-kg-text">₹ ${b.bid_rate_kg.toFixed(2)} <span style="font-size:0.75rem; color:#64748b;">/kg</span></div>
+              <div class="price-qt-text">₹ ${b.bid_rate_qt.toLocaleString()} /Qt</div>
+              <div style="font-size:0.7rem; color:#065f46; font-weight:700; margin-top:2px;">
+                ▲ ${b.premium_pct} over Mandi
               </div>
             </div>
 
-            <div class="dual-price-box">
-              <div style="font-size:0.72rem; color:#64748b; font-weight:700; text-transform:uppercase;">Quantity & Total Value</div>
-              <div style="font-weight:800; font-size:1.15rem; color:#0f172a;">
-                ${b.quantity_qt} Qt <span style="font-size:0.8rem; font-weight:600; color:#64748b;">(${b.quantity_kg.toLocaleString()} kg)</span>
-              </div>
-              <div style="font-size:0.9rem; font-weight:800; color:#047857; margin-top:2px;">
-                Total: ₹ ${b.total_value.toLocaleString()}
-              </div>
-              <div style="font-size:0.72rem; color:#0284c7; font-weight:700; margin-top:6px;">
-                ⚡ 35% Escrow Advance: ₹ ${b.advance_35.toLocaleString()}
-              </div>
+            <div class="price-tag-dual">
+              <div style="font-size:0.7rem; color:#64748b; font-weight:700;">QUANTITY & TOTAL</div>
+              <div style="font-size:1rem; font-weight:800; color:#0f172a;">${b.quantity_qt} Qt (${b.quantity_kg.toLocaleString()} kg)</div>
+              <div style="font-size:0.85rem; font-weight:800; color:#059669; margin-top:2px;">Total: ₹ ${b.total_value.toLocaleString()}</div>
+              <div style="font-size:0.7rem; color:#0284c7; font-weight:700; margin-top:2px;">35% Advance: ₹ ${b.advance_35.toLocaleString()}</div>
             </div>
           </div>
 
-          <!-- Column 3: Actions -->
-          <div style="display:flex; flex-direction:column; gap:8px; justify-content:center; align-items:flex-end;">
+          <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
             ${b.status === 'accepted' ? `
-              <div style="background:#ecfdf5; border:1px solid #10b981; color:#065f46; padding:8px 16px; border-radius:8px; font-size:0.82rem; font-weight:800; display:flex; align-items:center; gap:6px;">
-                ✓ Bid Accepted (Escrow Active)
+              <div style="background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; padding:6px 12px; border-radius:6px; font-weight:800; font-size:0.78rem;">
+                ✓ Offer Accepted
               </div>
-              <a href="escrow-tracking.html" style="font-size:0.75rem; color:#0284c7; font-weight:700; text-decoration:none;">
-                View Escrow Status &rarr;
-              </a>
+              <a href="orders-shipments.html" style="font-size:0.72rem; color:#0284c7; font-weight:700; text-decoration:none;">View Shipment &rarr;</a>
             ` : (b.status === 'countered' ? `
-              <div style="background:#fef3c7; border:1px solid #f59e0b; color:#92400e; padding:8px 14px; border-radius:8px; font-size:0.82rem; font-weight:800;">
-                Counter Offer Sent (₹ 25.00/kg)
+              <div style="background:#fef3c7; border:1px solid #fde68a; color:#92400e; padding:6px 10px; border-radius:6px; font-weight:800; font-size:0.78rem;">
+                Counter Sent
               </div>
-              <a href="https://wa.me/${b.phone}?text=Hello%20${encodeURIComponent(b.buyer)},%20regarding%20my%20counter%20offer%20for%20${encodeURIComponent(b.crop)}" target="_blank" class="btn-wa-negotiate">
-                💬 WhatsApp Chat
-              </a>
+              <a href="https://wa.me/${b.phone}" target="_blank" class="btn-wa-sm">💬 WhatsApp</a>
             ` : `
-              <button class="btn-accept-escrow" onclick="openAcceptModal(${b.id})">
-                ✓ Accept Bid & Lock Escrow
-              </button>
-              <div style="display:flex; gap:6px; width:100%;">
-                <button class="btn-counter-quote" style="flex:1;" onclick="openCounterModal(${b.id})">
-                  Counter Offer
-                </button>
-                <a href="https://wa.me/${b.phone}?text=Hello%20${encodeURIComponent(b.buyer)},%20regarding%20your%20bid%20on%20AgriNex%20for%20${encodeURIComponent(b.crop)}" target="_blank" class="btn-wa-negotiate">
-                  💬 Chat
-                </a>
+              <button class="btn-green" onclick="openAccept(${b.id})">✓ Accept Offer</button>
+              <div style="display:flex; gap:6px;">
+                <button class="btn-outline-sm" onclick="openCounter(${b.id})">Counter</button>
+                <a href="https://wa.me/${b.phone}?text=Hello%20${encodeURIComponent(b.buyer_name)},%20regarding%20your%20offer%20on%20AgriNex" target="_blank" class="btn-wa-sm">💬 Chat</a>
               </div>
             `)}
           </div>
@@ -836,140 +584,78 @@
 
     function setTab(tab, btn) {
       currentTab = tab;
-      document.querySelectorAll('.fpo-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderBids();
     }
 
     function setCrop(crop, btn) {
       currentCrop = crop;
-      document.querySelectorAll('.crop-chip-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderBids();
     }
 
-    function handleSearch(val) {
-      searchQuery = val;
-      renderBids();
-    }
-
-    function openAcceptModal(id) {
-      const bid = BIDS_DATA.find(b => b.id === id);
-      if (!bid) return;
-      activeBidForAction = bid;
-
-      document.getElementById('modal-crop-name').innerText = `${bid.crop} (${bid.variety})`;
-      document.getElementById('modal-buyer-name').innerText = bid.buyer;
-      document.getElementById('modal-rate').innerText = `₹ ${bid.bid_rate_kg.toFixed(2)} /kg (₹ ${bid.bid_rate_qt.toLocaleString()} /Qt)`;
-      document.getElementById('modal-total').innerText = `₹ ${bid.total_value.toLocaleString()}`;
-      document.getElementById('modal-advance').innerText = `₹ ${bid.advance_35.toLocaleString()} (35% on dispatch)`;
-      document.getElementById('modal-balance').innerText = `₹ ${(bid.total_value - bid.advance_35).toLocaleString()} (65% on delivery)`;
-
+    function openAccept(id) {
+      activeBid = BIDS_DATA.find(b => b.id === id);
+      if (!activeBid) return;
+      document.getElementById('m-crop').innerText = `${activeBid.crop} (${activeBid.quantity_qt} Qt)`;
+      document.getElementById('m-buyer').innerText = activeBid.buyer_name;
+      document.getElementById('m-rate').innerText = `₹ ${activeBid.bid_rate_kg.toFixed(2)} /kg (₹ ${activeBid.bid_rate_qt.toLocaleString()} /Qt)`;
+      document.getElementById('m-total').innerText = `₹ ${activeBid.total_value.toLocaleString()}`;
+      document.getElementById('m-adv').innerText = `₹ ${activeBid.advance_35.toLocaleString()}`;
+      document.getElementById('m-bal').innerText = `₹ ${(activeBid.total_value - activeBid.advance_35).toLocaleString()}`;
       document.getElementById('acceptModal').classList.add('active');
     }
 
     async function confirmAccept() {
-      if (!activeBidForAction) return;
+      if (!activeBid) return;
       try {
-        const res = await fetch(`/api/bids/${activeBidForAction.id}/action`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: 'Accepted' })
-        });
+        if (window.AgriNexAPI) {
+          await AgriNexAPI.acceptBid(activeBid.id);
+        }
       } catch (e) {}
-
-      activeBidForAction.status = 'accepted';
+      activeBid.status = 'accepted';
       closeModal('acceptModal');
       renderBids();
-      alert(`Success! Bid accepted. Escrow Contract created with ₹ ${activeBidForAction.advance_35.toLocaleString()} advance locked in HDFC Escrow.`);
+      alert(`Offer Accepted! 35% Advance (₹ ${activeBid.advance_35.toLocaleString()}) locked in bank. Truck scheduled.`);
     }
 
-    function openCounterModal(id) {
-      const bid = BIDS_DATA.find(b => b.id === id);
-      if (!bid) return;
-      activeBidForAction = bid;
-
-      document.getElementById('counter-orig-price').innerText = `₹ ${bid.bid_rate_kg.toFixed(2)} /kg (₹ ${bid.bid_rate_qt.toLocaleString()} /Qt)`;
-      const suggestedCounter = (bid.bid_rate_kg + 1.0).toFixed(2);
-      document.getElementById('counterInputKg').value = suggestedCounter;
-      syncCounterFromKg(suggestedCounter);
-
+    function openCounter(id) {
+      activeBid = BIDS_DATA.find(b => b.id === id);
+      if (!activeBid) return;
+      document.getElementById('c-orig').innerText = `₹ ${activeBid.bid_rate_kg.toFixed(2)} /kg (₹ ${activeBid.bid_rate_qt.toLocaleString()} /Qt)`;
+      const suggested = (activeBid.bid_rate_kg + 1.0).toFixed(2);
+      document.getElementById('c-input-kg').value = suggested;
+      syncCounter(suggested);
       document.getElementById('counterModal').classList.add('active');
     }
 
-    function syncCounterFromKg(val) {
+    function syncCounter(val) {
       const kg = parseFloat(val) || 0;
-      const qt = Math.round(kg * 100);
-      document.getElementById('counterEquivalentQt').innerText = `₹ ${qt.toLocaleString()} /Qt`;
+      document.getElementById('c-equiv-qt').innerText = `₹ ${Math.round(kg * 100).toLocaleString()} /Qt`;
     }
 
-    function submitCounterOffer() {
-      if (!activeBidForAction) return;
-      const kg = parseFloat(document.getElementById('counterInputKg').value);
-      if (!kg || kg <= 0) {
-        alert('Please enter a valid counter price');
-        return;
-      }
-      activeBidForAction.status = 'countered';
+    async function submitCounter() {
+      if (!activeBid) return;
+      const val = parseFloat(document.getElementById('c-input-kg').value);
+      if (!val) return;
+      try {
+        if (window.AgriNexAPI) {
+          await AgriNexAPI.counterBid(activeBid.id, val);
+        }
+      } catch (e) {}
+      activeBid.status = 'countered';
       closeModal('counterModal');
       renderBids();
-      alert(`Counter offer of ₹ ${kg.toFixed(2)} /kg (₹ ${(kg*100).toLocaleString()} /Qt) sent to ${activeBidForAction.buyer} with SMS & WhatsApp notification.`);
+      alert(`Counter offer of ₹ ${val.toFixed(2)} /kg sent to ${activeBid.buyer_name}!`);
     }
 
     function closeModal(id) {
       document.getElementById(id).classList.remove('active');
     }
 
-    
-    async function loadBidsFromBackend() {
-      try {
-        const res = await fetch('/api/bids');
-        if (res.ok) {
-          const apiBids = await res.json();
-          if (apiBids && apiBids.length > 0) {
-            BIDS_DATA.length = 0;
-            apiBids.forEach(b => {
-              BIDS_DATA.push({
-                id: b.id,
-                crop: b.crop || 'Produce',
-                variety: b.variety || 'Standard Grade',
-                quantity_qt: b.quantity_qt || 40,
-                quantity_kg: b.quantity_kg || ((b.quantity_qt || 40) * 100),
-                buyer: b.buyer_name || 'Verified Buyer',
-                buyer_type: b.buyer_type || 'National Retailer',
-                buyer_rating: b.buyer_rating || '4.9 ★ (Verified Corporate)',
-                phone: (b.buyer_phone || '919823411223').replace(/[^0-9]/g, ''),
-                bid_rate_kg: b.bid_rate_kg || Number(((b.bid_rate_qt || 2400) / 100).toFixed(2)),
-                bid_rate_qt: b.bid_rate_qt || 2400,
-                mandi_ref_kg: b.mandi_ref_kg || 22.50,
-                mandi_ref_qt: b.mandi_ref_qt || 2250,
-                premium_pct: b.premium_pct || '+8.5%',
-                total_value: b.total_value || ((b.bid_rate_qt || 2400) * (b.quantity_qt || 40)),
-                advance_35: b.advance_35 || Math.round(((b.bid_rate_qt || 2400) * (b.quantity_qt || 40)) * 0.35),
-                status: (b.status || 'pending').toLowerCase(),
-                time_ago: b.time_ago || 'Just now',
-                image: b.image || 'assets/images/tomato.jpg'
-              });
-            });
-            renderBids();
-            updateBidsKpi();
-          }
-        }
-      } catch (e) {
-        console.log('Using initial bids dataset:', e.message);
-      }
-    }
-
-    function updateBidsKpi() {
-      const activeCount = BIDS_DATA.filter(b => b.status === 'pending').length;
-      const el = document.getElementById('stat-active-bids');
-      if (el) el.innerText = activeCount + ' Live Offers';
-    }
-
-    // Call on load
-    loadBidsFromBackend();
-
-    renderBids();
+    loadBids();
   </script>
 </body>
 </html>

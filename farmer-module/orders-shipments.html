@@ -9,52 +9,27 @@
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
-  <title>AgriNex - Orders & Shipments | Real-time Logistics & Gate Pass</title>
+  <title>AgriNex - Orders & Shipments</title>
   <style>
-    .provenance-ribbon {
-      background: linear-gradient(90deg, #ecfdf5 0%, #f0fdf4 100%);
-      border: 1px solid #a7f3d0;
-      border-radius: 12px;
-      padding: 10px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .provenance-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.76rem;
-      font-weight: 800;
-      color: #065f46;
-      background: #ffffff;
-      border: 1px solid #6ee7b7;
-      padding: 4px 10px;
-      border-radius: 999px;
-    }
-    .fpo-stats-grid {
+    .simple-stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 12px;
       margin-bottom: 18px;
     }
-    @media (max-width: 1100px) {
-      .fpo-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 1024px) {
+      .simple-stats-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    .fpo-stat-card {
+    .stat-card-compact {
       background: #ffffff;
-      border: 1px solid #eef2f6;
+      border: 1px solid #e2e8f0;
       border-radius: 12px;
       padding: 12px 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    .stat-icon-square {
+    .stat-icon-sq {
       width: 38px;
       height: 38px;
       border-radius: 10px;
@@ -63,146 +38,92 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .stat-icon-green { background: #e8f5ed; color: #10b981; }
-    .stat-icon-purple { background: #f3e8ff; color: #a855f7; }
-    .stat-icon-orange { background: #ffedd5; color: #f97316; }
-    .stat-icon-blue { background: #e0f2fe; color: #0284c7; }
 
-    .fpo-tabs-container {
+    .filter-tabs-row {
       display: flex;
       gap: 8px;
       border-bottom: 2px solid #e2e8f0;
       margin-bottom: 16px;
-      padding-bottom: 2px;
       overflow-x: auto;
     }
-    .fpo-tab-btn {
+    .filter-tab {
       background: none;
       border: none;
-      padding: 9px 16px;
-      font-size: 0.86rem;
+      padding: 8px 14px;
+      font-size: 0.85rem;
       font-weight: 700;
       color: #64748b;
       cursor: pointer;
-      border-radius: 8px 8px 0 0;
-      transition: all 0.2s ease;
+      border-radius: 6px 6px 0 0;
       white-space: nowrap;
     }
-    .fpo-tab-btn:hover { color: #0c5a36; background: #f0fdf4; }
-    .fpo-tab-btn.active {
+    .filter-tab.active {
       color: #0c5a36;
       background: #ffffff;
       border-bottom: 3px solid #0c5a36;
       font-weight: 800;
     }
 
-    /* Shipment Consignment Card */
-    .shipment-card {
+    .order-box {
       background: #ffffff;
       border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 22px 24px;
-      margin-bottom: 18px;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-      transition: all 0.2s ease;
     }
-    .shipment-card:hover {
-      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-      border-color: #cbd5e1;
-    }
-    .shipment-top-bar {
+    .order-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 14px;
-      margin-bottom: 16px;
       border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
 
-    /* 4-Stage Stepper */
-    .stepper-track {
+    /* 4-Step Clean Progress Line */
+    .step-track {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      position: relative;
-      margin: 20px 0 24px;
-      gap: 10px;
-    }
-    .stepper-item {
+      margin: 16px 0 18px;
+      gap: 8px;
       text-align: center;
       position: relative;
     }
-    .stepper-circle {
-      width: 32px;
-      height: 32px;
+    .step-dot {
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: #ffffff;
-      border: 2.5px solid #cbd5e1;
+      border: 2px solid #cbd5e1;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 8px;
+      margin: 0 auto 6px;
+      font-size: 0.75rem;
       font-weight: 800;
-      font-size: 0.8rem;
       color: #64748b;
-      position: relative;
-      z-index: 2;
     }
-    .stepper-item.completed .stepper-circle {
-      background: #059669;
-      border-color: #059669;
-      color: #ffffff;
-    }
-    .stepper-item.active .stepper-circle {
-      background: #0284c7;
-      border-color: #0284c7;
-      color: #ffffff;
-      box-shadow: 0 0 0 4px rgba(2,132,199,0.2);
-    }
-    .stepper-line {
-      position: absolute;
-      top: 15px;
-      left: 50%;
-      width: 100%;
-      height: 3px;
-      background: #e2e8f0;
-      z-index: 1;
-    }
-    .stepper-item.completed .stepper-line {
-      background: #059669;
-    }
+    .step-dot.done { background: #059669; border-color: #059669; color: #ffffff; }
+    .step-dot.active { background: #0284c7; border-color: #0284c7; color: #ffffff; }
 
-    /* Detail Grid */
-    .shipment-info-grid {
+    .info-strip {
       display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 18px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
       background: #f8fafc;
       border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 14px 18px;
-      margin-bottom: 16px;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.82rem;
+      margin-bottom: 12px;
     }
-    @media (max-width: 900px) {
-      .shipment-info-grid { grid-template-columns: 1fr; }
+    @media (max-width: 800px) {
+      .info-strip { grid-template-columns: 1fr; }
     }
 
-    /* Status Pill */
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 800;
-    }
-    .status-transit { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
-    .status-scheduled { background: #fefce8; color: #a16207; border: 1px solid #fef08a; }
-    .status-delivered { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
-
-    /* Modal Backdrop */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -215,12 +136,11 @@
       padding: 16px;
     }
     .modal-overlay.active { display: flex; }
-    .modal-card {
+    .modal-box {
       background: #ffffff;
-      border-radius: 16px;
-      max-width: 580px;
+      border-radius: 14px;
+      max-width: 500px;
       width: 100%;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       overflow: hidden;
     }
   </style>
@@ -326,7 +246,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="page-search-input" placeholder="Search shipments, tracking IDs, truck numbers, destinations..." oninput="handleSearch(this.value)" />
+            <input type="text" id="page-search-input" placeholder="Search tracking ID, truck plate, driver..." oninput="handleSearch(this.value)" />
           </div>
           <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer;" title="Change Mandi Location">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -357,370 +277,247 @@
         </div>
       </header>
 
-      <div class="dashboard-content" style="padding: 24px 30px;">
+      <div class="dashboard-content" style="padding: 20px 24px;">
         
-        <!-- PROVENANCE RIBBON -->
-        <div class="provenance-ribbon">
-          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <span class="provenance-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-              AgriNex Verified Fleet
-            </span>
-            <span style="font-size: 0.82rem; color: #065f46; font-weight: 700;">
-              Live GPS Telemetry • Temperature Monitored • Official e-Way Gate Pass Included
-            </span>
+        <!-- HEADER -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <h1 style="font-size:1.3rem; font-weight:800; color:#0f172a; margin:0;">Orders & Shipments</h1>
+            <p style="font-size:0.8rem; color:#64748b; margin:2px 0 0;">Track your crop pickup and truck delivery in real time</p>
           </div>
-
-          <div style="display: flex; align-items: center; gap: 10px; font-size: 0.78rem; color: #047857; font-weight: 700;">
-            <span>🛡️ Goods Transit Insured</span>
-            <span>•</span>
-            <span>⏱️ 24/7 Driver Support</span>
-          </div>
+          <button class="btn btn-outline btn-sm" onclick="loadShipments()">↻ Refresh</button>
         </div>
 
-        <!-- 4 OVERVIEW STATS -->
-        <section class="fpo-stats-grid">
-          <div class="fpo-stat-card">
-            <div class="stat-icon-square stat-icon-blue">
+        <!-- 4 STATS -->
+        <div class="simple-stats-grid">
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#e0f2fe; color:#0284c7;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
             </div>
             <div>
-              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">Active Consignments</div>
-              <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">2 In Transit</div>
-              <div style="font-size: 0.72rem; font-weight: 700; color: #0284c7;">1 Scheduled Pickup</div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Active Trucks</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#0f172a;">2 On Road</div>
             </div>
           </div>
 
-          <div class="fpo-stat-card">
-            <div class="stat-icon-square stat-icon-green">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#e8f5ed; color:#10b981;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
             </div>
             <div>
-              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">Transit Volume (Dual)</div>
-              <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">160 Qt <span style="font-size:0.8rem; color:#64748b; font-weight:600;">(16,000 kg)</span></div>
-              <div style="font-size: 0.72rem; font-weight: 700; color: #059669;">Tomato & Potato Lots</div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Volume in Transit</div>
+              <div style="font-size:1.1rem; font-weight:800; color:#0c5a36;">160 Qt <span style="font-size:0.72rem; color:#64748b; font-weight:600;">(16,000 kg)</span></div>
             </div>
           </div>
 
-          <div class="fpo-stat-card">
-            <div class="stat-icon-square stat-icon-purple">
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#f3e8ff; color:#a855f7;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18"></path><path d="m14 9 3 3-3 3"></path></svg>
             </div>
             <div>
-              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">Gate Passes Active</div>
-              <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">2 Verified Passes</div>
-              <div style="font-size: 0.72rem; font-weight: 700; color: #a855f7;">QR Checkpost Ready</div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Gate Passes</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#0f172a;">2 Ready</div>
             </div>
           </div>
 
-          <div class="fpo-stat-card">
-            <div class="stat-icon-square stat-icon-orange">
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#ffedd5; color:#f97316;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             </div>
             <div>
-              <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">On-Time Delivery SLA</div>
-              <div style="font-size: 1.25rem; font-weight: 800; color: #059669; margin-bottom: 2px;">99.4%</div>
-              <div style="font-size: 0.72rem; font-weight: 700; color: #d97706;">Avg Transit: 4.8 Hours</div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Delivery Success</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#059669;">99.4%</div>
             </div>
           </div>
-        </section>
-
-        <!-- TABS -->
-        <div class="fpo-tabs-container">
-          <button class="fpo-tab-btn active" onclick="setTab('all', this)">All Orders (3)</button>
-          <button class="fpo-tab-btn" onclick="setTab('transit', this)">In Transit (2)</button>
-          <button class="fpo-tab-btn" onclick="setTab('scheduled', this)">Scheduled Pickup (1)</button>
-          <button class="fpo-tab-btn" onclick="setTab('delivered', this)">Delivered & Settled (1)</button>
         </div>
 
-        <!-- SHIPMENTS LIST -->
+        <!-- TABS -->
+        <div class="filter-tabs-row">
+          <button class="filter-tab active" onclick="setTab('all', this)">All Orders</button>
+          <button class="filter-tab" onclick="setTab('transit', this)">On The Road (2)</button>
+          <button class="filter-tab" onclick="setTab('scheduled', this)">Pickup Scheduled (1)</button>
+          <button class="filter-tab" onclick="setTab('delivered', this)">Delivered (1)</button>
+        </div>
+
+        <!-- ORDERS LIST -->
         <div id="shipments-container">
-          <!-- Dynamically generated -->
+          <!-- Rendered via JS -->
         </div>
 
       </div>
     </main>
   </div>
 
-  <!-- LIVE GPS MODAL -->
-  <div class="modal-overlay" id="gpsModal">
-    <div class="modal-card">
-      <div style="padding:18px 22px; background:#0f172a; color:#ffffff; display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <div style="font-weight:800; font-size:1.05rem;" id="gps-title">Live GPS Telemetry: TRK-9884</div>
-          <div style="font-size:0.75rem; color:#94a3b8;">Vehicle: MH-12-AQ-9011 (Tata 407 LCV)</div>
-        </div>
-        <button onclick="closeModal('gpsModal')" style="background:none; border:none; font-size:1.4rem; color:#ffffff; cursor:pointer;">&times;</button>
-      </div>
-      <div style="padding:20px;">
-        <!-- Simulated Map Box -->
-        <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius:12px; height:180px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; margin-bottom:16px; border:1px solid #334155;">
-          <div style="position:absolute; inset:0; opacity:0.15; background-image: radial-gradient(#38bdf8 1px, transparent 1px); background-size: 16px 16px;"></div>
-          <!-- Vehicle marker -->
-          <div style="text-align:center; position:relative; z-index:2;">
-            <div style="width:48px; height:48px; border-radius:50%; background:#0284c7; border:3px solid #ffffff; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; box-shadow:0 0 20px #38bdf8;">
-              <span style="font-size:1.4rem;">🚛</span>
-            </div>
-            <div style="background:#0284c7; color:#ffffff; font-size:0.72rem; font-weight:800; padding:2px 10px; border-radius:999px;">
-              Moving @ 54 km/h
-            </div>
-          </div>
-          <div style="position:absolute; bottom:10px; left:12px; color:#e2e8f0; font-size:0.75rem; font-weight:700;">
-            📍 Surat-Mumbai Expressway KM 84
-          </div>
-          <div style="position:absolute; bottom:10px; right:12px; color:#4ade80; font-size:0.75rem; font-weight:700;">
-            ❄️ Cargo Temp: 18.2°C (Optimal)
-          </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:16px;">
-          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px;">
-            <div style="font-size:0.72rem; color:#64748b; font-weight:700;">DESTINATION & ETA</div>
-            <div style="font-weight:800; color:#0f172a; font-size:0.95rem;" id="gps-dest">Swiggy Central DC, Bhiwandi</div>
-            <div style="font-size:0.75rem; color:#0284c7; font-weight:700; margin-top:2px;" id="gps-eta">ETA: Tomorrow, 8:00 AM (142 km remaining)</div>
-          </div>
-          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px;">
-            <div style="font-size:0.72rem; color:#64748b; font-weight:700;">DRIVER ON CALL</div>
-            <div style="font-weight:800; color:#0f172a; font-size:0.95rem;" id="gps-driver">Dinesh Yadav</div>
-            <div style="font-size:0.75rem; color:#059669; font-weight:700; margin-top:2px;">Phone: +91 97230 44819</div>
-          </div>
-        </div>
-
-        <div style="display:flex; justify-content:flex-end; gap:10px;">
-          <button class="btn btn-outline" onclick="closeModal('gpsModal')">Close</button>
-          <a href="tel:+919723044819" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
-            📞 Call Driver
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DIGITAL GATE PASS MODAL -->
+  <!-- SIMPLE GATE PASS MODAL -->
   <div class="modal-overlay" id="gatePassModal">
-    <div class="modal-card">
+    <div class="modal-box">
       <div style="padding:16px 20px; background:#064e3b; color:#ffffff; display:flex; justify-content:space-between; align-items:center;">
         <div>
-          <div style="font-weight:800; font-size:1rem;">AgriNex Digital Gate Pass & e-Way Slip</div>
-          <div style="font-size:0.72rem; color:#86efac;">Valid for Toll Plazas, Mandi Checkposts & State Transit</div>
+          <div style="font-weight:800; font-size:1rem;">Digital Gate Pass</div>
+          <div style="font-size:0.72rem; color:#86efac;">Valid for Tolls & Mandi Checkposts</div>
         </div>
-        <button onclick="closeModal('gatePassModal')" style="background:none; border:none; font-size:1.4rem; color:#ffffff; cursor:pointer;">&times;</button>
+        <button onclick="closeModal('gatePassModal')" style="background:none; border:none; font-size:1.3rem; color:#ffffff; cursor:pointer;">&times;</button>
       </div>
-      <div style="padding:20px;" id="gatePassPrintArea">
-        <div style="border:2px dashed #059669; border-radius:12px; padding:16px; background:#f0fdf4; margin-bottom:16px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <div>
-              <div style="font-size:0.75rem; color:#64748b; font-weight:700;">GATE PASS ID:</div>
-              <div style="font-size:1.2rem; font-weight:800; color:#064e3b;" id="gp-id">GP-2026-9884</div>
-            </div>
-            <!-- QR representation -->
-            <div style="width:60px; height:60px; background:#064e3b; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#ffffff; font-size:0.65rem; font-weight:800; text-align:center; padding:4px;">
-              SCAN FOR TOLL VERIFY
-            </div>
+      <div style="padding:18px 20px;">
+        <div style="border:1.5px dashed #059669; border-radius:10px; padding:14px; background:#f0fdf4; margin-bottom:14px; font-size:0.82rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <strong style="color:#064e3b; font-size:1.1rem;" id="gp-id">GP-2026-9884</strong>
+            <span style="background:#064e3b; color:#ffffff; padding:3px 8px; border-radius:4px; font-size:0.65rem; font-weight:800;">VERIFIED QR</span>
           </div>
-
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.8rem;">
-            <div><span style="color:#64748b;">Farmer Origin:</span> <strong id="gp-farmer">Ramesh Patel (Surat Hub)</strong></div>
-            <div><span style="color:#64748b;">Transporter:</span> <strong id="gp-trans">Gujarat FastAgro Logistics</strong></div>
-            <div><span style="color:#64748b;">Vehicle Plate:</span> <strong id="gp-veh">MH-12-AQ-9011</strong></div>
-            <div><span style="color:#64748b;">Driver Name:</span> <strong id="gp-drv">Dinesh Yadav</strong></div>
-            <div><span style="color:#64748b;">Produce Lot:</span> <strong id="gp-crop">Tomato Hybrid Red (40 Qt)</strong></div>
-            <div><span style="color:#64748b;">Certified Net Weight:</span> <strong id="gp-wt">4,000 kg (Electronic Scale)</strong></div>
-            <div><span style="color:#64748b;">Destination DC:</span> <strong id="gp-dst">Swiggy DC, Bhiwandi</strong></div>
-            <div><span style="color:#64748b;">Escrow Status:</span> <strong style="color:#059669;">35% Advance Disbursed</strong></div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+            <div><span style="color:#64748b;">Farmer:</span> <strong>Ramesh Patel</strong></div>
+            <div><span style="color:#64748b;">Driver:</span> <strong id="gp-drv">Dinesh Yadav</strong></div>
+            <div><span style="color:#64748b;">Truck No:</span> <strong id="gp-veh">MH-12-AQ-9011</strong></div>
+            <div><span style="color:#64748b;">Produce:</span> <strong id="gp-crop">Tomato (40 Qt)</strong></div>
+            <div><span style="color:#64748b;">Net Weight:</span> <strong id="gp-wt">4,000 kg</strong></div>
+            <div><span style="color:#64748b;">Destination:</span> <strong id="gp-dst">Swiggy DC</strong></div>
           </div>
         </div>
-
-        <div style="display:flex; justify-content:flex-end; gap:10px;">
-          <button class="btn btn-outline" onclick="closeModal('gatePassModal')">Close</button>
-          <button class="btn btn-primary" onclick="alert('Digital Gate Pass PDF downloaded to your device with official government QR verification.')">
-            📥 Download Official PDF
-          </button>
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button class="btn btn-outline btn-sm" onclick="closeModal('gatePassModal')">Close</button>
+          <button class="btn btn-primary btn-sm" onclick="alert('Gate Pass saved to downloads.')">Download PDF</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- SIMPLE GPS MODAL -->
+  <div class="modal-overlay" id="gpsModal">
+    <div class="modal-box">
+      <div style="padding:16px 20px; background:#0f172a; color:#ffffff; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:800; font-size:1rem;" id="gps-title">Live Truck Location</div>
+          <div style="font-size:0.72rem; color:#94a3b8;" id="gps-veh">MH-12-AQ-9011</div>
+        </div>
+        <button onclick="closeModal('gpsModal')" style="background:none; border:none; font-size:1.3rem; color:#ffffff; cursor:pointer;">&times;</button>
+      </div>
+      <div style="padding:18px 20px;">
+        <div style="background:#1e293b; color:#ffffff; border-radius:10px; padding:24px; text-align:center; margin-bottom:14px;">
+          <div style="font-size:2.2rem; margin-bottom:6px;">🚛</div>
+          <div style="font-weight:800; font-size:1rem; color:#38bdf8;" id="gps-loc">Surat-Mumbai Highway KM 84</div>
+          <div style="font-size:0.8rem; color:#94a3b8; margin-top:4px;" id="gps-eta">Speed: 54 km/h • ETA: Tomorrow 8:00 AM</div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.82rem; color:#334155;">Driver: <strong id="gps-drv">Dinesh Yadav</strong></span>
+          <a href="tel:+919723044819" class="btn btn-primary btn-sm" style="text-decoration:none;">📞 Call Driver</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
   <script>
-    const SHIPMENTS_DATA = [
-      {
-        tracking_id: 'TRK-9884',
-        gate_pass: 'GP-2026-9884',
-        contract_no: 'ESC-2026-0842',
-        crop: 'Tomato',
-        variety: 'Hybrid Red (Grade A)',
-        quantity_qt: 40,
-        quantity_kg: 4000,
-        buyer: 'Swiggy Instamart Agri',
-        destination: 'Swiggy Central DC, Bhiwandi, Maharashtra',
-        driver: 'Dinesh Yadav',
-        phone: '+91 97230 44819',
-        vehicle: 'MH-12-AQ-9011 (Tata 407)',
-        status: 'transit',
-        step: 3, // 1: Confirmed, 2: Advance Locked, 3: In Transit, 4: Delivered
-        current_loc: 'Surat-Mumbai Expressway KM 84',
-        speed: '54 km/h',
-        eta: 'Tomorrow, 8:00 AM',
-        total_value: 96000,
-        advance_paid: 33600,
-        image: 'assets/images/tomato.jpg'
-      },
-      {
-        tracking_id: 'TRK-9921',
-        gate_pass: 'GP-2026-9921',
-        contract_no: 'ESC-2026-0891',
-        crop: 'Potato',
-        variety: 'Jyoti Grade A Processing Chip Grade',
-        quantity_qt: 120,
-        quantity_kg: 12000,
-        buyer: 'Balaji Wafers Procurement',
-        destination: 'Balaji Factory Hub, Valsad, Gujarat',
-        driver: 'Sukhdev Singh',
-        phone: '+91 98450 11992',
-        vehicle: 'GJ-05-BX-4412 (Eicher 14-ft)',
-        status: 'scheduled',
-        step: 2,
-        current_loc: 'Vehicle Assigned • Arriving at Farm 02:00 PM',
-        speed: '0 km/h',
-        eta: 'Today, 4:30 PM',
-        total_value: 222000,
-        advance_paid: 77700,
-        image: 'assets/images/potato.jpg'
-      },
-      {
-        tracking_id: 'TRK-9710',
-        gate_pass: 'GP-2026-9710',
-        contract_no: 'ESC-2026-0799',
-        crop: 'Wheat',
-        variety: 'Sharbati Lokwan Golden Wheat',
-        quantity_qt: 100,
-        quantity_kg: 10000,
-        buyer: 'ITC Aashirvaad Sourcing',
-        destination: 'ITC Foods Depot, Vadodara, Gujarat',
-        driver: 'Mohan Lal',
-        phone: '+91 98110 55432',
-        vehicle: 'GJ-06-TT-1904 (10-Wheeler Container)',
-        status: 'delivered',
-        step: 4,
-        current_loc: 'Delivered & Accepted at DC',
-        speed: '0 km/h',
-        eta: 'Completed Yesterday',
-        total_value: 260000,
-        advance_paid: 91000,
-        balance_paid: 169000,
-        image: 'assets/images/hero-field.jpg'
-      }
+    let SHIPMENTS = [
+      { tracking_id: 'TRK-9884', gate_pass: 'GP-2026-9884', crop: 'Tomato (Hybrid Red)', quantity_qt: 40, quantity_kg: 4000, buyer: 'Swiggy Instamart Agri', destination: 'Swiggy DC, Bhiwandi', driver: 'Dinesh Yadav', phone: '+91 97230 44819', vehicle: 'MH-12-AQ-9011', status: 'transit', step: 3, loc: 'Surat-Mumbai Highway KM 84', eta: 'Tomorrow 8:00 AM', total_val: 96000, adv_paid: 33600 },
+      { tracking_id: 'TRK-9921', gate_pass: 'GP-2026-9921', crop: 'Potato (Jyoti Grade A)', quantity_qt: 120, quantity_kg: 12000, buyer: 'Balaji Wafers Procurement', destination: 'Balaji Factory, Valsad', driver: 'Sukhdev Singh', phone: '+91 98450 11992', vehicle: 'GJ-05-BX-4412', status: 'scheduled', step: 2, loc: 'Truck arriving at farm at 2:00 PM', eta: 'Today 4:30 PM', total_val: 222000, adv_paid: 77700 },
+      { tracking_id: 'TRK-9710', gate_pass: 'GP-2026-9710', crop: 'Wheat (Sharbati)', quantity_qt: 100, quantity_kg: 10000, buyer: 'Aashirvaad ITC Foods', destination: 'ITC Depot, Vadodara', driver: 'Mohan Lal', phone: '+91 98110 55432', vehicle: 'GJ-06-TT-1904', status: 'delivered', step: 4, loc: 'Delivered & Accepted', eta: 'Completed', total_val: 260000, adv_paid: 91000 }
     ];
 
     let currentTab = 'all';
 
-    function renderShipments() {
+    async function loadShipments() {
+      try {
+        if (window.AgriNexAPI) {
+          const res = await AgriNexAPI.getShipments();
+          if (res && res.length > 0) {
+            SHIPMENTS = res.map(s => ({
+              tracking_id: s.tracking_id,
+              gate_pass: s.gate_pass,
+              crop: `${s.crop} (${s.variety || ''})`,
+              quantity_qt: s.quantity_qt,
+              quantity_kg: s.quantity_kg || (s.quantity_qt * 100),
+              buyer: s.buyer || s.buyer_name,
+              destination: s.destination,
+              driver: s.driver || s.driver_name,
+              phone: s.phone || s.driver_phone,
+              vehicle: s.vehicle || s.vehicle_no,
+              status: s.status,
+              step: s.step || 3,
+              loc: s.current_loc || 'In Transit',
+              eta: s.eta || 'On Schedule',
+              total_val: s.total_value || s.total_amount,
+              adv_paid: s.advance_paid || s.advance_amount
+            }));
+          }
+        }
+      } catch (e) {}
+      renderOrders();
+    }
+
+    function renderOrders() {
       const container = document.getElementById('shipments-container');
-      const filtered = SHIPMENTS_DATA.filter(s => {
+      const filtered = SHIPMENTS.filter(s => {
         if (currentTab === 'all') return true;
         return s.status === currentTab;
       });
 
       container.innerHTML = filtered.map(s => `
-        <div class="shipment-card">
-          <!-- Top Bar -->
-          <div class="shipment-top-bar">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <span style="font-weight:800; font-size:1.05rem; color:#0f172a;">${s.tracking_id}</span>
-              <span style="color:#cbd5e1;">|</span>
-              <span style="font-size:0.8rem; color:#64748b; font-weight:600;">Contract: ${s.contract_no}</span>
-              <span style="color:#cbd5e1;">|</span>
-              <span style="font-size:0.8rem; color:#047857; font-weight:700;">Gate Pass: ${s.gate_pass}</span>
+        <div class="order-box">
+          <div class="order-header-row">
+            <div>
+              <strong style="font-size:1rem; color:#0f172a;">${s.tracking_id}</strong>
+              <span style="margin:0 8px; color:#cbd5e1;">|</span>
+              <span style="font-size:0.8rem; color:#059669; font-weight:700;">Gate Pass: ${s.gate_pass}</span>
+            </div>
+            <span style="background:${s.status === 'transit' ? '#eff6ff' : (s.status === 'delivered' ? '#ecfdf5' : '#fefce8')}; color:${s.status === 'transit' ? '#1d4ed8' : (s.status === 'delivered' ? '#047857' : '#a16207')}; border:1px solid ${s.status === 'transit' ? '#bfdbfe' : (s.status === 'delivered' ? '#a7f3d0' : '#fef08a')}; padding:3px 10px; border-radius:999px; font-size:0.75rem; font-weight:800;">
+              ● ${s.status === 'transit' ? 'On The Road' : (s.status === 'delivered' ? 'Delivered' : 'Pickup Scheduled')}
+            </span>
+          </div>
+
+          <!-- Progress -->
+          <div class="step-track">
+            <div>
+              <div class="step-dot done">✓</div>
+              <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">Confirmed</div>
             </div>
             <div>
-              <span class="status-pill ${s.status === 'transit' ? 'status-transit' : (s.status === 'delivered' ? 'status-delivered' : 'status-scheduled')}">
-                ● ${s.status === 'transit' ? 'In Transit (Live Telemetry)' : (s.status === 'delivered' ? 'Delivered & 100% Settled' : 'Scheduled Pickup Today')}
-              </span>
+              <div class="step-dot ${s.step >= 2 ? 'done' : ''}">${s.step >= 2 ? '✓' : '2'}</div>
+              <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">35% Advance Paid</div>
+            </div>
+            <div>
+              <div class="step-dot ${s.step >= 3 ? (s.step === 3 ? 'active' : 'done') : ''}">${s.step > 3 ? '✓' : '3'}</div>
+              <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">In Truck</div>
+            </div>
+            <div>
+              <div class="step-dot ${s.step >= 4 ? 'done' : ''}">${s.step === 4 ? '✓' : '4'}</div>
+              <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">Delivered</div>
             </div>
           </div>
 
-          <!-- 4-Stage Delivery Stepper -->
-          <div class="stepper-track">
-            <div class="stepper-item ${s.step >= 1 ? 'completed' : ''}">
-              <div class="stepper-circle">${s.step > 1 ? '✓' : '1'}</div>
-              <div class="stepper-line"></div>
-              <div style="font-size:0.75rem; font-weight:700; color:#0f172a;">Order Confirmed</div>
-              <div style="font-size:0.68rem; color:#64748b;">Deal finalized</div>
+          <!-- Info Strip -->
+          <div class="info-strip">
+            <div>
+              <div style="font-size:0.7rem; color:#64748b; font-weight:700;">PRODUCE & BUYER</div>
+              <div style="font-weight:800; font-size:0.95rem; color:#0f172a;">${s.crop}</div>
+              <div style="color:#059669; font-weight:700;">${s.quantity_qt} Qt (${s.quantity_kg.toLocaleString()} kg)</div>
+              <div style="color:#64748b;">${s.buyer}</div>
             </div>
-            <div class="stepper-item ${s.step >= 2 ? 'completed' : ''}">
-              <div class="stepper-circle">${s.step > 2 ? '✓' : '2'}</div>
-              <div class="stepper-line"></div>
-              <div style="font-size:0.75rem; font-weight:700; color:#0f172a;">35% Advance Credited</div>
-              <div style="font-size:0.68rem; color:#059669; font-weight:600;">₹ ${s.advance_paid.toLocaleString()} paid</div>
+            <div>
+              <div style="font-size:0.7rem; color:#64748b; font-weight:700;">DRIVER & TRUCK</div>
+              <div style="font-weight:800; color:#0f172a;">${s.driver}</div>
+              <div style="color:#334155;">${s.vehicle}</div>
+              <div style="color:#0284c7; font-weight:700;"><a href="tel:${s.phone}" style="color:#0284c7; text-decoration:none;">${s.phone}</a></div>
             </div>
-            <div class="stepper-item ${s.step >= 3 ? (s.step === 3 ? 'active' : 'completed') : ''}">
-              <div class="stepper-circle">${s.step > 3 ? '✓' : '3'}</div>
-              <div class="stepper-line"></div>
-              <div style="font-size:0.75rem; font-weight:700; color:#0f172a;">Farm Pickup Done</div>
-              <div style="font-size:0.68rem; color:#64748b;">Gate Pass issued</div>
-            </div>
-            <div class="stepper-item ${s.step >= 4 ? 'completed' : ''}">
-              <div class="stepper-circle">${s.step === 4 ? '✓' : '4'}</div>
-              <div style="font-size:0.75rem; font-weight:700; color:#0f172a;">Buyer DC Accepted</div>
-              <div style="font-size:0.68rem; color:#0284c7; font-weight:600;">65% Balance Released</div>
+            <div>
+              <div style="font-size:0.7rem; color:#64748b; font-weight:700;">DELIVERY STATUS</div>
+              <div style="color:#0f172a; font-weight:700;">${s.destination}</div>
+              <div style="color:#0284c7; font-weight:700;">📍 ${s.loc}</div>
+              <div style="color:#d97706; font-weight:700;">⏱️ ${s.eta}</div>
             </div>
           </div>
 
-          <!-- 3-Column Info Grid -->
-          <div class="shipment-info-grid">
-            <div>
-              <div style="font-size:0.72rem; color:#64748b; font-weight:700; text-transform:uppercase;">Produce & Lot Volume</div>
-              <div style="font-weight:800; font-size:1.05rem; color:#0f172a; margin-top:2px;">${s.crop} (${s.variety})</div>
-              <div style="font-size:0.85rem; color:#059669; font-weight:700; margin-top:2px;">
-                ${s.quantity_qt} Qt <span style="font-weight:600; color:#475569;">(${s.quantity_kg.toLocaleString()} kg)</span>
-              </div>
-              <div style="font-size:0.75rem; color:#64748b; margin-top:4px;">Buyer: <strong>${s.buyer}</strong></div>
+          <!-- Actions -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="font-size:0.8rem; color:#475569;">
+              Total: <strong>₹ ${s.total_val.toLocaleString()}</strong> • <span style="color:#059669; font-weight:700;">35% Advance ₹ ${s.adv_paid.toLocaleString()} in bank</span>
             </div>
-
-            <div>
-              <div style="font-size:0.72rem; color:#64748b; font-weight:700; text-transform:uppercase;">Assigned Transporter & Driver</div>
-              <div style="font-weight:800; font-size:0.95rem; color:#0f172a; margin-top:2px;">${s.driver}</div>
-              <div style="font-size:0.82rem; color:#334155; font-weight:600;">${s.vehicle}</div>
-              <div style="font-size:0.75rem; color:#0284c7; font-weight:700; margin-top:4px;">
-                Phone: <a href="tel:${s.phone}" style="color:#0284c7; text-decoration:none;">${s.phone}</a>
-              </div>
-            </div>
-
-            <div>
-              <div style="font-size:0.72rem; color:#64748b; font-weight:700; text-transform:uppercase;">Route & Live Location</div>
-              <div style="font-weight:800; font-size:0.85rem; color:#0f172a; margin-top:2px;">${s.destination}</div>
-              <div style="font-size:0.8rem; color:#0284c7; font-weight:700; margin-top:2px;">
-                📍 ${s.current_loc}
-              </div>
-              <div style="font-size:0.75rem; color:#d97706; font-weight:700; margin-top:2px;">
-                ⏱️ ${s.eta}
-              </div>
-            </div>
-          </div>
-
-          <!-- Bottom Action Buttons -->
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-            <div style="font-size:0.82rem; color:#475569;">
-              Deal Value: <strong>₹ ${s.total_value.toLocaleString()}</strong> • 
-              <span style="color:#059669; font-weight:700;">35% Advance ₹ ${s.advance_paid.toLocaleString()} credited</span>
-            </div>
-            <div style="display:flex; gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="openGatePassModal('${s.tracking_id}')">
-                📑 View Digital Gate Pass
-              </button>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-outline btn-sm" onclick="openGatePass('${s.tracking_id}')">📑 Gate Pass</button>
               ${s.status === 'transit' ? `
-                <button class="btn btn-primary btn-sm" onclick="openGpsModal('${s.tracking_id}')">
-                  📡 Live GPS Tracking
-                </button>
-              ` : (s.status === 'scheduled' ? `
-                <button class="btn btn-primary btn-sm" onclick="alert('Driver Sukhdev Singh has been notified. Estimated farm arrival at 02:00 PM.')">
-                  📍 Notify Transporter
-                </button>
+                <button class="btn btn-primary btn-sm" onclick="openGps('${s.tracking_id}')">📍 Track Location</button>
               ` : `
-                <button class="btn btn-outline btn-sm" onclick="alert('Receipt and delivery sign-off document downloaded.')">
-                  📥 Delivery Receipt
-                </button>
-              `)}
+                <a href="tel:${s.phone}" class="btn btn-primary btn-sm" style="text-decoration:none;">📞 Call</a>
+              `}
             </div>
           </div>
         </div>
@@ -729,84 +526,39 @@
 
     function setTab(tab, btn) {
       currentTab = tab;
-      document.querySelectorAll('.fpo-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      
-    async function loadShipmentsFromBackend() {
-      try {
-        const res = await fetch('/api/logistics/shipments');
-        if (res.ok) {
-          const apiShipments = await res.json();
-          if (apiShipments && apiShipments.length > 0) {
-            SHIPMENTS_DATA.length = 0;
-            apiShipments.forEach(s => SHIPMENTS_DATA.push(s));
-            renderShipments();
-          }
-        }
-      } catch (e) {
-        console.log('Using default shipments cache:', e.message);
-      }
+      renderOrders();
     }
 
-    loadShipmentsFromBackend();
-
-    renderShipments();
-    }
-
-    function openGpsModal(trkId) {
-      const s = SHIPMENTS_DATA.find(x => x.tracking_id === trkId);
-      if (!s) return;
-      document.getElementById('gps-title').innerText = `Live GPS Telemetry: ${s.tracking_id}`;
-      document.getElementById('gps-dest').innerText = s.destination;
-      document.getElementById('gps-eta').innerText = `ETA: ${s.eta} (Speed: ${s.speed})`;
-      document.getElementById('gps-driver').innerText = `${s.driver} (${s.vehicle})`;
-      document.getElementById('gpsModal').classList.add('active');
-    }
-
-    function openGatePassModal(trkId) {
-      const s = SHIPMENTS_DATA.find(x => x.tracking_id === trkId);
+    function openGatePass(id) {
+      const s = SHIPMENTS.find(x => x.tracking_id === id);
       if (!s) return;
       document.getElementById('gp-id').innerText = s.gate_pass;
+      document.getElementById('gp-drv').innerText = s.driver;
+      document.getElementById('gp-veh').innerText = s.vehicle;
       document.getElementById('gp-crop').innerText = `${s.crop} (${s.quantity_qt} Qt)`;
       document.getElementById('gp-wt').innerText = `${s.quantity_kg.toLocaleString()} kg`;
-      document.getElementById('gp-veh').innerText = s.vehicle;
-      document.getElementById('gp-drv').innerText = s.driver;
       document.getElementById('gp-dst').innerText = s.destination;
       document.getElementById('gatePassModal').classList.add('active');
+    }
+
+    function openGps(id) {
+      const s = SHIPMENTS.find(x => x.tracking_id === id);
+      if (!s) return;
+      document.getElementById('gps-title').innerText = `Track: ${s.tracking_id}`;
+      document.getElementById('gps-veh').innerText = s.vehicle;
+      document.getElementById('gps-loc').innerText = s.loc;
+      document.getElementById('gps-eta').innerText = `ETA: ${s.eta}`;
+      document.getElementById('gps-drv').innerText = `${s.driver} (${s.phone})`;
+      document.getElementById('gpsModal').classList.add('active');
     }
 
     function closeModal(id) {
       document.getElementById(id).classList.remove('active');
     }
 
-    function handleSearch(val) {
-      const query = val.toLowerCase();
-      document.querySelectorAll('.shipment-card').forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(query) ? 'block' : 'none';
-      });
-    }
-
-    
-    async function loadShipmentsFromBackend() {
-      try {
-        const res = await fetch('/api/logistics/shipments');
-        if (res.ok) {
-          const apiShipments = await res.json();
-          if (apiShipments && apiShipments.length > 0) {
-            SHIPMENTS_DATA.length = 0;
-            apiShipments.forEach(s => SHIPMENTS_DATA.push(s));
-            renderShipments();
-          }
-        }
-      } catch (e) {
-        console.log('Using default shipments cache:', e.message);
-      }
-    }
-
-    loadShipmentsFromBackend();
-
-    renderShipments();
+    loadShipments();
   </script>
 </body>
 </html>

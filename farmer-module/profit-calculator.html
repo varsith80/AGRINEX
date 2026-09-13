@@ -9,70 +9,37 @@
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
-  <title>AgriNex - Net Profit & Freight Calculator | APMC Mandi vs Direct Trade</title>
+  <title>AgriNex - Profit Calculator</title>
   <style>
-    .provenance-ribbon {
-      background: linear-gradient(90deg, #ecfdf5 0%, #f0fdf4 100%);
-      border: 1px solid #a7f3d0;
-      border-radius: 12px;
-      padding: 10px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .provenance-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.76rem;
-      font-weight: 800;
-      color: #065f46;
-      background: #ffffff;
-      border: 1px solid #6ee7b7;
-      padding: 4px 10px;
-      border-radius: 999px;
-    }
-
-    .calc-container-grid {
+    .calc-two-col {
       display: grid;
       grid-template-columns: 1fr 1.25fr;
-      gap: 22px;
+      gap: 18px;
     }
-    @media (max-width: 1024px) {
-      .calc-container-grid { grid-template-columns: 1fr; }
+    @media (max-width: 900px) {
+      .calc-two-col { grid-template-columns: 1fr; }
     }
 
-    .calc-input-panel {
+    .calc-card-white {
       background: #ffffff;
       border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 24px;
+      border-radius: 14px;
+      padding: 20px 22px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     }
 
-    .calc-output-panel {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-    }
-
-    .form-label {
+    .form-row { margin-bottom: 14px; }
+    .form-lbl {
       display: flex;
       justify-content: space-between;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 700;
       color: #334155;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
-
-    .form-control {
+    .form-inp {
       width: 100%;
-      padding: 10px 14px;
+      padding: 9px 12px;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
       font-size: 0.95rem;
@@ -80,66 +47,55 @@
       box-sizing: border-box;
       outline: none;
     }
-    .form-control:focus {
-      border-color: #059669;
-      box-shadow: 0 0 0 3px rgba(5,150,105,0.1);
-    }
+    .form-inp:focus { border-color: #059669; }
+    .range-bar { width: 100%; accent-color: #059669; cursor: pointer; }
 
-    .slider-range {
-      width: 100%;
-      accent-color: #059669;
-      cursor: pointer;
-    }
-
-    /* Radio Cards */
-    .vehicle-options-grid {
+    /* Vehicle radio */
+    .veh-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 6px;
+      gap: 8px;
+      margin-top: 4px;
     }
-    .vehicle-radio-card {
+    .veh-btn {
       border: 1.5px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 8px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.15s ease;
     }
-    .vehicle-radio-card:hover { border-color: #94a3b8; }
-    .vehicle-radio-card.active {
+    .veh-btn.active {
       border-color: #059669;
       background: #f0fdf4;
     }
 
-    /* Glow Result Banner */
-    .extra-gain-banner {
+    /* Extra Cash Green Box */
+    .cash-box-green {
       background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
       color: #ffffff;
-      border-radius: 14px;
-      padding: 20px 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 20px rgba(6,78,59,0.2);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
     }
 
-    /* Comparison Head-to-Head Table */
-    .comparison-columns {
+    /* Side-by-Side Comparison */
+    .compare-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 16px;
     }
-    .comp-col-mandi {
+    .col-mandi {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 10px;
+      padding: 12px 14px;
     }
-    .comp-col-agrinex {
+    .col-agrinex {
       background: #f0fdf4;
       border: 1.5px solid #86efac;
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 10px;
+      padding: 12px 14px;
     }
   </style>
 </head>
@@ -244,7 +200,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="page-search-input" placeholder="Calculate mandi vs platform profit, freight, commission savings..." oninput="handleSearch(this.value)" />
+            <input type="text" id="page-search-input" placeholder="Calculate your crop profit..." oninput="handleSearch(this.value)" />
           </div>
           <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer;" title="Change Mandi Location">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -275,219 +231,156 @@
         </div>
       </header>
 
-      <div class="dashboard-content" style="padding: 24px 30px;">
+      <div class="dashboard-content" style="padding: 20px 24px;">
         
-        <!-- PROVENANCE RIBBON -->
-        <div class="provenance-ribbon">
-          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <span class="provenance-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" x2="16" y2="6"></line><line x1="16" x2="16" y1="14" x2="18"></line></svg>
-              Transparent Farm Economics
-            </span>
-            <span style="font-size: 0.82rem; color: #065f46; font-weight: 700;">
-              Compare Actual APMC Mandi Deductions vs AgriNex Direct 0% Commission Payout
-            </span>
-          </div>
-
-          <div style="display: flex; align-items: center; gap: 10px; font-size: 0.78rem; color: #047857; font-weight: 700;">
-            <span>💰 0% Middleman Cut</span>
-            <span>•</span>
-            <span>⚖️ 100% Certified Electronic Weight</span>
-          </div>
+        <!-- HEADER -->
+        <div style="margin-bottom:16px;">
+          <h1 style="font-size:1.3rem; font-weight:800; color:#0f172a; margin:0;">Profit Calculator</h1>
+          <p style="font-size:0.8rem; color:#64748b; margin:2px 0 0;">See how much more money you take home compared to local Mandi</p>
         </div>
 
-        <!-- MAIN CALCULATOR WORKBENCH -->
-        <div class="calc-container-grid">
+        <div class="calc-two-col">
           
-          <!-- LEFT: INPUT CONTROLS -->
-          <div class="calc-input-panel">
-            <h2 style="font-size:1.15rem; font-weight:800; color:#0f172a; margin-top:0; margin-bottom:18px;">
-              🌾 Crop & Transportation Parameters
-            </h2>
+          <!-- LEFT: INPUTS -->
+          <div class="calc-card-white">
+            <h2 style="font-size:1.05rem; font-weight:800; color:#0f172a; margin:0 0 14px;">Enter Crop Details</h2>
 
-            <!-- Crop Selector -->
-            <div style="margin-bottom:18px;">
-              <label class="form-label">
-                <span>Select Produce</span>
-                <span style="font-size:0.75rem; color:#059669; font-weight:600;">Auto-loads Mandi Benchmark</span>
-              </label>
-              <select class="form-control" id="calc-crop" onchange="onCropChange()">
+            <div class="form-row">
+              <label class="form-lbl"><span>Select Produce</span></label>
+              <select class="form-inp" id="calc-crop" onchange="onCropChange()">
                 <option value="Tomato" data-rate="2250">🍅 Tomato (Hybrid Red)</option>
                 <option value="Onion" data-rate="2600">🧅 Onion (Nashik Red)</option>
                 <option value="Potato" data-rate="1750">🥔 Potato (Jyoti Grade A)</option>
-                <option value="Wheat" data-rate="2450">🌾 Wheat (Sharbati Lokwan)</option>
+                <option value="Wheat" data-rate="2450">🌾 Wheat (Sharbati)</option>
                 <option value="Cotton" data-rate="6800">☁️ Cotton (Medium Staple)</option>
               </select>
             </div>
 
-            <!-- Harvest Volume Slider -->
-            <div style="margin-bottom:18px;">
-              <div class="form-label">
-                <span>Harvest Lot Volume</span>
-                <span id="volume-badge" style="font-weight:800; color:#0c5a36;">50 Quintals (5,000 kg)</span>
+            <div class="form-row">
+              <div class="form-lbl">
+                <span>Harvest Quantity</span>
+                <span id="vol-lbl" style="color:#0c5a36; font-weight:800;">50 Quintals (5,000 kg)</span>
               </div>
-              <input type="range" class="slider-range" id="volume-slider" min="5" max="300" step="5" value="50" oninput="onVolumeSlider(this.value)" />
-              <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#64748b; margin-top:4px;">
-                <span>5 Qt (500 kg)</span>
-                <span>150 Qt (15,000 kg)</span>
-                <span>300 Qt (30,000 kg)</span>
-              </div>
+              <input type="range" class="range-bar" id="vol-range" min="5" max="300" step="5" value="50" oninput="onVolChange(this.value)" />
             </div>
 
-            <!-- Local Mandi Rate -->
-            <div style="margin-bottom:18px;">
-              <div class="form-label">
-                <span>Local Mandi Rate (₹ / Quintal)</span>
-                <span id="mandi-rate-kg-badge" style="color:#0284c7; font-weight:700;">₹ 22.50 / kg</span>
+            <div class="form-row">
+              <div class="form-lbl">
+                <span>Local Mandi Price (₹ / Quintal)</span>
+                <span id="mandi-kg-lbl" style="color:#0284c7; font-weight:700;">₹ 22.50 / kg</span>
               </div>
-              <input type="number" class="form-control" id="calc-mandi-rate" value="2250" step="10" oninput="recalculate()" />
+              <input type="number" class="form-inp" id="mandi-rate-inp" value="2250" oninput="recalc()" />
             </div>
 
-            <!-- Distance Slider -->
-            <div style="margin-bottom:18px;">
-              <div class="form-label">
-                <span>Delivery Distance to Corporate Buyer / DC</span>
-                <span id="distance-badge" style="font-weight:800; color:#0f172a;">45 km</span>
+            <div class="form-row">
+              <div class="form-lbl">
+                <span>Distance to Buyer</span>
+                <span id="dist-lbl" style="font-weight:800; color:#0f172a;">45 km</span>
               </div>
-              <input type="range" class="slider-range" id="distance-slider" min="10" max="300" step="5" value="45" oninput="onDistanceSlider(this.value)" />
-              <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#64748b; margin-top:4px;">
-                <span>10 km (Local DC)</span>
-                <span>150 km</span>
-                <span>300 km (State Metro)</span>
-              </div>
+              <input type="range" class="range-bar" id="dist-range" min="10" max="300" step="5" value="45" oninput="onDistChange(this.value)" />
             </div>
 
-            <!-- Vehicle Type Selection -->
-            <div style="margin-bottom:12px;">
-              <label class="form-label"><span>Transport Vehicle Type</span></label>
-              <div class="vehicle-options-grid">
-                <div class="vehicle-radio-card active" id="v-ace" onclick="setVehicle('ace', 10)">
-                  <div style="font-size:1.3rem;">🛻</div>
-                  <div style="font-weight:800; font-size:0.82rem; color:#0f172a;">Tata Ace</div>
-                  <div style="font-size:0.7rem; color:#64748b;">1.5 Ton • ₹10/km</div>
+            <div class="form-row">
+              <label class="form-lbl"><span>Transport Vehicle</span></label>
+              <div class="veh-grid">
+                <div class="veh-btn active" id="v1" onclick="setVeh('v1', 10)">
+                  <div style="font-size:1.2rem;">🛻</div>
+                  <div style="font-weight:800; font-size:0.75rem;">Small Truck</div>
+                  <div style="font-size:0.68rem; color:#64748b;">₹10/km</div>
                 </div>
-                <div class="vehicle-radio-card" id="v-eicher" onclick="setVehicle('eicher', 14)">
-                  <div style="font-size:1.3rem;">🚚</div>
-                  <div style="font-weight:800; font-size:0.82rem; color:#0f172a;">Eicher 14ft</div>
-                  <div style="font-size:0.7rem; color:#64748b;">4 Ton • ₹14/km</div>
+                <div class="veh-btn" id="v2" onclick="setVeh('v2', 14)">
+                  <div style="font-size:1.2rem;">🚚</div>
+                  <div style="font-weight:800; font-size:0.75rem;">Medium Truck</div>
+                  <div style="font-size:0.68rem; color:#64748b;">₹14/km</div>
                 </div>
-                <div class="vehicle-radio-card" id="v-truck" onclick="setVehicle('truck', 22)">
-                  <div style="font-size:1.3rem;">🚛</div>
-                  <div style="font-weight:800; font-size:0.82rem; color:#0f172a;">10-Wheeler</div>
-                  <div style="font-size:0.7rem; color:#64748b;">16 Ton • ₹22/km</div>
+                <div class="veh-btn" id="v3" onclick="setVeh('v3', 22)">
+                  <div style="font-size:1.2rem;">🚛</div>
+                  <div style="font-weight:800; font-size:0.75rem;">Large Truck</div>
+                  <div style="font-size:0.68rem; color:#64748b;">₹22/km</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT: LIVE EARNINGS & DUAL BREAKDOWN -->
-          <div class="calc-output-panel">
-            
-            <!-- GLOWING HIGHLIGHT BANNER -->
-            <div class="extra-gain-banner">
-              <div style="font-size:0.82rem; text-transform:uppercase; letter-spacing:0.5px; opacity:0.9;">
-                Your Net Extra Take-Home Profit with AgriNex
-              </div>
-              <div style="font-size:2.4rem; font-weight:800; margin:4px 0;" id="extra-profit-text">
-                + ₹ 10,850 MORE
-              </div>
-              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:0.85rem;">
-                <span style="background:rgba(255,255,255,0.2); padding:3px 10px; border-radius:6px; font-weight:700;">
-                  ▲ +11.4% Higher Net Take-Home
-                </span>
-                <span style="opacity:0.9;">Direct Corporate Premium + Zero Middleman Fee</span>
+          <!-- RIGHT: RESULTS -->
+          <div class="calc-card-white">
+            <div class="cash-box-green">
+              <div style="font-size:0.75rem; text-transform:uppercase; opacity:0.9; font-weight:700;">YOUR EXTRA CASH IN HAND</div>
+              <div style="font-size:2.2rem; font-weight:800; margin:2px 0;" id="extra-cash">+ ₹ 10,850 MORE</div>
+              <div style="font-size:0.8rem; opacity:0.95;">
+                You earn <strong>+11.4% more money</strong> directly into your bank account!
               </div>
             </div>
 
-            <!-- HEAD-TO-HEAD COMPARISON COLUMNS -->
-            <div class="comparison-columns">
-              
-              <!-- Column A: APMC Mandi -->
-              <div class="comp-col-mandi">
-                <div style="font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase;">
-                  Traditional APMC Mandi
-                </div>
-                <div style="font-size:1.25rem; font-weight:800; color:#334155; margin:4px 0;" id="mandi-net-total">
-                  ₹ 1,02,400
-                </div>
-                <div style="font-size:0.75rem; color:#64748b; margin-bottom:12px;" id="mandi-net-kg">
-                  Net Realized: ₹ 20.48 / kg
-                </div>
+            <!-- Side by Side -->
+            <div class="compare-grid">
+              <!-- Mandi -->
+              <div class="col-mandi">
+                <div style="font-size:0.72rem; font-weight:800; color:#64748b; text-transform:uppercase;">Local Mandi</div>
+                <div style="font-size:1.15rem; font-weight:800; color:#334155; margin:3px 0;" id="m-net">₹ 1,02,400</div>
+                <div style="font-size:0.72rem; color:#64748b; margin-bottom:8px;" id="m-perkg">₹ 20.48 / kg</div>
 
-                <div style="font-size:0.75rem; color:#475569; border-top:1px solid #e2e8f0; padding-top:8px;">
-                  <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                    <span>Gross Mandi Sale:</span>
-                    <strong id="mandi-gross">₹ 1,12,500</strong>
-                  </div>
-                  <div style="display:flex; justify-content:space-between; color:#b91c1c; margin-bottom:4px;">
-                    <span>Adatiya Commission (6%):</span>
-                    <span id="mandi-comm">- ₹ 6,750</span>
-                  </div>
-                  <div style="display:flex; justify-content:space-between; color:#b91c1c; margin-bottom:4px;">
-                    <span>Weighment Deduction (2%):</span>
-                    <span id="mandi-weigh">- ₹ 2,250</span>
+                <div style="font-size:0.72rem; color:#64748b; border-top:1px solid #e2e8f0; padding-top:6px; line-height:1.5;">
+                  <div style="display:flex; justify-content:space-between;">
+                    <span>Total Sale:</span>
+                    <strong id="m-gross">₹ 1,12,500</strong>
                   </div>
                   <div style="display:flex; justify-content:space-between; color:#b91c1c;">
-                    <span>Hamali / Unloading Cess:</span>
-                    <span id="mandi-labor">- ₹ 1,100</span>
+                    <span>Agent Cut (6%):</span>
+                    <span id="m-cut">- ₹ 6,750</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; color:#b91c1c;">
+                    <span>Weight Loss (2%):</span>
+                    <span id="m-loss">- ₹ 2,250</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; color:#b91c1c;">
+                    <span>Loading Fee:</span>
+                    <span id="m-load">- ₹ 1,100</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Column B: AgriNex Direct -->
-              <div class="comp-col-agrinex">
-                <div style="font-size:0.75rem; font-weight:800; color:#065f46; text-transform:uppercase;">
-                  AgriNex Direct Trade
-                </div>
-                <div style="font-size:1.25rem; font-weight:800; color:#047857; margin:4px 0;" id="agrinex-net-total">
-                  ₹ 1,13,250
-                </div>
-                <div style="font-size:0.75rem; color:#047857; font-weight:700; margin-bottom:12px;" id="agrinex-net-kg">
-                  Net Realized: ₹ 22.65 / kg
-                </div>
+              <!-- AgriNex -->
+              <div class="col-agrinex">
+                <div style="font-size:0.72rem; font-weight:800; color:#065f46; text-transform:uppercase;">AgriNex Direct</div>
+                <div style="font-size:1.15rem; font-weight:800; color:#047857; margin:3px 0;" id="a-net">₹ 1,13,250</div>
+                <div style="font-size:0.72rem; color:#047857; font-weight:700; margin-bottom:8px;" id="a-perkg">₹ 22.65 / kg</div>
 
-                <div style="font-size:0.75rem; color:#065f46; border-top:1px solid #bbf7d0; padding-top:8px;">
-                  <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                    <span>Direct Corporate Gross (+8%):</span>
-                    <strong id="agrinex-gross">₹ 1,21,500</strong>
+                <div style="font-size:0.72rem; color:#065f46; border-top:1px solid #bbf7d0; padding-top:6px; line-height:1.5;">
+                  <div style="display:flex; justify-content:space-between;">
+                    <span>Buyer Price (+8%):</span>
+                    <strong id="a-gross">₹ 1,21,500</strong>
                   </div>
-                  <div style="display:flex; justify-content:space-between; color:#047857; margin-bottom:4px;">
-                    <span>Platform Commission:</span>
+                  <div style="display:flex; justify-content:space-between;">
+                    <span>Agent Fee:</span>
                     <strong>₹ 0 (Free)</strong>
                   </div>
-                  <div style="display:flex; justify-content:space-between; color:#047857; margin-bottom:4px;">
-                    <span>Electronic Weight Loss:</span>
-                    <strong>₹ 0 (Certified)</strong>
+                  <div style="display:flex; justify-content:space-between;">
+                    <span>Weight Loss:</span>
+                    <strong>₹ 0 (Accurate)</strong>
                   </div>
                   <div style="display:flex; justify-content:space-between; color:#475569;">
-                    <span>Net Shared Freight Deduction:</span>
-                    <span id="agrinex-freight">- ₹ 450</span>
+                    <span>Transport Share:</span>
+                    <span id="a-freight">- ₹ 450</span>
                   </div>
                 </div>
               </div>
-
             </div>
 
-            <!-- ESCROW SECURITY SUMMARY -->
-            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px; margin-bottom:18px;">
-              <div style="font-size:0.75rem; font-weight:700; color:#0f172a; margin-bottom:6px;">
-                🛡️ Guaranteed Payout Structure (HDFC Nodal Escrow)
+            <!-- Payout Summary -->
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px 14px; margin-bottom:14px; font-size:0.8rem;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <span style="color:#64748b;">35% Advance at Pickup:</span>
+                <strong style="color:#059669;" id="adv-box">₹ 39,637</strong>
               </div>
-              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.8rem;">
-                <div>
-                  <span style="color:#64748b;">35% Advance at Pickup:</span>
-                  <strong style="color:#059669; display:block;" id="escrow-advance-text">₹ 39,637</strong>
-                </div>
-                <div>
-                  <span style="color:#64748b;">65% Balance on Delivery:</span>
-                  <strong style="color:#0284c7; display:block;" id="escrow-balance-text">₹ 73,613</strong>
-                </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:#64748b;">65% Balance on Delivery:</span>
+                <strong style="color:#0284c7;" id="bal-box">₹ 73,613</strong>
               </div>
             </div>
 
-            <!-- CTA BUTTON -->
-            <button class="btn btn-primary" style="width:100%; padding:12px; font-size:0.95rem; font-weight:800;" onclick="goToListProduce()">
-              🌾 List This Lot at Calculated Rate (₹ <span id="cta-rate-kg">24.30</span>/kg) &rarr;
+            <button class="btn btn-primary" style="width:100%; padding:10px; font-size:0.9rem; font-weight:800;" onclick="listProduce()">
+              🌾 List This Crop at ₹ <span id="btn-kg">24.30</span> / kg &rarr;
             </button>
           </div>
 
@@ -498,95 +391,79 @@
   </div>
 
   <script>
-    let currentFreightRateKm = 10; // default Tata Ace
+    let freightPerKm = 10;
 
     function onCropChange() {
-      const select = document.getElementById('calc-crop');
-      const selectedOption = select.options[select.selectedIndex];
-      const defaultRate = selectedOption.getAttribute('data-rate');
-      document.getElementById('calc-mandi-rate').value = defaultRate;
-      recalculate();
+      const sel = document.getElementById('calc-crop');
+      const r = sel.options[sel.selectedIndex].getAttribute('data-rate');
+      document.getElementById('mandi-rate-inp').value = r;
+      recalc();
     }
 
-    function onVolumeSlider(val) {
+    function onVolChange(val) {
       const qt = parseFloat(val);
+      document.getElementById('vol-lbl').innerText = `${qt} Quintals (${(qt*100).toLocaleString()} kg)`;
+      recalc();
+    }
+
+    function onDistChange(val) {
+      document.getElementById('dist-lbl').innerText = `${val} km`;
+      recalc();
+    }
+
+    function setVeh(id, r) {
+      freightPerKm = r;
+      document.querySelectorAll('.veh-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      recalc();
+    }
+
+    function recalc() {
+      const qt = parseFloat(document.getElementById('vol-range').value) || 50;
       const kg = qt * 100;
-      document.getElementById('volume-badge').innerText = `${qt} Quintals (${kg.toLocaleString()} kg)`;
-      recalculate();
+      const mandiQt = parseFloat(document.getElementById('mandi-rate-inp').value) || 2250;
+      const dist = parseFloat(document.getElementById('dist-range').value) || 45;
+
+      document.getElementById('mandi-kg-lbl').innerText = `₹ ${(mandiQt/100).toFixed(2)} / kg`;
+
+      const mGross = mandiQt * qt;
+      const mCut = mGross * 0.06;
+      const mLoss = mGross * 0.02;
+      const mLoad = qt * 22;
+      const mNet = mGross - (mCut + mLoss + mLoad);
+
+      const aRateQt = mandiQt * 1.08;
+      const aGross = aRateQt * qt;
+      const aFreight = (dist * freightPerKm) * 0.5;
+      const aNet = aGross - aFreight;
+
+      const extra = aNet - mNet;
+
+      document.getElementById('extra-cash').innerText = `+ ₹ ${Math.round(extra).toLocaleString()} MORE`;
+      document.getElementById('m-net').innerText = `₹ ${Math.round(mNet).toLocaleString()}`;
+      document.getElementById('m-perkg').innerText = `₹ ${(mNet/kg).toFixed(2)} / kg`;
+      document.getElementById('m-gross').innerText = `₹ ${Math.round(mGross).toLocaleString()}`;
+      document.getElementById('m-cut').innerText = `- ₹ ${Math.round(mCut).toLocaleString()}`;
+      document.getElementById('m-loss').innerText = `- ₹ ${Math.round(mLoss).toLocaleString()}`;
+      document.getElementById('m-load').innerText = `- ₹ ${Math.round(mLoad).toLocaleString()}`;
+
+      document.getElementById('a-net').innerText = `₹ ${Math.round(aNet).toLocaleString()}`;
+      document.getElementById('a-perkg').innerText = `₹ ${(aNet/kg).toFixed(2)} / kg`;
+      document.getElementById('a-gross').innerText = `₹ ${Math.round(aGross).toLocaleString()}`;
+      document.getElementById('a-freight').innerText = `- ₹ ${Math.round(aFreight).toLocaleString()}`;
+
+      document.getElementById('adv-box').innerText = `₹ ${Math.round(aNet * 0.35).toLocaleString()}`;
+      document.getElementById('bal-box').innerText = `₹ ${Math.round(aNet * 0.65).toLocaleString()}`;
+      document.getElementById('btn-kg').innerText = (aRateQt/100).toFixed(2);
     }
 
-    function onDistanceSlider(val) {
-      document.getElementById('distance-badge').innerText = `${val} km`;
-      recalculate();
+    function listProduce() {
+      const c = document.getElementById('calc-crop').value;
+      const q = document.getElementById('vol-range').value;
+      window.location.href = `my-crops.html?prefill=1&crop=${c}&qt=${q}`;
     }
 
-    function setVehicle(vType, rate) {
-      currentFreightRateKm = rate;
-      document.querySelectorAll('.vehicle-radio-card').forEach(c => c.classList.remove('active'));
-      document.getElementById('v-' + vType).classList.add('active');
-      recalculate();
-    }
-
-    function recalculate() {
-      const qt = parseFloat(document.getElementById('volume-slider').value) || 50;
-      const kg = qt * 100;
-      const mandiRateQt = parseFloat(document.getElementById('calc-mandi-rate').value) || 2250;
-      const mandiRateKg = mandiRateQt / 100;
-      const distance = parseFloat(document.getElementById('distance-slider').value) || 45;
-
-      document.getElementById('mandi-rate-kg-badge').innerText = `₹ ${mandiRateKg.toFixed(2)} / kg`;
-
-      // 1. Mandi Calculations
-      const mandiGross = mandiRateQt * qt;
-      const mandiComm = mandiGross * 0.06; // 6% middleman cut
-      const mandiWeigh = mandiGross * 0.02; // 2% weighment deduction
-      const mandiLabor = qt * 22; // ₹22/qt labor
-      const mandiNetTakeHome = mandiGross - (mandiComm + mandiWeigh + mandiLabor);
-      const mandiNetPerKg = mandiNetTakeHome / kg;
-
-      // 2. AgriNex Direct Calculations
-      const agrinexRateQt = mandiRateQt * 1.08; // 8% corporate direct premium
-      const agrinexRateKg = agrinexRateQt / 100;
-      const agrinexGross = agrinexRateQt * qt;
-      const totalFreight = distance * currentFreightRateKm;
-      const farmerSharedFreight = totalFreight * 0.5; // buyer subsidizes 50%
-      const agrinexNetTakeHome = agrinexGross - farmerSharedFreight;
-      const agrinexNetPerKg = agrinexNetTakeHome / kg;
-
-      const extraProfit = agrinexNetTakeHome - mandiNetTakeHome;
-      const pctIncrease = ((extraProfit / mandiNetTakeHome) * 100).toFixed(1);
-
-      // Escrow Splits
-      const advance35 = agrinexNetTakeHome * 0.35;
-      const balance65 = agrinexNetTakeHome * 0.65;
-
-      // Update UI
-      document.getElementById('extra-profit-text').innerText = `+ ₹ ${Math.round(extraProfit).toLocaleString()} MORE`;
-      document.getElementById('mandi-net-total').innerText = `₹ ${Math.round(mandiNetTakeHome).toLocaleString()}`;
-      document.getElementById('mandi-net-kg').innerText = `Net Realized: ₹ ${mandiNetPerKg.toFixed(2)} / kg`;
-      document.getElementById('mandi-gross').innerText = `₹ ${Math.round(mandiGross).toLocaleString()}`;
-      document.getElementById('mandi-comm').innerText = `- ₹ ${Math.round(mandiComm).toLocaleString()}`;
-      document.getElementById('mandi-weigh').innerText = `- ₹ ${Math.round(mandiWeigh).toLocaleString()}`;
-      document.getElementById('mandi-labor').innerText = `- ₹ ${Math.round(mandiLabor).toLocaleString()}`;
-
-      document.getElementById('agrinex-net-total').innerText = `₹ ${Math.round(agrinexNetTakeHome).toLocaleString()}`;
-      document.getElementById('agrinex-net-kg').innerText = `Net Realized: ₹ ${agrinexNetPerKg.toFixed(2)} / kg`;
-      document.getElementById('agrinex-gross').innerText = `₹ ${Math.round(agrinexGross).toLocaleString()}`;
-      document.getElementById('agrinex-freight').innerText = `- ₹ ${Math.round(farmerSharedFreight).toLocaleString()}`;
-
-      document.getElementById('escrow-advance-text').innerText = `₹ ${Math.round(advance35).toLocaleString()}`;
-      document.getElementById('escrow-balance-text').innerText = `₹ ${Math.round(balance65).toLocaleString()}`;
-      document.getElementById('cta-rate-kg').innerText = agrinexRateKg.toFixed(2);
-    }
-
-    function goToListProduce() {
-      const crop = document.getElementById('calc-crop').value;
-      const qt = document.getElementById('volume-slider').value;
-      window.location.href = `my-crops.html?prefill=1&crop=${crop}&qt=${qt}`;
-    }
-
-    // Initial calculation
-    recalculate();
+    recalc();
   </script>
 </body>
 </html>
