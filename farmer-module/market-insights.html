@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNexx - Market Insights | Direct Trade · Better Tomorrow</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- CSS Framework & Modular Sheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+  <style>
+    /* Exact Styles Matching the Market Insights UI Reference */
+    body {
+      background-color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* Sidebar Exact Active Styling for Market Insights */
+    .sidebar-nav .nav-item.active-insights {
+      background: #ffffff !important;
+      color: #064e3b !important;
+      border-radius: 12px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .sidebar-nav .nav-item.active-insights svg {
+      stroke: #0c5a36 !important;
+    }
+    .sidebar-nav .nav-item.active-insights span {
+      color: #064e3b !important;
+      font-weight: 800;
+    }
+
+    /* Stat Cards Grid (4 Column) */
+    .insights-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+    @media (max-width: 1100px) {
+      .insights-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .insight-stat-card {
+      background: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .insight-stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+    }
+
+    .stat-icon-square {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-icon-green {
+      background: #e8f5ed;
+      color: #10b981;
+    }
+    .stat-icon-purple {
+      background: #f3e8ff;
+      color: #a855f7;
+    }
+    .stat-icon-orange {
+      background: #ffedd5;
+      color: #f97316;
+    }
+    .stat-icon-blue {
+      background: #e0f2fe;
+      color: #0284c7;
+    }
+
+    /* 3 Column Middle Section */
+    .insights-middle-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 0.95fr;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+    @media (max-width: 1200px) {
+      .insights-middle-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .insight-card {
+      background: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 16px;
+      padding: 20px 22px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header-clean {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .card-title-text {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Progress bar in Demanded crops */
+    .demand-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 9px 0;
+    }
+    .demand-thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #f1f5f9;
+    }
+
+    .demand-track {
+      background: #f1f5f9;
+      height: 7px;
+      border-radius: 999px;
+      overflow: hidden;
+      width: 100%;
+    }
+    .demand-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    /* Market Forecast Item */
+    .forecast-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 10px;
+      border-radius: 10px;
+      transition: background 0.15s ease;
+      cursor: pointer;
+    }
+    .forecast-row:hover {
+      background: #f8fafc;
+    }
+
+    /* Data Table Styling */
+    .table-crop-thumb {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #e2e8f0;
+    }
+
+    .badge-grade {
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .badge-grade-green {
+      background: #e8f5ed;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    .badge-grade-blue {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+
+    .btn-details {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-details:hover {
+      border-color: #0c5a36;
+      color: #0c5a36;
+      background: #f0fdf4;
+    }
+
+    /* Line Chart SVG Tooltip Effect */
+    .chart-dot {
+      transition: r 0.2s ease, stroke-width 0.2s ease;
+      cursor: pointer;
+    }
+    .chart-dot:hover {
+      r: 6;
+      stroke-width: 3;
+      stroke: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header (Golden Wheat / Leaf Logo) -->
+        <div class="sidebar-brand" style="cursor: pointer;" onclick="window.location.href='index.html'">
+          <div class="brand-logo-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nexx</span></h1>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="sidebar-nav">
+          <!-- 1. Dashboard -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              <span>Dashboard</span>
+            </div>
+          </li>
+
+          <!-- 2. My Crops & Lots -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+              </svg>
+              <span>My Crops & Lots</span>
+            </div>
+          </li>
+
+          <!-- 3. Market Prices -->
+          <li class="nav-item" onclick="window.location.href='market-insights.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                <polyline points="16 7 22 7 22 13"></polyline>
+              </svg>
+              <span>Market Prices</span>
+            </div>
+          </li>
+
+          <!-- 4. Market Insights (ACTIVE EXACTLY AS IN IMAGE) -->
+          <li class="nav-item active-insights" onclick="window.location.href='market-insights.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <span style="color: #064e3b; font-weight: 800;">Market Insights</span>
+            </div>
+          </li>
+
+          <!-- 5. Bids & Offers -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m14 12 6-6"></path>
+                <path d="M9 17 3 23"></path>
+                <path d="m15.5 10.5 2 2"></path>
+                <path d="m7.5 18.5 2 2"></path>
+                <path d="M10 6 6 10l5 5 4-4-5-5z"></path>
+                <path d="m14 16 4 4 4-4-4-4-4 4z"></path>
+              </svg>
+              <span>Bids & Offers</span>
+            </div>
+          </li>
+
+          <!-- 6. Orders & Shipments -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                <path d="M15 18H9"></path>
+                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path>
+                <circle cx="17" cy="18" r="2"></circle>
+                <circle cx="7" cy="18" r="2"></circle>
+              </svg>
+              <span>Orders & Shipments</span>
+            </div>
+          </li>
+
+          <!-- 7. Escrow Tracking -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+              <span>Escrow Tracking</span>
+            </div>
+          </li>
+
+          <!-- 8. Profit Calculator -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="16" height="20" x="4" y="2" rx="2"></rect>
+                <line x1="8" x2="16" y1="6" y2="6"></line>
+                <line x1="16" x2="16" y1="14" y2="18"></line>
+                <path d="M16 10h.01"></path>
+                <path d="M12 10h.01"></path>
+                <path d="M8 10h.01"></path>
+                <path d="M12 14h.01"></path>
+                <path d="M8 14h.01"></path>
+                <path d="M12 18h.01"></path>
+                <path d="M8 18h.01"></path>
+              </svg>
+              <span>Profit Calculator</span>
+            </div>
+          </li>
+
+          <!-- 9. Messages -->
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span>Messages</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT AREA -->
+    <main class="main-wrapper">
+      
+      <!-- Top Extended Navbar Header -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="navbar-search" style="min-width: 320px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" placeholder="Search crops, markets, regions, or insights..." />
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 7px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer; white-space: nowrap;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Erode, TN</span>
+            <span style="font-size: 0.7rem; margin-left: 2px;">▾</span>
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <!-- + List New Crop Button -->
+          <button class="navbar-btn-create" onclick="alert('Open List New Crop modal')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>List New Crop</span>
+          </button>
+
+          <!-- Notification Bell with Red Dot -->
+          <div style="position: relative; cursor: pointer;">
+            <button class="notif-btn" title="Notifications" onclick="alert('You have 2 new market alerts.')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+              </svg>
+            </button>
+            <span style="position: absolute; top: 8px; right: 8px; width: 7px; height: 7px; background: #ef4444; border-radius: 50%; border: 1.5px solid #ffffff;"></span>
+          </div>
+
+          <!-- Farmer Profile Info -->
+          <div class="profile-widget" style="cursor: pointer;">
+            <img src="assets/images/farmer-avatar.jpg" alt="Ramesh Kumar" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80'" />
+            <div>
+              <div class="profile-name">Ramesh Kumar</div>
+              <div class="profile-role">Farmer</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Insights View Container -->
+      <div class="dashboard-content" style="padding: 24px 30px;">
+        
+        <!-- PAGE TITLE HEADER -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; gap: 14px; align-items: flex-start;">
+            <div style="width: 44px; height: 44px; background: #e8f5ed; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #10b981; flex-shrink: 0;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <div>
+              <h2 style="font-size: 1.55rem; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">Market Insights</h2>
+              <p style="font-size: 0.85rem; color: #64748b; margin: 0;">Get real-time market trends, demand forecasts and price insights to make better decisions.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #64748b; padding-top: 4px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Last Updated <strong style="color: #334155;">Today, 09:36 AM</strong></span>
+          </div>
+        </div>
+
+        <!-- 4 METRIC STAT CARDS -->
+        <section class="insights-stats-grid">
+          <!-- Card 1: Average Price (Today) -->
+          <div class="insight-stat-card">
+            <div class="stat-icon-square stat-icon-green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 0.82rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Average Price (Today)</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;">₹ 2,150 <span style="font-size: 0.85rem; font-weight: 600; color: #64748b;">/Qt</span></div>
+              <div style="font-size: 0.78rem; font-weight: 700; color: #10b981;">
+                ↑ 6.2% <span style="color: #64748b; font-weight: 500;">vs. last week</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Total Market Demand -->
+          <div class="insight-stat-card">
+            <div class="stat-icon-square stat-icon-purple">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 0.82rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Total Market Demand</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;">12,450 <span style="font-size: 0.85rem; font-weight: 600; color: #64748b;">Qt</span></div>
+              <div style="font-size: 0.78rem; font-weight: 700; color: #10b981;">
+                ↑ 8.7% <span style="color: #64748b; font-weight: 500;">vs. last week</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Best Performing Crop -->
+          <div class="insight-stat-card">
+            <div class="stat-icon-square stat-icon-orange">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"></path>
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"></path>
+                <path d="M2 7h20"></path>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 0.82rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Best Performing Crop</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;">Tomato</div>
+              <div style="font-size: 0.78rem; font-weight: 600; color: #d97706;">
+                +12.5% price increase
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Market Trend -->
+          <div class="insight-stat-card">
+            <div class="stat-icon-square stat-icon-blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 0.82rem; font-weight: 600; color: #64748b; margin-bottom: 4px;">Market Trend</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;">Rising</div>
+              <div style="font-size: 0.78rem; font-weight: 500; color: #64748b;">
+                Good demand in next 7 days
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3 COLUMN ANALYTICS ROW -->
+        <section class="insights-middle-grid">
+          
+          <!-- Column 1: Price Trend (Last 7 Days) Line Chart -->
+          <div class="insight-card">
+            <div class="card-header-clean">
+              <div class="card-title-text">Price Trend <span style="font-size: 0.88rem; font-weight: 600; color: #64748b;">(Last 7 Days)</span></div>
+              <!-- Legends -->
+              <div style="display: flex; gap: 14px; font-size: 0.78rem; font-weight: 700;">
+                <span style="display: flex; align-items: center; gap: 5px; color: #334155;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #ef4444; display: inline-block;"></span> Tomato
+                </span>
+                <span style="display: flex; align-items: center; gap: 5px; color: #334155;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #8b5cf6; display: inline-block;"></span> Onion
+                </span>
+                <span style="display: flex; align-items: center; gap: 5px; color: #334155;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block;"></span> Paddy
+                </span>
+              </div>
+            </div>
+
+            <!-- SVG Multi-Line Chart (Matching Exact Visual in Reference Image) -->
+            <div style="width: 100%; height: 230px; position: relative;">
+              <svg viewBox="0 0 540 220" style="width: 100%; height: 100%; overflow: visible;">
+                <!-- Subtle Horizontal Grid Lines -->
+                <line x1="55" y1="20" x2="520" y2="20" stroke="#f1f5f9" stroke-width="1.5" />
+                <line x1="55" y1="60" x2="520" y2="60" stroke="#f1f5f9" stroke-width="1.5" />
+                <line x1="55" y1="100" x2="520" y2="100" stroke="#f1f5f9" stroke-width="1.5" />
+                <line x1="55" y1="140" x2="520" y2="140" stroke="#f1f5f9" stroke-width="1.5" />
+                <line x1="55" y1="180" x2="520" y2="180" stroke="#f1f5f9" stroke-width="1.5" />
+
+                <!-- Subtle Vertical Grid Lines -->
+                <line x1="60" y1="20" x2="60" y2="180" stroke="#f8fafc" stroke-width="1" />
+                <line x1="135" y1="20" x2="135" y2="180" stroke="#f8fafc" stroke-width="1" />
+                <line x1="210" y1="20" x2="210" y2="180" stroke="#f8fafc" stroke-width="1" />
+                <line x1="285" y1="20" x2="285" y2="180" stroke="#f8fafc" stroke-width="1" />
+                <line x1="360" y1="20" x2="360" y2="180" stroke="#f8fafc" stroke-width="1" />
+                <line x1="435" y1="20" x2="435" y2="180" stroke="#f8fafc" stroke-width="1" />
+                <line x1="510" y1="20" x2="510" y2="180" stroke="#f8fafc" stroke-width="1" />
+
+                <!-- Y-Axis Labels -->
+                <text x="50" y="24" text-anchor="end" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">₹ 3,000</text>
+                <text x="50" y="64" text-anchor="end" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">₹ 2,500</text>
+                <text x="50" y="104" text-anchor="end" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">₹ 2,000</text>
+                <text x="50" y="144" text-anchor="end" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">₹ 1,500</text>
+                <text x="50" y="184" text-anchor="end" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">₹ 1,000</text>
+
+                <!-- X-Axis Labels -->
+                <text x="60" y="206" text-anchor="middle" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">Aug 21</text>
+                <text x="135" y="206" text-anchor="middle" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">Aug 22</text>
+                <text x="210" y="206" text-anchor="middle" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">Aug 23</text>
+                <text x="285" y="206" text-anchor="middle" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">Aug 24</text>
+                <text x="360" y="206" text-anchor="middle" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">Aug 25</text>
+                <text x="435" y="206" text-anchor="middle" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">Aug 26</text>
+                <text x="510" y="206" text-anchor="middle" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans">Aug 27</text>
+
+                <!-- Line 1: Tomato (Red #ef4444) -->
+                <polyline fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                  points="60,105 135,95 210,85 285,72 360,62 435,52 510,40" />
+                <circle cx="60" cy="105" r="4.5" fill="#ef4444" class="chart-dot" />
+                <circle cx="135" cy="95" r="4.5" fill="#ef4444" class="chart-dot" />
+                <circle cx="210" cy="85" r="4.5" fill="#ef4444" class="chart-dot" />
+                <circle cx="285" cy="72" r="4.5" fill="#ef4444" class="chart-dot" />
+                <circle cx="360" cy="62" r="4.5" fill="#ef4444" class="chart-dot" />
+                <circle cx="435" cy="52" r="4.5" fill="#ef4444" class="chart-dot" />
+                <circle cx="510" cy="40" r="4.5" fill="#ef4444" class="chart-dot" />
+
+                <!-- Line 2: Onion (Purple #8b5cf6) -->
+                <polyline fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                  points="60,138 135,134 210,130 285,125 360,125 435,116 510,110" />
+                <circle cx="60" cy="138" r="4.5" fill="#8b5cf6" class="chart-dot" />
+                <circle cx="135" cy="134" r="4.5" fill="#8b5cf6" class="chart-dot" />
+                <circle cx="210" cy="130" r="4.5" fill="#8b5cf6" class="chart-dot" />
+                <circle cx="285" cy="125" r="4.5" fill="#8b5cf6" class="chart-dot" />
+                <circle cx="360" cy="125" r="4.5" fill="#8b5cf6" class="chart-dot" />
+                <circle cx="435" cy="116" r="4.5" fill="#8b5cf6" class="chart-dot" />
+                <circle cx="510" cy="110" r="4.5" fill="#8b5cf6" class="chart-dot" />
+
+                <!-- Line 3: Paddy (Green #10b981) -->
+                <polyline fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                  points="60,172 135,168 210,160 285,152 360,148 435,148 510,142" />
+                <circle cx="60" cy="172" r="4.5" fill="#10b981" class="chart-dot" />
+                <circle cx="135" cy="168" r="4.5" fill="#10b981" class="chart-dot" />
+                <circle cx="210" cy="160" r="4.5" fill="#10b981" class="chart-dot" />
+                <circle cx="285" cy="152" r="4.5" fill="#10b981" class="chart-dot" />
+                <circle cx="360" cy="148" r="4.5" fill="#10b981" class="chart-dot" />
+                <circle cx="435" cy="148" r="4.5" fill="#10b981" class="chart-dot" />
+                <circle cx="510" cy="142" r="4.5" fill="#10b981" class="chart-dot" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Column 2: Top Demanded Crops -->
+          <div class="insight-card">
+            <div class="card-header-clean">
+              <div class="card-title-text">Top Demanded Crops</div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <!-- 1. Tomato -->
+              <div class="demand-item">
+                <div style="display: flex; align-items: center; gap: 10px; min-width: 95px;">
+                  <img src="assets/images/tomato.jpg" alt="Tomato" class="demand-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=100&auto=format&fit=crop&q=80'" />
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Tomato</div>
+                    <div style="font-size: 0.74rem; color: #64748b;">5,200 Qt</div>
+                  </div>
+                </div>
+                <div class="demand-track">
+                  <div class="demand-fill" style="width: 42%; background: #ef4444;"></div>
+                </div>
+                <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; min-width: 32px; text-align: right;">42%</div>
+              </div>
+
+              <!-- 2. Onion -->
+              <div class="demand-item">
+                <div style="display: flex; align-items: center; gap: 10px; min-width: 95px;">
+                  <img src="assets/images/onion.jpg" alt="Onion" class="demand-thumb" onerror="this.src='https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=100&auto=format&fit=crop&q=80'" />
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Onion</div>
+                    <div style="font-size: 0.74rem; color: #64748b;">3,150 Qt</div>
+                  </div>
+                </div>
+                <div class="demand-track">
+                  <div class="demand-fill" style="width: 25%; background: #8b5cf6;"></div>
+                </div>
+                <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; min-width: 32px; text-align: right;">25%</div>
+              </div>
+
+              <!-- 3. Paddy -->
+              <div class="demand-item">
+                <div style="display: flex; align-items: center; gap: 10px; min-width: 95px;">
+                  <img src="assets/images/paddy.jpg" alt="Paddy" class="demand-thumb" onerror="this.src='https://images.unsplash.com/photo-1586201375761-83865001e31c?w=100&auto=format&fit=crop&q=80'" />
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Paddy</div>
+                    <div style="font-size: 0.74rem; color: #64748b;">2,100 Qt</div>
+                  </div>
+                </div>
+                <div class="demand-track">
+                  <div class="demand-fill" style="width: 17%; background: #10b981;"></div>
+                </div>
+                <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; min-width: 32px; text-align: right;">17%</div>
+              </div>
+
+              <!-- 4. Chilli -->
+              <div class="demand-item">
+                <div style="display: flex; align-items: center; gap: 10px; min-width: 95px;">
+                  <img src="assets/images/chilli.jpg" alt="Chilli" class="demand-thumb" onerror="this.src='https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=100&auto=format&fit=crop&q=80'" />
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Chilli</div>
+                    <div style="font-size: 0.74rem; color: #64748b;">1,250 Qt</div>
+                  </div>
+                </div>
+                <div class="demand-track">
+                  <div class="demand-fill" style="width: 10%; background: #f97316;"></div>
+                </div>
+                <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; min-width: 32px; text-align: right;">10%</div>
+              </div>
+
+              <!-- 5. Okra -->
+              <div class="demand-item">
+                <div style="display: flex; align-items: center; gap: 10px; min-width: 95px;">
+                  <img src="assets/images/okra.jpg" alt="Okra" class="demand-thumb" onerror="this.src='https://images.unsplash.com/photo-1425543103986-22abb7d7e8d2?w=100&auto=format&fit=crop&q=80'" />
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Okra</div>
+                    <div style="font-size: 0.74rem; color: #64748b;">750 Qt</div>
+                  </div>
+                </div>
+                <div class="demand-track">
+                  <div class="demand-fill" style="width: 6%; background: #3b82f6;"></div>
+                </div>
+                <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; min-width: 32px; text-align: right;">6%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 3: Market Forecast -->
+          <div class="insight-card">
+            <div class="card-header-clean">
+              <div class="card-title-text">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Market Forecast
+              </div>
+            </div>
+
+            <!-- Green Banner Box -->
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+              <div style="width: 30px; height: 30px; border-radius: 50%; background: #dcfce7; display: flex; align-items: center; justify-content: center; color: #166534; font-weight: 800; font-size: 1.1rem; flex-shrink: 0;">
+                ↗
+              </div>
+              <div>
+                <strong style="font-size: 0.84rem; color: #166534; display: block;">Prices likely to increase</strong>
+                <span style="font-size: 0.76rem; color: #15803d;">in the next 3–5 days</span>
+              </div>
+            </div>
+
+            <!-- Forecast Items -->
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <!-- 1. Tomato -->
+              <div class="forecast-row" onclick="alert('Tomato 7-day AI forecast: High arrivals at local mandi expected to decline by 14%, pushing spot price up +8% to +12%.')">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <img src="assets/images/tomato.jpg" alt="Tomato" class="demand-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=100&auto=format&fit=crop&q=80'" />
+                  <span style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Tomato</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 0.82rem; font-weight: 800; color: #10b981;">+8% to 12%</span>
+                  <span style="color: #94a3b8; font-size: 0.9rem;">&rsaquo;</span>
+                </div>
+              </div>
+
+              <!-- 2. Onion -->
+              <div class="forecast-row" onclick="alert('Onion 7-day AI forecast: Consistent demand from export units in Tuticorin port; price trending upward +5% to +8%.')">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <img src="assets/images/onion.jpg" alt="Onion" class="demand-thumb" onerror="this.src='https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=100&auto=format&fit=crop&q=80'" />
+                  <span style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Onion</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 0.82rem; font-weight: 800; color: #10b981;">+5% to 8%</span>
+                  <span style="color: #94a3b8; font-size: 0.9rem;">&rsaquo;</span>
+                </div>
+              </div>
+
+              <!-- 3. Paddy -->
+              <div class="forecast-row" onclick="alert('Paddy 7-day AI forecast: Mill procurement active across Erode & Thanjavur clusters; price trending +3% to +6%.')">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <img src="assets/images/paddy.jpg" alt="Paddy" class="demand-thumb" onerror="this.src='https://images.unsplash.com/photo-1586201375761-83865001e31c?w=100&auto=format&fit=crop&q=80'" />
+                  <span style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Paddy</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 0.82rem; font-weight: 800; color: #10b981;">+3% to 6%</span>
+                  <span style="color: #94a3b8; font-size: 0.9rem;">&rsaquo;</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- BOTTOM CARD: LATEST MARKET PRICES (DATA TABLE) -->
+        <section class="insight-card">
+          <div class="card-header-clean" style="margin-bottom: 12px;">
+            <div class="card-title-text">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                <line x1="7" y1="7" x2="7.01" y2="7"></line>
+              </svg>
+              Latest Market Prices
+            </div>
+            <a href="javascript:void(0)" class="card-action-link" style="color: #0c5a36; font-weight: 700; font-size: 0.84rem; text-decoration: none; display: flex; align-items: center; gap: 4px;" onclick="alert('Viewing all live state mandi rates')">
+              View All Prices &rarr;
+            </a>
+          </div>
+
+          <div class="data-table-container">
+            <table class="data-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="border-bottom: 1px solid #e2e8f0; text-align: left;">
+                  <th style="padding: 12px 8px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">CROP</th>
+                  <th style="padding: 12px 8px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">GRADE</th>
+                  <th style="padding: 12px 8px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">LOCATION</th>
+                  <th style="padding: 12px 8px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">CURRENT PRICE</th>
+                  <th style="padding: 12px 8px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">CHANGE (1W)</th>
+                  <th style="padding: 12px 8px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">TREND</th>
+                  <th style="padding: 12px 8px; font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase; text-align: right;">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Row 1: Tomato -->
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                  <td style="padding: 12px 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <img src="assets/images/tomato.jpg" alt="Tomato" class="table-crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=100&auto=format&fit=crop&q=80'" />
+                      <strong style="font-size: 0.88rem; color: #0f172a;">Tomato</strong>
+                    </div>
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <span class="badge-grade badge-grade-green">Grade A</span>
+                  </td>
+                  <td style="padding: 12px 8px; font-size: 0.84rem; color: #475569;">
+                    Erode, TN
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <strong style="font-size: 0.92rem; color: #0f172a;">₹ 2,150</strong> <span style="font-size: 0.76rem; color: #64748b;">/Qt</span>
+                  </td>
+                  <td style="padding: 12px 8px; font-size: 0.84rem; font-weight: 700; color: #10b981;">
+                    ↑ 6.2%
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <!-- Mini Sparkline SVG -->
+                    <svg width="70" height="24" viewBox="0 0 70 24" fill="none">
+                      <path d="M2 18 L15 15 L28 16 L42 10 L56 12 L68 4" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </td>
+                  <td style="padding: 12px 8px; text-align: right;">
+                    <button class="btn-details" onclick="alert('Viewing detailed market sheet for Tomato in Erode')">View Details</button>
+                  </td>
+                </tr>
+
+                <!-- Row 2: Onion -->
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                  <td style="padding: 12px 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <img src="assets/images/onion.jpg" alt="Onion" class="table-crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=100&auto=format&fit=crop&q=80'" />
+                      <strong style="font-size: 0.88rem; color: #0f172a;">Onion</strong>
+                    </div>
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <span class="badge-grade badge-grade-blue">Grade B</span>
+                  </td>
+                  <td style="padding: 12px 8px; font-size: 0.84rem; color: #475569;">
+                    Erode, TN
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <strong style="font-size: 0.92rem; color: #0f172a;">₹ 950</strong> <span style="font-size: 0.76rem; color: #64748b;">/Qt</span>
+                  </td>
+                  <td style="padding: 12px 8px; font-size: 0.84rem; font-weight: 700; color: #10b981;">
+                    ↑ 4.8%
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <svg width="70" height="24" viewBox="0 0 70 24" fill="none">
+                      <path d="M2 20 L15 17 L28 18 L42 12 L56 10 L68 6" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </td>
+                  <td style="padding: 12px 8px; text-align: right;">
+                    <button class="btn-details" onclick="alert('Viewing detailed market sheet for Onion in Erode')">View Details</button>
+                  </td>
+                </tr>
+
+                <!-- Row 3: Paddy -->
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                  <td style="padding: 12px 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <img src="assets/images/paddy.jpg" alt="Paddy" class="table-crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1586201375761-83865001e31c?w=100&auto=format&fit=crop&q=80'" />
+                      <strong style="font-size: 0.88rem; color: #0f172a;">Paddy</strong>
+                    </div>
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <span class="badge-grade badge-grade-green">Grade A</span>
+                  </td>
+                  <td style="padding: 12px 8px; font-size: 0.84rem; color: #475569;">
+                    Erode, TN
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <strong style="font-size: 0.92rem; color: #0f172a;">₹ 2,000</strong> <span style="font-size: 0.76rem; color: #64748b;">/Qt</span>
+                  </td>
+                  <td style="padding: 12px 8px; font-size: 0.84rem; font-weight: 700; color: #10b981;">
+                    ↑ 3.5%
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <svg width="70" height="24" viewBox="0 0 70 24" fill="none">
+                      <path d="M2 19 L15 18 L28 14 L42 12 L56 10 L68 5" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </td>
+                  <td style="padding: 12px 8px; text-align: right;">
+                    <button class="btn-details" onclick="alert('Viewing detailed market sheet for Paddy in Erode')">View Details</button>
+                  </td>
+                </tr>
+
+                <!-- Row 4: Chilli -->
+                <tr>
+                  <td style="padding: 12px 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <img src="assets/images/chilli.jpg" alt="Chilli" class="table-crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=100&auto=format&fit=crop&q=80'" />
+                      <strong style="font-size: 0.88rem; color: #0f172a;">Chilli</strong>
+                    </div>
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <span class="badge-grade badge-grade-green">Grade A</span>
+                  </td>
+                  <td style="padding: 12px 8px; font-size: 0.84rem; color: #475569;">
+                    Erode, TN
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <strong style="font-size: 0.92rem; color: #0f172a;">₹ 3,200</strong> <span style="font-size: 0.76rem; color: #64748b;">/Qt</span>
+                  </td>
+                  <td style="padding: 12px 8px; font-size: 0.84rem; font-weight: 700; color: #10b981;">
+                    ↑ 7.1%
+                  </td>
+                  <td style="padding: 12px 8px;">
+                    <svg width="70" height="24" viewBox="0 0 70 24" fill="none">
+                      <path d="M2 18 L15 14 L28 15 L42 10 L56 8 L68 4" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </td>
+                  <td style="padding: 12px 8px; text-align: right;">
+                    <button class="btn-details" onclick="alert('Viewing detailed market sheet for Chilli in Erode')">View Details</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+</body>
+</html>
