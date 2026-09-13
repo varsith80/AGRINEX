@@ -1608,3 +1608,81 @@ if (demandForm) {
   }
 });
 
+// ESCROW VAULT INTERACTION & AUDIT HELPERS
+// ==========================================
+function openDepositEscrowModal() {
+  const modal = document.getElementById('modal-deposit-escrow');
+  if (modal) modal.classList.add('active');
+}
+
+function closeDepositEscrowModal() {
+  const modal = document.getElementById('modal-deposit-escrow');
+  if (modal) modal.classList.remove('active');
+}
+
+function handleDepositEscrowSubmit(e) {
+  if (e) e.preventDefault();
+  const amtInput = document.getElementById('escrow-deposit-amount');
+  const amount = parseFloat((amtInput && amtInput.value) || 50000);
+  
+  closeDepositEscrowModal();
+  showToast(`🔒 Authorizing RBI Nodal Escrow Virtual Account transfer of ₹ ${amount.toLocaleString('en-IN')}...`);
+  
+  setTimeout(() => {
+    showToast(`✓ Payment captured! ₹ ${amount.toLocaleString('en-IN')} added to Escrow Liquidity Pool. UTR: ICIC${Math.floor(10000000 + Math.random() * 90000000)}`, 'success');
+  }, 900);
+}
+
+function openEscrowDeedModal(contractId, crop, farmer, totalVal, lockedVal) {
+  const modal = document.getElementById('modal-escrow-deed');
+  if (!modal) return;
+
+  const refEl = document.getElementById('deed-contract-ref');
+  const farmerEl = document.getElementById('deed-farmer-name');
+  const lotEl = document.getElementById('deed-produce-lot');
+  const totalEl = document.getElementById('deed-total-val');
+  const lockedEl = document.getElementById('deed-locked-amt');
+
+  if (refEl) refEl.textContent = `Contract Reference: #${contractId || 'ESC-TN-9921'}`;
+  if (farmerEl) farmerEl.textContent = farmer || 'Murugan Palanisamy';
+  if (lotEl) lotEl.textContent = crop || 'Tomato (Shivam Hybrid 50 Qt)';
+  if (totalEl) totalEl.textContent = `₹ ${(totalVal || 60000).toLocaleString('en-IN')}`;
+  if (lockedEl) lockedEl.textContent = `₹ ${(lockedVal || 21000).toLocaleString('en-IN')}`;
+
+  modal.classList.add('active');
+}
+
+function closeEscrowDeedModal() {
+  const modal = document.getElementById('modal-escrow-deed');
+  if (modal) modal.classList.remove('active');
+}
+
+function downloadEscrowStatement() {
+  showToast('Generating official AgriNex Nodal Escrow Audit Ledger Statement (PDF)...');
+  setTimeout(() => {
+    showToast('✓ Escrow Audit Statement (Q3-2026) downloaded successfully!');
+  }, 800);
+}
+
+function filterEscrowLedger(filterType, btnEl) {
+  const tbody = document.getElementById('escrow-ledger-tbody');
+  if (!tbody) return;
+
+  if (btnEl && btnEl.parentElement) {
+    const btns = btnEl.parentElement.querySelectorAll('button');
+    btns.forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+
+  const rows = tbody.querySelectorAll('tr');
+  rows.forEach(r => {
+    const rowType = r.getAttribute('data-type');
+    if (filterType === 'all' || rowType === filterType) {
+      r.style.display = '';
+    } else {
+      r.style.display = 'none';
+    }
+  });
+}
+
+

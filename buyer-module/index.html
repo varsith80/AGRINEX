@@ -667,72 +667,344 @@
         </div>
       </div>
 
-      <!-- VIEW 5: ESCROW VAULT & MILESTONES (FULL-PAGE) -->
+      <!-- VIEW 5: COMPREHENSIVE SMART ESCROW VAULT & MILESTONES (FULL-PAGE) -->
       <div id="view-escrow-vault" class="portal-view dashboard-content">
-        <div class="card">
-          <div class="card-header">
+        <div class="card" style="padding: 24px;">
+          
+          <!-- Header Banner -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px; margin-bottom: 20px;">
             <div>
-              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">AgriNex Smart Escrow Vault</h2>
-              <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">Zero payment defaults. Automated 35% advance deposit and milestone-based release upon arrival inspection.</p>
-            </div>
-            <span class="badge badge-grade-a">🛡️ 100% Guaranteed</span>
-          </div>
-
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 16px 0;">
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
-              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Total Active Contracts</span>
-              <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 4px;">₹ 2,04,000</div>
-            </div>
-            <div style="background: #e8f5ed; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; text-align: center;">
-              <span style="font-size: 0.72rem; color: #0c5a36; font-weight: 800; text-transform: uppercase;">35% Advance In Escrow</span>
-              <div style="font-size: 1.35rem; font-weight: 800; color: #0c5a36; margin-top: 4px;">₹ 71,400</div>
-            </div>
-            <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px; text-align: center;">
-              <span style="font-size: 0.72rem; color: #1d4ed8; font-weight: 800; text-transform: uppercase;">65% Delivery Balances</span>
-              <div style="font-size: 1.35rem; font-weight: 800; color: #1d4ed8; margin-top: 4px;">₹ 1,32,600</div>
-            </div>
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
-              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Completed Settlements</span>
-              <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 4px;" id="escrow-settled-total">₹ 5,80,000</div>
-            </div>
-          </div>
-
-          <h4 style="font-size: 1rem; font-weight: 700; margin: 20px 0 10px;">Active Escrow Contracts & Milestone Stepper</h4>
-
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 12px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-              <div>
-                <strong style="font-size: 0.95rem;">Contract #ESC-BB-9921 • Tomato (50 Qt)</strong>
-                <div style="font-size: 0.76rem; color: #64748b;">Farmer: Murugan Palanisamy • Total Contract: ₹ 60,000</div>
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36; margin: 0;">AgriNex Institutional Smart Escrow Vault</h2>
+                <span class="badge badge-grade-a">🛡️ 100% Default-Proof Guarantee</span>
               </div>
-              <span class="badge badge-grade-a" id="escrow-status-badge">35% Locked (₹ 21,000)</span>
+              <p style="font-size: 0.82rem; color: #64748b; margin: 4px 0 0;">Tri-party institutional escrow mechanism. 35% advance capital locked upon mutual bid acceptance, and 65% disbursed upon digital weighbridge & arrival QC pass.</p>
             </div>
-
-            <div class="stepper-container" style="max-width: 600px; margin: 18px 0;">
-              <div class="stepper-step">
-                <div class="stepper-dot active">✓</div>
-                <span class="stepper-label">Contract Created</span>
-              </div>
-              <div class="stepper-step">
-                <div class="stepper-dot active">✓</div>
-                <span class="stepper-label">35% Locked</span>
-              </div>
-              <div class="stepper-step">
-                <div class="stepper-dot active" id="stepper-dot-dispatch">🚚</div>
-                <span class="stepper-label">Dispatched</span>
-              </div>
-              <div class="stepper-step">
-                <div class="stepper-dot" id="stepper-dot-settled">4</div>
-                <span class="stepper-label">100% Settled</span>
-              </div>
-            </div>
-
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
-              <button class="btn btn-primary btn-sm" id="btn-escrow-vault-release" onclick="openArrivalReleaseModal('ESC-BB-9921', 'Tomato (Shivam Hybrid)', 39000, 'Murugan Palanisamy')">
-                Release 65% Balance (₹ 39,000)
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn btn-outline btn-sm" onclick="downloadEscrowStatement()" style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem;">
+                <span>📑</span>
+                <span>Audit Statement (PDF)</span>
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="openDepositEscrowModal()" style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; background: #0c5a36; border-color: #0c5a36;">
+                <span>💳</span>
+                <span>+ Deposit Escrow Capital</span>
               </button>
             </div>
           </div>
+
+          <!-- Top 4 Vault Balance & Liquidity Metrics -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px;">
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: left;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 800; text-transform: uppercase;">Total Active Contracts</span>
+                <span style="font-size: 0.7rem; background: #e2e8f0; color: #334155; font-weight: 700; padding: 2px 6px; border-radius: 4px;">3 Orders</span>
+              </div>
+              <div style="font-size: 1.45rem; font-weight: 800; color: #0f172a; margin-top: 6px;">₹ 2,04,000</div>
+              <div style="font-size: 0.74rem; color: #64748b;">Committed Sourcing Pool</div>
+            </div>
+
+            <div style="background: #e8f5ed; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 16px; text-align: left;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.72rem; color: #0c5a36; font-weight: 800; text-transform: uppercase;">35% Advance In Escrow</span>
+                <span style="font-size: 0.7rem; background: #bbf7d0; color: #065f46; font-weight: 700; padding: 2px 6px; border-radius: 4px;">Locked</span>
+              </div>
+              <div style="font-size: 1.45rem; font-weight: 800; color: #0c5a36; margin-top: 6px;">₹ 71,400</div>
+              <div style="font-size: 0.74rem; color: #166534;">RBI Escrow Compliant</div>
+            </div>
+
+            <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 16px; text-align: left;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.72rem; color: #1d4ed8; font-weight: 800; text-transform: uppercase;">65% Delivery Balances</span>
+                <span style="font-size: 0.7rem; background: #dbeafe; color: #1e40af; font-weight: 700; padding: 2px 6px; border-radius: 4px;">On-Hold</span>
+              </div>
+              <div style="font-size: 1.45rem; font-weight: 800; color: #1d4ed8; margin-top: 6px;">₹ 1,32,600</div>
+              <div style="font-size: 0.74rem; color: #2563eb;">Disbursed After QC Pass</div>
+            </div>
+
+            <div style="background: #fdf4ff; border: 1.5px solid #f5d0fe; border-radius: 12px; padding: 16px; text-align: left;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.72rem; color: #86198f; font-weight: 800; text-transform: uppercase;">Completed Settlements</span>
+                <span style="font-size: 0.7rem; background: #fae8ff; color: #a21caf; font-weight: 700; padding: 2px 6px; border-radius: 4px;">Lifetime</span>
+              </div>
+              <div style="font-size: 1.45rem; font-weight: 800; color: #86198f; margin-top: 6px;" id="escrow-settled-total">₹ 5,80,000</div>
+              <div style="font-size: 0.74rem; color: #a21caf;">100% Zero Payment Default</div>
+            </div>
+          </div>
+
+          <!-- Escrow Protocol Safeguard Callout -->
+          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 18px; margin-bottom: 22px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 0.8rem; color: #166534;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.2rem;">🔒</span>
+              <span><strong>Bank-Grade Automated Arbitrage:</strong> Escrow deposits are held under nodal trustee oversight. Releasing balance transfers funds to farmer bank account in `<2 seconds` via IMPS/RTGS.</span>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="switchView('view-grievance')" style="padding: 4px 10px; font-size: 0.75rem; background: #ffffff; color: #991b1b; border-color: #fca5a5;">
+              ⚠️ Raise Quality Inspection Hold
+            </button>
+          </div>
+
+          <!-- Section: Active Escrow Contracts & Milestone Steppers -->
+          <div style="margin-bottom: 26px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <h3 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin: 0;">Active Escrow Contracts & Milestone Steppers</h3>
+              <span style="font-size: 0.75rem; color: #64748b;">3 Active Milestone Tracks</span>
+            </div>
+
+            <!-- Escrow Contract 1 -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 14px;" id="escrow-card-1">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <strong style="font-size: 1rem; color: #0f172a;">Contract #ESC-TN-9921 • Tomato (Shivam Hybrid 50 Qt)</strong>
+                    <span class="badge badge-grade-a">Grade A</span>
+                  </div>
+                  <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Farmer: <strong>Murugan Palanisamy</strong> (Dindigul, TN) • Total Escrow: <strong style="color: #0c5a36;">₹ 60,000</strong> (₹ 12.00/kg)</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span class="badge badge-grade-a" id="escrow-status-badge">35% Locked (₹ 21,000)</span>
+                  <button class="btn btn-outline btn-sm" onclick="openEscrowDeedModal('ESC-TN-9921', 'Tomato (Shivam Hybrid 50 Qt)', 'Murugan Palanisamy', 60000, 21000)" style="font-size: 0.76rem;">View Agreement Deed</button>
+                </div>
+              </div>
+
+              <!-- Stepper -->
+              <div class="stepper-container" style="max-width: 680px; margin: 16px 0;">
+                <div class="stepper-step">
+                  <div class="stepper-dot active">✓</div>
+                  <span class="stepper-label">Contract Created</span>
+                </div>
+                <div class="stepper-step">
+                  <div class="stepper-dot active">✓</div>
+                  <span class="stepper-label">35% Advance Locked</span>
+                </div>
+                <div class="stepper-step">
+                  <div class="stepper-dot active" id="stepper-dot-dispatch">🚚</div>
+                  <span class="stepper-label">Dispatched (Bolero Maxi)</span>
+                </div>
+                <div class="stepper-step">
+                  <div class="stepper-dot" id="stepper-dot-settled">4</div>
+                  <span class="stepper-label">Arrival QC & 100% Settled</span>
+                </div>
+              </div>
+
+              <!-- Action Footer -->
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 10px; font-size: 0.8rem;">
+                <span style="color: #64748b;">Transit Vehicle: <strong>Bolero Maxi (TN 57 AH 4421)</strong> • Driver: <strong>K. Selvam (+91 94431-22901)</strong></span>
+                <button class="btn btn-primary btn-sm" id="btn-escrow-vault-release" onclick="openArrivalReleaseModal('ESC-TN-9921', 'Tomato (Shivam Hybrid 50 Qt)', 39000, 'Murugan Palanisamy')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
+                  Release 65% Balance (₹ 39,000)
+                </button>
+              </div>
+            </div>
+
+            <!-- Escrow Contract 2 -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 14px;" id="escrow-card-2">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <strong style="font-size: 1rem; color: #0f172a;">Contract #ESC-MH-4412 • Red Onion (Garwa Export Grade 80 Qt)</strong>
+                    <span class="badge badge-grade-a">Grade A</span>
+                  </div>
+                  <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Farmer: <strong>Patil Rameshwar</strong> (Nashik, MH) • Total Escrow: <strong style="color: #0c5a36;">₹ 1,44,000</strong> (₹ 18.00/kg)</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span class="badge badge-grade-a">35% Locked (₹ 50,400)</span>
+                  <button class="btn btn-outline btn-sm" onclick="openEscrowDeedModal('ESC-MH-4412', 'Red Onion (Garwa Export 80 Qt)', 'Patil Rameshwar', 144000, 50400)" style="font-size: 0.76rem;">View Agreement Deed</button>
+                </div>
+              </div>
+
+              <!-- Stepper -->
+              <div class="stepper-container" style="max-width: 680px; margin: 16px 0;">
+                <div class="stepper-step">
+                  <div class="stepper-dot active">✓</div>
+                  <span class="stepper-label">Contract Created</span>
+                </div>
+                <div class="stepper-step">
+                  <div class="stepper-dot active">✓</div>
+                  <span class="stepper-label">35% Advance Locked</span>
+                </div>
+                <div class="stepper-step">
+                  <div class="stepper-dot active">🚚</div>
+                  <span class="stepper-label">In Transit (NH-48 Corridor)</span>
+                </div>
+                <div class="stepper-step">
+                  <div class="stepper-dot">4</div>
+                  <span class="stepper-label">Arrival QC & 100% Settled</span>
+                </div>
+              </div>
+
+              <!-- Action Footer -->
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 10px; font-size: 0.8rem;">
+                <span style="color: #64748b;">Transit Vehicle: <strong>Eicher Pro 2049 (MH 15 DK 8810)</strong> • ETA: <strong>Tomorrow 9:00 AM</strong></span>
+                <button class="btn btn-primary btn-sm" onclick="openArrivalReleaseModal('ESC-MH-4412', 'Red Onion (Garwa Export 80 Qt)', 93600, 'Patil Rameshwar')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
+                  Release 65% Balance (₹ 93,600)
+                </button>
+              </div>
+            </div>
+
+            <!-- Escrow Contract 3 -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px;" id="escrow-card-3">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <strong style="font-size: 1rem; color: #0f172a;">Contract #ESC-KA-7730 • Green Chilli (G4 Spices 30 Qt)</strong>
+                    <span class="badge badge-grade-a">Grade A</span>
+                  </div>
+                  <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Farmer: <strong>S. Ramasamy</strong> (Kolar, KA) • Total Escrow: <strong style="color: #0c5a36;">₹ 1,26,000</strong> (₹ 42.00/kg)</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span class="badge badge-grade-a">35% Locked (₹ 44,100)</span>
+                  <button class="btn btn-outline btn-sm" onclick="openEscrowDeedModal('ESC-KA-7730', 'Green Chilli (G4 Spices 30 Qt)', 'S. Ramasamy', 126000, 44100)" style="font-size: 0.76rem;">View Agreement Deed</button>
+                </div>
+              </div>
+
+              <!-- Stepper -->
+              <div class="stepper-container" style="max-width: 680px; margin: 16px 0;">
+                <div class="stepper-step">
+                  <div class="stepper-dot active">✓</div>
+                  <span class="stepper-label">Contract Created</span>
+                </div>
+                <div class="stepper-step">
+                  <div class="stepper-dot active">✓</div>
+                  <span class="stepper-label">35% Advance Locked</span>
+                </div>
+                <div class="stepper-step">
+                  <div class="stepper-dot active">📦</div>
+                  <span class="stepper-label">Farm QC & Packaging</span>
+                </div>
+                <div class="stepper-step">
+                  <div class="stepper-dot">4</div>
+                  <span class="stepper-label">Arrival QC & 100% Settled</span>
+                </div>
+              </div>
+
+              <!-- Action Footer -->
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 10px; font-size: 0.8rem;">
+                <span style="color: #64748b;">Pickup Schedule: <strong>Today 5:00 PM</strong> • Loading Point: <strong>Kolar Hub 2</strong></span>
+                <button class="btn btn-primary btn-sm" onclick="openArrivalReleaseModal('ESC-KA-7730', 'Green Chilli (G4 Spices 30 Qt)', 81900, 'S. Ramasamy')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
+                  Release 65% Balance (₹ 81,900)
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Section: Comprehensive Escrow Transaction Audit Ledger Table -->
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h3 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin: 0;">Escrow Bank Ledger & Settlement Audit Trail</h3>
+                <span style="font-size: 0.75rem; color: #64748b;">Immutable digital receipts and UTR bank settlement records</span>
+              </div>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <button class="btn btn-outline btn-sm active" onclick="filterEscrowLedger('all', this)" style="font-size: 0.74rem; padding: 4px 10px;">All Settlements</button>
+                <button class="btn btn-outline btn-sm" onclick="filterEscrowLedger('advance', this)" style="font-size: 0.74rem; padding: 4px 10px;">35% Advances</button>
+                <button class="btn btn-outline btn-sm" onclick="filterEscrowLedger('final', this)" style="font-size: 0.74rem; padding: 4px 10px;">65% Final Releases</button>
+                <button class="btn btn-outline btn-sm" onclick="filterEscrowLedger('completed', this)" style="font-size: 0.74rem; padding: 4px 10px;">Completed 100%</button>
+              </div>
+            </div>
+
+            <div style="border: 1px solid #e2e8f0; border-radius: 10px; overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left;">
+                <thead style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; color: #475569; font-weight: 700;">
+                  <tr>
+                    <th style="padding: 10px 14px;">TXN REF / DATE</th>
+                    <th style="padding: 10px 14px;">CONTRACT REF</th>
+                    <th style="padding: 10px 14px;">BENEFICIARY FARMER</th>
+                    <th style="padding: 10px 14px;">PRODUCE LOT</th>
+                    <th style="padding: 10px 14px;">TRANCHE TYPE</th>
+                    <th style="padding: 10px 14px;">AMOUNT</th>
+                    <th style="padding: 10px 14px;">BANK UTR REF</th>
+                    <th style="padding: 10px 14px;">STATUS</th>
+                    <th style="padding: 10px 14px; text-align: right;">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="escrow-ledger-tbody" style="divide-y: 1px solid #e2e8f0;">
+                  <!-- Row 1 -->
+                  <tr style="border-bottom: 1px solid #f1f5f9;" data-type="advance">
+                    <td style="padding: 12px 14px;">
+                      <strong>TXN-ESC-9921-A</strong>
+                      <div style="font-size: 0.7rem; color: #64748b;">12 Sep 2026, 10:14 AM</div>
+                    </td>
+                    <td style="padding: 12px 14px;">#ESC-TN-9921</td>
+                    <td style="padding: 12px 14px;">
+                      <strong>Murugan Palanisamy</strong>
+                      <div style="font-size: 0.7rem; color: #64748b;">SBI A/C ••4491</div>
+                    </td>
+                    <td style="padding: 12px 14px;">Tomato 50 Qt</td>
+                    <td style="padding: 12px 14px;"><span style="color: #0c5a36; font-weight: 700;">35% Advance Locked</span></td>
+                    <td style="padding: 12px 14px;"><strong style="color: #0f172a;">₹ 21,000</strong></td>
+                    <td style="padding: 12px 14px;"><code style="font-size: 0.72rem; background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">ICIC0008891283</code></td>
+                    <td style="padding: 12px 14px;"><span class="badge badge-grade-a">🔒 In Escrow</span></td>
+                    <td style="padding: 12px 14px; text-align: right;">
+                      <button class="btn btn-outline btn-sm" onclick="showToast('Downloading Escrow Deposit Receipt TXN-ESC-9921-A...')" style="font-size: 0.72rem; padding: 3px 8px;">📄 Receipt</button>
+                    </td>
+                  </tr>
+
+                  <!-- Row 2 -->
+                  <tr style="border-bottom: 1px solid #f1f5f9;" data-type="advance">
+                    <td style="padding: 12px 14px;">
+                      <strong>TXN-ESC-4412-A</strong>
+                      <div style="font-size: 0.7rem; color: #64748b;">11 Sep 2026, 04:30 PM</div>
+                    </td>
+                    <td style="padding: 12px 14px;">#ESC-MH-4412</td>
+                    <td style="padding: 12px 14px;">
+                      <strong>Patil Rameshwar</strong>
+                      <div style="font-size: 0.7rem; color: #64748b;">HDFC A/C ••8812</div>
+                    </td>
+                    <td style="padding: 12px 14px;">Red Onion 80 Qt</td>
+                    <td style="padding: 12px 14px;"><span style="color: #0c5a36; font-weight: 700;">35% Advance Locked</span></td>
+                    <td style="padding: 12px 14px;"><strong style="color: #0f172a;">₹ 50,400</strong></td>
+                    <td style="padding: 12px 14px;"><code style="font-size: 0.72rem; background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">HDFC0001928471</code></td>
+                    <td style="padding: 12px 14px;"><span class="badge badge-grade-a">🔒 In Escrow</span></td>
+                    <td style="padding: 12px 14px; text-align: right;">
+                      <button class="btn btn-outline btn-sm" onclick="showToast('Downloading Escrow Deposit Receipt TXN-ESC-4412-A...')" style="font-size: 0.72rem; padding: 3px 8px;">📄 Receipt</button>
+                    </td>
+                  </tr>
+
+                  <!-- Row 3 -->
+                  <tr style="border-bottom: 1px solid #f1f5f9;" data-type="completed">
+                    <td style="padding: 12px 14px;">
+                      <strong>TXN-ESC-3310-F</strong>
+                      <div style="font-size: 0.7rem; color: #64748b;">08 Sep 2026, 02:15 PM</div>
+                    </td>
+                    <td style="padding: 12px 14px;">#ESC-TN-3310</td>
+                    <td style="padding: 12px 14px;">
+                      <strong>K. Palanisamy</strong>
+                      <div style="font-size: 0.7rem; color: #64748b;">Canara A/C ••1109</div>
+                    </td>
+                    <td style="padding: 12px 14px;">Potato (Jyoti) 100 Qt</td>
+                    <td style="padding: 12px 14px;"><span style="color: #1d4ed8; font-weight: 700;">65% Final Settlement</span></td>
+                    <td style="padding: 12px 14px;"><strong style="color: #0f172a;">₹ 1,17,000</strong></td>
+                    <td style="padding: 12px 14px;"><code style="font-size: 0.72rem; background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">CNRB0003310924</code></td>
+                    <td style="padding: 12px 14px;"><span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36;">✓ Settled</span></td>
+                    <td style="padding: 12px 14px; text-align: right;">
+                      <button class="btn btn-outline btn-sm" onclick="showToast('Downloading Final Settlement Voucher TXN-ESC-3310-F...')" style="font-size: 0.72rem; padding: 3px 8px;">📄 Voucher</button>
+                    </td>
+                  </tr>
+
+                  <!-- Row 4 -->
+                  <tr style="border-bottom: 1px solid #f1f5f9;" data-type="completed">
+                    <td style="padding: 12px 14px;">
+                      <strong>TXN-ESC-2190-F</strong>
+                      <div style="font-size: 0.7rem; color: #64748b;">04 Sep 2026, 11:45 AM</div>
+                    </td>
+                    <td style="padding: 12px 14px;">#ESC-TN-2190</td>
+                    <td style="padding: 12px 14px;">
+                      <strong>Anitha Murugan</strong>
+                      <div style="font-size: 0.7rem; color: #64748b;">Indian Bank ••7721</div>
+                    </td>
+                    <td style="padding: 12px 14px;">Turmeric Finger 40 Qt</td>
+                    <td style="padding: 12px 14px;"><span style="color: #1d4ed8; font-weight: 700;">65% Final Settlement</span></td>
+                    <td style="padding: 12px 14px;"><strong style="color: #0f172a;">₹ 3,58,800</strong></td>
+                    <td style="padding: 12px 14px;"><code style="font-size: 0.72rem; background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">IDIB0009918231</code></td>
+                    <td style="padding: 12px 14px;"><span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36;">✓ Settled</span></td>
+                    <td style="padding: 12px 14px; text-align: right;">
+                      <button class="btn btn-outline btn-sm" onclick="showToast('Downloading Final Settlement Voucher TXN-ESC-2190-F...')" style="font-size: 0.72rem; padding: 3px 8px;">📄 Voucher</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -1905,11 +2177,6 @@
             <strong style="color: #64748b;" id="transport-toll-fee">₹ 350</strong>
           </div>
           <div style="display: flex; justify-content: space-between; padding-top: 6px; border-top: 1px solid #e2e8f0; margin-top: 6px;">
-            <span style="font-weight: 700; color: #0c5a36;">Total Landed Transport Cost:</span>
-            <strong style="font-size: 1.05rem; color: #0c5a36;" id="transport-total-fee">₹ 6,150</strong>
-          </div>
-        </div>
-
         <div style="display: flex; gap: 10px;">
           <button type="button" class="btn btn-outline" onclick="closeBookTransportModal()" style="flex: 1;">Cancel</button>
           <button type="submit" class="btn btn-primary" style="flex: 2; background: #0c5a36; border-color: #0c5a36;">
@@ -1917,6 +2184,110 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL 9: DEPOSIT ESCROW CAPITAL MODAL -->
+  <div class="modal-overlay" id="modal-deposit-escrow">
+    <div class="modal-content" style="max-width: 540px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #e8f5ed; color: #0c5a36; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            💳
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">Top-Up Escrow Liquidity Pool</h3>
+            <span style="font-size: 0.75rem; color: #64748b;">Instant Virtual Account Settlement (ICICI Bank Nodal)</span>
+          </div>
+        </div>
+        <button onclick="closeDepositEscrowModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <form id="form-deposit-escrow" onsubmit="handleDepositEscrowSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Deposit Amount (₹ INR)</label>
+          <input type="number" id="escrow-deposit-amount" class="form-input" placeholder="e.g. 50000" min="5000" step="5000" value="50000" required style="font-size: 1.1rem; font-weight: 800; color: #0c5a36;" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Select Payment Rail</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <label style="border: 1.5px solid #0c5a36; background: #f0fdf4; border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; display: block;">
+              <input type="radio" name="escrow-pay-rail" value="UPI/Instant" checked />
+              <div style="font-weight: 800; font-size: 0.82rem; color: #0c5a36; margin-top: 4px;">⚡ Instant UPI / NetBanking</div>
+              <span style="font-size: 0.7rem; color: #64748b;">Instant Credit</span>
+            </label>
+            <label style="border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; display: block;">
+              <input type="radio" name="escrow-pay-rail" value="NEFT/RTGS" />
+              <div style="font-weight: 800; font-size: 0.82rem; color: #0f172a; margin-top: 4px;">🏦 Corporate RTGS / NEFT</div>
+              <span style="font-size: 0.7rem; color: #64748b;">Large Transfers</span>
+            </label>
+          </div>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; margin-bottom: 16px; font-size: 0.8rem; color: #475569;">
+          <div>Virtual Account: <strong>AGRINEX-BUY-99214</strong></div>
+          <div>IFSC Code: <strong>ICIC0000104 (Nodal Escrow Branch)</strong></div>
+          <div style="font-size: 0.72rem; color: #166534; margin-top: 4px;">🛡️ 100% principal protected under RBI Master Directions on Escrow Accounts.</div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-outline" onclick="closeDepositEscrowModal()" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 2; background: #0c5a36; border-color: #0c5a36; font-weight: 800;">
+            ✓ Confirm Deposit & Authorize
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 10: ESCROW DIGITAL AGREEMENT DEED MODAL -->
+  <div class="modal-overlay" id="modal-escrow-deed">
+    <div class="modal-content" style="max-width: 620px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #eff6ff; color: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            📜
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e3a8a; margin: 0;">Tri-Party Smart Escrow Deed</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="deed-contract-ref">Contract Reference: #ESC-TN-9921</span>
+          </div>
+        </div>
+        <button onclick="closeEscrowDeedModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Deed Content -->
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; margin-bottom: 16px; font-size: 0.82rem; line-height: 1.5; max-height: 380px; overflow-y: auto;">
+        <div style="text-align: center; border-bottom: 1px dashed #cbd5e1; padding-bottom: 10px; margin-bottom: 12px;">
+          <div style="font-weight: 800; font-size: 0.95rem; color: #0c5a36;">AGRINEX DIGITAL ESCROW & ARBITRATION DEED</div>
+          <div style="font-size: 0.7rem; color: #64748b;">Executed digitally under Indian Information Technology Act (2000)</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; background: #f8fafc; padding: 10px; border-radius: 6px;">
+          <div>Buyer: <strong>BigBasket Procurement Ltd (Hosur Hub)</strong></div>
+          <div>Seller Farmer: <strong id="deed-farmer-name">Murugan Palanisamy</strong></div>
+          <div>Produce Lot: <strong id="deed-produce-lot">Tomato (Shivam Hybrid 50 Qt)</strong></div>
+          <div>Total Valuation: <strong id="deed-total-val" style="color: #0c5a36;">₹ 60,000</strong></div>
+        </div>
+
+        <p style="margin-bottom: 8px;"><strong>Clause 1 (Advance Lock):</strong> The Buyer has deposited 35% advance capital (<span id="deed-locked-amt" style="font-weight: 700; color: #0c5a36;">₹ 21,000</span>) into the designated AgriNex Trustee Escrow Account.</p>
+        <p style="margin-bottom: 8px;"><strong>Clause 2 (Transit Protection):</strong> The Seller farmer undertakes to harvest and load produce conforming to Grade A specifications with digital weighbridge gate pass.</p>
+        <p style="margin-bottom: 8px;"><strong>Clause 3 (Arrival Inspection & Release):</strong> The remaining 65% delivery tranche shall be auto-disbursed within 48 hours of physical delivery upon buyer weighbridge QC signoff.</p>
+        <p style="margin-bottom: 8px;"><strong>Clause 4 (Dispute Arbitration):</strong> In event of quality divergence exceeding 5%, funds are frozen under AgriNex Escrow Redressal Tribunal.</p>
+
+        <div style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 12px; display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b;">
+          <div>Cryptographic Seal: <code style="color: #0c5a36;">SHA256: 8f9b...a102</code></div>
+          <div>Status: <span style="color: #166534; font-weight: 700;">✓ Digitally Signed & Active</span></div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button type="button" class="btn btn-outline" onclick="closeEscrowDeedModal()">Close</button>
+        <button type="button" class="btn btn-primary" onclick="showToast('Downloading stamped Smart Escrow Deed PDF...')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
+          📄 Download Stamped PDF
+        </button>
+      </div>
     </div>
   </div>
 
