@@ -14,256 +14,348 @@ if (!fs.existsSync(path.join(__dirname, 'backend'))) {
 
 // Initial Database Seeds
 const DEFAULT_DATA = {
+  profile: {
+    name: "Ramesh Patel",
+    farmer_id: "FARM-88210",
+    phone: "+91 98421 88390",
+    location: "Surat, Gujarat",
+    bank_name: "HDFC Bank Ltd.",
+    account_no: "•••• •••• 8821",
+    ifsc: "HDFC0001234",
+    upi_id: "ramesh.farmer@okhdfcbank"
+  },
   crops: [
     {
-      id: 1,
+      id: "LOT-TOM-01",
       farmer_name: "Ramesh Patel",
-      crop_name: "Tomato",
-      variety: "Hybrid Red",
-      quantity_qt: 45,
+      crop: "Tomato",
+      variety: "Hybrid Red (Shivam)",
+      category: "Vegetables",
+      shelf_life: "3 Days (Perishable)",
+      quantity_qt: 50,
+      quantity_kg: 5000,
       price_per_qt: 2400,
       price_per_kg: 24.0,
       state: "Gujarat",
       district: "Surat",
-      mandi: "Surat Mandi",
+      mandi: "Surat Mandi Yard",
       grade: "Grade A",
-      image_url: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400",
-      status: "Active",
+      image: "assets/images/tomato.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 2450,
+      best_bid_kg: 24.50,
+      buyer_name: "FreshCart Supply Chain",
       created_at: new Date().toISOString()
     },
     {
-      id: 2,
+      id: "LOT-ONI-02",
       farmer_name: "Ramesh Patel",
-      crop_name: "Onion",
-      variety: "Nashik Red",
+      crop: "Onion",
+      variety: "Nashik Red Export Grade",
+      category: "Vegetables",
+      shelf_life: "25 Days",
       quantity_qt: 80,
+      quantity_kg: 8000,
       price_per_qt: 2800,
       price_per_kg: 28.0,
       state: "Maharashtra",
       district: "Nashik",
       mandi: "Lasalgaon Mandi",
       grade: "Grade A",
-      image_url: "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=400",
-      status: "Active",
+      image: "assets/images/onion.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 2850,
+      best_bid_kg: 28.50,
+      buyer_name: "Mahyco Bulk Exporters",
       created_at: new Date().toISOString()
     },
     {
-      id: 3,
+      id: "LOT-POT-03",
       farmer_name: "Ramesh Patel",
-      crop_name: "Potato",
-      variety: "Jyoti Grade A",
+      crop: "Potato",
+      variety: "Jyoti Grade A Processing Chip Grade",
+      category: "Vegetables",
+      shelf_life: "60 Days",
       quantity_qt: 120,
+      quantity_kg: 12000,
       price_per_qt: 1800,
       price_per_kg: 18.0,
-      state: "Uttar Pradesh",
-      district: "Agra",
-      mandi: "Agra Mandi",
+      state: "Gujarat",
+      district: "Surat",
+      mandi: "Surat Mandi Yard",
       grade: "Grade A",
-      image_url: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400",
-      status: "Active",
+      image: "assets/images/potato.jpg",
+      status: "Accepted (Escrow Active)",
+      best_bid_qt: 1850,
+      best_bid_kg: 18.50,
+      buyer_name: "Balaji Wafers Procurement",
       created_at: new Date().toISOString()
     },
     {
-      id: 4,
+      id: "LOT-WHT-04",
       farmer_name: "Ramesh Patel",
-      crop_name: "Wheat",
-      variety: "Sharbati Lokwan",
+      crop: "Wheat",
+      variety: "Sharbati Lokwan Golden Wheat",
+      category: "Grains",
+      shelf_life: "180 Days",
       quantity_qt: 150,
+      quantity_kg: 15000,
       price_per_qt: 2600,
       price_per_kg: 26.0,
       state: "Madhya Pradesh",
       district: "Sehore",
       mandi: "Sehore Mandi",
       grade: "Grade A+",
-      image_url: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400",
-      status: "Active",
+      image: "assets/images/hero-field.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 2650,
+      best_bid_kg: 26.50,
+      buyer_name: "ITC Aashirvaad Sourcing",
       created_at: new Date().toISOString()
     }
   ],
   bids: [
     {
       id: 101,
-      crop_id: 1,
-      crop_name: "Tomato (Hybrid Red)",
-      buyer_name: "FreshCart Retail",
+      crop_id: "LOT-TOM-01",
+      crop: "Tomato",
+      variety: "Hybrid Red (Shivam)",
+      buyer_name: "FreshCart Supply Chain",
       buyer_phone: "+91 98234 11223",
-      buyer_company: "FreshCart Supply Chain",
-      bid_price_per_qt: 2450,
-      bid_price_per_kg: 24.50,
+      buyer_type: "National Supermarket Retailer",
+      buyer_rating: "4.9 ★ (Verified Corporate)",
+      bid_rate_qt: 2450,
+      bid_rate_kg: 24.50,
+      mandi_ref_kg: 22.50,
+      mandi_ref_qt: 2250,
+      premium_pct: "+8.9%",
       quantity_qt: 45,
-      offered_total: 110250,
+      quantity_kg: 4500,
+      total_value: 110250,
+      advance_35: 38587,
+      balance_65: 71663,
       status: "Pending",
-      created_at: "10 mins ago"
+      time_ago: "15 mins ago",
+      image: "assets/images/tomato.jpg"
     },
     {
       id: 102,
-      crop_id: 1,
-      crop_name: "Tomato (Hybrid Red)",
-      buyer_name: "Reliance Retail Hub",
-      buyer_phone: "+91 98990 44556",
-      buyer_company: "Reliance Fresh Sourcing",
-      bid_price_per_qt: 2380,
-      bid_price_per_kg: 23.80,
-      quantity_qt: 45,
-      offered_total: 107100,
+      crop_id: "LOT-ONI-02",
+      crop: "Onion",
+      variety: "Nashik Red Export Grade",
+      buyer_name: "Mahyco Bulk Exporters",
+      buyer_phone: "+91 97123 77889",
+      buyer_type: "Agricultural Export House",
+      buyer_rating: "4.8 ★ (Verified Exporter)",
+      bid_rate_qt: 2850,
+      bid_rate_kg: 28.50,
+      mandi_ref_kg: 26.00,
+      mandi_ref_qt: 2600,
+      premium_pct: "+9.6%",
+      quantity_qt: 80,
+      quantity_kg: 8000,
+      total_value: 228000,
+      advance_35: 79800,
+      balance_65: 148200,
       status: "Pending",
-      created_at: "25 mins ago"
+      time_ago: "40 mins ago",
+      image: "assets/images/onion.jpg"
     },
     {
       id: 103,
-      crop_id: 2,
-      crop_name: "Onion (Nashik Red)",
-      buyer_name: "Mahyco Agro Traders",
-      buyer_phone: "+91 97123 77889",
-      buyer_company: "Mahyco Bulk Exporters",
-      bid_price_per_qt: 2850,
-      bid_price_per_kg: 28.50,
-      quantity_qt: 80,
-      offered_total: 228000,
-      status: "Pending",
-      created_at: "1 hour ago"
+      crop_id: "LOT-POT-03",
+      crop: "Potato",
+      variety: "Jyoti Grade A Processing Chip Grade",
+      buyer_name: "Balaji Wafers Procurement",
+      buyer_phone: "+91 99001 22334",
+      buyer_type: "Food Processing Enterprise",
+      buyer_rating: "5.0 ★ (Anchor Buyer)",
+      bid_rate_qt: 1850,
+      bid_rate_kg: 18.50,
+      mandi_ref_kg: 17.20,
+      mandi_ref_qt: 1720,
+      premium_pct: "+7.5%",
+      quantity_qt: 120,
+      quantity_kg: 12000,
+      total_value: 222000,
+      advance_35: 77700,
+      balance_65: 144300,
+      status: "Accepted",
+      time_ago: "Yesterday",
+      image: "assets/images/potato.jpg"
     },
     {
       id: 104,
-      crop_id: 3,
-      crop_name: "Potato (Jyoti Grade A)",
-      buyer_name: "Balaji Wafers Procurement",
-      buyer_phone: "+91 99001 22334",
-      buyer_company: "Balaji Snack Foods",
-      bid_price_per_qt: 1850,
-      bid_price_per_kg: 18.50,
-      quantity_qt: 120,
-      offered_total: 222000,
-      status: "Accepted",
-      created_at: "Yesterday"
+      crop_id: "LOT-WHT-04",
+      crop: "Wheat",
+      variety: "Sharbati Lokwan Golden Wheat",
+      buyer_name: "ITC Aashirvaad Sourcing",
+      buyer_phone: "+91 98990 44556",
+      buyer_type: "FMCG Conglomerate",
+      buyer_rating: "5.0 ★ (Anchor Buyer)",
+      bid_rate_qt: 2650,
+      bid_rate_kg: 26.50,
+      mandi_ref_kg: 24.80,
+      mandi_ref_qt: 2480,
+      premium_pct: "+6.8%",
+      quantity_qt: 150,
+      quantity_kg: 15000,
+      total_value: 397500,
+      advance_35: 139125,
+      balance_65: 258375,
+      status: "Pending",
+      time_ago: "2 hours ago",
+      image: "assets/images/hero-field.jpg"
     }
   ],
   fpo_pools: [
     {
-      id: 1,
+      id: "POOL-ONI-01",
       pool_name: "Surat Red Onion Export Pool",
-      crop_name: "Onion",
+      crop: "Onion (Nashik Red)",
+      buyer_name: "NatureFresh Gulf Exports",
       target_qt: 500,
       current_qt: 380,
       floor_price_qt: 2900,
       floor_price_kg: 29.00,
-      status: "Open",
+      min_contribution: "20 Qt",
       closing_date: "2026-09-20",
-      contributors_count: 14
+      destination: "JNPT Port Container Terminal, Mumbai",
+      contributors_count: 14,
+      status: "Open"
     },
     {
-      id: 2,
+      id: "POOL-POT-02",
       pool_name: "North Gujarat Potato Chip Pool",
-      crop_name: "Potato",
+      crop: "Potato (Processing Jyoti)",
+      buyer_name: "Balaji & Haldiram Snacks Consortium",
       target_qt: 800,
       current_qt: 620,
       floor_price_qt: 1950,
       floor_price_kg: 19.50,
-      status: "Open",
+      min_contribution: "30 Qt",
       closing_date: "2026-09-22",
-      contributors_count: 22
+      destination: "Valsad Processing Facility, Gujarat",
+      contributors_count: 22,
+      status: "Open"
     },
     {
-      id: 3,
+      id: "POOL-COT-03",
       pool_name: "Central Saurashtra Cotton Lot",
-      crop_name: "Cotton",
+      crop: "Cotton (Medium Staple 29mm)",
+      buyer_name: "Vardhman Spinning Mills",
       target_qt: 400,
       current_qt: 400,
       floor_price_qt: 7200,
       floor_price_kg: 72.00,
-      status: "Full",
+      min_contribution: "15 Qt",
       closing_date: "2026-09-15",
-      contributors_count: 18
+      destination: "Ahmedabad Textile Hub",
+      contributors_count: 18,
+      status: "Full"
     }
   ],
   escrow_contracts: [
     {
-      id: 1,
       contract_no: "ESC-2026-0891",
-      crop_name: "Potato (Jyoti Grade A)",
-      buyer_name: "Balaji Wafers Procurement",
-      farmer_name: "Ramesh Patel",
-      quantity_qt: 120,
+      bank_ref: "HDFC-ESC-908123",
+      crop: "Potato",
+      variety: "Jyoti Grade A (120 Qt / 12,000 kg)",
+      buyer: "Balaji Wafers Procurement",
       total_amount: 222000,
-      advance_amount: 77700, // 35%
-      balance_amount: 144300, // 65%
-      status: "Advance Locked",
-      gate_pass: "GP-89104",
-      bank_ref: "HDFC-ESC-908123"
+      advance_amount: 77700,
+      advance_status: "Disbursed (UTR: HDFC9901824)",
+      balance_amount: 144300,
+      balance_status: "Locked in Nodal Escrow",
+      overall_status: "Advance Disbursed, Balance Locked",
+      date: "Today, 09:30 AM"
     },
     {
-      id: 2,
       contract_no: "ESC-2026-0842",
-      crop_name: "Tomato (Hybrid Red)",
-      buyer_name: "Swiggy Instamart Agri",
-      farmer_name: "Ramesh Patel",
-      quantity_qt: 40,
+      bank_ref: "HDFC-ESC-884102",
+      crop: "Tomato",
+      variety: "Hybrid Red (40 Qt / 4,000 kg)",
+      buyer: "Swiggy Instamart Agri",
       total_amount: 96000,
       advance_amount: 33600,
+      advance_status: "Disbursed (UTR: HDFC8829104)",
       balance_amount: 62400,
-      status: "Dispatched",
-      gate_pass: "GP-84219",
-      bank_ref: "HDFC-ESC-884102"
+      balance_status: "Locked in Nodal Escrow (Transit)",
+      overall_status: "In Transit Escrow",
+      date: "Yesterday"
     },
     {
-      id: 3,
       contract_no: "ESC-2026-0799",
-      crop_name: "Wheat (Sharbati)",
-      buyer_name: "Aashirvaad ITC Foods",
-      farmer_name: "Ramesh Patel",
-      quantity_qt: 100,
+      bank_ref: "HDFC-ESC-772910",
+      crop: "Wheat",
+      variety: "Sharbati Lokwan (100 Qt / 10,000 kg)",
+      buyer: "Aashirvaad ITC Foods",
       total_amount: 260000,
       advance_amount: 91000,
+      advance_status: "Settled",
       balance_amount: 169000,
-      status: "Settled",
-      gate_pass: "GP-79901",
-      bank_ref: "HDFC-ESC-772910"
+      balance_status: "Settled (UTR: HDFC7710291)",
+      overall_status: "100% Settled & Released",
+      date: "10 Sep 2026"
     }
   ],
   shipments: [
     {
-      id: 1,
-      tracking_id: "TRK-9921",
-      contract_no: "ESC-2026-0891",
-      crop_name: "Potato (Jyoti Grade A)",
-      quantity_qt: 120,
-      driver_name: "Sukhdev Singh",
-      driver_phone: "+91 98450 11992",
-      vehicle_no: "GJ-05-BX-4412",
-      origin: "Surat Farm Hub, Gujarat",
-      destination: "Balaji Factory, Valsad",
-      eta: "Today, 4:30 PM",
-      status: "Scheduled",
-      lat: 21.1702,
-      lng: 72.8311
+      tracking_id: "TRK-9884",
+      gate_pass: "GP-2026-9884",
+      contract_no: "ESC-2026-0842",
+      crop: "Tomato",
+      variety: "Hybrid Red (Grade A)",
+      quantity_qt: 40,
+      quantity_kg: 4000,
+      buyer: "Swiggy Instamart Agri",
+      destination: "Swiggy Central DC, Bhiwandi, Maharashtra",
+      driver: "Dinesh Yadav",
+      phone: "+91 97230 44819",
+      vehicle: "MH-12-AQ-9011 (Tata 407)",
+      status: "transit",
+      step: 3,
+      current_loc: "Surat-Mumbai Expressway KM 84",
+      speed: "54 km/h",
+      eta: "Tomorrow, 8:00 AM",
+      total_value: 96000,
+      advance_paid: 33600,
+      image: "assets/images/tomato.jpg"
     },
     {
-      id: 2,
-      tracking_id: "TRK-9884",
-      contract_no: "ESC-2026-0842",
-      crop_name: "Tomato (Hybrid Red)",
-      quantity_qt: 40,
-      driver_name: "Dinesh Yadav",
-      driver_phone: "+91 97230 44819",
-      vehicle_no: "MH-12-AQ-9011",
-      origin: "Surat Farm Hub, Gujarat",
-      destination: "Swiggy Central DC, Bhiwandi",
-      eta: "Tomorrow, 8:00 AM",
-      status: "In Transit",
-      lat: 20.3893,
-      lng: 72.9106
+      tracking_id: "TRK-9921",
+      gate_pass: "GP-2026-9921",
+      contract_no: "ESC-2026-0891",
+      crop: "Potato",
+      variety: "Jyoti Grade A Processing Chip Grade",
+      quantity_qt: 120,
+      quantity_kg: 12000,
+      buyer: "Balaji Wafers Procurement",
+      destination: "Balaji Factory Hub, Valsad, Gujarat",
+      driver: "Sukhdev Singh",
+      phone: "+91 98450 11992",
+      vehicle: "GJ-05-BX-4412 (Eicher 14-ft)",
+      status: "scheduled",
+      step: 2,
+      current_loc: "Vehicle Assigned • Arriving at Farm 02:00 PM",
+      speed: "0 km/h",
+      eta: "Today, 4:30 PM",
+      total_value: 222000,
+      advance_paid: 77700,
+      image: "assets/images/potato.jpg"
     }
   ]
 };
 
-// Load or initialize DB
 function loadDB() {
   try {
     if (fs.existsSync(DATA_FILE)) {
-      return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+      const parsed = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+      // Ensure all top-level keys exist
+      return Object.assign({}, DEFAULT_DATA, parsed);
     }
   } catch (e) {
-    console.error('Error loading data.json, falling back to default:', e.message);
+    console.error('Error loading data.json:', e.message);
   }
   fs.writeFileSync(DATA_FILE, JSON.stringify(DEFAULT_DATA, null, 2), 'utf8');
   return DEFAULT_DATA;
@@ -320,7 +412,6 @@ function parseBody(req) {
 }
 
 const server = http.createServer(async (req, res) => {
-  // CORS Preflight
   if (req.method === 'OPTIONS') {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
@@ -340,13 +431,313 @@ const server = http.createServer(async (req, res) => {
     if (urlPath === '/api/health') {
       return sendJSON(res, 200, {
         status: 'online',
-        app: 'AgriNex Unified Backend',
+        app: 'AgriNex Unified Farmer API Backend',
         node_version: process.version,
         time: new Date().toISOString()
       });
     }
 
-    // 2. Mandi AI Forecasts
+    // 2. Dashboard Unified Summary
+    if (urlPath === '/api/dashboard/stats' || urlPath === '/api/dashboard/summary') {
+      const totalEscrow = db.escrow_contracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+      const totalAdvance = db.escrow_contracts.reduce((sum, c) => sum + (c.advance_amount || 0), 0);
+
+      return sendJSON(res, 200, {
+        profile: db.profile,
+        stats: {
+          total_lots: db.crops.length,
+          active_bids: db.bids.filter(b => b.status === 'Pending').length,
+          in_transit_shipments: db.shipments.filter(s => s.status === 'transit').length,
+          total_escrow_protected: totalEscrow,
+          advance_disbursed: totalAdvance,
+          estimated_profit: "₹ " + Math.round(totalEscrow * 0.88).toLocaleString()
+        },
+        recent_crops: db.crops.slice(0, 4),
+        recent_bids: db.bids.slice(0, 4),
+        recent_shipments: db.shipments.slice(0, 2)
+      });
+    }
+
+    // 3. Crops Endpoints
+    if (urlPath === '/api/crops') {
+      if (req.method === 'GET') {
+        let list = [...db.crops];
+        const status = queryParams.get('status');
+        const category = queryParams.get('category');
+        if (status) list = list.filter(c => c.status.toLowerCase().includes(status.toLowerCase()));
+        if (category) list = list.filter(c => c.category.toLowerCase() === category.toLowerCase());
+        return sendJSON(res, 200, list);
+      }
+      if (req.method === 'POST') {
+        const body = await parseBody(req);
+        const qtyQt = Number(body.quantity_qt || body.quantityNumber || 50);
+        const priceQt = Number(body.price_per_qt || body.expectedPriceNumber || 2000);
+        const priceKg = Number((priceQt / 100).toFixed(2));
+        const cropName = body.crop_name || body.crop || "Produce";
+        const variety = body.variety || "Standard";
+
+        // Auto-assign matching image
+        let cropImage = body.image || body.image_url || "";
+        if (!cropImage) {
+          const lower = cropName.toLowerCase();
+          if (lower.includes('tomato')) cropImage = 'assets/images/tomato.jpg';
+          else if (lower.includes('onion')) cropImage = 'assets/images/onion.jpg';
+          else if (lower.includes('potato')) cropImage = 'assets/images/potato.jpg';
+          else if (lower.includes('wheat') || lower.includes('paddy')) cropImage = 'assets/images/paddy.jpg';
+          else if (lower.includes('cotton')) cropImage = 'assets/images/cotton.jpg';
+          else if (lower.includes('chilli')) cropImage = 'assets/images/chilli.jpg';
+          else cropImage = 'assets/images/hero-field.jpg';
+        }
+
+        const newCrop = {
+          id: "LOT-" + cropName.substring(0, 3).toUpperCase() + "-" + Math.floor(10 + Math.random() * 90),
+          farmer_name: db.profile.name,
+          crop: cropName,
+          variety: variety,
+          category: body.category || "Vegetables",
+          shelf_life: body.shelf_life || "7 Days",
+          quantity_qt: qtyQt,
+          quantity_kg: qtyQt * 100,
+          quantity: `${qtyQt} Qt (${(qtyQt * 100).toLocaleString()} kg)`,
+          quantityNumber: qtyQt,
+          price_per_qt: priceQt,
+          price_per_kg: priceKg,
+          expectedPrice: `₹ ${priceKg.toFixed(2)} /kg (₹ ${priceQt.toLocaleString()} /Qt)`,
+          expectedPriceNumber: priceQt,
+          bestBid: `₹ ${(priceKg * 1.02).toFixed(2)} /kg (₹ ${Math.round(priceQt * 1.02).toLocaleString()} /Qt)`,
+          bestBidNumber: Math.round(priceQt * 1.02),
+          buyerName: "Reliance Retail Hub",
+          state: body.state || "Gujarat",
+          district: body.district || "Surat",
+          mandi: body.mandi || "Surat Mandi Yard",
+          grade: body.grade || "Grade A",
+          gradeBadgeClass: body.grade === 'Grade B' ? 'badge-grade-b' : 'badge-grade-a',
+          image: cropImage,
+          status: "Active (Bids Open)",
+          statusBadgeClass: "badge-status-open",
+          created_at: new Date().toISOString()
+        };
+
+        db.crops.unshift(newCrop);
+        saveDB(db);
+        return sendJSON(res, 201, { success: true, crop: newCrop });
+      }
+    }
+
+    // Delete Crop
+    if (urlPath.startsWith('/api/crops/') && req.method === 'DELETE') {
+      const id = urlPath.replace('/api/crops/', '');
+      db.crops = db.crops.filter(c => String(c.id) !== String(id));
+      saveDB(db);
+      return sendJSON(res, 200, { success: true, message: `Crop ${id} deleted` });
+    }
+
+    // 4. Bids Endpoints
+    if (urlPath === '/api/bids') {
+      if (req.method === 'GET') {
+        return sendJSON(res, 200, db.bids);
+      }
+      if (req.method === 'POST') {
+        const body = await parseBody(req);
+        const rateQt = Number(body.bid_rate_qt || 2400);
+        const qtyQt = Number(body.quantity_qt || 40);
+        const rateKg = Number((rateQt / 100).toFixed(2));
+        const total = rateQt * qtyQt;
+
+        const newBid = {
+          id: db.bids.length > 0 ? Math.max(...db.bids.map(b => b.id)) + 1 : 101,
+          crop_id: body.crop_id || "LOT-TOM-01",
+          crop: body.crop || "Tomato",
+          variety: body.variety || "Hybrid Red",
+          buyer_name: body.buyer_name || "Verified Corporate Buyer",
+          buyer_phone: body.buyer_phone || "+91 98000 00000",
+          buyer_type: body.buyer_type || "National Retailer",
+          buyer_rating: "4.9 ★ (Verified Corporate)",
+          bid_rate_qt: rateQt,
+          bid_rate_kg: rateKg,
+          mandi_ref_kg: rateKg * 0.92,
+          mandi_ref_qt: rateQt * 0.92,
+          premium_pct: "+8.7%",
+          quantity_qt: qtyQt,
+          quantity_kg: qtyQt * 100,
+          total_value: total,
+          advance_35: Math.round(total * 0.35),
+          balance_65: Math.round(total * 0.65),
+          status: "Pending",
+          time_ago: "Just now",
+          image: body.image || "assets/images/tomato.jpg"
+        };
+        db.bids.unshift(newBid);
+        saveDB(db);
+        return sendJSON(res, 201, { success: true, bid: newBid });
+      }
+    }
+
+    // Bid Action (Accept / Counter / Reject)
+    if (urlPath.startsWith('/api/bids/') && urlPath.endsWith('/action')) {
+      const parts = urlPath.split('/');
+      const bidId = Number(parts[3]);
+      const body = await parseBody(req);
+      const bid = db.bids.find(b => b.id === bidId);
+
+      if (!bid) {
+        return sendJSON(res, 404, { error: 'Bid not found' });
+      }
+
+      if (body.status === 'Accepted') {
+        bid.status = 'Accepted';
+        
+        // AUTO-CREATE ESCROW CONTRACT
+        const contractNo = "ESC-2026-" + Math.floor(1000 + Math.random() * 9000);
+        const bankRef = "HDFC-ESC-" + Math.floor(100000 + Math.random() * 900000);
+        const total = bid.total_value;
+        const advance = bid.advance_35 || Math.round(total * 0.35);
+        const balance = total - advance;
+
+        const newContract = {
+          contract_no: contractNo,
+          bank_ref: bankRef,
+          crop: bid.crop,
+          variety: `${bid.variety} (${bid.quantity_qt} Qt / ${bid.quantity_kg || (bid.quantity_qt * 100)} kg)`,
+          buyer: bid.buyer_name,
+          total_amount: total,
+          advance_amount: advance,
+          advance_status: "Disbursed (UTR: HDFC" + Math.floor(1000000 + Math.random() * 9000000) + ")",
+          balance_amount: balance,
+          balance_status: "Locked in Nodal Escrow (Transit)",
+          overall_status: "Advance Disbursed, Balance Locked",
+          date: "Just now"
+        };
+        db.escrow_contracts.unshift(newContract);
+
+        // AUTO-CREATE ACTIVE SHIPMENT
+        const trkId = "TRK-" + Math.floor(1000 + Math.random() * 9000);
+        const gpId = "GP-2026-" + Math.floor(1000 + Math.random() * 9000);
+
+        const newShipment = {
+          tracking_id: trkId,
+          gate_pass: gpId,
+          contract_no: contractNo,
+          crop: bid.crop,
+          variety: bid.variety,
+          quantity_qt: bid.quantity_qt,
+          quantity_kg: bid.quantity_qt * 100,
+          buyer: bid.buyer_name,
+          destination: `${bid.buyer_name} Central DC`,
+          driver: "Dinesh Yadav",
+          phone: "+91 97230 44819",
+          vehicle: "MH-12-AQ-9011 (Tata 407)",
+          status: "transit",
+          step: 3,
+          current_loc: "Farm Pickup Completed • Entering Highway KM 12",
+          speed: "48 km/h",
+          eta: "Tomorrow, 9:00 AM",
+          total_value: total,
+          advance_paid: advance,
+          image: bid.image || "assets/images/tomato.jpg"
+        };
+        db.shipments.unshift(newShipment);
+
+        // Update corresponding crop lot status
+        const crop = db.crops.find(c => c.id === bid.crop_id);
+        if (crop) {
+          crop.status = "Sold (Under Escrow)";
+          crop.statusBadgeClass = "badge-status-dispatched";
+        }
+
+        saveDB(db);
+        return sendJSON(res, 200, {
+          success: true,
+          message: "Bid accepted. Escrow Contract and Shipment automatically generated!",
+          bid,
+          contract: newContract,
+          shipment: newShipment
+        });
+      }
+
+      if (body.status === 'Countered') {
+        bid.status = 'Countered';
+        bid.counter_rate_kg = Number(body.counter_rate_kg) || (bid.bid_rate_kg + 1.0);
+        bid.counter_rate_qt = bid.counter_rate_kg * 100;
+        bid.counter_note = body.counter_note || "Farmer requested adjusted floor price";
+        saveDB(db);
+        return sendJSON(res, 200, { success: true, bid });
+      }
+
+      if (body.status === 'Rejected') {
+        bid.status = 'Rejected';
+        saveDB(db);
+        return sendJSON(res, 200, { success: true, bid });
+      }
+
+      saveDB(db);
+      return sendJSON(res, 200, { success: true, bid });
+    }
+
+    // 5. Logistics & Shipments
+    if (urlPath === '/api/logistics/shipments') {
+      return sendJSON(res, 200, db.shipments);
+    }
+
+    // 6. Escrow Contracts
+    if (urlPath === '/api/escrow/contracts') {
+      return sendJSON(res, 200, db.escrow_contracts);
+    }
+
+    // 7. FPO Bulk Pools
+    if (urlPath === '/api/fpo/pools') {
+      if (req.method === 'GET') {
+        return sendJSON(res, 200, db.fpo_pools);
+      }
+      if (req.method === 'POST') {
+        const body = await parseBody(req);
+        const newPool = {
+          id: "POOL-" + Math.floor(100 + Math.random() * 900),
+          pool_name: body.pool_name || "New Collective Pool",
+          crop: body.crop || "Produce",
+          buyer_name: body.buyer_name || "Institutional Consortium",
+          target_qt: Number(body.target_qt) || 500,
+          current_qt: 0,
+          floor_price_qt: Number(body.floor_price_qt) || 2500,
+          floor_price_kg: Number((Number(body.floor_price_qt || 2500) / 100).toFixed(2)),
+          min_contribution: "20 Qt",
+          closing_date: body.closing_date || "2026-09-30",
+          destination: body.destination || "Surat Central Agripark",
+          contributors_count: 0,
+          status: "Open"
+        };
+        db.fpo_pools.unshift(newPool);
+        saveDB(db);
+        return sendJSON(res, 201, { success: true, pool: newPool });
+      }
+    }
+
+    // FPO Contribution
+    if (urlPath === '/api/fpo/contribute') {
+      const body = await parseBody(req);
+      const pool = db.fpo_pools.find(p => 
+        String(p.id) === String(body.pool_id) || 
+        (body.pool_id && String(body.pool_id).toLowerCase().includes(p.crop_name ? p.crop_name.toLowerCase() : '')) ||
+        (body.pool_id && p.pool_name && p.pool_name.toLowerCase().includes(String(body.pool_id).toLowerCase()))
+      );
+      if (!pool) {
+        return sendJSON(res, 404, { error: 'Pool not found: ' + body.pool_id });
+      }
+      const qty = Number(body.quantity_qt) || 20;
+      pool.current_qt = Math.min(pool.target_qt, pool.current_qt + qty);
+      pool.contributors_count = (pool.contributors_count || 1) + 1;
+      if (pool.current_qt >= pool.target_qt) {
+        pool.status = "Full";
+      }
+      saveDB(db);
+      return sendJSON(res, 200, {
+        success: true,
+        message: `Successfully pooled ${qty} Qt into ${pool.pool_name}!`,
+        pool
+      });
+    }
+
+    // 8. Mandi Forecasts Live Bridge
     if (urlPath === '/api/mandi/forecasts') {
       try {
         if (fs.existsSync(FORECAST_FILE)) {
@@ -357,168 +748,43 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { status: "cached", timestamp: new Date().toISOString() });
     }
 
-    // 3. Crops Endpoints
-    if (urlPath === '/api/crops') {
-      if (req.method === 'GET') {
-        return sendJSON(res, 200, db.crops);
-      }
-      if (req.method === 'POST') {
-        const body = await parseBody(req);
-        const newCrop = {
-          id: db.crops.length > 0 ? Math.max(...db.crops.map(c => c.id)) + 1 : 1,
-          farmer_name: body.farmer_name || "Ramesh Patel",
-          crop_name: body.crop_name || "Vegetable",
-          variety: body.variety || "Standard",
-          quantity_qt: Number(body.quantity_qt) || 10,
-          price_per_qt: Number(body.price_per_qt) || 2000,
-          price_per_kg: Number((Number(body.price_per_qt || 2000) / 100).toFixed(2)),
-          state: body.state || "Gujarat",
-          district: body.district || "Surat",
-          mandi: body.mandi || "Surat Mandi",
-          grade: body.grade || "Grade A",
-          image_url: body.image_url || "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400",
-          status: "Active",
-          created_at: new Date().toISOString()
-        };
-        db.crops.unshift(newCrop);
-        saveDB(db);
-        return sendJSON(res, 201, { success: true, crop: newCrop });
-      }
-    }
-
-    // 4. Bids Endpoints
-    if (urlPath === '/api/bids') {
-      if (req.method === 'GET') {
-        return sendJSON(res, 200, db.bids);
-      }
-      if (req.method === 'POST') {
-        const body = await parseBody(req);
-        const newBid = {
-          id: db.bids.length > 0 ? Math.max(...db.bids.map(b => b.id)) + 1 : 101,
-          crop_id: Number(body.crop_id) || 1,
-          crop_name: body.crop_name || "Produce Lot",
-          buyer_name: body.buyer_name || "Verified Buyer",
-          buyer_phone: body.buyer_phone || "+91 98000 00000",
-          buyer_company: body.buyer_company || "Agro Trader",
-          bid_price_per_qt: Number(body.bid_price_per_qt) || 2000,
-          bid_price_per_kg: Number((Number(body.bid_price_per_qt || 2000) / 100).toFixed(2)),
-          quantity_qt: Number(body.quantity_qt) || 10,
-          offered_total: (Number(body.bid_price_per_qt) || 2000) * (Number(body.quantity_qt) || 10),
-          status: "Pending",
-          created_at: "Just now"
-        };
-        db.bids.unshift(newBid);
-        saveDB(db);
-        return sendJSON(res, 201, { success: true, bid: newBid });
-      }
-    }
-
-    // 5. Bid Action (Accept / Reject / Counter)
-    if (urlPath.startsWith('/api/bids/') && urlPath.endsWith('/action')) {
-      const parts = urlPath.split('/');
-      const bidId = Number(parts[3]);
-      const body = await parseBody(req);
-      const bid = db.bids.find(b => b.id === bidId);
-      if (bid) {
-        bid.status = body.status || bid.status;
-        saveDB(db);
-        return sendJSON(res, 200, { success: true, bid });
-      }
-      return sendJSON(res, 404, { error: 'Bid not found' });
-    }
-
-    // 6. FPO Pools Endpoints
-    if (urlPath === '/api/fpo/pools') {
-      if (req.method === 'GET') {
-        return sendJSON(res, 200, db.fpo_pools);
-      }
-      if (req.method === 'POST') {
-        const body = await parseBody(req);
-        const newPool = {
-          id: db.fpo_pools.length > 0 ? Math.max(...db.fpo_pools.map(p => p.id)) + 1 : 1,
-          pool_name: body.pool_name || "New Collective Pool",
-          crop_name: body.crop_name || "Produce",
-          target_qt: Number(body.target_qt) || 500,
-          current_qt: 0,
-          floor_price_qt: Number(body.floor_price_qt) || 2500,
-          floor_price_kg: Number((Number(body.floor_price_qt || 2500) / 100).toFixed(2)),
-          status: "Open",
-          closing_date: body.closing_date || "2026-09-30",
-          contributors_count: 0
-        };
-        db.fpo_pools.unshift(newPool);
-        saveDB(db);
-        return sendJSON(res, 201, { success: true, pool: newPool });
-      }
-    }
-
-    // 7. FPO Contribution
-    if (urlPath === '/api/fpo/contribute') {
-      const body = await parseBody(req);
-      const pool = db.fpo_pools.find(p => p.id === Number(body.pool_id));
-      if (pool) {
-        pool.current_qt = Math.min(pool.target_qt, pool.current_qt + Number(body.quantity_qt || 10));
-        pool.contributors_count = (pool.contributors_count || 1) + 1;
-        if (pool.current_qt >= pool.target_qt) {
-          pool.status = "Full";
-        }
-        saveDB(db);
-        return sendJSON(res, 200, { success: true, pool });
-      }
-      return sendJSON(res, 404, { error: 'Pool not found' });
-    }
-
-    // 8. Escrow Contracts
-    if (urlPath === '/api/escrow/contracts') {
-      return sendJSON(res, 200, db.escrow_contracts);
-    }
-
-    if (urlPath.startsWith('/api/escrow/') && urlPath.includes('/action')) {
-      const parts = urlPath.split('/');
-      const contractId = Number(parts[3]);
-      const body = await parseBody(req);
-      const contract = db.escrow_contracts.find(c => c.id === contractId);
-      if (contract) {
-        contract.status = body.status || contract.status;
-        saveDB(db);
-        return sendJSON(res, 200, { success: true, contract });
-      }
-      return sendJSON(res, 404, { error: 'Contract not found' });
-    }
-
-    // 9. Shipments & Logistics
-    if (urlPath === '/api/logistics/shipments') {
-      return sendJSON(res, 200, db.shipments);
-    }
-
-    // 10. Calculator
+    // 9. Profit Calculator Estimate API
     if (urlPath === '/api/calculator/estimate') {
       const crop = queryParams.get('crop') || 'Tomato';
       const qt = Number(queryParams.get('quantity') || 50);
-      const baseMandiRate = Number(queryParams.get('mandiRate') || 2200); // per qt
-      const platformPremiumRate = baseMandiRate * 1.08; // 8% direct buyer premium
-      const freightPerKm = 12;
-      const distanceKm = Number(queryParams.get('distance') || 45);
-      const totalFreight = freightPerKm * distanceKm;
+      const kg = qt * 100;
+      const baseMandiRate = Number(queryParams.get('mandiRate') || 2250); // per qt
+      const dist = Number(queryParams.get('distance') || 45);
+      const vehicleRate = Number(queryParams.get('vehicleRate') || 10);
 
       const mandiGross = baseMandiRate * qt;
-      const platformGross = platformPremiumRate * qt;
-      const netPlatformProfit = platformGross - totalFreight;
-      const netGain = netPlatformProfit - mandiGross;
+      const mandiComm = mandiGross * 0.06;
+      const mandiWeigh = mandiGross * 0.02;
+      const mandiLabor = qt * 22;
+      const mandiNet = mandiGross - (mandiComm + mandiWeigh + mandiLabor);
+
+      const platformRate = baseMandiRate * 1.08;
+      const platformGross = platformRate * qt;
+      const totalFreight = dist * vehicleRate;
+      const farmerFreight = totalFreight * 0.5;
+      const platformNet = platformGross - farmerFreight;
+
+      const extraProfit = platformNet - mandiNet;
 
       return sendJSON(res, 200, {
         crop,
         quantity_qt: qt,
-        quantity_kg: qt * 100,
+        quantity_kg: kg,
         mandi_rate_per_qt: baseMandiRate,
         mandi_rate_per_kg: Number((baseMandiRate / 100).toFixed(2)),
-        platform_rate_per_qt: Math.round(platformPremiumRate),
-        platform_rate_per_kg: Number((platformPremiumRate / 100).toFixed(2)),
-        mandi_total: mandiGross,
-        platform_gross: platformGross,
-        freight_cost: totalFreight,
-        platform_net_profit: netPlatformProfit,
-        net_extra_gain: netGain
+        platform_rate_per_qt: Math.round(platformRate),
+        platform_rate_per_kg: Number((platformRate / 100).toFixed(2)),
+        mandi_net_take_home: Math.round(mandiNet),
+        platform_net_take_home: Math.round(platformNet),
+        extra_net_profit: Math.round(extraProfit),
+        percent_gain: Number(((extraProfit / mandiNet) * 100).toFixed(1)),
+        escrow_advance_35: Math.round(platformNet * 0.35),
+        escrow_balance_65: Math.round(platformNet * 0.65)
       });
     }
 
@@ -533,7 +799,6 @@ const server = http.createServer(async (req, res) => {
 
   const filePath = path.join(PUBLIC_DIR, reqPath);
 
-  // Prevent directory traversal
   if (!filePath.startsWith(PUBLIC_DIR)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
     res.end('403 Forbidden');

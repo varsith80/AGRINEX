@@ -731,7 +731,26 @@
       currentTab = tab;
       document.querySelectorAll('.fpo-tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderShipments();
+      
+    async function loadShipmentsFromBackend() {
+      try {
+        const res = await fetch('/api/logistics/shipments');
+        if (res.ok) {
+          const apiShipments = await res.json();
+          if (apiShipments && apiShipments.length > 0) {
+            SHIPMENTS_DATA.length = 0;
+            apiShipments.forEach(s => SHIPMENTS_DATA.push(s));
+            renderShipments();
+          }
+        }
+      } catch (e) {
+        console.log('Using default shipments cache:', e.message);
+      }
+    }
+
+    loadShipmentsFromBackend();
+
+    renderShipments();
     }
 
     function openGpsModal(trkId) {
@@ -767,6 +786,25 @@
         card.style.display = text.includes(query) ? 'block' : 'none';
       });
     }
+
+    
+    async function loadShipmentsFromBackend() {
+      try {
+        const res = await fetch('/api/logistics/shipments');
+        if (res.ok) {
+          const apiShipments = await res.json();
+          if (apiShipments && apiShipments.length > 0) {
+            SHIPMENTS_DATA.length = 0;
+            apiShipments.forEach(s => SHIPMENTS_DATA.push(s));
+            renderShipments();
+          }
+        }
+      } catch (e) {
+        console.log('Using default shipments cache:', e.message);
+      }
+    }
+
+    loadShipmentsFromBackend();
 
     renderShipments();
   </script>

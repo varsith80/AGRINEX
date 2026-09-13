@@ -1006,5 +1006,20 @@ Your contribution is locked in the FPO pool and 35% advance escrow tracking init
       if (modal) modal.classList.remove("active");
     }
   </script>
+
+<script>
+  // Backend sync for FPO Pools
+  async function syncFPOPoolsFromBackend() {
+    try {
+      const res = await fetch('/api/fpo/pools');
+      if (res.ok) {
+        const pools = await res.json();
+        console.log('Live FPO Pools from Backend:', pools.length);
+      }
+    } catch (e) {}
+  }
+  syncFPOPoolsFromBackend();
+</script>
+
 </body>
 </html>

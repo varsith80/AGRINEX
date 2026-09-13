@@ -1,9 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
   renderListings();
+  syncListingsFromBackend();
   renderFPOHub();
   setupModals();
   setupNavigation();
   setupLocationChange();
+
+  const createForm = document.getElementById("form-create-listing");
+  if (createForm) {
+    createForm.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const cropName = document.getElementById("new-crop-name").value;
+      const grade = document.getElementById("new-crop-grade").value;
+      const qty = parseFloat(document.getElementById("new-crop-qty").value) || 50;
+      const price = parseFloat(document.getElementById("new-crop-price").value) || 2000;
+
+      try {
+        if (window.AgriNexAPI) {
+          const res = await AgriNexAPI.createCrop({
+            crop: cropName,
+            variety: "Standard",
+            grade: grade,
+            quantity_qt: qty,
+            price_per_qt: price
+          });
+          showToast("🎉 Crop lot published to marketplace!");
+          await syncListingsFromBackend();
+          document.getElementById("modal-create-listing").classList.remove("active");
+          createForm.reset();
+          return;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  }
+
 });
 
 /**
@@ -284,6 +316,7 @@ function setupModals() {
       if (totalLotsEl) totalLotsEl.textContent = farmerData.stats.totalLots;
 
       renderListings();
+  syncListingsFromBackend();
       modalCreate.classList.remove("active");
       formCreate.reset();
 
@@ -381,6 +414,7 @@ function acceptBid(lotId) {
     lot.status = "Dispatched (Escrow Locked)";
     lot.statusBadgeClass = "badge-status-dispatched";
     renderListings();
+  syncListingsFromBackend();
   }
   showToast(`Bid accepted for ${lotId}! Generating Escrow Contract and Dispatch Order.`);
 }
@@ -459,6 +493,7 @@ function confirmEmergencyActivation(lotId) {
   const result = AgriNexEmergencySale.triggerEmergencySale(lotId, farmerData.listings);
   if (result) {
     renderListings();
+  syncListingsFromBackend();
     closeDetailModal();
     showToast(`🚨 Emergency Sale Activated! ${result.offersCount} Instant Breakeven Offers Received.`);
     setTimeout(() => {
@@ -528,6 +563,7 @@ function acceptEmergencyOffer(lotId, buyerId) {
   const result = AgriNexEmergencySale.acceptEmergencyOffer(lotId, buyerId, farmerData.listings);
   if (result) {
     renderListings();
+  syncListingsFromBackend();
     closeDetailModal();
     showToast(`✅ Emergency contract locked! ${result.offer.buyerName} has transferred ${result.offer.offerPriceFormatted} via Escrow.`);
   }
@@ -591,4 +627,38 @@ function showToast(message) {
     toast.style.opacity = "0";
     toast.style.transform = "translateY(12px)";
   }, 3500);
+}
+
+
+async function syncListingsFromBackend() {
+  try {
+    if (window.AgriNexAPI) {
+      const crops = await AgriNexAPI.getCrops();
+      if (crops && crops.length > 0) {
+        farmerData.listings = crops.map(c => ({
+          id: c.id,
+          crop: c.crop + (c.variety ? ` (${c.variety})` : ''),
+          category: c.category || 'Vegetables',
+          shelfLife: c.shelf_life || '7 Days',
+          harvestDate: 'Current Season',
+          image: c.image || 'assets/images/tomato.jpg',
+          grade: c.grade || 'Grade A',
+          gradeBadgeClass: c.grade === 'Grade B' ? 'badge-grade-b' : 'badge-grade-a',
+          quantity: c.quantity || `${c.quantity_qt} Qt (${c.quantity_qt * 100} kg)`,
+          quantityNumber: c.quantity_qt,
+          expectedPrice: c.expectedPrice || `₹ ${c.price_per_kg ? c.price_per_kg.toFixed(2) : (c.price_per_qt/100).toFixed(2)} /kg (₹ ${c.price_per_qt.toLocaleString()} /Qt)`,
+          expectedPriceNumber: c.price_per_qt,
+          bestBid: c.bestBid || `₹ ${((c.price_per_qt * 1.02)/100).toFixed(2)} /kg (₹ ${Math.round(c.price_per_qt * 1.02).toLocaleString()} /Qt)`,
+          bestBidNumber: Math.round(c.price_per_qt * 1.02),
+          buyerName: c.buyerName || "Reliance Retail Hub",
+          status: c.status || "Active",
+          statusBadgeClass: c.statusBadgeClass || "badge-status-open",
+          location: c.mandi || "Surat Mandi Yard"
+        }));
+        renderListings();
+      }
+    }
+  } catch (e) {
+    console.log("Using cached farmerData:", e.message);
+  }
 }

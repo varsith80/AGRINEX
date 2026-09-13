@@ -920,7 +920,55 @@
       document.getElementById(id).classList.remove('active');
     }
 
-    // Initial render
+    
+    async function loadBidsFromBackend() {
+      try {
+        const res = await fetch('/api/bids');
+        if (res.ok) {
+          const apiBids = await res.json();
+          if (apiBids && apiBids.length > 0) {
+            BIDS_DATA.length = 0;
+            apiBids.forEach(b => {
+              BIDS_DATA.push({
+                id: b.id,
+                crop: b.crop || 'Produce',
+                variety: b.variety || 'Standard Grade',
+                quantity_qt: b.quantity_qt || 40,
+                quantity_kg: b.quantity_kg || ((b.quantity_qt || 40) * 100),
+                buyer: b.buyer_name || 'Verified Buyer',
+                buyer_type: b.buyer_type || 'National Retailer',
+                buyer_rating: b.buyer_rating || '4.9 ★ (Verified Corporate)',
+                phone: (b.buyer_phone || '919823411223').replace(/[^0-9]/g, ''),
+                bid_rate_kg: b.bid_rate_kg || Number(((b.bid_rate_qt || 2400) / 100).toFixed(2)),
+                bid_rate_qt: b.bid_rate_qt || 2400,
+                mandi_ref_kg: b.mandi_ref_kg || 22.50,
+                mandi_ref_qt: b.mandi_ref_qt || 2250,
+                premium_pct: b.premium_pct || '+8.5%',
+                total_value: b.total_value || ((b.bid_rate_qt || 2400) * (b.quantity_qt || 40)),
+                advance_35: b.advance_35 || Math.round(((b.bid_rate_qt || 2400) * (b.quantity_qt || 40)) * 0.35),
+                status: (b.status || 'pending').toLowerCase(),
+                time_ago: b.time_ago || 'Just now',
+                image: b.image || 'assets/images/tomato.jpg'
+              });
+            });
+            renderBids();
+            updateBidsKpi();
+          }
+        }
+      } catch (e) {
+        console.log('Using initial bids dataset:', e.message);
+      }
+    }
+
+    function updateBidsKpi() {
+      const activeCount = BIDS_DATA.filter(b => b.status === 'pending').length;
+      const el = document.getElementById('stat-active-bids');
+      if (el) el.innerText = activeCount + ' Live Offers';
+    }
+
+    // Call on load
+    loadBidsFromBackend();
+
     renderBids();
   </script>
 </body>

@@ -550,6 +550,25 @@
       });
     }
 
+    
+    async function loadEscrowFromBackend() {
+      try {
+        const res = await fetch('/api/escrow/contracts');
+        if (res.ok) {
+          const apiContracts = await res.json();
+          if (apiContracts && apiContracts.length > 0) {
+            ESCROW_DATA.length = 0;
+            apiContracts.forEach(c => ESCROW_DATA.push(c));
+            renderEscrow();
+          }
+        }
+      } catch (e) {
+        console.log('Using default escrow cache:', e.message);
+      }
+    }
+
+    loadEscrowFromBackend();
+
     renderEscrow();
   </script>
 </body>
