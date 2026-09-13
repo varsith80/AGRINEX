@@ -208,10 +208,16 @@ function setupSidebarNav() {
 // FEATURE 4: INSTANT SEARCH, GRADE & KG UNIT FILTER
 // ==========================================
 
-// Global Search handler from Top Navbar
+// Global Search handler // Search input handler
 function handleBuyerSearch(query) {
-  buyerFilterState.search = (query || '').trim().toLowerCase();
-  
+  const rawQuery = query || '';
+  buyerFilterState.search = rawQuery.trim().toLowerCase();
+
+  const globalInput = document.getElementById('buyer-global-search');
+  const marketInput = document.getElementById('marketplace-search-input');
+  if (globalInput && globalInput.value !== rawQuery) globalInput.value = rawQuery;
+  if (marketInput && marketInput.value !== rawQuery) marketInput.value = rawQuery;
+
   // If user is searching and not currently in verified produce view, switch to it
   const activeView = document.querySelector('.portal-view.active-view');
   if (buyerFilterState.search && activeView && activeView.id !== 'view-verified-produce' && activeView.id !== 'view-dashboard') {
@@ -345,20 +351,159 @@ function resetBuyerFilters() {
 }
 
 // Render Verified Farmer Lots in Table (Full & Dashboard preview with KG unit support)
+// Toggle between Grid and Table View in Marketplace
+function setMarketViewMode(mode, btn) {
+  const gridContainer = document.getElementById('market-lots-grid');
+  const tableWrapper = document.getElementById('market-lots-table-wrapper');
+  const gridBtn = document.getElementById('btn-view-grid');
+  const tableBtn = document.getElementById('btn-view-table');
+
+  if (mode === 'grid') {
+    if (gridContainer) gridContainer.style.display = 'grid';
+    if (tableWrapper) tableWrapper.style.display = 'none';
+    if (gridBtn) {
+      gridBtn.style.background = '#0c5a36';
+      gridBtn.style.color = '#ffffff';
+    }
+    if (tableBtn) {
+      tableBtn.style.background = 'transparent';
+      tableBtn.style.color = '#475569';
+    }
+  } else {
+    if (gridContainer) gridContainer.style.display = 'none';
+    if (tableWrapper) tableWrapper.style.display = 'block';
+    if (tableBtn) {
+      tableBtn.style.background = '#0c5a36';
+      tableBtn.style.color = '#ffffff';
+    }
+    if (gridBtn) {
+      gridBtn.style.background = 'transparent';
+      gridBtn.style.color = '#475569';
+    }
+  }
+}
+
+// Category filter pills on Marketplace hero
+function filterByCategoryPill(category, btn) {
+  const pills = document.querySelectorAll('#market-category-pills .market-pill');
+  pills.forEach(p => {
+    p.classList.remove('active');
+    p.style.background = '#ffffff';
+    p.style.color = '#334155';
+    p.style.borderColor = '#cbd5e1';
+  });
+
+  if (btn) {
+    btn.classList.add('active');
+    btn.style.background = '#0c5a36';
+    btn.style.color = '#ffffff';
+    btn.style.borderColor = '#0c5a36';
+  }
+
+  buyerFilterState.category = category;
+  applyFilters();
+}
+
+// Render Verified Farmer Lots in 3-Column Grid + Table + Dashboard preview
 function renderVerifiedLots(lotsToRender = null) {
+  const grid = document.getElementById('market-lots-grid');
   const tbody = document.getElementById('verified-lots-tbody');
   const dashTbody = document.getElementById('dashboard-lots-tbody');
   const countBadge = document.getElementById('lots-count-badge');
+  const marketCountBadge = document.getElementById('market-lots-count');
   
   if (!buyerData.verifiedLots) return;
   const lots = lotsToRender !== null ? lotsToRender : buyerData.verifiedLots;
   const unitMode = buyerFilterState.unitDisplay || 'both';
 
   // Update badge count
-  if (countBadge) {
-    countBadge.textContent = `Showing ${lots.length} of ${buyerData.verifiedLots.length} Verified Lots`;
+  const countText = `${lots.length} Lots`;
+  if (countBadge) countBadge.textContent = `Showing ${lots.length} of ${buyerData.verifiedLots.length} Verified Lots`;
+  if (marketCountBadge) marketCountBadge.textContent = `${lots.length} Lots Available`;
+
+  // 1. Render 3-Column Visual Grid (Screenshot Match)
+  if (grid) {
+    if (lots.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column: 1 / -1; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 48px 24px; text-align: center; color: #64748b;">
+          <div style="font-size: 2.5rem; margin-bottom: 10px;">🌾</div>
+          <strong style="font-size: 1.1rem; color: #0f172a; display: block; margin-bottom: 6px;">No farm-direct lots found matching your filter</strong>
+          <p style="font-size: 0.85rem; margin-bottom: 16px;">Try adjusting your keyword search or selecting a different crop category.</p>
+          <button class="btn btn-outline btn-sm" onclick="resetBuyerFilters()">Reset All Filters</button>
+        </div>
+      `;
+    } else {
+      grid.innerHTML = lots
+        .map((lot) => {
+          const kgRate = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
+          const availQty = lot.availableQtyKg ? `${lot.availableQtyKg.toLocaleString('en-IN')} kg` : `${(lot.qtyNum * 100).toLocaleString('en-IN')} kg`;
+          const gradeText = lot.grade || 'Grade A';
+
+          return `
+            <div class="farm-lot-card" id="card-${lot.id}">
+              <!-- Visual Image Box with Gradient Overlay & Badges -->
+              <div class="lot-img-container">
+                <img src="${lot.image}" alt="${lot.crop}" class="lot-img" onerror="this.src='assets/images/tomato.jpg'" />
+                <div class="lot-img-gradient-overlay"></div>
+                
+                <!-- Top Badges -->
+                <div class="lot-top-badges">
+                  <span class="lot-badge-farmer-tag">🌿 Farmer</span>
+                  <span class="lot-badge-grade-tag">${gradeText}</span>
+                </div>
+
+                <!-- Bottom Price & Quantity Overlay -->
+                <div class="lot-bottom-overlay">
+                  <div class="lot-overlay-price">
+                    ₹${kgRate} <span>/ kg</span>
+                  </div>
+                  <div class="lot-overlay-qty">
+                    Available Qty: ${availQty}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Body Info -->
+              <div class="lot-card-body">
+                <div>
+                  <div class="lot-title">${lot.crop}</div>
+                  <div class="lot-farmer-meta">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span><strong>${lot.farmerName}</strong> • ${lot.farmerRating || '4.9 ⭐'}</span>
+                  </div>
+                  <div class="lot-location-meta">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>${lot.farmerLocation}</span>
+                  </div>
+                </div>
+
+                <!-- Actions: Buy Now + WhatsApp Chat -->
+                <div class="lot-actions-row">
+                  <button class="btn-lot-buy" onclick="openDirectBuyModal('${lot.id}')">
+                    <span>🛒</span>
+                    <span>Buy Now</span>
+                  </button>
+                  <button class="btn-lot-whatsapp" onclick="openFarmerChat('${lot.id}')" title="Direct Chat & Negotiation with ${lot.farmerName}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.316 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.818-1.001z"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+    }
   }
 
+  // 2. Render Tabular View (when table mode selected)
   if (tbody) {
     if (lots.length === 0) {
       tbody.innerHTML = `
@@ -366,7 +511,7 @@ function renderVerifiedLots(lotsToRender = null) {
           <td colspan="7" style="text-align: center; padding: 40px 20px; color: #64748b;">
             <div style="font-size: 2rem; margin-bottom: 8px;">🌾</div>
             <strong style="font-size: 1rem; color: #0f172a; display: block; margin-bottom: 4px;">No matching farmer lots found</strong>
-            <p style="font-size: 0.82rem; margin-bottom: 12px;">Try adjusting your search query, grade tier, or category filter.</p>
+            <p style="font-size: 0.82rem; margin-bottom: 12px;">Try adjusting your search query or category filter.</p>
             <button class="btn btn-outline btn-sm" onclick="resetBuyerFilters()">Reset All Filters</button>
           </td>
         </tr>
@@ -374,45 +519,10 @@ function renderVerifiedLots(lotsToRender = null) {
     } else {
       tbody.innerHTML = lots
         .map((lot) => {
-          const kgRate = (lot.priceNum / 100).toFixed(2);
-          const totalKg = (lot.qtyNum * 100).toLocaleString('en-IN');
+          const kgRate = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
+          const totalKg = lot.availableQtyKg ? lot.availableQtyKg.toLocaleString('en-IN') : (lot.qtyNum * 100).toLocaleString('en-IN');
           const mandiNum = parseFloat(lot.mandiRate.replace(/[^0-9.]/g, '')) || 0;
-          const mandiKgRate = (mandiNum / 100).toFixed(2);
-
-          // Quantity Cell formatting based on active unit mode
-          let qtyHtml = '';
-          if (unitMode === 'kg') {
-            qtyHtml = `<strong style="font-size: 0.92rem; color: #0f172a;">${totalKg} kg</strong><span style="font-size: 0.72rem; color: #64748b; display: block;">(${lot.quantity})</span>`;
-          } else if (unitMode === 'qt') {
-            qtyHtml = `<strong style="font-size: 0.92rem; color: #0f172a;">${lot.quantity}</strong>`;
-          } else {
-            qtyHtml = `<strong style="font-size: 0.92rem; color: #0f172a;">${lot.quantity}</strong><span style="font-size: 0.72rem; color: #64748b; font-weight: 600; display: block;">(${totalKg} kg)</span>`;
-          }
-
-          // Price Cell formatting based on active unit mode
-          let priceHtml = '';
-          if (unitMode === 'kg') {
-            priceHtml = `
-              <strong style="color: #0c5a36; font-size: 0.96rem;">₹ ${kgRate} /kg</strong>
-              <div style="font-size: 0.7rem; color: #64748b; text-decoration: line-through;">Mandi: ₹ ${mandiKgRate} /kg</div>
-              <span style="font-size: 0.68rem; color: #64748b;">(${lot.askPrice})</span>
-            `;
-          } else if (unitMode === 'qt') {
-            priceHtml = `
-              <strong style="color: #0c5a36; font-size: 0.96rem;">${lot.askPrice}</strong>
-              <div style="font-size: 0.7rem; color: #64748b; text-decoration: line-through;">Mandi: ${lot.mandiRate}</div>
-            `;
-          } else {
-            priceHtml = `
-              <div style="display: flex; align-items: baseline; gap: 4px; flex-wrap: wrap;">
-                <strong style="color: #0c5a36; font-size: 0.96rem;">${lot.askPrice}</strong>
-                <span style="background: #e8f5ed; color: #166534; font-size: 0.72rem; font-weight: 800; padding: 1px 6px; border-radius: 4px; border: 1px solid #bbf7d0;">₹ ${kgRate} /kg</span>
-              </div>
-              <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">
-                Mandi: <span style="text-decoration: line-through;">${lot.mandiRate}</span> <span style="color: #64748b;">(₹ ${mandiKgRate}/kg)</span>
-              </div>
-            `;
-          }
+          const mandiKgRate = (mandiNum / 100).toFixed(0);
 
           return `
             <tr>
@@ -421,7 +531,7 @@ function renderVerifiedLots(lotsToRender = null) {
                   <img src="${lot.image}" alt="${lot.crop}" class="crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
                   <div>
                     <strong style="display: block; font-size: 0.88rem; color: #0f172a;">${lot.crop}</strong>
-                    <span style="font-size: 0.72rem; color: #64748b;">${lot.id} • ${lot.farmerLocation}</span>
+                    <span style="font-size: 0.72rem; color: #64748b;">${lot.farmerLocation}</span>
                   </div>
                 </div>
               </td>
@@ -434,10 +544,16 @@ function renderVerifiedLots(lotsToRender = null) {
                 <div style="font-size: 0.72rem; color: #d97706; font-weight: 700;">${lot.farmerRating}</div>
               </td>
               <td>
-                ${qtyHtml}
+                <strong style="font-size: 0.92rem; color: #0f172a;">${totalKg} kg</strong>
+                <span style="font-size: 0.72rem; color: #64748b; display: block;">(${lot.quantity})</span>
               </td>
               <td>
-                ${priceHtml}
+                <div style="display: flex; align-items: baseline; gap: 4px;">
+                  <strong style="color: #0c5a36; font-size: 0.96rem;">₹ ${kgRate} /kg</strong>
+                </div>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">
+                  Mandi: <span style="text-decoration: line-through;">${lot.mandiRate}</span>
+                </div>
               </td>
               <td>
                 <span class="badge badge-grade-a">${lot.savings}</span>
@@ -445,10 +561,10 @@ function renderVerifiedLots(lotsToRender = null) {
               <td>
                 <div style="display: flex; gap: 6px;">
                   <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem;">
-                    Buy (Escrow)
+                    Buy Now
                   </button>
-                  <button class="btn btn-outline btn-sm" onclick="openBidModal('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem;">
-                    Bid
+                  <button class="btn btn-outline btn-sm" onclick="openFarmerChat('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem; display: flex; align-items: center; gap: 4px;">
+                    <span>💬</span> Chat
                   </button>
                 </div>
               </td>
@@ -459,12 +575,12 @@ function renderVerifiedLots(lotsToRender = null) {
     }
   }
 
-  // Dashboard preview (always top 3)
+  // 3. Dashboard preview (always top 3)
   if (dashTbody) {
     dashTbody.innerHTML = buyerData.verifiedLots
       .slice(0, 3)
       .map((lot) => {
-        const kgRate = (lot.priceNum / 100).toFixed(2);
+        const kgRate = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
         return `
           <tr>
             <td>
@@ -479,12 +595,11 @@ function renderVerifiedLots(lotsToRender = null) {
             <td><span class="badge ${lot.gradeBadgeClass}">${lot.grade}</span></td>
             <td><strong>${lot.farmerName}</strong></td>
             <td>
-              <strong>${lot.quantity}</strong>
-              <div style="font-size: 0.68rem; color: #64748b;">${(lot.qtyNum * 100).toLocaleString('en-IN')} kg</div>
+              <strong>${lot.availableQtyKg ? lot.availableQtyKg.toLocaleString('en-IN') + ' kg' : lot.quantity}</strong>
             </td>
             <td>
-              <strong style="color: #0c5a36;">${lot.askPrice}</strong>
-              <div style="font-size: 0.68rem; color: #166534; font-weight: 700;">₹ ${kgRate}/kg</div>
+              <strong style="color: #0c5a36;">₹ ${kgRate}/kg</strong>
+              <div style="font-size: 0.68rem; color: #64748b;">(${lot.askPrice})</div>
             </td>
             <td>
               <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${lot.id}')" style="padding: 4px 8px; font-size: 0.75rem;">
@@ -498,39 +613,620 @@ function renderVerifiedLots(lotsToRender = null) {
   }
 }
 
+// ==========================================
+// BULK PROCUREMENT DEMANDS & QUOTA BOARD
+// ==========================================
+let demandFilters = {
+  searchQuery: '',
+  status: 'all',
+  hub: 'all'
+};
 
-// Render Active Bulk Procurement Demands
+function handleDemandSearch(val) {
+  demandFilters.searchQuery = (val || '').toLowerCase().trim();
+  renderBuyerDemands();
+}
+
+function filterDemandsByStatus(status, btnEl) {
+  demandFilters.status = status;
+  if (btnEl && btnEl.parentElement) {
+    const btns = btnEl.parentElement.querySelectorAll('button');
+    btns.forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+  renderBuyerDemands();
+}
+
+function filterDemandsByHub(hub) {
+  demandFilters.hub = hub;
+  renderBuyerDemands();
+}
+
+function clearDemandFilters() {
+  demandFilters = { searchQuery: '', status: 'all', hub: 'all' };
+  const sInput = document.getElementById('demand-search-input');
+  if (sInput) sInput.value = '';
+  const hubSelect = document.getElementById('demand-hub-filter');
+  if (hubSelect) hubSelect.value = 'all';
+  const statusContainer = document.getElementById('demand-status-filters');
+  if (statusContainer) {
+    const btns = statusContainer.querySelectorAll('button');
+    btns.forEach((b, i) => {
+      if (i === 0) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+  }
+  renderBuyerDemands();
+}
+
 function renderBuyerDemands() {
   const container = document.getElementById('demands-list-container');
   if (!container || !buyerData.buyerDemands) return;
 
-  container.innerHTML = buyerData.buyerDemands
-    .map((dem) => {
-      return `
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+  const filtered = buyerData.buyerDemands.filter(dem => {
+    // Search query
+    if (demandFilters.searchQuery) {
+      const q = demandFilters.searchQuery;
+      const matchText = `${dem.id} ${dem.crop} ${dem.category || ''} ${dem.location} ${dem.grade || ''}`.toLowerCase();
+      if (!matchText.includes(q)) return false;
+    }
+    // Status filter
+    if (demandFilters.status !== 'all') {
+      if (demandFilters.status === 'match-ready' && !dem.statusLabel.includes('Auto-Match')) return false;
+      if (demandFilters.status === 'broadcasting' && !dem.statusLabel.includes('Broadcasting')) return false;
+      if (demandFilters.status === 'fulfilled' && dem.fulfilledPct < 100) return false;
+    }
+    // Hub filter
+    if (demandFilters.hub !== 'all' && dem.location !== demandFilters.hub) {
+      return false;
+    }
+    return true;
+  });
+
+  // Update badge count
+  const activeBadge = document.getElementById('demands-active-badge');
+  if (activeBadge) {
+    activeBadge.textContent = `${filtered.length} Quotas Displayed`;
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 48px 20px; background: #f8fafc; border-radius: 12px; border: 1.5px dashed #cbd5e1;">
+        <div style="font-size: 2.2rem; margin-bottom: 8px;">🔍</div>
+        <strong style="font-size: 1.05rem; color: #0f172a; display: block;">No matching procurement quotas found</strong>
+        <p style="font-size: 0.8rem; color: #64748b; margin-top: 4px; margin-bottom: 14px;">Try adjusting your search keywords, status tabs, or hub filters.</p>
+        <button class="btn btn-outline btn-sm" onclick="clearDemandFilters()">Reset All Filters</button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(dem => {
+    const fulfilledPct = dem.fulfilledPct || 0;
+    const progressColor = fulfilledPct >= 100 ? '#15803d' : (fulfilledPct >= 60 ? '#0c5a36' : '#d97706');
+    const bidsCount = (dem.bids && dem.bids.length) || 0;
+    const isFulfilled = fulfilledPct >= 100;
+
+    return `
+      <div style="background: #ffffff; border: 1.5px solid ${isFulfilled ? '#86efac' : '#e2e8f0'}; border-radius: 14px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.25s ease;" id="demand-card-${dem.id}">
+        <!-- Top Bar: Crop Info + Status Badge -->
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
           <div style="display: flex; align-items: center; gap: 14px;">
-            <img src="${dem.image}" alt="${dem.crop}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover; border: 1px solid #e2e8f0;" onerror="this.src='assets/images/tomato.jpg'" />
+            <img src="${dem.image}" alt="${dem.crop}" style="width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.06);" onerror="this.src='assets/images/tomato.jpg'" />
             <div>
-              <strong style="font-size: 0.95rem; color: #0f172a;">${dem.crop} (${dem.tonnage})</strong>
-              <div style="font-size: 0.76rem; color: #64748b; margin-top: 2px;">
-                Target: <strong style="color: #0c5a36;">${dem.targetPrice}</strong> • Destination: ${dem.location} • Deadline: ${dem.deadline}
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <strong style="font-size: 1.1rem; color: #0f172a;">${dem.crop}</strong>
+                <span class="badge" style="background: #f1f5f9; color: #475569; font-size: 0.72rem; font-weight: 700; border: 1px solid #cbd5e1;">#${dem.id}</span>
+                <span class="badge" style="background: #f0fdf4; color: #166534; font-size: 0.72rem; font-weight: 700; border: 1px solid #bbf7d0;">${dem.category || 'Agricultural Crop'}</span>
+              </div>
+              <div style="font-size: 0.78rem; color: #64748b; margin-top: 3px;">
+                Destination: <strong style="color: #0f172a;">${dem.location}</strong> • Sourcing Deadline: <strong style="${dem.daysLeft <= 3 ? 'color: #dc2626;' : 'color: #0f172a;'}">${dem.deadline} ${dem.daysLeft > 0 ? `(${dem.daysLeft}d left)` : '(Completed)'}</strong>
               </div>
             </div>
           </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span class="badge badge-grade-a" style="font-size: 0.76rem;">${dem.matchedCount} Matching Lots in Radius</span>
-            <button class="btn btn-outline btn-sm" onclick="switchView('view-verified-produce')" style="font-size: 0.78rem;">
-              Source from Lots &rarr;
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge" style="background: ${isFulfilled ? '#15803d' : '#e8f5ed'}; color: ${isFulfilled ? '#ffffff' : '#0c5a36'}; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid ${isFulfilled ? '#15803d' : '#bbf7d0'};">
+              ${dem.statusLabel || '● Broadcasting Quota'}
+            </span>
+          </div>
+        </div>
+
+        <!-- 4-Column Procurement Spec Grid -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-size: 0.8rem;">
+          <div>
+            <span style="color: #64748b; font-size: 0.72rem; display: block;">TARGET QUOTA VOLUME</span>
+            <strong style="color: #0f172a; font-size: 0.95rem;">${dem.tonnage}</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.72rem; display: block;">CEILING TARGET PRICE</span>
+            <strong style="color: #0c5a36; font-size: 0.95rem;">${dem.targetPrice}</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.72rem; display: block;">MANDI BENCHMARK RATE</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="color: #64748b; text-decoration: line-through;">${dem.mandiBenchmark || '₹ 1,400/Qt'}</span>
+              <span style="color: #166534; font-weight: 700; font-size: 0.74rem;">${dem.savingsPct || '12% Saved'}</span>
+            </div>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.72rem; display: block;">QUALITY & LOGISTICS SPEC</span>
+            <span style="color: #0f172a; font-weight: 600; font-size: 0.75rem;">${dem.grade || 'Grade A'} • ${dem.deliveryMode || 'Farm-Gate'}</span>
+          </div>
+        </div>
+
+        <!-- Sourcing Fulfillment Progress Bar -->
+        <div style="margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.76rem; margin-bottom: 5px;">
+            <span style="color: #64748b;">
+              Sourced: <strong style="color: ${progressColor};">${dem.fulfilledTonnage || 0} / ${dem.tonnageNum || 15} ${dem.unit || 'MT'}</strong>
+            </span>
+            <strong style="color: ${progressColor};">${fulfilledPct}% Fulfilled</strong>
+          </div>
+          <div style="height: 7px; background: #e2e8f0; border-radius: 10px; overflow: hidden;">
+            <div style="width: ${fulfilledPct}%; height: 100%; background: ${progressColor}; border-radius: 10px; transition: width 0.4s ease;"></div>
+          </div>
+        </div>
+
+        <!-- Action Footer -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 12px; border-top: 1px solid #f1f5f9;">
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 0.76rem; color: #64748b;">
+            <span>🛡️ ${dem.escrowAdvance || '35% Advance Escrow'}</span>
+            <span>•</span>
+            <span style="color: #0c5a36; font-weight: 700;">${dem.moistureLimit || 'QC Guaranteed'}</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            ${bidsCount > 0 ? `
+              <button class="btn btn-primary btn-sm" onclick="openDemandBidsModal('${dem.id}')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700; display: flex; align-items: center; gap: 5px;">
+                📋 Review Farmer Bids (${bidsCount})
+              </button>
+            ` : `
+              <button class="btn btn-outline btn-sm" onclick="showToast('✓ Broadcasting active! New farmer proposals will appear here automatically.', 'info')" style="font-size: 0.76rem;">
+                ● Broadcasting for Bids
+              </button>
+            `}
+
+            <button class="btn btn-outline btn-sm" onclick="sourceFromMarketplaceForDemand('${dem.crop}')" style="font-size: 0.76rem;">
+              ⚡ Auto-Match Lots &rarr;
+            </button>
+
+            <button class="btn btn-outline btn-sm" onclick="downloadPurchaseOrder('${dem.id}')" style="font-size: 0.76rem;" title="Download Institutional Purchase Order">
+              📄 PO
             </button>
           </div>
->>>>>>> 15bbc7f862eaef3edc246bf4626bb2bf327ddb07
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Open Review Matching Farmer Bids Modal
+function openDemandBidsModal(demandId) {
+  const modal = document.getElementById('modal-demand-bids');
+  if (!modal) return;
+
+  const demand = buyerData.buyerDemands.find(d => d.id === demandId) || buyerData.buyerDemands[0];
+  if (!demand) return;
+
+  const titleEl = document.getElementById('bids-modal-title');
+  const subtitleEl = document.getElementById('bids-modal-subtitle');
+  const ceilingEl = document.getElementById('bids-modal-ceiling');
+  const destEl = document.getElementById('bids-modal-dest');
+  const remainingEl = document.getElementById('bids-modal-remaining');
+  const listContainer = document.getElementById('bids-list-container');
+
+  if (titleEl) titleEl.textContent = `Matching Farmer Bids (${demand.bids ? demand.bids.length : 0})`;
+  if (subtitleEl) subtitleEl.textContent = `Quota #${demand.id} • ${demand.crop} (${demand.tonnage})`;
+  if (ceilingEl) ceilingEl.textContent = demand.targetPrice;
+  if (destEl) destEl.textContent = demand.location;
+  if (remainingEl) {
+    const rem = Math.max(0, (demand.tonnageNum || 15) - (demand.fulfilledTonnage || 0));
+    remainingEl.textContent = `${rem} ${demand.unit || 'MT'} (${rem * 10} Qt)`;
+  }
+
+  if (listContainer) {
+    if (!demand.bids || demand.bids.length === 0) {
+      listContainer.innerHTML = `
+        <div style="text-align: center; padding: 24px; color: #64748b;">
+          No incoming bids yet for this quota. Farmers are being alerted across the regional grid.
+        </div>
+      `;
+    } else {
+      listContainer.innerHTML = demand.bids.map(bid => {
+        const isBetter = bid.bidPriceNum <= demand.targetPriceNum;
+        return `
+          <div style="background: #ffffff; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 14px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="${bid.farmerAvatar || 'assets/images/tomato.jpg'}" alt="${bid.farmerName}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid #86efac;" onerror="this.src='assets/images/tomato.jpg'" />
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <strong style="font-size: 0.95rem; color: #0f172a;">${bid.farmerName}</strong>
+                    <span style="font-size: 0.75rem; color: #0c5a36; font-weight: 700;">${bid.rating}</span>
+                    <span class="badge" style="background: #f0fdf4; color: #166534; font-size: 0.7rem; font-weight: 700; padding: 2px 6px;">${bid.status || 'Verified Match'}</span>
+                  </div>
+                  <div style="font-size: 0.74rem; color: #64748b;">📍 ${bid.location} • Lead Time: <strong>${bid.leadTime || '6 Hours'}</strong></div>
+                </div>
+              </div>
+
+              <div style="text-align: right;">
+                <div style="font-size: 1.1rem; font-weight: 800; color: #0c5a36;">${bid.bidPrice}</div>
+                <div style="font-size: 0.72rem; color: #166534; font-weight: 600;">₹ ${bid.pricePerKg.toFixed(2)}/kg • ${bid.offeredQty} offered</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.76rem;">
+              <span style="color: #475569;">Digital QC Score: <strong style="color: #15803d;">${bid.qcScore}</strong></span>
+              <span style="color: #475569;">Price Advantage: <strong style="color: #0c5a36;">${isBetter ? '✓ At/Below Target Ceiling' : 'Slight Premium'}</strong></span>
+            </div>
+
+            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+              <button class="btn btn-outline btn-sm" onclick="startNegotiationWithFarmer('${bid.farmerName}', '${demand.crop}', ${bid.bidPriceNum}, '${demand.id}')" style="font-size: 0.75rem; padding: 4px 10px;">
+                💬 Chat & Negotiate
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="acceptDemandFarmerBid('${demand.id}', '${bid.bidId}')" style="background: #0c5a36; border-color: #0c5a36; font-size: 0.75rem; font-weight: 700; padding: 4px 12px;">
+                ✓ Accept Bid & Lock 35% Escrow
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  modal.classList.add('active');
+}
+
+function closeDemandBidsModal() {
+  const modal = document.getElementById('modal-demand-bids');
+  if (modal) modal.classList.remove('active');
+}
+
+// Accept farmer bid directly from quota board
+function acceptDemandFarmerBid(demandId, bidId) {
+  const demand = buyerData.buyerDemands.find(d => d.id === demandId);
+  if (!demand) return;
+
+  const bid = demand.bids ? demand.bids.find(b => b.bidId === bidId) : null;
+  const farmerName = bid ? bid.farmerName : 'Farmer';
+  const bidPrice = bid ? bid.bidPrice : demand.targetPrice;
+  const offeredQty = bid ? bid.offeredQty : '5 MT (50 Qt)';
+
+  // Calculate 35% escrow
+  const totalVal = (bid ? bid.bidPriceNum : 1200) * 50;
+  const escrowAdv = Math.round(totalVal * 0.35);
+
+  closeDemandBidsModal();
+  showToast(`🔒 Authorizing 35% Escrow (₹ ${escrowAdv.toLocaleString('en-IN')}) for ${farmerName}...`);
+
+  setTimeout(() => {
+    // Increment fulfilled volume
+    demand.fulfilledTonnage = Math.min(demand.tonnageNum, (demand.fulfilledTonnage || 0) + 5);
+    demand.fulfilledPct = Math.round((demand.fulfilledTonnage / demand.tonnageNum) * 100);
+    if (demand.fulfilledPct >= 100) {
+      demand.statusLabel = '✓ 100% Contracted & Fulfilled';
+    }
+
+    renderBuyerDemands();
+    showToast(`✓ Proposal accepted! Contract created with ${farmerName} for ${offeredQty} at ${bidPrice}. Escrow locked.`, 'success');
+    switchView('view-escrow-vault');
+  }, 800);
+}
+
+// Direct jump to Marketplace filtered for this crop
+function sourceFromMarketplaceForDemand(cropName) {
+  let keyword = cropName.split(' ')[0].replace(/[^a-zA-Z]/g, '');
+  const searchInput = document.getElementById('marketplace-search-input');
+  if (searchInput) {
+    searchInput.value = keyword;
+    handleBuyerSearch(keyword);
+  }
+  showToast(`Filtering marketplace lots for ${keyword}...`);
+  switchView('view-verified-produce');
+}
+
+// Download Individual PO
+function downloadPurchaseOrder(demandId) {
+  const demand = buyerData.buyerDemands.find(d => d.id === demandId) || { crop: 'Produce Quota' };
+  showToast(`Generating official Purchase Order (PO #${demandId}) PDF with digital stamp...`);
+  setTimeout(() => {
+    showToast(`✓ PO #${demandId} (${demand.crop}) downloaded successfully!`);
+  }, 750);
+}
+
+// Download All POs
+function downloadAllPurchaseOrders() {
+  showToast('Generating institutional Master Procurement Demand Sheet (PDF) for all active quotas...');
+  setTimeout(() => {
+    showToast('✓ Master Procurement Report (6 Active Quotas) downloaded successfully!');
+  }, 850);
+}
+
+// Refresh Auto-Match
+function refreshDemandMatches() {
+  showToast('🔄 Scanning real-time mandi feeds & regional farm-gate GPS clusters...');
+  setTimeout(() => {
+    buyerData.buyerDemands.forEach(d => {
+      if (d.fulfilledPct < 100) {
+        d.matchedCount = Math.floor(3 + Math.random() * 4);
+      }
+    });
+    renderBuyerDemands();
+    showToast('✓ Regional farmer clusters synced! 4 new farm-gate lots matched.', 'success');
+  }, 900);
+}
+
+// Chat Messaging Data Store & Functionality (Dynamic for ALL Marketplace Farmers)
+const chatConversations = {
+  gowran: {
+    name: "gowran",
+    avatar: "assets/images/onion.jpg",
+    status: "● Online • Erode, Tamil Nadu",
+    lotId: "LOT-ONI-01",
+    crop: "Onion (Grade A)",
+    farmerPhone: "+91 98422-77102",
+    offerText: "Farmer Ask Rate: <strong style=\"color: #0c5a36;\">₹ 30 /kg</strong> (₹ 3,000/Qt) for 15 kg (Near APMC Mandi)",
+    counterRate: 3000,
+    lockRateText: "Lock 35% Escrow (₹ 30/kg)",
+    messages: [
+      { type: "incoming", text: "Vanakkam Karthik sir! I have 15 kg export-graded red onions ready at Erode APMC gate." },
+      { type: "outgoing", text: "Hello gowran! We are looking for immediate institutional dispatch. Can you load today?" },
+      { type: "incoming", text: "Yes sir, weighing is completed. Once advance escrow is confirmed, truck can move immediately." }
+    ]
+  },
+  raman: {
+    name: "S. Raman",
+    avatar: "assets/images/tomato.jpg",
+    status: "● Online • Perundurai, Erode (2.4 km away)",
+    lotId: "LOT-TOM-02",
+    crop: "Roma Plum Tomato (Firm & Red)",
+    farmerPhone: "+91 94431-22901",
+    offerText: "Farmer countered at <strong style=\"color: #0c5a36;\">₹ 24 /kg</strong> (₹ 2,400/Qt) for 500 kg (Retail Ready)",
+    counterRate: 2400,
+    lockRateText: "Lock 35% Escrow (₹ 24/kg)",
+    messages: [
+      { type: "incoming", text: "Hello sir, my 500 kg Roma Plum harvest has 82% firmness index, perfect for retail packing." },
+      { type: "outgoing", text: "Hi Raman, what is your floor price for full 500 kg lot?" },
+      { type: "incoming", text: "I can offer ₹ 24/kg direct farm-gate price if payment is through AgriNex Escrow." }
+    ]
+  },
+  selvaraj: {
+    name: "K. Selvaraj",
+    avatar: "assets/images/tomato.jpg",
+    status: "● Online • Bhavani, Erode (4.1 km away)",
+    lotId: "LOT-TOM-03",
+    crop: "Organic Country Tomato (Naatu Thakkali)",
+    farmerPhone: "+91 97890-33412",
+    offerText: "Certified 100% Organic • Ask: <strong style=\"color: #0c5a36;\">₹ 32 /kg</strong> for 350 kg",
+    counterRate: 3200,
+    lockRateText: "Lock 35% Escrow (₹ 32/kg)",
+    messages: [
+      { type: "incoming", text: "Greetings Karthik! We have NPOP organic certified Naatu Thakkali harvest ready." },
+      { type: "outgoing", text: "Great quality! We need digital test reports for residue certification." },
+      { type: "incoming", text: "All lab assay slips uploaded on AgriNex ledger. Ready for dispatch!" }
+    ]
+  },
+  dhanapal: {
+    name: "M. Dhanapal",
+    avatar: "assets/images/tomato.jpg",
+    status: "● Online • Sathyamangalam (11.6 km away)",
+    lotId: "LOT-TOM-04",
+    crop: "Hybrid Red Salad Tomato – Bulk Harvest",
+    farmerPhone: "+91 98421-55890",
+    offerText: "Bulk Harvest: <strong style=\"color: #0c5a36;\">₹ 20 /kg</strong> for 2,000 kg",
+    counterRate: 2000,
+    lockRateText: "Lock 35% Escrow (₹ 20/kg)",
+    messages: [
+      { type: "incoming", text: "Vanakkam! 2,000 kg bulk tomato ready for institutional kitchen procurement." }
+    ]
+  },
+  muthusamy: {
+    name: "Muthusamy Soundar",
+    avatar: "assets/images/onion.jpg",
+    status: "● Online • Perundurai, Erode (2.8 km away)",
+    lotId: "LOT-ONI-05",
+    crop: "Premium Bellary Big Red Onion",
+    farmerPhone: "+91 94433-88190",
+    offerText: "Export Quality: <strong style=\"color: #0c5a36;\">₹ 32 /kg</strong> for 5,000 kg (50 Qt)",
+    counterRate: 3200,
+    lockRateText: "Lock 35% Escrow (₹ 32/kg)",
+    messages: [
+      { type: "incoming", text: "Namaste sir, 5 MT cured big red onion lot available for immediate dispatch." }
+    ]
+  },
+  revathi: {
+    name: "Revathi Balan",
+    avatar: "assets/images/onion.jpg",
+    status: "● Online • Anthiyur, Erode (15.2 km away)",
+    lotId: "LOT-ONI-06",
+    crop: "Sambar Shallots (Small Country Onion)",
+    farmerPhone: "+91 97892-44102",
+    offerText: "Traditional Sambar Grade: <strong style=\"color: #0c5a36;\">₹ 65 /kg</strong> for 600 kg",
+    counterRate: 6500,
+    lockRateText: "Lock 35% Escrow (₹ 65/kg)",
+    messages: [
+      { type: "incoming", text: "Hello Karthik sir, premium Anthiyur shallots graded and bagged in 25kg mesh sacks." }
+    ]
+  },
+  kavitha: {
+    name: "Kavitha Rajan",
+    avatar: "assets/images/wheat-logo.png",
+    status: "● Online • Salem (32 km away)",
+    lotId: "LOT-TUR-07",
+    crop: "Salem Turmeric Finger (High Curcumin)",
+    farmerPhone: "+91 94432-88190",
+    offerText: "Organic Desi A2: <strong style=\"color: #0c5a36;\">₹ 74 /kg</strong> for 2,500 kg",
+    counterRate: 7400,
+    lockRateText: "Lock 35% Escrow (₹ 74/kg)",
+    messages: [
+      { type: "incoming", text: "Vanakkam! 2.5 MT cured turmeric fingers with 4.8% curcumin content ready." }
+    ]
+  },
+  venkatesh: {
+    name: "Venkatesh Rao",
+    avatar: "assets/images/paddy.jpg",
+    status: "● Online • Karnal, HR ~ Direct Express Line",
+    lotId: "LOT-PAD-08",
+    crop: "1121 Basmati Paddy (Aromatic Long Grain)",
+    farmerPhone: "+91 98120-33410",
+    offerText: "Aged 1 Year: <strong style=\"color: #0c5a36;\">₹ 24 /kg</strong> for 12,000 kg (120 Qt)",
+    counterRate: 2400,
+    lockRateText: "Lock 35% Escrow (₹ 24/kg)",
+    messages: [
+      { type: "incoming", text: "Hello sir, 120 Qt 1121 Basmati paddy stored in moisture-controlled silos ready for train/container haulage." }
+    ]
+  },
+  kaliamurthi: {
+    name: "Kaliamurthi R",
+    avatar: "assets/images/cotton.jpg",
+    status: "● Online • Guntur, AP ~ Cotton Yard Hub",
+    lotId: "LOT-COT-09",
+    crop: "Long Staple Cotton (MCU-5 Fiber)",
+    farmerPhone: "+91 98480-11234",
+    offerText: "Grade A Export: <strong style=\"color: #0c5a36;\">₹ 56 /kg</strong> for 4,000 kg (40 Qt)",
+    counterRate: 5600,
+    lockRateText: "Lock 35% Escrow (₹ 56/kg)",
+    messages: [
+      { type: "incoming", text: "Greetings! 40 Qt MCU-5 pressed cotton bales ready for institutional textile sourcing." }
+    ]
+  }
+};
+
+let activeChatKey = 'gowran';
+
+// Render Dynamic Chat Sidebar with all active farmers
+function renderChatSidebar() {
+  const container = document.getElementById('chat-contacts-container');
+  if (!container) return;
+
+  const keys = Object.keys(chatConversations);
+  const badge = document.getElementById('chat-active-count-badge');
+  if (badge) badge.textContent = `${keys.length} Online`;
+
+  container.innerHTML = keys
+    .map(key => {
+      const chat = chatConversations[key];
+      const lastMsg = chat.messages && chat.messages.length > 0 
+        ? chat.messages[chat.messages.length - 1].text 
+        : `Ask: ${chat.offerText.replace(/<[^>]*>/g, '')}`;
+      const isActive = key === activeChatKey ? 'active' : '';
+
+      return `
+        <div class="chat-contact ${isActive}" id="chat-contact-${key}" onclick="selectChatContact('${key}')">
+          <img src="${chat.avatar}" alt="${chat.name}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; flex-shrink: 0;" onerror="this.src='assets/images/tomato.jpg'" />
+          <div style="flex: 1; min-width: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <strong style="font-size: 0.85rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${chat.name}</strong>
+              <span style="font-size: 0.65rem; color: #166534; font-weight: 700;">● Online</span>
+            </div>
+            <div style="font-size: 0.72rem; color: #0c5a36; font-weight: 700; margin-top: 1px;">${chat.crop}</div>
+            <span style="font-size: 0.7rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 1px;">${lastMsg}</span>
+          </div>
         </div>
       `;
     })
     .join('');
 }
 
-// Chat Messaging Functionality
+// Select a specific Farmer Chat Contact
+function selectChatContact(contactKey) {
+  if (!chatConversations[contactKey]) return;
+  activeChatKey = contactKey;
+  const chat = chatConversations[contactKey];
+
+  // Update active pill in sidebar
+  document.querySelectorAll('.chat-contact').forEach(c => c.classList.remove('active'));
+  const activeEl = document.getElementById(`chat-contact-${contactKey}`);
+  if (activeEl) activeEl.classList.add('active');
+
+  // Update Header
+  const header = document.querySelector('.chat-main .chat-header');
+  if (header) {
+    header.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="${chat.avatar}" alt="${chat.name}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
+        <div>
+          <strong style="font-size: 0.92rem; color: #0f172a;">${chat.name}</strong>
+          <div style="font-size: 0.74rem; color: #166534; font-weight: 700;">${chat.status} • ${chat.crop}</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')">Counter Offer</button>
+        <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${chat.lotId}')">${chat.lockRateText}</button>
+      </div>
+    `;
+  }
+
+  // Update Active Offer Banner
+  const banner = document.querySelector('.chat-main [style*="background: #fefce8"]');
+  if (banner) {
+    banner.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="background: #eab308; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">⚡</span>
+        <span><strong>Active Offer:</strong> ${chat.offerText}</span>
+      </div>
+      <div style="display: flex; gap: 6px;">
+        <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('${chat.lotId}', ${chat.counterRate})" style="padding: 5px 12px; font-size: 0.78rem;">✓ Accept & Lock</button>
+        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="padding: 5px 10px; font-size: 0.78rem;">Re-counter</button>
+      </div>
+    `;
+  }
+
+  // Render Messages
+  const container = document.getElementById('chat-messages-container');
+  if (container) {
+    container.innerHTML = chat.messages
+      .map(m => `<div class="chat-bubble ${m.type}">${m.text}</div>`)
+      .join('');
+    container.scrollTop = container.scrollHeight;
+  }
+}
+
+// Open Chat directly with any Farmer from Marketplace Lot Card
+function openFarmerChat(lotId) {
+  let matchedKey = 'gowran';
+  
+  // Find matching key for lotId
+  for (const [key, conv] of Object.entries(chatConversations)) {
+    if (conv.lotId === lotId) {
+      matchedKey = key;
+      break;
+    }
+  }
+
+  // If not found in presets, create dynamic session from buyerData.verifiedLots
+  if (!chatConversations[matchedKey] || chatConversations[matchedKey].lotId !== lotId) {
+    const lot = buyerData.verifiedLots.find(l => l.id === lotId);
+    if (lot) {
+      const slug = lot.farmerName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      const kgPrice = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
+      chatConversations[slug] = {
+        name: lot.farmerName,
+        avatar: lot.image || 'assets/images/farmer-avatar.jpg',
+        status: `● Online • ${lot.farmerLocation}`,
+        lotId: lot.id,
+        crop: lot.crop,
+        farmerPhone: lot.farmerPhone || '+91 98422-00000',
+        offerText: `Farmer Ask: <strong style="color: #0c5a36;">₹ ${kgPrice} /kg</strong> (${lot.askPrice}) for ${lot.quantity}`,
+        counterRate: lot.priceNum,
+        lockRateText: `Lock 35% Escrow (₹ ${kgPrice}/kg)`,
+        messages: [
+          { type: "incoming", text: `Vanakkam Karthik sir! I am ${lot.farmerName}. My lot of ${lot.crop} (${lot.quantity}) is ready for immediate procurement.` }
+        ]
+      };
+      matchedKey = slug;
+    }
+  }
+
+  renderChatSidebar();
+  selectChatContact(matchedKey);
+  switchView('view-messages');
+
+  const farmerObj = chatConversations[matchedKey];
+  showToast(`💬 Direct negotiation room opened with ${farmerObj.name} (${farmerObj.crop})!`);
+}
+
 function sendChatMessage() {
   const input = document.getElementById('chat-input-field');
   const container = document.getElementById('chat-messages-container');
@@ -542,17 +1238,38 @@ function sendChatMessage() {
   bubble.textContent = msg;
   container.appendChild(bubble);
 
+  if (chatConversations[activeChatKey]) {
+    chatConversations[activeChatKey].messages.push({ type: "outgoing", text: msg });
+  }
+
   input.value = '';
   container.scrollTop = container.scrollHeight;
 
   // Auto farmer reply after 1s
+  const currentKey = activeChatKey;
+  const currentFarmer = chatConversations[currentKey] ? chatConversations[currentKey].name : 'Farmer';
+  const currentCrop = chatConversations[currentKey] ? chatConversations[currentKey].crop : 'produce';
+
   setTimeout(() => {
+    let replyText = `Thank you for your message! As agreed for ${currentCrop}, we will prepare the vehicle weighing pass once escrow advance is initiated.`;
+    if (msg.toLowerCase().includes('price') || msg.toLowerCase().includes('rate') || msg.toLowerCase().includes('discount') || msg.toLowerCase().includes('offer')) {
+      replyText = `Understood Karthik sir. I can offer an instant discount of ₹ 1.50/kg if you confirm bulk lifting with verified lorry receipt today!`;
+    } else if (msg.toLowerCase().includes('sample') || msg.toLowerCase().includes('assay') || msg.toLowerCase().includes('quality')) {
+      replyText = `Digital moisture and assay report is verified at ${chatConversations[currentKey]?.status?.split('•')[1] || 'farm gate'}. Quality is 100% guaranteed.`;
+    }
+
     const reply = document.createElement('div');
     reply.className = 'chat-bubble incoming';
-    reply.textContent = "Thank you for confirming! I am preparing the dispatch consignment and loading the vehicle.";
+    reply.textContent = replyText;
     container.appendChild(reply);
+
+    if (chatConversations[currentKey]) {
+      chatConversations[currentKey].messages.push({ type: "incoming", text: replyText });
+    }
+
+    renderChatSidebar();
     container.scrollTop = container.scrollHeight;
-  }, 1000);
+  }, 900);
 }
 
 // Direct Buy Escrow Modal
@@ -710,6 +1427,267 @@ function initLocationSwitcher() {
     locText.textContent = locations[currIdx];
     showToast(`Active procurement hub updated to ${locations[currIdx]}`);
   });
+}
+
+// ==========================================
+// LOGISTICS, LORRY RECEIPT & ESCROW RELEASE
+// ==========================================
+
+function openLorryReceiptModal(trackingId) {
+  const modal = document.getElementById('modal-lorry-receipt');
+  if (!modal) return;
+  if (trackingId) {
+    const titleEl = document.getElementById('lr-id-display');
+    const subEl = document.getElementById('lr-tracking-subtitle');
+    if (titleEl) titleEl.textContent = trackingId;
+    if (subEl) subEl.textContent = `LR No: LR-${trackingId.slice(4)} • AgriNex Logistics System`;
+  }
+  modal.classList.add('active');
+}
+
+function closeLorryReceiptModal() {
+  const modal = document.getElementById('modal-lorry-receipt');
+  if (modal) modal.classList.remove('active');
+}
+
+function printLorryReceipt() {
+  showToast('Generating official AgriNex Digital Lorry Receipt PDF with QR verification seal...');
+  setTimeout(() => {
+    closeLorryReceiptModal();
+    showToast('✓ Lorry Receipt & Digital Gate Pass downloaded successfully!');
+  }, 900);
+}
+
+let activeArrivalDisbursement = {
+  trackingId: 'ESC-TN-9921',
+  crop: 'Tomato (Shivam Hybrid 50 Qt)',
+  amount: 39000,
+  farmer: 'Murugan Palanisamy',
+  totalVal: 60000,
+  advVal: 21000,
+  cardId: 'escrow-card-1'
+};
+
+function openArrivalReleaseModal(trackingId, crop, amount, farmer, totalVal, advVal, cardId) {
+  const parsedAmt = typeof amount === 'number' ? amount : parseFloat(amount) || 39000;
+  const parsedTotal = typeof totalVal === 'number' ? totalVal : (parseFloat(totalVal) || Math.round(parsedAmt / 0.65));
+  const parsedAdv = typeof advVal === 'number' ? advVal : (parseFloat(advVal) || (parsedTotal - parsedAmt));
+
+  // Determine card ID if not supplied
+  let inferredCardId = cardId;
+  if (!inferredCardId) {
+    if (String(trackingId).includes('9921')) inferredCardId = 'escrow-card-1';
+    else if (String(trackingId).includes('4412')) inferredCardId = 'escrow-card-2';
+    else if (String(trackingId).includes('7730')) inferredCardId = 'escrow-card-3';
+    else inferredCardId = 'escrow-card-1';
+  }
+
+  activeArrivalDisbursement = {
+    trackingId: trackingId || 'ESC-TN-9921',
+    crop: crop || 'Tomato (Shivam Hybrid 50 Qt)',
+    amount: parsedAmt,
+    farmer: farmer || 'Murugan Palanisamy',
+    totalVal: parsedTotal,
+    advVal: parsedAdv,
+    cardId: inferredCardId
+  };
+
+  const modal = document.getElementById('modal-confirm-arrival');
+  if (!modal) return;
+
+  const trackEl = document.getElementById('arrival-tracking-id');
+  const releaseEl = document.getElementById('arrival-release-val');
+  const totalEl = document.getElementById('arrival-total-val');
+  const advEl = document.getElementById('arrival-adv-val');
+
+  if (trackEl) trackEl.textContent = `Consignment #${activeArrivalDisbursement.trackingId} • ${activeArrivalDisbursement.crop}`;
+  if (releaseEl) releaseEl.textContent = `₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}`;
+  if (totalEl) totalEl.textContent = `₹ ${activeArrivalDisbursement.totalVal.toLocaleString('en-IN')}`;
+  if (advEl) advEl.textContent = `₹ ${activeArrivalDisbursement.advVal.toLocaleString('en-IN')}`;
+
+  modal.classList.add('active');
+}
+
+function closeArrivalReleaseModal() {
+  const modal = document.getElementById('modal-confirm-arrival');
+  if (modal) modal.classList.remove('active');
+}
+
+function confirmReleaseEscrowAction() {
+  closeArrivalReleaseModal();
+  const amtStr = `₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}`;
+  const cardId = activeArrivalDisbursement.cardId;
+
+  // Determine contract index
+  let idx = '1';
+  if (cardId === 'escrow-card-2' || activeArrivalDisbursement.trackingId.includes('4412')) idx = '2';
+  else if (cardId === 'escrow-card-3' || activeArrivalDisbursement.trackingId.includes('7730')) idx = '3';
+
+  // 1. Update status badge
+  const statusBadge = document.getElementById(`escrow-status-badge-${idx}`) || document.getElementById('escrow-status-badge');
+  if (statusBadge) {
+    statusBadge.className = 'badge';
+    statusBadge.style.background = '#15803d';
+    statusBadge.style.color = '#ffffff';
+    statusBadge.textContent = '✓ 100% Settled & Released';
+  }
+
+  // 2. Update Stepper dot 4
+  const dotSettled = document.getElementById(`stepper-dot-settled-${idx}`) || document.getElementById('stepper-dot-settled');
+  if (dotSettled) {
+    dotSettled.className = 'stepper-dot active';
+    dotSettled.textContent = '✓';
+    dotSettled.style.background = '#15803d';
+    dotSettled.style.borderColor = '#15803d';
+    dotSettled.style.color = '#ffffff';
+  }
+
+  // 3. Update release button
+  const btnVault = document.getElementById(`btn-escrow-vault-release-${idx}`) || document.getElementById('btn-escrow-vault-release');
+  if (btnVault) {
+    btnVault.disabled = true;
+    btnVault.textContent = '✓ 100% Escrow Settled';
+    btnVault.style.background = '#15803d';
+    btnVault.style.borderColor = '#15803d';
+    btnVault.style.color = '#ffffff';
+    btnVault.style.cursor = 'default';
+  }
+
+  // Also check if card element has any remaining release button
+  const cardEl = document.getElementById(cardId);
+  if (cardEl) {
+    const cardBtns = cardEl.querySelectorAll('button.btn-primary');
+    cardBtns.forEach(b => {
+      b.disabled = true;
+      b.textContent = '✓ 100% Escrow Settled';
+      b.style.background = '#15803d';
+      b.style.borderColor = '#15803d';
+      b.style.color = '#ffffff';
+    });
+  }
+
+  // 4. Update Consignment arrival button if present
+  const btnArrival = document.getElementById('btn-arrival-release-1');
+  if (btnArrival && (idx === '1' || activeArrivalDisbursement.trackingId.includes('9921'))) {
+    btnArrival.textContent = '✓ Delivered & Released';
+    btnArrival.disabled = true;
+    btnArrival.style.background = '#15803d';
+    btnArrival.style.borderColor = '#15803d';
+  }
+
+  // 5. Update top aggregate metric
+  const settledTotalEl = document.getElementById('escrow-settled-total');
+  if (settledTotalEl) {
+    const curVal = 580000 + (idx === '1' ? 60000 : (idx === '2' ? 144000 : 126000));
+    settledTotalEl.textContent = `₹ ${curVal.toLocaleString('en-IN')}`;
+  }
+
+  // 6. Insert new transaction record in Audit Ledger Table
+  const tbody = document.getElementById('escrow-ledger-tbody');
+  if (tbody) {
+    const newRow = document.createElement('tr');
+    newRow.setAttribute('data-type', 'final');
+    newRow.style.cssText = 'border-bottom: 1px solid #f1f5f9; background: #f0fdf4; transition: all 0.3s ease;';
+    const randomUtr = `ICIC000${Math.floor(100000 + Math.random() * 900000)}`;
+    const randomTxn = `TXN-REL-${Math.floor(1000 + Math.random() * 9000)}`;
+    newRow.innerHTML = `
+      <td style="padding: 10px 14px;"><strong>${randomTxn}</strong><br><span style="font-size: 0.72rem; color: #166534; font-weight: 700;">Just now (Live)</span></td>
+      <td style="padding: 10px 14px;"><span style="font-family: monospace; font-weight: 700; color: #0c5a36;">#${activeArrivalDisbursement.trackingId}</span></td>
+      <td style="padding: 10px 14px;"><strong>${activeArrivalDisbursement.farmer}</strong><br><span style="font-size: 0.72rem; color: #64748b;">${activeArrivalDisbursement.crop}</span></td>
+      <td style="padding: 10px 14px; font-weight: 800; color: #0c5a36;">₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}</td>
+      <td style="padding: 10px 14px;"><span class="badge" style="background: #15803d; color: #ffffff; font-size: 0.72rem; font-weight: 700;">✓ 100% Settled</span></td>
+      <td style="padding: 10px 14px;"><span style="font-size: 0.75rem; color: #0c5a36; font-family: monospace; font-weight: 700;">${randomUtr}</span></td>
+      <td style="padding: 10px 14px;"><button class="btn btn-outline btn-sm" onclick="showToast('✓ Stamped UTR Settlement Receipt #${activeArrivalDisbursement.trackingId} (PDF) downloaded!')" style="font-size: 0.72rem; padding: 2px 8px;">Receipt</button></td>
+    `;
+    tbody.insertBefore(newRow, tbody.firstChild);
+  }
+
+  showToast(`🎉 Quality verified! ${amtStr} released to ${activeArrivalDisbursement.farmer}. Contract 100% Settled!`, 'success');
+}
+
+function openGatePassModal(trackingId) {
+  openLorryReceiptModal(trackingId);
+  const cropEl = document.getElementById('lr-crop-title');
+  const vehEl = document.getElementById('lr-vehicle-display');
+  const driverEl = document.getElementById('lr-driver-display');
+  if (cropEl) cropEl.textContent = '80 Qt Red Onion (Nashik Export Quality)';
+  if (vehEl) vehEl.textContent = 'Eicher Pro 2049 (MH 15 DK 8810)';
+  if (driverEl) driverEl.textContent = 'Sanjay Patil (+91 98220-44911)';
+}
+
+function openGpsModal(trackingId, vehicle, driver, corridor) {
+  const modal = document.getElementById('modal-gps-tracker');
+  if (!modal) return;
+
+  const trackNumEl = document.getElementById('gps-tracking-num');
+  const vehEl = document.getElementById('gps-vehicle-name');
+  const driverEl = document.getElementById('gps-driver-name');
+  const corridorEl = document.getElementById('gps-corridor-name');
+
+  if (trackNumEl) trackNumEl.textContent = trackingId || 'TRK-MH-4412-EICHER';
+  if (vehEl) vehEl.textContent = vehicle || 'Eicher Pro 2049 (MH 15 DK 8810)';
+  if (driverEl) driverEl.textContent = driver || 'Sanjay Patil';
+  if (corridorEl) corridorEl.textContent = corridor || 'NH 48 Pune-Bengaluru Corridor';
+
+  modal.classList.add('active');
+}
+
+function closeGpsModal() {
+  const modal = document.getElementById('modal-gps-tracker');
+  if (modal) modal.classList.remove('active');
+}
+
+// Book Farm-Gate Transport Modal
+function openBookTransportModal() {
+  const modal = document.getElementById('modal-book-transport');
+  if (modal) {
+    modal.classList.add('active');
+    calculateTransportEstimate();
+  }
+}
+
+function closeBookTransportModal() {
+  const modal = document.getElementById('modal-book-transport');
+  if (modal) modal.classList.remove('active');
+}
+
+function updateTransportLotMeta(lotRaw) {
+  if (!lotRaw) return;
+  const parts = lotRaw.split('|');
+  const origin = parts[3] || 'Farm-Gate Pickup';
+  const originInput = document.getElementById('transport-origin');
+  if (originInput) originInput.value = origin;
+  calculateTransportEstimate();
+}
+
+function calculateTransportEstimate() {
+  const vehicleChecked = document.querySelector('input[name="vehicle-type"]:checked');
+  const destSelect = document.getElementById('transport-destination');
+  const baseFeeEl = document.getElementById('transport-base-fee');
+  const tollFeeEl = document.getElementById('transport-toll-fee');
+  const totalFeeEl = document.getElementById('transport-total-fee');
+
+  let baseRate = 5800;
+  if (vehicleChecked) {
+    const valParts = vehicleChecked.value.split('|');
+    baseRate = parseFloat(valParts[1]) || 5800;
+  }
+
+  let distKm = 280;
+  if (destSelect && destSelect.value) {
+    const dParts = destSelect.value.split('|');
+    distKm = parseInt(dParts[1]) || 280;
+  }
+
+  // Adjust freight by distance ratio (normalized to 280 km)
+  const distMultiplier = distKm / 280;
+  const calculatedBase = Math.round(baseRate * distMultiplier);
+  const tollInsurance = Math.round(calculatedBase * 0.06);
+  const totalLanded = calculatedBase + tollInsurance;
+
+  if (baseFeeEl) baseFeeEl.textContent = `₹ ${calculatedBase.toLocaleString('en-IN')}`;
+  if (tollFeeEl) tollFeeEl.textContent = `₹ ${tollInsurance.toLocaleString('en-IN')}`;
+  if (totalFeeEl) totalFeeEl.textContent = `₹ ${totalLanded.toLocaleString('en-IN')}`;
 }
 
 // Grievances & Claims Redressal System
@@ -902,6 +1880,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderBuyerDemands();
   renderGrievances();
   renderBuyerEmergencyDesk();
+  renderChatSidebar();
   initLocationSwitcher();
 
   // Handle enter key in chat
@@ -942,17 +1921,78 @@ document.addEventListener('DOMContentLoaded', () => {
     priceInput.addEventListener('input', updateDemandPricePreview);
   }
 
-  // New Demand Form submit
-  const demandForm = document.getElementById('form-new-demand');
-  if (demandForm) {
-    demandForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const crop = document.getElementById('demand-crop').value;
-      const tonnage = document.getElementById('demand-tonnage').value;
-      const unit = document.getElementById('demand-unit')?.value || 'MT';
-      const price = document.getElementById('demand-price').value;
-      const priceUnit = document.getElementById('demand-price-unit')?.value || 'qt';
-      const numPrice = parseFloat(price) || 0;
+// New Demand Form submit
+const demandForm = document.getElementById('form-new-demand');
+if (demandForm) {
+  demandForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const crop = document.getElementById('demand-crop').value;
+    const tonnage = parseFloat(document.getElementById('demand-tonnage').value) || 10;
+    const unit = document.getElementById('demand-unit')?.value || 'MT';
+    const price = document.getElementById('demand-price').value;
+    const priceUnit = document.getElementById('demand-price-unit')?.value || 'qt';
+    const numPrice = parseFloat(price) || 1250;
+
+    let pricePerQt = numPrice;
+    let pricePerKg = (numPrice / 100).toFixed(2);
+    if (priceUnit === 'kg') {
+      pricePerKg = numPrice.toFixed(2);
+      pricePerQt = Math.round(numPrice * 100);
+    }
+
+    const newId = `DEM-BB-${Math.floor(100 + Math.random() * 900)}`;
+
+    buyerData.buyerDemands.unshift({
+      id: newId,
+      crop: crop,
+      category: "Agricultural Crop",
+      image: crop.toLowerCase().includes('onion') ? 'assets/images/onion.jpg' : 'assets/images/tomato.jpg',
+      tonnage: `${tonnage} ${unit}`,
+      tonnageNum: tonnage,
+      unit: unit,
+      targetPrice: `₹ ${pricePerKg}/kg (₹ ${pricePerQt.toLocaleString('en-IN')} /Qt)`,
+      targetPriceNum: pricePerQt,
+      pricePerKg: parseFloat(pricePerKg),
+      mandiBenchmark: `₹ ${(pricePerQt * 1.14 / 100).toFixed(2)}/kg (₹ ${Math.round(pricePerQt * 1.14).toLocaleString('en-IN')} /Qt)`,
+      savingsPct: "12.3% Savings",
+      location: "Hosur Hub, TN",
+      deadline: "28 Sep 2026",
+      daysLeft: 15,
+      matchedCount: 2,
+      fulfilledTonnage: 0,
+      fulfilledPct: 0,
+      status: "Broadcasting",
+      statusClass: "badge-status-open",
+      statusLabel: "● Broadcasting Quota",
+      grade: "Grade A Commercial",
+      moistureLimit: "QC Guaranteed",
+      deliveryMode: "Farm-Gate Pickup",
+      escrowAdvance: `35% Advance (₹ ${Math.round(pricePerQt * tonnage * 10 * 0.35).toLocaleString('en-IN')})`,
+      bids: [
+        {
+          bidId: `BID-NEW-${Math.floor(100 + Math.random() * 900)}`,
+          farmerName: "Regional Farm Cluster",
+          farmerAvatar: "assets/images/tomato.jpg",
+          farmerPhone: "+91 94431-22901",
+          location: "Erode Hub (14 km away)",
+          rating: "4.9 ⭐",
+          offeredQty: `${Math.round(tonnage * 0.4)} ${unit}`,
+          bidPrice: `₹ ${pricePerKg}/kg (₹ ${pricePerQt.toLocaleString('en-IN')} /Qt)`,
+          bidPriceNum: pricePerQt,
+          pricePerKg: parseFloat(pricePerKg),
+          qcScore: "95% (Grade A)",
+          leadTime: "6 Hours",
+          status: "New Match"
+        }
+      ]
+    });
+
+    renderBuyerDemands();
+    closePostDemandModal();
+    showToast(`✓ Procurement quota for ${tonnage} ${unit} of ${crop} broadcasted to regional farmers!`, 'success');
+    switchView('view-bulk-demands');
+  });
+}
 
       let pricePerQt = numPrice;
       let pricePerKg = (numPrice / 100).toFixed(2);
@@ -961,6 +2001,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pricePerQt = Math.round(numPrice * 100);
       }
 
+<<<<<<< HEAD
       buyerData.buyerDemands.unshift({
         id: `DEM-BB-${Math.floor(100 + Math.random() * 900)}`,
         crop: crop,
@@ -979,6 +2020,60 @@ document.addEventListener('DOMContentLoaded', () => {
       switchView('view-bulk-demands');
     });
   }
+=======
+    const newId = `DEM-BB-${Math.floor(100 + Math.random() * 900)}`;
+
+    buyerData.buyerDemands.unshift({
+      id: newId,
+      crop: crop,
+      category: "Agricultural Crop",
+      image: crop.toLowerCase().includes('onion') ? 'assets/images/onion.jpg' : 'assets/images/tomato.jpg',
+      tonnage: `${tonnage} ${unit}`,
+      tonnageNum: tonnage,
+      unit: unit,
+      targetPrice: `₹ ${pricePerQt.toLocaleString('en-IN')} /Qt`,
+      targetPriceNum: pricePerQt,
+      pricePerKg: parseFloat(pricePerKg),
+      mandiBenchmark: `₹ ${Math.round(pricePerQt * 1.14).toLocaleString('en-IN')} /Qt`,
+      savingsPct: "12.3% Savings",
+      location: "Hosur Hub, TN",
+      deadline: "28 Sep 2026",
+      daysLeft: 15,
+      matchedCount: 2,
+      fulfilledTonnage: 0,
+      fulfilledPct: 0,
+      status: "Broadcasting",
+      statusClass: "badge-status-open",
+      statusLabel: "● Broadcasting Quota",
+      grade: "Grade A Commercial",
+      moistureLimit: "QC Guaranteed",
+      deliveryMode: "Farm-Gate Pickup",
+      escrowAdvance: `35% Advance (₹ ${Math.round(pricePerQt * tonnage * 10 * 0.35).toLocaleString('en-IN')})`,
+      bids: [
+        {
+          bidId: `BID-NEW-${Math.floor(100 + Math.random() * 900)}`,
+          farmerName: "Regional Farm Cluster",
+          farmerAvatar: "assets/images/tomato.jpg",
+          farmerPhone: "+91 94431-22901",
+          location: "Erode Hub (14 km away)",
+          rating: "4.9 ⭐",
+          offeredQty: `${Math.round(tonnage * 0.4)} ${unit}`,
+          bidPrice: `₹ ${pricePerQt.toLocaleString('en-IN')} /Qt`,
+          bidPriceNum: pricePerQt,
+          pricePerKg: parseFloat(pricePerKg),
+          qcScore: "95% (Grade A)",
+          leadTime: "6 Hours",
+          status: "New Match"
+        }
+      ]
+    });
+
+    renderBuyerDemands();
+    closePostDemandModal();
+    showToast(`✓ Procurement quota for ${tonnage} ${unit} of ${crop} broadcasted to regional farmers!`, 'success');
+    switchView('view-bulk-demands');
+  });
+}
 
   // Direct Buy submit
   const buyForm = document.getElementById('form-direct-buy');
@@ -1051,4 +2146,188 @@ document.addEventListener('DOMContentLoaded', () => {
       switchView('view-grievance');
     });
   }
+
+  // Book Farm-Gate Transport Fleet submit
+  const transportForm = document.getElementById('form-book-transport');
+  if (transportForm) {
+    transportForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const lotRaw = document.getElementById('transport-lot-select')?.value || '';
+      const [lotId, cropName, quantity, originAddr, farmerName, escrowAmt] = lotRaw.split('|');
+
+      const destRaw = document.getElementById('transport-destination')?.value || 'Hosur Institutional Hub, TN|280 km';
+      const [destName, distStr] = destRaw.split('|');
+
+      const partnerRaw = document.getElementById('transport-partner')?.value || 'GreenWays Transit|K. Selvam|+91 94431-22901|TN 57 AH 4421';
+      const [partnerName, driverName, driverPhone, vehicleNum] = partnerRaw.split('|');
+
+      const selectedVehEl = document.querySelector('input[name="vehicle-type"]:checked');
+      const vehRaw = selectedVehEl ? selectedVehEl.value : 'Bolero Maxi Truck (TN 57 AH 4421)|5800';
+      const vehName = vehRaw.split('|')[0];
+
+      const totalCostText = document.getElementById('transport-total-fee')?.textContent || '₹ 6,150';
+      const newTrkId = `TRK-GW-${Math.floor(1000 + Math.random() * 9000)}-TN`;
+
+      const container = document.getElementById('consignments-list-container');
+      if (container) {
+        const newCard = document.createElement('div');
+        newCard.id = `consignment-card-${Date.now()}`;
+        newCard.style.cssText = 'background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 18px; box-shadow: 0 4px 12px rgba(12, 90, 54, 0.08); transition: all 0.3s ease;';
+        newCard.innerHTML = `
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <strong style="font-size: 1.05rem; color: #0c5a36;">Consignment #${newTrkId}</strong>
+                <span class="badge" style="background: #10b981; color: #ffffff; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 4px;">JUST DISPATCHED</span>
+              </div>
+              <div style="font-size: 0.78rem; color: #475569; margin-top: 2px;">
+                ${cropName || 'Direct Farm Lot'} • ${quantity || '50 Qt'} • Origin: <strong>${originAddr || 'Farm-Gate'}</strong> ➔ Destination: <strong>${destName}</strong>
+              </div>
+            </div>
+            <span class="badge badge-status-transit">🚚 In Transit (Dispatched)</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #bbf7d0; margin-bottom: 12px; font-size: 0.8rem;">
+            <div>Vehicle: <strong>${vehName}</strong></div>
+            <div>Driver: <strong>${driverName} (${driverPhone})</strong></div>
+            <div>Landed Haulage: <strong style="color: #0c5a36;">${totalCostText}</strong></div>
+          </div>
+
+          <div style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button class="btn btn-outline btn-sm" onclick="openGatePassModal('${newTrkId}')">Download Gate Pass</button>
+            <button class="btn btn-outline btn-sm" onclick="openLorryReceiptModal('${newTrkId}')">View Digital Lorry Receipt</button>
+            <button class="btn btn-primary btn-sm" onclick="openGpsModal('${newTrkId}', '${vehName}', '${driverName}', '${originAddr || 'Farm-Gate'} ➔ ${destName}')">Live GPS Ping</button>
+            <button class="btn btn-primary btn-sm" style="background: #0c5a36; border-color: #0c5a36;" onclick="openArrivalReleaseModal('${newTrkId}', '${cropName || 'Farm Lot'}', 45000, '${farmerName || 'Farmer'}')">Confirm Arrival & Release Escrow</button>
+          </div>
+        `;
+        container.prepend(newCard);
+      }
+
+      // Update badge count
+      const badge = document.getElementById('consignments-count-badge');
+      if (badge) {
+        const count = container ? container.children.length : 3;
+        badge.textContent = `${count} In Transit`;
+      }
+
+      closeBookTransportModal();
+      showToast(`🚚 Fleet booked successfully! Consignment #${newTrkId} dispatched for ${cropName || 'Farm Lot'}.`);
+      switchView('view-consignments');
+    });
+  }
 });
+
+// ESCROW VAULT INTERACTION & AUDIT HELPERS
+// ==========================================
+function openDepositEscrowModal() {
+  const modal = document.getElementById('modal-deposit-escrow');
+  if (modal) modal.classList.add('active');
+}
+
+function closeDepositEscrowModal() {
+  const modal = document.getElementById('modal-deposit-escrow');
+  if (modal) modal.classList.remove('active');
+}
+
+function handleDepositEscrowSubmit(e) {
+  if (e) e.preventDefault();
+  const amtInput = document.getElementById('escrow-deposit-amount');
+  const amount = parseFloat((amtInput && amtInput.value) || 50000);
+  
+  closeDepositEscrowModal();
+  showToast(`🔒 Authorizing RBI Nodal Escrow Virtual Account transfer of ₹ ${amount.toLocaleString('en-IN')}...`);
+  
+  setTimeout(() => {
+    showToast(`✓ Payment captured! ₹ ${amount.toLocaleString('en-IN')} added to Escrow Liquidity Pool. UTR: ICIC${Math.floor(10000000 + Math.random() * 90000000)}`, 'success');
+  }, 900);
+}
+
+function openEscrowDeedModal(contractId, crop, farmer, totalVal, lockedVal) {
+  const modal = document.getElementById('modal-escrow-deed');
+  if (!modal) return;
+
+  const refEl = document.getElementById('deed-contract-ref');
+  const farmerEl = document.getElementById('deed-farmer-name');
+  const lotEl = document.getElementById('deed-produce-lot');
+  const totalEl = document.getElementById('deed-total-val');
+  const lockedEl = document.getElementById('deed-locked-amt');
+
+  if (refEl) refEl.textContent = `Contract Reference: #${contractId || 'ESC-TN-9921'}`;
+  if (farmerEl) farmerEl.textContent = farmer || 'Murugan Palanisamy';
+  if (lotEl) lotEl.textContent = crop || 'Tomato (Shivam Hybrid 50 Qt)';
+  if (totalEl) totalEl.textContent = `₹ ${(totalVal || 60000).toLocaleString('en-IN')}`;
+  if (lockedEl) lockedEl.textContent = `₹ ${(lockedVal || 21000).toLocaleString('en-IN')}`;
+
+  modal.classList.add('active');
+}
+
+function closeEscrowDeedModal() {
+  const modal = document.getElementById('modal-escrow-deed');
+  if (modal) modal.classList.remove('active');
+}
+
+function downloadEscrowStatement() {
+  showToast('Generating official AgriNex Nodal Escrow Audit Ledger Statement (PDF)...');
+  setTimeout(() => {
+    showToast('✓ Escrow Audit Statement (Q3-2026) downloaded successfully!');
+  }, 800);
+}
+
+function filterEscrowLedger(filterType, btnEl) {
+  const tbody = document.getElementById('escrow-ledger-tbody');
+  if (!tbody) return;
+
+  if (btnEl && btnEl.parentElement) {
+    const btns = btnEl.parentElement.querySelectorAll('button');
+    btns.forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+
+  const rows = tbody.querySelectorAll('tr');
+  rows.forEach(r => {
+    const rowType = r.getAttribute('data-type');
+    if (filterType === 'all' || rowType === filterType) {
+      r.style.display = '';
+    } else {
+      r.style.display = 'none';
+    }
+  });
+}
+
+// Window bindings for global HTML accessibility
+window.openDepositEscrowModal = openDepositEscrowModal;
+window.closeDepositEscrowModal = closeDepositEscrowModal;
+window.handleDepositEscrowSubmit = handleDepositEscrowSubmit;
+window.openEscrowDeedModal = openEscrowDeedModal;
+window.closeEscrowDeedModal = closeEscrowDeedModal;
+window.downloadEscrowStatement = downloadEscrowStatement;
+window.filterEscrowLedger = filterEscrowLedger;
+window.openArrivalReleaseModal = openArrivalReleaseModal;
+window.closeArrivalReleaseModal = closeArrivalReleaseModal;
+window.confirmReleaseEscrowAction = confirmReleaseEscrowAction;
+window.openBookTransportModal = openBookTransportModal;
+window.closeBookTransportModal = closeBookTransportModal;
+window.openGatePassModal = openGatePassModal;
+window.closeGatePassModal = closeGatePassModal;
+window.openLorryReceiptModal = openLorryReceiptModal;
+window.closeLorryReceiptModal = closeLorryReceiptModal;
+window.openGpsModal = openGpsModal;
+window.closeGpsModal = closeGpsModal;
+window.printLorryReceipt = printLorryReceipt;
+
+// Demand Board Window Bindings
+window.openDemandBidsModal = openDemandBidsModal;
+window.closeDemandBidsModal = closeDemandBidsModal;
+window.acceptDemandFarmerBid = acceptDemandFarmerBid;
+window.sourceFromMarketplaceForDemand = sourceFromMarketplaceForDemand;
+window.downloadPurchaseOrder = downloadPurchaseOrder;
+window.downloadAllPurchaseOrders = downloadAllPurchaseOrders;
+window.refreshDemandMatches = refreshDemandMatches;
+window.handleDemandSearch = handleDemandSearch;
+window.filterDemandsByStatus = filterDemandsByStatus;
+window.filterDemandsByHub = filterDemandsByHub;
+window.clearDemandFilters = clearDemandFilters;
+window.openPostDemandModal = openPostDemandModal;
+window.closePostDemandModal = closePostDemandModal;
+window.updateDemandPricePreview = updateDemandPricePreview;
