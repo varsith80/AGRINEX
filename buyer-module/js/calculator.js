@@ -948,13 +948,32 @@ function prefillDemandFromCalculator() {
 
   // Prefill fields in modal
   setTimeout(() => {
-    const modalCrop = document.getElementById('demand-crop-type');
-    const modalQty = document.getElementById('demand-qty-kg');
-    const modalPrice = document.getElementById('demand-target-price');
+    const modalCrop = document.getElementById('demand-crop') || document.getElementById('demand-crop-type');
+    const modalQty = document.getElementById('demand-tonnage') || document.getElementById('demand-qty-kg');
+    const modalUnit = document.getElementById('demand-unit');
+    const modalPrice = document.getElementById('demand-price') || document.getElementById('demand-target-price');
+    const modalPriceUnit = document.getElementById('demand-price-unit');
 
-    if (modalCrop) modalCrop.value = prod.name;
-    if (modalQty) modalQty.value = comprehensiveCalcState.qtyUnit === 'kg' ? rawQty : Math.round(rawQty * 100);
-    if (modalPrice) modalPrice.value = comprehensiveCalcState.priceUnit === 'kg' ? rawPrice : (rawPrice / 100).toFixed(2);
+    if (modalCrop) {
+      for (let opt of modalCrop.options) {
+        if (opt.value.toLowerCase().includes(prod.name.toLowerCase().split(' ')[0])) {
+          modalCrop.value = opt.value;
+          break;
+        }
+      }
+    }
+    if (modalQty) modalQty.value = rawQty;
+    if (modalUnit) modalUnit.value = comprehensiveCalcState.qtyUnit === 'kg' ? 'kg' : (comprehensiveCalcState.qtyUnit === 'mt' ? 'MT' : 'Qt');
+    if (modalPrice) {
+      if (modalPriceUnit && modalPriceUnit.value === 'kg') {
+        modalPrice.value = comprehensiveCalcState.priceUnit === 'kg' ? rawPrice : (rawPrice / 100).toFixed(2);
+      } else {
+        modalPrice.value = comprehensiveCalcState.priceUnit === 'kg' ? Math.round(rawPrice * 100) : rawPrice;
+      }
+    }
+    if (typeof updateDemandPricePreview === 'function') {
+      updateDemandPricePreview();
+    }
   }, 100);
 }
 
