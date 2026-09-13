@@ -495,34 +495,348 @@ function renderVerifiedLots(lotsToRender = null) {
   }
 }
 
-// Render Active Bulk Procurement Demands
+// ==========================================
+// BULK PROCUREMENT DEMANDS & QUOTA BOARD
+// ==========================================
+let demandFilters = {
+  searchQuery: '',
+  status: 'all',
+  hub: 'all'
+};
+
+function handleDemandSearch(val) {
+  demandFilters.searchQuery = (val || '').toLowerCase().trim();
+  renderBuyerDemands();
+}
+
+function filterDemandsByStatus(status, btnEl) {
+  demandFilters.status = status;
+  if (btnEl && btnEl.parentElement) {
+    const btns = btnEl.parentElement.querySelectorAll('button');
+    btns.forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+  renderBuyerDemands();
+}
+
+function filterDemandsByHub(hub) {
+  demandFilters.hub = hub;
+  renderBuyerDemands();
+}
+
+function clearDemandFilters() {
+  demandFilters = { searchQuery: '', status: 'all', hub: 'all' };
+  const sInput = document.getElementById('demand-search-input');
+  if (sInput) sInput.value = '';
+  const hubSelect = document.getElementById('demand-hub-filter');
+  if (hubSelect) hubSelect.value = 'all';
+  const statusContainer = document.getElementById('demand-status-filters');
+  if (statusContainer) {
+    const btns = statusContainer.querySelectorAll('button');
+    btns.forEach((b, i) => {
+      if (i === 0) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+  }
+  renderBuyerDemands();
+}
+
 function renderBuyerDemands() {
   const container = document.getElementById('demands-list-container');
   if (!container || !buyerData.buyerDemands) return;
 
-  container.innerHTML = buyerData.buyerDemands
-    .map((dem) => {
-      return `
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+  const filtered = buyerData.buyerDemands.filter(dem => {
+    // Search query
+    if (demandFilters.searchQuery) {
+      const q = demandFilters.searchQuery;
+      const matchText = `${dem.id} ${dem.crop} ${dem.category || ''} ${dem.location} ${dem.grade || ''}`.toLowerCase();
+      if (!matchText.includes(q)) return false;
+    }
+    // Status filter
+    if (demandFilters.status !== 'all') {
+      if (demandFilters.status === 'match-ready' && !dem.statusLabel.includes('Auto-Match')) return false;
+      if (demandFilters.status === 'broadcasting' && !dem.statusLabel.includes('Broadcasting')) return false;
+      if (demandFilters.status === 'fulfilled' && dem.fulfilledPct < 100) return false;
+    }
+    // Hub filter
+    if (demandFilters.hub !== 'all' && dem.location !== demandFilters.hub) {
+      return false;
+    }
+    return true;
+  });
+
+  // Update badge count
+  const activeBadge = document.getElementById('demands-active-badge');
+  if (activeBadge) {
+    activeBadge.textContent = `${filtered.length} Quotas Displayed`;
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 48px 20px; background: #f8fafc; border-radius: 12px; border: 1.5px dashed #cbd5e1;">
+        <div style="font-size: 2.2rem; margin-bottom: 8px;">🔍</div>
+        <strong style="font-size: 1.05rem; color: #0f172a; display: block;">No matching procurement quotas found</strong>
+        <p style="font-size: 0.8rem; color: #64748b; margin-top: 4px; margin-bottom: 14px;">Try adjusting your search keywords, status tabs, or hub filters.</p>
+        <button class="btn btn-outline btn-sm" onclick="clearDemandFilters()">Reset All Filters</button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(dem => {
+    const fulfilledPct = dem.fulfilledPct || 0;
+    const progressColor = fulfilledPct >= 100 ? '#15803d' : (fulfilledPct >= 60 ? '#0c5a36' : '#d97706');
+    const bidsCount = (dem.bids && dem.bids.length) || 0;
+    const isFulfilled = fulfilledPct >= 100;
+
+    return `
+      <div style="background: #ffffff; border: 1.5px solid ${isFulfilled ? '#86efac' : '#e2e8f0'}; border-radius: 14px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.25s ease;" id="demand-card-${dem.id}">
+        <!-- Top Bar: Crop Info + Status Badge -->
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
           <div style="display: flex; align-items: center; gap: 14px;">
-            <img src="${dem.image}" alt="${dem.crop}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover; border: 1px solid #e2e8f0;" onerror="this.src='assets/images/tomato.jpg'" />
+            <img src="${dem.image}" alt="${dem.crop}" style="width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.06);" onerror="this.src='assets/images/tomato.jpg'" />
             <div>
-              <strong style="font-size: 0.95rem; color: #0f172a;">${dem.crop} (${dem.tonnage})</strong>
-              <div style="font-size: 0.76rem; color: #64748b; margin-top: 2px;">
-                Target: <strong style="color: #0c5a36;">${dem.targetPrice}</strong> • Destination: ${dem.location} • Deadline: ${dem.deadline}
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <strong style="font-size: 1.1rem; color: #0f172a;">${dem.crop}</strong>
+                <span class="badge" style="background: #f1f5f9; color: #475569; font-size: 0.72rem; font-weight: 700; border: 1px solid #cbd5e1;">#${dem.id}</span>
+                <span class="badge" style="background: #f0fdf4; color: #166534; font-size: 0.72rem; font-weight: 700; border: 1px solid #bbf7d0;">${dem.category || 'Agricultural Crop'}</span>
+              </div>
+              <div style="font-size: 0.78rem; color: #64748b; margin-top: 3px;">
+                Destination: <strong style="color: #0f172a;">${dem.location}</strong> • Sourcing Deadline: <strong style="${dem.daysLeft <= 3 ? 'color: #dc2626;' : 'color: #0f172a;'}">${dem.deadline} ${dem.daysLeft > 0 ? `(${dem.daysLeft}d left)` : '(Completed)'}</strong>
               </div>
             </div>
           </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span class="badge badge-grade-a" style="font-size: 0.76rem;">${dem.matchedCount} Matching Lots in Radius</span>
-            <button class="btn btn-outline btn-sm" onclick="switchView('view-verified-produce')" style="font-size: 0.78rem;">
-              Source from Lots &rarr;
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge" style="background: ${isFulfilled ? '#15803d' : '#e8f5ed'}; color: ${isFulfilled ? '#ffffff' : '#0c5a36'}; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid ${isFulfilled ? '#15803d' : '#bbf7d0'};">
+              ${dem.statusLabel || '● Broadcasting Quota'}
+            </span>
+          </div>
+        </div>
+
+        <!-- 4-Column Procurement Spec Grid -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-size: 0.8rem;">
+          <div>
+            <span style="color: #64748b; font-size: 0.72rem; display: block;">TARGET QUOTA VOLUME</span>
+            <strong style="color: #0f172a; font-size: 0.95rem;">${dem.tonnage}</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.72rem; display: block;">CEILING TARGET PRICE</span>
+            <strong style="color: #0c5a36; font-size: 0.95rem;">${dem.targetPrice}</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.72rem; display: block;">MANDI BENCHMARK RATE</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="color: #64748b; text-decoration: line-through;">${dem.mandiBenchmark || '₹ 1,400/Qt'}</span>
+              <span style="color: #166534; font-weight: 700; font-size: 0.74rem;">${dem.savingsPct || '12% Saved'}</span>
+            </div>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.72rem; display: block;">QUALITY & LOGISTICS SPEC</span>
+            <span style="color: #0f172a; font-weight: 600; font-size: 0.75rem;">${dem.grade || 'Grade A'} • ${dem.deliveryMode || 'Farm-Gate'}</span>
+          </div>
+        </div>
+
+        <!-- Sourcing Fulfillment Progress Bar -->
+        <div style="margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.76rem; margin-bottom: 5px;">
+            <span style="color: #64748b;">
+              Sourced: <strong style="color: ${progressColor};">${dem.fulfilledTonnage || 0} / ${dem.tonnageNum || 15} ${dem.unit || 'MT'}</strong>
+            </span>
+            <strong style="color: ${progressColor};">${fulfilledPct}% Fulfilled</strong>
+          </div>
+          <div style="height: 7px; background: #e2e8f0; border-radius: 10px; overflow: hidden;">
+            <div style="width: ${fulfilledPct}%; height: 100%; background: ${progressColor}; border-radius: 10px; transition: width 0.4s ease;"></div>
+          </div>
+        </div>
+
+        <!-- Action Footer -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 12px; border-top: 1px solid #f1f5f9;">
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 0.76rem; color: #64748b;">
+            <span>🛡️ ${dem.escrowAdvance || '35% Advance Escrow'}</span>
+            <span>•</span>
+            <span style="color: #0c5a36; font-weight: 700;">${dem.moistureLimit || 'QC Guaranteed'}</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            ${bidsCount > 0 ? `
+              <button class="btn btn-primary btn-sm" onclick="openDemandBidsModal('${dem.id}')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700; display: flex; align-items: center; gap: 5px;">
+                📋 Review Farmer Bids (${bidsCount})
+              </button>
+            ` : `
+              <button class="btn btn-outline btn-sm" onclick="showToast('✓ Broadcasting active! New farmer proposals will appear here automatically.', 'info')" style="font-size: 0.76rem;">
+                ● Broadcasting for Bids
+              </button>
+            `}
+
+            <button class="btn btn-outline btn-sm" onclick="sourceFromMarketplaceForDemand('${dem.crop}')" style="font-size: 0.76rem;">
+              ⚡ Auto-Match Lots &rarr;
+            </button>
+
+            <button class="btn btn-outline btn-sm" onclick="downloadPurchaseOrder('${dem.id}')" style="font-size: 0.76rem;" title="Download Institutional Purchase Order">
+              📄 PO
             </button>
           </div>
         </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Open Review Matching Farmer Bids Modal
+function openDemandBidsModal(demandId) {
+  const modal = document.getElementById('modal-demand-bids');
+  if (!modal) return;
+
+  const demand = buyerData.buyerDemands.find(d => d.id === demandId) || buyerData.buyerDemands[0];
+  if (!demand) return;
+
+  const titleEl = document.getElementById('bids-modal-title');
+  const subtitleEl = document.getElementById('bids-modal-subtitle');
+  const ceilingEl = document.getElementById('bids-modal-ceiling');
+  const destEl = document.getElementById('bids-modal-dest');
+  const remainingEl = document.getElementById('bids-modal-remaining');
+  const listContainer = document.getElementById('bids-list-container');
+
+  if (titleEl) titleEl.textContent = `Matching Farmer Bids (${demand.bids ? demand.bids.length : 0})`;
+  if (subtitleEl) subtitleEl.textContent = `Quota #${demand.id} • ${demand.crop} (${demand.tonnage})`;
+  if (ceilingEl) ceilingEl.textContent = demand.targetPrice;
+  if (destEl) destEl.textContent = demand.location;
+  if (remainingEl) {
+    const rem = Math.max(0, (demand.tonnageNum || 15) - (demand.fulfilledTonnage || 0));
+    remainingEl.textContent = `${rem} ${demand.unit || 'MT'} (${rem * 10} Qt)`;
+  }
+
+  if (listContainer) {
+    if (!demand.bids || demand.bids.length === 0) {
+      listContainer.innerHTML = `
+        <div style="text-align: center; padding: 24px; color: #64748b;">
+          No incoming bids yet for this quota. Farmers are being alerted across the regional grid.
+        </div>
       `;
-    })
-    .join('');
+    } else {
+      listContainer.innerHTML = demand.bids.map(bid => {
+        const isBetter = bid.bidPriceNum <= demand.targetPriceNum;
+        return `
+          <div style="background: #ffffff; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 14px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="${bid.farmerAvatar || 'assets/images/tomato.jpg'}" alt="${bid.farmerName}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid #86efac;" onerror="this.src='assets/images/tomato.jpg'" />
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <strong style="font-size: 0.95rem; color: #0f172a;">${bid.farmerName}</strong>
+                    <span style="font-size: 0.75rem; color: #0c5a36; font-weight: 700;">${bid.rating}</span>
+                    <span class="badge" style="background: #f0fdf4; color: #166534; font-size: 0.7rem; font-weight: 700; padding: 2px 6px;">${bid.status || 'Verified Match'}</span>
+                  </div>
+                  <div style="font-size: 0.74rem; color: #64748b;">📍 ${bid.location} • Lead Time: <strong>${bid.leadTime || '6 Hours'}</strong></div>
+                </div>
+              </div>
+
+              <div style="text-align: right;">
+                <div style="font-size: 1.1rem; font-weight: 800; color: #0c5a36;">${bid.bidPrice}</div>
+                <div style="font-size: 0.72rem; color: #166534; font-weight: 600;">₹ ${bid.pricePerKg.toFixed(2)}/kg • ${bid.offeredQty} offered</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.76rem;">
+              <span style="color: #475569;">Digital QC Score: <strong style="color: #15803d;">${bid.qcScore}</strong></span>
+              <span style="color: #475569;">Price Advantage: <strong style="color: #0c5a36;">${isBetter ? '✓ At/Below Target Ceiling' : 'Slight Premium'}</strong></span>
+            </div>
+
+            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+              <button class="btn btn-outline btn-sm" onclick="startNegotiationWithFarmer('${bid.farmerName}', '${demand.crop}', ${bid.bidPriceNum}, '${demand.id}')" style="font-size: 0.75rem; padding: 4px 10px;">
+                💬 Chat & Negotiate
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="acceptDemandFarmerBid('${demand.id}', '${bid.bidId}')" style="background: #0c5a36; border-color: #0c5a36; font-size: 0.75rem; font-weight: 700; padding: 4px 12px;">
+                ✓ Accept Bid & Lock 35% Escrow
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  modal.classList.add('active');
+}
+
+function closeDemandBidsModal() {
+  const modal = document.getElementById('modal-demand-bids');
+  if (modal) modal.classList.remove('active');
+}
+
+// Accept farmer bid directly from quota board
+function acceptDemandFarmerBid(demandId, bidId) {
+  const demand = buyerData.buyerDemands.find(d => d.id === demandId);
+  if (!demand) return;
+
+  const bid = demand.bids ? demand.bids.find(b => b.bidId === bidId) : null;
+  const farmerName = bid ? bid.farmerName : 'Farmer';
+  const bidPrice = bid ? bid.bidPrice : demand.targetPrice;
+  const offeredQty = bid ? bid.offeredQty : '5 MT (50 Qt)';
+
+  // Calculate 35% escrow
+  const totalVal = (bid ? bid.bidPriceNum : 1200) * 50;
+  const escrowAdv = Math.round(totalVal * 0.35);
+
+  closeDemandBidsModal();
+  showToast(`🔒 Authorizing 35% Escrow (₹ ${escrowAdv.toLocaleString('en-IN')}) for ${farmerName}...`);
+
+  setTimeout(() => {
+    // Increment fulfilled volume
+    demand.fulfilledTonnage = Math.min(demand.tonnageNum, (demand.fulfilledTonnage || 0) + 5);
+    demand.fulfilledPct = Math.round((demand.fulfilledTonnage / demand.tonnageNum) * 100);
+    if (demand.fulfilledPct >= 100) {
+      demand.statusLabel = '✓ 100% Contracted & Fulfilled';
+    }
+
+    renderBuyerDemands();
+    showToast(`✓ Proposal accepted! Contract created with ${farmerName} for ${offeredQty} at ${bidPrice}. Escrow locked.`, 'success');
+    switchView('view-escrow-vault');
+  }, 800);
+}
+
+// Direct jump to Marketplace filtered for this crop
+function sourceFromMarketplaceForDemand(cropName) {
+  let keyword = cropName.split(' ')[0].replace(/[^a-zA-Z]/g, '');
+  const searchInput = document.getElementById('marketplace-search-input');
+  if (searchInput) {
+    searchInput.value = keyword;
+    handleBuyerSearch(keyword);
+  }
+  showToast(`Filtering marketplace lots for ${keyword}...`);
+  switchView('view-verified-produce');
+}
+
+// Download Individual PO
+function downloadPurchaseOrder(demandId) {
+  const demand = buyerData.buyerDemands.find(d => d.id === demandId) || { crop: 'Produce Quota' };
+  showToast(`Generating official Purchase Order (PO #${demandId}) PDF with digital stamp...`);
+  setTimeout(() => {
+    showToast(`✓ PO #${demandId} (${demand.crop}) downloaded successfully!`);
+  }, 750);
+}
+
+// Download All POs
+function downloadAllPurchaseOrders() {
+  showToast('Generating institutional Master Procurement Demand Sheet (PDF) for all active quotas...');
+  setTimeout(() => {
+    showToast('✓ Master Procurement Report (6 Active Quotas) downloaded successfully!');
+  }, 850);
+}
+
+// Refresh Auto-Match
+function refreshDemandMatches() {
+  showToast('🔄 Scanning real-time mandi feeds & regional farm-gate GPS clusters...');
+  setTimeout(() => {
+    buyerData.buyerDemands.forEach(d => {
+      if (d.fulfilledPct < 100) {
+        d.matchedCount = Math.floor(3 + Math.random() * 4);
+      }
+    });
+    renderBuyerDemands();
+    showToast('✓ Regional farmer clusters synced! 4 new farm-gate lots matched.', 'success');
+  }, 900);
 }
 
 // Chat Messaging Data Store & Functionality (Dynamic for ALL Marketplace Farmers)
@@ -1507,11 +1821,11 @@ if (demandForm) {
   demandForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const crop = document.getElementById('demand-crop').value;
-    const tonnage = document.getElementById('demand-tonnage').value;
+    const tonnage = parseFloat(document.getElementById('demand-tonnage').value) || 10;
     const unit = document.getElementById('demand-unit')?.value || 'MT';
     const price = document.getElementById('demand-price').value;
     const priceUnit = document.getElementById('demand-price-unit')?.value || 'qt';
-    const numPrice = parseFloat(price) || 0;
+    const numPrice = parseFloat(price) || 1250;
 
     let pricePerQt = numPrice;
     let pricePerKg = (numPrice / 100).toFixed(2);
@@ -1520,21 +1834,56 @@ if (demandForm) {
       pricePerQt = Math.round(numPrice * 100);
     }
 
+    const newId = `DEM-BB-${Math.floor(100 + Math.random() * 900)}`;
+
     buyerData.buyerDemands.unshift({
-      id: `DEM-BB-${Math.floor(100 + Math.random() * 900)}`,
+      id: newId,
       crop: crop,
+      category: "Agricultural Crop",
       image: crop.toLowerCase().includes('onion') ? 'assets/images/onion.jpg' : 'assets/images/tomato.jpg',
       tonnage: `${tonnage} ${unit}`,
-      targetPrice: `₹ ${pricePerQt.toLocaleString('en-IN')} /Qt (₹ ${pricePerKg}/kg)`,
+      tonnageNum: tonnage,
+      unit: unit,
+      targetPrice: `₹ ${pricePerQt.toLocaleString('en-IN')} /Qt`,
+      targetPriceNum: pricePerQt,
+      pricePerKg: parseFloat(pricePerKg),
+      mandiBenchmark: `₹ ${Math.round(pricePerQt * 1.14).toLocaleString('en-IN')} /Qt`,
+      savingsPct: "12.3% Savings",
       location: "Hosur Hub, TN",
-      deadline: "25 Sep 2026",
+      deadline: "28 Sep 2026",
+      daysLeft: 15,
       matchedCount: 2,
-      status: "Active"
+      fulfilledTonnage: 0,
+      fulfilledPct: 0,
+      status: "Broadcasting",
+      statusClass: "badge-status-open",
+      statusLabel: "● Broadcasting Quota",
+      grade: "Grade A Commercial",
+      moistureLimit: "QC Guaranteed",
+      deliveryMode: "Farm-Gate Pickup",
+      escrowAdvance: `35% Advance (₹ ${Math.round(pricePerQt * tonnage * 10 * 0.35).toLocaleString('en-IN')})`,
+      bids: [
+        {
+          bidId: `BID-NEW-${Math.floor(100 + Math.random() * 900)}`,
+          farmerName: "Regional Farm Cluster",
+          farmerAvatar: "assets/images/tomato.jpg",
+          farmerPhone: "+91 94431-22901",
+          location: "Erode Hub (14 km away)",
+          rating: "4.9 ⭐",
+          offeredQty: `${Math.round(tonnage * 0.4)} ${unit}`,
+          bidPrice: `₹ ${pricePerQt.toLocaleString('en-IN')} /Qt`,
+          bidPriceNum: pricePerQt,
+          pricePerKg: parseFloat(pricePerKg),
+          qcScore: "95% (Grade A)",
+          leadTime: "6 Hours",
+          status: "New Match"
+        }
+      ]
     });
 
     renderBuyerDemands();
     closePostDemandModal();
-    showToast(`Procurement quota for ${tonnage} ${unit} of ${crop} broadcasted to farmers!`);
+    showToast(`✓ Procurement quota for ${tonnage} ${unit} of ${crop} broadcasted to regional farmers!`, 'success');
     switchView('view-bulk-demands');
   });
 }
@@ -1780,5 +2129,18 @@ window.openGpsModal = openGpsModal;
 window.closeGpsModal = closeGpsModal;
 window.printLorryReceipt = printLorryReceipt;
 
-
-
+// Demand Board Window Bindings
+window.openDemandBidsModal = openDemandBidsModal;
+window.closeDemandBidsModal = closeDemandBidsModal;
+window.acceptDemandFarmerBid = acceptDemandFarmerBid;
+window.sourceFromMarketplaceForDemand = sourceFromMarketplaceForDemand;
+window.downloadPurchaseOrder = downloadPurchaseOrder;
+window.downloadAllPurchaseOrders = downloadAllPurchaseOrders;
+window.refreshDemandMatches = refreshDemandMatches;
+window.handleDemandSearch = handleDemandSearch;
+window.filterDemandsByStatus = filterDemandsByStatus;
+window.filterDemandsByHub = filterDemandsByHub;
+window.clearDemandFilters = clearDemandFilters;
+window.openPostDemandModal = openPostDemandModal;
+window.closePostDemandModal = closePostDemandModal;
+window.updateDemandPricePreview = updateDemandPricePreview;

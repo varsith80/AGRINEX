@@ -586,18 +586,94 @@
       <!-- VIEW 3: BULK PROCUREMENT DEMANDS (FULL-PAGE BOARD) -->
       <div id="view-bulk-demands" class="portal-view dashboard-content">
         <div class="card">
-          <div class="card-header">
+          <!-- Header & Top Actions -->
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px; margin-bottom: 18px;">
             <div>
-              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">Bulk Procurement Demands Board</h2>
-              <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">Broadcast institutional purchasing quotas. Nearby verified farmers are matched automatically.</p>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <h2 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36; margin: 0;">Bulk Procurement Demands & Quota Board</h2>
+                <span class="badge badge-grade-a" id="demands-active-badge">6 Active Quotas</span>
+              </div>
+              <p style="font-size: 0.82rem; color: #64748b; margin-top: 4px; margin-bottom: 0;">
+                Broadcast institutional purchasing quotas to verified farmers & FPOs under automated reverse-auction matching.
+              </p>
             </div>
-            <button class="btn btn-primary" onclick="openPostDemandModal()">
-              + Broadcast New Quota
-            </button>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn btn-outline btn-sm" onclick="downloadAllPurchaseOrders()" style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem;">
+                📄 Export All POs (PDF)
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="refreshDemandMatches()" style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem;">
+                🔄 Auto-Match Refresh
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="openPostDemandModal()" style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 700; background: #0c5a36; border-color: #0c5a36;">
+                + Broadcast New Quota
+              </button>
+            </div>
           </div>
 
+          <!-- 1. Executive Institutional Procurement KPIs -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px;">
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px 16px;">
+              <div style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Total Active Quota Volume</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 4px;" id="stat-demand-target-vol">140 MT <span style="font-size: 0.8rem; font-weight: 600; color: #64748b;">(1,400 Qt)</span></div>
+              <div style="font-size: 0.72rem; color: #0c5a36; font-weight: 600; margin-top: 4px;">Across 6 Strategic Commodities</div>
+            </div>
+
+            <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 14px 16px;">
+              <div style="font-size: 0.72rem; color: #166534; font-weight: 700; text-transform: uppercase;">Fulfilled / Sourced Volume</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #15803d; margin-top: 4px;" id="stat-demand-fulfilled-vol">104 MT <span style="font-size: 0.8rem; font-weight: 700; color: #166534;">(74.2% Filled)</span></div>
+              <div style="font-size: 0.72rem; color: #166534; font-weight: 600; margin-top: 4px;">✓ 100% Quality Assay Passed</div>
+            </div>
+
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px 16px;">
+              <div style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Net Sourcing Savings vs Mandi</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #0c5a36; margin-top: 4px;">₹ 4.82 Lakhs <span style="font-size: 0.8rem; font-weight: 700; color: #0c5a36;">(~13.8%)</span></div>
+              <div style="font-size: 0.72rem; color: #64748b; font-weight: 600; margin-top: 4px;">Zero Middlemen Spread</div>
+            </div>
+
+            <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 14px 16px;">
+              <div style="font-size: 0.72rem; color: #1e40af; font-weight: 700; text-transform: uppercase;">Live Farmer Bids in Radius</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #1d4ed8; margin-top: 4px;" id="stat-demand-bids-count">18 Verified Bids</div>
+              <div style="font-size: 0.72rem; color: #2563eb; font-weight: 600; margin-top: 4px;">Avg Response Time: 18 mins</div>
+            </div>
+          </div>
+
+          <!-- 2. Search Bar -->
+          <div style="position: relative; margin-bottom: 14px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="demand-search-input" placeholder="Search demand quotas by crop, variety, destination hub, or Quota ID (e.g. Tomato, Onion, DEM-BB-101)..." oninput="handleDemandSearch(this.value)" style="width: 100%; padding: 12px 20px 12px 48px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.9rem; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.02); outline: none; transition: all 0.2s;" onfocus="this.style.borderColor='#0c5a36'; this.style.boxShadow='0 0 0 3px rgba(12,90,54,0.12)';" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 6px rgba(0,0,0,0.02)';" />
+          </div>
+
+          <!-- 3. Status & Category Filter Pills Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+            <!-- Status Tabs -->
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;" id="demand-status-filters">
+              <button class="btn btn-outline btn-sm active" onclick="filterDemandsByStatus('all', this)" style="font-size: 0.76rem; padding: 4px 10px;">🌾 All Quotas</button>
+              <button class="btn btn-outline btn-sm" onclick="filterDemandsByStatus('match-ready', this)" style="font-size: 0.76rem; padding: 4px 10px;">⚡ Auto-Match Ready</button>
+              <button class="btn btn-outline btn-sm" onclick="filterDemandsByStatus('broadcasting', this)" style="font-size: 0.76rem; padding: 4px 10px;">● Broadcasting</button>
+              <button class="btn btn-outline btn-sm" onclick="filterDemandsByStatus('fulfilled', this)" style="font-size: 0.76rem; padding: 4px 10px;">✓ 100% Fulfilled</button>
+            </div>
+
+            <!-- Hub Selector Filter -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Hub:</span>
+              <select id="demand-hub-filter" onchange="filterDemandsByHub(this.value)" style="padding: 5px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.78rem; font-weight: 600; color: #334155; background: #ffffff; cursor: pointer; outline: none;">
+                <option value="all">All Delivery Hubs</option>
+                <option value="Hosur Hub, TN">Hosur Hub, TN</option>
+                <option value="Navi Mumbai Hub, MH">Navi Mumbai Hub, MH</option>
+                <option value="Kolar Logistics Hub, KA">Kolar Logistics Hub, KA</option>
+                <option value="Salem / Erode Yard, TN">Salem / Erode Yard, TN</option>
+                <option value="Karnal Silo, HR">Karnal Silo, HR</option>
+                <option value="Rajkot Ginning Depot, GJ">Rajkot Ginning Depot, GJ</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 4. Dynamic Demands List Container -->
           <div id="demands-list-container">
-            <!-- Demands list rendered via dashboard.js -->
+            <!-- Rendered via dashboard.js renderBuyerDemands() -->
           </div>
         </div>
       </div>
@@ -1635,6 +1711,50 @@
           <button type="button" class="btn btn-outline" onclick="closePostDemandModal()">Cancel</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL 1B: REVIEW MATCHING FARMER BIDS FOR DEMAND -->
+  <div class="modal-overlay" id="modal-demand-bids">
+    <div class="modal-content" style="max-width: 680px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #e8f5ed; color: #0c5a36; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            📋
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;" id="bids-modal-title">Matching Farmer Proposals</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="bids-modal-subtitle">Quota #DEM-BB-101 • Tomato (Shivam Hybrid / Roma) (15 MT)</span>
+          </div>
+        </div>
+        <button onclick="closeDemandBidsModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Quota Header Summary Card -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 0.8rem;">
+        <div>
+          <span style="color: #64748b;">Ceiling Target Price:</span>
+          <strong style="color: #0c5a36; font-size: 0.95rem; margin-left: 4px;" id="bids-modal-ceiling">₹ 1,220 /Qt</strong>
+        </div>
+        <div>
+          <span style="color: #64748b;">Destination Hub:</span>
+          <strong style="color: #0f172a; margin-left: 4px;" id="bids-modal-dest">Hosur Hub, TN</strong>
+        </div>
+        <div>
+          <span style="color: #64748b;">Remaining to Source:</span>
+          <strong style="color: #166534; margin-left: 4px;" id="bids-modal-remaining">4 MT (40 Qt)</strong>
+        </div>
+      </div>
+
+      <!-- Farmer Bids List Container -->
+      <div id="bids-list-container" style="display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto; padding-right: 4px;">
+        <!-- Rendered dynamically via dashboard.js -->
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 14px; margin-top: 16px;">
+        <span style="font-size: 0.74rem; color: #64748b;">🛡️ All bids backed by AgriNex Quality Assay & 35% Escrow Guarantee</span>
+        <button type="button" class="btn btn-outline" onclick="closeDemandBidsModal()">Close</button>
+      </div>
     </div>
   </div>
 
