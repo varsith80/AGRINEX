@@ -561,7 +561,7 @@ const buyerData = {
       farmerLocation: "Dharur Hill Belt, Beed ~ 11.2 km away",
       farmerRating: "4.89 ⭐",
       farmerPhone: "+91 98226-22449",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/custard_apple.jpg?v=1",
       grade: "Grade A Premium Pulp (300g+)",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
