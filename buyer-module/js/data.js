@@ -201,7 +201,7 @@ const buyerData = {
       farmerLocation: "Amravati APMC Cotton Yard ~ 8.0 km away",
       farmerRating: "4.8 ⭐",
       farmerPhone: "+91 98225-77890",
-      image: "assets/images/cotton.jpg",
+      image: "assets/images/cotton.jpg?v=2",
       grade: "Grade A Staple >29mm",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",

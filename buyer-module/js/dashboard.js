@@ -1098,7 +1098,7 @@ const chatConversations = {
   },
   more: {
     name: "Balasaheb More",
-    avatar: "assets/images/cotton.jpg",
+    avatar: "assets/images/cotton.jpg?v=2",
     status: "● Online • Amravati APMC (Vidarbha Cotton Yard)",
     lotId: "LOT-COT-08",
     crop: "Raw Cotton (Vidarbha Long Staple)",
