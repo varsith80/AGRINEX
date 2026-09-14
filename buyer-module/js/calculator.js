@@ -578,7 +578,7 @@ const PACKAGING_MODES = {
 // State Object
 let comprehensiveCalcState = {
   qtyUnit: 'qt', // 'qt', 'kg', 'mt'
-  priceUnit: 'qt', // 'qt', 'kg'
+  priceUnit: 'kg', // 'qt', 'kg'
   selectedMandiKey: 'lasalgaon',
   selectedHubKey: 'vashi_hub',
   selectedProductKey: 'onion',
@@ -909,12 +909,12 @@ function recalculateBuyerCosts() {
   const perKgSavingsEl = document.getElementById('calc-summary-perkg-savings');
 
   if (directTotalEl) directTotalEl.textContent = `₹ ${directTotalLandedCost.toLocaleString('en-IN')}`;
-  if (directPerKgEl) directPerKgEl.textContent = `₹ ${directLandedPerKg}/kg • ₹ ${parseFloat(directLandedPerQt).toLocaleString('en-IN')}/Qt`;
+  if (directPerKgEl) directPerKgEl.textContent = `₹ ${directLandedPerKg} /kg`;
   if (mandiTotalEl) mandiTotalEl.textContent = `₹ ${traditionalTotalLandedCost.toLocaleString('en-IN')}`;
-  if (mandiPerKgEl) mandiPerKgEl.textContent = `₹ ${traditionalLandedPerKg}/kg • ₹ ${parseFloat(traditionalLandedPerQt).toLocaleString('en-IN')}/Qt`;
+  if (mandiPerKgEl) mandiPerKgEl.textContent = `₹ ${traditionalLandedPerKg} /kg`;
   if (netSavingsEl) netSavingsEl.textContent = `₹ ${netSavings.toLocaleString('en-IN')}`;
   if (netSavingsPctEl) netSavingsPctEl.textContent = `${netSavingsPct}% Lower Cost`;
-  if (perKgSavingsEl) perKgSavingsEl.textContent = `₹ ${savingsPerKg} / kg Saved`;
+  if (perKgSavingsEl) perKgSavingsEl.textContent = `₹ ${savingsPerKg} /kg Saved`;
 
   // Direct Line Items
   setText('calc-item-direct-produce', `₹ ${directProduceCost.toLocaleString('en-IN')}`);

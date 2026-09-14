@@ -74,7 +74,7 @@
       arrivalsChange: "+28.0% Heavy Inflow",
       sentiment: "Buyer's Market (Excess Supply)",
       sentimentScore: 64,
-      recommendation: "Peak harvest arrivals from Junnar and Otur clusters. High bargaining power for bulk processing and retail packing. Counter-bid at ₹ 1,150-1,180/Qt.",
+      recommendation: "Peak harvest arrivals from Junnar and Otur clusters. High bargaining power for bulk processing and retail packing. Counter-bid at ₹ 11.50-11.80/kg.",
       history: {
         "7D": {
           labels: ["08 Sep", "09 Sep", "10 Sep", "11 Sep", "12 Sep", "13 Sep", "14 Sep (Today)", "16 Sep (AI)", "18 Sep (AI)", "20 Sep (AI)"],
@@ -613,7 +613,7 @@
   // State
   let activeCommodity = "onion";
   let activeTimeframe = "7D";
-  let activePriceUnit = "qt"; // 'qt' or 'kg'
+  let activePriceUnit = "kg"; // default 'kg'
   let priceChartInstance = null;
   let tableSearchQuery = "";
   let tableDistrictFilter = "all";
@@ -852,7 +852,7 @@
     const sentimentEl = document.getElementById("kpi-insight-sentiment");
 
     if (modalEl) modalEl.innerHTML = `${formatInsightPrice(commodity.currentModalQt)} <span style="font-size:0.75rem; color:${commodity.trendDir === 'up' ? '#166534' : '#991b1b'}; font-weight:700;">(${commodity.trendPct})</span>`;
-    if (spreadEl) spreadEl.innerHTML = `+${commodity.arbitragePct}% <span style="font-size:0.74rem; color:#166534; font-weight:600;">(Save ₹ ${(commodity.terminalVashiQt - commodity.farmGateQt).toLocaleString('en-IN')}/Qt)</span>`;
+    if (spreadEl) spreadEl.innerHTML = `+${commodity.arbitragePct}% <span style="font-size:0.74rem; color:#166534; font-weight:600;">(Save ₹ ${((commodity.terminalVashiQt - commodity.farmGateQt) / 100).toFixed(2)} /kg)</span>`;
     if (arrivalsEl) arrivalsEl.innerHTML = `${commodity.arrivalsQt.toLocaleString('en-IN')} Qt <span style="font-size:0.74rem; color:#64748b;">(${commodity.arrivalsChange})</span>`;
     if (sentimentEl) sentimentEl.innerHTML = `${commodity.sentiment} <span style="font-size:0.74rem; color:#0c5a36; font-weight:700;">(${commodity.sentimentScore}/100)</span>`;
   }
@@ -918,7 +918,7 @@
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.8rem;">
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
           <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">Direct Sourcing Spread</span>
-          <strong style="font-size: 1.05rem; color: #0c5a36;">Save ₹ ${(commodity.terminalVashiQt - commodity.farmGateQt).toLocaleString('en-IN')} /Qt</strong>
+          <strong style="font-size: 1.05rem; color: #0c5a36;">Save ₹ ${((commodity.terminalVashiQt - commodity.farmGateQt) / 100).toFixed(2)} /kg</strong>
           <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">vs Vashi APMC middleman rate</div>
         </div>
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">

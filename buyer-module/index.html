@@ -579,7 +579,7 @@
                       <th>Quality Grade</th>
                       <th>Farmer Trust</th>
                       <th>Quantity</th>
-                      <th>Ask Price (₹/kg & ₹/Qt)</th>
+                      <th>Ask Price (₹/kg)</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -1378,7 +1378,7 @@
                 <span style="font-size: 0.7rem; background: #dbeafe; color: #1e40af; font-weight: 800; padding: 2px 6px; border-radius: 4px;">Zero Middleman</span>
               </div>
               <div id="calc-summary-direct-total" style="font-size: 1.45rem; font-weight: 800; color: #1e3a8a; margin: 6px 0 2px;">₹ 63,450</div>
-              <div id="calc-summary-direct-perkg" style="font-size: 0.76rem; color: #2563eb; font-weight: 700;">₹ 12.69/kg • ₹ 1,269/Qt</div>
+              <div id="calc-summary-direct-perkg" style="font-size: 0.76rem; color: #2563eb; font-weight: 700;">₹ 12.69 /kg</div>
             </div>
 
             <!-- Traditional Mandi Landed -->
@@ -1388,7 +1388,7 @@
                 <span style="font-size: 0.7rem; background: #fee2e2; color: #b91c1c; font-weight: 800; padding: 2px 6px; border-radius: 4px;">+11.5% Broker Cut</span>
               </div>
               <div id="calc-summary-mandi-total" style="font-size: 1.45rem; font-weight: 800; color: #991b1b; margin: 6px 0 2px;">₹ 74,800</div>
-              <div id="calc-summary-mandi-perkg" style="font-size: 0.76rem; color: #dc2626; font-weight: 700;">₹ 14.96/kg • ₹ 1,496/Qt</div>
+              <div id="calc-summary-mandi-perkg" style="font-size: 0.76rem; color: #dc2626; font-weight: 700;">₹ 14.96 /kg</div>
             </div>
 
             <!-- Net Savings -->
@@ -1398,17 +1398,16 @@
                 <span id="calc-summary-savings-pct" style="font-size: 0.7rem; background: #bbf7d0; color: #0c5a36; font-weight: 800; padding: 2px 6px; border-radius: 4px;">15.2% Lower</span>
               </div>
               <div id="calc-summary-net-savings" style="font-size: 1.45rem; font-weight: 800; color: #0c5a36; margin: 6px 0 2px;">₹ 11,350</div>
-              <div style="font-size: 0.76rem; color: #166534; font-weight: 700;">Retained Profit Margin</div>
             </div>
 
-            <!-- Unit Benefit -->
-            <div style="background: #faf5ff; border: 1.5px solid #e9d5ff; border-radius: 12px; padding: 16px;">
+            <!-- Transit & Shrinkage -->
+            <div style="background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; padding: 16px;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.72rem; color: #6b21a8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">Per-KG Direct Benefit</span>
-                <span style="font-size: 0.7rem; background: #f3e8ff; color: #7e22ce; font-weight: 800; padding: 2px 6px; border-radius: 4px;">Direct Arbitrage</span>
+                <span style="font-size: 0.72rem; color: #92400e; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">Shrinkage Protection</span>
+                <span style="font-size: 0.7rem; background: #fef3c7; color: #92400e; font-weight: 800; padding: 2px 6px; border-radius: 4px;">65% Loss Cut</span>
               </div>
-              <div id="calc-summary-perkg-savings" style="font-size: 1.45rem; font-weight: 800; color: #6b21a8; margin: 6px 0 2px;">₹ 2.27 / kg Saved</div>
-              <div style="font-size: 0.76rem; color: #7e22ce; font-weight: 700;">Zero Middleman Markup</div>
+              <div id="calc-summary-spoilage-saved" style="font-size: 1.45rem; font-weight: 800; color: #92400e; margin: 6px 0 2px;">₹ 4,820</div>
+              <div style="font-size: 0.76rem; color: #b45309; font-weight: 700;">Reefer & Calibrated Crates</div>
             </div>
           </div>
 
@@ -1417,114 +1416,115 @@
             <!-- Rendered dynamically -->
           </div>
 
-          <!-- Sourcing Parameter Controls (4 Column Cards) -->
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+          <!-- Interactive Calculator Inputs Form Grid -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px;">
             
-            <!-- Group 1: Commodity & Quality -->
+            <!-- Group 1: Crop & Volume -->
             <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
               <div style="font-size: 0.85rem; font-weight: 800; color: #0c5a36; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
                 <span>🌾</span>
-                <span>Commodity & Quality</span>
+                <span>Produce & Volume</span>
               </div>
 
-              <!-- Product Select -->
+              <!-- Commodity Selector -->
               <div style="margin-bottom: 12px;">
-                <label class="form-label" style="font-size: 0.76rem;">Select Agricultural Produce</label>
-                <select id="calc-product-select" class="form-select" style="font-size: 0.84rem;">
-                  <option value="onion" selected>🧅 Red Onion (Lasalgaon / Nashik Garwa)</option>
-                  <option value="tomato">🍅 Tomato (Narayangaon / Junnar Hybrid)</option>
-                  <option value="banana">🍌 Banana (Jalgaon Grand Naine / G9)</option>
-                  <option value="soybean">🌱 Soybean (Latur Yellow Seed JS-335)</option>
-                  <option value="orange">🍊 Nagpur Orange / Mandarin (Katol)</option>
-                  <option value="turmeric">🌿 Turmeric Finger (Sangli Rajapuri)</option>
-                  <option value="pomegranate">🍎 Pomegranate (Solapur Bhagwa Export)</option>
-                  <option value="cotton">☁️ Raw Cotton (Vidarbha / Amravati Medium Staple)</option>
-                  <option value="grapes">🍇 Table Grapes (Nashik Thompson Seedless)</option>
-                  <option value="chilli">🌶️ Green Chilli (Nandurbar / Kolhapur Jwala)</option>
-                  <option value="jowar">🌾 Maldandi Jowar (Solapur Shalu Sorghum)</option>
-                  <option value="mango">🥭 Alphonso Mango (Ratnagiri / Devgad Hapus)</option>
+                <label class="form-label" style="font-size: 0.76rem;">Select Maharashtra Crop</label>
+                <select id="calc-buyer-produce" class="form-select" style="font-size: 0.84rem;">
+                  <option value="onion" selected>🧅 Red Onion (Nashik Garwa)</option>
+                  <option value="tomato">🍅 Tomato (Narayangaon Hybrid)</option>
+                  <option value="banana">🍌 Banana (Khandesh Export)</option>
+                  <option value="soybean">🌱 Yellow Soybean (Latur Grade A)</option>
+                  <option value="orange">🍊 Nagpur Orange (Vidarbha Mandarins)</option>
+                  <option value="turmeric">🟡 Sangli Rajapuri Turmeric</option>
+                  <option value="pomegranate">🔴 Solapur Bhagwa Pomegranate</option>
+                  <option value="cotton">☁️ Vidarbha Raw Cotton</option>
+                  <option value="grapes">🍇 Nashik Thompson Seedless Grapes</option>
+                  <option value="chilli">🌶️ Nandurbar Red Chilli</option>
+                  <option value="jowar">🌾 Solapur Maldandi Jowar</option>
+                  <option value="mango">🥭 Ratnagiri Alphonso Mango (Hapus)</option>
                 </select>
               </div>
 
               <!-- Quality Grade -->
               <div style="margin-bottom: 12px;">
-                <label class="form-label" style="font-size: 0.76rem;">Quality Grade Tier</label>
-                <select id="calc-product-grade" class="form-select" style="font-size: 0.84rem;">
-                  <option value="grade_a">Grade A (Export / Institutional Premium)</option>
-                  <option value="grade_b" selected>Grade B (Standard Commercial Retail)</option>
-                  <option value="grade_c">Grade C (Processing / Bulk Pulp)</option>
+                <label class="form-label" style="font-size: 0.76rem;">Quality Grade Standard</label>
+                <select id="calc-buyer-grade" class="form-select" style="font-size: 0.84rem;">
+                  <option value="grade_a" selected>Grade A (Export / Institutional Premium)</option>
+                  <option value="grade_b">Grade B (Supermarket Retail Ready)</option>
+                  <option value="grade_c">Grade C (Food Processing / Puree)</option>
                 </select>
               </div>
 
-              <!-- Volume Quantity -->
+              <!-- Procurement Volume with Unit Switcher -->
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                  <label class="form-label" style="font-size: 0.76rem; margin-bottom: 0;">Sourcing Volume</label>
+                  <label class="form-label" style="font-size: 0.76rem; margin-bottom: 0;">Procurement Volume</label>
                   <div style="display: inline-flex; background: #e2e8f0; border-radius: 6px; padding: 2px; font-size: 0.68rem; font-weight: 700;">
                     <button type="button" id="calc-unit-qt" class="calc-unit-btn active" onclick="setCalcUnit('qt')" style="padding: 2px 6px; border-radius: 4px; background: #0c5a36; color: #fff; cursor: pointer; border: none;">Qt</button>
                     <button type="button" id="calc-unit-kg" class="calc-unit-btn" onclick="setCalcUnit('kg')" style="padding: 2px 6px; border-radius: 4px; color: #475569; cursor: pointer; border: none; background: transparent;">kg</button>
+                    <button type="button" id="calc-unit-mt" class="calc-unit-btn" onclick="setCalcUnit('mt')" style="padding: 2px 6px; border-radius: 4px; color: #475569; cursor: pointer; border: none; background: transparent;">MT</button>
                   </div>
                 </div>
                 <input type="number" id="calc-buyer-qty" class="form-input" value="50" min="1" step="5" style="font-size: 0.86rem; font-weight: 700;" />
+                <div id="calc-qty-normalized-hint" style="font-size: 0.72rem; color: #64748b; margin-top: 3px;">= 5,000 kg (5.0 MT)</div>
               </div>
             </div>
 
-            <!-- Group 2: Mandi Origin & Destination -->
+            <!-- Group 2: Origin APMC & Destination Hub -->
             <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
               <div style="font-size: 0.85rem; font-weight: 800; color: #0c5a36; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
                 <span>📍</span>
-                <span>Mandi & Transit Route</span>
+                <span>Origin & Hub Route</span>
               </div>
 
-              <!-- Source Mandi -->
+              <!-- Origin Mandi -->
               <div style="margin-bottom: 12px;">
-                <label class="form-label" style="font-size: 0.76rem;">Source APMC Mandi / Farm Cluster</label>
-                <select id="calc-mandi-origin" class="form-select" style="font-size: 0.84rem;">
-                  <option value="lasalgaon" selected>Lasalgaon APMC (Nashik) - Asia's Largest Onion Market</option>
-                  <option value="pune">Pune APMC (Gultekdi Yard)</option>
-                  <option value="pimpalgaon">Pimpalgaon Baswant (Nashik Tomato & Onion)</option>
-                  <option value="manchar">Manchar / Junnar APMC (Pune Tomato Belt)</option>
-                  <option value="jalgaon">Jalgaon APMC (Banana & Pulse Hub)</option>
-                  <option value="latur">Latur APMC (Marathwada Oilseed Silos)</option>
-                  <option value="nagpur">Nagpur Kalamna Market (Citrus Hub)</option>
-                  <option value="kolhapur">Kolhapur Shahu Market (Jaggery & Chilli)</option>
-                  <option value="solapur">Solapur APMC (Pomegranate & Jowar)</option>
-                  <option value="sangli">Sangli APMC (Turmeric & Raisin Yard)</option>
-                  <option value="ahmednagar">Ahmednagar APMC (Vegetable Hub)</option>
-                  <option value="amravati">Amravati APMC (Cotton & Soybean)</option>
-                  <option value="ratnagiri">Ratnagiri Mandi (Konkan Mango / Cashew)</option>
-                  <option value="vashi">Vashi APMC Central Yard (Navi Mumbai)</option>
+                <label class="form-label" style="font-size: 0.76rem;">Origin Mandi / Cluster</label>
+                <select id="calc-buyer-origin" class="form-select" style="font-size: 0.84rem;">
+                  <option value="lasalgaon" selected>Lasalgaon APMC (Nashik)</option>
+                  <option value="pune">Pune APMC (Gultekdi)</option>
+                  <option value="latur">Latur APMC Yard</option>
+                  <option value="nagpur">Nagpur Kalamna APMC</option>
+                  <option value="sangli">Sangli APMC Market</option>
+                  <option value="solapur">Solapur APMC Yard</option>
+                  <option value="amravati">Amravati APMC</option>
+                  <option value="nandurbar">Nandurbar APMC</option>
+                  <option value="jalgaon">Jalgaon APMC</option>
+                  <option value="ratnagiri">Ratnagiri Konkan Hub</option>
+                  <option value="chhatrapati_sn">Chhatrapati Sambhaji Nagar</option>
+                  <option value="kolhapur">Kolhapur Shahu Market Yard</option>
                 </select>
               </div>
 
-              <!-- Destination Hub -->
+              <!-- Buyer Destination Hub -->
               <div style="margin-bottom: 12px;">
-                <label class="form-label" style="font-size: 0.76rem;">Buyer Delivery Hub</label>
-                <select id="calc-buyer-hub" class="form-select" style="font-size: 0.84rem;">
-                  <option value="vashi_hub" selected>Vashi APMC Central Terminal (Navi Mumbai)</option>
-                  <option value="pune_dc">Pune APMC Mega DC (Gultekdi / Hadapsar)</option>
-                  <option value="nashik_hub">Nashik Agro-Logistics Park (Lasalgaon Corridor)</option>
-                  <option value="nagpur_hub">Nagpur Multi-Modal Agro Hub (MIHAN)</option>
-                  <option value="csn_hub">Chhatrapati Sambhaji Nagar Agro DC</option>
-                  <option value="kolhapur_hub">Kolhapur & Western MH Processing Terminal</option>
+                <label class="form-label" style="font-size: 0.76rem;">Buyer Warehouse / Terminal</label>
+                <select id="calc-buyer-destination" class="form-select" style="font-size: 0.84rem;">
+                  <option value="vashi_hub" selected>🏢 Vashi APMC Terminal (Navi Mumbai)</option>
+                  <option value="pune_dc">🏢 Pune Hadapsar Logistics DC</option>
+                  <option value="nashik_hub">🏢 Nashik Ambad MIDC Terminal</option>
+                  <option value="nagpur_hub">🏢 Nagpur MIHAN Logistics Park</option>
+                  <option value="csn_hub">🏢 CSN Chikalthana MIDC DC</option>
+                  <option value="kolhapur_hub">🏢 Kolhapur Shiroli Industrial Hub</option>
                 </select>
               </div>
 
-              <!-- Route Distance -->
+              <!-- Distance (km) -->
               <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                  <label class="form-label" style="font-size: 0.76rem; margin-bottom: 0;">Haulage Distance (km)</label>
-                  <span id="calc-route-badge" style="font-size: 0.68rem; color: #0c5a36; font-weight: 700; background: #e8f5ed; padding: 1px 6px; border-radius: 4px;">220 km Route</span>
+                <label class="form-label" style="font-size: 0.76rem;">Haulage Route Distance (km)</label>
+                <div style="position: relative;">
+                  <input type="number" id="calc-buyer-distance" class="form-input" value="225" style="font-size: 0.86rem; font-weight: 700; background: #f8fafc;" />
+                  <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.72rem; color: #64748b; font-weight: 700;">km</span>
                 </div>
-                <input type="number" id="calc-buyer-distance" class="form-input" value="220" step="5" style="font-size: 0.86rem; font-weight: 700;" />
+                <div id="calc-route-duration-hint" style="font-size: 0.72rem; color: #64748b; margin-top: 3px;">⏱️ ~5h 15m via Samruddhi / NH160</div>
               </div>
             </div>
 
-            <!-- Group 3: Price Benchmarks & Arbitrage -->
+            <!-- Group 3: APMC Benchmark vs Direct Farm Price -->
             <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
               <div style="font-size: 0.85rem; font-weight: 800; color: #0c5a36; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-                <span>🏷️</span>
-                <span>Price Benchmarks</span>
+                <span>💰</span>
+                <span>Price & Arbitrage</span>
               </div>
 
               <!-- APMC Mandi Modal Price -->
@@ -1541,12 +1541,12 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                   <label class="form-label" style="font-size: 0.76rem; margin-bottom: 0;">Direct Farm Gate Ask</label>
                   <div style="display: inline-flex; background: #e2e8f0; border-radius: 6px; padding: 2px; font-size: 0.68rem; font-weight: 700;">
-                    <button type="button" id="calc-price-unit-qt" class="calc-price-unit-btn active" onclick="setCalcPriceUnit('qt')" style="padding: 2px 6px; border-radius: 4px; background: #0c5a36; color: #fff; cursor: pointer; border: none;">₹/Qt</button>
-                    <button type="button" id="calc-price-unit-kg" class="calc-price-unit-btn" onclick="setCalcPriceUnit('kg')" style="padding: 2px 6px; border-radius: 4px; color: #475569; cursor: pointer; border: none; background: transparent;">₹/kg</button>
+                    <button type="button" id="calc-price-unit-qt" class="calc-price-unit-btn" onclick="setCalcPriceUnit('qt')" style="padding: 2px 6px; border-radius: 4px; color: #475569; cursor: pointer; border: none; background: transparent;">₹/Qt</button>
+                    <button type="button" id="calc-price-unit-kg" class="calc-price-unit-btn active" onclick="setCalcPriceUnit('kg')" style="padding: 2px 6px; border-radius: 4px; background: #0c5a36; color: #fff; cursor: pointer; border: none;">₹/kg</button>
                   </div>
                 </div>
-                <input type="number" id="calc-buyer-price" class="form-input" value="1188" step="10" style="font-size: 0.86rem; font-weight: 700;" />
-                <div id="calc-price-conversion-hint" style="font-size: 0.72rem; color: #166534; font-weight: 700; margin-top: 3px;">= ₹ 11.88 /kg</div>
+                <input type="number" id="calc-buyer-price" class="form-input" value="11.88" step="0.10" style="font-size: 0.86rem; font-weight: 700;" />
+                <div id="calc-price-conversion-hint" style="font-size: 0.72rem; color: #166534; font-weight: 700; margin-top: 3px;">= ₹ 1,188 /Qt</div>
               </div>
 
               <!-- Discount Tag -->
@@ -1777,7 +1777,7 @@
                 </div>
                 <div style="display: flex; gap: 8px;">
                   <button class="btn btn-outline btn-sm" onclick="openBidModal('LOT-ONI-01')">Counter Offer</button>
-                  <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('LOT-ONI-01')">Lock 35% Escrow (₹ 1,800/Qt)</button>
+                  <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('LOT-ONI-01')">Lock 35% Escrow (₹ 18.00/kg)</button>
                 </div>
               </div>
 
@@ -1785,23 +1785,23 @@
               <div style="background: #fefce8; border-bottom: 1px solid #fef08a; padding: 10px 18px; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem;">
                 <div style="display: flex; align-items: center; gap: 8px;">
                   <span style="background: #eab308; color: #ffffff; width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">⚡</span>
-                  <span><strong>Active Offer:</strong> Farmer countered at <strong style="color: #0c5a36;">₹ 1,820/Qt</strong> for 80 Qt (Floor: ₹ 1,800)</span>
+                  <span><strong>Active Offer:</strong> Farmer countered at <strong style="color: #0c5a36;">₹ 18.20/kg</strong> for 8,000 kg (Floor: ₹ 18.00/kg)</span>
                 </div>
                 <div style="display: flex; gap: 6px;">
-                  <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('LOT-ONI-01', 1820)" style="padding: 4px 10px; font-size: 0.75rem;">✓ Accept Counter</button>
+                  <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('LOT-ONI-01', 18.20)" style="padding: 4px 10px; font-size: 0.75rem;">✓ Accept Counter</button>
                   <button class="btn btn-outline btn-sm" onclick="openBidModal('LOT-ONI-01')" style="padding: 4px 8px; font-size: 0.75rem;">Re-counter</button>
                 </div>
               </div>
 
               <div class="chat-messages" id="chat-messages-container">
                 <div class="chat-bubble incoming">
-                  Hello sir, I saw your procurement demand for 80 Qt Garwa Red Onions at Vashi Terminal.
+                  Hello sir, I saw your procurement demand for 8,000 kg Garwa Red Onions at Vashi Terminal.
                 </div>
                 <div class="chat-bubble outgoing">
                   Hi Rameshwar ji! Yes, we need export/table grade red onion with moisture below 13% and cured skin by this Friday.
                 </div>
                 <div class="chat-bubble incoming">
-                  My lot is certified Grade A (75%) with moisture at 12.4%. Ask price is ₹ 1,800/Qt. Can you confirm the 35% advance escrow?
+                  My lot is certified Grade A (75%) with moisture at 12.4%. Ask price is ₹ 18.00/kg. Can you confirm the 35% advance escrow?
                 </div>
               </div>
 
@@ -2027,7 +2027,7 @@
             <button class="btn btn-outline btn-sm storage-filter-btn" onclick="filterStorageFacilities('dry-silo', this)">🌾 Hermetic Dry Silos</button>
             <button class="btn btn-outline btn-sm storage-filter-btn" onclick="filterStorageFacilities('solar-onion', this)">☀️ Solar Onion Complex</button>
           </div>
-          <span style="font-size: 0.78rem; color: #64748b;">All rates in ₹/Qt/month & ₹/kg/month</span>
+          <span style="font-size: 0.78rem; color: #64748b;">All rates in ₹/kg/month</span>
         </div>
 
         <!-- Facilities Cards Grid -->
@@ -2088,7 +2088,7 @@
               <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
             </div>
             <div class="stat-label">Selected Mandi Benchmark Modal</div>
-            <div class="stat-value" id="kpi-insight-modal" style="color: #0c5a36;">₹ 1,850 /Qt</div>
+            <div class="stat-value" id="kpi-insight-modal" style="color: #0c5a36;">₹ 18.50 /kg</div>
             <div class="stat-change positive">+4.8% vs last week</div>
           </div>
 
@@ -2098,7 +2098,7 @@
             </div>
             <div class="stat-label">Direct Sourcing Arbitrage Spread</div>
             <div class="stat-value" id="kpi-insight-spread" style="color: #166534;">+16.3%</div>
-            <div class="stat-change positive">Save ₹ 350/Qt vs Vashi Middlemen</div>
+            <div class="stat-change positive">Save ₹ 3.50/kg vs Vashi Middlemen</div>
           </div>
 
           <div class="stat-card">
@@ -2140,7 +2140,7 @@
                 🧅 Red Onion (Lasalgaon Garwa) • Mandi Rate Trends & AI Projection
               </h2>
               <div id="insight-chart-sub" style="font-size: 0.78rem; color: #64748b; margin-top: 3px;">
-                Primary Hub: Lasalgaon APMC (Nashik) • 24h Modal: ₹ 1,850 /Qt
+                Primary Hub: Lasalgaon APMC (Nashik) • 24h Modal: ₹ 18.50 /kg
               </div>
             </div>
 
@@ -2157,8 +2157,8 @@
 
               <!-- Price Unit Toggle -->
               <div style="background: #f1f5f9; padding: 3px; border-radius: 8px; display: flex; gap: 2px;">
-                <button id="insight-unit-qt" class="active" onclick="setInsightPriceUnit('qt')" style="background: #0c5a36; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">₹/Qt</button>
-                <button id="insight-unit-kg" onclick="setInsightPriceUnit('kg')" style="background: transparent; color: #475569; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">₹/kg</button>
+                <button id="insight-unit-qt" onclick="setInsightPriceUnit('qt')" style="background: transparent; color: #475569; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">₹/Qt</button>
+                <button id="insight-unit-kg" class="active" onclick="setInsightPriceUnit('kg')" style="background: #0c5a36; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">₹/kg</button>
               </div>
 
             </div>
@@ -2316,11 +2316,11 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <label class="form-label" style="margin-bottom: 0;">Target Price</label>
               <select id="demand-price-unit" class="form-select" onchange="updateDemandPricePreview()" style="width: 80px; padding: 2px 6px; font-size: 0.72rem; height: 26px;">
+                <option value="kg" selected>₹/kg</option>
                 <option value="qt">₹/Qt</option>
-                <option value="kg">₹/kg</option>
               </select>
             </div>
-            <input type="number" id="demand-price" class="form-input" value="1800" step="10" oninput="updateDemandPricePreview()" required />
+            <input type="number" id="demand-price" class="form-input" value="18.00" step="0.10" oninput="updateDemandPricePreview()" required />
             <div id="demand-price-preview" style="font-size: 0.74rem; color: #166534; font-weight: 700; margin-top: 4px;">= ₹ 18.00 /kg</div>
           </div>
         </div>
@@ -2367,7 +2367,7 @@
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 0.8rem;">
         <div>
           <span style="color: #64748b;">Ceiling Target Price:</span>
-          <strong style="color: #0c5a36; font-size: 0.95rem; margin-left: 4px;" id="bids-modal-ceiling">₹ 1,820 /Qt</strong>
+          <strong style="color: #0c5a36; font-size: 0.95rem; margin-left: 4px;" id="bids-modal-ceiling">₹ 18.20 /kg</strong>
         </div>
         <div>
           <span style="color: #64748b;">Destination Hub:</span>
@@ -2404,7 +2404,7 @@
         <div id="buy-modal-farmer" style="font-size: 0.78rem; color: #166534; margin-bottom: 8px;">Farmer details</div>
         <div style="display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 700;">
           <span>Ask Rate:</span>
-          <span id="buy-modal-price" style="color: #0c5a36;">₹ 1,200 /Qt</span>
+          <span id="buy-modal-price" style="color: #0c5a36;">₹ 12.00 /kg</span>
         </div>
       </div>
 
@@ -2439,8 +2439,8 @@
       <form id="form-counter-bid">
         <input type="hidden" id="bid-modal-lot-id" />
         <div class="form-group">
-          <label class="form-label">Your Bid Price (₹ per Quintal)</label>
-          <input type="number" id="counter-bid-price" class="form-input" value="1220" step="10" oninput="updateBidKgPreview(this.value)" required />
+          <label class="form-label">Your Bid Price (₹ per kg)</label>
+          <input type="number" id="counter-bid-price" class="form-input" value="12.20" step="0.10" oninput="updateBidKgPreview(this.value)" required />
           <div id="counter-bid-kg-preview" style="font-size: 0.78rem; color: #0c5a36; font-weight: 700; margin-top: 6px; background: #e8f5ed; padding: 6px 10px; border-radius: 6px; border: 1px solid #bbf7d0;">
             <span>⚖️ <strong>₹ 12.20 /kg</strong> • Total Lot Value: <strong>₹ 61,000</strong> (5,000 kg)</span>
           </div>
@@ -2564,7 +2564,7 @@
           <strong style="color: #0c5a36; display: block; font-size: 0.85rem;" id="sim-farmer-name">Patil Rameshwar</strong>
           <span id="sim-farmer-phone" style="font-size: 0.72rem; color: #64748b;">+91 98220-44911 • Lasalgaon, Nashik, MH</span>
           <div style="margin-top: 6px; line-height: 1.4;" id="sim-farmer-msg">
-            "Hello! I received your counter-bid of ₹ 1,820/Qt for 80 Qt Garwa Red Onion. I am willing to accept if you lock the 35% advance escrow (₹ 50,960) today."
+            "Hello! I received your counter-bid of ₹ 18.20/kg for 8,000 kg Garwa Red Onion. I am willing to accept if you lock the 35% advance escrow (₹ 50,960) today."
           </div>
           <span style="font-size: 0.65rem; color: #8696a0; float: right; margin-top: 4px;">Just now ✓✓</span>
           <div style="clear: both;"></div>
@@ -2575,7 +2575,7 @@
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.82rem;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
           <span style="color: #64748b;">Agreed Price:</span>
-          <strong style="color: #0c5a36;" id="sim-agreed-rate">₹ 1,820 /Qt</strong>
+          <strong style="color: #0c5a36;" id="sim-agreed-rate">₹ 18.20 /kg</strong>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
           <span style="color: #64748b;">Required 35% Advance Escrow:</span>
@@ -3213,7 +3213,7 @@
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.82rem;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
             <span style="color: #64748b;">Chamber Tariff Rate:</span>
-            <strong style="color: #0f172a;" id="storage-rate-display">₹ 45 /Qt /Month (₹ 0.45 /kg)</strong>
+            <strong style="color: #0f172a;" id="storage-rate-display">₹ 0.45 /kg /Month (₹ 0.015 /kg /day)</strong>
           </div>
           <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
             <span style="color: #64748b;">Insurance & IoT Telemetry Fee:</span>

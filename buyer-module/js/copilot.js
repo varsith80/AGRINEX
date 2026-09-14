@@ -23,7 +23,7 @@
       keywords: ["onion", "lasalgaon", "garwa", "kanda", "export onion"],
       cropKey: "onion",
       title: "🧅 Lasalgaon Red Onion Sourcing Advisory",
-      recommendation: "Lasalgaon APMC modal price is ₹ 1,850/Qt (₹ 18.50/kg). Farm-gate verified lots are available at ₹ 18.00/kg with 96% Grade A export assay. Sourcing direct saves ₹ 350/Qt vs Vashi APMC middleman terminal.",
+      recommendation: "Lasalgaon APMC modal price is ₹ 18.50 /kg. Farm-gate verified lots are available at ₹ 18.00 /kg with 96% Grade A export assay. Sourcing direct saves ₹ 3.50 /kg vs Vashi APMC middleman terminal.",
       matchedLotIds: ["LOT-ONI-01", "LOT-ONI-02"],
       arbitrageSpread: "+16.3% Margin Advantage",
       optimalWindow: "Next 48 Hours before export quota rush"
@@ -32,7 +32,7 @@
       keywords: ["tomato", "narayangaon", "shivam", "tamatar", "junnar"],
       cropKey: "tomato",
       title: "🍅 Narayangaon Hybrid Tomato Sourcing Advisory",
-      recommendation: "High arrival volumes in Junnar/Narayangaon belt (6,200 Qt today). Farm-gate lots offered at ₹ 12.00/kg (₹ 1,200/Qt) with 94% firmness. Vashi terminal selling at ₹ 14.50/kg.",
+      recommendation: "High arrival volumes in Junnar/Narayangaon belt (6,200 Qt today). Farm-gate lots offered at ₹ 12.00 /kg with 94% firmness. Vashi terminal selling at ₹ 14.50 /kg.",
       matchedLotIds: ["LOT-TOM-88", "LOT-TOM-89"],
       arbitrageSpread: "+17.2% Margin Advantage",
       optimalWindow: "Immediate procurement (Heavy harvest inflow)"
@@ -41,7 +41,7 @@
       keywords: ["banana", "jalgaon", "raver", "grand naine", "kela"],
       cropKey: "banana",
       title: "🍌 Khandesh Grand Naine Banana Advisory",
-      recommendation: "Raver APMC benchmark is ₹ 1,480/Qt. Farm-gate export cluster offering 150 Qt at ₹ 14.20/kg with automated ethylene ripening chambers available at Jalgaon hub.",
+      recommendation: "Raver APMC benchmark is ₹ 14.80 /kg. Farm-gate export cluster offering 150 Qt at ₹ 14.20 /kg with automated ethylene ripening chambers available at Jalgaon hub.",
       matchedLotIds: ["LOT-BAN-03"],
       arbitrageSpread: "+14.5% Margin Advantage",
       optimalWindow: "3–5 Days lead time recommended"
@@ -50,7 +50,7 @@
       keywords: ["soybean", "latur", "js-335", "oilseed", "pulse"],
       cropKey: "soybean",
       title: "🌱 Latur Yellow Soybean & Hermetic Silos Advisory",
-      recommendation: "Latur Mega Yard trading JS-335 at ₹ 4,450/Qt. Direct FPO procurement at ₹ 41.50/kg with max 9.5% moisture assay. Eligible for 70% WDRA e-NWR pledge loan at 6.8% p.a.",
+      recommendation: "Latur Mega Yard trading JS-335 at ₹ 44.50 /kg. Direct FPO procurement at ₹ 41.50 /kg with max 9.5% moisture assay. Eligible for 70% WDRA e-NWR pledge loan at 6.8% p.a.",
       matchedLotIds: ["LOT-SOY-04"],
       arbitrageSpread: "+12.8% Margin Advantage",
       optimalWindow: "Store in Latur Silo for post-harvest peak"
@@ -59,7 +59,7 @@
       keywords: ["orange", "nagpur", "santra", "katol", "citrus"],
       cropKey: "orange",
       title: "🍊 Nagpur Mandarin Orange Sourcing Advisory",
-      recommendation: "Katol APMC modal rate is ₹ 3,950/Qt. GI-tagged Nagpur Santra lots available at ₹ 37.50/kg with Brix > 10.5%. Direct refrigerated transit to Vashi terminal takes 14 hours.",
+      recommendation: "Katol APMC modal rate is ₹ 39.50 /kg. GI-tagged Nagpur Santra lots available at ₹ 37.50 /kg with Brix > 10.5%. Direct refrigerated transit to Vashi terminal takes 14 hours.",
       matchedLotIds: ["LOT-ORG-05"],
       arbitrageSpread: "+15.0% Margin Advantage",
       optimalWindow: "Book dedicated reefer fleet today"
@@ -68,7 +68,7 @@
       keywords: ["emergency", "salvage", "discount", "processing", "puree", "urgent"],
       cropKey: "emergency",
       title: "🚨 Emergency Breakeven Salvage Opportunities",
-      recommendation: "4 emergency harvest lots are active with 24–48 hr urgency. Best buyouts: Narayangaon Tomato at ₹ 9.20/kg (Orig: ₹ 14.00) and Nashik Onion at ₹ 12.50/kg. Ideal for food processors and commercial caterers.",
+      recommendation: "4 emergency harvest lots are active with 24–48 hr urgency. Best buyouts: Narayangaon Tomato at ₹ 9.20 /kg (Orig: ₹ 14.00 /kg) and Nashik Onion at ₹ 12.50 /kg. Ideal for food processors and commercial caterers.",
       matchedLotIds: ["LOT-EMG-TOM-01", "LOT-EMG-ONI-02"],
       arbitrageSpread: "Up to 38% Salvage Discount",
       optimalWindow: "Instant buyout before shelf-life expiry"

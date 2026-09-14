@@ -10,9 +10,9 @@ const DEFAULT_EMERGENCY_FEED = [
     image: "../farmer-module/assets/images/tomato.jpg",
     farmerName: "Sanjay Deshmukh",
     mandi: "Manchar / Narayangaon Yard, Pune, MH",
-    quantity: "45 Qt",
-    floorPrice: "₹ 1,200 /Qt",
-    breakevenPrice: "₹ 890 /Qt",
+    quantity: "4,500 kg (45 Qt)",
+    floorPrice: "₹ 12.00 /kg",
+    breakevenPrice: "₹ 8.90 /kg",
     targetUse: "Tomato Puree & Sauce",
     targetUseBadge: "buyer-type-processing",
     targetIcon: "🥫",
@@ -25,9 +25,9 @@ const DEFAULT_EMERGENCY_FEED = [
     image: "../farmer-module/assets/images/onion.jpg",
     farmerName: "Patil Rameshwar",
     mandi: "Lasalgaon APMC Yard, Nashik, MH",
-    quantity: "60 Qt",
-    floorPrice: "₹ 1,800 /Qt",
-    breakevenPrice: "₹ 1,350 /Qt",
+    quantity: "6,000 kg (60 Qt)",
+    floorPrice: "₹ 18.00 /kg",
+    breakevenPrice: "₹ 13.50 /kg",
     targetUse: "Bulk Kitchen Catering",
     targetUseBadge: "buyer-type-caterer",
     targetIcon: "🍲",
@@ -56,7 +56,7 @@ function renderBuyerEmergencyDesk() {
     mandi: "Narayangaon / Lasalgaon APMC, Pune, MH",
     quantity: d.quantity,
     floorPrice: d.expectedPrice,
-    breakevenPrice: d.bestBid || "₹ 920 /Qt",
+    breakevenPrice: d.bestBid || "₹ 9.20 /kg",
     targetUse: "Purees, Catering & Bio-Compost",
     targetUseBadge: "buyer-type-processing",
     targetIcon: "🥫",
@@ -774,7 +774,7 @@ function renderBuyerDemands() {
           <div>
             <span style="color: #64748b; font-size: 0.72rem; display: block;">MANDI BENCHMARK RATE</span>
             <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="color: #64748b; text-decoration: line-through;">${dem.mandiBenchmark || '₹ 1,400/Qt'}</span>
+              <span style="color: #64748b; text-decoration: line-through;">${dem.mandiBenchmark || '₹ 14.00 /kg'}</span>
               <span style="color: #166534; font-weight: 700; font-size: 0.74rem;">${dem.savingsPct || '12% Saved'}</span>
             </div>
           </div>
@@ -999,11 +999,11 @@ const chatConversations = {
     lotId: "LOT-ONI-01",
     crop: "Red Onion (Nashik Garwa Quality)",
     farmerPhone: "+91 98220-44911",
-    offerText: "Farmer Ask Rate: <strong style=\"color: #0c5a36;\">₹ 18 /kg</strong> (₹ 1,800/Qt) for 100 Qt (Lasalgaon APMC Gate)",
-    counterRate: 1800,
-    lockRateText: "Lock 35% Escrow (₹ 18/kg)",
+    offerText: "Farmer Ask Rate: <strong style=\"color: #0c5a36;\">₹ 18.00 /kg</strong> for 10,000 kg (Lasalgaon APMC Gate)",
+    counterRate: 18.00,
+    lockRateText: "Lock 35% Escrow (₹ 18.00/kg)",
     messages: [
-      { type: "incoming", text: "Namaste Karthik sir! I have 100 Qt export-graded Garwa red onions cured and ready at Lasalgaon APMC yard." },
+      { type: "incoming", text: "Namaste Karthik sir! I have 10,000 kg export-graded Garwa red onions cured and ready at Lasalgaon APMC yard." },
       { type: "outgoing", text: "Hello Patil ji! We are looking for immediate institutional dispatch to Navi Mumbai Terminal. Can you load today?" },
       { type: "incoming", text: "Yes sir, weighing is completed on electronic weighbridge. Once 35% advance escrow is locked, truck can move immediately via Samruddhi Expressway." }
     ]
@@ -1015,13 +1015,13 @@ const chatConversations = {
     lotId: "LOT-TOM-02",
     crop: "Tomato (Shivam / Abhinav Hybrid)",
     farmerPhone: "+91 98224-33100",
-    offerText: "Farmer countered at <strong style=\"color: #0c5a36;\">₹ 13 /kg</strong> (₹ 1,300/Qt) for 60 Qt (Retail Ready)",
-    counterRate: 1300,
-    lockRateText: "Lock 35% Escrow (₹ 13/kg)",
+    offerText: "Farmer countered at <strong style=\"color: #0c5a36;\">₹ 13.00 /kg</strong> for 6,000 kg (Retail Ready)",
+    counterRate: 13.00,
+    lockRateText: "Lock 35% Escrow (₹ 13.00/kg)",
     messages: [
-      { type: "incoming", text: "Hello sir, my 60 Qt Narayangaon hybrid tomato harvest has 82% firmness index, packed in sanitized returnable crates." },
-      { type: "outgoing", text: "Hi Sanjay ji, what is your best floor price for the entire 60 Qt lot?" },
-      { type: "incoming", text: "I can offer ₹ 13/kg direct farm-gate price if payment is routed through AgriNex Smart Escrow." }
+      { type: "incoming", text: "Hello sir, my 6,000 kg Narayangaon hybrid tomato harvest has 82% firmness index, packed in sanitized returnable crates." },
+      { type: "outgoing", text: "Hi Sanjay ji, what is your best floor price for the entire lot?" },
+      { type: "incoming", text: "I can offer ₹ 13.00/kg direct farm-gate price if payment is routed through AgriNex Smart Escrow." }
     ]
   },
   shinde: {
@@ -1031,11 +1031,11 @@ const chatConversations = {
     lotId: "LOT-BAN-03",
     crop: "Grand Naine Banana (GI Khandesh Export)",
     farmerPhone: "+91 98500-11234",
-    offerText: "GI Certified Khandesh: <strong style=\"color: #0c5a36;\">₹ 14.50 /kg</strong> for 120 Qt",
-    counterRate: 1450,
+    offerText: "GI Certified Khandesh: <strong style=\"color: #0c5a36;\">₹ 14.50 /kg</strong> for 12,000 kg",
+    counterRate: 14.50,
     lockRateText: "Lock 35% Escrow (₹ 14.50/kg)",
     messages: [
-      { type: "incoming", text: "Namaskar! 120 Qt Grand Naine bananas harvested at mature green stage with 7-8 hands per bunch ready for reefer transport." },
+      { type: "incoming", text: "Namaskar! 12,000 kg Grand Naine bananas harvested at mature green stage with 7-8 hands per bunch ready for reefer transport." },
       { type: "outgoing", text: "Excellent quality! We need temperature-logged reefer transport at 13.5°C to Navi Mumbai." },
       { type: "incoming", text: "All pre-cooling and foam pad packaging done. Ready for loading at Raver hub." }
     ]
@@ -1323,18 +1323,19 @@ function openBidModal(lotId) {
   const modal = document.getElementById('modal-counter-bid');
   if (!modal) return;
 
-  const kgRate = (lot.priceNum / 100).toFixed(2);
+  const baseKg = lot.pricePerKg || (lot.priceNum ? lot.priceNum / 100 : 18.0);
   const totalKg = (lot.qtyNum * 100).toLocaleString('en-IN');
 
   document.getElementById('bid-modal-crop').textContent = `${lot.crop} (${lot.quantity} • ${totalKg} kg)`;
-  document.getElementById('bid-modal-ask').innerHTML = `Farmer Ask: <strong>${lot.askPrice}</strong> <span style="color: #0c5a36;">(₹ ${kgRate} /kg)</span>`;
+  document.getElementById('bid-modal-ask').innerHTML = `Farmer Ask Price: <strong style="color: #0c5a36;">${lot.askPrice}</strong>`;
   document.getElementById('bid-modal-lot-id').value = lot.id;
 
-  // Suggest a counter price ~6% below ask price
-  const suggestedCounter = Math.round(lot.priceNum * 0.94);
+  // Suggest a counter price ~6% below ask price in ₹/kg
+  const suggestedCounter = (baseKg * 0.94).toFixed(2);
   const counterInput = document.getElementById('counter-bid-price');
   if (counterInput) {
     counterInput.value = suggestedCounter;
+    counterInput.step = "0.10";
   }
   updateBidKgPreview(suggestedCounter);
 
@@ -1344,13 +1345,13 @@ function openBidModal(lotId) {
 function updateBidKgPreview(bidVal) {
   const lotId = document.getElementById('bid-modal-lot-id')?.value;
   const lot = buyerData.verifiedLots.find((l) => l.id === lotId) || buyerData.verifiedLots[0];
-  const num = parseFloat(bidVal) || 0;
-  const kgRate = (num / 100).toFixed(2);
-  const totalCost = Math.round(num * lot.qtyNum);
-  const totalKg = (lot.qtyNum * 100).toLocaleString('en-IN');
+  let num = parseFloat(bidVal) || 0;
+  if (num > 100) num = num / 100; // safety fallback for old quintal inputs
+  const totalKg = (lot.qtyNum * 100);
+  const totalCost = Math.round(num * totalKg);
   const previewEl = document.getElementById('counter-bid-kg-preview');
   if (previewEl) {
-    previewEl.innerHTML = `<span>⚖️ <strong>₹ ${kgRate} /kg</strong> • Total Lot Value: <strong>₹ ${totalCost.toLocaleString('en-IN')}</strong> (${totalKg} kg)</span>`;
+    previewEl.innerHTML = `<span>⚖️ <strong>₹ ${num.toFixed(2)} /kg</strong> • Total Lot Value: <strong>₹ ${totalCost.toLocaleString('en-IN')}</strong> (${totalKg.toLocaleString('en-IN')} kg)</span>`;
   }
 }
 
@@ -1365,18 +1366,20 @@ function openNegotiationModal(lotId, bidPrice) {
   const modal = document.getElementById('modal-negotiation-feedback');
   if (!modal) return;
 
-  const numericPrice = Number(bidPrice) || lot.priceNum;
-  const kgRate = (numericPrice / 100).toFixed(2);
-  const totalKg = (lot.qtyNum * 100).toLocaleString('en-IN');
-  const escrowAdvance = Math.round(lot.qtyNum * numericPrice * 0.35);
+  let numericKg = parseFloat(bidPrice);
+  if (!numericKg || isNaN(numericKg)) numericKg = lot.pricePerKg || (lot.priceNum ? lot.priceNum / 100 : 18.0);
+  if (numericKg > 100) numericKg = numericKg / 100; // normalize if passed in quintal
+
+  const totalKg = lot.qtyNum * 100;
+  const escrowAdvance = Math.round(totalKg * numericKg * 0.35);
 
   currentNegotiation = {
     lotId: lot.id,
     lotCrop: lot.crop,
     farmerName: lot.farmerName,
-    bidPrice: numericPrice,
-    kgPrice: kgRate,
-    totalKg: totalKg,
+    bidPrice: numericKg,
+    kgPrice: numericKg.toFixed(2),
+    totalKg: totalKg.toLocaleString('en-IN'),
     escrowAmount: escrowAdvance
   };
 
@@ -1389,11 +1392,11 @@ function openNegotiationModal(lotId, bidPrice) {
 
   const msgEl = document.getElementById('sim-farmer-msg');
   if (msgEl) {
-    msgEl.innerHTML = `&ldquo;Namaste Karthik sir! I received your counter-bid of <strong>₹ ${numericPrice.toLocaleString('en-IN')}/Qt (₹ ${kgRate}/kg)</strong> for ${lot.quantity} (${totalKg} kg) ${lot.crop}. I am ready to dispatch if you lock the 35% advance escrow (<strong>₹ ${escrowAdvance.toLocaleString('en-IN')}</strong>) today.&rdquo;`;
+    msgEl.innerHTML = `&ldquo;Namaste Karthik sir! I received your counter-bid of <strong>₹ ${numericKg.toFixed(2)} /kg</strong> for ${lot.quantity} (${totalKg.toLocaleString('en-IN')} kg) ${lot.crop}. I am ready to dispatch if you lock the 35% advance escrow (<strong>₹ ${escrowAdvance.toLocaleString('en-IN')}</strong>) today.&rdquo;`;
   }
 
   const rateEl = document.getElementById('sim-agreed-rate');
-  if (rateEl) rateEl.innerHTML = `₹ ${numericPrice.toLocaleString('en-IN')} /Qt <span style="font-size: 0.76rem; color: #166534; font-weight: 700;">(₹ ${kgRate} /kg)</span>`;
+  if (rateEl) rateEl.innerHTML = `₹ ${numericKg.toFixed(2)} /kg`;
 
   const escrowEl = document.getElementById('sim-escrow-amount');
   if (escrowEl) escrowEl.textContent = `₹ ${escrowAdvance.toLocaleString('en-IN')}`;
@@ -2353,10 +2356,10 @@ if (demandForm) {
       tonnage: displayTonnage,
       tonnageNum: numQt,
       unit: "Qt",
-      targetPrice: `₹ ${pricePerKg}/kg (₹ ${pricePerQt.toLocaleString('en-IN')} /Qt)`,
+      targetPrice: `₹ ${pricePerKg}/kg`,
       targetPriceNum: pricePerQt,
       pricePerKg: parseFloat(pricePerKg),
-      mandiBenchmark: `₹ ${(pricePerQt * 1.14 / 100).toFixed(2)}/kg (₹ ${Math.round(pricePerQt * 1.14).toLocaleString('en-IN')} /Qt)`,
+      mandiBenchmark: `₹ ${(pricePerQt * 1.14 / 100).toFixed(2)}/kg`,
       savingsPct: "12.3% Savings",
       location: "Vashi APMC Central Terminal, Navi Mumbai, MH",
       deadline: "28 Sep 2026",
@@ -2380,7 +2383,7 @@ if (demandForm) {
           location: "Lasalgaon APMC Hub (Nashik, MH)",
           rating: "4.9 ⭐",
           offeredQty: `${Math.round(tonnage * 0.4)} ${unit}`,
-          bidPrice: `₹ ${pricePerKg}/kg (₹ ${pricePerQt.toLocaleString('en-IN')} /Qt)`,
+          bidPrice: `₹ ${pricePerKg}/kg`,
           bidPriceNum: pricePerQt,
           pricePerKg: parseFloat(pricePerKg),
           qcScore: "95% (Grade A)",
@@ -2418,7 +2421,7 @@ if (demandForm) {
       
       closeBidModal();
       openNegotiationModal(lotId, bidPrice);
-      showToast(`Counter-offer of ₹ ${bidPrice}/Qt broadcasted to farmer!`);
+      showToast(`Counter-offer of ₹ ${parseFloat(bidPrice).toFixed(2)}/kg broadcasted to farmer!`);
     });
   }
 
@@ -2543,8 +2546,7 @@ function updateDemandPricePreview() {
   const isKg = (unitSelect && unitSelect.value === 'kg');
 
   if (isKg) {
-    const qtEquiv = (rawVal * 100).toLocaleString('en-IN');
-    previewEl.innerHTML = `= <strong>₹ ${qtEquiv} /Qt</strong>`;
+    previewEl.innerHTML = `= <strong>₹ ${rawVal.toFixed(2)} /kg</strong>`;
   } else {
     const kgEquiv = (rawVal / 100).toFixed(2);
     previewEl.innerHTML = `= <strong>₹ ${kgEquiv} /kg</strong>`;
@@ -2903,7 +2905,7 @@ function calculateStorageCostPreview() {
   const rateEl = document.getElementById('storage-rate-display');
   const feeEl = document.getElementById('storage-total-fee-display');
 
-  if (rateEl) rateEl.textContent = `₹ ${monthlyRatePerQt} /Qt /Month (₹ ${(monthlyRatePerQt / 100).toFixed(2)} /kg)`;
+  if (rateEl) rateEl.textContent = `₹ ${(monthlyRatePerQt / 100).toFixed(2)} /kg /month (₹ ${(monthlyRatePerQt / 3000).toFixed(3)} /kg /day)`;
   if (feeEl) feeEl.textContent = `₹ ${totalCost.toLocaleString('en-IN')}`;
 }
 

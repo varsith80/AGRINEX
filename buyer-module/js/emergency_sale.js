@@ -65,31 +65,40 @@ class AgriNexEmergencySale {
     const lot = farmerListings.find(l => l.id === lotId);
     if (!lot) return null;
 
-    // Parse floor price number (e.g., "₹ 1,200 /Qt" -> 1200)
-    const basePrice = parseInt(lot.expectedPrice.replace(/[^0-9]/g, "")) || 1000;
+    // Parse floor price number in ₹/kg
+    let basePricePerKg = 15;
+    if (typeof lot.pricePerKg === 'number') {
+      basePricePerKg = lot.pricePerKg;
+    } else if (lot.expectedPrice) {
+      const match = lot.expectedPrice.match(/([0-9]+(?:\.[0-9]+)?)/);
+      if (match) {
+        let val = parseFloat(match[1]);
+        basePricePerKg = val > 100 ? (val / 100) : val;
+      }
+    }
     
     // Find matching emergency buyers
     const matchingBuyers = EMERGENCY_BUYER_POOL.filter(b => 
       b.acceptedCrops.some(c => lot.crop.toLowerCase().includes(c.toLowerCase())) || b.acceptedCrops.includes("All Perishables")
     );
 
-    // Generate immediate emergency salvage offers ensuring breakeven
+    // Generate immediate emergency salvage offers ensuring breakeven in ₹/kg
     const emergencyOffers = matchingBuyers.map(b => {
-      const offerPrice = Math.round(basePrice * b.autoBidRatio);
+      const offerPriceKg = parseFloat((basePricePerKg * b.autoBidRatio).toFixed(2));
       return {
         buyerId: b.id,
         buyerName: b.name,
         buyerType: b.type,
         icon: b.icon,
         location: b.location,
-        offerPricePerQt: offerPrice,
-        offerPriceFormatted: `₹ ${offerPrice.toLocaleString('en-IN')} /Qt`,
+        offerPricePerKg: offerPriceKg,
+        offerPriceFormatted: `₹ ${offerPriceKg.toFixed(2)} /kg`,
         status: "Active Offer",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
     });
 
-    const bestOffer = emergencyOffers.sort((a, b) => b.offerPricePerQt - a.offerPricePerQt)[0];
+    const bestOffer = emergencyOffers.sort((a, b) => b.offerPricePerKg - a.offerPricePerKg)[0];
 
     // Update lot state
     lot.isEmergencySale = true;
