@@ -52,8 +52,8 @@ function renderBuyerEmergencyDesk() {
     id: d.id,
     crop: `${d.crop} (${d.grade || 'Standard'})`,
     image: d.image.startsWith("../") ? d.image : `../${d.image}`,
-    farmerName: "Ramesh Kumar (Farmer)",
-    mandi: "Erode Yard, TN",
+    farmerName: "Rameshwar Patil (Farmer)",
+    mandi: "Narayangaon / Lasalgaon APMC, Pune, MH",
     quantity: d.quantity,
     floorPrice: d.expectedPrice,
     breakevenPrice: d.bestBid || "₹ 920 /Qt",
@@ -169,6 +169,11 @@ function showToast(message, type = 'success') {
 
 // Modular View Switcher
 function switchView(viewId) {
+  // Alias mapping
+  if (viewId === 'view-marketplace') {
+    viewId = 'view-verified-produce';
+  }
+
   const views = document.querySelectorAll('.portal-view');
   views.forEach((v) => v.classList.remove('active-view'));
 
@@ -186,6 +191,11 @@ function switchView(viewId) {
       item.classList.remove('active');
     }
   });
+
+  // Trigger view-specific initializations
+  if (viewId === 'view-insights' && typeof window.initBuyerMarketInsights === 'function') {
+    window.initBuyerMarketInsights();
+  }
 
   // Scroll to top of main wrapper
   window.scrollTo({ top: 0, behavior: 'smooth' });

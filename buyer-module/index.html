@@ -15,6 +15,9 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
   
+  <!-- Chart.js 4.4.1 for Interactive APMC Market Insights & Forecasting Graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
   <style>
     /* Tab View Display Controller */
     .portal-view {
@@ -325,6 +328,18 @@
             </div>
           </li>
 
+          <li class="nav-item" data-view="view-insights">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <span>Market Insights</span>
+            </div>
+            <span class="badge" style="background: #059669; color: #ffffff; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">AI Intel</span>
+          </li>
+
           <li class="nav-item" data-view="view-calculator">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -437,6 +452,9 @@
             </button>
             <button class="btn btn-outline" style="background: rgba(255,255,255,0.15); color: #ffffff; border-color: rgba(255,255,255,0.3);" onclick="switchView('view-verified-produce')">
               📦 Browse Produce
+            </button>
+            <button class="btn btn-outline" style="background: rgba(255,255,255,0.22); color: #ffffff; border-color: rgba(255,255,255,0.4); font-weight: 700;" onclick="switchView('view-insights')">
+              📈 APMC Insights
             </button>
           </div>
         </section>
@@ -2019,6 +2037,225 @@
 
       </div>
 
+      <!-- VIEW 9: INSTITUTIONAL MARKET INSIGHTS & REAL-TIME APMC ANALYTICS -->
+      <div id="view-insights" class="portal-view dashboard-content">
+        
+        <!-- Header & Live APMC Sync Ribbon -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <h1 class="dash-title" style="margin: 0; font-size: 1.5rem; color: #0c5a36;">Maharashtra APMC Market Insights & AI Hedging</h1>
+              <span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36; font-weight: 800;">e-NAM Live Feed</span>
+            </div>
+            <p class="dash-subtitle" style="margin: 4px 0 0 0;">
+              Real-time APMC mandi modal rates, direct farm-gate arbitrage spreads, arrival volumes across Maharashtra agricultural belts, and AI forward price forecasting.
+            </p>
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <div style="font-size: 0.76rem; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 8px; display: flex; align-items: center; gap: 6px;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block;"></span>
+              <span id="mandi-live-timestamp">Synced: Today at 09:00 AM • e-NAM & APMC Live</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="triggerMandiSync()" style="background: #0c5a36; border-color: #0c5a36; display: flex; align-items: center; gap: 6px; font-weight: 700;">
+              <span id="mandi-sync-icon" style="display: inline-block;">🔄</span>
+              <span>Sync Mandi Rates</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Top KPI Analytical Cards -->
+        <div class="stats-grid" style="margin-bottom: 22px;">
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(12, 90, 54, 0.1); color: #0c5a36;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            </div>
+            <div class="stat-label">Selected Mandi Benchmark Modal</div>
+            <div class="stat-value" id="kpi-insight-modal" style="color: #0c5a36;">₹ 1,850 /Qt</div>
+            <div class="stat-change positive">+4.8% vs last week</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(37, 99, 235, 0.1); color: #2563eb;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="stat-label">Direct Sourcing Arbitrage Spread</div>
+            <div class="stat-value" id="kpi-insight-spread" style="color: #166534;">+16.3%</div>
+            <div class="stat-change positive">Save ₹ 350/Qt vs Vashi Middlemen</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(234, 179, 8, 0.1); color: #ca8a04;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            </div>
+            <div class="stat-label">24h APMC Arrival Inflow</div>
+            <div class="stat-value" id="kpi-insight-arrivals" style="color: #0f172a;">6,850 Qt</div>
+            <div class="stat-change positive">+12.4% vs last week</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div class="stat-label">AI Procurement Sentiment</div>
+            <div class="stat-value" id="kpi-insight-sentiment" style="color: #0c5a36; font-size: 1.15rem;">Bullish</div>
+            <div class="stat-change positive">Index: 82/100 • Export Peak</div>
+          </div>
+        </div>
+
+        <!-- Commodity Selection Carousel / Chips -->
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 0.82rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Select Maharashtra Commodity Benchmark:</span>
+            <span style="font-size: 0.74rem; color: #64748b;">Click crop to inspect APMC historical curves & AI 7-day projection</span>
+          </div>
+          <div id="insight-produce-chips" style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px;">
+            <!-- Rendered dynamically by insights.js renderProduceSelectorChips() -->
+          </div>
+        </div>
+
+        <!-- Interactive APMC Price Chart & AI Forecast Card -->
+        <div class="card" style="padding: 22px; margin-bottom: 24px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; border-bottom: 1px solid #f1f5f9; padding-bottom: 14px;">
+            <div>
+              <h2 id="insight-chart-title" style="font-size: 1.2rem; font-weight: 800; color: #0c5a36; margin: 0;">
+                🧅 Red Onion (Lasalgaon Garwa) • Mandi Rate Trends & AI Projection
+              </h2>
+              <div id="insight-chart-sub" style="font-size: 0.78rem; color: #64748b; margin-top: 3px;">
+                Primary Hub: Lasalgaon APMC (Nashik) • 24h Modal: ₹ 1,850 /Qt
+              </div>
+            </div>
+
+            <!-- Controls: Timeframe + Unit Toggle (Qt / kg) -->
+            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              
+              <!-- Timeframe Selector -->
+              <div style="background: #f1f5f9; padding: 3px; border-radius: 8px; display: flex; gap: 2px;">
+                <button class="insight-tf-btn active" data-tf="7D" onclick="setInsightTimeframe('7D')" style="background: #0c5a36; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">7D</button>
+                <button class="insight-tf-btn" data-tf="1M" onclick="setInsightTimeframe('1M')" style="background: transparent; color: #475569; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">1M</button>
+                <button class="insight-tf-btn" data-tf="3M" onclick="setInsightTimeframe('3M')" style="background: transparent; color: #475569; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">3M</button>
+                <button class="insight-tf-btn" data-tf="1Y" onclick="setInsightTimeframe('1Y')" style="background: transparent; color: #475569; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">1Y</button>
+              </div>
+
+              <!-- Price Unit Toggle -->
+              <div style="background: #f1f5f9; padding: 3px; border-radius: 8px; display: flex; gap: 2px;">
+                <button id="insight-unit-qt" class="active" onclick="setInsightPriceUnit('qt')" style="background: #0c5a36; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">₹/Qt</button>
+                <button id="insight-unit-kg" onclick="setInsightPriceUnit('kg')" style="background: transparent; color: #475569; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">₹/kg</button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Chart Canvas Container -->
+          <div style="position: relative; height: 340px; width: 100%;">
+            <canvas id="buyer-insight-chart"></canvas>
+          </div>
+
+          <!-- Legend Bar & Indicator Explanation -->
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #f1f5f9; font-size: 0.74rem; color: #64748b;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 3px; background: #0c5a36; display: inline-block;"></span> Mandi Modal (Realized)</span>
+              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 3px; background: #2563eb; border-top: 2px dashed #2563eb; display: inline-block;"></span> AI 7-Day Forward Forecast</span>
+              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 2px; background: rgba(239, 68, 68, 0.6); display: inline-block;"></span> Mandi Ceiling</span>
+              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 2px; background: rgba(16, 185, 129, 0.6); display: inline-block;"></span> Mandi Floor</span>
+            </div>
+            <div>
+              <span>⚡ Model trained on 5-year APMC arrivals, weather indices & diesel freight data</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2-Column Section: Supply Inflow Belts & AI Procurement Hedging Advisory -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+          
+          <!-- Left: Maharashtra Supply Inflow Heatmap -->
+          <div class="card" style="padding: 20px;">
+            <div class="card-header" style="margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;">
+              <h3 class="card-title" style="font-size: 1.05rem;">
+                <span>🚚</span>
+                <span>Maharashtra Sourcing Belts & Inflow Pressure</span>
+              </h3>
+              <span class="badge badge-grade-a">Live Volume</span>
+            </div>
+            <div id="supply-inflow-container">
+              <!-- Rendered dynamically by insights.js renderSupplyInflowHeatmap() -->
+            </div>
+          </div>
+
+          <!-- Right: AI Sourcing Advisory & Arbitrage Strategy -->
+          <div class="card" style="padding: 20px;">
+            <div class="card-header" style="margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;">
+              <h3 class="card-title" style="font-size: 1.05rem;">
+                <span>🛡️</span>
+                <span>AI Procurement Strategy & Direct Hedging</span>
+              </h3>
+              <span class="badge" style="background: #e0e7ff; color: #3730a3; font-weight: 800; font-size: 0.72rem;">Zero Middlemen</span>
+            </div>
+            <div id="ai-advisory-container">
+              <!-- Rendered dynamically by insights.js renderAiProcurementAdvisories() -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Full Maharashtra APMC Mandis Real-Time Benchmark Table -->
+        <div class="card" style="padding: 20px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 16px;">
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">
+                🏛️ Maharashtra APMC Mandis Live Auction Benchmark Table
+              </h3>
+              <p style="font-size: 0.78rem; color: #64748b; margin: 3px 0 0 0;">
+                Compare major regulated mandis (Lasalgaon, Narayangaon, Raver, Latur, Katol, Sangli, Pandharpur, Pimpalgaon, Kolhapur, Solapur) vs Direct Farm Sourcing.
+              </p>
+            </div>
+
+            <!-- Table Filters: Search & District -->
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <input type="text" id="mandi-search-input" placeholder="Search mandi, crop, or district..." oninput="handleMandiTableSearch(this.value)" style="padding: 8px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.82rem; outline: none; width: 220px;" />
+              
+              <select id="mandi-district-filter" onchange="filterMandiDistrict(this.value)" style="padding: 8px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.82rem; outline: none; background: #ffffff;">
+                <option value="all">All Districts (Maharashtra)</option>
+                <option value="Nashik">Nashik (Onion / Grapes / Tomato)</option>
+                <option value="Pune">Pune (Tomato / Vegetables)</option>
+                <option value="Jalgaon">Jalgaon (Banana / Lime)</option>
+                <option value="Latur">Latur (Soybean / Pulses)</option>
+                <option value="Nagpur">Nagpur (Orange / Citrus)</option>
+                <option value="Sangli">Sangli (Turmeric / Grapes)</option>
+                <option value="Solapur">Solapur (Pomegranate / Onion)</option>
+                <option value="Amravati">Amravati (Cotton / Orange)</option>
+                <option value="Kolhapur">Kolhapur (Jaggery / Veg)</option>
+                <option value="Ratnagiri">Ratnagiri (Alphonso Mango)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>APMC Mandi & Crop</th>
+                  <th>Arrival Volume (Qt & kg)</th>
+                  <th>Min Price</th>
+                  <th>Modal Price (Live)</th>
+                  <th>Max Price</th>
+                  <th>Direct Arbitrage (Spread)</th>
+                  <th style="text-align: right;">Sourcing Actions</th>
+                </tr>
+              </thead>
+              <tbody id="insights-mandis-tbody">
+                <!-- Rendered dynamically by insights.js renderMaharashtraMandisTable() -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+
     </main>
 
   </div>
@@ -3042,6 +3279,7 @@
   <script src="js/emergency_sale.js"></script>
   <script src="js/charts.js"></script>
   <script src="js/calculator.js"></script>
+  <script src="js/insights.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>
