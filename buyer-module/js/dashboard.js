@@ -6,10 +6,10 @@
 const DEFAULT_EMERGENCY_FEED = [
   {
     id: "EMG-LOT-TOM-99",
-    crop: "Shimla Tomatoes (Perishable)",
+    crop: "Narayangaon Tomatoes (Perishable)",
     image: "../farmer-module/assets/images/tomato.jpg",
-    farmerName: "Ramesh Kumar",
-    mandi: "Erode Mandi Yard, TN",
+    farmerName: "Sanjay Deshmukh",
+    mandi: "Manchar / Narayangaon Yard, Pune, MH",
     quantity: "45 Qt",
     floorPrice: "₹ 1,200 /Qt",
     breakevenPrice: "₹ 890 /Qt",
@@ -21,13 +21,13 @@ const DEFAULT_EMERGENCY_FEED = [
   },
   {
     id: "EMG-LOT-ONI-88",
-    crop: "Bellary Red Onion Lot",
+    crop: "Nashik Garwa Red Onion Lot",
     image: "../farmer-module/assets/images/onion.jpg",
-    farmerName: "Murugan Selvam",
-    mandi: "Dindigul Yard, TN",
+    farmerName: "Patil Rameshwar",
+    mandi: "Lasalgaon APMC Yard, Nashik, MH",
     quantity: "60 Qt",
-    floorPrice: "₹ 950 /Qt",
-    breakevenPrice: "₹ 710 /Qt",
+    floorPrice: "₹ 1,800 /Qt",
+    breakevenPrice: "₹ 1,350 /Qt",
     targetUse: "Bulk Kitchen Catering",
     targetUseBadge: "buyer-type-caterer",
     targetIcon: "🍲",
@@ -959,141 +959,127 @@ function refreshDemandMatches() {
 
 // Chat Messaging Data Store & Functionality (Dynamic for ALL Marketplace Farmers)
 const chatConversations = {
-  gowran: {
-    name: "gowran",
+  patil: {
+    name: "Patil Rameshwar",
     avatar: "assets/images/onion.jpg",
-    status: "● Online • Erode, Tamil Nadu",
+    status: "● Online • Lasalgaon, Nashik, Maharashtra",
     lotId: "LOT-ONI-01",
-    crop: "Onion (Grade A)",
-    farmerPhone: "+91 98422-77102",
-    offerText: "Farmer Ask Rate: <strong style=\"color: #0c5a36;\">₹ 30 /kg</strong> (₹ 3,000/Qt) for 15 kg (Near APMC Mandi)",
-    counterRate: 3000,
-    lockRateText: "Lock 35% Escrow (₹ 30/kg)",
+    crop: "Red Onion (Nashik Garwa Quality)",
+    farmerPhone: "+91 98220-44911",
+    offerText: "Farmer Ask Rate: <strong style=\"color: #0c5a36;\">₹ 18 /kg</strong> (₹ 1,800/Qt) for 100 Qt (Lasalgaon APMC Gate)",
+    counterRate: 1800,
+    lockRateText: "Lock 35% Escrow (₹ 18/kg)",
     messages: [
-      { type: "incoming", text: "Vanakkam Karthik sir! I have 15 kg export-graded red onions ready at Erode APMC gate." },
-      { type: "outgoing", text: "Hello gowran! We are looking for immediate institutional dispatch. Can you load today?" },
-      { type: "incoming", text: "Yes sir, weighing is completed. Once advance escrow is confirmed, truck can move immediately." }
+      { type: "incoming", text: "Namaste Karthik sir! I have 100 Qt export-graded Garwa red onions cured and ready at Lasalgaon APMC yard." },
+      { type: "outgoing", text: "Hello Patil ji! We are looking for immediate institutional dispatch to Navi Mumbai Terminal. Can you load today?" },
+      { type: "incoming", text: "Yes sir, weighing is completed on electronic weighbridge. Once 35% advance escrow is locked, truck can move immediately via Samruddhi Expressway." }
     ]
   },
-  raman: {
-    name: "S. Raman",
+  deshmukh: {
+    name: "Sanjay Deshmukh",
     avatar: "assets/images/tomato.jpg",
-    status: "● Online • Perundurai, Erode (2.4 km away)",
+    status: "● Online • Manchar, Pune (18 km away)",
     lotId: "LOT-TOM-02",
-    crop: "Roma Plum Tomato (Firm & Red)",
-    farmerPhone: "+91 94431-22901",
-    offerText: "Farmer countered at <strong style=\"color: #0c5a36;\">₹ 24 /kg</strong> (₹ 2,400/Qt) for 500 kg (Retail Ready)",
-    counterRate: 2400,
-    lockRateText: "Lock 35% Escrow (₹ 24/kg)",
+    crop: "Tomato (Shivam / Abhinav Hybrid)",
+    farmerPhone: "+91 98224-33100",
+    offerText: "Farmer countered at <strong style=\"color: #0c5a36;\">₹ 13 /kg</strong> (₹ 1,300/Qt) for 60 Qt (Retail Ready)",
+    counterRate: 1300,
+    lockRateText: "Lock 35% Escrow (₹ 13/kg)",
     messages: [
-      { type: "incoming", text: "Hello sir, my 500 kg Roma Plum harvest has 82% firmness index, perfect for retail packing." },
-      { type: "outgoing", text: "Hi Raman, what is your floor price for full 500 kg lot?" },
-      { type: "incoming", text: "I can offer ₹ 24/kg direct farm-gate price if payment is through AgriNex Escrow." }
+      { type: "incoming", text: "Hello sir, my 60 Qt Narayangaon hybrid tomato harvest has 82% firmness index, packed in sanitized returnable crates." },
+      { type: "outgoing", text: "Hi Sanjay ji, what is your best floor price for the entire 60 Qt lot?" },
+      { type: "incoming", text: "I can offer ₹ 13/kg direct farm-gate price if payment is routed through AgriNex Smart Escrow." }
     ]
   },
-  selvaraj: {
-    name: "K. Selvaraj",
-    avatar: "assets/images/tomato.jpg",
-    status: "● Online • Bhavani, Erode (4.1 km away)",
-    lotId: "LOT-TOM-03",
-    crop: "Organic Country Tomato (Naatu Thakkali)",
-    farmerPhone: "+91 97890-33412",
-    offerText: "Certified 100% Organic • Ask: <strong style=\"color: #0c5a36;\">₹ 32 /kg</strong> for 350 kg",
-    counterRate: 3200,
-    lockRateText: "Lock 35% Escrow (₹ 32/kg)",
+  shinde: {
+    name: "Rajesh Shinde",
+    avatar: "assets/images/banana.jpg",
+    status: "● Online • Raver, Jalgaon (Khandesh Banana Belt)",
+    lotId: "LOT-BAN-03",
+    crop: "Grand Naine Banana (GI Khandesh Export)",
+    farmerPhone: "+91 98500-11234",
+    offerText: "GI Certified Khandesh: <strong style=\"color: #0c5a36;\">₹ 14.50 /kg</strong> for 120 Qt",
+    counterRate: 1450,
+    lockRateText: "Lock 35% Escrow (₹ 14.50/kg)",
     messages: [
-      { type: "incoming", text: "Greetings Karthik! We have NPOP organic certified Naatu Thakkali harvest ready." },
-      { type: "outgoing", text: "Great quality! We need digital test reports for residue certification." },
-      { type: "incoming", text: "All lab assay slips uploaded on AgriNex ledger. Ready for dispatch!" }
+      { type: "incoming", text: "Namaskar! 120 Qt Grand Naine bananas harvested at mature green stage with 7-8 hands per bunch ready for reefer transport." },
+      { type: "outgoing", text: "Excellent quality! We need temperature-logged reefer transport at 13.5°C to Navi Mumbai." },
+      { type: "incoming", text: "All pre-cooling and foam pad packaging done. Ready for loading at Raver hub." }
     ]
   },
-  dhanapal: {
-    name: "M. Dhanapal",
-    avatar: "assets/images/tomato.jpg",
-    status: "● Online • Sathyamangalam (11.6 km away)",
-    lotId: "LOT-TOM-04",
-    crop: "Hybrid Red Salad Tomato – Bulk Harvest",
-    farmerPhone: "+91 98421-55890",
-    offerText: "Bulk Harvest: <strong style=\"color: #0c5a36;\">₹ 20 /kg</strong> for 2,000 kg",
-    counterRate: 2000,
-    lockRateText: "Lock 35% Escrow (₹ 20/kg)",
-    messages: [
-      { type: "incoming", text: "Vanakkam! 2,000 kg bulk tomato ready for institutional kitchen procurement." }
-    ]
-  },
-  muthusamy: {
-    name: "Muthusamy Soundar",
-    avatar: "assets/images/onion.jpg",
-    status: "● Online • Perundurai, Erode (2.8 km away)",
-    lotId: "LOT-ONI-05",
-    crop: "Premium Bellary Big Red Onion",
-    farmerPhone: "+91 94433-88190",
-    offerText: "Export Quality: <strong style=\"color: #0c5a36;\">₹ 32 /kg</strong> for 5,000 kg (50 Qt)",
-    counterRate: 3200,
-    lockRateText: "Lock 35% Escrow (₹ 32/kg)",
-    messages: [
-      { type: "incoming", text: "Namaste sir, 50 Qt (5,000 kg) cured big red onion lot available for immediate dispatch." }
-    ]
-  },
-  revathi: {
-    name: "Revathi Balan",
-    avatar: "assets/images/onion.jpg",
-    status: "● Online • Anthiyur, Erode (15.2 km away)",
-    lotId: "LOT-ONI-06",
-    crop: "Sambar Shallots (Small Country Onion)",
-    farmerPhone: "+91 97892-44102",
-    offerText: "Traditional Sambar Grade: <strong style=\"color: #0c5a36;\">₹ 65 /kg</strong> for 600 kg",
-    counterRate: 6500,
-    lockRateText: "Lock 35% Escrow (₹ 65/kg)",
-    messages: [
-      { type: "incoming", text: "Hello Karthik sir, premium Anthiyur shallots graded and bagged in 25kg mesh sacks." }
-    ]
-  },
-  kavitha: {
-    name: "Kavitha Rajan",
+  jadhav: {
+    name: "Anandrao Jadhav",
     avatar: "assets/images/wheat-logo.png",
-    status: "● Online • Salem (32 km away)",
-    lotId: "LOT-TUR-07",
-    crop: "Salem Turmeric Finger (High Curcumin)",
-    farmerPhone: "+91 94432-88190",
-    offerText: "Organic Desi A2: <strong style=\"color: #0c5a36;\">₹ 74 /kg</strong> for 2,500 kg",
-    counterRate: 7400,
-    lockRateText: "Lock 35% Escrow (₹ 74/kg)",
+    status: "● Online • Latur Mega APMC Silo Yard",
+    lotId: "LOT-SOY-04",
+    crop: "Yellow Soybean (JS 335 / High Protein)",
+    farmerPhone: "+91 98231-55890",
+    offerText: "FPO Bulk Single-Origin: <strong style=\"color: #0c5a36;\">₹ 42 /kg</strong> for 150 Qt",
+    counterRate: 4200,
+    lockRateText: "Lock 35% Escrow (₹ 42/kg)",
     messages: [
-      { type: "incoming", text: "Vanakkam! 25 Qt (2,500 kg) cured turmeric fingers with 4.8% curcumin content ready." }
+      { type: "incoming", text: "Greetings Karthik! Latur FPO has 150 Qt clean JS-335 soybean with 19% oil content ready in 50kg jute bags." }
     ]
   },
-  venkatesh: {
-    name: "Venkatesh Rao",
-    avatar: "assets/images/paddy.jpg",
-    status: "● Online • Karnal, HR ~ Direct Express Line",
-    lotId: "LOT-PAD-08",
-    crop: "1121 Basmati Paddy (Aromatic Long Grain)",
-    farmerPhone: "+91 98120-33410",
-    offerText: "Aged 1 Year: <strong style=\"color: #0c5a36;\">₹ 24 /kg</strong> for 12,000 kg (120 Qt)",
-    counterRate: 2400,
-    lockRateText: "Lock 35% Escrow (₹ 24/kg)",
+  thorat: {
+    name: "Kavita Thorat",
+    avatar: "assets/images/turmeric.jpg",
+    status: "● Online • Sangli APMC (Turmeric Market)",
+    lotId: "LOT-TUR-06",
+    crop: "Sangli Rajapuri Turmeric Finger",
+    farmerPhone: "+91 98228-88190",
+    offerText: "Lab Tested Curcumin 4.8%: <strong style=\"color: #0c5a36;\">₹ 135 /kg</strong> for 50 Qt",
+    counterRate: 13500,
+    lockRateText: "Lock 35% Escrow (₹ 135/kg)",
     messages: [
-      { type: "incoming", text: "Hello sir, 120 Qt 1121 Basmati paddy stored in moisture-controlled silos ready for train/container haulage." }
+      { type: "incoming", text: "Namaste sir, 50 Qt double-polished Rajapuri turmeric fingers available for direct institutional spice procurement." }
     ]
   },
-  kaliamurthi: {
-    name: "Kaliamurthi R",
+  wankhede: {
+    name: "Vikas Wankhede",
+    avatar: "assets/images/orange.jpg",
+    status: "● Online • Katol, Nagpur (Vidarbha Citrus)",
+    lotId: "LOT-ORG-05",
+    crop: "Nagpur Orange / Santra (GI Vidarbha Quality)",
+    farmerPhone: "+91 98222-33104",
+    offerText: "GI Table Fruit: <strong style=\"color: #0c5a36;\">₹ 38 /kg</strong> for 80 Qt",
+    counterRate: 3800,
+    lockRateText: "Lock 35% Escrow (₹ 38/kg)",
+    messages: [
+      { type: "incoming", text: "Hello Karthik sir, fresh harvest Nagpur mandarins graded by electronic weight sizer ready at Katol packhouse." }
+    ]
+  },
+  chavan: {
+    name: "Sunil Chavan",
+    avatar: "assets/images/pomegranate.jpg",
+    status: "● Online • Pandharpur, Solapur (Pomegranate Belt)",
+    lotId: "LOT-POM-07",
+    crop: "Bhagwa Pomegranate (Solapur Export Grade)",
+    farmerPhone: "+91 98226-44102",
+    offerText: "Deep Red Arils: <strong style=\"color: #0c5a36;\">₹ 88 /kg</strong> for 40 Qt",
+    counterRate: 8800,
+    lockRateText: "Lock 35% Escrow (₹ 88/kg)",
+    messages: [
+      { type: "incoming", text: "Namaskar! 40 Qt export-grade Bhagwa pomegranates (250g+ fruit weight) boxed in 10kg corrugated cartons." }
+    ]
+  },
+  more: {
+    name: "Balasaheb More",
     avatar: "assets/images/cotton.jpg",
-    status: "● Online • Guntur, AP ~ Cotton Yard Hub",
-    lotId: "LOT-COT-09",
-    crop: "Long Staple Cotton (MCU-5 Fiber)",
-    farmerPhone: "+91 98480-11234",
-    offerText: "Grade A Export: <strong style=\"color: #0c5a36;\">₹ 56 /kg</strong> for 4,000 kg (40 Qt)",
-    counterRate: 5600,
-    lockRateText: "Lock 35% Escrow (₹ 56/kg)",
+    status: "● Online • Amravati APMC (Vidarbha Cotton Yard)",
+    lotId: "LOT-COT-08",
+    crop: "Raw Cotton (Vidarbha Long Staple)",
+    farmerPhone: "+91 98225-77890",
+    offerText: "Staple >29mm: <strong style=\"color: #0c5a36;\">₹ 62 /kg</strong> for 90 Qt",
+    counterRate: 6200,
+    lockRateText: "Lock 35% Escrow (₹ 62/kg)",
     messages: [
-      { type: "incoming", text: "Greetings! 40 Qt MCU-5 pressed cotton bales ready for institutional textile sourcing." }
+      { type: "incoming", text: "Greetings! 90 Qt long staple cotton pressed bales ready for institutional textile & ginning delivery." }
     ]
   }
 };
 
-let activeChatKey = 'gowran';
+let activeChatKey = 'patil';
 
 // Render Dynamic Chat Sidebar with all active farmers
 function renderChatSidebar() {
@@ -1419,7 +1405,7 @@ function initLocationSwitcher() {
   const locText = document.getElementById('buyer-location-text');
   if (!locBtn || !locText) return;
 
-  const locations = ["Hosur Hub, TN", "Navi Mumbai Hub", "Kolar Hub, KA", "Guntur Yard, AP", "Azadpur Terminal, DL"];
+  const locations = ["Vashi Terminal, Navi Mumbai (MH)", "Pune APMC Central Hub, MH", "Nashik-Lasalgaon Yard, MH", "Nagpur Multi-Modal Terminal, MH", "Kolhapur Shahu Market Yard, MH", "Latur Mega Yard, MH"];
   let currIdx = 0;
 
   locBtn.addEventListener('click', () => {

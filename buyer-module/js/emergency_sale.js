@@ -6,36 +6,36 @@
 const EMERGENCY_BUYER_POOL = [
   {
     id: "EMG_BUYER_01",
-    name: "Sri Balaji Food Processing & Purees",
+    name: "Sahyadri Mega Food Processing & Purees",
     type: "Food Processing Unit",
     typeBadge: "buyer-type-processing",
     icon: "🥫",
-    location: "Erode SIPCOT, TN",
-    acceptedCrops: ["Tomato", "Onion", "Mango", "Chilli"],
+    location: "Nashik Dindori Mega Food Park, MH",
+    acceptedCrops: ["Tomato", "Onion", "Mango", "Chilli", "Grapes"],
     autoBidRatio: 0.72, // 72% of farmer floor to ensure breakeven recovery
     rating: "4.9 ★",
     paymentTime: "Instant 1-Hour Escrow"
   },
   {
     id: "EMG_BUYER_02",
-    name: "Annapoorna Institutional Catering Network",
+    name: "Maharashtra Institutional Catering Network",
     type: "Commercial Caterers",
     typeBadge: "buyer-type-caterer",
     icon: "🍲",
-    location: "Coimbatore Industrial Zone, TN",
-    acceptedCrops: ["Tomato", "Onion", "Potato", "Paddy", "Vegetables"],
+    location: "Pune Baramati MIDC Food Zone, MH",
+    acceptedCrops: ["Tomato", "Onion", "Potato", "Soybean", "Vegetables"],
     autoBidRatio: 0.75, // 75% breakeven recovery
     rating: "4.8 ★",
     paymentTime: "Instant 30-Min Escrow"
   },
   {
     id: "EMG_BUYER_03",
-    name: "GreenEarth Organic Bio-Compost & Fertilizer Corp",
+    name: "GreenEarth Bio-Energy & Agro Compost Corp",
     type: "Compost & Bio-Energy Manufacturer",
     typeBadge: "buyer-type-compost",
     icon: "🌱",
-    location: "Salem Agricultural Park, TN",
-    acceptedCrops: ["Tomato", "Onion", "Paddy", "Cotton", "Vegetables", "All Perishables"],
+    location: "Chhatrapati Sambhaji Nagar Agro Park, MH",
+    acceptedCrops: ["Tomato", "Onion", "Cotton", "Soybean", "Vegetables", "All Perishables"],
     autoBidRatio: 0.65, // 65% breakeven baseline
     rating: "5.0 ★",
     paymentTime: "Instant Mandi Clearance"
