@@ -460,6 +460,10 @@ function renderVerifiedLots(lotsToRender = null) {
                 <div class="lot-top-badges">
                   <span class="lot-badge-farmer-tag">🌿 Farmer</span>
                   <span class="lot-badge-grade-tag">${gradeText}</span>
+                  <label style="margin-left: auto; background: rgba(0,0,0,0.65); color: #ffffff; padding: 2px 8px; border-radius: 6px; font-size: 0.68rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px);" onclick="event.stopPropagation()">
+                    <input type="checkbox" class="lot-compare-checkbox" data-lot-id="${lot.id}" onchange="toggleLotComparison('${lot.id}', event)" style="cursor: pointer;" />
+                    <span>⚖️ Compare</span>
+                  </label>
                 </div>
 
                 <!-- Bottom Price & Quantity Overlay -->
@@ -938,11 +942,15 @@ function sourceFromMarketplaceForDemand(cropName) {
 
 // Download Individual PO
 function downloadPurchaseOrder(demandId) {
-  const demand = buyerData.buyerDemands.find(d => d.id === demandId) || { crop: 'Produce Quota' };
-  showToast(`Generating official Purchase Order (PO #${demandId}) PDF with digital stamp...`);
-  setTimeout(() => {
-    showToast(`✓ PO #${demandId} (${demand.crop}) downloaded successfully!`);
-  }, 750);
+  const demand = (buyerData && buyerData.buyerDemands) ? buyerData.buyerDemands.find(d => d.id === demandId) : null;
+  if (window.generateAndOpenPO) {
+    const cropName = demand ? demand.crop : 'Red Onion (Lasalgaon Garwa Export)';
+    const qtyText = demand ? `${demand.totalQuantityQt} Qt (${(demand.totalQuantityQt * 100).toLocaleString('en-IN')} kg)` : '50 Qt (5,000 kg)';
+    const totalVal = demand ? Math.round(demand.totalQuantityQt * demand.targetPriceNum) : 90000;
+    window.generateAndOpenPO(demandId, cropName, qtyText, 'Patil Rameshwar', totalVal);
+  } else {
+    showToast(`Generating official Purchase Order (PO #${demandId}) PDF with digital stamp...`);
+  }
 }
 
 // Download All POs
@@ -1985,6 +1993,10 @@ function openGpsModal(trackingId, vehicle, driver, corridor) {
   if (driverEl) driverEl.textContent = driver || (s ? s.driver : 'Sanjay Shinde');
   if (corridorEl) corridorEl.textContent = corridor || (s ? s.loc : 'Nashik-Mumbai Samruddhi Expressway');
 
+  if (window.renderGpsRouteVisualizer) {
+    window.renderGpsRouteVisualizer(trackingId || (s ? s.tracking_id : 'TRK-EXP-9921-MH'));
+  }
+
   modal.classList.add('active');
 }
 
@@ -2729,10 +2741,10 @@ function renderStorageFacilities(filterType = 'all') {
           </div>
 
           <div style="display: flex; gap: 8px;">
-            <button class="btn btn-outline btn-sm" onclick="showToast('Calling Hub Manager ${f.manager}...', 'info')" style="flex: 1;" title="${f.manager}">
-              📞 Contact
+            <button class="btn btn-outline btn-sm" onclick="if (window.renderChamberVisualizerForFacility) { window.renderChamberVisualizerForFacility('${f.id}'); showToast('Inspecting 2D chamber slots for ${f.name}...'); }" style="flex: 1; font-size: 0.76rem;" title="Inspect Individual Chamber Slots">
+              🔍 Chambers
             </button>
-            <button class="btn btn-primary btn-sm" onclick="openBookStorageModal('${f.id}')" style="flex: 2; background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
+            <button class="btn btn-primary btn-sm" onclick="openBookStorageModal('${f.id}')" style="flex: 1.4; background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
               ❄️ Book Space
             </button>
           </div>
@@ -2740,6 +2752,10 @@ function renderStorageFacilities(filterType = 'all') {
       </div>
     `;
   }).join('');
+
+  if (window.renderChamberVisualizerForFacility) {
+    window.renderChamberVisualizerForFacility(facilities[0]?.id || 'WH-NSK-01');
+  }
 }
 
 function renderStorageBookings() {

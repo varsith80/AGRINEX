@@ -2035,6 +2035,23 @@
           <!-- Dynamically populated via dashboard.js renderStorageFacilities() -->
         </div>
 
+        <!-- 2D Chamber & Silo Slot Visualizer Section -->
+        <div class="card" style="padding: 20px; margin-top: 24px;">
+          <div class="card-header" style="margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="card-title" style="font-size: 1.05rem; color: #0c5a36;">
+              <span>❄️</span>
+              <span>Interactive Chamber & Hermetic Silo Slot Visualizer</span>
+            </h3>
+            <span class="badge badge-grade-a">Live IoT Chamber Telemetry</span>
+          </div>
+          <p style="font-size: 0.8rem; color: #64748b; margin-top: 0; margin-bottom: 14px;">
+            Select real-time individual storage chambers with live sensor readings (Temperature, Humidity RH, and available capacity) to book specific slots instantly.
+          </p>
+          <div id="facility-chambers-visualizer">
+            <!-- Rendered dynamically by copilot.js renderChamberVisualizerForFacility() -->
+          </div>
+        </div>
+
       </div>
 
       <!-- VIEW 9: INSTITUTIONAL MARKET INSIGHTS & REAL-TIME APMC ANALYTICS -->
@@ -2812,6 +2829,14 @@
         </div>
       </div>
 
+      <!-- Live Corridor Checkpoints & Fastag Waypoints -->
+      <div style="margin-bottom: 16px;">
+        <strong style="font-size: 0.85rem; color: #0f172a; display: block; margin-bottom: 10px;">Corridor Route & Checkpoints Telemetry:</strong>
+        <div id="gps-route-checkpoints-container">
+          <!-- Rendered dynamically by copilot.js renderGpsRouteVisualizer() -->
+        </div>
+      </div>
+
       <div style="display: flex; gap: 10px;">
         <button class="btn btn-outline" onclick="showToast('Calling driver Sanjay Patil (+91 98220-44911)...', 'info')" style="flex: 1;">
           📞 Call Driver
@@ -3274,12 +3299,180 @@
     </div>
   </div>
 
+  <!-- MODAL 13: AI SOURCING COPILOT & ARBITRAGE HUNTER -->
+  <div class="modal-overlay" id="modal-ai-copilot">
+    <div class="modal-content" style="max-width: 720px; width: 95%;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #0c5a36 0%, #166534 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+            🤖
+          </div>
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #0c5a36; margin: 0;">AgriNex AI Sourcing Copilot</h3>
+            <span style="font-size: 0.75rem; color: #64748b;">Instant Maharashtra Mandi Arbitrage & Direct Sourcing Hunter</span>
+          </div>
+        </div>
+        <button onclick="closeCopilotModal()" style="font-size: 1.3rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Search Input Form -->
+      <form onsubmit="handleCopilotSubmit(event)" style="display: flex; gap: 8px; margin-bottom: 16px;">
+        <input type="text" id="copilot-query-input" class="form-input" placeholder="e.g. Find best onion arbitrage in Lasalgaon or emergency salvage lots..." style="flex: 1; font-size: 0.9rem;" />
+        <button type="submit" class="btn btn-primary" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700; padding: 0 18px;">
+          ⚡ Ask AI
+        </button>
+      </form>
+
+      <!-- Response Container -->
+      <div id="copilot-response-container" style="max-height: 480px; overflow-y: auto;">
+        <!-- Rendered dynamically via copilot.js renderCopilotDefault() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 14: ENTERPRISE DIGITAL PURCHASE ORDER (PO) & TAX INVOICE -->
+  <div class="modal-overlay" id="modal-digital-po">
+    <div class="modal-content" style="max-width: 740px; width: 95%;">
+      <div class="no-print" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.2rem;">📄</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">Enterprise Digital Purchase Order & Tax Invoice</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn btn-primary btn-sm" onclick="printDigitalPO()" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
+            🖨️ Print / Save PDF
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeDigitalPOModal()">✕ Close</button>
+        </div>
+      </div>
+
+      <!-- Printable PO Document Container -->
+      <div style="background: #ffffff; border: 2px solid #0c5a36; border-radius: 10px; padding: 24px; font-size: 0.85rem; color: #0f172a; line-height: 1.5;">
+        <!-- Document Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0c5a36; padding-bottom: 14px; margin-bottom: 16px;">
+          <div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #0c5a36; letter-spacing: -0.5px;">AGRINEX ENTERPRISE</div>
+            <div style="font-size: 0.74rem; color: #64748b;">Direct Farm-to-Enterprise Agricultural Trading Exchange</div>
+            <div style="font-size: 0.72rem; color: #64748b;">GSTIN: 27AABCA1234F1Z5 • FSSAI Lic: 10022022001920</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 1.05rem; font-weight: 800; color: #0f172a;" id="po-doc-number">PO-AGRI-88219-MH</div>
+            <div style="font-size: 0.76rem; color: #64748b;">Date: <strong id="po-doc-date">14 Sep 2026</strong></div>
+            <span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36; font-size: 0.7rem; font-weight: 800; margin-top: 4px; display: inline-block;">✓ Escrow Secured PO</span>
+          </div>
+        </div>
+
+        <!-- Parties Information -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #f8fafc; padding: 14px; border-radius: 8px; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+          <div>
+            <strong style="font-size: 0.76rem; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 4px;">BUYER (ISSUED BY):</strong>
+            <div style="font-weight: 800; color: #0f172a;">BigBasket Wholesale Ltd.</div>
+            <div style="font-size: 0.75rem; color: #475569;">Procurement Lead: Karthik Sundaram</div>
+            <div style="font-size: 0.75rem; color: #475569;">GSTIN: 33AAACI1234F1Z8</div>
+            <div style="font-size: 0.75rem; color: #475569;">Delivery Hub: Vashi APMC Central Terminal, Navi Mumbai</div>
+          </div>
+          <div>
+            <strong style="font-size: 0.76rem; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 4px;">SELLER (FARMER / FPO):</strong>
+            <div style="font-weight: 800; color: #0f172a;" id="po-farmer-name">Patil Rameshwar</div>
+            <div style="font-size: 0.75rem; color: #475569;">Origin: Lasalgaon Mandi Belts, Nashik, Maharashtra</div>
+            <div style="font-size: 0.75rem; color: #475569;">AgriNex Farmer ID: MH-NSK-99214</div>
+            <div style="font-size: 0.75rem; color: #475569;">Settlement Bank: SBI Escrow Direct Pay</div>
+          </div>
+        </div>
+
+        <!-- Line Items Table -->
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 0.82rem;">
+          <thead>
+            <tr style="background: #0c5a36; color: #ffffff;">
+              <th style="padding: 8px 10px; text-align: left;">#</th>
+              <th style="padding: 8px 10px; text-align: left;">Commodity Description</th>
+              <th style="padding: 8px 10px; text-align: right;">Quantity (Qt / kg)</th>
+              <th style="padding: 8px 10px; text-align: right;">Total Valuation (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px;">1</td>
+              <td style="padding: 10px;">
+                <strong id="po-item-crop">Red Onion (Lasalgaon Garwa Export Grade A)</strong>
+                <div style="font-size: 0.72rem; color: #64748b;">Assayed 96% Export Quality • Max 12% Moisture Tolerance</div>
+              </td>
+              <td style="padding: 10px; text-align: right; font-weight: 700;" id="po-item-qty">50 Qt (5,000 kg)</td>
+              <td style="padding: 10px; text-align: right; font-weight: 800; color: #0c5a36;" id="po-total-amount">₹ 90,000</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Escrow Settlement Terms -->
+        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 0.78rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span>35% Advance Escrow Tranche (Locked):</span>
+            <strong style="color: #166534;" id="po-escrow-adv">₹ 31,500 (35% Locked)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>65% Balance on Weighbridge & QC Signoff:</span>
+            <strong style="color: #0c5a36;" id="po-escrow-bal">₹ 58,500 (65% on Delivery)</strong>
+          </div>
+        </div>
+
+        <!-- Authorized Signature & Digital Hash -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid #e2e8f0; padding-top: 14px; font-size: 0.72rem; color: #64748b;">
+          <div>
+            <div>Digitally Sealed via AgriNex Trust Gateway</div>
+            <div>Verification Hash: <code style="color: #0c5a36;">SHA256: 7e2a9b441f928c0d</code></div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-weight: 800; color: #0c5a36; font-size: 0.85rem;">For AgriNex Wholesale Exchange</div>
+            <div style="font-style: italic; color: #475569; margin-top: 4px;">Authorized Electronic Signatory</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 15: SIDE-BY-SIDE MULTI-LOT COMPARATIVE MATRIX -->
+  <div class="modal-overlay" id="modal-lot-comparison">
+    <div class="modal-content" style="max-width: 860px; width: 95%;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.3rem;">⚖️</span>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">Side-by-Side Multi-Lot Comparative Matrix</h3>
+            <span style="font-size: 0.75rem; color: #64748b;">Benchmarking price, landed logistics freight, farmer reliability & escrow requirements</span>
+          </div>
+        </div>
+        <button onclick="closeLotComparisonModal()" style="font-size: 1.3rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Comparison Matrix Table -->
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem;">
+          <tbody id="comparison-matrix-tbody">
+            <!-- Rendered dynamically by copilot.js openLotComparisonModal() -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 14px; margin-top: 16px;">
+        <button type="button" class="btn btn-outline btn-sm" onclick="clearLotComparison(); closeLotComparisonModal();">Clear Selection</button>
+        <button type="button" class="btn btn-outline" onclick="closeLotComparisonModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating AI Sourcing Copilot Trigger Button -->
+  <button id="btn-floating-copilot" class="btn-floating-copilot" onclick="openCopilotModal()">
+    <span>🤖</span>
+    <span>AI Sourcing Copilot</span>
+  </button>
+
   <!-- Scripts -->
   <script src="js/data.js"></script>
   <script src="js/emergency_sale.js"></script>
   <script src="js/charts.js"></script>
   <script src="js/calculator.js"></script>
   <script src="js/insights.js"></script>
+  <script src="js/copilot.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>
