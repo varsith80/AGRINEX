@@ -57,7 +57,7 @@ const buyerData = {
       farmerLocation: "Narayangaon Mandi Yard, Junnar, Pune ~ 3.2 km away",
       farmerRating: "4.9 ⭐",
       farmerPhone: "+91 98224-33100",
-      image: "assets/images/tomato.jpg",
+      image: "assets/images/tomato.jpg?v=2",
       grade: "Grade A",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
@@ -644,7 +644,7 @@ const buyerData = {
       id: "DEM-BB-102",
       crop: "Tomato (Pune Junnar / Narayangaon Hybrid)",
       category: "Vegetables",
-      image: "assets/images/tomato.jpg",
+      image: "assets/images/tomato.jpg?v=2",
       tonnage: "15,000 kg (150 Qt)",
       tonnageNum: 150,
       totalQuantityKg: 15000,
@@ -672,7 +672,7 @@ const buyerData = {
         {
           bidId: "BID-TOM-801",
           farmerName: "Sanjay Deshmukh",
-          farmerAvatar: "assets/images/tomato.jpg",
+          farmerAvatar: "assets/images/tomato.jpg?v=2",
           farmerPhone: "+91 98224-33100",
           location: "Manchar, Pune (18 km away)",
           rating: "4.9 ⭐",
@@ -687,7 +687,7 @@ const buyerData = {
         {
           bidId: "BID-TOM-802",
           farmerName: "Ganesh Walke",
-          farmerAvatar: "assets/images/tomato.jpg",
+          farmerAvatar: "assets/images/tomato.jpg?v=2",
           farmerPhone: "+91 98225-88190",
           location: "Narayangaon, Junnar (24 km away)",
           rating: "4.85 ⭐",
@@ -1097,7 +1097,7 @@ const buyerData = {
       unreadCount: 0,
       lastMsg: "Can you confirm arrival at Gultekdi hub by 2:00 PM?",
       lastTime: "Yesterday",
-      avatar: "assets/images/tomato.jpg",
+      avatar: "assets/images/tomato.jpg?v=2",
       online: false,
       phone: "+91 98224-33100",
       location: "Narayangaon, Junnar",
@@ -1163,7 +1163,7 @@ const buyerData = {
       hasENwrPledge: true,
       rating: "4.95 ⭐",
       manager: "Sanjay Thorat (+91 98224-55102)",
-      image: "assets/images/tomato.jpg"
+      image: "assets/images/tomato.jpg?v=2"
     },
     {
       id: "WH-LAT-03",
