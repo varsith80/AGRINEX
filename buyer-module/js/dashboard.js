@@ -2553,11 +2553,38 @@ function updateDemandPricePreview() {
   }
 }
 
-// ESCROW VAULT INTERACTION & AUDIT HELPERS
+// ESCROW VAULT INTERACTION & AUDIT HELPERS (MULTI-RAIL GATEWAY)
 // ==========================================
+let buyerEscrowState = {
+  activeContracts: 3,
+  committedPool: 204000,
+  advanceLocked: 71400,
+  deliveryHold: 132600,
+  availableLiquidity: 150000,
+  completedSettlements: 580000
+};
+
+function updateEscrowVaultDOM() {
+  const commEl = document.getElementById('vault-committed-pool');
+  const advEl = document.getElementById('vault-advance-locked');
+  const holdEl = document.getElementById('vault-delivery-hold');
+  const resEl = document.getElementById('escrow-liquid-reserves');
+  const settledEl = document.getElementById('escrow-settled-total');
+
+  if (commEl) commEl.textContent = `₹ ${buyerEscrowState.committedPool.toLocaleString('en-IN')}`;
+  if (advEl) advEl.textContent = `₹ ${buyerEscrowState.advanceLocked.toLocaleString('en-IN')}`;
+  if (holdEl) holdEl.textContent = `₹ ${buyerEscrowState.deliveryHold.toLocaleString('en-IN')}`;
+  if (resEl) resEl.textContent = `₹ ${buyerEscrowState.availableLiquidity.toLocaleString('en-IN')}`;
+  if (settledEl) settledEl.textContent = `₹ ${buyerEscrowState.completedSettlements.toLocaleString('en-IN')}`;
+}
+
 function openDepositEscrowModal() {
   const modal = document.getElementById('modal-deposit-escrow');
-  if (modal) modal.classList.add('active');
+  if (modal) {
+    modal.classList.add('active');
+    const amtInput = document.getElementById('escrow-deposit-amount');
+    updateEscrowGatewayAmount((amtInput && amtInput.value) || 50000);
+  }
 }
 
 function closeDepositEscrowModal() {
@@ -2565,17 +2592,203 @@ function closeDepositEscrowModal() {
   if (modal) modal.classList.remove('active');
 }
 
-function handleDepositEscrowSubmit(e) {
+function setEscrowDepositRail(rail) {
+  const rails = ['upi', 'va', 'netbanking'];
+  rails.forEach(r => {
+    const tab = document.getElementById(`rail-tab-${r}`);
+    const panel = document.getElementById(`rail-content-${r}`);
+    if (r === rail) {
+      if (tab) {
+        tab.style.border = '1.5px solid #0c5a36';
+        tab.style.background = '#f0fdf4';
+        tab.style.color = '#0c5a36';
+      }
+      if (panel) panel.style.display = 'block';
+    } else {
+      if (tab) {
+        tab.style.border = '1.5px solid #e2e8f0';
+        tab.style.background = '#ffffff';
+        tab.style.color = '#475569';
+      }
+      if (panel) panel.style.display = 'none';
+    }
+  });
+}
+
+function setEscrowPresetAmount(amount) {
+  const input = document.getElementById('escrow-deposit-amount');
+  if (input) {
+    input.value = amount;
+    updateEscrowGatewayAmount(amount);
+  }
+}
+
+function updateEscrowGatewayAmount(val) {
+  const num = parseFloat(val) || 0;
+  const formatted = `₹ ${num.toLocaleString('en-IN')}`;
+  const labels = document.querySelectorAll('.escrow-dyn-amt-label');
+  labels.forEach(lbl => {
+    lbl.textContent = formatted;
+  });
+}
+
+function selectCorpBank(chipEl, bankName) {
+  const allChips = document.querySelectorAll('.bank-select-chip');
+  allChips.forEach(c => {
+    c.classList.remove('active');
+    c.style.borderColor = '#e2e8f0';
+    c.style.background = '#ffffff';
+    const title = c.querySelector('div');
+    if (title) title.style.color = '#0f172a';
+  });
+
+  if (chipEl) {
+    chipEl.classList.add('active');
+    chipEl.style.borderColor = '#0c5a36';
+    chipEl.style.background = '#f0fdf4';
+    const title = chipEl.querySelector('div');
+    if (title) title.style.color = '#0c5a36';
+    const radio = chipEl.querySelector('input[type="radio"]');
+    if (radio) radio.checked = true;
+  }
+}
+
+function copyEscrowField(text, label) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(`✓ Copied ${label || 'detail'} to clipboard: ${text}`, 'success');
+    }).catch(() => {
+      fallbackCopy(text, label);
+    });
+  } else {
+    fallbackCopy(text, label);
+  }
+}
+
+function fallbackCopy(text, label) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  showToast(`✓ Copied ${label || 'detail'} to clipboard: ${text}`, 'success');
+}
+
+function handleDepositEscrowSubmit(e, railName = 'Instant UPI') {
   if (e) e.preventDefault();
   const amtInput = document.getElementById('escrow-deposit-amount');
   const amount = parseFloat((amtInput && amtInput.value) || 50000);
-  
+
+  if (amount < 1000) {
+    showToast('⚠️ Minimum deposit amount is ₹ 1,000', 'error');
+    return;
+  }
+
   closeDepositEscrowModal();
-  showToast(`🔒 Authorizing RBI Nodal Escrow Virtual Account transfer of ₹ ${amount.toLocaleString('en-IN')}...`);
-  
+
+  // Generate Bank UTR and Txn Ref
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+  const dateStr = `${now.getDate()} ${now.toLocaleString('en-IN', { month: 'short' })} ${now.getFullYear()}, ${timeStr}`;
+  const txnRef = `TXN-ESC-${now.getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+  let bankUtr = '';
+  if (railName.includes('UPI')) {
+    bankUtr = `UPI/${Math.floor(100000000000 + Math.random() * 900000000000)}`;
+  } else if (railName.includes('RTGS') || railName.includes('NEFT')) {
+    bankUtr = `ICICR5202609${Math.floor(100000 + Math.random() * 900000)}`;
+  } else {
+    const selectedBank = document.querySelector('input[name="corp-bank"]:checked')?.value || 'HDFC Bank';
+    bankUtr = `${selectedBank.substring(0, 4).toUpperCase()}000${Math.floor(100000 + Math.random() * 900000)}`;
+  }
+
+  showToast(`🔒 Authorizing ${railName} transfer of ₹ ${amount.toLocaleString('en-IN')}...`);
+
   setTimeout(() => {
-    showToast(`✓ Payment captured! ₹ ${amount.toLocaleString('en-IN')} added to Escrow Liquidity Pool. UTR: ICIC${Math.floor(10000000 + Math.random() * 90000000)}`, 'success');
-  }, 900);
+    // Update State
+    buyerEscrowState.availableLiquidity += amount;
+    buyerEscrowState.committedPool += amount;
+    updateEscrowVaultDOM();
+
+    // Prepend to Escrow Ledger Table
+    const tbody = document.getElementById('escrow-ledger-tbody');
+    if (tbody) {
+      const tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid #f1f5f9';
+      tr.style.background = '#f0fdf4';
+      tr.setAttribute('data-type', 'deposit');
+      tr.innerHTML = `
+        <td style="padding: 12px 14px;">
+          <strong>${txnRef}</strong>
+          <div style="font-size: 0.7rem; color: #64748b;">${dateStr}</div>
+        </td>
+        <td style="padding: 12px 14px;">#TOPUP-VAULT</td>
+        <td style="padding: 12px 14px;">
+          <strong>AgriNex Nodal Trustee</strong>
+          <div style="font-size: 0.7rem; color: #64748b;">ICICI Escrow A/C ••0104</div>
+        </td>
+        <td style="padding: 12px 14px;">Escrow Pool Liquidity</td>
+        <td style="padding: 12px 14px;"><span style="color: #166534; font-weight: 700;">+ Liquidity Deposit</span></td>
+        <td style="padding: 12px 14px;"><strong style="color: #0c5a36;">+ ₹ ${amount.toLocaleString('en-IN')}</strong></td>
+        <td style="padding: 12px 14px;"><code style="font-size: 0.72rem; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">${bankUtr}</code></td>
+        <td style="padding: 12px 14px;"><span class="badge badge-grade-a" style="background: #dcfce7; color: #15803d;">✓ Credited</span></td>
+        <td style="padding: 12px 14px; text-align: right;">
+          <button class="btn btn-outline btn-sm" onclick="openDepositReceiptModalFromRow('${txnRef}', '${bankUtr}', '${railName}', ${amount}, '${dateStr}')" style="font-size: 0.72rem; padding: 3px 8px;">📄 Receipt</button>
+        </td>
+      `;
+      tbody.insertBefore(tr, tbody.firstChild);
+    }
+
+    // Populate Receipt Modal
+    const rAmt = document.getElementById('receipt-deposit-amount');
+    const rDate = document.getElementById('receipt-deposit-date');
+    const rTxn = document.getElementById('receipt-deposit-txn');
+    const rUtr = document.getElementById('receipt-deposit-utr');
+    const rRail = document.getElementById('receipt-deposit-rail');
+    const rBal = document.getElementById('receipt-updated-balance');
+
+    if (rAmt) rAmt.textContent = `₹ ${amount.toLocaleString('en-IN')}`;
+    if (rDate) rDate.textContent = dateStr;
+    if (rTxn) rTxn.textContent = `#${txnRef}`;
+    if (rUtr) rUtr.textContent = bankUtr;
+    if (rRail) rRail.textContent = railName;
+    if (rBal) rBal.textContent = `₹ ${(buyerEscrowState.advanceLocked + buyerEscrowState.availableLiquidity).toLocaleString('en-IN')}`;
+
+    // Open Receipt Modal
+    const receiptModal = document.getElementById('modal-deposit-receipt');
+    if (receiptModal) receiptModal.classList.add('active');
+
+    showToast(`✓ Payment captured! ₹ ${amount.toLocaleString('en-IN')} credited to Escrow Pool. UTR: ${bankUtr}`, 'success');
+  }, 750);
+}
+
+function openDepositReceiptModalFromRow(txn, utr, rail, amount, date) {
+  const rAmt = document.getElementById('receipt-deposit-amount');
+  const rDate = document.getElementById('receipt-deposit-date');
+  const rTxn = document.getElementById('receipt-deposit-txn');
+  const rUtr = document.getElementById('receipt-deposit-utr');
+  const rRail = document.getElementById('receipt-deposit-rail');
+  const rBal = document.getElementById('receipt-updated-balance');
+
+  if (rAmt) rAmt.textContent = `₹ ${parseFloat(amount || 0).toLocaleString('en-IN')}`;
+  if (rDate) rDate.textContent = date || '14 Sep 2026, 12:45 PM';
+  if (rTxn) rTxn.textContent = `#${txn || 'TXN-ESC-2026'}`;
+  if (rUtr) rUtr.textContent = utr || 'ICIC091488129';
+  if (rRail) rRail.textContent = rail || 'Instant UPI';
+  if (rBal) rBal.textContent = `₹ ${(buyerEscrowState.advanceLocked + buyerEscrowState.availableLiquidity).toLocaleString('en-IN')}`;
+
+  const receiptModal = document.getElementById('modal-deposit-receipt');
+  if (receiptModal) receiptModal.classList.add('active');
+}
+
+function closeDepositReceiptModal() {
+  const receiptModal = document.getElementById('modal-deposit-receipt');
+  if (receiptModal) receiptModal.classList.remove('active');
+}
+
+function printDepositReceipt() {
+  window.print();
 }
 
 function openEscrowDeedModal(contractId, crop, farmer, totalVal, lockedVal) {
@@ -2648,11 +2861,20 @@ function showNotification(msg, type = 'info') {
 // Window bindings for global HTML accessibility
 window.openDepositEscrowModal = openDepositEscrowModal;
 window.closeDepositEscrowModal = closeDepositEscrowModal;
+window.setEscrowDepositRail = setEscrowDepositRail;
+window.setEscrowPresetAmount = setEscrowPresetAmount;
+window.updateEscrowGatewayAmount = updateEscrowGatewayAmount;
+window.selectCorpBank = selectCorpBank;
+window.copyEscrowField = copyEscrowField;
 window.handleDepositEscrowSubmit = handleDepositEscrowSubmit;
+window.openDepositReceiptModalFromRow = openDepositReceiptModalFromRow;
+window.closeDepositReceiptModal = closeDepositReceiptModal;
+window.printDepositReceipt = printDepositReceipt;
 window.openEscrowDeedModal = openEscrowDeedModal;
 window.closeEscrowDeedModal = closeEscrowDeedModal;
 window.downloadEscrowStatement = downloadEscrowStatement;
 window.filterEscrowLedger = filterEscrowLedger;
+window.updateEscrowVaultDOM = updateEscrowVaultDOM;
 window.openArrivalReleaseModal = openArrivalReleaseModal;
 window.closeArrivalReleaseModal = closeArrivalReleaseModal;
 window.confirmReleaseEscrowAction = confirmReleaseEscrowAction;
