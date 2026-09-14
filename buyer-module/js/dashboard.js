@@ -344,17 +344,32 @@ function resetBuyerFilters() {
     unitDisplay: 'both'
   };
 
-  const searchInput = document.getElementById('buyer-global-search');
-  if (searchInput) searchInput.value = '';
+  const globalSearch = document.getElementById('buyer-global-search');
+  if (globalSearch) globalSearch.value = '';
 
-  const catSelect = document.getElementById('filter-category');
-  if (catSelect) catSelect.value = 'all';
+  const marketSearch = document.getElementById('marketplace-search-input');
+  if (marketSearch) marketSearch.value = '';
 
   const sortSelect = document.getElementById('filter-sort');
   if (sortSelect) sortSelect.value = 'default';
 
-  const allPill = document.querySelector('#grade-filter-group .filter-pill');
-  if (allPill) filterByGrade('all', allPill);
+  // Reset category pills
+  const catPills = document.querySelectorAll('#market-category-pills .market-pill');
+  catPills.forEach((p, idx) => {
+    p.classList.remove('active');
+    p.style.background = '#ffffff';
+    p.style.color = '#334155';
+    p.style.borderColor = '#cbd5e1';
+    if (idx === 0) {
+      p.classList.add('active');
+      p.style.background = '#0c5a36';
+      p.style.color = '#ffffff';
+      p.style.borderColor = '#0c5a36';
+    }
+  });
+
+  const allGradePill = document.querySelector('#grade-filter-group .filter-pill');
+  if (allGradePill) filterByGrade('all', allGradePill);
   else applyFilters();
 
   showToast('Filters reset to show all lots');
@@ -2253,6 +2268,21 @@ document.addEventListener('DOMContentLoaded', () => {
   initLocationSwitcher();
   renderStorageFacilities();
   renderStorageBookings();
+
+  // Global keyboard shortcuts (Esc to close any active modal, Ctrl+K to search)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const activeModals = document.querySelectorAll('.modal-overlay.active');
+      activeModals.forEach(m => m.classList.remove('active'));
+    } else if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      const searchBox = document.getElementById('marketplace-search-input') || document.getElementById('buyer-global-search');
+      if (searchBox) {
+        searchBox.focus();
+        searchBox.select();
+      }
+    }
+  });
 
   // Handle enter key in chat
   const chatInput = document.getElementById('chat-input-field');
