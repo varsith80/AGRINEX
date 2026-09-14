@@ -1084,7 +1084,7 @@ const chatConversations = {
   },
   chavan: {
     name: "Sunil Chavan",
-    avatar: "assets/images/pomegranate.jpg",
+    avatar: "assets/images/pomegranate.jpg?v=2",
     status: "● Online • Pandharpur, Solapur (Pomegranate Belt)",
     lotId: "LOT-POM-07",
     crop: "Bhagwa Pomegranate (Solapur Export Grade)",

@@ -177,7 +177,7 @@ const buyerData = {
       farmerLocation: "Pandharpur Yard, Solapur ~ 5.4 km away",
       farmerRating: "4.85 ⭐",
       farmerPhone: "+91 98226-44102",
-      image: "assets/images/pomegranate.jpg",
+      image: "assets/images/pomegranate.jpg?v=2",
       grade: "Grade A (250g+ Calibrated)",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
