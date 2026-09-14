@@ -273,7 +273,7 @@ const buyerData = {
       farmerLocation: "Dhule APMC Mandi ~ 9.5 km away",
       farmerRating: "4.82 ⭐",
       farmerPhone: "+91 98227-44321",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/bajra.jpg?v=1",
       grade: "Grade A Machine Cleaned",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
