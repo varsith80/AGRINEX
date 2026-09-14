@@ -249,7 +249,7 @@ const buyerData = {
       farmerLocation: "Solapur APMC Grain Terminal ~ 4.1 km away",
       farmerRating: "4.87 ⭐",
       farmerPhone: "+91 98223-99011",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/jowar.jpg?v=1",
       grade: "Grade A Bold White",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
