@@ -297,7 +297,7 @@ const buyerData = {
       farmerLocation: "Niphad APMC Hub, Nashik ~ 7.8 km away",
       farmerRating: "4.93 ⭐",
       farmerPhone: "+91 98229-33881",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/wheat.jpg?v=1",
       grade: "Grade A+ Luster Golden",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
