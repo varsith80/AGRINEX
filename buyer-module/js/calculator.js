@@ -715,7 +715,7 @@ function onProductOrGradeChange() {
 function updateMandiPriceForSelection() {
   const mandiKey = comprehensiveCalcState.selectedMandiKey;
   const prodKey = comprehensiveCalcState.selectedProductKey;
-  const mandiData = MANDI_ROUTE_MATRIX[mandiKey] || MANDI_ROUTE_MATRIX.erode;
+  const mandiData = MANDI_ROUTE_MATRIX[mandiKey] || MANDI_ROUTE_MATRIX.lasalgaon;
   const prodData = COMMODITY_CATALOG[prodKey] || COMMODITY_CATALOG.tomato;
 
   let baseMandiPerKg = (mandiData.mandiPrices && mandiData.mandiPrices[prodKey]) || prodData.defaultMandi;
@@ -987,10 +987,10 @@ function prefillDemandFromCalculator() {
 
   // Prefill fields in modal
   setTimeout(() => {
-    const modalCrop = document.getElementById('demand-crop') || document.getElementById('demand-crop-type');
-    const modalQty = document.getElementById('demand-tonnage') || document.getElementById('demand-qty-kg');
+    const modalCrop = document.getElementById('demand-crop');
+    const modalQty = document.getElementById('demand-tonnage');
     const modalUnit = document.getElementById('demand-unit');
-    const modalPrice = document.getElementById('demand-price') || document.getElementById('demand-target-price');
+    const modalPrice = document.getElementById('demand-price');
     const modalPriceUnit = document.getElementById('demand-price-unit');
 
     if (modalCrop) {
@@ -1002,7 +1002,7 @@ function prefillDemandFromCalculator() {
       }
     }
     if (modalQty) modalQty.value = rawQty;
-    if (modalUnit) modalUnit.value = comprehensiveCalcState.qtyUnit === 'kg' ? 'kg' : (comprehensiveCalcState.qtyUnit === 'mt' ? 'MT' : 'Qt');
+    if (modalUnit) modalUnit.value = comprehensiveCalcState.qtyUnit === 'kg' ? 'kg' : 'Qt';
     if (modalPrice) {
       if (modalPriceUnit && modalPriceUnit.value === 'kg') {
         modalPrice.value = comprehensiveCalcState.priceUnit === 'kg' ? rawPrice : (rawPrice / 100).toFixed(2);
