@@ -225,7 +225,7 @@ const buyerData = {
       farmerLocation: "Wada APMC Yard, Palghar ~ 6.2 km away",
       farmerRating: "4.91 ⭐",
       farmerPhone: "+91 98221-12099",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/rice.jpg?v=1",
       grade: "Grade A Aged Aromatic",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
