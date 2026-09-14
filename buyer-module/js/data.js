@@ -129,7 +129,7 @@ const buyerData = {
       farmerLocation: "Katol Mandi Yard, Nagpur ~ 12.0 km away",
       farmerRating: "4.9 ⭐",
       farmerPhone: "+91 98222-33104",
-      image: "assets/images/orange.jpg",
+      image: "assets/images/orange.jpg?v=2",
       grade: "Grade A Table / Export",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
@@ -797,7 +797,7 @@ const buyerData = {
       id: "DEM-BB-105",
       crop: "Nagpur Orange / Santra (Table Export Grade)",
       category: "Fruits",
-      image: "assets/images/orange.jpg",
+      image: "assets/images/orange.jpg?v=2",
       tonnage: "18,000 kg (180 Qt)",
       tonnageNum: 180,
       totalQuantityKg: 18000,
@@ -1203,7 +1203,7 @@ const buyerData = {
       hasENwrPledge: true,
       rating: "4.9 ⭐",
       manager: "Pravin Wankhede (+91 98222-33104)",
-      image: "assets/images/orange.jpg"
+      image: "assets/images/orange.jpg?v=2"
     }
   ],
   activeStorageBookings: [
