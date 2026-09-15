@@ -4,9 +4,9 @@
 
 const farmerData = {
   profile: {
-    name: "Ramesh Kumar",
+    name: "Ramesh Patil",
     role: "Farmer",
-    location: "Erode, Tamil Nadu",
+    location: "Nashik, Maharashtra",
     avatar: "assets/images/farmer-avatar.jpg",
     notificationsCount: 2,
     messagesCount: 1
@@ -40,7 +40,7 @@ const farmerData = {
       buyerName: "AgriFoods Ltd.",
       status: "Bids Open",
       statusBadgeClass: "badge-status-open",
-      location: "Erode Mandi Yard, TN"
+      location: "Nashik APMC Mandi, MH"
     },
     {
       id: "LOT-ONI-02",
@@ -60,7 +60,7 @@ const farmerData = {
       buyerName: "Global Grains",
       status: "Negotiation",
       statusBadgeClass: "badge-status-negotiation",
-      location: "Erode Mandi Yard, TN"
+      location: "Nashik APMC Mandi, MH"
     },
     {
       id: "LOT-PAD-03",
@@ -80,7 +80,7 @@ const farmerData = {
       buyerName: "Fresh Mart",
       status: "Dispatched",
       statusBadgeClass: "badge-status-dispatched",
-      location: "Erode Central Warehouse, TN"
+      location: "Nashik Central Agro Warehouse, MH"
     },
     {
       id: "LOT-CHL-04",
@@ -100,7 +100,7 @@ const farmerData = {
       buyerName: "Spices Exim Hub",
       status: "Bids Open",
       statusBadgeClass: "badge-status-open",
-      location: "Gobi Mandi, TN"
+      location: "Pimpalgaon APMC, MH"
     },
     {
       id: "LOT-COT-05",
@@ -117,10 +117,10 @@ const farmerData = {
       expectedPriceNumber: 5800,
       bestBid: "₹ 59.20 /kg (₹ 5,920 /Qt)",
       bestBidNumber: 5920,
-      buyerName: "Coimbatore Spinning Mills",
+      buyerName: "Malegaon Cotton Textiles",
       status: "Negotiation",
       statusBadgeClass: "badge-status-negotiation",
-      location: "Sathy Mandi, TN"
+      location: "Lasalgaon Mandi Yard, MH"
     },
     {
       id: "LOT-OKR-06",
@@ -140,7 +140,7 @@ const farmerData = {
       buyerName: "Annapoorna Caterers",
       status: "Bids Open",
       statusBadgeClass: "badge-status-open",
-      location: "Erode Mandi Yard, TN"
+      location: "Nashik APMC Mandi, MH"
     }
   ],
   mandiPrices: [

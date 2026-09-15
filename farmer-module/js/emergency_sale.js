@@ -10,7 +10,7 @@ const EMERGENCY_BUYER_POOL = [
     type: "Food Processing Unit",
     typeBadge: "buyer-type-processing",
     icon: "🥫",
-    location: "Erode SIPCOT, TN",
+    location: "Nashik MIDC, Maharashtra",
     acceptedCrops: ["Tomato", "Onion", "Mango", "Chilli"],
     autoBidRatio: 0.72, // 72% of farmer floor to ensure breakeven recovery
     rating: "4.9 ★",
@@ -22,7 +22,7 @@ const EMERGENCY_BUYER_POOL = [
     type: "Commercial Caterers",
     typeBadge: "buyer-type-caterer",
     icon: "🍲",
-    location: "Coimbatore Industrial Zone, TN",
+    location: "Coimbatore Industrial Zone, MH",
     acceptedCrops: ["Tomato", "Onion", "Potato", "Paddy", "Vegetables"],
     autoBidRatio: 0.75, // 75% breakeven recovery
     rating: "4.8 ★",
@@ -34,7 +34,7 @@ const EMERGENCY_BUYER_POOL = [
     type: "Compost & Bio-Energy Manufacturer",
     typeBadge: "buyer-type-compost",
     icon: "🌱",
-    location: "Salem Agricultural Park, TN",
+    location: "Salem Agricultural Park, MH",
     acceptedCrops: ["Tomato", "Onion", "Paddy", "Cotton", "Vegetables", "All Perishables"],
     autoBidRatio: 0.65, // 65% breakeven baseline
     rating: "5.0 ★",

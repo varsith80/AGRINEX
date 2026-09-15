@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "generated_at": "2026-09-15 09:33:17",
+    "generated_at": "2026-09-15 09:55:22",
     "data_source": "Official data.gov.in (Agmarknet Live API Feed) & e-NAM Verified",
     "model_version": "AgriNex TimeSeries-HoltWinters-Elasticity v2.4",
-    "total_mandi_volume_qt": 527910,
-    "avg_modal_price": 5569,
+    "total_mandi_volume_qt": 527830,
+    "avg_modal_price": 5583,
     "overall_market_trend": "Bullish",
     "top_gainer": {
       "commodity": "Chilli",
@@ -32,210 +32,86 @@
   },
   "commodities": [
     {
-      "id": "cotton-tirupur",
-      "state": "Tamil Nadu",
-      "district": "Tirupur",
-      "market": "Tirupur Cotton APMC",
-      "commodity": "Cotton",
-      "variety": "Shankar-6 (29mm)",
-      "grade": "Grade A",
-      "arrival_date": "15/09/2026",
-      "arrivals_qt": 980,
-      "demand_share_pct": 0.2,
-      "min_price": 6800,
-      "max_price": 7450,
-      "modal_price": 7150,
-      "change_1w_pct": 6.4,
-      "history_7d": [
-        6720,
-        6800,
-        6890,
-        6980,
-        7050,
-        7100,
-        7150
-      ],
-      "arrivals_history_7d": [
-        1120,
-        1090,
-        1060,
-        1030,
-        1010,
-        990,
-        980
-      ],
-      "source": "e-NAM Verified",
-      "forecast": {
-        "current_price": 7150,
-        "target_price_7d": 7613,
-        "pct_change_7d": 6.5,
-        "confidence_pct": 98,
-        "forecast_points": [
-          {
-            "day_offset": 1,
-            "forecast_price": 7200,
-            "lower_bound": 7051,
-            "upper_bound": 7349
-          },
-          {
-            "day_offset": 2,
-            "forecast_price": 7269,
-            "lower_bound": 7059,
-            "upper_bound": 7479
-          },
-          {
-            "day_offset": 3,
-            "forecast_price": 7337,
-            "lower_bound": 7080,
-            "upper_bound": 7594
-          },
-          {
-            "day_offset": 4,
-            "forecast_price": 7406,
-            "lower_bound": 7109,
-            "upper_bound": 7703
-          },
-          {
-            "day_offset": 5,
-            "forecast_price": 7475,
-            "lower_bound": 7143,
-            "upper_bound": 7807
-          },
-          {
-            "day_offset": 6,
-            "forecast_price": 7544,
-            "lower_bound": 7180,
-            "upper_bound": 7908
-          },
-          {
-            "day_offset": 7,
-            "forecast_price": 7613,
-            "lower_bound": 7220,
-            "upper_bound": 8006
-          }
-        ],
-        "signal": "BULLISH"
-      },
-      "arbitrage_matrix": [
-        {
-          "target_mandi": "Rajkot APMC",
-          "state": "Gujarat",
-          "distance_km": 1680,
-          "mandi_modal_price": 7480,
-          "gross_spread": 330,
-          "freight_cost_qt": 220,
-          "net_gain_qt": 110,
-          "roi_pct": 1.5,
-          "is_viable": true,
-          "recommendation": "Ship to Rajkot APMC for +₹110/Qt net profit"
-        },
-        {
-          "target_mandi": "Adilabad Mandi",
-          "state": "Telangana",
-          "distance_km": 960,
-          "mandi_modal_price": 7280,
-          "gross_spread": 130,
-          "freight_cost_qt": 150,
-          "net_gain_qt": -20,
-          "roi_pct": -0.3,
-          "is_viable": false,
-          "recommendation": "Local Mandi offers better net realization"
-        }
-      ],
-      "elasticity": {
-        "elasticity": -0.51,
-        "market_state": "Supply Squeeze (High Demand)",
-        "price_change_7d_pct": 6.4,
-        "arrival_change_7d_pct": -12.5
-      },
-      "advisory": {
-        "verdict": "HOLD / DELAY HARVEST",
-        "rationale": "AI models project Cotton prices to rise +6.5% over the next 5–7 days due to tightening APMC arrivals (Supply Squeeze (High Demand)).",
-        "confidence": 98,
-        "optimal_action_window": "Next 2–4 Days"
-      }
-    },
-    {
-      "id": "turmeric-erode",
-      "state": "Tamil Nadu",
-      "district": "Erode",
-      "market": "Erode Mandi Terminal",
+      "id": "turmeric-sangli",
+      "state": "Maharashtra",
+      "district": "Sangli",
+      "market": "Sangli Spice Terminal",
       "commodity": "Turmeric",
-      "variety": "Salem Finger (Curcumin 4.8%)",
+      "variety": "Rajapore Super Finger",
       "grade": "Grade A",
       "arrival_date": "15/09/2026",
-      "arrivals_qt": 1850,
+      "arrivals_qt": 2100,
       "demand_share_pct": 0.4,
-      "min_price": 13200,
-      "max_price": 14650,
-      "modal_price": 14100,
-      "change_1w_pct": 6.8,
+      "min_price": 13800,
+      "max_price": 15200,
+      "modal_price": 14600,
+      "change_1w_pct": 7.4,
       "history_7d": [
-        13200,
-        13400,
-        13550,
-        13750,
-        13900,
+        13600,
+        13800,
         14000,
-        14100
+        14200,
+        14350,
+        14500,
+        14600
       ],
       "arrivals_history_7d": [
-        1980,
-        1940,
-        1910,
-        1880,
-        1860,
-        1850,
-        1850
+        2350,
+        2300,
+        2260,
+        2220,
+        2180,
+        2140,
+        2100
       ],
       "source": "Agmarknet Live APMC",
       "forecast": {
-        "current_price": 14100,
-        "target_price_7d": 15062,
-        "pct_change_7d": 6.8,
+        "current_price": 14600,
+        "target_price_7d": 15673,
+        "pct_change_7d": 7.3,
         "confidence_pct": 98,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 14206,
-            "lower_bound": 13913,
-            "upper_bound": 14499
+            "forecast_price": 14716,
+            "lower_bound": 14412,
+            "upper_bound": 15020
           },
           {
             "day_offset": 2,
-            "forecast_price": 14348,
-            "lower_bound": 13933,
-            "upper_bound": 14763
+            "forecast_price": 14875,
+            "lower_bound": 14446,
+            "upper_bound": 15304
           },
           {
             "day_offset": 3,
-            "forecast_price": 14491,
-            "lower_bound": 13983,
-            "upper_bound": 14999
+            "forecast_price": 15035,
+            "lower_bound": 14509,
+            "upper_bound": 15561
           },
           {
             "day_offset": 4,
-            "forecast_price": 14634,
-            "lower_bound": 14048,
-            "upper_bound": 15220
+            "forecast_price": 15194,
+            "lower_bound": 14587,
+            "upper_bound": 15801
           },
           {
             "day_offset": 5,
-            "forecast_price": 14776,
-            "lower_bound": 14121,
-            "upper_bound": 15431
+            "forecast_price": 15354,
+            "lower_bound": 14675,
+            "upper_bound": 16033
           },
           {
             "day_offset": 6,
-            "forecast_price": 14919,
-            "lower_bound": 14201,
-            "upper_bound": 15637
+            "forecast_price": 15513,
+            "lower_bound": 14770,
+            "upper_bound": 16256
           },
           {
             "day_offset": 7,
-            "forecast_price": 15062,
-            "lower_bound": 14286,
-            "upper_bound": 15838
+            "forecast_price": 15673,
+            "lower_bound": 14870,
+            "upper_bound": 16476
           }
         ],
         "signal": "BULLISH"
@@ -279,113 +155,237 @@
         }
       ],
       "elasticity": {
-        "elasticity": -1.04,
+        "elasticity": -0.69,
         "market_state": "Supply Squeeze (High Demand)",
-        "price_change_7d_pct": 6.8,
-        "arrival_change_7d_pct": -6.6
+        "price_change_7d_pct": 7.4,
+        "arrival_change_7d_pct": -10.6
       },
       "advisory": {
         "verdict": "HOLD / DELAY HARVEST",
-        "rationale": "AI models project Turmeric prices to rise +6.8% over the next 5–7 days due to tightening APMC arrivals (Supply Squeeze (High Demand)).",
+        "rationale": "AI models project Turmeric prices to rise +7.3% over the next 5–7 days due to tightening APMC arrivals (Supply Squeeze (High Demand)).",
         "confidence": 98,
         "optimal_action_window": "Next 2–4 Days"
       }
     },
     {
-      "id": "wheat-sehore",
-      "state": "Madhya Pradesh",
-      "district": "Sehore",
-      "market": "Sehore Mandi Hub",
-      "commodity": "Wheat",
-      "variety": "Sharbati Lokwan Golden",
-      "grade": "Grade A+",
+      "id": "cotton-nagpur",
+      "state": "Maharashtra",
+      "district": "Nagpur",
+      "market": "Nagpur Cotton APMC",
+      "commodity": "Cotton",
+      "variety": "Shankar-6 (29mm)",
+      "grade": "Grade A",
       "arrival_date": "15/09/2026",
-      "arrivals_qt": 4100,
-      "demand_share_pct": 0.8,
-      "min_price": 2450,
-      "max_price": 2800,
-      "modal_price": 2650,
-      "change_1w_pct": 4.3,
+      "arrivals_qt": 1650,
+      "demand_share_pct": 0.3,
+      "min_price": 7000,
+      "max_price": 7650,
+      "modal_price": 7350,
+      "change_1w_pct": 5.8,
       "history_7d": [
-        2540,
-        2560,
-        2580,
-        2600,
-        2620,
-        2640,
-        2650
+        6950,
+        7020,
+        7110,
+        7200,
+        7260,
+        7310,
+        7350
       ],
       "arrivals_history_7d": [
-        4200,
-        4180,
-        4150,
-        4120,
-        4100,
-        4100,
-        4100
+        1820,
+        1780,
+        1740,
+        1700,
+        1680,
+        1660,
+        1650
       ],
-      "source": "Agmarknet Live APMC",
+      "source": "e-NAM Verified",
       "forecast": {
-        "current_price": 2650,
-        "target_price_7d": 2769,
-        "pct_change_7d": 4.5,
+        "current_price": 7350,
+        "target_price_7d": 7790,
+        "pct_change_7d": 6.0,
         "confidence_pct": 98,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 2662,
-            "lower_bound": 2607,
-            "upper_bound": 2717
+            "forecast_price": 7401,
+            "lower_bound": 7248,
+            "upper_bound": 7554
           },
           {
             "day_offset": 2,
-            "forecast_price": 2680,
-            "lower_bound": 2602,
-            "upper_bound": 2758
+            "forecast_price": 7466,
+            "lower_bound": 7250,
+            "upper_bound": 7682
           },
           {
             "day_offset": 3,
-            "forecast_price": 2698,
-            "lower_bound": 2603,
-            "upper_bound": 2793
+            "forecast_price": 7531,
+            "lower_bound": 7266,
+            "upper_bound": 7796
           },
           {
             "day_offset": 4,
-            "forecast_price": 2715,
-            "lower_bound": 2605,
-            "upper_bound": 2825
+            "forecast_price": 7595,
+            "lower_bound": 7289,
+            "upper_bound": 7901
           },
           {
             "day_offset": 5,
-            "forecast_price": 2733,
-            "lower_bound": 2610,
-            "upper_bound": 2856
+            "forecast_price": 7660,
+            "lower_bound": 7318,
+            "upper_bound": 8002
           },
           {
             "day_offset": 6,
-            "forecast_price": 2751,
-            "lower_bound": 2616,
-            "upper_bound": 2886
+            "forecast_price": 7725,
+            "lower_bound": 7351,
+            "upper_bound": 8099
           },
           {
             "day_offset": 7,
-            "forecast_price": 2769,
-            "lower_bound": 2623,
-            "upper_bound": 2915
+            "forecast_price": 7790,
+            "lower_bound": 7386,
+            "upper_bound": 8194
+          }
+        ],
+        "signal": "BULLISH"
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Rajkot APMC",
+          "state": "Gujarat",
+          "distance_km": 1680,
+          "mandi_modal_price": 7480,
+          "gross_spread": 330,
+          "freight_cost_qt": 220,
+          "net_gain_qt": 110,
+          "roi_pct": 1.5,
+          "is_viable": true,
+          "recommendation": "Ship to Rajkot APMC for +₹110/Qt net profit"
+        },
+        {
+          "target_mandi": "Adilabad Mandi",
+          "state": "Telangana",
+          "distance_km": 960,
+          "mandi_modal_price": 7280,
+          "gross_spread": 130,
+          "freight_cost_qt": 150,
+          "net_gain_qt": -20,
+          "roi_pct": -0.3,
+          "is_viable": false,
+          "recommendation": "Local Mandi offers better net realization"
+        }
+      ],
+      "elasticity": {
+        "elasticity": -0.62,
+        "market_state": "Supply Squeeze (High Demand)",
+        "price_change_7d_pct": 5.8,
+        "arrival_change_7d_pct": -9.3
+      },
+      "advisory": {
+        "verdict": "HOLD / DELAY HARVEST",
+        "rationale": "AI models project Cotton prices to rise +6.0% over the next 5–7 days due to tightening APMC arrivals (Supply Squeeze (High Demand)).",
+        "confidence": 98,
+        "optimal_action_window": "Next 2–4 Days"
+      }
+    },
+    {
+      "id": "wheat-nashik",
+      "state": "Maharashtra",
+      "district": "Nashik",
+      "market": "Nashik APMC Yard",
+      "commodity": "Wheat",
+      "variety": "Sharbati Lokwan Golden",
+      "grade": "Grade A+",
+      "arrival_date": "15/09/2026",
+      "arrivals_qt": 3100,
+      "demand_share_pct": 0.6,
+      "min_price": 2550,
+      "max_price": 2850,
+      "modal_price": 2700,
+      "change_1w_pct": 4.7,
+      "history_7d": [
+        2580,
+        2600,
+        2630,
+        2650,
+        2670,
+        2690,
+        2700
+      ],
+      "arrivals_history_7d": [
+        3250,
+        3220,
+        3200,
+        3180,
+        3150,
+        3120,
+        3100
+      ],
+      "source": "Agmarknet Live APMC",
+      "forecast": {
+        "current_price": 2700,
+        "target_price_7d": 2832,
+        "pct_change_7d": 4.9,
+        "confidence_pct": 98,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 2715,
+            "lower_bound": 2659,
+            "upper_bound": 2771
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 2734,
+            "lower_bound": 2655,
+            "upper_bound": 2813
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 2754,
+            "lower_bound": 2657,
+            "upper_bound": 2851
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 2773,
+            "lower_bound": 2661,
+            "upper_bound": 2885
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 2793,
+            "lower_bound": 2667,
+            "upper_bound": 2919
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 2812,
+            "lower_bound": 2675,
+            "upper_bound": 2949
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 2832,
+            "lower_bound": 2683,
+            "upper_bound": 2981
           }
         ],
         "signal": "BULLISH"
       },
       "arbitrage_matrix": [],
       "elasticity": {
-        "elasticity": -1.82,
+        "elasticity": -1.01,
         "market_state": "Supply Squeeze (High Demand)",
-        "price_change_7d_pct": 4.3,
-        "arrival_change_7d_pct": -2.4
+        "price_change_7d_pct": 4.7,
+        "arrival_change_7d_pct": -4.6
       },
       "advisory": {
         "verdict": "SELL LOCALLY AT APMC",
-        "rationale": "Stable market equilibrium at Sehore Mandi Hub. Spot rates are holding steady with consistent institutional buyer demand.",
+        "rationale": "Stable market equilibrium at Nashik APMC Yard. Spot rates are holding steady with consistent institutional buyer demand.",
         "confidence": 98,
         "optimal_action_window": "Immediate (24–48h)"
       }

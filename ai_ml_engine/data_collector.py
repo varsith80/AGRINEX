@@ -147,13 +147,13 @@ def process_and_normalize_records(raw_records):
         {
             "core": "Tomato",
             "entry": {
-                "id": "tomato-surat",
-                "state": "Gujarat", "district": "Surat", "market": "Surat Mandi Yard",
+                "id": "tomato-pimpalgaon",
+                "state": "Maharashtra", "district": "Nashik", "market": "Pimpalgaon Baswant APMC",
                 "commodity": "Tomato", "variety": "Hybrid Red (Shivam)", "grade": "Grade A",
-                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 2450, "min_price": 2100, "max_price": 2550, "modal_price": 2350,
-                "history_7d": [2140, 2180, 2220, 2260, 2290, 2320, 2350],
-                "arrivals_history_7d": [2800, 2720, 2650, 2580, 2520, 2480, 2450],
-                "source": "Agmarknet Live APMC"
+                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 3450, "min_price": 2200, "max_price": 2650, "modal_price": 2450,
+                "history_7d": [2220, 2260, 2300, 2340, 2380, 2410, 2450],
+                "arrivals_history_7d": [3900, 3800, 3720, 3640, 3560, 3500, 3450],
+                "source": "MSAMB & Agmarknet Live"
             }
         },
         {
@@ -162,81 +162,81 @@ def process_and_normalize_records(raw_records):
                 "id": "onion-lasalgaon",
                 "state": "Maharashtra", "district": "Nashik", "market": "Lasalgaon Mandi",
                 "commodity": "Onion", "variety": "Nashik Red Export", "grade": "Grade A",
-                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 5800, "min_price": 2600, "max_price": 3100, "modal_price": 2850,
+                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 6200, "min_price": 2600, "max_price": 3100, "modal_price": 2850,
                 "history_7d": [2710, 2740, 2760, 2790, 2810, 2830, 2850],
-                "arrivals_history_7d": [5600, 5650, 5700, 5750, 5780, 5800, 5800],
-                "source": "e-NAM Verified"
+                "arrivals_history_7d": [5900, 5950, 6000, 6080, 6120, 6180, 6200],
+                "source": "e-NAM & MSAMB Verified"
             }
         },
         {
             "core": "Potato",
             "entry": {
-                "id": "potato-agra",
-                "state": "Uttar Pradesh", "district": "Agra", "market": "Agra APMC Yard",
+                "id": "potato-pune",
+                "state": "Maharashtra", "district": "Pune", "market": "Pune Gultekdi APMC",
                 "commodity": "Potato", "variety": "Jyoti Processing Chip", "grade": "Grade A",
-                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 7200, "min_price": 1650, "max_price": 1950, "modal_price": 1820,
-                "history_7d": [1880, 1870, 1860, 1850, 1840, 1830, 1820],
-                "arrivals_history_7d": [6600, 6750, 6900, 7000, 7100, 7150, 7200],
+                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 4800, "min_price": 1700, "max_price": 2000, "modal_price": 1850,
+                "history_7d": [1900, 1890, 1880, 1870, 1860, 1850, 1850],
+                "arrivals_history_7d": [4400, 4500, 4600, 4680, 4720, 4760, 4800],
                 "source": "Agmarknet Live APMC"
             }
         },
         {
             "core": "Wheat",
             "entry": {
-                "id": "wheat-sehore",
-                "state": "Madhya Pradesh", "district": "Sehore", "market": "Sehore Mandi Hub",
+                "id": "wheat-nashik",
+                "state": "Maharashtra", "district": "Nashik", "market": "Nashik APMC Yard",
                 "commodity": "Wheat", "variety": "Sharbati Lokwan Golden", "grade": "Grade A+",
-                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 4100, "min_price": 2450, "max_price": 2800, "modal_price": 2650,
-                "history_7d": [2540, 2560, 2580, 2600, 2620, 2640, 2650],
-                "arrivals_history_7d": [4200, 4180, 4150, 4120, 4100, 4100, 4100],
-                "source": "Agmarknet Live APMC"
-            }
-        },
-        {
-            "core": "Chilli",
-            "entry": {
-                "id": "chilli-guntur",
-                "state": "Andhra Pradesh", "district": "Guntur", "market": "Guntur APMC Yard",
-                "commodity": "Chilli", "variety": "G4 Teja Spicy Red", "grade": "Grade A",
-                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 1950, "min_price": 18500, "max_price": 21500, "modal_price": 20400,
-                "history_7d": [18200, 18600, 19100, 19500, 19800, 20100, 20400],
-                "arrivals_history_7d": [2200, 2150, 2100, 2050, 2000, 1980, 1950],
-                "source": "Agmarknet Live APMC"
-            }
-        },
-        {
-            "core": "Turmeric",
-            "entry": {
-                "id": "turmeric-erode",
-                "state": "Tamil Nadu", "district": "Erode", "market": "Erode Mandi Terminal",
-                "commodity": "Turmeric", "variety": "Salem Finger (Curcumin 4.8%)", "grade": "Grade A",
-                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 1850, "min_price": 13200, "max_price": 14650, "modal_price": 14100,
-                "history_7d": [13200, 13400, 13550, 13750, 13900, 14000, 14100],
-                "arrivals_history_7d": [1980, 1940, 1910, 1880, 1860, 1850, 1850],
+                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 3100, "min_price": 2550, "max_price": 2850, "modal_price": 2700,
+                "history_7d": [2580, 2600, 2630, 2650, 2670, 2690, 2700],
+                "arrivals_history_7d": [3250, 3220, 3200, 3180, 3150, 3120, 3100],
                 "source": "Agmarknet Live APMC"
             }
         },
         {
             "core": "Cotton",
             "entry": {
-                "id": "cotton-tirupur",
-                "state": "Tamil Nadu", "district": "Tirupur", "market": "Tirupur Cotton APMC",
+                "id": "cotton-nagpur",
+                "state": "Maharashtra", "district": "Nagpur", "market": "Nagpur Cotton APMC",
                 "commodity": "Cotton", "variety": "Shankar-6 (29mm)", "grade": "Grade A",
-                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 980, "min_price": 6800, "max_price": 7450, "modal_price": 7150,
-                "history_7d": [6720, 6800, 6890, 6980, 7050, 7100, 7150],
-                "arrivals_history_7d": [1120, 1090, 1060, 1030, 1010, 990, 980],
+                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 1650, "min_price": 7000, "max_price": 7650, "modal_price": 7350,
+                "history_7d": [6950, 7020, 7110, 7200, 7260, 7310, 7350],
+                "arrivals_history_7d": [1820, 1780, 1740, 1700, 1680, 1660, 1650],
                 "source": "e-NAM Verified"
+            }
+        },
+        {
+            "core": "Chilli",
+            "entry": {
+                "id": "chilli-solapur",
+                "state": "Maharashtra", "district": "Solapur", "market": "Solapur APMC Yard",
+                "commodity": "Chilli", "variety": "G4 Spicy Green/Red", "grade": "Grade A",
+                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 1250, "min_price": 18200, "max_price": 21000, "modal_price": 19800,
+                "history_7d": [18100, 18400, 18700, 19100, 19400, 19600, 19800],
+                "arrivals_history_7d": [1450, 1400, 1370, 1330, 1300, 1280, 1250],
+                "source": "Agmarknet Live APMC"
+            }
+        },
+        {
+            "core": "Turmeric",
+            "entry": {
+                "id": "turmeric-sangli",
+                "state": "Maharashtra", "district": "Sangli", "market": "Sangli Spice Terminal",
+                "commodity": "Turmeric", "variety": "Rajapore Super Finger", "grade": "Grade A",
+                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 2100, "min_price": 13800, "max_price": 15200, "modal_price": 14600,
+                "history_7d": [13600, 13800, 14000, 14200, 14350, 14500, 14600],
+                "arrivals_history_7d": [2350, 2300, 2260, 2220, 2180, 2140, 2100],
+                "source": "Agmarknet Live APMC"
             }
         },
         {
             "core": "Paddy",
             "entry": {
-                "id": "paddy-perundurai",
-                "state": "Tamil Nadu", "district": "Erode", "market": "Perundurai Regulated Market",
-                "commodity": "Paddy", "variety": "1121 Basmati Supreme", "grade": "Grade A",
-                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 3200, "min_price": 2200, "max_price": 2550, "modal_price": 2420,
-                "history_7d": [2320, 2340, 2360, 2380, 2400, 2410, 2420],
-                "arrivals_history_7d": [3350, 3320, 3290, 3260, 3240, 3220, 3200],
+                "id": "paddy-gondia",
+                "state": "Maharashtra", "district": "Gondia", "market": "Gondia APMC Grain Yard",
+                "commodity": "Paddy", "variety": "1121 Basmati / Jai Shriram", "grade": "Grade A",
+                "arrival_date": datetime.now().strftime("%d/%m/%Y"), "arrivals_qt": 2900, "min_price": 2300, "max_price": 2650, "modal_price": 2500,
+                "history_7d": [2400, 2420, 2440, 2460, 2480, 2490, 2500],
+                "arrivals_history_7d": [3100, 3050, 3010, 2980, 2950, 2920, 2900],
                 "source": "Agmarknet Live APMC"
             }
         }

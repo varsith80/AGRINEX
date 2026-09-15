@@ -170,10 +170,10 @@
       <!-- User Profile at bottom -->
       <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
         <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
-          <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+          <img src="assets/images/farmer-avatar.png" alt="Ramesh Patil" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
           <div style="min-width:0; flex:1;">
-            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Ramesh Patel</div>
-            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Surat</div>
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Ramesh Patil</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Nashik</div>
           </div>
           <a href="../login_details/farmer_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
@@ -197,7 +197,7 @@
           </div>
           <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <span>Surat Mandi Hub, Gujarat</span>
+            <span>Nashik Mandi Hub, Maharashtra</span>
           </div>
         </div>
 
@@ -219,9 +219,9 @@
 
           <!-- Profile Widget -->
           <div class="profile-widget" onclick="window.location.href='index.html'" style="cursor: pointer;">
-            <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+            <img src="assets/images/farmer-avatar.png" alt="Ramesh Patil" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
             <div class="profile-info">
-              <span class="profile-name">Ramesh Patel</span>
+              <span class="profile-name">Ramesh Patil</span>
               <span class="profile-role">Verified Farmer</span>
             </div>
           </div>
@@ -463,16 +463,16 @@
         grievancesData = [
           {
             id: "GRV-2026-104",
-            farmer_name: "Ramesh Patel",
+            farmer_name: "Ramesh Patil",
             category: "Logistics Pickup Schedule",
             lot_ref: "LOT-ONI-02 (Nashik Red Onion)",
-            subject: "Truck gate pass delay at Surat Mandi Yard Gate 2",
+            subject: "Truck gate pass delay at Nashik APMC Mandi Gate 2",
             description: "Produce has been packed and weighed. Logistics truck driver requested an updated digital gate pass for weighbridge clearance.",
             priority: "High",
             status: "Under Review",
             status_badge: "badge-status-emergency",
             filed_date: "Today, 10:15 AM",
-            assigned_officer: "Surat APMC Mandi Officer - K. Mehta",
+            assigned_officer: "Nashik APMC Mandi Officer - V. Kulkarni",
             sla_hours: 24,
             steps: [
               { title: "Grievance Logged", done: true, time: "10:15 AM" },
@@ -483,7 +483,7 @@
           },
           {
             id: "GRV-2026-081",
-            farmer_name: "Ramesh Patel",
+            farmer_name: "Ramesh Patil",
             category: "Payment / Escrow Advance",
             lot_ref: "LOT-TOM-01 (Reliance Retail Hub)",
             subject: "Verification of 35% Advance Escrow Release",
@@ -691,7 +691,7 @@
         console.warn("Backend API fallback for grievance:", err.message);
         const fallback = {
           id: "GRV-2026-" + Math.floor(100 + Math.random() * 900),
-          farmer_name: "Ramesh Patel",
+          farmer_name: "Ramesh Patil",
           category,
           lot_ref: lotRef,
           subject,
@@ -700,7 +700,7 @@
           status: "Under Review",
           status_badge: "badge-status-emergency",
           filed_date: "Today, " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          assigned_officer: "Surat APMC Mandi Officer - K. Mehta",
+          assigned_officer: "Nashik APMC Mandi Officer - V. Kulkarni",
           steps: [
             { title: "Grievance Logged", done: true, time: "Just now" },
             { title: "Mandi Officer Assigned", done: true, time: "Within 2 Hours" },

@@ -5,14 +5,14 @@
 
 const FPO_COOPERATIVE_DATA = {
   fpoProfile: {
-    fpoName: "Kongu Farmers Producer Co. (KFPC)",
-    fpoId: "FPO-TN-ERODE-09",
-    regNo: "FPO/TN/2023/8892",
+    fpoName: "Sahyadri Farmers Producer Co. (SFPC)",
+    fpoId: "FPO-MH-NASHIK-08",
+    regNo: "FPO/MH/2023/8892",
     totalMemberFarmers: 340,
     activePoolsCount: 4,
-    location: "Erode Central Mandi Hub, Tamil Nadu",
-    president: "R. Shanmugam (Managing Director)",
-    cooperativeSecretary: "S. Kaliappan",
+    location: "Nashik Central Mandi Hub, Maharashtra",
+    president: "Sanjay Patil (Managing Director)",
+    cooperativeSecretary: "Vikas Shinde",
     fpoWalletLocked: "₹ 74,85,000",
     nabardStatus: "NABARD & SFAC Grade-A Certified",
     auditStatus: "FY 2025-26 Clean Audit ✓"
@@ -34,15 +34,15 @@ const FPO_COOPERATIVE_DATA = {
       targetPriceNumber: 1350,
       minContribution: "10 Qt (1,000 kg)",
       deadline: "2 Days Remaining",
-      destination: "Nestle SIPCOT Agro Park, Tirupur",
+      destination: "Nestle Agro Facility, Pune, Maharashtra",
       status: "Pooling Active (76% Filled)",
       qualitySpecs: "TSS > 4.5%, Uniform Red, Moisture < 88%, Zero Pest Damage",
       advancePercent: "35% Advance",
       farmerContributors: [
-        { name: "Ramesh Kumar (You)", qty: 50, timestamp: "Today 10:15 AM", status: "Committed (Escrow Locked)" },
-        { name: "K. Subramaniam", qty: 120, timestamp: "Yesterday", status: "Verified" },
-        { name: "S. Murugan", qty: 110, timestamp: "2 days ago", status: "Verified" },
-        { name: "P. Rangarajan", qty: 100, timestamp: "3 days ago", status: "Verified" }
+        { name: "Ramesh Patil (You)", qty: 50, timestamp: "Today 10:15 AM", status: "Committed (Escrow Locked)" },
+        { name: "K. Jadhav", qty: 120, timestamp: "Yesterday", status: "Verified" },
+        { name: "S. Deshmukh", qty: 110, timestamp: "2 days ago", status: "Verified" },
+        { name: "P. Kulkarni", qty: 100, timestamp: "3 days ago", status: "Verified" }
       ]
     },
     {
@@ -59,13 +59,13 @@ const FPO_COOPERATIVE_DATA = {
       targetPriceNumber: 1100,
       minContribution: "20 Qt (2,000 kg)",
       deadline: "4 Days Remaining",
-      destination: "Tuticorin Port Cold Terminal",
+      destination: "JNPT Port Cold Terminal, Navi Mumbai",
       status: "Pooling Active (65% Filled)",
       qualitySpecs: "Bulb Size 45-65mm, Clean Dried Outer Skin, Phyto-Certified",
       advancePercent: "35% Advance",
       farmerContributors: [
-        { name: "M. Velusamy", qty: 250, timestamp: "Yesterday", status: "Verified" },
-        { name: "Dindigul Onion Club (6 Farmers)", qty: 400, timestamp: "2 days ago", status: "Verified" }
+        { name: "M. Ghadge", qty: 250, timestamp: "Yesterday", status: "Verified" },
+        { name: "Lasalgaon Onion Club (6 Farmers)", qty: 400, timestamp: "2 days ago", status: "Verified" }
       ]
     },
     {
@@ -82,20 +82,20 @@ const FPO_COOPERATIVE_DATA = {
       targetPriceNumber: 2150,
       minContribution: "50 Qt (5,000 kg)",
       deadline: "1 Day Remaining",
-      destination: "ITC Rice Mill Hub, Salem",
+      destination: "ITC Agro Hub, Nagpur, Maharashtra",
       status: "Near Completion (92.5% Filled)",
       qualitySpecs: "Moisture 13-14%, Grain Length > 6.6mm, Discolored Grains < 1%",
       advancePercent: "35% Advance",
       farmerContributors: [
-        { name: "Thanjavur Delta Syndicate (14 Farmers)", qty: 1500, timestamp: "3 days ago", status: "Verified" },
-        { name: "C. Ganesan", qty: 350, timestamp: "Yesterday", status: "Verified" }
+        { name: "Vidarbha Farmer Syndicate (14 Farmers)", qty: 1500, timestamp: "3 days ago", status: "Verified" },
+        { name: "C. Gaikwad", qty: 350, timestamp: "Yesterday", status: "Verified" }
       ]
     },
     {
       id: "BULK-DEM-COT-04",
       crop: "Raw Cotton (MCU-5 Long Staple)",
       image: "assets/images/cotton.jpg",
-      buyerName: "Coimbatore Textile Spinners Guild",
+      buyerName: "Maharashtra Textile Spinners Guild",
       buyerLogo: "☁️",
       buyerCategory: "Textile Mills Consortium",
       totalRequiredQty: "800 Qt (80,000 kg)",
@@ -105,13 +105,13 @@ const FPO_COOPERATIVE_DATA = {
       targetPriceNumber: 6800,
       minContribution: "15 Qt (1,500 kg)",
       deadline: "5 Days Remaining",
-      destination: "Palladam Spinning Cluster, Tirupur",
+      destination: "Ichalkaranji Spinning Cluster, Kolhapur",
       status: "Pooling Active (60% Filled)",
       qualitySpecs: "Staple Length 32mm+, Micronaire 3.8-4.2, Trash Content < 3%",
       advancePercent: "35% Advance",
       farmerContributors: [
-        { name: "Bhavani Cotton Union (8 Farmers)", qty: 320, timestamp: "Yesterday", status: "Verified" },
-        { name: "S. Palanisamy", qty: 160, timestamp: "2 days ago", status: "Verified" }
+        { name: "Amravati Cotton Union (8 Farmers)", qty: 320, timestamp: "Yesterday", status: "Verified" },
+        { name: "S. Pawar", qty: 160, timestamp: "2 days ago", status: "Verified" }
       ]
     }
   ],
@@ -126,7 +126,7 @@ const FPO_COOPERATIVE_DATA = {
       contractValue: "₹ 8,10,000",
       settlementStatus: "100% Escrow Released to Farmers",
       dispatchDate: "04 Sep 2026",
-      transportAgent: "GreenWays Agro Transit (TN-33-AX-8910)"
+      transportAgent: "GreenWays Agro Transit (MH-15-AX-8910)"
     },
     {
       id: "FPO-DISP-841",
@@ -136,16 +136,16 @@ const FPO_COOPERATIVE_DATA = {
       contractValue: "₹ 34,50,000",
       settlementStatus: "100% Escrow Released to Farmers",
       dispatchDate: "22 Aug 2026",
-      transportAgent: "Southern Express Fleet (TN-28-BZ-4411)"
+      transportAgent: "Southern Express Fleet (MH-12-BZ-4411)"
     }
   ],
 
   // Governance & Member Board
   boardMembers: [
-    { name: "R. Shanmugam", role: "President & Managing Director", village: "Gobi, Erode", phone: "+91 98421 11200", term: "2023 - 2028" },
-    { name: "S. Kaliappan", role: "Vice President (Horticulture Lead)", village: "Perundurai", phone: "+91 98422 33411", term: "2023 - 2028" },
-    { name: "Dr. K. Jayaraman", role: "NABARD Nodal Technical Advisor", village: "TNAU Coimbatore", phone: "+91 94433 99881", term: "Permanent Nominee" },
-    { name: "Ramesh Kumar (You)", role: "Elected Farmer Executive (Erode Zone)", village: "Gobi Taluk", phone: "+91 98421 88390", term: "2024 - 2027" }
+    { name: "R. Shanmugam", role: "President & Managing Director", village: "Pimpalgaon, Nashik", phone: "+91 98421 11200", term: "2023 - 2028" },
+    { name: "Vikas Shinde", role: "Vice President (Horticulture Lead)", village: "Niphad, Nashik", phone: "+91 98422 33411", term: "2023 - 2028" },
+    { name: "Dr. S. Kulkarni", role: "NABARD Nodal Technical Advisor", village: "MPKV Rahuri Agricultural University", phone: "+91 94433 99881", term: "Permanent Nominee" },
+    { name: "Ramesh Patil (You)", role: "Elected Farmer Executive (Nashik Zone)", village: "Dindori Taluk, Nashik", phone: "+91 98421 88390", term: "2024 - 2027" }
   ]
 };
 

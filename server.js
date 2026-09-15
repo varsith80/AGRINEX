@@ -17,19 +17,19 @@ if (!fs.existsSync(path.join(__dirname, 'backend'))) {
 // Initial Database Seeds
 const DEFAULT_DATA = {
   profile: {
-    name: "Ramesh Patel",
+    name: "Ramesh Patil",
     farmer_id: "FARM-88210",
     phone: "+91 98421 88390",
-    location: "Surat, Gujarat",
+    location: "Nashik, Maharashtra",
     bank_name: "HDFC Bank Ltd.",
     account_no: "•••• •••• 8821",
     ifsc: "HDFC0001234",
-    upi_id: "ramesh.farmer@okhdfcbank"
+    upi_id: "ramesh.patil@okhdfcbank"
   },
   crops: [
     {
       id: "LOT-TOM-01",
-      farmer_name: "Ramesh Patel",
+      farmer_name: "Ramesh Patil",
       crop: "Tomato",
       variety: "Hybrid Red (Shivam)",
       category: "Vegetables",
@@ -38,9 +38,9 @@ const DEFAULT_DATA = {
       quantity_kg: 5000,
       price_per_qt: 2400,
       price_per_kg: 24.0,
-      state: "Gujarat",
-      district: "Surat",
-      mandi: "Surat Mandi Yard",
+      state: "Maharashtra",
+      district: "Nashik",
+      mandi: "Nashik APMC Mandi",
       grade: "Grade A",
       image: "assets/images/tomato.jpg",
       status: "Active (Bids Open)",
@@ -51,7 +51,7 @@ const DEFAULT_DATA = {
     },
     {
       id: "LOT-ONI-02",
-      farmer_name: "Ramesh Patel",
+      farmer_name: "Ramesh Patil",
       crop: "Onion",
       variety: "Nashik Red Export Grade",
       category: "Vegetables",
@@ -73,7 +73,7 @@ const DEFAULT_DATA = {
     },
     {
       id: "LOT-POT-03",
-      farmer_name: "Ramesh Patel",
+      farmer_name: "Ramesh Patil",
       crop: "Potato",
       variety: "Jyoti Grade A Processing Chip Grade",
       category: "Vegetables",
@@ -82,9 +82,9 @@ const DEFAULT_DATA = {
       quantity_kg: 12000,
       price_per_qt: 1800,
       price_per_kg: 18.0,
-      state: "Gujarat",
-      district: "Surat",
-      mandi: "Surat Mandi Yard",
+      state: "Maharashtra",
+      district: "Nashik",
+      mandi: "Nashik APMC Mandi",
       grade: "Grade A",
       image: "assets/images/potato.jpg",
       status: "Accepted (Escrow Active)",
@@ -95,7 +95,7 @@ const DEFAULT_DATA = {
     },
     {
       id: "LOT-WHT-04",
-      farmer_name: "Ramesh Patel",
+      farmer_name: "Ramesh Patil",
       crop: "Wheat",
       variety: "Sharbati Lokwan Golden Wheat",
       category: "Grains",
@@ -213,7 +213,7 @@ const DEFAULT_DATA = {
   fpo_pools: [
     {
       id: "POOL-ONI-01",
-      pool_name: "Surat Red Onion Export Pool",
+      pool_name: "Nashik Red Onion Export Pool",
       crop: "Onion (Nashik Red)",
       buyer_name: "NatureFresh Gulf Exports",
       target_qt: 500,
@@ -228,7 +228,7 @@ const DEFAULT_DATA = {
     },
     {
       id: "POOL-POT-02",
-      pool_name: "North Gujarat Potato Chip Pool",
+      pool_name: "Maharashtra Potato Processing Pool",
       crop: "Potato (Processing Jyoti)",
       buyer_name: "Balaji & Haldiram Snacks Consortium",
       target_qt: 800,
@@ -237,7 +237,7 @@ const DEFAULT_DATA = {
       floor_price_kg: 19.50,
       min_contribution: "30 Qt",
       closing_date: "2026-09-22",
-      destination: "Valsad Processing Facility, Gujarat",
+      destination: "Navi Mumbai Processing Facility, Maharashtra",
       contributors_count: 22,
       status: "Open"
     },
@@ -317,7 +317,7 @@ const DEFAULT_DATA = {
       vehicle: "MH-12-AQ-9011 (Tata 407)",
       status: "transit",
       step: 3,
-      current_loc: "Surat-Mumbai Expressway KM 84",
+      current_loc: "Nashik-Mumbai Expressway KM 45",
       speed: "54 km/h",
       eta: "Tomorrow, 8:00 AM",
       total_value: 96000,
@@ -333,7 +333,7 @@ const DEFAULT_DATA = {
       quantity_qt: 120,
       quantity_kg: 12000,
       buyer: "Balaji Wafers Procurement",
-      destination: "Balaji Factory Hub, Valsad, Gujarat",
+      destination: "Bhiwandi Agro Hub, Mumbai, Maharashtra",
       driver: "Sukhdev Singh",
       phone: "+91 98450 11992",
       vehicle: "GJ-05-BX-4412 (Eicher 14-ft)",
@@ -349,16 +349,16 @@ const DEFAULT_DATA = {
   grievances: [
     {
       id: "GRV-2026-104",
-      farmer_name: "Ramesh Patel",
+      farmer_name: "Ramesh Patil",
       category: "Logistics Pickup Schedule",
       lot_ref: "LOT-ONI-02 (Nashik Red Onion)",
-      subject: "Truck gate pass delay at Surat Mandi Yard Gate 2",
+      subject: "Truck gate pass delay at Nashik APMC Mandi Gate 2",
       description: "Produce has been packed and weighed. Logistics truck driver requested an updated digital gate pass for weighbridge clearance.",
       priority: "High",
       status: "Under Review",
       status_badge: "badge-status-emergency",
       filed_date: "Today, 10:15 AM",
-      assigned_officer: "Surat APMC Mandi Officer - K. Mehta",
+      assigned_officer: "Nashik APMC Mandi Officer - V. Kulkarni",
       sla_hours: 24,
       steps: [
         { title: "Grievance Logged", done: true, time: "10:15 AM" },
@@ -370,7 +370,7 @@ const DEFAULT_DATA = {
     },
     {
       id: "GRV-2026-081",
-      farmer_name: "Ramesh Patel",
+      farmer_name: "Ramesh Patil",
       category: "Payment / Escrow Advance",
       lot_ref: "LOT-TOM-01 (Reliance Retail Hub)",
       subject: "Verification of 35% Advance Escrow Release",
@@ -553,9 +553,9 @@ const server = http.createServer(async (req, res) => {
           bestBid: `₹ ${(priceKg * 1.02).toFixed(2)} /kg (₹ ${Math.round(priceQt * 1.02).toLocaleString()} /Qt)`,
           bestBidNumber: Math.round(priceQt * 1.02),
           buyerName: "Reliance Retail Hub",
-          state: body.state || "Gujarat",
-          district: body.district || "Surat",
-          mandi: body.mandi || "Surat Mandi Yard",
+          state: body.state || "Maharashtra",
+          district: body.district || "Nashik",
+          mandi: body.mandi || "Nashik APMC Mandi",
           grade: body.grade || "Grade A",
           gradeBadgeClass: body.grade === 'Grade B' ? 'badge-grade-b' : 'badge-grade-a',
           image: cropImage,
@@ -961,7 +961,7 @@ const server = http.createServer(async (req, res) => {
           status: "Under Review",
           status_badge: "badge-status-emergency",
           filed_date: "Today, " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          assigned_officer: "Surat APMC Mandi Officer - K. Mehta",
+          assigned_officer: "Nashik APMC Mandi Officer - V. Kulkarni",
           sla_hours: 24,
           steps: [
             { title: "Grievance Logged", done: true, time: "Just now" },
