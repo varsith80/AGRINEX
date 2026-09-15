@@ -279,8 +279,8 @@
         <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
           <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
           <div style="min-width:0; flex:1;">
-            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Ramesh Patel</div>
-            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Surat</div>
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Patil Rameshwar</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Lasalgaon, Nashik</div>
           </div>
           <a href="../login_details/farmer_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
@@ -307,7 +307,7 @@
               <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
               <circle cx="12" cy="10" r="3"></circle>
             </svg>
-            <span>Surat Central Hub</span>
+            <span>Lasalgaon Central Hub, Nashik</span>
           </div>
         </div>
 
@@ -338,8 +338,8 @@
           <div class="profile-widget" style="cursor: pointer;" onclick="openProfileModal()">
             <img src="assets/images/farmer-avatar.jpg" alt="Ramesh Patel" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80'" />
             <div>
-              <div class="profile-name">Ramesh Patel</div>
-              <div class="profile-role">SKPC Member #8821</div>
+              <div class="profile-name">Patil Rameshwar</div>
+              <div class="profile-role">MAFPC Member #8821</div>
             </div>
           </div>
         </div>
@@ -355,15 +355,15 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
               </svg>
-              Surat Kisan Producer Co. (SKPC)
+              MahaAgri Farmers Producer Co. (MAFPC)
             </span>
             <span style="font-size: 0.82rem; color: #065f46; font-weight: 700;">
-              NABARD Reg: FPO/TN/2023/8892 • Surat Central Hub, Gujarat
+              NABARD Reg: FPO/MH/2023/8892 • Lasalgaon Mandi Hub, Nashik, Maharashtra
             </span>
           </div>
 
           <div style="display: flex; align-items: center; gap: 10px; font-size: 0.78rem; color: #047857; font-weight: 700;">
-            <span>👥 340 Member Farmers</span>
+            <span>👥 450 Member Farmers</span>
             <span>•</span>
             <span>🛡️ 100% Escrow Protected</span>
           </div>
@@ -381,9 +381,9 @@
             </div>
             <div style="min-width: 0;">
               <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 2px;">Active Orders</div>
-              <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 2px; white-space: nowrap;">4 Open Pools</div>
+              <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 2px; white-space: nowrap;">10 Open Pools</div>
               <div style="font-size: 0.72rem; font-weight: 700; color: #a855f7;">
-                ₹ 1.25 Cr Total Value
+                ₹ 4.85 Cr Total Value
               </div>
             </div>
           </div>
@@ -446,7 +446,7 @@
         <!-- FPO TAB NAVIGATION BAR -->
         <div class="fpo-tabs-container">
           <button class="fpo-tab-btn active" id="tab-btn-active-pools" onclick="switchFPOTab('active-pools')">
-            🔥 Active Bulk Orders (4)
+            🔥 Active Bulk Orders (10)
           </button>
           <button class="fpo-tab-btn" id="tab-btn-my-commitments" onclick="switchFPOTab('my-commitments')">
             🧑‍🌾 My Harvest Commitments (<span id="my-commitments-count">1</span>)
@@ -464,11 +464,17 @@
           
           <!-- Crop Quick Filter Chips -->
           <div class="crop-filter-chips" id="fpo-crop-chips">
-            <button class="crop-chip-btn active" onclick="filterByCropChip('all', this)">🌾 All Bulk Orders (4)</button>
+            <button class="crop-chip-btn active" onclick="filterByCropChip('all', this)">🌾 All Bulk Orders (10)</button>
             <button class="crop-chip-btn" onclick="filterByCropChip('Tomato', this)">🍅 Tomato (500 Qt)</button>
             <button class="crop-chip-btn" onclick="filterByCropChip('Onion', this)">🧅 Red Onion (1,000 Qt)</button>
-            <button class="crop-chip-btn" onclick="filterByCropChip('Paddy', this)">🌾 Sona Masoori Paddy (2,000 Qt)</button>
-            <button class="crop-chip-btn" onclick="filterByCropChip('Cotton', this)">☁️ Raw Cotton (800 Qt)</button>
+            <button class="crop-chip-btn" onclick="filterByCropChip('Soybean', this)">🌻 Soybean (2,000 Qt)</button>
+            <button class="crop-chip-btn" onclick="filterByCropChip('Cotton', this)">☁️ Cotton (800 Qt)</button>
+            <button class="crop-chip-btn" onclick="filterByCropChip('Turmeric', this)">✨ Turmeric (400 Qt)</button>
+            <button class="crop-chip-btn" onclick="filterByCropChip('Rice', this)">🌾 Kolam Rice (1,500 Qt)</button>
+            <button class="crop-chip-btn" onclick="filterByCropChip('Mango', this)">🥭 Alphonso Mango (300 Qt)</button>
+            <button class="crop-chip-btn" onclick="filterByCropChip('Grapes', this)">🍇 Grapes (600 Qt)</button>
+            <button class="crop-chip-btn" onclick="filterByCropChip('Chana', this)">🌰 Chana (1,200 Qt)</button>
+            <button class="crop-chip-btn" onclick="filterByCropChip('Sunflower', this)">🌻 Sunflower (750 Qt)</button>
           </div>
 
           <div class="fpo-demands-grid" id="fpo-demands-container">
@@ -605,16 +611,16 @@
         <img src="assets/images/farmer-avatar.jpg" alt="Ramesh Patel" style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #4ade80; box-shadow: 0 2px 8px rgba(0,0,0,0.25);" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80'" />
         <div style="flex: 1;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <h4 style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">Ramesh Patel</h4>
+            <h4 style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">Patil Rameshwar</h4>
             <span style="background: rgba(74, 222, 128, 0.25); color: #86efac; border: 1px solid #4ade80; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">ID: AGRI-FARM-8821</span>
           </div>
-          <p style="font-size: 0.8rem; color: #bbf7d0; margin-top: 2px;">Verified Member of Surat Kisan Producer Co. • Surat, GJ</p>
+          <p style="font-size: 0.8rem; color: #bbf7d0; margin-top: 2px;">Verified Member of MahaAgri Farmers Producer Co. • Lasalgaon, MH</p>
           <div style="display: flex; gap: 12px; margin-top: 8px; font-size: 0.76rem; color: #f0fdf4;">
             <span>⭐ <strong>4.9 / 5.0</strong></span>
             <span>•</span>
             <span>🛡️ <strong>PM-KISAN Linked</strong></span>
             <span>•</span>
-            <span>🌱 <strong>SKPC Shareholder</strong></span>
+            <span>🌱 <strong>MAFPC Shareholder</strong></span>
           </div>
         </div>
       </div>
@@ -623,17 +629,17 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
           <div class="form-group">
             <label class="form-label">Full Name</label>
-            <input type="text" class="form-input" value="Ramesh Patel" readonly />
+            <input type="text" class="form-input" value="Patil Rameshwar" readonly />
           </div>
           <div class="form-group">
             <label class="form-label">Mobile Number</label>
-            <input type="text" class="form-input" value="+91 98421 88390" readonly />
+            <input type="text" class="form-input" value="+91 98220 44911" readonly />
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-label">FPO Registered Mandi Region</label>
-          <input type="text" class="form-input" value="Surat Mandi Yard, Gujarat" readonly />
+          <input type="text" class="form-input" value="Lasalgaon APMC Yard, Nashik, Maharashtra" readonly />
         </div>
 
         <!-- Bank & Escrow Payout Box -->
