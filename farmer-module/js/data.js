@@ -12,13 +12,13 @@ const farmerData = {
     messagesCount: 1
   },
   stats: {
-    totalLots: 6,
+    totalLots: 7,
     activeListingsSubtitle: "Active listings",
-    activeBids: 5,
+    activeBids: 6,
     buyersSubtitle: "Buyers interested",
     pendingShipments: 1,
     shipmentSubtitle: "In transit",
-    estimatedProfit: "₹ 7,42,500",
+    estimatedProfit: "₹ 10,95,000",
     profitSubtitle: "(Expected gross value)"
   },
   listings: [
@@ -57,15 +57,15 @@ const farmerData = {
       expectedPriceNumber: 900,
       bestBid: "₹ 9.50 /kg (₹ 950 /Qt)",
       bestBidNumber: 950,
-      buyerName: "Global Grains",
+      buyerName: "Global Grains Direct",
       status: "Negotiation",
       statusBadgeClass: "badge-status-negotiation",
-      location: "Nashik APMC Mandi, MH"
+      location: "Lasalgaon Mandi Yard, MH"
     },
     {
       id: "LOT-PAD-03",
       crop: "Paddy (1121 Basmati)",
-      category: "Grains",
+      category: "Grains & Cereals",
       shelfLife: "180 Days",
       harvestDate: "05 Sep 2026",
       image: "assets/images/paddy.jpg",
@@ -75,9 +75,9 @@ const farmerData = {
       quantityNumber: 100,
       expectedPrice: "₹ 20.00 /kg (₹ 2,000 /Qt)",
       expectedPriceNumber: 2000,
-      bestBid: "₹ 20.50 /kg (₹ 2,050 /Qt)",
-      bestBidNumber: 2050,
-      buyerName: "Fresh Mart",
+      bestBid: "₹ 20.80 /kg (₹ 2,080 /Qt)",
+      bestBidNumber: 2080,
+      buyerName: "Fresh Mart Wholesale",
       status: "Dispatched",
       statusBadgeClass: "badge-status-dispatched",
       location: "Nashik Central Agro Warehouse, MH"
@@ -85,7 +85,7 @@ const farmerData = {
     {
       id: "LOT-CHL-04",
       crop: "Green Chilli (G4 Spicy)",
-      category: "Spices",
+      category: "Spices & High-Value",
       shelfLife: "5 Days (Perishable)",
       harvestDate: "11 Sep 2026",
       image: "assets/images/chilli.jpg",
@@ -115,12 +115,12 @@ const farmerData = {
       quantityNumber: 80,
       expectedPrice: "₹ 58.00 /kg (₹ 5,800 /Qt)",
       expectedPriceNumber: 5800,
-      bestBid: "₹ 59.20 /kg (₹ 5,920 /Qt)",
-      bestBidNumber: 5920,
+      bestBid: "₹ 59.50 /kg (₹ 5,950 /Qt)",
+      bestBidNumber: 5950,
       buyerName: "Malegaon Cotton Textiles",
       status: "Negotiation",
       statusBadgeClass: "badge-status-negotiation",
-      location: "Lasalgaon Mandi Yard, MH"
+      location: "Malegaon Mandi Yard, MH"
     },
     {
       id: "LOT-OKR-06",
@@ -135,18 +135,38 @@ const farmerData = {
       quantityNumber: 20,
       expectedPrice: "₹ 16.00 /kg (₹ 1,600 /Qt)",
       expectedPriceNumber: 1600,
-      bestBid: "₹ 16.20 /kg (₹ 1,620 /Qt)",
-      bestBidNumber: 1620,
+      bestBid: "₹ 16.80 /kg (₹ 1,680 /Qt)",
+      bestBidNumber: 1680,
       buyerName: "Annapoorna Caterers",
       status: "Bids Open",
       statusBadgeClass: "badge-status-open",
       location: "Nashik APMC Mandi, MH"
+    },
+    {
+      id: "LOT-TUR-07",
+      crop: "Salem Turmeric Finger (High Curcumin)",
+      category: "Spices & High-Value",
+      shelfLife: "365 Days",
+      harvestDate: "28 Aug 2026",
+      image: "assets/images/turmeric.jpg",
+      grade: "Grade A Export Quality",
+      gradeBadgeClass: "badge-grade-a",
+      quantity: "25 Qt (2,500 kg)",
+      quantityNumber: 25,
+      expectedPrice: "₹ 141.00 /kg (₹ 14,100 /Qt)",
+      expectedPriceNumber: 14100,
+      bestBid: "₹ 143.00 /kg (₹ 14,300 /Qt)",
+      bestBidNumber: 14300,
+      buyerName: "Aroma Spices International",
+      status: "Bids Open",
+      statusBadgeClass: "badge-status-open",
+      location: "Sangli Spices Hub, MH"
     }
   ],
   mandiPrices: [
     {
       crop: "Tomato",
-      currentPrice: "₹ 11.50 /kg (₹ 1,150 /Qt)",
+      currentPrice: "₹ 12.00 /kg (₹ 1,200 /Qt)",
       trendPercent: "+6.2%",
       direction: "up",
       trendPoints: [20, 16, 18, 12, 14, 8, 4]
@@ -183,7 +203,7 @@ const farmerData = {
   },
   shipmentTracking: {
     orderId: "#AG12345",
-    crop: "Tomato",
+    crop: "Tomato (Shivam Hybrid)",
     quantity: "50 Qt",
     image: "assets/images/tomato.jpg",
     status: "In Transit"

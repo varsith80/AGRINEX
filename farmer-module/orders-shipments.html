@@ -430,12 +430,10 @@
   <script src="js/api.js"></script>
   <script>
     let SHIPMENTS = [
-      { tracking_id: 'TRK-9884', gate_pass: 'GP-2026-9884', crop: 'Tomato (Hybrid Red)', quantity_qt: 40, quantity_kg: 4000, buyer: 'Swiggy Instamart Agri', destination: 'Swiggy DC, Bhiwandi', driver: 'Dinesh Yadav', phone: '+91 97230 44819', vehicle: 'MH-12-AQ-9011', status: 'transit', step: 3, loc: 'Nashik-Mumbai Expressway KM 45', eta: 'Tomorrow 8:00 AM', total_val: 96000, adv_paid: 33600 },
-      { tracking_id: 'TRK-9921', gate_pass: 'GP-2026-9921', crop: 'Potato (Jyoti Grade A)', quantity_qt: 120, quantity_kg: 12000, buyer: 'Balaji Wafers Procurement', destination: 'Balaji Factory, Valsad', driver: 'Sukhdev Singh', phone: '+91 98450 11992', vehicle: 'GJ-05-BX-4412', status: 'scheduled', step: 2, loc: 'Truck arriving at farm at 2:00 PM', eta: 'Today 4:30 PM', total_val: 222000, adv_paid: 77700 },
-      { tracking_id: 'TRK-9710', gate_pass: 'GP-2026-9710', crop: 'Wheat (Sharbati)', quantity_qt: 100, quantity_kg: 10000, buyer: 'Aashirvaad ITC Foods', destination: 'ITC Depot, Vadodara', driver: 'Mohan Lal', phone: '+91 98110 55432', vehicle: 'GJ-06-TT-1904', status: 'delivered', step: 4, loc: 'Delivered & Accepted', eta: 'Completed', total_val: 260000, adv_paid: 91000 }
+      { tracking_id: 'TRK-9884', gate_pass: 'GP-2026-9884', crop: 'Tomato (Shivam Hybrid)', quantity_qt: 50, quantity_kg: 5000, buyer: 'AgriFoods Ltd.', destination: 'AgriFoods DC, Thane', driver: 'Dinesh Yadav', phone: '+91 97230 44819', vehicle: 'MH-15-AQ-9011', status: 'transit', step: 3, loc: 'Nashik-Mumbai Expressway KM 45', eta: 'Tomorrow 8:00 AM', total_val: 62500, adv_paid: 21875 },
+      { tracking_id: 'TRK-9921', gate_pass: 'GP-2026-9921', crop: 'Paddy (1121 Basmati)', quantity_qt: 100, quantity_kg: 10000, buyer: 'Fresh Mart Wholesale', destination: 'Fresh Mart Hub, Navi Mumbai', driver: 'Sukhdev Singh', phone: '+91 98450 11992', vehicle: 'MH-15-BX-4412', status: 'transit', step: 3, loc: 'Kasara Ghat Bypass', eta: 'Today 6:00 PM', total_val: 208000, adv_paid: 72800 },
+      { tracking_id: 'TRK-9710', gate_pass: 'GP-2026-9710', crop: 'Salem Turmeric Finger (High Curcumin)', quantity_qt: 25, quantity_kg: 2500, buyer: 'Aroma Spices International', destination: 'JNPT Port Export Terminal, Navi Mumbai', driver: 'Mohan Lal', phone: '+91 98110 55432', vehicle: 'MH-10-TT-1904', status: 'scheduled', step: 2, loc: 'Pickup scheduled at Sangli Yard', eta: 'Tomorrow 11:00 AM', total_val: 357500, adv_paid: 125125 }
     ];
-
-    let currentTab = 'all';
 
     async function loadShipments() {
       try {

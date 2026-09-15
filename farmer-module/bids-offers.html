@@ -408,9 +408,12 @@
         <div class="crop-chips-row">
           <button class="chip-btn active" onclick="setCrop('All', this)">All</button>
           <button class="chip-btn" onclick="setCrop('Tomato', this)">🍅 Tomato</button>
-          <button class="chip-btn" onclick="setCrop('Onion', this)">🧅 Onion</button>
-          <button class="chip-btn" onclick="setCrop('Potato', this)">🥔 Potato</button>
-          <button class="chip-btn" onclick="setCrop('Wheat', this)">🌾 Wheat</button>
+          <button class="chip-btn" onclick="setCrop('Red Onion', this)">🧅 Onion</button>
+          <button class="chip-btn" onclick="setCrop('Paddy', this)">🌾 Basmati Paddy</button>
+          <button class="chip-btn" onclick="setCrop('Green Chilli', this)">🌶️ Chilli</button>
+          <button class="chip-btn" onclick="setCrop('Raw Cotton', this)">☁️ Cotton</button>
+          <button class="chip-btn" onclick="setCrop('Fresh Okra', this)">🥬 Okra</button>
+          <button class="chip-btn" onclick="setCrop('Salem Turmeric Finger', this)">🌿 Turmeric</button>
         </div>
 
         <!-- BIDS LIST -->
@@ -497,11 +500,13 @@
   <script src="js/api.js"></script>
   <script>
     let BIDS_DATA = [
-      { id: 101, crop: 'Tomato', variety: 'Hybrid Red', quantity_qt: 45, quantity_kg: 4500, buyer_name: 'FreshCart Retail', phone: '919823411223', bid_rate_kg: 24.50, bid_rate_qt: 2450, mandi_ref_kg: 22.50, premium_pct: '+8.9%', total_value: 110250, advance_35: 38587, status: 'pending', time_ago: '15 mins ago', image: 'assets/images/tomato.jpg' },
-      { id: 102, crop: 'Onion', variety: 'Nashik Red', quantity_qt: 80, quantity_kg: 8000, buyer_name: 'Mahyco Agro Traders', phone: '919712377889', bid_rate_kg: 28.50, bid_rate_qt: 2850, mandi_ref_kg: 26.00, premium_pct: '+9.6%', total_value: 228000, advance_35: 79800, status: 'pending', time_ago: '40 mins ago', image: 'assets/images/onion.jpg' },
-      { id: 103, crop: 'Potato', variety: 'Jyoti Grade A', quantity_qt: 120, quantity_kg: 12000, buyer_name: 'Balaji Wafers Procurement', phone: '919900122334', bid_rate_kg: 18.50, bid_rate_qt: 1850, mandi_ref_kg: 17.20, premium_pct: '+7.5%', total_value: 222000, advance_35: 77700, status: 'accepted', time_ago: 'Yesterday', image: 'assets/images/potato.jpg' },
-      { id: 104, crop: 'Wheat', variety: 'Sharbati Lokwan', quantity_qt: 150, quantity_kg: 15000, buyer_name: 'ITC Aashirvaad Sourcing', phone: '919899044556', bid_rate_kg: 26.50, bid_rate_qt: 2650, mandi_ref_kg: 24.80, premium_pct: '+6.8%', total_value: 397500, advance_35: 139125, status: 'pending', time_ago: '2 hours ago', image: 'assets/images/hero-field.jpg' },
-      { id: 105, crop: 'Tomato', variety: 'Hybrid Red', quantity_qt: 40, quantity_kg: 4000, buyer_name: 'Swiggy Instamart Agri', phone: '919823411223', bid_rate_kg: 24.00, bid_rate_qt: 2400, mandi_ref_kg: 22.50, premium_pct: '+6.6%', total_value: 96000, advance_35: 33600, status: 'countered', time_ago: '3 hours ago', image: 'assets/images/tomato.jpg' }
+      { id: 101, crop: 'Tomato', variety: 'Shivam Hybrid', quantity_qt: 50, quantity_kg: 5000, buyer_name: 'AgriFoods Ltd.', phone: '919823411223', bid_rate_kg: 12.50, bid_rate_qt: 1250, mandi_ref_kg: 11.50, premium_pct: '+8.7%', total_value: 62500, advance_35: 21875, status: 'pending', time_ago: '15 mins ago', image: 'assets/images/tomato.jpg' },
+      { id: 102, crop: 'Red Onion', variety: 'Nashik Quality', quantity_qt: 30, quantity_kg: 3000, buyer_name: 'Global Grains Direct', phone: '919811055432', bid_rate_kg: 9.50, bid_rate_qt: 950, mandi_ref_kg: 9.00, premium_pct: '+5.5%', total_value: 28500, advance_35: 9975, status: 'pending', time_ago: '40 mins ago', image: 'assets/images/onion.jpg' },
+      { id: 103, crop: 'Paddy', variety: '1121 Basmati', quantity_qt: 100, quantity_kg: 10000, buyer_name: 'Fresh Mart Wholesale', phone: '919876543210', bid_rate_kg: 20.80, bid_rate_qt: 2080, mandi_ref_kg: 20.00, premium_pct: '+4.0%', total_value: 208000, advance_35: 72800, status: 'accepted', time_ago: '1 hour ago', image: 'assets/images/paddy.jpg' },
+      { id: 104, crop: 'Green Chilli', variety: 'G4 Spicy', quantity_qt: 25, quantity_kg: 2500, buyer_name: 'Spices Exim Hub', phone: '919765432109', bid_rate_kg: 33.50, bid_rate_qt: 3350, mandi_ref_kg: 32.00, premium_pct: '+4.7%', total_value: 83750, advance_35: 29312, status: 'pending', time_ago: '25 mins ago', image: 'assets/images/chilli.jpg' },
+      { id: 105, crop: 'Raw Cotton', variety: 'MCU-5 Long Staple', quantity_qt: 80, quantity_kg: 8000, buyer_name: 'Malegaon Cotton Textiles', phone: '919822077611', bid_rate_kg: 59.50, bid_rate_qt: 5950, mandi_ref_kg: 58.00, premium_pct: '+2.6%', total_value: 476000, advance_35: 166600, status: 'countered', time_ago: '2 hours ago', image: 'assets/images/cotton.jpg' },
+      { id: 106, crop: 'Fresh Okra', variety: 'Ladyfinger', quantity_qt: 20, quantity_kg: 2000, buyer_name: 'Annapoorna Caterers', phone: '919423144556', bid_rate_kg: 16.80, bid_rate_qt: 1680, mandi_ref_kg: 16.00, premium_pct: '+5.0%', total_value: 33600, advance_35: 11760, status: 'pending', time_ago: '5 mins ago', image: 'assets/images/okra.jpg' },
+      { id: 107, crop: 'Salem Turmeric Finger', variety: 'High Curcumin', quantity_qt: 25, quantity_kg: 2500, buyer_name: 'Aroma Spices International', phone: '919443288190', bid_rate_kg: 143.00, bid_rate_qt: 14300, mandi_ref_kg: 141.00, premium_pct: '+1.4%', total_value: 357500, advance_35: 125125, status: 'pending', time_ago: '10 mins ago', image: 'assets/images/turmeric.jpg' }
     ];
 
     let currentTab = 'all';
