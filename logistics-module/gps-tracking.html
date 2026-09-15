@@ -286,14 +286,89 @@
       const gmapsBtn = document.getElementById("btn-open-google-maps");
       const windowBadge = document.getElementById("track-delivery-window-badge");
       const statusPill = document.getElementById("track-status-pill");
+      const completeBtn = document.getElementById("btn-complete-pin");
 
       if (codeEl) codeEl.textContent = order.orderCode;
       if (titleEl) titleEl.textContent = `${order.cropName} (${order.quantityQt} Qt / ${(order.quantityKg).toLocaleString()} kg)`;
       if (farmerEl) farmerEl.textContent = `Farmer: ${order.pickupFarmerName}`;
       if (summaryEl) summaryEl.textContent = `Exact Route: ${order.distanceKm} km • ⏱️ ${order.etaTime} (${order.pickupAddress.split(',')[0]} ➔ ${order.deliveryAddress.split(',')[0]})`;
       if (windowBadge) windowBadge.textContent = `🎯 Deliver Between: ${order.deliveryWindow || '01:00 PM – 05:30 PM'}`;
-      if (statusPill) statusPill.textContent = `● ${order.deliveryStatus}`;
       if (gmapsBtn) gmapsBtn.href = getGoogleMapsUrl(order);
+
+      const isDelivered = order.deliveryStatus === 'Delivered';
+
+      if (statusPill) {
+        if (isDelivered) {
+          statusPill.style.background = "#f0fdf4";
+          statusPill.style.color = "#166534";
+          statusPill.style.borderColor = "#bbf7d0";
+          statusPill.textContent = "✓ Delivered & Settled";
+        } else {
+          statusPill.style.background = "#eff6ff";
+          statusPill.style.color = "#1d4ed8";
+          statusPill.style.borderColor = "#bfdbfe";
+          statusPill.textContent = `● ${order.deliveryStatus}`;
+        }
+      }
+
+      if (completeBtn) {
+        if (isDelivered) {
+          completeBtn.style.background = "#f0fdf4";
+          completeBtn.style.color = "#0c5a36";
+          completeBtn.style.borderColor = "#a7f3d0";
+          completeBtn.innerHTML = "✅ Freight Payout Settled";
+          completeBtn.onclick = null;
+        } else {
+          completeBtn.style.background = "#0284c7";
+          completeBtn.style.color = "#ffffff";
+          completeBtn.innerHTML = "🔐 Complete Delivery";
+          completeBtn.onclick = () => openPinModal(order.orderCode);
+        }
+      }
+
+      // Dynamic step tracker update
+      const stepTrack = document.querySelector(".step-track");
+      if (stepTrack) {
+        if (isDelivered) {
+          stepTrack.innerHTML = `
+            <div>
+              <div class="step-dot done">✓</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#0f172a;">Farm Gate Loaded</div>
+            </div>
+            <div>
+              <div class="step-dot done">✓</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#0f172a;">Advance Paid</div>
+            </div>
+            <div>
+              <div class="step-dot done">✓</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#0f172a;">Highway Delivered</div>
+            </div>
+            <div>
+              <div class="step-dot done" style="background:#0c5a36; color:#ffffff;">✓</div>
+              <div style="font-size:0.78rem; font-weight:800; color:#0c5a36;">Delivered & Settled</div>
+            </div>
+          `;
+        } else {
+          stepTrack.innerHTML = `
+            <div>
+              <div class="step-dot done">✓</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#0f172a;">Farm Gate Loaded</div>
+            </div>
+            <div>
+              <div class="step-dot done">✓</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#0f172a;">Advance Paid</div>
+            </div>
+            <div>
+              <div class="step-dot active">3</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#0284c7;">On Highway</div>
+            </div>
+            <div>
+              <div class="step-dot">4</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#64748b;">Delivered & Settled</div>
+            </div>
+          `;
+        }
+      }
 
       initLogisticsMap(order.orderCode);
     }

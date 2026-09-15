@@ -1105,42 +1105,45 @@ const server = http.createServer(async (req, res) => {
 
     if (urlPath === '/api/logistics/verify-pin' && req.method === 'POST') {
       const body = await parseBody(req);
-      const orderId = body.order_id || body.order_code;
-      const pin = String(body.pin || '').trim();
+      const orderCode = body.order_code || body.orderCode;
+      const pin = body.delivery_pin || body.deliveryPin || body.pin;
 
-      if (!db.logistics_dispatch_orders) db.logistics_dispatch_orders = [];
-      const order = db.logistics_dispatch_orders.find(o => 
-        String(o.id) === String(orderId) || String(o.order_code).toUpperCase() === String(orderId).toUpperCase()
-      );
-
+      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
       if (!order) {
-        return sendJSON(res, 404, { error: 'Order not found' });
+        return sendJSON(res, 404, { error: "Order not found in logistics registry." });
       }
 
-      const expectedPin = String(order.delivery_pin || '8821').trim();
-      if (pin !== expectedPin && pin !== '8821' && pin !== '1234') {
-        return sendJSON(res, 400, { error: 'Invalid 4-digit Security PIN. Please verify with buyer receiving lead.' });
+      if (String(order.delivery_pin).trim() !== String(pin).trim()) {
+        return sendJSON(res, 400, {
+          success: false,
+          error: "Invalid 4-digit Security PIN! Please ask receiving manager at unloading bay."
+        });
       }
 
-      order.delivery_status = 'Delivered';
+      order.delivery_status = "Delivered";
+      order.escrow_status = "Released & Settled";
       order.delivered_at = new Date().toISOString();
 
-      // Update matching shipment
-      if (db.shipments) {
-        const sh = db.shipments.find(s => s.tracking_id === order.order_code);
-        if (sh) {
-          sh.status = 'delivered';
-          sh.step = 4;
-          sh.current_loc = 'Delivered & Accepted at Buyer Dock';
-          sh.eta = 'Delivered';
-        }
-      }
+      if (!db.logistics_passbook) db.logistics_passbook = [];
+      const newTxn = {
+        txId: "TXN-2026-" + Math.floor(100 + Math.random() * 900),
+        orderCode: order.order_code,
+        crop: `${order.crop_name} (${order.quantity_qt} Qt)`,
+        buyer: order.buyer_name,
+        amount: "₹ " + (order.freight_fee || 0).toLocaleString(),
+        date: "Today, " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        status: "✓ Settled"
+      };
+
+      // Add to passbook
+      db.logistics_passbook.unshift(newTxn);
 
       saveDB(db);
       return sendJSON(res, 200, {
         success: true,
-        message: `Security PIN Verified! Order #${order.order_code} delivered successfully. Freight payout ₹${order.freight_fee.toLocaleString()} credited to driver UPI account.`,
-        order
+        message: `Delivery confirmed for ${orderCode}! Freight payout ₹${(order.freight_fee || 0).toLocaleString()} credited to your bank account.`,
+        order,
+        txn: newTxn
       });
     }
 
@@ -1375,10 +1378,10 @@ const server = http.createServer(async (req, res) => {
 
       const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
       if (!order) {
-        return sendJSON(res, 404, { error: "Order not found." });
+        return sendJSON(res, 404, { error: "Order not found in logistics registry." });
       }
 
-      if (String(order.delivery_pin) !== String(pin).trim()) {
+      if (String(order.delivery_pin).trim() !== String(pin).trim()) {
         return sendJSON(res, 400, {
           success: false,
           error: "Invalid 4-digit Security PIN! Please ask receiving manager at unloading bay."
@@ -1386,13 +1389,29 @@ const server = http.createServer(async (req, res) => {
       }
 
       order.delivery_status = "Delivered";
+      order.escrow_status = "Released & Settled";
       order.delivered_at = new Date().toISOString();
+
+      if (!db.logistics_passbook) db.logistics_passbook = [];
+      const newTxn = {
+        txId: "TXN-2026-" + Math.floor(100 + Math.random() * 900),
+        orderCode: order.order_code,
+        crop: `${order.crop_name} (${order.quantity_qt} Qt)`,
+        buyer: order.buyer_name,
+        amount: "₹ " + (order.freight_fee || 0).toLocaleString(),
+        date: "Today, " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        status: "✓ Settled"
+      };
+
+      // Add to passbook
+      db.logistics_passbook.unshift(newTxn);
 
       saveDB(db);
       return sendJSON(res, 200, {
         success: true,
-        message: `Delivery confirmed for ${orderCode}! Freight payout ₹${(order.freight_fee || 0).toLocaleString()} credited.`,
-        order
+        message: `Delivery confirmed for ${orderCode}! Freight payout ₹${(order.freight_fee || 0).toLocaleString()} credited to your bank account.`,
+        order,
+        txn: newTxn
       });
     }
 
