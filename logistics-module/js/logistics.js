@@ -279,6 +279,18 @@ function openGatePassModal(orderCode) {
         </div>
       </div>
 
+      <!-- Flexible Schedule & Arrival Window Banner in Gate Pass -->
+      <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 0.82rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <span style="color: #166534; font-weight: 700;">🕒 Permissible Window:</span>
+          <span style="color: #14532d; font-weight: 800;">${order.pickupWindow || "06:00 AM – 12:00 PM"}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #bbf7d0; padding-top: 4px; margin-top: 4px;">
+          <span style="color: #166534; font-weight: 700;">🚚 Driver Scheduled Arrival:</span>
+          <strong style="color: #0c5a36; font-size: 0.9rem;">${order.driverScheduledSlot || "Flexible (Anytime Today)"}</strong>
+        </div>
+      </div>
+
       <!-- Consignment Grid Details -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 14px; border-radius: 10px;">
@@ -401,4 +413,188 @@ function showToast(message) {
     toast.style.opacity = "0";
     toast.style.transform = "translateY(12px)";
   }, 3500);
+}
+
+
+/**
+ * Global state for active order in schedule modal
+ */
+let currentSchedulingOrder = null;
+
+/**
+ * Open Driver Flexible Scheduled Pickup Modal
+ */
+function openScheduleSlotModal(orderCode) {
+  currentSchedulingOrder = orderCode;
+  const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode);
+  if (!order) return;
+
+  const modal = document.getElementById("modal-schedule-pickup");
+  const body = document.getElementById("modal-schedule-pickup-body");
+  if (!modal || !body) return;
+
+  const availableSlots = order.availableSlots || ["06:30 AM", "08:00 AM", "09:30 AM", "11:00 AM"];
+  const currentSlot = order.driverScheduledSlot || "";
+
+  body.innerHTML = `
+    <div style="background: linear-gradient(135deg, #064e3b 0%, #0c5a36 100%); color: #ffffff; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #10b981;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 0.7rem; background: rgba(255, 255, 255, 0.22); color: #ffffff; padding: 3px 8px; border-radius: 4px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;">DRIVER-FLEXIBLE TIMING</span>
+          <span style="font-size: 0.7rem; background: #10b981; color: #ffffff; padding: 3px 8px; border-radius: 4px; font-weight: 800;">LIVE DISPATCH</span>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.01em;">${order.orderCode} • Schedule Pickup Slot</h3>
+      </div>
+      <button onclick="closeScheduleSlotModal()" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); font-size: 1.2rem; color: #ffffff; cursor: pointer; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; line-height: 1; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">&times;</button>
+    </div>
+
+    <div style="padding: 24px; background: #ffffff;">
+      <!-- Order Brief -->
+      <div style="display: flex; align-items: center; gap: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 20px;">
+        <img src="../farmer-module/${order.image || 'assets/images/tomato.jpg'}" alt="${order.cropName}" style="width: 50px; height: 50px; border-radius: 10px; object-fit: cover; border: 1px solid #cbd5e1;" onerror="this.src='../assets/images/tomato.jpg'" />
+        <div style="flex: 1;">
+          <strong style="color: #0f172a; font-size: 0.98rem; display: block;">${order.cropName} (${order.quantityQt} Qt)</strong>
+          <span style="color: #64748b; font-size: 0.78rem; display: block; margin-top: 2px;">📍 ${order.pickupAddress}</span>
+          <span style="color: #0c5a36; font-size: 0.78rem; font-weight: 700; display: block; margin-top: 2px;">Guaranteed Freight: ${order.freightFormatted}</span>
+        </div>
+      </div>
+
+      <!-- Permissible Harvest Window Banner -->
+      <div style="background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 14px 18px; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.2rem;">🕒</span>
+            <div>
+              <span style="font-size: 0.72rem; color: #047857; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: block;">Permissible Pickup Window (Driver Choice)</span>
+              <strong style="color: #065f46; font-size: 0.98rem;">${order.pickupWindow || "06:00 AM – 12:00 PM (Flexible Today)"}</strong>
+            </div>
+          </div>
+          <span class="badge" style="background: #10b981; color: #ffffff; font-size: 0.72rem; font-weight: 800; padding: 4px 10px;">${order.pickupDate || "Today"}</span>
+        </div>
+        <p style="font-size: 0.76rem; color: #047857; margin: 8px 0 0 0; line-height: 1.4;">
+          💡 You may arrive anytime within this window. Selecting your specific slot alerts the farmer/mandi loading crew so your vehicle is loaded with zero waiting time.
+        </p>
+      </div>
+
+      <!-- Quick Slot Chips Selection -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-size: 0.82rem; font-weight: 800; color: #1e293b; margin-bottom: 10px;">
+          1. Select Your Target Arrival Slot:
+        </label>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;" id="preset-slots-grid">
+          ${availableSlots.map(slot => `
+            <button type="button" class="slot-chip-btn ${currentSlot.includes(slot) ? 'selected' : ''}" onclick="selectPickupPreset('${slot}')" style="background: ${currentSlot.includes(slot) ? '#ecfdf5' : '#ffffff'}; border: 1.5px solid ${currentSlot.includes(slot) ? '#059669' : '#cbd5e1'}; color: ${currentSlot.includes(slot) ? '#064e3b' : '#334155'}; padding: 10px 14px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.15s ease;">
+              <span>🕒 ${slot}</span>
+              <span style="font-size: 0.72rem; color: ${currentSlot.includes(slot) ? '#059669' : '#94a3b8'};">${currentSlot.includes(slot) ? '✓ Selected' : 'Available'}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- Custom Time Option -->
+      <div style="margin-bottom: 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">
+          Or Enter a Custom Preferred Arrival Time:
+        </label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="text" id="custom-slot-time-input" placeholder="e.g. 08:45 AM or 10:15 AM" value="${order.driverScheduledSlot ? order.driverScheduledSlot.replace(' (Confirmed)', '') : ''}" style="flex: 1; padding: 9px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.88rem; font-weight: 700; color: #0f172a; outline: none;" />
+        </div>
+      </div>
+
+      <!-- Driver Ramp / Loading Note -->
+      <div style="margin-bottom: 24px;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px;">
+          2. Instructions / Note to Farmer Loading Team (Optional):
+        </label>
+        <input type="text" id="driver-schedule-notes" placeholder="e.g. Will call 30 mins before arrival • Heavy ramp needed" value="${order.driverNotes || ''}" style="width: 100%; padding: 9px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; color: #0f172a; outline: none;" />
+      </div>
+
+      <!-- Submit & Action Buttons -->
+      <div style="display: flex; justify-content: flex-end; gap: 12px; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 16px;">
+        <button class="btn btn-outline" type="button" onclick="closeScheduleSlotModal()" style="padding: 9px 18px; font-size: 0.85rem; border: 1.5px solid #cbd5e1; color: #475569; font-weight: 700; border-radius: 8px; cursor: pointer;">Cancel</button>
+        <button class="btn btn-primary" type="button" onclick="submitPickupSchedule()" style="padding: 9px 24px; font-size: 0.88rem; background: #0c5a36; color: #ffffff; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 2px 6px rgba(12, 90, 54, 0.3);">
+          ✓ Confirm & Alert Farm Gate
+        </button>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add("active");
+}
+
+function closeScheduleSlotModal() {
+  const modal = document.getElementById("modal-schedule-pickup");
+  if (modal) modal.classList.remove("active");
+}
+
+function selectPickupPreset(slot) {
+  const input = document.getElementById("custom-slot-time-input");
+  if (input) input.value = slot;
+
+  const buttons = document.querySelectorAll("#preset-slots-grid .slot-chip-btn");
+  buttons.forEach(btn => {
+    if (btn.textContent.includes(slot)) {
+      btn.style.background = "#ecfdf5";
+      btn.style.borderColor = "#059669";
+      btn.style.color = "#064e3b";
+    } else {
+      btn.style.background = "#ffffff";
+      btn.style.borderColor = "#cbd5e1";
+      btn.style.color = "#334155";
+    }
+  });
+}
+
+async function submitPickupSchedule() {
+  if (!currentSchedulingOrder) return;
+  const input = document.getElementById("custom-slot-time-input");
+  const notesInput = document.getElementById("driver-schedule-notes");
+
+  const slotTime = (input ? input.value : "").trim();
+  const driverNotes = (notesInput ? notesInput.value : "").trim();
+
+  if (!slotTime) {
+    alert("Please select or enter your preferred pickup arrival time.");
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/logistics/schedule-pickup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        order_code: currentSchedulingOrder,
+        slot_time: slotTime,
+        driver_notes: driverNotes
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === currentSchedulingOrder);
+      if (order) {
+        order.driverScheduledSlot = slotTime + (slotTime.includes("Confirmed") ? "" : " (Confirmed)");
+        if (driverNotes) order.driverNotes = driverNotes;
+      }
+      closeScheduleSlotModal();
+      showToast(`🕒 Pickup slot confirmed for ${slotTime}! Farm gate ramp notified.`);
+      if (typeof renderOrdersList === 'function') renderOrdersList();
+      if (typeof renderFpoCards === 'function') renderFpoCards();
+      if (typeof renderExpressPage === 'function') renderExpressPage();
+      return;
+    } else {
+      alert(data.error || "Could not schedule slot.");
+    }
+  } catch (e) {
+    // Local fallback
+    const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === currentSchedulingOrder);
+    if (order) {
+      order.driverScheduledSlot = slotTime + " (Confirmed)";
+      if (driverNotes) order.driverNotes = driverNotes;
+    }
+    closeScheduleSlotModal();
+    showToast(`🕒 Pickup slot confirmed for ${slotTime}! Farm gate ramp notified.`);
+    if (typeof renderOrdersList === 'function') renderOrdersList();
+    if (typeof renderFpoCards === 'function') renderFpoCards();
+    if (typeof renderExpressPage === 'function') renderExpressPage();
+  }
 }

@@ -1303,6 +1303,99 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
+    
+    // ================= LOGISTICS DISPATCH & FLEXIBLE PICKUP APIS =================
+    if (urlPath === '/api/logistics/dispatch-orders' && req.method === 'GET') {
+      return sendJSON(res, 200, {
+        success: true,
+        dispatchOrders: db.logistics_dispatch_orders || []
+      });
+    }
+
+    if (urlPath === '/api/logistics/schedule-pickup' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const orderCode = body.order_code || body.orderCode;
+      const slotTime = body.slot_time || body.slotTime;
+      const driverNotes = body.driver_notes || body.driverNotes || null;
+
+      if (!orderCode || !slotTime) {
+        return sendJSON(res, 400, { error: "order_code and slot_time are required." });
+      }
+
+      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
+      if (!order) {
+        return sendJSON(res, 404, { error: "Order not found in logistics registry." });
+      }
+
+      order.driver_scheduled_slot = slotTime + (slotTime.includes("Confirmed") ? "" : " (Confirmed)");
+      if (driverNotes) order.driver_notes = driverNotes;
+      order.slot_updated_at = new Date().toISOString();
+
+      saveDB(db);
+      return sendJSON(res, 200, {
+        success: true,
+        message: `Pickup slot confirmed for ${order.driver_scheduled_slot}! Farm loading ramp alerted.`,
+        order
+      });
+    }
+
+    if (urlPath === '/api/logistics/accept-order' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const orderCode = body.order_code || body.orderCode;
+      const vehicleNo = body.vehicle_no || body.vehicleNo || "MH-15-AQ-9011 (Tata 407 Reefer 5°C)";
+      const slotTime = body.slot_time || body.slotTime || null;
+
+      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
+      if (!order) {
+        return sendJSON(res, 404, { error: "Order not found." });
+      }
+
+      order.delivery_status = "In Transit";
+      order.driver_username = "driver_dinesh";
+      order.driver_name = "Dinesh Yadav";
+      order.driver_phone = "+91 97230 44819";
+      order.vehicle_no = vehicleNo;
+      order.accepted_at = new Date().toISOString();
+      if (slotTime) {
+        order.driver_scheduled_slot = slotTime + (slotTime.includes("Confirmed") ? "" : " (Confirmed)");
+      }
+
+      saveDB(db);
+      return sendJSON(res, 200, {
+        success: true,
+        message: `Order ${orderCode} accepted for transit by Dinesh Yadav!`,
+        order
+      });
+    }
+
+    if (urlPath === '/api/logistics/verify-pin' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const orderCode = body.order_code || body.orderCode;
+      const pin = body.delivery_pin || body.deliveryPin || body.pin;
+
+      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
+      if (!order) {
+        return sendJSON(res, 404, { error: "Order not found." });
+      }
+
+      if (String(order.delivery_pin) !== String(pin).trim()) {
+        return sendJSON(res, 400, {
+          success: false,
+          error: "Invalid 4-digit Security PIN! Please ask receiving manager at unloading bay."
+        });
+      }
+
+      order.delivery_status = "Delivered";
+      order.delivered_at = new Date().toISOString();
+
+      saveDB(db);
+      return sendJSON(res, 200, {
+        success: true,
+        message: `Delivery confirmed for ${orderCode}! Freight payout ₹${(order.freight_fee || 0).toLocaleString()} credited.`,
+        order
+      });
+    }
+
     if (urlPath.startsWith('/api/grievances/') && urlPath.endsWith('/resolve') && req.method === 'POST') {
       const parts = urlPath.split('/');
       const id = parts[3];

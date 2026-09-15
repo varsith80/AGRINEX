@@ -932,7 +932,18 @@
       "delivery_pin": "8821",
       "accepted_at": "2026-09-15T05:51:18.350Z",
       "created_at": "2026-09-15T08:00:00.000Z",
-      "delivered_at": "2026-09-15T05:51:18.353Z"
+      "delivered_at": "2026-09-15T05:51:18.353Z",
+      "pickup_window": "06:00 AM – 12:00 PM (Morning Harvest Window)",
+      "pickup_date": "Today, 15 Sept",
+      "driver_scheduled_slot": "08:30 AM (Confirmed)",
+      "driver_notes": "10-wheeler vehicle with side-loading tarpaulin",
+      "available_slots": [
+        "06:30 AM",
+        "08:00 AM",
+        "09:30 AM",
+        "11:00 AM"
+      ],
+      "slot_flexibility_type": "Flexible FPO Aggregation Window (6 hrs)"
     },
     {
       "id": 2,
@@ -971,7 +982,19 @@
       "vehicle_no": null,
       "delivery_pin": "4912",
       "accepted_at": null,
-      "created_at": "2026-09-15T08:15:00.000Z"
+      "created_at": "2026-09-15T08:15:00.000Z",
+      "pickup_window": "08:00 AM – 02:00 PM (Export Inspection Window)",
+      "pickup_date": "Today, 15 Sept",
+      "driver_scheduled_slot": "10:00 AM (Confirmed)",
+      "driver_notes": "Will arrive with 25-ton trailer and phyto-sanitary dock permit",
+      "available_slots": [
+        "08:30 AM",
+        "10:00 AM",
+        "11:30 AM",
+        "01:00 PM"
+      ],
+      "slot_flexibility_type": "Export Terminal Window (6 hrs)",
+      "slot_updated_at": "2026-09-15T06:16:05.691Z"
     },
     {
       "id": 3,
@@ -1011,7 +1034,18 @@
       "vehicle_no": null,
       "delivery_pin": "7730",
       "accepted_at": null,
-      "created_at": "2026-09-15T08:30:00.000Z"
+      "created_at": "2026-09-15T08:30:00.000Z",
+      "pickup_window": "05:00 AM – 11:00 AM (Cold Reefer Pre-Cooling Window)",
+      "pickup_date": "Today, 15 Sept",
+      "driver_scheduled_slot": null,
+      "driver_notes": null,
+      "available_slots": [
+        "05:30 AM",
+        "07:00 AM",
+        "08:30 AM",
+        "10:00 AM"
+      ],
+      "slot_flexibility_type": "Active Reefer Cold Window (6 hrs)"
     },
     {
       "id": 4,
@@ -1050,7 +1084,18 @@
       "vehicle_no": "MH-15-AQ-9011 (Tata 407 Reefer)",
       "delivery_pin": "5519",
       "accepted_at": "2026-09-15T09:15:00.000Z",
-      "created_at": "2026-09-15T08:45:00.000Z"
+      "created_at": "2026-09-15T08:45:00.000Z",
+      "pickup_window": "06:30 AM – 11:30 AM (Farm Gate Plucking Window)",
+      "pickup_date": "Today, 15 Sept",
+      "driver_scheduled_slot": "09:15 AM (Confirmed)",
+      "driver_notes": "Ramp loading with crate spacers",
+      "available_slots": [
+        "07:00 AM",
+        "08:15 AM",
+        "09:15 AM",
+        "10:30 AM"
+      ],
+      "slot_flexibility_type": "Direct Farm-Gate Window (5 hrs)"
     },
     {
       "id": 5,
@@ -1089,7 +1134,18 @@
       "vehicle_no": "MH-15-AQ-9011 (Tata 407 Reefer 5°C)",
       "delivery_pin": "6204",
       "accepted_at": "2026-09-15T05:52:59.905Z",
-      "created_at": "2026-09-15T09:00:00.000Z"
+      "created_at": "2026-09-15T09:00:00.000Z",
+      "pickup_window": "09:00 AM – 04:00 PM (All-Day Mandi Shed Window)",
+      "pickup_date": "Today, 15 Sept",
+      "driver_scheduled_slot": "10:45 AM (Confirmed)",
+      "driver_notes": "Weighbridge clearance pass requested",
+      "available_slots": [
+        "09:30 AM",
+        "11:00 AM",
+        "01:30 PM",
+        "03:00 PM"
+      ],
+      "slot_flexibility_type": "All-Day Mandi Window (7 hrs)"
     },
     {
       "id": 6,
@@ -1128,7 +1184,18 @@
       "vehicle_no": "MH-15-AQ-9011 (Tata 407 Reefer 5°C)",
       "delivery_pin": "9182",
       "accepted_at": "2026-09-15T06:01:19.916Z",
-      "created_at": "2026-09-15T09:30:00.000Z"
+      "created_at": "2026-09-15T09:30:00.000Z",
+      "pickup_window": "07:00 AM – 01:00 PM (Perishable Fast-Track Window)",
+      "pickup_date": "Today, 15 Sept",
+      "driver_scheduled_slot": "08:00 AM (Confirmed)",
+      "driver_notes": "Reefer cool box set to 8°C",
+      "available_slots": [
+        "07:30 AM",
+        "08:00 AM",
+        "10:00 AM",
+        "12:00 PM"
+      ],
+      "slot_flexibility_type": "Perishable Fast-Track Window (6 hrs)"
     }
   ]
 }
