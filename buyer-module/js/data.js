@@ -417,7 +417,7 @@ const buyerData = {
       farmerLocation: "Vadgaon APMC, Kolhapur ~ 3.8 km away",
       farmerRating: "4.91 ⭐",
       farmerPhone: "+91 98222-66441",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/groundnut.jpg?v=1",
       grade: "Grade A Bold 80/90 Count",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
