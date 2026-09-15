@@ -441,7 +441,7 @@ const buyerData = {
       farmerLocation: "Beed APMC Yard ~ 7.2 km away",
       farmerRating: "4.83 ⭐",
       farmerPhone: "+91 98221-88900",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/sunflower.jpg?v=1",
       grade: "Grade A Oil >40%",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
