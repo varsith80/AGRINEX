@@ -369,7 +369,7 @@ const buyerData = {
       farmerLocation: "Jalgaon APMC Market ~ 4.8 km away",
       farmerRating: "4.89 ⭐",
       farmerPhone: "+91 98224-55110",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/mung.jpg?v=1",
       grade: "Grade A Bold Luster",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
