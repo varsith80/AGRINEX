@@ -1,4 +1,4 @@
-# AgriNex - Farmer Module Dashboard
+﻿# AgriNex - Farmer Module Dashboard
 
 A modern, responsive, and pixel-perfect Farmer Dashboard UI for the **AgriNex** agricultural direct-trade platform.
 
@@ -39,7 +39,7 @@ farmer-module/
 
 2. **Farmer Hero Section:**
    - Personalized greeting *"Good Morning, Ramesh! 👋"*.
-   - Dynamic location indicator (e.g. *Lasalgaon, Nashik, Maharashtra*) with in-place location switching.
+   - Dynamic location indicator (e.g. *Erode, Tamil Nadu*) with in-place location switching.
    - Callout badge: *"Better prices for your hard work"*.
 
 3. **Overview Metric Cards:**

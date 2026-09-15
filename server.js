@@ -657,7 +657,6 @@ const server = http.createServer(async (req, res) => {
 
   // ================= API ROUTES =================
   if (urlPath.startsWith('/api/')) {
-    db = loadDB();
     // 1. Health
     if (urlPath === '/api/health') {
       return sendJSON(res, 200, {
@@ -1013,16 +1012,10 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { success: true, bid });
     }
 
-<<<<<<< HEAD
 
     // 5. Logistics & Dispatch Fulfillment Endpoints
     if (urlPath === '/api/logistics/shipments') {
       return sendJSON(res, 200, db.shipments || []);
-=======
-    // 5. Logistics & Shipments
-    if (urlPath === '/api/logistics/shipments' || urlPath === '/api/shipments') {
-      return sendJSON(res, 200, db.shipments);
->>>>>>> eb7b2131bbe40c41866443d60354b6bb55c668b5
     }
 
     if (urlPath === '/api/logistics/dispatch-orders') {
@@ -1169,7 +1162,7 @@ const server = http.createServer(async (req, res) => {
 
 
     // 6. Escrow Contracts
-    if (urlPath === '/api/escrow/contracts' || urlPath === '/api/escrow') {
+    if (urlPath === '/api/escrow/contracts') {
       return sendJSON(res, 200, db.escrow_contracts);
     }
 
@@ -1313,7 +1306,6 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-<<<<<<< HEAD
     
     // ================= LOGISTICS DISPATCH & FLEXIBLE PICKUP APIS =================
     if (urlPath === '/api/logistics/dispatch-orders' && req.method === 'GET') {
@@ -1433,39 +1425,10 @@ const server = http.createServer(async (req, res) => {
       if (grv.steps) grv.steps.forEach(s => s.done = true);
       saveDB(db);
       return sendJSON(res, 200, { success: true, message: "Grievance marked as resolved!", grievance: grv });
-=======
-    // 11. Admin & Governance REST APIs
-    if (urlPath === '/api/admin/stats') {
-      return sendJSON(res, 200, {
-        verifiedFarmers: "14,280",
-        enterpriseBuyers: "850",
-        totalEscrowLocked: "₹ 18,45,00,000",
-        dailyTradeVolume: "₹ 3,12,40,000",
-        disputeRate: "0.14%",
-        activeCommodities: 23,
-        mandiJurisdiction: "305 APMC Mandis across Maharashtra"
-      });
-    }
-
-    if (urlPath === '/api/admin/escrow/queue') {
-      return sendJSON(res, 200, db.escrow_contracts || []);
-    }
-
-    if (urlPath === '/api/admin/mandi/prices') {
-      return sendJSON(res, 200, db.crops.map(c => ({
-        id: c.id,
-        crop: c.crop,
-        modal_rate_kg: c.price_per_kg,
-        modal_rate_qt: c.price_per_qt,
-        state: c.state,
-        mandi: c.mandi
-      })));
->>>>>>> eb7b2131bbe40c41866443d60354b6bb55c668b5
     }
 
     return sendJSON(res, 404, { error: "Endpoint not found" });
   }
-
 
   // ================= STATIC FILE SERVING =================
   let reqPath = decodeURI(urlPath);
