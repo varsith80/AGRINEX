@@ -537,7 +537,7 @@ const buyerData = {
       farmerLocation: "Badnapur Mandi, Jalna ~ 8.4 km away",
       farmerRating: "4.87 ⭐",
       farmerPhone: "+91 98227-11002",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/mosambi.jpg?v=1",
       grade: "Grade A Juicy Calibrated",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
