@@ -558,6 +558,25 @@
   ],
   "shipments": [
     {
+      "tracking_id": "IND-MH-403",
+      "gate_pass": "GP-2026-1503",
+      "crop": "Green Chilli (G4 Spicy)",
+      "quantity_qt": 25,
+      "quantity_kg": 2500,
+      "buyer": "Spices Exim Consortium",
+      "destination": "Crawford Market Wholesale Cold Bay, Mumbai, MH 400001",
+      "driver": "Dinesh Yadav",
+      "phone": "+91 97230 44819",
+      "vehicle": "MH-15-AQ-9011 (Tata 407 Reefer 5°C)",
+      "status": "transit",
+      "step": 3,
+      "current_loc": "Farm Gate Pickup Complete • En Route on Highway",
+      "speed": "52 km/h",
+      "eta": "3 hrs 40 mins",
+      "total_value": 46000,
+      "advance_paid": 16100
+    },
+    {
       "tracking_id": "IND-MH-402",
       "gate_pass": "GP-2026-6823",
       "crop": "Red Onion (Nashik Quality)",
@@ -1100,15 +1119,15 @@
       "freight_fee": 4600,
       "escrow_amount": 4600,
       "escrow_status": "Locked in Smart Escrow",
-      "delivery_status": "Available",
+      "delivery_status": "In Transit",
       "temperature_c": "8.0°C Cool Box",
       "humidity_pct": "82%",
-      "driver_username": null,
-      "driver_name": null,
-      "driver_phone": null,
-      "vehicle_no": null,
+      "driver_username": "driver_dinesh",
+      "driver_name": "Dinesh Yadav",
+      "driver_phone": "+91 97230 44819",
+      "vehicle_no": "MH-15-AQ-9011 (Tata 407 Reefer 5°C)",
       "delivery_pin": "9182",
-      "accepted_at": null,
+      "accepted_at": "2026-09-15T06:01:19.916Z",
       "created_at": "2026-09-15T09:30:00.000Z"
     }
   ]
