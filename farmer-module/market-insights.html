@@ -520,7 +520,11 @@
         <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
           <img src="assets/images/farmer-avatar.png" alt="Ramesh Patil" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
           <div style="min-width:0; flex:1;">
-            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Ramesh Patil</div>
+
+
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Patil Rameshwar</div>
+
+ (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
             <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Nashik</div>
           </div>
           <a href="../login_details/farmer_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
@@ -548,7 +552,12 @@
               <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
               <circle cx="12" cy="10" r="3"></circle>
             </svg>
-            <span id="hero-location-text">Nashik, MH</span>
+
+
+            <span>Lasalgaon, Nashik, MH</span>
+            <span style="font-size: 0.7rem; margin-left: 2px;">▾</span>
+
+ (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
           </div>
         </div>
 
@@ -767,8 +776,12 @@
             <div style="display: flex; align-items: center; gap: 12px;">
               <img id="active-crop-img" src="assets/images/tomato.jpg" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #0c5a36;" />
               <div>
+
+
                 <strong style="font-size: 1.05rem; color: #0f172a;" id="active-crop-title">Tomato (Hybrid Red)</strong>
                 <div style="font-size: 0.76rem; color: #64748b;" id="active-crop-location">Pimpalgaon Baswant APMC, Nashik, Maharashtra</div>
+
+ (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
               </div>
             </div>
 
@@ -851,8 +864,12 @@
                 ↗
               </div>
               <div>
+
+
                 <strong style="font-size: 0.84rem; color: #166534; display: block;" id="state-forecast-banner-title">Prices likely to increase</strong>
                 <span style="font-size: 0.74rem; color: #15803d;" id="state-forecast-banner-sub">Across Maharashtra APMC terminals over next 3–5 days</span>
+
+ (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
               </div>
             </div>
 
@@ -881,7 +898,13 @@
             </div>
 
             <div style="display: flex; gap: 8px;">
-              <input type="text" id="table-inline-search" placeholder="Filter table..." oninput="handleSearchTable(this.value)" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 10px; font-size: 0.78rem; outline: none;" />
+
+
+              <button class="unit-toggle-btn active" onclick="filterTableByState('all', this)">All Mandis</button>
+              <button class="unit-toggle-btn" onclick="filterTableByState('Maharashtra', this)">Maharashtra Hubs</button>
+              <button class="unit-toggle-btn" onclick="filterTableByState('National', this)">National Benchmark</button>
+
+ (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
             </div>
           </div>
 
@@ -918,8 +941,12 @@
         <div style="display: flex; align-items: center; gap: 14px;">
           <img id="modal-crop-img" src="assets/images/tomato.jpg" style="width: 54px; height: 54px; border-radius: 12px; object-fit: cover;" />
           <div>
+
+
             <h3 style="margin: 0; font-size: 1.35rem; font-weight: 800; color: #0f172a;" id="modal-crop-title">Tomato (Hybrid Red)</h3>
             <div style="font-size: 0.82rem; color: #64748b;" id="modal-crop-subtitle">Pimpalgaon Baswant APMC, Nashik • Grade A</div>
+
+ (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
           </div>
         </div>
         <button onclick="closeMandiModal()" style="background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer;">✕</button>
@@ -1506,6 +1533,24 @@
       renderMandiTable(filtered);
     }
 
+
+
+    function filterTableByState(filter, btn) {
+      document.querySelectorAll(".card-header-clean .unit-toggle-btn").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+
+      if (!marketData) return;
+      if (filter === "all") {
+        renderMandiTable(marketData.commodities);
+      } else if (filter === "Maharashtra") {
+        renderMandiTable(marketData.commodities.filter(c => c.state === "Maharashtra" || c.state === "Tamil Nadu"));
+      } else {
+        renderMandiTable(marketData.commodities.filter(c => c.state !== "Maharashtra"));
+      }
+    }
+
+
+ (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
     function triggerMandiRefresh() {
       const icon = document.getElementById("refresh-icon");
       icon.style.transition = "transform 1s ease";

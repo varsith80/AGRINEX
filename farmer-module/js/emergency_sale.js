@@ -10,9 +10,13 @@ const EMERGENCY_BUYER_POOL = [
     type: "Food Processing Unit",
     typeBadge: "buyer-type-processing",
     icon: "🥫",
-    location: "Nashik MIDC, Maharashtra",
-    acceptedCrops: ["Tomato", "Onion", "Mango", "Chilli"],
-    autoBidRatio: 0.72, // 72% of farmer floor to ensure breakeven recovery
+
+
+    location: "Narayangaon Food Park, Junnar, Pune",
+    acceptedCrops: ["Tomato", "Onion", "Mango", "Pomegranate"],
+    autoBidRatio: 0.75, // 75% of farmer floor to ensure breakeven recovery
+
+ (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
     rating: "4.9 ★",
     paymentTime: "Instant 1-Hour Escrow"
   },
@@ -22,9 +26,13 @@ const EMERGENCY_BUYER_POOL = [
     type: "Commercial Caterers",
     typeBadge: "buyer-type-caterer",
     icon: "🍲",
-    location: "Coimbatore Industrial Zone, MH",
-    acceptedCrops: ["Tomato", "Onion", "Potato", "Paddy", "Vegetables"],
-    autoBidRatio: 0.75, // 75% breakeven recovery
+
+
+    location: "Pimpri-Chinchwad Agro Hub, Pune",
+    acceptedCrops: ["Tomato", "Onion", "Potato", "Rice", "Vegetables"],
+    autoBidRatio: 0.78, // 78% breakeven recovery
+
+ (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
     rating: "4.8 ★",
     paymentTime: "Instant 30-Min Escrow"
   },
@@ -34,9 +42,13 @@ const EMERGENCY_BUYER_POOL = [
     type: "Compost & Bio-Energy Manufacturer",
     typeBadge: "buyer-type-compost",
     icon: "🌱",
-    location: "Salem Agricultural Park, MH",
-    acceptedCrops: ["Tomato", "Onion", "Paddy", "Cotton", "Vegetables", "All Perishables"],
-    autoBidRatio: 0.65, // 65% breakeven baseline
+
+
+    location: "Nashik Bio-Energy Industrial Park",
+    acceptedCrops: ["Tomato", "Onion", "Rice", "Cotton", "Vegetables", "All Perishables"],
+    autoBidRatio: 0.68, // 68% breakeven baseline
+
+ (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
     rating: "5.0 ★",
     paymentTime: "Instant Mandi Clearance"
   }

@@ -5,9 +5,7 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.resolve(__dirname);
 const DATA_FILE = path.join(__dirname, 'backend', 'data.json');
-const FORECAST_FILE = fs.existsSync(path.join(__dirname, 'ai_ml_engine', 'data', 'mandi_live_analytics.json'))
-  ? path.join(__dirname, 'ai_ml_engine', 'data', 'mandi_live_analytics.json')
-  : path.join(__dirname, 'ai_ml_engine', 'data', 'processed', 'latest_mandi_forecasts.json');
+const FORECAST_FILE = path.join(__dirname, 'ai_ml_engine', 'data', 'processed', 'latest_mandi_forecasts.json');
 
 // Ensure backend data directory exists
 if (!fs.existsSync(path.join(__dirname, 'backend'))) {
@@ -17,387 +15,203 @@ if (!fs.existsSync(path.join(__dirname, 'backend'))) {
 // Initial Database Seeds
 const DEFAULT_DATA = {
   profile: {
-    name: "Ramesh Patil",
+    name: "Ramesh Patel",
     farmer_id: "FARM-88210",
     phone: "+91 98421 88390",
-    location: "Nashik, Maharashtra",
+    location: "Surat, Gujarat",
     bank_name: "HDFC Bank Ltd.",
     account_no: "•••• •••• 8821",
     ifsc: "HDFC0001234",
-    upi_id: "ramesh.patil@okhdfcbank"
+    upi_id: "ramesh.farmer@okhdfcbank"
   },
   crops: [
     {
-        "id": "LOT-TOM-01",
-        "farmer_name": "Ramesh Patil",
-        "crop": "Tomato",
-        "variety": "Shivam Hybrid",
-        "category": "Vegetables",
-        "shelf_life": "3 Days (Perishable)",
-        "quantity_qt": 50,
-        "quantity_kg": 5000,
-        "quantity": "50 Qt (5,000 kg)",
-        "quantityNumber": 50,
-        "price_per_qt": 1200,
-        "price_per_kg": 12.0,
-        "expectedPrice": "\u20b9 12.00 /kg (\u20b9 1,200 /Qt)",
-        "expectedPriceNumber": 1200,
-        "bestBid": "\u20b9 12.50 /kg (\u20b9 1,250 /Qt)",
-        "bestBidNumber": 1250,
-        "buyerName": "AgriFoods Ltd.",
-        "state": "Maharashtra",
-        "district": "Nashik",
-        "mandi": "Nashik APMC Mandi",
-        "grade": "Grade A",
-        "gradeBadgeClass": "badge-grade-a",
-        "image": "assets/images/tomato.jpg",
-        "status": "Active (Bids Open)",
-        "statusBadgeClass": "badge-status-open",
-        "created_at": "2026-09-13T14:30:00.000Z"
+      id: "LOT-TOM-01",
+      farmer_name: "Ramesh Patel",
+      crop: "Tomato",
+      variety: "Hybrid Red (Shivam)",
+      category: "Vegetables",
+      shelf_life: "3 Days (Perishable)",
+      quantity_qt: 50,
+      quantity_kg: 5000,
+      price_per_qt: 2400,
+      price_per_kg: 24.0,
+      state: "Gujarat",
+      district: "Surat",
+      mandi: "Surat Mandi Yard",
+      grade: "Grade A",
+      image: "assets/images/tomato.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 2450,
+      best_bid_kg: 24.50,
+      buyer_name: "FreshCart Supply Chain",
+      created_at: new Date().toISOString()
     },
     {
-        "id": "LOT-ONI-02",
-        "farmer_name": "Ramesh Patil",
-        "crop": "Red Onion",
-        "variety": "Nashik Quality",
-        "category": "Vegetables",
-        "shelf_life": "25 Days",
-        "quantity_qt": 30,
-        "quantity_kg": 3000,
-        "quantity": "30 Qt (3,000 kg)",
-        "quantityNumber": 30,
-        "price_per_qt": 900,
-        "price_per_kg": 9.0,
-        "expectedPrice": "\u20b9 9.00 /kg (\u20b9 900 /Qt)",
-        "expectedPriceNumber": 900,
-        "bestBid": "\u20b9 9.50 /kg (\u20b9 950 /Qt)",
-        "bestBidNumber": 950,
-        "buyerName": "Global Grains Direct",
-        "state": "Maharashtra",
-        "district": "Nashik",
-        "mandi": "Lasalgaon Mandi Yard",
-        "grade": "Grade B",
-        "gradeBadgeClass": "badge-grade-b",
-        "image": "assets/images/onion.jpg",
-        "status": "Negotiation",
-        "statusBadgeClass": "badge-status-negotiation",
-        "created_at": "2026-09-13T14:30:00.000Z"
+      id: "LOT-ONI-02",
+      farmer_name: "Ramesh Patel",
+      crop: "Onion",
+      variety: "Nashik Red Export Grade",
+      category: "Vegetables",
+      shelf_life: "25 Days",
+      quantity_qt: 80,
+      quantity_kg: 8000,
+      price_per_qt: 2800,
+      price_per_kg: 28.0,
+      state: "Maharashtra",
+      district: "Nashik",
+      mandi: "Lasalgaon Mandi",
+      grade: "Grade A",
+      image: "assets/images/onion.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 2850,
+      best_bid_kg: 28.50,
+      buyer_name: "Mahyco Bulk Exporters",
+      created_at: new Date().toISOString()
     },
     {
-        "id": "LOT-PAD-03",
-        "farmer_name": "Ramesh Patil",
-        "crop": "Paddy",
-        "variety": "1121 Basmati",
-        "category": "Grains & Cereals",
-        "shelf_life": "180 Days",
-        "quantity_qt": 100,
-        "quantity_kg": 10000,
-        "quantity": "100 Qt (10,000 kg)",
-        "quantityNumber": 100,
-        "price_per_qt": 2000,
-        "price_per_kg": 20.0,
-        "expectedPrice": "\u20b9 20.00 /kg (\u20b9 2,000 /Qt)",
-        "expectedPriceNumber": 2000,
-        "bestBid": "\u20b9 20.80 /kg (\u20b9 2,080 /Qt)",
-        "bestBidNumber": 2080,
-        "buyerName": "Fresh Mart Wholesale",
-        "state": "Maharashtra",
-        "district": "Nashik",
-        "mandi": "Nashik Central Agro Warehouse",
-        "grade": "Grade A",
-        "gradeBadgeClass": "badge-grade-a",
-        "image": "assets/images/paddy.jpg",
-        "status": "Dispatched",
-        "statusBadgeClass": "badge-status-dispatched",
-        "created_at": "2026-09-13T14:30:00.000Z"
+      id: "LOT-POT-03",
+      farmer_name: "Ramesh Patel",
+      crop: "Potato",
+      variety: "Jyoti Grade A Processing Chip Grade",
+      category: "Vegetables",
+      shelf_life: "60 Days",
+      quantity_qt: 120,
+      quantity_kg: 12000,
+      price_per_qt: 1800,
+      price_per_kg: 18.0,
+      state: "Gujarat",
+      district: "Surat",
+      mandi: "Surat Mandi Yard",
+      grade: "Grade A",
+      image: "assets/images/potato.jpg",
+      status: "Accepted (Escrow Active)",
+      best_bid_qt: 1850,
+      best_bid_kg: 18.50,
+      buyer_name: "Balaji Wafers Procurement",
+      created_at: new Date().toISOString()
     },
     {
-        "id": "LOT-CHL-04",
-        "farmer_name": "Ramesh Patil",
-        "crop": "Green Chilli",
-        "variety": "G4 Spicy",
-        "category": "Spices & High-Value",
-        "shelf_life": "5 Days (Perishable)",
-        "quantity_qt": 25,
-        "quantity_kg": 2500,
-        "quantity": "25 Qt (2,500 kg)",
-        "quantityNumber": 25,
-        "price_per_qt": 3200,
-        "price_per_kg": 32.0,
-        "expectedPrice": "\u20b9 32.00 /kg (\u20b9 3,200 /Qt)",
-        "expectedPriceNumber": 3200,
-        "bestBid": "\u20b9 33.50 /kg (\u20b9 3,350 /Qt)",
-        "bestBidNumber": 3350,
-        "buyerName": "Spices Exim Hub",
-        "state": "Maharashtra",
-        "district": "Nashik",
-        "mandi": "Pimpalgaon APMC",
-        "grade": "Grade A",
-        "gradeBadgeClass": "badge-grade-a",
-        "image": "assets/images/chilli.jpg",
-        "status": "Active (Bids Open)",
-        "statusBadgeClass": "badge-status-open",
-        "created_at": "2026-09-13T14:30:00.000Z"
-    },
-    {
-        "id": "LOT-COT-05",
-        "farmer_name": "Ramesh Patil",
-        "crop": "Raw Cotton",
-        "variety": "MCU-5 Long Staple",
-        "category": "Cash Crops",
-        "shelf_life": "365 Days",
-        "quantity_qt": 80,
-        "quantity_kg": 8000,
-        "quantity": "80 Qt (8,000 kg)",
-        "quantityNumber": 80,
-        "price_per_qt": 5800,
-        "price_per_kg": 58.0,
-        "expectedPrice": "\u20b9 58.00 /kg (\u20b9 5,800 /Qt)",
-        "expectedPriceNumber": 5800,
-        "bestBid": "\u20b9 59.50 /kg (\u20b9 5,950 /Qt)",
-        "bestBidNumber": 5950,
-        "buyerName": "Malegaon Cotton Textiles",
-        "state": "Maharashtra",
-        "district": "Nashik",
-        "mandi": "Malegaon Mandi Yard",
-        "grade": "Grade A",
-        "gradeBadgeClass": "badge-grade-a",
-        "image": "assets/images/cotton.jpg",
-        "status": "Negotiation",
-        "statusBadgeClass": "badge-status-negotiation",
-        "created_at": "2026-09-13T14:30:00.000Z"
-    },
-    {
-        "id": "LOT-OKR-06",
-        "farmer_name": "Ramesh Patil",
-        "crop": "Fresh Okra",
-        "variety": "Ladyfinger",
-        "category": "Vegetables",
-        "shelf_life": "2 Days (Perishable)",
-        "quantity_qt": 20,
-        "quantity_kg": 2000,
-        "quantity": "20 Qt (2,000 kg)",
-        "quantityNumber": 20,
-        "price_per_qt": 1600,
-        "price_per_kg": 16.0,
-        "expectedPrice": "\u20b9 16.00 /kg (\u20b9 1,600 /Qt)",
-        "expectedPriceNumber": 1600,
-        "bestBid": "\u20b9 16.80 /kg (\u20b9 1,680 /Qt)",
-        "bestBidNumber": 1680,
-        "buyerName": "Annapoorna Caterers",
-        "state": "Maharashtra",
-        "district": "Nashik",
-        "mandi": "Nashik APMC Mandi",
-        "grade": "Grade B",
-        "gradeBadgeClass": "badge-grade-b",
-        "image": "assets/images/okra.jpg",
-        "status": "Active (Bids Open)",
-        "statusBadgeClass": "badge-status-open",
-        "created_at": "2026-09-13T14:30:00.000Z"
-    },
-    {
-        "id": "LOT-TUR-07",
-        "farmer_name": "Ramesh Patil",
-        "crop": "Salem Turmeric Finger",
-        "variety": "High Curcumin",
-        "category": "Spices & High-Value",
-        "shelf_life": "365 Days",
-        "quantity_qt": 25,
-        "quantity_kg": 2500,
-        "quantity": "25 Qt (2,500 kg)",
-        "quantityNumber": 25,
-        "price_per_qt": 14100,
-        "price_per_kg": 141.0,
-        "expectedPrice": "\u20b9 141.00 /kg (\u20b9 14,100 /Qt)",
-        "expectedPriceNumber": 14100,
-        "bestBid": "\u20b9 143.00 /kg (\u20b9 14,300 /Qt)",
-        "bestBidNumber": 14300,
-        "buyerName": "Aroma Spices International",
-        "state": "Maharashtra",
-        "district": "Sangli",
-        "mandi": "Sangli Spices Hub",
-        "grade": "Grade A Export Quality",
-        "gradeBadgeClass": "badge-grade-a",
-        "image": "assets/images/turmeric.jpg",
-        "status": "Active (Bids Open)",
-        "statusBadgeClass": "badge-status-open",
-        "created_at": "2026-09-13T14:30:00.000Z"
+      id: "LOT-WHT-04",
+      farmer_name: "Ramesh Patel",
+      crop: "Wheat",
+      variety: "Sharbati Lokwan Golden Wheat",
+      category: "Grains",
+      shelf_life: "180 Days",
+      quantity_qt: 150,
+      quantity_kg: 15000,
+      price_per_qt: 2600,
+      price_per_kg: 26.0,
+      state: "Madhya Pradesh",
+      district: "Sehore",
+      mandi: "Sehore Mandi",
+      grade: "Grade A+",
+      image: "assets/images/hero-field.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 2650,
+      best_bid_kg: 26.50,
+      buyer_name: "ITC Aashirvaad Sourcing",
+      created_at: new Date().toISOString()
     }
-],
+  ],
   bids: [
     {
-        "id": 101,
-        "crop_id": "LOT-TOM-01",
-        "crop": "Tomato (Shivam Hybrid)",
-        "variety": "Shivam Hybrid",
-        "buyer_name": "AgriFoods Ltd.",
-        "buyer_phone": "+91 98234 11223",
-        "buyer_type": "National Supermarket Retailer",
-        "buyer_rating": "4.9 \u2605 (Verified Corporate)",
-        "bid_rate_qt": 1250,
-        "bid_rate_kg": 12.5,
-        "mandi_ref_kg": 11.5,
-        "mandi_ref_qt": 1150,
-        "premium_pct": "+8.7%",
-        "quantity_qt": 50,
-        "quantity_kg": 5000,
-        "total_value": 62500,
-        "advance_35": 21875,
-        "balance_65": 40625,
-        "status": "Pending",
-        "time_ago": "15 mins ago",
-        "expires_in": "2 hours",
-        "payment_terms": "100% Escrow Protected (35% on dispatch, 65% on delivery)"
+      id: 101,
+      crop_id: "LOT-TOM-01",
+      crop: "Tomato",
+      variety: "Hybrid Red (Shivam)",
+      buyer_name: "FreshCart Supply Chain",
+      buyer_phone: "+91 98234 11223",
+      buyer_type: "National Supermarket Retailer",
+      buyer_rating: "4.9 ★ (Verified Corporate)",
+      bid_rate_qt: 2450,
+      bid_rate_kg: 24.50,
+      mandi_ref_kg: 22.50,
+      mandi_ref_qt: 2250,
+      premium_pct: "+8.9%",
+      quantity_qt: 45,
+      quantity_kg: 4500,
+      total_value: 110250,
+      advance_35: 38587,
+      balance_65: 71663,
+      status: "Pending",
+      time_ago: "15 mins ago",
+      image: "assets/images/tomato.jpg"
     },
     {
-        "id": 102,
-        "crop_id": "LOT-ONI-02",
-        "crop": "Red Onion (Nashik Quality)",
-        "variety": "Nashik Quality",
-        "buyer_name": "Global Grains Direct",
-        "buyer_phone": "+91 98110 55432",
-        "buyer_type": "Export Processing House",
-        "buyer_rating": "4.8 \u2605 (Escrow Guaranteed)",
-        "bid_rate_qt": 950,
-        "bid_rate_kg": 9.5,
-        "mandi_ref_kg": 9.0,
-        "mandi_ref_qt": 900,
-        "premium_pct": "+5.5%",
-        "quantity_qt": 30,
-        "quantity_kg": 3000,
-        "total_value": 28500,
-        "advance_35": 9975,
-        "balance_65": 18525,
-        "status": "Negotiation",
-        "time_ago": "40 mins ago",
-        "expires_in": "4 hours",
-        "payment_terms": "100% Escrow Protected (35% on dispatch, 65% on delivery)"
+      id: 102,
+      crop_id: "LOT-ONI-02",
+      crop: "Onion",
+      variety: "Nashik Red Export Grade",
+      buyer_name: "Mahyco Bulk Exporters",
+      buyer_phone: "+91 97123 77889",
+      buyer_type: "Agricultural Export House",
+      buyer_rating: "4.8 ★ (Verified Exporter)",
+      bid_rate_qt: 2850,
+      bid_rate_kg: 28.50,
+      mandi_ref_kg: 26.00,
+      mandi_ref_qt: 2600,
+      premium_pct: "+9.6%",
+      quantity_qt: 80,
+      quantity_kg: 8000,
+      total_value: 228000,
+      advance_35: 79800,
+      balance_65: 148200,
+      status: "Pending",
+      time_ago: "40 mins ago",
+      image: "assets/images/onion.jpg"
     },
     {
-        "id": 103,
-        "crop_id": "LOT-PAD-03",
-        "crop": "Paddy (1121 Basmati)",
-        "variety": "1121 Basmati",
-        "buyer_name": "Fresh Mart Wholesale",
-        "buyer_phone": "+91 98765 43210",
-        "buyer_type": "Rice Mill & Grain Exporter",
-        "buyer_rating": "4.95 \u2605 (Verified Hub)",
-        "bid_rate_qt": 2080,
-        "bid_rate_kg": 20.8,
-        "mandi_ref_kg": 20.0,
-        "mandi_ref_qt": 2000,
-        "premium_pct": "+4.0%",
-        "quantity_qt": 100,
-        "quantity_kg": 10000,
-        "total_value": 208000,
-        "advance_35": 72800,
-        "balance_65": 135200,
-        "status": "Accepted",
-        "time_ago": "1 hour ago",
-        "expires_in": "Confirmed",
-        "payment_terms": "100% Escrow Protected (35% on dispatch, 65% on delivery)"
+      id: 103,
+      crop_id: "LOT-POT-03",
+      crop: "Potato",
+      variety: "Jyoti Grade A Processing Chip Grade",
+      buyer_name: "Balaji Wafers Procurement",
+      buyer_phone: "+91 99001 22334",
+      buyer_type: "Food Processing Enterprise",
+      buyer_rating: "5.0 ★ (Anchor Buyer)",
+      bid_rate_qt: 1850,
+      bid_rate_kg: 18.50,
+      mandi_ref_kg: 17.20,
+      mandi_ref_qt: 1720,
+      premium_pct: "+7.5%",
+      quantity_qt: 120,
+      quantity_kg: 12000,
+      total_value: 222000,
+      advance_35: 77700,
+      balance_65: 144300,
+      status: "Accepted",
+      time_ago: "Yesterday",
+      image: "assets/images/potato.jpg"
     },
     {
-        "id": 104,
-        "crop_id": "LOT-CHL-04",
-        "crop": "Green Chilli (G4 Spicy)",
-        "variety": "G4 Spicy",
-        "buyer_name": "Spices Exim Hub",
-        "buyer_phone": "+91 97654 32109",
-        "buyer_type": "Spices Trading Consortium",
-        "buyer_rating": "4.9 \u2605 (A Grade Buyer)",
-        "bid_rate_qt": 3350,
-        "bid_rate_kg": 33.5,
-        "mandi_ref_kg": 32.0,
-        "mandi_ref_qt": 3200,
-        "premium_pct": "+4.7%",
-        "quantity_qt": 25,
-        "quantity_kg": 2500,
-        "total_value": 83750,
-        "advance_35": 29312,
-        "balance_65": 54438,
-        "status": "Pending",
-        "time_ago": "25 mins ago",
-        "expires_in": "3 hours",
-        "payment_terms": "100% Escrow Protected (35% on dispatch, 65% on delivery)"
-    },
-    {
-        "id": 105,
-        "crop_id": "LOT-COT-05",
-        "crop": "Raw Cotton (MCU-5 Long Staple)",
-        "variety": "MCU-5 Long Staple",
-        "buyer_name": "Malegaon Cotton Textiles",
-        "buyer_phone": "+91 98220 77611",
-        "buyer_type": "Textile Spinning Mills",
-        "buyer_rating": "4.85 \u2605 (Verified)",
-        "bid_rate_qt": 5950,
-        "bid_rate_kg": 59.5,
-        "mandi_ref_kg": 58.0,
-        "mandi_ref_qt": 5800,
-        "premium_pct": "+2.6%",
-        "quantity_qt": 80,
-        "quantity_kg": 8000,
-        "total_value": 476000,
-        "advance_35": 166600,
-        "balance_65": 309400,
-        "status": "Negotiation",
-        "time_ago": "2 hours ago",
-        "expires_in": "5 hours",
-        "payment_terms": "100% Escrow Protected (35% on dispatch, 65% on delivery)"
-    },
-    {
-        "id": 106,
-        "crop_id": "LOT-OKR-06",
-        "crop": "Fresh Okra (Ladyfinger)",
-        "variety": "Ladyfinger",
-        "buyer_name": "Annapoorna Caterers",
-        "buyer_phone": "+91 94231 44556",
-        "buyer_type": "Institutional Catering Supply",
-        "buyer_rating": "4.8 \u2605 (Verified Direct)",
-        "bid_rate_qt": 1680,
-        "bid_rate_kg": 16.8,
-        "mandi_ref_kg": 16.0,
-        "mandi_ref_qt": 1600,
-        "premium_pct": "+5.0%",
-        "quantity_qt": 20,
-        "quantity_kg": 2000,
-        "total_value": 33600,
-        "advance_35": 11760,
-        "balance_65": 21840,
-        "status": "Pending",
-        "time_ago": "5 mins ago",
-        "expires_in": "1 hour",
-        "payment_terms": "100% Escrow Protected (35% on dispatch, 65% on delivery)"
-    },
-    {
-        "id": 107,
-        "crop_id": "LOT-TUR-07",
-        "crop": "Salem Turmeric Finger (High Curcumin)",
-        "variety": "High Curcumin",
-        "buyer_name": "Aroma Spices International",
-        "buyer_phone": "+91 94432 88190",
-        "buyer_type": "Export Processing House",
-        "buyer_rating": "4.95 \u2605 (Top Tier)",
-        "bid_rate_qt": 14300,
-        "bid_rate_kg": 143.0,
-        "mandi_ref_kg": 141.0,
-        "mandi_ref_qt": 14100,
-        "premium_pct": "+1.4%",
-        "quantity_qt": 25,
-        "quantity_kg": 2500,
-        "total_value": 357500,
-        "advance_35": 125125,
-        "balance_65": 232375,
-        "status": "Pending",
-        "time_ago": "10 mins ago",
-        "expires_in": "6 hours",
-        "payment_terms": "100% Escrow Protected (35% on dispatch, 65% on delivery)"
+      id: 104,
+      crop_id: "LOT-WHT-04",
+      crop: "Wheat",
+      variety: "Sharbati Lokwan Golden Wheat",
+      buyer_name: "ITC Aashirvaad Sourcing",
+      buyer_phone: "+91 98990 44556",
+      buyer_type: "FMCG Conglomerate",
+      buyer_rating: "5.0 ★ (Anchor Buyer)",
+      bid_rate_qt: 2650,
+      bid_rate_kg: 26.50,
+      mandi_ref_kg: 24.80,
+      mandi_ref_qt: 2480,
+      premium_pct: "+6.8%",
+      quantity_qt: 150,
+      quantity_kg: 15000,
+      total_value: 397500,
+      advance_35: 139125,
+      balance_65: 258375,
+      status: "Pending",
+      time_ago: "2 hours ago",
+      image: "assets/images/hero-field.jpg"
     }
-],
+  ],
   fpo_pools: [
     {
       id: "POOL-ONI-01",
-      pool_name: "Nashik Red Onion Export Pool",
+      pool_name: "Surat Red Onion Export Pool",
       crop: "Onion (Nashik Red)",
       buyer_name: "NatureFresh Gulf Exports",
       target_qt: 500,
@@ -412,7 +226,7 @@ const DEFAULT_DATA = {
     },
     {
       id: "POOL-POT-02",
-      pool_name: "Maharashtra Potato Processing Pool",
+      pool_name: "North Gujarat Potato Chip Pool",
       crop: "Potato (Processing Jyoti)",
       buyer_name: "Balaji & Haldiram Snacks Consortium",
       target_qt: 800,
@@ -421,7 +235,7 @@ const DEFAULT_DATA = {
       floor_price_kg: 19.50,
       min_contribution: "30 Qt",
       closing_date: "2026-09-22",
-      destination: "Navi Mumbai Processing Facility, Maharashtra",
+      destination: "Valsad Processing Facility, Gujarat",
       contributors_count: 22,
       status: "Open"
     },
@@ -501,7 +315,7 @@ const DEFAULT_DATA = {
       vehicle: "MH-12-AQ-9011 (Tata 407)",
       status: "transit",
       step: 3,
-      current_loc: "Nashik-Mumbai Expressway KM 45",
+      current_loc: "Surat-Mumbai Expressway KM 84",
       speed: "54 km/h",
       eta: "Tomorrow, 8:00 AM",
       total_value: 96000,
@@ -517,7 +331,7 @@ const DEFAULT_DATA = {
       quantity_qt: 120,
       quantity_kg: 12000,
       buyer: "Balaji Wafers Procurement",
-      destination: "Bhiwandi Agro Hub, Mumbai, Maharashtra",
+      destination: "Balaji Factory Hub, Valsad, Gujarat",
       driver: "Sukhdev Singh",
       phone: "+91 98450 11992",
       vehicle: "GJ-05-BX-4412 (Eicher 14-ft)",
@@ -533,16 +347,16 @@ const DEFAULT_DATA = {
   grievances: [
     {
       id: "GRV-2026-104",
-      farmer_name: "Ramesh Patil",
+      farmer_name: "Ramesh Patel",
       category: "Logistics Pickup Schedule",
       lot_ref: "LOT-ONI-02 (Nashik Red Onion)",
-      subject: "Truck gate pass delay at Nashik APMC Mandi Gate 2",
+      subject: "Truck gate pass delay at Surat Mandi Yard Gate 2",
       description: "Produce has been packed and weighed. Logistics truck driver requested an updated digital gate pass for weighbridge clearance.",
       priority: "High",
       status: "Under Review",
       status_badge: "badge-status-emergency",
       filed_date: "Today, 10:15 AM",
-      assigned_officer: "Nashik APMC Mandi Officer - V. Kulkarni",
+      assigned_officer: "Surat APMC Mandi Officer - K. Mehta",
       sla_hours: 24,
       steps: [
         { title: "Grievance Logged", done: true, time: "10:15 AM" },
@@ -554,7 +368,7 @@ const DEFAULT_DATA = {
     },
     {
       id: "GRV-2026-081",
-      farmer_name: "Ramesh Patil",
+      farmer_name: "Ramesh Patel",
       category: "Payment / Escrow Advance",
       lot_ref: "LOT-TOM-01 (Reliance Retail Hub)",
       subject: "Verification of 35% Advance Escrow Release",
@@ -657,6 +471,7 @@ const server = http.createServer(async (req, res) => {
 
   // ================= API ROUTES =================
   if (urlPath.startsWith('/api/')) {
+    db = loadDB();
     // 1. Health
     if (urlPath === '/api/health') {
       return sendJSON(res, 200, {
@@ -737,9 +552,9 @@ const server = http.createServer(async (req, res) => {
           bestBid: `₹ ${(priceKg * 1.02).toFixed(2)} /kg (₹ ${Math.round(priceQt * 1.02).toLocaleString()} /Qt)`,
           bestBidNumber: Math.round(priceQt * 1.02),
           buyerName: "Reliance Retail Hub",
-          state: body.state || "Maharashtra",
-          district: body.district || "Nashik",
-          mandi: body.mandi || "Nashik APMC Mandi",
+          state: body.state || "Gujarat",
+          district: body.district || "Surat",
+          mandi: body.mandi || "Surat Mandi Yard",
           grade: body.grade || "Grade A",
           gradeBadgeClass: body.grade === 'Grade B' ? 'badge-grade-b' : 'badge-grade-a',
           image: cropImage,
@@ -1012,157 +827,13 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { success: true, bid });
     }
 
-
-    // 5. Logistics & Dispatch Fulfillment Endpoints
-    if (urlPath === '/api/logistics/shipments') {
-      return sendJSON(res, 200, db.shipments || []);
+    // 5. Logistics & Shipments
+    if (urlPath === '/api/logistics/shipments' || urlPath === '/api/shipments') {
+      return sendJSON(res, 200, db.shipments);
     }
-
-    if (urlPath === '/api/logistics/dispatch-orders') {
-      let orders = db.logistics_dispatch_orders || [];
-      const typeFilter = queryParams.type;
-      const statusFilter = queryParams.status;
-      if (typeFilter && typeFilter !== 'all') {
-        orders = orders.filter(o => o.order_type === typeFilter);
-      }
-      if (statusFilter && statusFilter !== 'all') {
-        orders = orders.filter(o => (o.delivery_status || '').toLowerCase() === statusFilter.toLowerCase());
-      }
-      return sendJSON(res, 200, orders);
-    }
-
-    if (urlPath === '/api/logistics/accept-order' && req.method === 'POST') {
-      const body = await parseBody(req);
-      const orderId = body.order_id || body.order_code;
-      if (!orderId) {
-        return sendJSON(res, 400, { error: 'Order ID or Code is required' });
-      }
-
-      if (!db.logistics_dispatch_orders) db.logistics_dispatch_orders = [];
-      const order = db.logistics_dispatch_orders.find(o => 
-        String(o.id) === String(orderId) || String(o.order_code).toUpperCase() === String(orderId).toUpperCase()
-      );
-
-      if (!order) {
-        return sendJSON(res, 404, { error: `Order #${orderId} was not found in dispatch orders` });
-      }
-
-      // Check if already accepted
-      if (order.delivery_status && order.delivery_status !== 'Available') {
-        return sendJSON(res, 200, {
-          success: true,
-          alreadyAccepted: true,
-          message: `Order #${order.order_code} is already accepted (${order.delivery_status}).`,
-          order
-        });
-      }
-
-      const assignedDriver = body.driver_name || 'Dinesh Yadav';
-      const assignedPhone = body.driver_phone || '+91 97230 44819';
-      const assignedVehicle = body.vehicle_no || 'MH-15-AQ-9011 (Tata 407 Reefer)';
-      const deliveryPin = order.delivery_pin || Math.floor(1000 + Math.random() * 9000).toString();
-
-      order.delivery_status = 'In Transit';
-      order.driver_username = body.driver_username || 'driver_dinesh';
-      order.driver_name = assignedDriver;
-      order.driver_phone = assignedPhone;
-      order.vehicle_no = assignedVehicle;
-      order.delivery_pin = deliveryPin;
-      order.accepted_at = new Date().toISOString();
-
-      // Also create shipment tracking record if missing
-      if (!db.shipments) db.shipments = [];
-      const existingShipment = db.shipments.find(s => s.tracking_id === order.order_code);
-      if (!existingShipment) {
-        db.shipments.unshift({
-          tracking_id: order.order_code,
-          gate_pass: "GP-2026-" + Math.floor(1000 + Math.random() * 9000),
-          crop: order.crop_name,
-          quantity_qt: order.quantity_qt,
-          quantity_kg: order.quantity_kg,
-          buyer: order.buyer_name,
-          destination: order.delivery_address,
-          driver: assignedDriver,
-          phone: assignedPhone,
-          vehicle: assignedVehicle,
-          status: 'transit',
-          step: 3,
-          current_loc: 'Farm Gate Pickup Complete • En Route on Highway',
-          speed: '52 km/h',
-          eta: order.eta_time || '2 hrs 45 mins',
-          total_value: order.freight_fee * 10,
-          advance_paid: Math.round(order.freight_fee * 3.5)
-        });
-      }
-
-      saveDB(db);
-      return sendJSON(res, 200, {
-        success: true,
-        message: `Consignment ${order.order_code} accepted successfully! Digital Gate Pass active.`,
-        order
-      });
-    }
-
-    if (urlPath === '/api/logistics/verify-pin' && req.method === 'POST') {
-      const body = await parseBody(req);
-      const orderCode = body.order_code || body.orderCode;
-      const pin = body.delivery_pin || body.deliveryPin || body.pin;
-
-      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
-      if (!order) {
-        return sendJSON(res, 404, { error: "Order not found in logistics registry." });
-      }
-
-      if (String(order.delivery_pin).trim() !== String(pin).trim()) {
-        return sendJSON(res, 400, {
-          success: false,
-          error: "Invalid 4-digit Security PIN! Please ask receiving manager at unloading bay."
-        });
-      }
-
-      order.delivery_status = "Delivered";
-      order.escrow_status = "Released & Settled";
-      order.delivered_at = new Date().toISOString();
-
-      if (!db.logistics_passbook) db.logistics_passbook = [];
-      const newTxn = {
-        txId: "TXN-2026-" + Math.floor(100 + Math.random() * 900),
-        orderCode: order.order_code,
-        crop: `${order.crop_name} (${order.quantity_qt} Qt)`,
-        buyer: order.buyer_name,
-        amount: "₹ " + (order.freight_fee || 0).toLocaleString(),
-        date: "Today, " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        status: "✓ Settled"
-      };
-
-      // Add to passbook
-      db.logistics_passbook.unshift(newTxn);
-
-      saveDB(db);
-      return sendJSON(res, 200, {
-        success: true,
-        message: `Delivery confirmed for ${orderCode}! Freight payout ₹${(order.freight_fee || 0).toLocaleString()} credited to your bank account.`,
-        order,
-        txn: newTxn
-      });
-    }
-
-    if (urlPath === '/api/logistics/telemetry') {
-      return sendJSON(res, 200, {
-        success: true,
-        reefer_temp_c: 4.8,
-        humidity_pct: 86,
-        freshness_score: "98.4%",
-        ev_battery_pct: 76,
-        speed_kmh: 52,
-        current_location: "Kasara Ghat Bypass, NH-160, Maharashtra",
-        last_ping: new Date().toISOString()
-      });
-    }
-
 
     // 6. Escrow Contracts
-    if (urlPath === '/api/escrow/contracts') {
+    if (urlPath === '/api/escrow/contracts' || urlPath === '/api/escrow') {
       return sendJSON(res, 200, db.escrow_contracts);
     }
 
@@ -1289,7 +960,7 @@ const server = http.createServer(async (req, res) => {
           status: "Under Review",
           status_badge: "badge-status-emergency",
           filed_date: "Today, " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          assigned_officer: "Nashik APMC Mandi Officer - V. Kulkarni",
+          assigned_officer: "Surat APMC Mandi Officer - K. Mehta",
           sla_hours: 24,
           steps: [
             { title: "Grievance Logged", done: true, time: "Just now" },
@@ -1306,129 +977,37 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    
-    // ================= LOGISTICS DISPATCH & FLEXIBLE PICKUP APIS =================
-    if (urlPath === '/api/logistics/dispatch-orders' && req.method === 'GET') {
+    // 11. Admin & Governance REST APIs
+    if (urlPath === '/api/admin/stats') {
       return sendJSON(res, 200, {
-        success: true,
-        dispatchOrders: db.logistics_dispatch_orders || []
+        verifiedFarmers: "14,280",
+        enterpriseBuyers: "850",
+        totalEscrowLocked: "₹ 18,45,00,000",
+        dailyTradeVolume: "₹ 3,12,40,000",
+        disputeRate: "0.14%",
+        activeCommodities: 23,
+        mandiJurisdiction: "305 APMC Mandis across Maharashtra"
       });
     }
 
-    if (urlPath === '/api/logistics/schedule-pickup' && req.method === 'POST') {
-      const body = await parseBody(req);
-      const orderCode = body.order_code || body.orderCode;
-      const slotTime = body.slot_time || body.slotTime;
-      const driverNotes = body.driver_notes || body.driverNotes || null;
-
-      if (!orderCode || !slotTime) {
-        return sendJSON(res, 400, { error: "order_code and slot_time are required." });
-      }
-
-      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
-      if (!order) {
-        return sendJSON(res, 404, { error: "Order not found in logistics registry." });
-      }
-
-      order.driver_scheduled_slot = slotTime + (slotTime.includes("Confirmed") ? "" : " (Confirmed)");
-      if (driverNotes) order.driver_notes = driverNotes;
-      order.slot_updated_at = new Date().toISOString();
-
-      saveDB(db);
-      return sendJSON(res, 200, {
-        success: true,
-        message: `Pickup slot confirmed for ${order.driver_scheduled_slot}! Farm loading ramp alerted.`,
-        order
-      });
+    if (urlPath === '/api/admin/escrow/queue') {
+      return sendJSON(res, 200, db.escrow_contracts || []);
     }
 
-    if (urlPath === '/api/logistics/accept-order' && req.method === 'POST') {
-      const body = await parseBody(req);
-      const orderCode = body.order_code || body.orderCode;
-      const vehicleNo = body.vehicle_no || body.vehicleNo || "MH-15-AQ-9011 (Tata 407 Reefer 5°C)";
-      const slotTime = body.slot_time || body.slotTime || null;
-
-      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
-      if (!order) {
-        return sendJSON(res, 404, { error: "Order not found." });
-      }
-
-      order.delivery_status = "In Transit";
-      order.driver_username = "driver_dinesh";
-      order.driver_name = "Dinesh Yadav";
-      order.driver_phone = "+91 97230 44819";
-      order.vehicle_no = vehicleNo;
-      order.accepted_at = new Date().toISOString();
-      if (slotTime) {
-        order.driver_scheduled_slot = slotTime + (slotTime.includes("Confirmed") ? "" : " (Confirmed)");
-      }
-
-      saveDB(db);
-      return sendJSON(res, 200, {
-        success: true,
-        message: `Order ${orderCode} accepted for transit by Dinesh Yadav!`,
-        order
-      });
-    }
-
-    if (urlPath === '/api/logistics/verify-pin' && req.method === 'POST') {
-      const body = await parseBody(req);
-      const orderCode = body.order_code || body.orderCode;
-      const pin = body.delivery_pin || body.deliveryPin || body.pin;
-
-      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
-      if (!order) {
-        return sendJSON(res, 404, { error: "Order not found in logistics registry." });
-      }
-
-      if (String(order.delivery_pin).trim() !== String(pin).trim()) {
-        return sendJSON(res, 400, {
-          success: false,
-          error: "Invalid 4-digit Security PIN! Please ask receiving manager at unloading bay."
-        });
-      }
-
-      order.delivery_status = "Delivered";
-      order.escrow_status = "Released & Settled";
-      order.delivered_at = new Date().toISOString();
-
-      if (!db.logistics_passbook) db.logistics_passbook = [];
-      const newTxn = {
-        txId: "TXN-2026-" + Math.floor(100 + Math.random() * 900),
-        orderCode: order.order_code,
-        crop: `${order.crop_name} (${order.quantity_qt} Qt)`,
-        buyer: order.buyer_name,
-        amount: "₹ " + (order.freight_fee || 0).toLocaleString(),
-        date: "Today, " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        status: "✓ Settled"
-      };
-
-      // Add to passbook
-      db.logistics_passbook.unshift(newTxn);
-
-      saveDB(db);
-      return sendJSON(res, 200, {
-        success: true,
-        message: `Delivery confirmed for ${orderCode}! Freight payout ₹${(order.freight_fee || 0).toLocaleString()} credited to your bank account.`,
-        order,
-        txn: newTxn
-      });
-    }
-
-    if (urlPath.startsWith('/api/grievances/') && urlPath.endsWith('/resolve') && req.method === 'POST') {
-      const parts = urlPath.split('/');
-      const id = parts[3];
-      const grv = (db.grievances || []).find(g => String(g.id) === String(id));
-      if (!grv) return sendJSON(res, 404, { error: 'Grievance not found' });
-      grv.status = "Resolved & Settled";
-      grv.status_badge = "badge-status-open";
-      if (grv.steps) grv.steps.forEach(s => s.done = true);
-      saveDB(db);
-      return sendJSON(res, 200, { success: true, message: "Grievance marked as resolved!", grievance: grv });
+    if (urlPath === '/api/admin/mandi/prices') {
+      return sendJSON(res, 200, db.crops.map(c => ({
+        id: c.id,
+        crop: c.crop,
+        modal_rate_kg: c.price_per_kg,
+        modal_rate_qt: c.price_per_qt,
+        state: c.state,
+        mandi: c.mandi
+      })));
     }
 
     return sendJSON(res, 404, { error: "Endpoint not found" });
   }
+
 
   // ================= STATIC FILE SERVING =================
   let reqPath = decodeURI(urlPath);
