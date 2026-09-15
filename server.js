@@ -1001,13 +1001,21 @@ const server = http.createServer(async (req, res) => {
         return sendJSON(res, 400, { error: "order_code and slot_time are required." });
       }
 
-      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
+      const order = (db.logistics_dispatch_orders || []).find(o => 
+        (o.order_code && String(o.order_code).trim() === String(orderCode).trim()) ||
+        (o.orderCode && String(o.orderCode).trim() === String(orderCode).trim()) ||
+        (o.id && String(o.id).trim() === String(orderCode).trim())
+      );
       if (!order) {
         return sendJSON(res, 404, { error: "Order not found in logistics registry." });
       }
 
       order.driver_scheduled_slot = slotTime + (slotTime.includes("Confirmed") ? "" : " (Confirmed)");
-      if (driverNotes) order.driver_notes = driverNotes;
+      order.driverScheduledSlot = order.driver_scheduled_slot;
+      if (driverNotes) {
+        order.driver_notes = driverNotes;
+        order.driverNotes = driverNotes;
+      }
       order.slot_updated_at = new Date().toISOString();
 
       saveDB(db);
@@ -1024,19 +1032,29 @@ const server = http.createServer(async (req, res) => {
       const vehicleNo = body.vehicle_no || body.vehicleNo || "MH-15-AQ-9011 (Tata 407 Reefer 5°C)";
       const slotTime = body.slot_time || body.slotTime || null;
 
-      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
+      const order = (db.logistics_dispatch_orders || []).find(o => 
+        (o.order_code && String(o.order_code).trim() === String(orderCode).trim()) ||
+        (o.orderCode && String(o.orderCode).trim() === String(orderCode).trim()) ||
+        (o.id && String(o.id).trim() === String(orderCode).trim())
+      );
       if (!order) {
         return sendJSON(res, 404, { error: "Order not found." });
       }
 
       order.delivery_status = "In Transit";
+      order.deliveryStatus = "In Transit";
+      order.statusBadgeClass = "badge-status-transit";
       order.driver_username = "driver_dinesh";
-      order.driver_name = "Dinesh Yadav";
-      order.driver_phone = "+91 97230 44819";
+      order.driver_name = body.driver_name || "Dinesh Yadav";
+      order.driverName = order.driver_name;
+      order.driver_phone = body.driver_phone || "+91 97230 44819";
+      order.driverPhone = order.driver_phone;
       order.vehicle_no = vehicleNo;
+      order.vehicleNo = vehicleNo;
       order.accepted_at = new Date().toISOString();
       if (slotTime) {
         order.driver_scheduled_slot = slotTime + (slotTime.includes("Confirmed") ? "" : " (Confirmed)");
+        order.driverScheduledSlot = order.driver_scheduled_slot;
       }
 
       saveDB(db);
@@ -1052,7 +1070,11 @@ const server = http.createServer(async (req, res) => {
       const orderCode = body.order_code || body.orderCode;
       const pin = body.delivery_pin || body.deliveryPin || body.pin;
 
-      const order = (db.logistics_dispatch_orders || []).find(o => o.order_code === orderCode);
+      const order = (db.logistics_dispatch_orders || []).find(o => 
+        (o.order_code && String(o.order_code).trim() === String(orderCode).trim()) ||
+        (o.orderCode && String(o.orderCode).trim() === String(orderCode).trim()) ||
+        (o.id && String(o.id).trim() === String(orderCode).trim())
+      );
       if (!order) {
         return sendJSON(res, 404, { error: "Order not found in logistics registry." });
       }
