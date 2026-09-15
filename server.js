@@ -828,12 +828,12 @@ const server = http.createServer(async (req, res) => {
     }
 
     // 5. Logistics & Shipments
-    if (urlPath === '/api/logistics/shipments') {
+    if (urlPath === '/api/logistics/shipments' || urlPath === '/api/shipments') {
       return sendJSON(res, 200, db.shipments);
     }
 
     // 6. Escrow Contracts
-    if (urlPath === '/api/escrow/contracts') {
+    if (urlPath === '/api/escrow/contracts' || urlPath === '/api/escrow') {
       return sendJSON(res, 200, db.escrow_contracts);
     }
 
