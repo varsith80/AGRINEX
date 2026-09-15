@@ -465,7 +465,7 @@ const buyerData = {
       farmerLocation: "Shirol Sugar Belt, Kolhapur ~ 4.0 km away",
       farmerRating: "4.94 ⭐",
       farmerPhone: "+91 98220-77112",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/sugarcane.jpg?v=1",
       grade: "Grade A High-Brix (>21°)",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
