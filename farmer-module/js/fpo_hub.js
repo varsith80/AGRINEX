@@ -64,8 +64,9 @@ const FPO_COOPERATIVE_DATA = {
       qualitySpecs: "Bulb Size 45-65mm, Clean Dried Outer Skin, Phyto-Certified",
       advancePercent: "35% Advance",
       farmerContributors: [
-        { name: "Kishor Ahire", qty: 250, timestamp: "Yesterday", status: "Verified" },
-        { name: "Lasalgaon Farmers Club (6 Farmers)", qty: 400, timestamp: "2 days ago", status: "Verified" }
+        { name: "Patil Rameshwar (You)", qty: 100, timestamp: "Today 11:00 AM", status: "Committed (Escrow Locked)" },
+        { name: "Kishor Ahire", qty: 200, timestamp: "Yesterday", status: "Verified" },
+        { name: "Lasalgaon Farmers Club (6 Farmers)", qty: 350, timestamp: "2 days ago", status: "Verified" }
       ]
     },
     {
@@ -87,7 +88,8 @@ const FPO_COOPERATIVE_DATA = {
       qualitySpecs: "Moisture < 10%, Oil Content > 19.5%, Foreign Matter < 1%",
       advancePercent: "35% Advance",
       farmerContributors: [
-        { name: "Marathwada Farmers Syndicate (14 Farmers)", qty: 1500, timestamp: "3 days ago", status: "Verified" },
+        { name: "Patil Rameshwar (You)", qty: 80, timestamp: "Today 09:30 AM", status: "Committed (Escrow Locked)" },
+        { name: "Marathwada Farmers Syndicate (14 Farmers)", qty: 1420, timestamp: "3 days ago", status: "Verified" },
         { name: "Govind Marathe", qty: 350, timestamp: "Yesterday", status: "Verified" }
       ]
     },
@@ -179,7 +181,8 @@ const FPO_COOPERATIVE_DATA = {
       qualitySpecs: "GI Tag Certified, 250-300g per fruit, Hot Water Treated",
       advancePercent: "35% Advance",
       farmerContributors: [
-        { name: "Devgad Hapus Co-op (4 Farmers)", qty: 160, timestamp: "Yesterday", status: "Verified" },
+        { name: "Patil Rameshwar (You)", qty: 25, timestamp: "Today 08:45 AM", status: "Committed (Escrow Locked)" },
+        { name: "Devgad Hapus Co-op (4 Farmers)", qty: 135, timestamp: "Yesterday", status: "Verified" },
         { name: "Anand Deshpande", qty: 80, timestamp: "Today 9:00 AM", status: "Verified" }
       ]
     },
@@ -202,7 +205,8 @@ const FPO_COOPERATIVE_DATA = {
       qualitySpecs: "Brix > 17°, Berry Diameter 16mm+, Zero SO2 Residue",
       advancePercent: "35% Advance",
       farmerContributors: [
-        { name: "Dindori Grape Growers (7 Farmers)", qty: 300, timestamp: "2 days ago", status: "Verified" },
+        { name: "Patil Rameshwar (You)", qty: 40, timestamp: "Today 09:15 AM", status: "Committed (Escrow Locked)" },
+        { name: "Dindori Grape Growers (7 Farmers)", qty: 260, timestamp: "2 days ago", status: "Verified" },
         { name: "Sunil Wagh", qty: 120, timestamp: "Yesterday", status: "Verified" }
       ]
     },
@@ -285,6 +289,36 @@ const FPO_COOPERATIVE_DATA = {
       settlementStatus: "100% Escrow Released to Farmers",
       dispatchDate: "15 Aug 2026",
       transportAgent: "Marathwada Fast Freight (MH-24-CC-1902)"
+    },
+    {
+      id: "FPO-DISP-750",
+      crop: "Grand Naine Banana (Jalgaon GI)",
+      buyer: "Dubai Agro-Gulf Importers",
+      totalQty: "1,500 Qt (Pooled from 22 Farmers)",
+      contractValue: "₹ 21,75,000",
+      settlementStatus: "100% Escrow Released to Farmers",
+      dispatchDate: "08 Aug 2026",
+      transportAgent: "Khandesh Reefer Logistics (MH-19-CV-9912)"
+    },
+    {
+      id: "FPO-DISP-710",
+      crop: "Nagpur Santra Oranges (Juice Processing)",
+      buyer: "Tropicana & Paper Boat Beverages",
+      totalQty: "800 Qt (Pooled from 19 Farmers)",
+      contractValue: "₹ 26,00,000",
+      settlementStatus: "100% Escrow Released to Farmers",
+      dispatchDate: "28 Jul 2026",
+      transportAgent: "Vidarbha Agro Haulage (MH-31-AP-7714)"
+    },
+    {
+      id: "FPO-DISP-680",
+      crop: "Sangli Rajapuri Turmeric Fingers",
+      buyer: "Everest Spices Industrial Processing",
+      totalQty: "400 Qt (Pooled from 16 Farmers)",
+      contractValue: "₹ 58,00,000",
+      settlementStatus: "100% Escrow Released to Farmers",
+      dispatchDate: "12 Jul 2026",
+      transportAgent: "Sangli Express Cargo (MH-10-EE-2201)"
     }
   ],
 
@@ -304,9 +338,10 @@ class AgriNexFPOHub {
       // Clear legacy storage cache if older format
       try {
         localStorage.removeItem("agrinex_fpo_bulk_demands");
+        localStorage.removeItem("agrinex_fpo_bulk_demands_v3");
       } catch(e) {}
       
-      const stored = localStorage.getItem("agrinex_fpo_bulk_demands_v3");
+      const stored = localStorage.getItem("agrinex_fpo_bulk_demands_v4");
       if (stored) data = JSON.parse(stored);
     } catch(e) {}
     return (data && data.length >= 10) ? data : FPO_COOPERATIVE_DATA.bulkDemands;
@@ -314,7 +349,7 @@ class AgriNexFPOHub {
 
   static saveBulkDemands(demands) {
     try {
-      localStorage.setItem("agrinex_fpo_bulk_demands_v3", JSON.stringify(demands));
+      localStorage.setItem("agrinex_fpo_bulk_demands_v4", JSON.stringify(demands));
     } catch(e) {}
   }
 
