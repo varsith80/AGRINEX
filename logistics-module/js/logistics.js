@@ -227,12 +227,42 @@ async function handleVerifyPin(orderCode, pinInput) {
 }
 
 /**
- * Helper to generate Google Maps Navigation URL with origin and destination
+ * Helper to generate Google Maps Navigation URL with exact GPS coordinates & clean addresses
  */
 function getGoogleMapsUrl(order) {
-  const origin = encodeURIComponent(order.pickupAddress || 'Nashik, Maharashtra');
-  const destination = encodeURIComponent(order.deliveryAddress || 'Mumbai, Maharashtra');
+  let origin = '';
+  let destination = '';
+
+  if (order.pickupCoords && Array.isArray(order.pickupCoords) && order.pickupCoords.length === 2 && order.pickupCoords[0]) {
+    origin = `${order.pickupCoords[0]},${order.pickupCoords[1]}`;
+  } else if (order.pickup_lat && order.pickup_lng) {
+    origin = `${order.pickup_lat},${order.pickup_lng}`;
+  } else {
+    origin = cleanLocationString(order.pickupAddress);
+  }
+
+  if (order.deliveryCoords && Array.isArray(order.deliveryCoords) && order.deliveryCoords.length === 2 && order.deliveryCoords[0]) {
+    destination = `${order.deliveryCoords[0]},${order.deliveryCoords[1]}`;
+  } else if (order.delivery_lat && order.delivery_lng) {
+    destination = `${order.delivery_lat},${order.delivery_lng}`;
+  } else {
+    destination = cleanLocationString(order.deliveryAddress);
+  }
+
   return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`;
+}
+
+function cleanLocationString(addr) {
+  if (!addr) return 'Nashik, Maharashtra';
+  return addr
+    .replace(/Aggregation Bay \d+,?/gi, '')
+    .replace(/Shed #?\d+,?/gi, '')
+    .replace(/Gate \d+ \(.*?\),?/gi, '')
+    .replace(/Ramp #?\d+,?/gi, '')
+    .replace(/Cold Dock #?\d+,?/gi, '')
+    .replace(/Survey #\d+,?/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 /**
