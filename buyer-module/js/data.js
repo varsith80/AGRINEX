@@ -393,7 +393,7 @@ const buyerData = {
       farmerLocation: "Nanded APMC Hub ~ 6.0 km away",
       farmerRating: "4.84 ⭐",
       farmerPhone: "+91 98223-44889",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/urad.jpg?v=1",
       grade: "Grade A Machine Polished",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
