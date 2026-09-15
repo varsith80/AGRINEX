@@ -201,34 +201,182 @@ const ADMIN_GOVERNANCE_DATA = {
     {
       ticketId: "DISP-MH-8812",
       title: "Quality Variance & TSS Moisture Dispute on Shivam Tomato Lot",
+      crop: "Tomato (Shivam / Abhinav Hybrid)",
       farmer: "Patil Rameshwar (Lasalgaon)",
+      farmerPhone: "+91 98221 44510",
       buyer: "FreshVeg Logistics & Processing Corp",
+      buyerGstin: "27AAACK1234F1Z8",
       lotId: "LOT-TOM-02",
       disputedAmount: 44000,
       disputedFormatted: "₹ 44,000",
+      totalContractValue: 110000,
       farmerClaim: "Farmer states 50 Qt tomatoes were harvested at perfect 4.8% TSS grade with zero rot at farm pickup.",
       buyerClaim: "Buyer claims 12% produce suffered transit squishing due to standard crates used instead of perforated plastic.",
-      evidenceLab: "MPKV Rahuri Nodal Lab: 94% acceptable processing grade.",
-      evidencePod: "Geotagged pickup photo showing undamaged crates at farm gate.",
       status: "Arbitration In Progress",
       hearingDate: "Today, 03:00 PM (Bench: Dr. Shinde)",
-      proposedResolution: "Buyer accepts 92% volume; 8% logistics transit allowance credited to Farmer from Logistics Transit Insurance."
+      proposedResolution: "Buyer accepts 92% volume (₹ 40,480); 8% logistics transit allowance (₹ 3,520) credited to Farmer from Logistics Transit Insurance.",
+      pickupEvidence: {
+        photo: "../farmer-module/assets/images/tomato.jpg",
+        caption: "Farm Gate Pickup & Crating Inspection",
+        gps: "19.1245° N, 73.9782° E (Lasalgaon Farm)",
+        timestamp: "15-Sep-2026 06:30 AM",
+        inspector: "Driver Sandeep Patil (MH-14-GH-8812)",
+        condition: "150 crates loaded under shade. 0% squish, firm skin (Durometer: 74), stem intact."
+      },
+      intakeEvidence: {
+        photo: "../buyer-module/assets/images/tomato.jpg",
+        caption: "Vashi DC Intake Dock Inspection",
+        gps: "19.0760° N, 73.0033° E (Vashi Cold DC)",
+        timestamp: "15-Sep-2026 02:15 PM",
+        inspector: "QA Head Rohit Kadam (Nestle Sourcing)",
+        condition: "12 crates on bottom tier suffered compression damage over Kasara Ghat transit."
+      },
+      labAssay: {
+        labName: "Mahatma Phule Krishi Vidyapeeth (MPKV) Rahuri Nodal Agro Lab",
+        certNo: "MPKV-NABL-2026-9921",
+        date: "15-Sep-2026",
+        parameter: "Total Soluble Solids (TSS / Brix) & Acid Ratio",
+        standardLimit: "≥ 4.50% TSS (Industrial Processing Grade)",
+        measuredValue: "4.85% TSS (Passed Premium Grade A)",
+        verdict: "Conforms to Grade-A Puree Processing Standards",
+        labStatus: "PASSED (Certified NABL)"
+      },
+      weighSlip: {
+        slipNo: "WB-LAS-2026-8812",
+        station: "Lasalgaon Mandi Calibrated Electronic Weighbridge #03",
+        grossWeight: "8,250 kg",
+        tareWeight: "3,250 kg",
+        netWeight: "5,000 kg (50.00 Qt)",
+        calibrationValidity: "Valid till 31-Dec-2026"
+      },
+      recommendedSplit: {
+        farmerPct: 92,
+        farmerPayout: 40480,
+        buyerPct: 0,
+        buyerRefund: 0,
+        insurancePct: 8,
+        insuranceClaim: 3520
+      }
     },
     {
       ticketId: "DISP-MH-8815",
       title: "Weight Bridge Discrepancy on Latur Soybean Batch",
+      crop: "Yellow Soybean (JS 335 / High Protein)",
       farmer: "Govind Marathe (Latur)",
+      farmerPhone: "+91 94230 11982",
       buyer: "Marathwada Solvents Extractor Ltd.",
+      buyerGstin: "27AACCA5541L1Z2",
       lotId: "LOT-SOY-04",
       disputedAmount: 23000,
       disputedFormatted: "₹ 23,000",
-      farmerClaim: "APMC Weigh Slip states 200.5 Qt net produce.",
-      buyerClaim: "Factory intake scale recorded 195.5 Qt (5 Qt tare moisture deduction).",
-      evidenceLab: "Moisture tested at 9.8% (well within 10.0% standard contract limit).",
-      evidencePod: "Calibrated APMC Latur electronic slip verified.",
+      totalContractValue: 920000,
+      farmerClaim: "APMC Weigh Slip states 200.5 Qt net produce at certified moisture levels.",
+      buyerClaim: "Factory intake scale recorded 195.5 Qt (attempted 5 Qt tare moisture deduction).",
       status: "Ready for Binding Award",
       hearingDate: "Today, 04:30 PM",
-      proposedResolution: "Disallow buyer's 5 Qt moisture penalty. Direct 100% contract payout of ₹23,000 released from buyer escrow."
+      proposedResolution: "Disallow buyer's 5 Qt moisture penalty. Direct 100% contract payout of ₹ 23,000 released from buyer escrow to Farmer.",
+      pickupEvidence: {
+        photo: "../farmer-module/assets/images/soybean.jpg",
+        caption: "Latur APMC Terminal Loading",
+        gps: "18.4088° N, 76.5604° E (Latur Mega Yard)",
+        timestamp: "15-Sep-2026 08:15 AM",
+        inspector: "APMC Yard Officer D. K. Gaikwad",
+        condition: "Clean dry golden yellow seed bags (Moisture: 9.8%, 0% foreign matter)."
+      },
+      intakeEvidence: {
+        photo: "../buyer-module/assets/images/soybean.jpg",
+        caption: "Solvent Extraction Intake Hopper",
+        gps: "18.3950° N, 76.5412° E (Factory Yard)",
+        timestamp: "15-Sep-2026 11:45 AM",
+        inspector: "Intake Weigher A. V. Deshmukh",
+        condition: "Unloading initiated; buyer sought arbitrary 2.5% moisture tare deduction."
+      },
+      labAssay: {
+        labName: "MSAMB Central Commodity Testing Lab, Latur",
+        certNo: "MSAMB-LT-2026-4402",
+        date: "15-Sep-2026",
+        parameter: "Seed Moisture & Oil Content",
+        standardLimit: "Moisture ≤ 10.0% | Oil ≥ 18.5%",
+        measuredValue: "Moisture 9.80% | Oil 19.40%",
+        verdict: "Well within contract tolerance; deduction disallowed",
+        labStatus: "PASSED (Certified)"
+      },
+      weighSlip: {
+        slipNo: "WB-LAT-2026-4402",
+        station: "Latur APMC Central Electronic Scale #01",
+        grossWeight: "26,450 kg",
+        tareWeight: "6,400 kg",
+        netWeight: "20,050 kg (200.50 Qt)",
+        calibrationValidity: "Calibrated & Stamp Verified (Govt of MH)"
+      },
+      recommendedSplit: {
+        farmerPct: 100,
+        farmerPayout: 23000,
+        buyerPct: 0,
+        buyerRefund: 0,
+        insurancePct: 0,
+        insuranceClaim: 0
+      }
+    },
+    {
+      ticketId: "DISP-MH-8819",
+      title: "Brix Sugar & Cold-Chain Variance on Export Grape Lot",
+      crop: "Nashik Thompson Seedless Grapes",
+      farmer: "Sunil Shinde (Niphad)",
+      farmerPhone: "+91 97654 88210",
+      buyer: "Nature's Basket Wholesale Hub",
+      buyerGstin: "27AAACN4401P1Z9",
+      lotId: "LOT-GRP-21",
+      disputedAmount: 64000,
+      disputedFormatted: "₹ 64,000",
+      totalContractValue: 640000,
+      farmerClaim: "Farmer harvested at 18.2° Brix with pre-cooling done at Pimpalgaon Baswant cold chain center.",
+      buyerClaim: "Buyer noted 4°C temperature rise on arrival at Bhiwandi logistics hub and sought 10% price discount.",
+      status: "Arbitration In Progress",
+      hearingDate: "Today, 05:15 PM",
+      proposedResolution: "Reefer reefer-log data shows 95% compliance; 95% escrow released to farmer (₹ 60,800), 5% cold-chain transit insurance claim approved (₹ 3,200).",
+      pickupEvidence: {
+        photo: "../farmer-module/assets/images/grapes.jpg",
+        caption: "Pre-Cooling Chamber Loading (Pimpalgaon)",
+        gps: "20.1738° N, 73.9847° E (Niphad Yard)",
+        timestamp: "14-Sep-2026 09:30 PM",
+        inspector: "Reefer Logistics Pilot Mahesh Kale",
+        condition: "Pre-cooled to 2.5°C in APEDA-approved punnets (500g each)."
+      },
+      intakeEvidence: {
+        photo: "../buyer-module/assets/images/grapes.jpg",
+        caption: "Bhiwandi Cold Storage Receiving",
+        gps: "19.2969° N, 73.0628° E (Bhiwandi Hub)",
+        timestamp: "15-Sep-2026 05:45 AM",
+        inspector: "Cold Chain Supervisor P. R. Joshi",
+        condition: "Punnets intact, berry sugar intact; minor condensation on door-tier pallets."
+      },
+      labAssay: {
+        labName: "APEDA Export Quality Assessment Cell, Nashik",
+        certNo: "APEDA-NSK-2026-1188",
+        date: "14-Sep-2026",
+        parameter: "Berry Brix Sugar Refractometry & Acidity",
+        standardLimit: "≥ 17.5° Brix (Table Export)",
+        measuredValue: "18.15° Brix (Premium Sweetness)",
+        verdict: "Meets Export Sweetness & Residue Norms",
+        labStatus: "PASSED (APEDA Phytosanitary)"
+      },
+      weighSlip: {
+        slipNo: "WB-PIM-2026-9021",
+        station: "Pimpalgaon APMC Calibrated Scale #04",
+        grossWeight: "13,200 kg",
+        tareWeight: "5,200 kg",
+        netWeight: "8,000 kg (80.00 Qt)",
+        calibrationValidity: "Valid till 30-Nov-2026"
+      },
+      recommendedSplit: {
+        farmerPct: 95,
+        farmerPayout: 60800,
+        buyerPct: 0,
+        buyerRefund: 0,
+        insurancePct: 5,
+        insuranceClaim: 3200
+      }
     }
   ],
 
@@ -338,16 +486,28 @@ class AgriNexAdminGovernance {
   }
 
   static resolveGrievance(ticketId, verdict) {
+    return this.resolveGrievanceWithSplit(ticketId, null, verdict);
+  }
+
+  static resolveGrievanceWithSplit(ticketId, splitData = null, awardText = null) {
     const cases = this.getGrievances();
     const item = cases.find(g => g.ticketId === ticketId);
     if (!item) return { success: false, message: "Tribunal ticket not found" };
 
-    item.status = "Settled by Tribunal ✓";
-    item.proposedResolution = verdict || item.proposedResolution;
+    item.status = "Settled & Enforced by Tribunal ✓";
+    
+    if (splitData) {
+      item.enforcedSplit = splitData;
+      item.proposedResolution = awardText || `Enforced Award: Farmer Payout ₹${splitData.farmerPayout.toLocaleString('en-IN')} (${splitData.farmerPct}%), Buyer Refund ₹${splitData.buyerRefund.toLocaleString('en-IN')} (${splitData.buyerPct}%), Insurance Cover ₹${splitData.insuranceClaim.toLocaleString('en-IN')} (${splitData.insurancePct}%).`;
+    } else if (awardText) {
+      item.proposedResolution = awardText;
+    }
+
     this.saveGrievances(cases);
 
-    this.addAuditLog(`Tribunal Binding Award Issued`, item.ticketId, item.disputedFormatted, "Chief Mandi Commissioner");
-    return { success: true, message: `Tribunal resolution issued for ticket ${item.ticketId}!` };
+    const logAmt = splitData ? `Farmer: ₹${splitData.farmerPayout.toLocaleString('en-IN')}` : item.disputedFormatted;
+    this.addAuditLog(`Tribunal Binding Award Issued (${item.ticketId})`, item.lotId, logAmt, "Dr. R. K. Shinde (IAS)");
+    return { success: true, message: `Legally binding MSAMB Tribunal award enforced for ${item.ticketId}!` };
   }
 
   static getAuditLogs() {

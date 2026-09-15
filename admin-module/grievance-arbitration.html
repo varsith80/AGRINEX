@@ -12,6 +12,142 @@
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
+
+  <style>
+    /* Tribunal Specific Modal & Inspector Styles */
+    .tribunal-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+    .tribunal-modal-overlay.active {
+      display: flex;
+    }
+    .tribunal-modal {
+      background: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 960px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid #e2e8f0;
+      animation: modalSlideUp 0.25s ease-out;
+    }
+    @keyframes modalSlideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .tribunal-tabs {
+      display: flex;
+      gap: 8px;
+      background: #f1f5f9;
+      padding: 6px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .tribunal-tab-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #475569;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .tribunal-tab-btn.active {
+      background: #ffffff;
+      color: #881337;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .tribunal-tab-pane {
+      display: none;
+    }
+    .tribunal-tab-pane.active {
+      display: block;
+    }
+    .evidence-img-container {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1.5px solid #cbd5e1;
+      height: 220px;
+      background: #0f172a;
+    }
+    .evidence-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .evidence-img-container:hover img {
+      transform: scale(1.04);
+    }
+    .evidence-geo-tag {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #ffffff;
+      font-size: 0.72rem;
+      padding: 6px 10px;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+    }
+    .split-slider-container {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .split-slider-row {
+      margin-bottom: 14px;
+    }
+    .split-slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .split-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 5px;
+      background: #e2e8f0;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .split-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #881337;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+  </style>
 </head>
 <body>
 
@@ -93,7 +229,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="tribunal-search" placeholder="Search dispute ticket ID, claimant, buyer, lot ID..." oninput="renderTribunalCards(this.value)" />
+            <input type="text" id="tribunal-search" placeholder="Search dispute ticket ID, claimant, buyer, lot ID, crop..." oninput="renderTribunalCards(this.value)" />
           </div>
           <div style="font-size: 0.82rem; font-weight: 700; color: #b91c1c; background: #fee2e2; padding: 6px 14px; border-radius: 999px; border: 1px solid #fecaca;">
             <span>⚖️ Fast-Track Arbitration Bench: 100% Resolution Rate</span>
@@ -119,12 +255,12 @@
           <div>
             <h2 style="font-size: 1.35rem; font-weight: 800; color: #ffffff;">Maharashtra Fast-Track Agricultural Arbitration Tribunal</h2>
             <p style="font-size: 0.84rem; color: #fecdd3; margin-top: 4px;">
-              Legally binding dispute resolution for weight variations, quality grade discrepancies, and transit damages
+              Statutory dispute settlement with side-by-side photographic evidence, certified NABL lab assays, and dynamic compensation splitting
             </p>
           </div>
           <div style="display: flex; gap: 10px;">
-            <button class="btn btn-primary" style="background: #e11d48;" onclick="alert('Tribunal Bench SLA is active. Average hearing turnaround is under 2 hours.')">
-              ⚖️ Fast-Track SLA Active (&lt; 2h)
+            <button class="btn btn-primary" style="background: #e11d48;" onclick="alert('Fast-Track Tribunal Bench Active. Average statutory hearing & settlement turnaround is 2.1 Hours.')">
+              ⚖️ Fast-Track SLA Active (&lt; 2.1h)
             </button>
           </div>
         </div>
@@ -139,9 +275,266 @@
 
   </div>
 
+  <!-- INTERACTIVE EVIDENCE INSPECTOR & ARBITRATION MODAL -->
+  <div class="tribunal-modal-overlay" id="modal-tribunal-inspector">
+    <div class="tribunal-modal">
+      
+      <!-- Modal Header -->
+      <div style="padding: 20px 24px; background: linear-gradient(135deg, #881337 0%, #4c0519 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="background: rgba(254, 205, 211, 0.25); color: #fecdd3; border: 1px solid #fda4af; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">
+              MSAMB Arbitration Bench
+            </span>
+            <span id="modal-ticket-id" style="font-size: 0.85rem; font-weight: 700; color: #fecdd3;"></span>
+          </div>
+          <h3 id="modal-case-title" style="font-size: 1.25rem; font-weight: 800; margin-top: 4px; color: #ffffff;"></h3>
+        </div>
+        <button onclick="closeTribunalModal()" style="font-size: 1.6rem; color: #ffffff; background: none; border: none; cursor: pointer;">&times;</button>
+      </div>
+
+      <!-- Modal Content Body -->
+      <div style="padding: 24px;">
+        
+        <!-- Tab Switcher -->
+        <div class="tribunal-tabs">
+          <button class="tribunal-tab-btn active" onclick="switchTribunalTab('tab-visual')">
+            📸 1. Visual Evidence Lightbox
+          </button>
+          <button class="tribunal-tab-btn" onclick="switchTribunalTab('tab-lab')">
+            🧪 2. Certified Lab Assay & Weighbridge
+          </button>
+          <button class="tribunal-tab-btn" onclick="switchTribunalTab('tab-split')">
+            ⚖️ 3. Compensation Splitter & Award
+          </button>
+        </div>
+
+        <!-- TAB 1: VISUAL EVIDENCE LIGHTBOX -->
+        <div class="tribunal-tab-pane active" id="tab-visual">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px;">
+            
+            <!-- Farm Gate Pickup Photo -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 0.78rem; font-weight: 800; color: #0c5a36;">🧑‍🌾 Origin: Farm Gate Loading</span>
+                <span class="badge badge-grade-a" style="font-size: 0.7rem;">Verified Geotagged</span>
+              </div>
+              <div class="evidence-img-container">
+                <img id="pickup-img" src="" alt="Farm Gate Pickup" />
+                <div class="evidence-geo-tag">
+                  <div id="pickup-caption" style="font-weight: 700;"></div>
+                  <div id="pickup-gps" style="font-size: 0.68rem; color: #94a3b8;"></div>
+                </div>
+              </div>
+              <div style="margin-top: 10px; font-size: 0.78rem; color: #334155;">
+                <div>Inspector: <strong id="pickup-inspector"></strong></div>
+                <div style="color: #475569; margin-top: 2px;">Condition: <span id="pickup-condition"></span></div>
+              </div>
+            </div>
+
+            <!-- DC Intake Delivery Photo -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 0.78rem; font-weight: 800; color: #1e40af;">🏢 Destination: DC Intake Receiving</span>
+                <span class="badge badge-gov-hold" style="font-size: 0.7rem;">Claimed Discrepancy</span>
+              </div>
+              <div class="evidence-img-container">
+                <img id="intake-img" src="" alt="DC Intake" />
+                <div class="evidence-geo-tag">
+                  <div id="intake-caption" style="font-weight: 700;"></div>
+                  <div id="intake-gps" style="font-size: 0.68rem; color: #94a3b8;"></div>
+                </div>
+              </div>
+              <div style="margin-top: 10px; font-size: 0.78rem; color: #334155;">
+                <div>Inspector: <strong id="intake-inspector"></strong></div>
+                <div style="color: #475569; margin-top: 2px;">Damage Log: <span id="intake-condition"></span></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Quick Navigation to Next Tab -->
+          <div style="display: flex; justify-content: flex-end;">
+            <button class="btn btn-outline" style="font-size: 0.82rem;" onclick="switchTribunalTab('tab-lab')">
+              Proceed to Lab Assays &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 2: CERTIFIED LAB ASSAY & WEIGHBRIDGE -->
+        <div class="tribunal-tab-pane" id="tab-lab">
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px;">
+            
+            <!-- Lab Testing Card -->
+            <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                <div>
+                  <span style="font-size: 0.72rem; font-weight: 800; color: #15803d; text-transform: uppercase;">Third-Party Quality Assay</span>
+                  <h4 id="lab-name" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 2px;"></h4>
+                  <div id="lab-cert-no" style="font-size: 0.74rem; color: #64748b;"></div>
+                </div>
+                <span id="lab-status-badge" class="badge badge-grade-a"></span>
+              </div>
+
+              <div style="background: #ffffff; border: 1px solid #dcfce7; border-radius: 8px; padding: 12px; font-size: 0.8rem; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <span style="color: #64748b;">Parameter Tested:</span>
+                  <strong id="lab-parameter" style="color: #0f172a;"></strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <span style="color: #64748b;">Standard Contract Norm:</span>
+                  <span id="lab-standard" style="color: #334155; font-weight: 600;"></span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding-top: 4px; border-top: 1px dashed #e2e8f0;">
+                  <span style="color: #15803d; font-weight: 700;">Actual Tested Value:</span>
+                  <strong id="lab-measured" style="color: #15803d; font-size: 0.92rem;"></strong>
+                </div>
+              </div>
+
+              <div style="font-size: 0.78rem; color: #166534; font-weight: 700; background: #dcfce7; padding: 8px 12px; border-radius: 6px;">
+                Official Lab Finding: <span id="lab-verdict" style="font-weight: 500;"></span>
+              </div>
+            </div>
+
+            <!-- Calibrated Electronic Weighbridge Card -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                <div>
+                  <span style="font-size: 0.72rem; font-weight: 800; color: #475569; text-transform: uppercase;">APMC Calibrated Weigh Scale</span>
+                  <h4 id="weigh-station" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 2px;"></h4>
+                  <div id="weigh-slip-no" style="font-size: 0.74rem; color: #64748b;"></div>
+                </div>
+                <span class="badge" style="background: #e2e8f0; color: #334155;">Stamp Verified</span>
+              </div>
+
+              <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; font-size: 0.8rem; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <span style="color: #64748b;">Gross Vehicle Weight:</span>
+                  <span id="weigh-gross" style="color: #334155; font-weight: 600;"></span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <span style="color: #64748b;">Tare Unladen Weight:</span>
+                  <span id="weigh-tare" style="color: #334155; font-weight: 600;"></span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding-top: 4px; border-top: 1px dashed #e2e8f0;">
+                  <span style="color: #0f172a; font-weight: 700;">Certified Net Weight:</span>
+                  <strong id="weigh-net" style="color: #0c5a36; font-size: 0.95rem;"></strong>
+                </div>
+              </div>
+
+              <div style="font-size: 0.76rem; color: #475569; background: #f1f5f9; padding: 8px 12px; border-radius: 6px;">
+                Calibration Status: <strong id="weigh-validity"></strong>
+              </div>
+            </div>
+
+          </div>
+
+          <div style="display: flex; justify-content: space-between;">
+            <button class="btn btn-outline" style="font-size: 0.82rem;" onclick="switchTribunalTab('tab-visual')">
+              &larr; Back to Visual Lightbox
+            </button>
+            <button class="btn btn-outline" style="font-size: 0.82rem;" onclick="switchTribunalTab('tab-split')">
+              Proceed to Compensation Splitter &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 3: DYNAMIC COMPENSATION SPLITTER & AWARD GENERATOR -->
+        <div class="tribunal-tab-pane" id="tab-split">
+          
+          <div class="split-slider-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+              <div>
+                <strong style="font-size: 0.95rem; color: #0f172a;">🎛️ Interactive Escrow Allocation Sliders</strong>
+                <div style="font-size: 0.76rem; color: #64748b;">Adjust percentages to allocate disputed funds based on evidence findings</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 0.72rem; color: #64748b;">Total Disputed Pool:</div>
+                <strong id="split-total-pool" style="font-size: 1.15rem; color: #b91c1c;"></strong>
+              </div>
+            </div>
+
+            <!-- Slider 1: Farmer Payout -->
+            <div class="split-slider-row">
+              <div class="split-slider-header">
+                <span style="color: #15803d;">🧑‍🌾 Producer Farmer Payout:</span>
+                <div>
+                  <span id="slider-farmer-val" style="color: #15803d; font-weight: 800;">92%</span>
+                  <span style="color: #64748b; font-size: 0.8rem;">(<strong id="slider-farmer-rupees" style="color: #15803d;">₹ 40,480</strong>)</span>
+                </div>
+              </div>
+              <input type="range" min="0" max="100" value="92" class="split-slider" id="slider-farmer" oninput="handleSliderChange('farmer', this.value)" />
+            </div>
+
+            <!-- Slider 2: Buyer Refund / Tare Deduction -->
+            <div class="split-slider-row">
+              <div class="split-slider-header">
+                <span style="color: #1e40af;">🏢 Enterprise Buyer Refund:</span>
+                <div>
+                  <span id="slider-buyer-val" style="color: #1e40af; font-weight: 800;">0%</span>
+                  <span style="color: #64748b; font-size: 0.8rem;">(<strong id="slider-buyer-rupees" style="color: #1e40af;">₹ 0</strong>)</span>
+                </div>
+              </div>
+              <input type="range" min="0" max="100" value="0" class="split-slider" id="slider-buyer" oninput="handleSliderChange('buyer', this.value)" />
+            </div>
+
+            <!-- Slider 3: Logistics Transit Cargo Insurance Pool -->
+            <div class="split-slider-row" style="margin-bottom: 0;">
+              <div class="split-slider-header">
+                <span style="color: #d97706;">🛡️ Logistics Transit Cargo Insurance Claim:</span>
+                <div>
+                  <span id="slider-insurance-val" style="color: #d97706; font-weight: 800;">8%</span>
+                  <span style="color: #64748b; font-size: 0.8rem;">(<strong id="slider-insurance-rupees" style="color: #d97706;">₹ 3,520</strong>)</span>
+                </div>
+              </div>
+              <input type="range" min="0" max="100" value="8" class="split-slider" id="slider-insurance" oninput="handleSliderChange('insurance', this.value)" />
+            </div>
+          </div>
+
+          <!-- Formal Binding Award Order Preview -->
+          <div style="background: #fff1f2; border: 1.5px solid #fecaca; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 0.76rem; font-weight: 800; color: #9f1239; text-transform: uppercase;">
+                ⚖️ MSAMB Statutory Binding Arbitration Order (Section 42-A)
+              </span>
+              <span style="font-size: 0.74rem; color: #64748b;">Seal: MSAMB-ARB-2026</span>
+            </div>
+            
+            <textarea id="award-order-text" rows="3" style="width: 100%; border: 1px solid #fda4af; border-radius: 8px; padding: 10px; font-size: 0.82rem; color: #1e293b; line-height: 1.45; background: #ffffff; resize: vertical;"></textarea>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 0.76rem; color: #64748b;">
+              <div>Presiding Officer: <strong>Dr. R. K. Shinde, IAS</strong></div>
+              <div>Arbitration SLA: <strong style="color: #15803d;">Instant RTGS Release Trigger</strong></div>
+            </div>
+          </div>
+
+          <!-- Final Actions -->
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <button class="btn btn-outline" style="font-size: 0.82rem;" onclick="switchTribunalTab('tab-lab')">
+              &larr; Back to Lab Assays
+            </button>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-outline" onclick="closeTribunalModal()">Cancel</button>
+              <button class="btn-gov-approve" style="padding: 10px 22px; font-size: 0.88rem; background: #881337;" onclick="executeBindingAward()">
+                ⚖️ Enforce Binding Award & Release Split Escrow
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
   <script src="js/data.js"></script>
   <script src="js/dashboard.js"></script>
   <script>
+    let activeDisputeCase = null;
+    let currentSplit = { farmerPct: 92, buyerPct: 0, insurancePct: 8 };
+
     document.addEventListener("DOMContentLoaded", () => {
       renderTribunalCards();
     });
@@ -159,12 +552,22 @@
           c.title.toLowerCase().includes(q) || 
           c.farmer.toLowerCase().includes(q) || 
           c.buyer.toLowerCase().includes(q) ||
-          c.lotId.toLowerCase().includes(q)
+          c.lotId.toLowerCase().includes(q) ||
+          (c.crop && c.crop.toLowerCase().includes(q))
         );
       }
 
+      if (cases.length === 0) {
+        container.innerHTML = `
+          <div class="card" style="text-align: center; padding: 40px; color: #64748b;">
+            No tribunal dispute tickets matching your search query.
+          </div>
+        `;
+        return;
+      }
+
       container.innerHTML = cases.map(c => {
-        const isSettled = c.status.includes('Settled');
+        const isSettled = c.status.includes('Settled') || c.status.includes('Enforced');
         return `
           <div class="card" style="margin-bottom: 20px; border-radius: 14px; border: 1.5px solid ${isSettled ? '#bbf7d0' : '#fecaca'};">
             <div class="card-header" style="background: ${isSettled ? '#f0fdf4' : '#fff1f2'}; border-radius: 14px 14px 0 0; padding: 16px 20px;">
@@ -173,23 +576,26 @@
                   <strong style="color: #9f1239; font-size: 1.05rem;">${c.ticketId}</strong>
                   <span class="badge ${isSettled ? 'badge-gov-clear' : 'badge-gov-hold'}">${c.status}</span>
                   <span style="font-size: 0.78rem; color: #64748b;">• Ref Lot: <strong>${c.lotId}</strong></span>
+                  <span class="badge badge-fpo" style="font-size: 0.7rem; padding: 2px 6px;">${c.crop || 'Agricultural Produce'}</span>
                 </div>
                 <h4 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-top: 4px;">${c.title}</h4>
               </div>
               <div style="text-align: right;">
-                <div style="font-size: 0.75rem; color: #64748b;">Disputed Escrow Amount:</div>
+                <div style="font-size: 0.75rem; color: #64748b;">Disputed Escrow Pool:</div>
                 <strong style="font-size: 1.25rem; font-weight: 800; color: #b91c1c;">${c.disputedFormatted}</strong>
               </div>
             </div>
 
             <div style="padding: 20px;">
+              
               <!-- Split Claims -->
-              <div class="case-split-grid">
+              <div class="case-split-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
                 <!-- Farmer Claim -->
                 <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
-                  <strong style="color: #0c5a36; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
-                    🧑‍🌾 Producer Claim: ${c.farmer}
-                  </strong>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="color: #0c5a36; font-size: 0.85rem;">🧑‍🌾 Producer: ${c.farmer}</strong>
+                    <span style="font-size: 0.72rem; color: #64748b;">${c.farmerPhone || ''}</span>
+                  </div>
                   <p style="font-size: 0.82rem; color: #334155; margin-top: 6px; line-height: 1.45;">
                     "${c.farmerClaim}"
                   </p>
@@ -197,21 +603,25 @@
 
                 <!-- Buyer Claim -->
                 <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
-                  <strong style="color: #1e40af; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
-                    🏢 Enterprise Buyer Claim: ${c.buyer}
-                  </strong>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="color: #1e40af; font-size: 0.85rem;">🏢 Enterprise Buyer: ${c.buyer}</strong>
+                    <span style="font-size: 0.72rem; color: #64748b;">${c.buyerGstin || ''}</span>
+                  </div>
                   <p style="font-size: 0.82rem; color: #334155; margin-top: 6px; line-height: 1.45;">
                     "${c.buyerClaim}"
                   </p>
                 </div>
               </div>
 
-              <!-- Evidence Vault -->
+              <!-- Evidence Preview Highlights -->
               <div style="background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.82rem;">
-                <strong style="color: #166534; font-size: 0.86rem;">🔬 Verified Evidence Vault:</strong>
-                <div style="margin-top: 6px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: #374151;">
-                  <div>🧪 <strong>Lab Report:</strong> ${c.evidenceLab}</div>
-                  <div>📸 <strong>e-PoD & Weigh Slip:</strong> ${c.evidencePod}</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <strong style="color: #166534; font-size: 0.86rem;">🔬 Verified Evidence Vault Highlights:</strong>
+                  <span style="font-size: 0.74rem; color: #15803d; font-weight: 700;">MPKV & APEDA NABL Verified</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: #374151;">
+                  <div>🧪 <strong>Lab Finding:</strong> ${c.labAssay ? c.labAssay.verdict : 'Tested Grade-A conformant'}</div>
+                  <div>📸 <strong>Visuals:</strong> Dual-geotagged origin pickup & destination DC photos on record</div>
                 </div>
               </div>
 
@@ -225,13 +635,16 @@
                 </div>
 
                 <div style="display: flex; gap: 8px;">
+                  <button class="btn-gov-inspect" style="padding: 8px 16px; font-size: 0.84rem; background: #fdf2f8; color: #9f1239; border-color: #fbcfe8;" onclick="openTribunalInspector('${c.ticketId}')">
+                    🔍 Open Evidence & Award Inspector
+                  </button>
                   ${!isSettled ? `
-                    <button class="btn-gov-approve" style="padding: 8px 16px; font-size: 0.84rem;" onclick="handleAwardTribunal('${c.ticketId}')">
-                      ⚖️ Issue Binding Award & Release Escrow
+                    <button class="btn-gov-approve" style="padding: 8px 16px; font-size: 0.84rem; background: #881337;" onclick="openTribunalInspector('${c.ticketId}', 'tab-split')">
+                      ⚖️ Enforce Award
                     </button>
                   ` : `
-                    <span style="font-size: 0.84rem; color: #059669; font-weight: 800;">
-                      ✓ Binding Award Enforced on Escrow Ledger
+                    <span style="font-size: 0.84rem; color: #059669; font-weight: 800; display: inline-flex; align-items: center; gap: 4px;">
+                      ✓ Binding Award Enforced
                     </span>
                   `}
                 </div>
@@ -243,16 +656,158 @@
       }).join('');
     }
 
-    function handleAwardTribunal(ticketId) {
-      const verdict = prompt("Confirm or adjust tribunal binding award text:", "Direct 100% contract payout released from escrow to farmer; logistics penalty adjusted.");
-      if (verdict !== null) {
-        const res = AgriNexAdminGovernance.resolveGrievance(ticketId, verdict);
-        if (res.success) {
-          renderTribunalCards(document.getElementById('tribunal-search')?.value || '');
-          alert(`🎉 ${res.message}
-          
-The binding arbitration order has been recorded in the MSAMB governance audit trail.`);
-        }
+    function openTribunalInspector(ticketId, initialTab = 'tab-visual') {
+      const cases = AgriNexAdminGovernance.getGrievances();
+      const c = cases.find(item => item.ticketId === ticketId);
+      if (!c) return;
+
+      activeDisputeCase = c;
+
+      // Populate Header
+      document.getElementById('modal-ticket-id').textContent = `Ticket: ${c.ticketId}`;
+      document.getElementById('modal-case-title').textContent = `${c.title} (${c.lotId})`;
+
+      // Populate Tab 1: Visual Evidence
+      if (c.pickupEvidence) {
+        document.getElementById('pickup-img').src = c.pickupEvidence.photo;
+        document.getElementById('pickup-caption').textContent = c.pickupEvidence.caption;
+        document.getElementById('pickup-gps').textContent = `📍 ${c.pickupEvidence.gps} • ${c.pickupEvidence.timestamp}`;
+        document.getElementById('pickup-inspector').textContent = c.pickupEvidence.inspector;
+        document.getElementById('pickup-condition').textContent = c.pickupEvidence.condition;
+      }
+      if (c.intakeEvidence) {
+        document.getElementById('intake-img').src = c.intakeEvidence.photo;
+        document.getElementById('intake-caption').textContent = c.intakeEvidence.caption;
+        document.getElementById('intake-gps').textContent = `📍 ${c.intakeEvidence.gps} • ${c.intakeEvidence.timestamp}`;
+        document.getElementById('intake-inspector').textContent = c.intakeEvidence.inspector;
+        document.getElementById('intake-condition').textContent = c.intakeEvidence.condition;
+      }
+
+      // Populate Tab 2: Lab Assays & Weighbridge
+      if (c.labAssay) {
+        document.getElementById('lab-name').textContent = c.labAssay.labName;
+        document.getElementById('lab-cert-no').textContent = `Certificate #${c.labAssay.certNo} • Dated ${c.labAssay.date}`;
+        document.getElementById('lab-status-badge').textContent = c.labAssay.labStatus;
+        document.getElementById('lab-parameter').textContent = c.labAssay.parameter;
+        document.getElementById('lab-standard').textContent = c.labAssay.standardLimit;
+        document.getElementById('lab-measured').textContent = c.labAssay.measuredValue;
+        document.getElementById('lab-verdict').textContent = c.labAssay.verdict;
+      }
+      if (c.weighSlip) {
+        document.getElementById('weigh-station').textContent = c.weighSlip.station;
+        document.getElementById('weigh-slip-no').textContent = `Slip #${c.weighSlip.slipNo}`;
+        document.getElementById('weigh-gross').textContent = c.weighSlip.grossWeight;
+        document.getElementById('weigh-tare').textContent = c.weighSlip.tareWeight;
+        document.getElementById('weigh-net').textContent = c.weighSlip.netWeight;
+        document.getElementById('weigh-validity').textContent = c.weighSlip.calibrationValidity;
+      }
+
+      // Populate Tab 3: Sliders & Award Order
+      document.getElementById('split-total-pool').textContent = c.disputedFormatted;
+      const split = c.recommendedSplit || { farmerPct: 90, buyerPct: 0, insurancePct: 10 };
+      currentSplit = { ...split };
+
+      document.getElementById('slider-farmer').value = split.farmerPct;
+      document.getElementById('slider-buyer').value = split.buyerPct;
+      document.getElementById('slider-insurance').value = split.insurancePct;
+      
+      updateSliderDisplay();
+
+      document.getElementById('award-order-text').value = c.proposedResolution || `Direct ${split.farmerPct}% contract payout of disputed escrow to Producer Farmer; balance adjusted via Logistics Cargo Insurance Pool.`;
+
+      switchTribunalTab(initialTab);
+
+      const modal = document.getElementById('modal-tribunal-inspector');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeTribunalModal() {
+      const modal = document.getElementById('modal-tribunal-inspector');
+      if (modal) modal.classList.remove('active');
+      activeDisputeCase = null;
+    }
+
+    function switchTribunalTab(tabId) {
+      document.querySelectorAll('.tribunal-tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tribunal-tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) targetPane.classList.add('active');
+
+      if (tabId === 'tab-visual') document.querySelectorAll('.tribunal-tab-btn')[0].classList.add('active');
+      if (tabId === 'tab-lab') document.querySelectorAll('.tribunal-tab-btn')[1].classList.add('active');
+      if (tabId === 'tab-split') document.querySelectorAll('.tribunal-tab-btn')[2].classList.add('active');
+    }
+
+    function handleSliderChange(type, val) {
+      if (!activeDisputeCase) return;
+      const num = parseInt(val, 10);
+
+      if (type === 'farmer') {
+        currentSplit.farmerPct = num;
+        const remainder = 100 - num;
+        currentSplit.buyerPct = Math.min(currentSplit.buyerPct, remainder);
+        currentSplit.insurancePct = Math.max(0, remainder - currentSplit.buyerPct);
+      } else if (type === 'buyer') {
+        currentSplit.buyerPct = num;
+        const remainder = 100 - num;
+        currentSplit.farmerPct = Math.min(currentSplit.farmerPct, remainder);
+        currentSplit.insurancePct = Math.max(0, remainder - currentSplit.farmerPct);
+      } else if (type === 'insurance') {
+        currentSplit.insurancePct = num;
+        const remainder = 100 - num;
+        currentSplit.buyerPct = Math.min(currentSplit.buyerPct, remainder);
+        currentSplit.farmerPct = Math.max(0, remainder - currentSplit.buyerPct);
+      }
+
+      document.getElementById('slider-farmer').value = currentSplit.farmerPct;
+      document.getElementById('slider-buyer').value = currentSplit.buyerPct;
+      document.getElementById('slider-insurance').value = currentSplit.insurancePct;
+
+      updateSliderDisplay();
+    }
+
+    function updateSliderDisplay() {
+      if (!activeDisputeCase) return;
+      const totalAmt = activeDisputeCase.disputedAmount;
+
+      const farmerAmt = Math.round((currentSplit.farmerPct / 100) * totalAmt);
+      const buyerAmt = Math.round((currentSplit.buyerPct / 100) * totalAmt);
+      const insuranceAmt = Math.round((currentSplit.insurancePct / 100) * totalAmt);
+
+      currentSplit.farmerPayout = farmerAmt;
+      currentSplit.buyerRefund = buyerAmt;
+      currentSplit.insuranceClaim = insuranceAmt;
+
+      document.getElementById('slider-farmer-val').textContent = `${currentSplit.farmerPct}%`;
+      document.getElementById('slider-farmer-rupees').textContent = `₹ ${farmerAmt.toLocaleString('en-IN')}`;
+
+      document.getElementById('slider-buyer-val').textContent = `${currentSplit.buyerPct}%`;
+      document.getElementById('slider-buyer-rupees').textContent = `₹ ${buyerAmt.toLocaleString('en-IN')}`;
+
+      document.getElementById('slider-insurance-val').textContent = `${currentSplit.insurancePct}%`;
+      document.getElementById('slider-insurance-rupees').textContent = `₹ ${insuranceAmt.toLocaleString('en-IN')}`;
+
+      document.getElementById('award-order-text').value = `Binding MSAMB Award: Pay Farmer ₹ ${farmerAmt.toLocaleString('en-IN')} (${currentSplit.farmerPct}%), Refund Buyer ₹ ${buyerAmt.toLocaleString('en-IN')} (${currentSplit.buyerPct}%), Logistics Transit Insurance Claim ₹ ${insuranceAmt.toLocaleString('en-IN')} (${currentSplit.insurancePct}%). Full Escrow Settlement Released.`;
+    }
+
+    function executeBindingAward() {
+      if (!activeDisputeCase) return;
+
+      const orderText = document.getElementById('award-order-text').value;
+      const res = AgriNexAdminGovernance.resolveGrievanceWithSplit(activeDisputeCase.ticketId, currentSplit, orderText);
+
+      if (res.success) {
+        closeTribunalModal();
+        renderTribunalCards(document.getElementById('tribunal-search')?.value || '');
+        alert(`🎉 ${res.message}
+
+Breakdown Released:
+🧑‍🌾 Farmer Payout: ₹ ${currentSplit.farmerPayout.toLocaleString('en-IN')} (${currentSplit.farmerPct}%)
+🏢 Buyer Refund: ₹ ${currentSplit.buyerRefund.toLocaleString('en-IN')} (${currentSplit.buyerPct}%)
+🛡️ Cargo Insurance Pool: ₹ ${currentSplit.insuranceClaim.toLocaleString('en-IN')} (${currentSplit.insurancePct}%)
+
+Logged to MSAMB Immutable Audit Ledger.`);
       }
     }
   </script>
