@@ -258,14 +258,11 @@
             <td>
               <div style="display: flex; gap: 6px;">
                 ${!isCleared ? `
-                  <button class="btn-gov-approve" onclick="handleApproveEscrow('${c.id}'); renderEscrowTable();">
-                    ✓ Sign & Release
-                  </button>
                   <button class="btn-gov-reject" onclick="handleHoldEscrow('${c.id}'); renderEscrowTable();">
                     ⚠️ Hold
                   </button>
                 ` : `
-                  <span style="font-size: 0.76rem; color: #059669; font-weight: 800;">✓ Released</span>
+                  <span style="font-size: 0.76rem; color: #059669; font-weight: 800;">✓ Cleared</span>
                 `}
                 <button class="btn-gov-inspect" onclick="openEscrowModal('${c.id}')">
                   🔍 Details

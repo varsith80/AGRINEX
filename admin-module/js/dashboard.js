@@ -87,9 +87,6 @@ function renderEscrowClearanceQueue(filterQuery = "") {
         <td>
           <div style="display: flex; gap: 6px; flex-wrap: wrap;">
             ${!isCleared ? `
-              <button class="btn-gov-approve" onclick="handleApproveEscrow('${c.id}')" title="Authorize RTGS Release">
-                ✓ Release RTGS
-              </button>
               <button class="btn-gov-reject" onclick="handleHoldEscrow('${c.id}')" title="Place on Quarantine Hold">
                 ⚠️ Hold
               </button>
@@ -211,9 +208,6 @@ function openEscrowModal(caseId) {
 
         <div style="display: flex; justify-content: flex-end; gap: 10px;">
           <button class="btn btn-outline" onclick="closeEscrowModal()">Close</button>
-          <button class="btn btn-primary" style="background: #059669;" onclick="handleApproveEscrow('${c.id}'); closeEscrowModal();">
-            ✓ Sign & Clear Dual-Key Escrow
-          </button>
         </div>
       </div>
     `;
