@@ -665,13 +665,16 @@
   </div>
 
   <!-- Scripts -->
-  <script src="js/data.js"></script>
-  <script src="js/fpo_hub.js"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/fpo_hub.js?v=3"></script>
   <script>
     let activeCropFilter = 'all';
 
     // FPO Hub Page Controller
     document.addEventListener("DOMContentLoaded", () => {
+      try {
+        localStorage.removeItem("agrinex_fpo_bulk_demands");
+      } catch(e) {}
       renderFPOPageDemands();
       renderMyCommitments();
       renderCompletedPools();

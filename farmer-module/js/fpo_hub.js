@@ -301,14 +301,21 @@ class AgriNexFPOHub {
   static getBulkDemands() {
     let data = null;
     try {
-      const stored = localStorage.getItem("agrinex_fpo_bulk_demands");
+      // Clear legacy storage cache if older format
+      try {
+        localStorage.removeItem("agrinex_fpo_bulk_demands");
+      } catch(e) {}
+      
+      const stored = localStorage.getItem("agrinex_fpo_bulk_demands_v3");
       if (stored) data = JSON.parse(stored);
     } catch(e) {}
-    return data || FPO_COOPERATIVE_DATA.bulkDemands;
+    return (data && data.length >= 10) ? data : FPO_COOPERATIVE_DATA.bulkDemands;
   }
 
   static saveBulkDemands(demands) {
-    localStorage.setItem("agrinex_fpo_bulk_demands", JSON.stringify(demands));
+    try {
+      localStorage.setItem("agrinex_fpo_bulk_demands_v3", JSON.stringify(demands));
+    } catch(e) {}
   }
 
   static contributeToPool(demandId, qtyQt, farmerName = "Patil Rameshwar") {
@@ -325,6 +332,7 @@ class AgriNexFPOHub {
     }
 
     item.currentPooledQty += qty;
+    if (!item.farmerContributors) item.farmerContributors = [];
     item.farmerContributors.unshift({
       name: farmerName,
       qty: qty,
@@ -337,5 +345,46 @@ class AgriNexFPOHub {
 
     this.saveBulkDemands(demands);
     return { success: true, message: `Successfully committed ${qty} Qt to ${item.crop} FPO pool!` };
+  }
+
+  static getMyCommitments(farmerName = "Patil Rameshwar") {
+    const demands = this.getBulkDemands();
+    const results = [];
+    demands.forEach(d => {
+      const myContrib = (d.farmerContributors || []).find(c => 
+        c.name.includes("You") || c.name.includes("Patil Rameshwar") || c.name.includes("Ramesh")
+      );
+      if (myContrib) {
+        const percent = Math.min(100, Math.round((d.currentPooledQty / d.totalRequiredNumber) * 100));
+        const unitPrice = `₹ ${(d.targetPriceNumber / 100).toFixed(2)} /kg (₹ ${d.targetPriceNumber.toLocaleString('en-IN')} /Qt)`;
+        const totalVal = myContrib.qty * d.targetPriceNumber;
+        const adv = Math.round(totalVal * 0.35);
+        results.push({
+          crop: d.crop,
+          destination: d.destination,
+          buyer: d.buyerName,
+          myQty: `${myContrib.qty} Qt (${(myContrib.qty * 100).toLocaleString('en-IN')} kg)`,
+          unitPrice: unitPrice,
+          totalEstimatedPayout: `₹ ${totalVal.toLocaleString('en-IN')}`,
+          advanceEscrow: `₹ ${adv.toLocaleString('en-IN')} (35% Direct Payout)`,
+          poolProgress: `${d.currentPooledQty} / ${d.totalRequiredNumber} Qt`,
+          poolPercent: percent,
+          status: myContrib.status || "Escrow Locked"
+        });
+      }
+    });
+    return results;
+  }
+
+  static getCompletedShipments() {
+    return FPO_COOPERATIVE_DATA.completedShipments;
+  }
+
+  static getBoardMembers() {
+    return FPO_COOPERATIVE_DATA.boardMembers;
+  }
+
+  static getFPOProfile() {
+    return FPO_COOPERATIVE_DATA.fpoProfile;
   }
 }
