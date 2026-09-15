@@ -489,7 +489,7 @@ const buyerData = {
       farmerLocation: "Devgad Coastal Belt, Ratnagiri ~ 15.0 km away",
       farmerRating: "4.98 ⭐",
       farmerPhone: "+91 98229-99440",
-      image: "assets/images/mango.jpg?v=1",
+      image: "assets/images/mango.jpg?v=2",
       grade: "GI Tagged Export Grade (220g+)",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
