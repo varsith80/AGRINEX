@@ -777,7 +777,7 @@ async function syncListingsFromBackend() {
             statusBadgeClass: currentStatusBadge,
             isEmergencySale: isEmergency && !isSold,
             emergencyOffers: offers,
-            location: c.mandi || "Surat Mandi Yard"
+            location: c.mandi || "Lasalgaon APMC Yard, Nashik"
           };
         });
         renderListings();

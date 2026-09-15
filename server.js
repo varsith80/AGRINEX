@@ -471,6 +471,7 @@ const server = http.createServer(async (req, res) => {
 
   // ================= API ROUTES =================
   if (urlPath.startsWith('/api/')) {
+    db = loadDB();
     // 1. Health
     if (urlPath === '/api/health') {
       return sendJSON(res, 200, {
