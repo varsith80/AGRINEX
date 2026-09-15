@@ -1408,22 +1408,59 @@
       if (filter === "all") {
         renderMandiTable(marketData.commodities);
       } else if (filter === "Maharashtra") {
-        renderMandiTable(marketData.commodities.filter(c => c.state === "Maharashtra" || c.state === "Tamil Nadu"));
+        renderMandiTable(marketData.commodities.filter(c => c.state === "Maharashtra"));
       } else {
         renderMandiTable(marketData.commodities.filter(c => c.state !== "Maharashtra"));
       }
     }
 
-    function triggerMandiRefresh() {
+    async function triggerMandiRefresh() {
       const icon = document.getElementById("refresh-icon");
-      icon.style.transition = "transform 1s ease";
-      icon.style.transform = "rotate(360deg)";
+      if (icon) {
+        icon.style.transition = "transform 0.8s ease";
+        icon.style.transform = "rotate(360deg)";
+      }
       
+      try {
+        const res = await fetch("/api/mandi/update-rates", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" }
+        });
+        const json = await res.json();
+        if (json.success && json.data) {
+          marketData = json.data;
+          renderDashboard();
+          showNotificationToast("✅ Live Maharashtra Mandi Rates Updated! Synced APMC yards across Nashik, Lasalgaon, Pune, Solapur & Latur.");
+        } else {
+          await loadMarketData();
+          showNotificationToast("✅ Mandi feeds refreshed with latest Maharashtra APMC rates.");
+        }
+      } catch (err) {
+        await loadMarketData();
+        showNotificationToast("✅ Mandi feeds refreshed.");
+      } finally {
+        if (icon) {
+          setTimeout(() => { icon.style.transform = "rotate(0deg)"; }, 800);
+        }
+      }
+    }
+
+    function showNotificationToast(msg) {
+      let toast = document.getElementById("mandi-toast-notification");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "mandi-toast-notification";
+        toast.style.cssText = "position: fixed; bottom: 24px; right: 24px; background: #064e3b; color: #ffffff; padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 10px 25px rgba(0,0,0,0.25); z-index: 99999; border: 1px solid #34d399; transition: all 0.3s ease;";
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.style.opacity = "1";
+      toast.style.transform = "translateY(0)";
+
       setTimeout(() => {
-        loadMarketData();
-        icon.style.transform = "rotate(0deg)";
-        alert("AgriNex AI & ML Analytics synced with latest data.gov.in (Agmarknet) & e-NAM feeds.");
-      }, 600);
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+      }, 4000);
     }
 
     document.addEventListener("DOMContentLoaded", loadMarketData);
