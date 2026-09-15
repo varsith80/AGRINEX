@@ -321,7 +321,7 @@ const buyerData = {
       farmerLocation: "Latur Pulses Yard ~ 3.0 km away",
       farmerRating: "4.90 ⭐",
       farmerPhone: "+91 98228-11922",
-      image: "assets/images/tur.jpg?v=1",
+      image: "assets/images/tur.jpg?v=2",
       grade: "Grade A Maruti Premium",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
