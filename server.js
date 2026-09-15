@@ -5,7 +5,9 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.resolve(__dirname);
 const DATA_FILE = path.join(__dirname, 'backend', 'data.json');
-const FORECAST_FILE = path.join(__dirname, 'ai_ml_engine', 'data', 'processed', 'latest_mandi_forecasts.json');
+const FORECAST_FILE = fs.existsSync(path.join(__dirname, 'ai_ml_engine', 'data', 'mandi_live_analytics.json'))
+  ? path.join(__dirname, 'ai_ml_engine', 'data', 'mandi_live_analytics.json')
+  : path.join(__dirname, 'ai_ml_engine', 'data', 'processed', 'latest_mandi_forecasts.json');
 
 // Ensure backend data directory exists
 if (!fs.existsSync(path.join(__dirname, 'backend'))) {
