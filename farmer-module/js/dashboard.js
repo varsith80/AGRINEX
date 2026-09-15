@@ -657,7 +657,11 @@ function setupLocationChange() {
   const locChangeBtn = document.getElementById("btn-change-location");
   if (locChangeBtn) {
     locChangeBtn.addEventListener("click", () => {
+<<<<<<< HEAD
       const newLoc = prompt("Enter your Mandi Location / Region:", "Nashik, Maharashtra");
+=======
+      const newLoc = prompt("Enter your Mandi Location / Region:", "Lasalgaon, Nashik, Maharashtra");
+>>>>>>> eb7b2131bbe40c41866443d60354b6bb55c668b5
       if (newLoc && newLoc.trim()) {
         document.getElementById("hero-location-text").textContent = newLoc.trim();
         showToast(`Mandi location switched to ${newLoc.trim()}`);
@@ -777,7 +781,11 @@ async function syncListingsFromBackend() {
             statusBadgeClass: currentStatusBadge,
             isEmergencySale: isEmergency && !isSold,
             emergencyOffers: offers,
+<<<<<<< HEAD
             location: c.mandi || "Nashik APMC Mandi, Maharashtra"
+=======
+            location: c.mandi || "Lasalgaon APMC Yard, Nashik"
+>>>>>>> eb7b2131bbe40c41866443d60354b6bb55c668b5
           };
         });
         renderListings();
