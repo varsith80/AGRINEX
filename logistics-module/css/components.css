@@ -237,11 +237,11 @@ input, select, textarea {
   background: #ffffff !important;
   color: #0f172a;
   border-radius: 16px;
-  max-width: 520px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  max-width: 540px;
+  width: 94%;
+  max-height: 88vh !important;
+  overflow-y: auto !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.08);
   position: relative;
   z-index: 10000;
   padding: 24px;
@@ -249,11 +249,13 @@ input, select, textarea {
 }
 
 .modal-card {
-  overflow: hidden;
+  overflow-y: auto !important;
 }
 
 #modal-gate-pass-body {
   padding: 0 !important;
+  max-height: 88vh;
+  overflow-y: auto !important;
 }
 
 @keyframes modalPop {

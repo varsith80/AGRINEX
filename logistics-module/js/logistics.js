@@ -336,22 +336,22 @@ function openGatePassModal(orderCode) {
   const gmapsUrl = getGoogleMapsUrl(order);
 
   body.innerHTML = `
-    <div style="background: linear-gradient(135deg, #064e3b 0%, #0c5a36 100%); color: #ffffff; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #10b981;">
+    <div style="background: linear-gradient(135deg, #064e3b 0%, #0c5a36 100%); color: #ffffff; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #10b981; position: sticky; top: 0; z-index: 10;">
       <div>
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-          <span style="font-size: 0.7rem; background: rgba(255, 255, 255, 0.22); color: #ffffff; padding: 3px 8px; border-radius: 4px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;">OFFICIAL e-GATE PASS</span>
-          <span style="font-size: 0.7rem; background: #10b981; color: #ffffff; padding: 3px 8px; border-radius: 4px; font-weight: 800;">VERIFIED</span>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+          <span style="font-size: 0.68rem; background: rgba(255, 255, 255, 0.22); color: #ffffff; padding: 2px 7px; border-radius: 4px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;">OFFICIAL e-GATE PASS</span>
+          <span style="font-size: 0.68rem; background: #10b981; color: #ffffff; padding: 2px 7px; border-radius: 4px; font-weight: 800;">VERIFIED</span>
         </div>
-        <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.01em;">${order.orderCode} • Transit Permit</h3>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.01em;">${order.orderCode} • Transit Permit</h3>
       </div>
-      <button onclick="closeGatePassModal()" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); font-size: 1.2rem; color: #ffffff; cursor: pointer; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; line-height: 1; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">&times;</button>
+      <button onclick="closeGatePassModal()" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); font-size: 1.2rem; color: #ffffff; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; line-height: 1; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">&times;</button>
     </div>
 
-    <div style="padding: 24px; background: #ffffff;">
+    <div style="padding: 18px 20px; background: #ffffff;">
       <!-- QR / Barcode Verification Box -->
-      <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 18px;">
-        <div style="display: inline-block; background: #ffffff; padding: 10px 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
-          <svg width="200" height="48" viewBox="0 0 200 48" fill="#0f172a" style="display: block; margin: 0 auto;">
+      <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 10px; padding: 12px; text-align: center; margin-bottom: 12px;">
+        <div style="display: inline-block; background: #ffffff; padding: 8px 16px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
+          <svg width="190" height="42" viewBox="0 0 200 48" fill="#0f172a" style="display: block; margin: 0 auto;">
             <rect x="0" y="0" width="4" height="48"/>
             <rect x="8" y="0" width="8" height="48"/>
             <rect x="20" y="0" width="4" height="48"/>
@@ -372,78 +372,78 @@ function openGatePassModal(orderCode) {
             <rect x="188" y="0" width="10" height="48"/>
           </svg>
         </div>
-        <div style="font-size: 0.75rem; font-weight: 800; color: #334155; margin-top: 8px; letter-spacing: 1px; font-family: monospace;">
+        <div style="font-size: 0.72rem; font-weight: 800; color: #334155; margin-top: 6px; letter-spacing: 1px; font-family: monospace;">
           AUTH CODE: AGX-GP-${order.orderCode}-2026
         </div>
       </div>
 
       <!-- Flexible Schedule & Arrival Window Banner in Gate Pass -->
-      <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 0.82rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+      <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; font-size: 0.78rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
           <span style="color: #166534; font-weight: 700;">🕒 Pickup Window:</span>
           <span style="color: #14532d; font-weight: 800;">${order.pickupWindow || "06:00 AM – 12:00 PM"}</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #bbf7d0; padding-top: 4px; margin-top: 4px; margin-bottom: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #bbf7d0; padding-top: 3px; margin-top: 3px; margin-bottom: 3px;">
           <span style="color: #166534; font-weight: 700;">🚚 Driver Pickup Slot:</span>
-          <strong style="color: #0c5a36; font-size: 0.9rem;">${order.driverScheduledSlot || "Flexible (Anytime Today)"}</strong>
+          <strong style="color: #0c5a36; font-size: 0.85rem;">${order.driverScheduledSlot || "Flexible (Anytime Today)"}</strong>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #bbf7d0; padding-top: 4px; margin-top: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #bbf7d0; padding-top: 3px; margin-top: 3px;">
           <span style="color: #166534; font-weight: 700;">🎯 Deliver Between:</span>
-          <strong style="color: #047857; font-size: 0.9rem;">${order.deliveryWindow || "01:00 PM – 05:30 PM (Today)"}</strong>
+          <strong style="color: #047857; font-size: 0.85rem;">${order.deliveryWindow || "01:00 PM – 05:30 PM (Today)"}</strong>
         </div>
       </div>
 
       <!-- Consignment Grid Details -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 14px; border-radius: 10px;">
-          <span style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">PRODUCE & VOLUME</span>
-          <strong style="color: #0f172a; font-size: 0.95rem; display: block;">${order.cropName}</strong>
-          <div style="font-size: 0.82rem; color: #065f46; font-weight: 800; margin-top: 2px;">${order.quantityQt} Qt (${(order.quantityKg).toLocaleString()} kg)</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 12px; border-radius: 8px;">
+          <span style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">PRODUCE & VOLUME</span>
+          <strong style="color: #0f172a; font-size: 0.88rem; display: block;">${order.cropName}</strong>
+          <div style="font-size: 0.78rem; color: #065f46; font-weight: 800; margin-top: 2px;">${order.quantityQt} Qt (${(order.quantityKg).toLocaleString()} kg)</div>
         </div>
 
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 14px; border-radius: 10px;">
-          <span style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">ASSIGNED VEHICLE & REEFER</span>
-          <strong style="color: #0f172a; font-size: 0.95rem; display: block;">${order.vehicleNo || logisticsData.profile.vehicleNo}</strong>
-          <div style="font-size: 0.82rem; color: #0284c7; font-weight: 800; margin-top: 2px;">❄️ Temp: ${order.temperatureC}</div>
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 12px; border-radius: 8px;">
+          <span style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">ASSIGNED VEHICLE & REEFER</span>
+          <strong style="color: #0f172a; font-size: 0.88rem; display: block;">${order.vehicleNo || logisticsData.profile.vehicleNo}</strong>
+          <div style="font-size: 0.78rem; color: #0284c7; font-weight: 800; margin-top: 2px;">❄️ Temp: ${order.temperatureC}</div>
         </div>
       </div>
 
       <!-- Route Details & Exact Highway Distance & Time -->
-      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 10px;">
-          <span style="color: #475569; font-weight: 700; font-size: 0.82rem; white-space: nowrap; display: flex; align-items: center; gap: 4px;">📍 Origin Mandi:</span>
-          <span style="color: #0f172a; font-weight: 700; font-size: 0.85rem; text-align: right; line-height: 1.35;">${order.pickupAddress}</span>
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px;">
+          <span style="color: #475569; font-weight: 700; font-size: 0.78rem; white-space: nowrap;">📍 Origin Mandi:</span>
+          <span style="color: #0f172a; font-weight: 700; font-size: 0.82rem; text-align: right; line-height: 1.3;">${order.pickupAddress}</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 10px;">
-          <span style="color: #475569; font-weight: 700; font-size: 0.82rem; white-space: nowrap; display: flex; align-items: center; gap: 4px;">🏁 Destination:</span>
-          <span style="color: #0f172a; font-weight: 700; font-size: 0.85rem; text-align: right; line-height: 1.35;">${order.deliveryAddress}</span>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px;">
+          <span style="color: #475569; font-weight: 700; font-size: 0.78rem; white-space: nowrap;">🏁 Destination:</span>
+          <span style="color: #0f172a; font-weight: 700; font-size: 0.82rem; text-align: right; line-height: 1.3;">${order.deliveryAddress}</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; background: #e0f2fe; border: 1px solid #bae6fd; padding: 8px 12px; border-radius: 8px; margin-bottom: 8px;">
-          <span style="color: #0369a1; font-weight: 800; font-size: 0.8rem;">📍 Exact Distance & Time:</span>
-          <strong style="color: #0284c7; font-size: 0.88rem;">${order.distanceKm} km • ⏱️ ${order.etaTime}</strong>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #e0f2fe; border: 1px solid #bae6fd; padding: 6px 10px; border-radius: 6px; margin-bottom: 6px;">
+          <span style="color: #0369a1; font-weight: 800; font-size: 0.75rem;">📍 Exact Distance & Time:</span>
+          <strong style="color: #0284c7; font-size: 0.82rem;">${order.distanceKm} km • ⏱️ ${order.etaTime}</strong>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 4px;">
-          <span style="color: #1e293b; font-weight: 700; font-size: 0.85rem;">Guaranteed Freight Escrow:</span>
-          <strong style="color: #0c5a36; font-size: 1.15rem; font-weight: 800;">${order.freightFormatted}</strong>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 4px;">
+          <span style="color: #1e293b; font-weight: 700; font-size: 0.82rem;">Guaranteed Freight Escrow:</span>
+          <strong style="color: #0c5a36; font-size: 1.05rem; font-weight: 800;">${order.freightFormatted}</strong>
         </div>
       </div>
 
       <!-- Action Navigation Links -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px;">
-        <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #ffffff; border: 1.5px solid #0284c7; color: #0284c7; padding: 10px 14px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: background 0.15s;" onmouseover="this.style.background='#f0f9ff'" onmouseout="this.style.background='#ffffff'">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+        <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #ffffff; border: 1.5px solid #0284c7; color: #0284c7; padding: 9px 12px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: background 0.15s;" onmouseover="this.style.background='#f0f9ff'" onmouseout="this.style.background='#ffffff'">
           <span>🗺️</span> View in Google Maps
         </a>
-        <button type="button" onclick="downloadGatePass('${order.orderCode}')" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #ffffff; border: 1.5px solid #cbd5e1; color: #1e293b; padding: 10px 14px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
+        <button type="button" onclick="downloadGatePass('${order.orderCode}')" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #ffffff; border: 1.5px solid #cbd5e1; color: #1e293b; padding: 9px 12px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
           <span>📥</span> Download Pass
         </button>
       </div>
 
       <!-- Main Action Bar -->
-      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 16px;">
-        <button class="btn btn-outline" onclick="window.print()" style="font-size: 0.82rem; padding: 8px 14px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #475569; font-weight: 700; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 14px; position: sticky; bottom: 0; background: #ffffff;">
+        <button class="btn btn-outline" onclick="window.print()" style="font-size: 0.8rem; padding: 8px 14px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #475569; font-weight: 700; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
           <span>🖨️</span> Print
         </button>
-        <button class="btn btn-primary" onclick="confirmOrderAndNavigate('${order.orderCode}')" style="font-size: 0.88rem; padding: 10px 22px; background: #0c5a36; color: #ffffff; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 3px 10px rgba(12,90,54,0.35);">
+        <button class="btn btn-primary" onclick="confirmOrderAndNavigate('${order.orderCode}')" style="font-size: 0.85rem; padding: 9px 20px; background: #0c5a36; color: #ffffff; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 3px 10px rgba(12,90,54,0.35);">
           <span>🚚</span> Confirm & View Delivery Map &rarr;
         </button>
       </div>
