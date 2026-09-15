@@ -158,30 +158,49 @@
         </div>
       </header>
 
-      <div class="dashboard-content">
+                  <div class="dashboard-content">
         
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
           <div>
-            <h2 style="font-size:1.35rem; font-weight:800; color:#0f172a; margin:0;">📍 Live Delivery Tracking</h2>
-            <div style="font-size:0.82rem; color:#64748b; margin-top:4px;">Vehicle: <strong>MH-15-AQ-9011</strong> • Consignment: <strong>IND-MH-401</strong></div>
+            <h2 style="font-size:1.35rem; font-weight:800; color:#0f172a; margin:0;" id="track-header-title">📍 Live Delivery Tracking</h2>
+            <div style="font-size:0.82rem; color:#64748b; margin-top:4px;" id="track-header-meta">Vehicle: <strong>MH-15-AQ-9011</strong> • Consignment: <strong id="track-code-display">IND-MH-401</strong></div>
           </div>
           <div style="display:flex; gap:8px;">
-            <button class="btn btn-outline" onclick="initLogisticsMap()" style="font-size:0.78rem;">🔄 Refresh Map</button>
-            <button class="btn btn-primary" onclick="openPinModal('IND-MH-401')" style="font-size:0.78rem; background:#0284c7;">🔐 Complete Delivery</button>
+            <button class="btn btn-outline" onclick="openGatePassModal(currentTrackingOrderCode)" style="font-size:0.78rem;">📑 View Gate Pass</button>
+            <button class="btn btn-primary" id="btn-complete-pin" onclick="openPinModal(currentTrackingOrderCode)" style="font-size:0.78rem; background:#0284c7;">🔐 Complete Delivery</button>
           </div>
         </div>
 
-        <!-- 4-Step Simple Progress Box -->
-        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:10px; margin-bottom:10px;">
-            <div>
-              <strong style="color:#0f172a; font-size:0.95rem;">Tomato (50 Qt / 5,000 kg)</strong>
-              <span style="margin:0 8px; color:#cbd5e1;">|</span>
-              <span style="font-size:0.8rem; color:#059669; font-weight:700;">Farmer: Ramesh Patil</span>
+        <!-- Google Maps Live Highway Navigation Bar -->
+        <div style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: white; border-radius: 14px; padding: 14px 18px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2);">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:2px;">
+              <span style="font-size: 0.7rem; background: rgba(255,255,255,0.22); padding: 2px 8px; border-radius: 4px; font-weight: 800; text-transform: uppercase;">LIVE HIGHWAY NAVIGATION</span>
+              <span style="font-size: 0.7rem; background: #38bdf8; color: #082f49; padding: 2px 8px; border-radius: 4px; font-weight: 800;">REAL-TIME GPS</span>
             </div>
-            <span style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:3px 10px; border-radius:999px; font-size:0.75rem; font-weight:800;">
-              ● In Transit
-            </span>
+            <div style="font-size: 1.05rem; font-weight: 800;" id="track-route-summary">Exact Route: 195.0 km • ⏱️ 4 hrs 15 mins (via NH-160 & Eastern Express)</div>
+          </div>
+          <a id="btn-open-google-maps" href="#" target="_blank" rel="noopener noreferrer" style="background: #ffffff; color: #0284c7; padding: 9px 18px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+            <span>🗺️</span> Open in Google Maps &rarr;
+          </a>
+        </div>
+
+        <!-- 4-Step Progress & Timing Box -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:10px; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+            <div>
+              <strong style="color:#0f172a; font-size:0.98rem;" id="track-produce-title">Tomato (50 Qt / 5,000 kg)</strong>
+              <span style="margin:0 8px; color:#cbd5e1;">|</span>
+              <span style="font-size:0.82rem; color:#059669; font-weight:700;" id="track-farmer-label">Farmer: Ramesh Patil</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="background:#f0fdf4; color:#166534; border:1px solid #bbf7d0; padding:3px 10px; border-radius:999px; font-size:0.75rem; font-weight:800;" id="track-delivery-window-badge">
+                🎯 Deliver Between: 01:00 PM – 05:30 PM
+              </span>
+              <span style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:3px 10px; border-radius:999px; font-size:0.75rem; font-weight:800;" id="track-status-pill">
+                ● In Transit
+              </span>
+            </div>
           </div>
 
           <div class="step-track">
@@ -243,10 +262,41 @@
 
   <script src="js/data.js"></script>
   <script src="js/logistics.js"></script>
-  <script>
+    <script>
+    let currentTrackingOrderCode = "IND-MH-401";
+
     document.addEventListener("DOMContentLoaded", () => {
-      initLogisticsMap();
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('orderCode') || 'IND-MH-401';
+      currentTrackingOrderCode = code;
+
+      loadOrderForTracking(code);
     });
+
+    function loadOrderForTracking(orderCode) {
+      const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode) || logisticsData.dispatchOrders[0];
+      if (!order) return;
+
+      currentTrackingOrderCode = order.orderCode;
+
+      const codeEl = document.getElementById("track-code-display");
+      const titleEl = document.getElementById("track-produce-title");
+      const farmerEl = document.getElementById("track-farmer-label");
+      const summaryEl = document.getElementById("track-route-summary");
+      const gmapsBtn = document.getElementById("btn-open-google-maps");
+      const windowBadge = document.getElementById("track-delivery-window-badge");
+      const statusPill = document.getElementById("track-status-pill");
+
+      if (codeEl) codeEl.textContent = order.orderCode;
+      if (titleEl) titleEl.textContent = `${order.cropName} (${order.quantityQt} Qt / ${(order.quantityKg).toLocaleString()} kg)`;
+      if (farmerEl) farmerEl.textContent = `Farmer: ${order.pickupFarmerName}`;
+      if (summaryEl) summaryEl.textContent = `Exact Route: ${order.distanceKm} km • ⏱️ ${order.etaTime} (${order.pickupAddress.split(',')[0]} ➔ ${order.deliveryAddress.split(',')[0]})`;
+      if (windowBadge) windowBadge.textContent = `🎯 Deliver Between: ${order.deliveryWindow || '01:00 PM – 05:30 PM'}`;
+      if (statusPill) statusPill.textContent = `● ${order.deliveryStatus}`;
+      if (gmapsBtn) gmapsBtn.href = getGoogleMapsUrl(order);
+
+      initLogisticsMap(order.orderCode);
+    }
   </script>
 </body>
 </html>
