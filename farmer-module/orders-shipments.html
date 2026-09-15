@@ -238,10 +238,10 @@
       <!-- User Profile at bottom -->
       <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
         <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
-          <img src="assets/images/farmer-avatar.jpg" alt="Patil Rameshwar" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+          <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
           <div style="min-width:0; flex:1;">
-            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Patil Rameshwar</div>
-            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Lasalgaon, Nashik</div>
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Ramesh Patel</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Surat</div>
           </div>
           <a href="../login_details/farmer_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
@@ -266,7 +266,7 @@
               <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
               <circle cx="12" cy="10" r="3"></circle>
             </svg>
-            <span>Lasalgaon APMC Mandi, Nashik</span>
+            <span>Surat Mandi Hub</span>
           </div>
         </div>
 
@@ -290,10 +290,10 @@
             </svg>
           </button>
           <div class="profile-widget" style="cursor: pointer;" onclick="window.location.href='my-crops.html'">
-            <img src="assets/images/farmer-avatar.jpg" alt="Patil Rameshwar" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+            <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
             <div>
-              <div class="profile-name">Patil Rameshwar</div>
-              <div class="profile-role">ID: FARM-88210 • Lasalgaon</div>
+              <div class="profile-name">Ramesh Patel</div>
+              <div class="profile-role">ID: FARM-88210</div>
             </div>
           </div>
         </div>
@@ -416,7 +416,7 @@
       <div style="padding:18px 20px;">
         <div style="background:#1e293b; color:#ffffff; border-radius:10px; padding:24px; text-align:center; margin-bottom:14px;">
           <div style="font-size:2.2rem; margin-bottom:6px;">🚛</div>
-          <div style="font-weight:800; font-size:1rem; color:#38bdf8;" id="gps-loc">Nashik-Mumbai Expressway KM 84 (Igatpuri Ghat)</div>
+          <div style="font-weight:800; font-size:1rem; color:#38bdf8;" id="gps-loc">Surat-Mumbai Highway KM 84</div>
           <div style="font-size:0.8rem; color:#94a3b8; margin-top:4px;" id="gps-eta">Speed: 54 km/h • ETA: Tomorrow 8:00 AM</div>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -427,17 +427,12 @@
     </div>
   </div>
 
-  <script src="js/api.js?v=3"></script>
+  <script src="js/api.js"></script>
   <script>
     let SHIPMENTS = [
-      { tracking_id: 'TRK-MH-9884', gate_pass: 'GP-2026-9884', crop: 'Tomato (Shivam Hybrid)', quantity_qt: 60, quantity_kg: 6000, buyer: 'Reliance Fresh Supply Chain', destination: 'Reliance Fresh DC, Narayangaon, Pune', driver: 'Dinesh Yadav', phone: '+91 97230 44819', vehicle: 'MH-12-AQ-9011 (Tata 407 Reefer)', status: 'transit', step: 3, loc: 'Narayangaon Bypass KM 14 • Speed: 52 km/h', eta: 'Today 04:30 PM', total_val: 83460, adv_paid: 29211 },
-      { tracking_id: 'TRK-MH-9921', gate_pass: 'GP-2026-9921', crop: 'Red Onion (Nashik Garwa Export)', quantity_qt: 100, quantity_kg: 10000, buyer: 'BigBasket Direct Farm Sourcing', destination: 'Vashi APMC International Terminal, Navi Mumbai', driver: 'Sukhdev Singh', phone: '+91 98450 11992', vehicle: 'MH-15-BX-4412 (Eicher 17-ft Heavy)', status: 'transit', step: 3, loc: 'Nashik-Mumbai Expressway KM 84 (Igatpuri Ghat)', eta: 'Today 06:00 PM', total_val: 189000, adv_paid: 66150 },
-      { tracking_id: 'TRK-MH-9755', gate_pass: 'GP-2026-9755', crop: 'Yellow Soybean (Latur JS 335)', quantity_qt: 150, quantity_kg: 15000, buyer: 'Patanjali Foods Sourcing', destination: 'Latur Industrial Solvent Complex, Maharashtra', driver: 'Rameshwar Gavit', phone: '+91 98221 44550', vehicle: 'MH-24-CC-8819 (Ashok Leyland 10-Wheeler)', status: 'transit', step: 3, loc: 'Beed-Latur Highway KM 32 • Speed: 62 km/h', eta: 'Tonight 09:00 PM', total_val: 686700, adv_paid: 240345 },
-      { tracking_id: 'TRK-MH-9640', gate_pass: 'GP-2026-9640', crop: 'Alphonso Mango (Ratnagiri Hapus GI)', quantity_qt: 30, quantity_kg: 3000, buyer: 'Dubai Lulu Hypermarkets Procurement', destination: 'Mumbai Air Cargo Cold Chain Terminal (BOM)', driver: 'Mahesh Sawant', phone: '+91 94220 77112', vehicle: 'MH-08-AG-3301 (Insulated Cold Truck)', status: 'scheduled', step: 2, loc: 'Vehicle Assigned • Arriving at Farm Today 03:00 PM', eta: 'Tomorrow 06:00 AM (Air Cargo Flight)', total_val: 588600, adv_paid: 206010 },
-      { tracking_id: 'TRK-MH-9512', gate_pass: 'GP-2026-9512', crop: 'Thompson Grapes (Nashik Seedless Cold Chain)', quantity_qt: 80, quantity_kg: 8000, buyer: 'Mahagrapes Export Federation', destination: 'Pimpalgaon Baswant Pre-cooling Hub, Nashik', driver: 'Kailash Borse', phone: '+91 97665 11990', vehicle: 'MH-15-EF-7721 (Refrigerated 407)', status: 'scheduled', step: 2, loc: 'Dock Assigned at Pimpalgaon • Pickup at 04:00 PM', eta: 'Today 08:00 PM', total_val: 593280, adv_paid: 207648 },
-      { tracking_id: 'TRK-MH-9430', gate_pass: 'GP-2026-9430', crop: 'Desi Chana (Akola Bold Bengal Gram)', quantity_qt: 100, quantity_kg: 10000, buyer: 'Tata Sampann Pulses Division', destination: 'Akola Industrial Pulses Milling Hub', driver: 'Ganesh Rathod', phone: '+91 98500 88231', vehicle: 'MH-30-BB-5510 (Eicher Heavy Hauler)', status: 'delivered', step: 4, loc: 'Consignment Weighed & Quality Approved at Akola Mill', eta: 'Delivered (100% Escrow Released)', total_val: 632200, adv_paid: 221270 },
-      { tracking_id: 'TRK-MH-9310', gate_pass: 'GP-2026-9310', crop: 'Sangli Rajapuri Turmeric Finger', quantity_qt: 40, quantity_kg: 4000, buyer: 'Everest Spices Industrial Processing', destination: 'Sangli APMC Spices Export Terminal', driver: 'Babasaheb Patil', phone: '+91 98229 10443', vehicle: 'MH-10-EE-2201 (Covered Container Truck)', status: 'delivered', step: 4, loc: 'Delivered at Sangli Hub • Curcumin Tested 4.8%', eta: 'Delivered & Settled', total_val: 600000, adv_paid: 210000 },
-      { tracking_id: 'TRK-MH-9205', gate_pass: 'GP-2026-9205', crop: 'Grand Naine Banana (Jalgaon GI)', quantity_qt: 120, quantity_kg: 12000, buyer: 'Adani Wilmar Agri Procurement', destination: 'Jalgaon Banana Export Cluster Hub', driver: 'Suresh Chaudhari', phone: '+91 94227 88123', vehicle: 'MH-19-CV-9912 (Reefer Multi-axle)', status: 'delivered', step: 4, loc: 'Delivered • Cold Storage Chamber #3 Loaded', eta: 'Delivered & Settled', total_val: 189720, adv_paid: 66402 }
+      { tracking_id: 'TRK-9884', gate_pass: 'GP-2026-9884', crop: 'Tomato (Hybrid Red)', quantity_qt: 40, quantity_kg: 4000, buyer: 'Swiggy Instamart Agri', destination: 'Swiggy DC, Bhiwandi', driver: 'Dinesh Yadav', phone: '+91 97230 44819', vehicle: 'MH-12-AQ-9011', status: 'transit', step: 3, loc: 'Surat-Mumbai Highway KM 84', eta: 'Tomorrow 8:00 AM', total_val: 96000, adv_paid: 33600 },
+      { tracking_id: 'TRK-9921', gate_pass: 'GP-2026-9921', crop: 'Potato (Jyoti Grade A)', quantity_qt: 120, quantity_kg: 12000, buyer: 'Balaji Wafers Procurement', destination: 'Balaji Factory, Valsad', driver: 'Sukhdev Singh', phone: '+91 98450 11992', vehicle: 'GJ-05-BX-4412', status: 'scheduled', step: 2, loc: 'Truck arriving at farm at 2:00 PM', eta: 'Today 4:30 PM', total_val: 222000, adv_paid: 77700 },
+      { tracking_id: 'TRK-9710', gate_pass: 'GP-2026-9710', crop: 'Wheat (Sharbati)', quantity_qt: 100, quantity_kg: 10000, buyer: 'Aashirvaad ITC Foods', destination: 'ITC Depot, Vadodara', driver: 'Mohan Lal', phone: '+91 98110 55432', vehicle: 'GJ-06-TT-1904', status: 'delivered', step: 4, loc: 'Delivered & Accepted', eta: 'Completed', total_val: 260000, adv_paid: 91000 }
     ];
 
     let currentTab = 'all';
