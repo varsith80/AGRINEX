@@ -11,9 +11,9 @@ const DEFAULT_AGRINEX_ACCOUNTS = {
     email: "farmer@agrinex.in",
     phone: "9876543210",
     password: "Farmer@123",
-    name: "Ramesh Kumar",
-    avatar: "../farmer-module/assets/images/farmer-avatar.jpg",
-    location: "Erode, Tamil Nadu",
+    name: "Ramesh Patil",
+    avatar: "../assets/images/farmer-avatar.jpg",
+    location: "Nashik, Maharashtra",
     moduleDir: "farmer-module",
     redirectUrl: "../farmer-module/index.html",
     themeColor: "#15803d"
@@ -27,7 +27,7 @@ const DEFAULT_AGRINEX_ACCOUNTS = {
     password: "Buyer@123",
     name: "Suresh Singhania (AgriFoods Ltd.)",
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
-    location: "Coimbatore, Tamil Nadu",
+    location: "Thane / Mumbai, Maharashtra",
     moduleDir: "buyer-module",
     redirectUrl: "../buyer-module/index.html",
     themeColor: "#2563eb"
@@ -39,9 +39,9 @@ const DEFAULT_AGRINEX_ACCOUNTS = {
     email: "transit@greenwayslogistics.in",
     phone: "9822099887",
     password: "Logistics@123",
-    name: "Karthik Raja (GreenWays Transit)",
+    name: "Dinesh Yadav (GreenWays Transit)",
     avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80",
-    location: "Salem Regional Hub, TN",
+    location: "Nashik Regional Hub, Maharashtra",
     moduleDir: "logistics-module",
     redirectUrl: "../logistics-module/index.html",
     themeColor: "#7c3aed"
@@ -55,7 +55,7 @@ const DEFAULT_AGRINEX_ACCOUNTS = {
     password: "Admin@123",
     name: "Dr. A. Venkatesh",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80",
-    location: "AgriNex HQ, Chennai",
+    location: "AgriNex HQ, Mumbai, Maharashtra",
     moduleDir: "admin-module",
     redirectUrl: "../admin-module/index.html",
     themeColor: "#dc2626"
