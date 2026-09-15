@@ -513,7 +513,7 @@ const buyerData = {
       farmerLocation: "Pimpalgaon Baswant, Nashik ~ 5.0 km away",
       farmerRating: "4.92 ⭐",
       farmerPhone: "+91 98228-33991",
-      image: "assets/images/grapes.jpg?v=1",
+      image: "assets/images/grapes.jpg?v=2",
       grade: "Grade A Export Calibrated (Brix >18°)",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
