@@ -5,7 +5,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   renderOverviewStats();
   renderEscrowClearanceQueue();
-  renderKYCSummaryQueue();
   renderAuditLogs();
 });
 
@@ -109,42 +108,6 @@ function renderEscrowClearanceQueue(filterQuery = "") {
   }).join("");
 }
 
-function renderKYCSummaryQueue() {
-  const container = document.getElementById("kyc-summary-tbody");
-  if (!container) return;
-
-  const queue = AgriNexAdminGovernance.getKYCQueue();
-  container.innerHTML = queue.map(k => `
-    <tr>
-      <td>
-        <strong style="color: #0c5a36;">${k.id}</strong>
-        <div style="font-size: 0.72rem; color: #64748b;">${k.entityType}</div>
-      </td>
-      <td>
-        <strong style="color: #0f172a;">${k.name}</strong>
-        <div style="font-size: 0.74rem; color: #64748b;">📍 ${k.location} • 📞 ${k.phone}</div>
-      </td>
-      <td>
-        <div style="font-size: 0.78rem; color: #334155;">${k.docType}</div>
-        <div style="font-size: 0.72rem; color: #166534; font-weight: 700;">${k.landHolding || k.gstin || ''}</div>
-      </td>
-      <td>
-        <span class="${k.status.includes('Approved') ? 'badge-gov-clear' : 'badge-gov-pending'}">${k.status}</span>
-      </td>
-      <td>
-        ${k.status === 'Pending Review' ? `
-          <div style="display: flex; gap: 6px;">
-            <button class="btn-gov-approve" onclick="handleApproveKYC('${k.id}')">✓ Verify</button>
-            <button class="btn-gov-reject" onclick="handleRejectKYC('${k.id}')">&times; Reject</button>
-          </div>
-        ` : `
-          <span style="font-size: 0.76rem; color: #059669; font-weight: 800;">✓ Reviewed</span>
-        `}
-      </td>
-    </tr>
-  `).join("");
-}
-
 function renderAuditLogs() {
   const container = document.getElementById("audit-logs-container");
   if (!container) return;
@@ -185,27 +148,6 @@ function handleHoldEscrow(caseId) {
       renderEscrowClearanceQueue();
       renderAuditLogs();
       alert(`⚠️ ${res.message}`);
-    }
-  }
-}
-
-function handleApproveKYC(kycId) {
-  const res = AgriNexAdminGovernance.approveKYC(kycId);
-  if (res.success) {
-    renderKYCSummaryQueue();
-    renderAuditLogs();
-    alert(`🎉 ${res.message}`);
-  }
-}
-
-function handleRejectKYC(kycId) {
-  const reason = prompt("Enter reason for rejection (e.g. 7/12 mismatch, expired Mandi License):", "Document mismatch");
-  if (reason) {
-    const res = AgriNexAdminGovernance.rejectKYC(kycId, reason);
-    if (res.success) {
-      renderKYCSummaryQueue();
-      renderAuditLogs();
-      alert(res.message);
     }
   }
 }

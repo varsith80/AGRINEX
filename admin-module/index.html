@@ -54,16 +54,6 @@
           </li>
 
           <li class="nav-item">
-            <a href="kyc-verifications.html" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 8px;">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-              </svg>
-              <span>KYC Validations</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
             <a href="mandi-governance.html" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 8px;">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
@@ -107,7 +97,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" placeholder="Search Escrow cases, KYC applications, Mandi commodities..." oninput="renderEscrowClearanceQueue(this.value)" />
+            <input type="text" placeholder="Search Escrow cases, Mandi commodities..." oninput="renderEscrowClearanceQueue(this.value)" />
           </div>
           <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #065f46; background: #ecfdf5; padding: 6px 14px; border-radius: 999px; border: 1px solid #a7f3d0; white-space: nowrap;">
             <span>🛡️ Maharashtra APMC Mandi Regulatory Board (MSAMB)</span>
@@ -153,7 +143,7 @@
               </div>
             </div>
             <div class="stat-card-bottom">
-              <span>98.6% 7/12 Land Satbara Validated</span>
+              <span>98.6% Land Satbara Validated</span>
               <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
             </div>
           </div>
@@ -252,56 +242,27 @@
           </div>
         </section>
 
-        <!-- Secondary Split Grid: KYC Validation Queue + Audit Trail -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-          
-          <!-- KYC Validation Desk Preview -->
-          <section class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                </svg>
-                Pending KYC Applications
-              </h3>
-              <a href="kyc-verifications.html" style="font-size: 0.8rem; color: #2563eb; font-weight: 700; text-decoration: none;">View All &rarr;</a>
-            </div>
-            <div class="listings-table-container">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Applicant</th>
-                    <th>Doc Verification</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="kyc-summary-tbody">
-                  <!-- Rendered dynamically -->
-                </tbody>
-              </table>
-            </div>
-          </section>
+        <!-- Audit Trail Full Card -->
+        <section class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+              Cryptographic Governance Audit Trail
+            </h3>
+            <span class="badge-gov-audit">Immutable MSAMB Log</span>
+          </div>
+          <div id="audit-logs-container" style="max-height: 380px; overflow-y: auto; padding-right: 4px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </section>
 
-          <!-- Audit Trail Preview -->
-          <section class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                </svg>
-                Cryptographic Governance Audit Trail
-              </h3>
-              <span class="badge-gov-audit">Immutable MSAMB Log</span>
-            </div>
-            <div id="audit-logs-container" style="max-height: 280px; overflow-y: auto; padding-right: 4px;">
-              <!-- Rendered dynamically -->
-            </div>
-          </section>
+      </div>
+    </main>
 
-        </div>
+  </div>
+
 
       </div>
     </main>

@@ -126,72 +126,6 @@ const ADMIN_GOVERNANCE_DATA = {
     }
   ],
 
-  // Farmer & Buyer KYC Verification Applications
-  kycQueue: [
-    {
-      id: "KYC-FARM-8841",
-      entityType: "Farmer",
-      name: "Bhausaheb Thorat",
-      location: "Sangamner, Ahmednagar, Maharashtra",
-      phone: "+91 98224 81920",
-      docType: "7/12 Land Record (Satbara) & Aadhaar",
-      landHolding: "8.5 Acres (Irrigated Bagayat)",
-      primaryCrops: "Pomegranate (Bhagwa), Onion",
-      pmKisanStatus: "Active & PM-KISAN Verified (MH-AG-8819)",
-      bankDetails: "State Bank of India (IFSC: SBIN0001824)",
-      submittedDate: "Today, 09:30 AM",
-      status: "Pending Review",
-      riskAssessment: "Clean (0 Flags)"
-    },
-    {
-      id: "KYC-BUYER-1092",
-      entityType: "Enterprise Buyer",
-      name: "Godrej Agrovet Sourcing Ltd.",
-      location: "Vashi APMC Central Yard, Navi Mumbai",
-      phone: "+91 98450 22100",
-      docType: "GSTIN, Mandi License & FSSAI",
-      gstin: "27AAACG9912K1Z5",
-      fssaiLicense: "10022022001452 (Valid till 2028)",
-      mandiLicense: "MSAMB/TRD/2024/7781",
-      requestedCreditLimit: "₹ 75,00,000",
-      bankGuarantee: "₹ 25,00,000 Escrow Deposit",
-      submittedDate: "Today, 08:15 AM",
-      status: "Pending Review",
-      riskAssessment: "Tier-1 AAA Institutional"
-    },
-    {
-      id: "KYC-FARM-8842",
-      entityType: "Farmer",
-      name: "Tukaram Jadhav",
-      location: "Barsi, Solapur, Maharashtra",
-      phone: "+91 98220 11400",
-      docType: "7/12 Land Record & Bank Passbook",
-      landHolding: "12 Acres",
-      primaryCrops: "Tur / Pigeon Pea, Sunflower",
-      pmKisanStatus: "Active (MH-SOL-4412)",
-      bankDetails: "Bank of Maharashtra (IFSC: MAHB0000412)",
-      submittedDate: "Yesterday, 04:00 PM",
-      status: "Pending Review",
-      riskAssessment: "Clean (0 Flags)"
-    },
-    {
-      id: "KYC-BUYER-1093",
-      entityType: "Processor Buyer",
-      name: "Khandesh Edible Oil Refineries Pvt Ltd",
-      location: "Jalgaon Industrial Area, Maharashtra",
-      phone: "+91 98231 66700",
-      docType: "GSTIN, Factory Inspector & Mandi Reg",
-      gstin: "27AABCK8844D1ZP",
-      fssaiLicense: "10023023000981",
-      mandiLicense: "MSAMB/PRC/2025/1109",
-      requestedCreditLimit: "₹ 50,00,000",
-      bankGuarantee: "₹ 15,00,000 Escrow Deposit",
-      submittedDate: "Yesterday, 02:30 PM",
-      status: "Pending Review",
-      riskAssessment: "Tier-2 Verified"
-    }
-  ],
-
   // 23 Maharashtra Crop Mandi Price Benchmarks & MSP Controls
   mandiPriceIndices: [
     { id: "CROP-ONI", crop: "Red Onion (Nashik Garwa)", msp: 12.00, modalPrice: 18.00, ceilingCap: 28.00, marketTrend: "Stable", keyMandis: "Lasalgaon, Pimpalgaon, Yeola", alert: "Normal" },
@@ -307,50 +241,6 @@ class AgriNexAdminGovernance {
 
     this.addAuditLog(`Escrow Quarantined / On Hold`, item.id, item.payoutFormatted, "Dr. R. K. Shinde (IAS)");
     return { success: true, message: `Escrow payout for ${item.id} has been placed on quarantine hold.` };
-  }
-
-  static getKYCQueue() {
-    try {
-      if (typeof localStorage !== "undefined") {
-        const stored = localStorage.getItem("agrinex_admin_kyc");
-        if (stored) return JSON.parse(stored);
-      }
-    } catch(e) {}
-    return ADMIN_GOVERNANCE_DATA.kycQueue;
-  }
-
-  static saveKYCQueue(queue) {
-    try {
-      if (typeof localStorage !== "undefined") {
-        localStorage.setItem("agrinex_admin_kyc", JSON.stringify(queue));
-      }
-    } catch(e) {}
-  }
-
-  static approveKYC(kycId, remarks = "7/12 & GSTIN Verified") {
-    const queue = this.getKYCQueue();
-    const item = queue.find(k => k.id === kycId);
-    if (!item) return { success: false, message: "KYC Record not found" };
-
-    item.status = "Verified & Approved ✓";
-    item.riskAssessment = "Active Certified";
-    this.saveKYCQueue(queue);
-
-    this.addAuditLog(`KYC Approved (${item.entityType})`, item.id, item.name, "Mandi Board Registrar");
-    return { success: true, message: `Approved KYC credentials for ${item.name}!` };
-  }
-
-  static rejectKYC(kycId, reason = "Document Discrepancy") {
-    const queue = this.getKYCQueue();
-    const item = queue.find(k => k.id === kycId);
-    if (!item) return { success: false, message: "KYC Record not found" };
-
-    item.status = `Rejected: ${reason}`;
-    item.riskAssessment = "Flagged / Incomplete";
-    this.saveKYCQueue(queue);
-
-    this.addAuditLog(`KYC Rejected (${item.entityType})`, item.id, reason, "Mandi Board Registrar");
-    return { success: true, message: `Rejected application for ${item.name}. Notification sent.` };
   }
 
   static getMandiPrices() {
