@@ -345,7 +345,7 @@ const buyerData = {
       farmerLocation: "Akola APMC Yard ~ 5.1 km away",
       farmerRating: "4.86 ⭐",
       farmerPhone: "+91 98226-77332",
-      image: "assets/images/hero-field.jpg",
+      image: "assets/images/chana.jpg?v=1",
       grade: "Grade A Bold Digvijay",
       gradeKey: "grade-a",
       gradeBadgeClass: "badge-grade-a",
