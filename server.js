@@ -977,20 +977,37 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    if (urlPath.startsWith('/api/grievances/') && urlPath.endsWith('/resolve') && req.method === 'POST') {
-      const parts = urlPath.split('/');
-      const id = parts[3];
-      const grv = (db.grievances || []).find(g => String(g.id) === String(id));
-      if (!grv) return sendJSON(res, 404, { error: 'Grievance not found' });
-      grv.status = "Resolved & Settled";
-      grv.status_badge = "badge-status-open";
-      if (grv.steps) grv.steps.forEach(s => s.done = true);
-      saveDB(db);
-      return sendJSON(res, 200, { success: true, message: "Grievance marked as resolved!", grievance: grv });
+    // 11. Admin & Governance REST APIs
+    if (urlPath === '/api/admin/stats') {
+      return sendJSON(res, 200, {
+        verifiedFarmers: "14,280",
+        enterpriseBuyers: "850",
+        totalEscrowLocked: "₹ 18,45,00,000",
+        dailyTradeVolume: "₹ 3,12,40,000",
+        disputeRate: "0.14%",
+        activeCommodities: 23,
+        mandiJurisdiction: "305 APMC Mandis across Maharashtra"
+      });
+    }
+
+    if (urlPath === '/api/admin/escrow/queue') {
+      return sendJSON(res, 200, db.escrow_contracts || []);
+    }
+
+    if (urlPath === '/api/admin/mandi/prices') {
+      return sendJSON(res, 200, db.crops.map(c => ({
+        id: c.id,
+        crop: c.crop,
+        modal_rate_kg: c.price_per_kg,
+        modal_rate_qt: c.price_per_qt,
+        state: c.state,
+        mandi: c.mandi
+      })));
     }
 
     return sendJSON(res, 404, { error: "Endpoint not found" });
   }
+
 
   // ================= STATIC FILE SERVING =================
   let reqPath = decodeURI(urlPath);

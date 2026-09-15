@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgriNex - Platform Governance & Admin Center</title>
+  <title>AgriNex - Central Platform Governance & Mandi Admin HQ</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,51 +27,72 @@
           </div>
           <div>
             <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+            <span class="brand-tagline">Mandi Governance HQ</span>
           </div>
         </div>
 
         <!-- Navigation Links -->
         <ul class="sidebar-nav">
           <li class="nav-item active">
-            <div class="nav-item-left">
+            <a href="index.html" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 8px;">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
               </svg>
               <span>Governance Overview</span>
-            </div>
+            </a>
           </li>
 
           <li class="nav-item">
-            <div class="nav-item-left">
+            <a href="escrow-governance.html" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 8px;">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
                 <path d="m9 12 2 2 4-4"></path>
               </svg>
               <span>Escrow Clearances</span>
-            </div>
+            </a>
           </li>
 
           <li class="nav-item">
-            <div class="nav-item-left">
+            <a href="kyc-verifications.html" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 8px;">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                 <circle cx="9" cy="7" r="4"></circle>
               </svg>
               <span>KYC Validations</span>
-            </div>
+            </a>
           </li>
 
           <li class="nav-item">
-            <div class="nav-item-left">
+            <a href="mandi-governance.html" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 8px;">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
                 <polyline points="16 7 22 7 22 13"></polyline>
               </svg>
               <span>Mandi Price Indices</span>
-            </div>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="grievance-arbitration.html" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Dispute Tribunal</span>
+            </a>
           </li>
         </ul>
+      </div>
+
+      <!-- Quick Platform Switcher Footer -->
+      <div style="border-top: 1px solid rgba(255,255,255,0.12); padding-top: 12px; font-size: 0.76rem; color: rgba(255,255,255,0.7);">
+        <div style="margin-bottom: 6px; font-weight: 700;">Switch Module:</div>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <a href="../farmer-module/index.html" style="color: #86efac; text-decoration: none; font-weight: 600;">🌾 Farmer Dashboard</a>
+          <a href="../buyer-module/index.html" style="color: #93c5fd; text-decoration: none; font-weight: 600;">🏢 Buyer Terminal</a>
+        </div>
       </div>
     </aside>
 
@@ -86,17 +107,17 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" placeholder="Search KYC records, escrow transactions, dispute tickets..." />
+            <input type="text" placeholder="Search Escrow cases, KYC applications, Mandi commodities..." oninput="renderEscrowClearanceQueue(this.value)" />
           </div>
-          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #b91c1c; background: #fee2e2; padding: 6px 14px; border-radius: 999px; border: 1px solid #fecaca; white-space: nowrap;">
-            <span>🛡️ AgriNex Central Governance HQ</span>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #065f46; background: #ecfdf5; padding: 6px 14px; border-radius: 999px; border: 1px solid #a7f3d0; white-space: nowrap;">
+            <span>🛡️ Maharashtra APMC Mandi Regulatory Board (MSAMB)</span>
           </div>
         </div>
 
         <div class="navbar-right">
           <a href="../login_details/index.html" class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 12px;">Switch Role</a>
           
-          <button class="notif-btn" title="Notifications" onclick="alert('3 KYC validations pending review.')">
+          <button class="notif-btn" title="Notifications" onclick="alert('5 Escrow settlements pending Dual-Key clearance.')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
               <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
@@ -104,10 +125,10 @@
           </button>
 
           <div class="profile-widget">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Dr. A. Venkatesh" class="profile-avatar" />
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Dr. R. K. Shinde" class="profile-avatar" />
             <div class="profile-info">
-              <span class="profile-name">Dr. A. Venkatesh</span>
-              <span class="profile-role">Chief Administrator</span>
+              <span class="profile-name">Dr. R. K. Shinde, IAS</span>
+              <span class="profile-role">Chief Mandi Commissioner</span>
             </div>
           </div>
         </div>
@@ -127,12 +148,12 @@
                 </svg>
               </div>
               <div class="stat-meta">
-                <span class="stat-title">Verified Farmers</span>
-                <span class="stat-value">14,280</span>
+                <span class="stat-title">Verified Producers</span>
+                <span class="stat-value" id="stat-verified-farmers">14,280</span>
               </div>
             </div>
             <div class="stat-card-bottom">
-              <span>98.6% KYC Verified</span>
+              <span>98.6% 7/12 Land Satbara Validated</span>
               <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
             </div>
           </div>
@@ -146,8 +167,8 @@
                 </svg>
               </div>
               <div class="stat-meta">
-                <span class="stat-title">Enterprise Buyers</span>
-                <span class="stat-value">850</span>
+                <span class="stat-title">Licensed Buyers</span>
+                <span class="stat-value" id="stat-registered-buyers">850</span>
               </div>
             </div>
             <div class="stat-card-bottom">
@@ -163,12 +184,12 @@
                 <span style="font-weight: 800; font-size: 1.35rem;">₹</span>
               </div>
               <div class="stat-meta">
-                <span class="stat-title">Total Escrow Volume</span>
-                <span class="stat-value">₹ 4.85 Cr</span>
+                <span class="stat-title">Locked Escrow Pool</span>
+                <span class="stat-value" id="stat-escrow-volume">₹ 18.45 Cr</span>
               </div>
             </div>
             <div class="stat-card-bottom">
-              <span>0% Default Record</span>
+              <span>100% Dual-Key Bank Backed</span>
               <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
             </div>
           </div>
@@ -184,27 +205,32 @@
                 </svg>
               </div>
               <div class="stat-meta">
-                <span class="stat-title">Pending Approvals</span>
-                <span class="stat-value">3 Cases</span>
+                <span class="stat-title">Dispute Rate & SLA</span>
+                <span class="stat-value" id="stat-open-disputes">0.14% / &lt;2h</span>
               </div>
             </div>
             <div class="stat-card-bottom">
-              <span>Resolution SLA: &lt; 2h</span>
+              <span>Maharashtra Fast-Track Tribunal</span>
               <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
             </div>
           </div>
         </section>
 
-        <!-- Admin Clearance Queue Table -->
-        <section class="card">
+        <!-- Live Escrow Clearance Queue Table -->
+        <section class="card" style="margin-bottom: 24px;">
           <div class="card-header">
-            <h3 class="card-title">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b91c1c" stroke-width="2.2">
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
-              </svg>
-              Escrow Settlement Clearances & KYC Verification Queue
-            </h3>
-            <span style="font-size: 0.8rem; color: #64748b;">Mandi Board Authorization & Settlement Actions</span>
+            <div>
+              <h3 class="card-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2">
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                </svg>
+                Escrow Settlement Clearances & Dual-Key Release Authorizations
+              </h3>
+              <p style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                Direct RTGS/NEFT milestone disbursements backed by digital e-PoD and Mandi electronic weigh slips
+              </p>
+            </div>
+            <a href="escrow-governance.html" class="btn btn-primary btn-sm" style="font-weight: 700;">Full Escrow Ledger &rarr;</a>
           </div>
 
           <div class="listings-table-container">
@@ -212,10 +238,10 @@
               <thead>
                 <tr>
                   <th>Case ID & Type</th>
-                  <th>Counterparties</th>
-                  <th>Amount / Credit</th>
+                  <th>Counterparties & Crop</th>
+                  <th>Milestone Payout</th>
                   <th>Verification Proof</th>
-                  <th>Status</th>
+                  <th>Status & Risk</th>
                   <th>Governance Action</th>
                 </tr>
               </thead>
@@ -226,9 +252,67 @@
           </div>
         </section>
 
+        <!-- Secondary Split Grid: KYC Validation Queue + Audit Trail -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          
+          <!-- KYC Validation Desk Preview -->
+          <section class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                </svg>
+                Pending KYC Applications
+              </h3>
+              <a href="kyc-verifications.html" style="font-size: 0.8rem; color: #2563eb; font-weight: 700; text-decoration: none;">View All &rarr;</a>
+            </div>
+            <div class="listings-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Applicant</th>
+                    <th>Doc Verification</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="kyc-summary-tbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Audit Trail Preview -->
+          <section class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                Cryptographic Governance Audit Trail
+              </h3>
+              <span class="badge-gov-audit">Immutable MSAMB Log</span>
+            </div>
+            <div id="audit-logs-container" style="max-height: 280px; overflow-y: auto; padding-right: 4px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </section>
+
+        </div>
+
       </div>
     </main>
 
+  </div>
+
+  <!-- Escrow Inspection Modal -->
+  <div class="modal-overlay" id="modal-escrow-inspect">
+    <div class="modal-box-lg" id="modal-escrow-content">
+      <!-- Injected via JavaScript -->
+    </div>
   </div>
 
   <script src="js/data.js"></script>
