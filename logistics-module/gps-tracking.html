@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgriNex - Real-Time GPS Telemetry & Route Navigator</title>
+  <title>AgriNex - Live GPS Tracking | Direct Trade · Better Tomorrow</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
@@ -18,63 +18,17 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <style>
-    .truck-marker-pin {
-      position: relative;
-      width: 46px;
-      height: 46px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .truck-marker-pin .radar-ring {
-      position: absolute;
-      inset: -14px;
-      border-radius: 9999px;
-      background: rgba(16, 185, 129, 0.4);
-      animation: radar-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-      z-index: 1;
-      pointer-events: none;
-    }
-    .truck-marker-pin .radar-ring-2 {
-      position: absolute;
-      inset: -6px;
-      border-radius: 9999px;
-      background: rgba(16, 185, 129, 0.6);
-      animation: radar-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite 0.75s;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .truck-marker-pin .icon-core {
-      position: relative;
-      z-index: 3;
-      width: 38px;
-      height: 38px;
-      background: #0f172a;
-      border: 2.5px solid #10b981;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #34d399;
-      font-size: 16px;
-    }
-    @keyframes radar-pulse {
-      0% { transform: scale(0.6); opacity: 1; }
-      100% { transform: scale(1.9); opacity: 0; }
-    }
-
     .step-track {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      margin: 18px 0;
+      margin: 16px 0 6px 0;
       gap: 8px;
       text-align: center;
       position: relative;
     }
     .step-dot {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       background: #ffffff;
       border: 2px solid #cbd5e1;
@@ -82,12 +36,12 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto 6px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 800;
       color: #64748b;
     }
     .step-dot.done { background: #059669; border-color: #059669; color: #ffffff; }
-    .step-dot.active { background: #0284c7; border-color: #0284c7; color: #ffffff; box-shadow: 0 0 12px rgba(2, 132, 199, 0.5); }
+    .step-dot.active { background: #0284c7; border-color: #0284c7; color: #ffffff; }
   </style>
 </head>
 <body>
@@ -102,7 +56,7 @@
           </div>
           <div>
             <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
-            <div class="brand-tagline">Cold-Chain Fleet · Logistics Hub</div>
+            <div class="brand-tagline">Direct Trade · Better Tomorrow</div>
           </div>
         </div>
 
@@ -111,7 +65,7 @@
           <li class="nav-item " onclick="window.location.href='index.html'">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-              <span>Fleet Dashboard</span>
+              <span>Dashboard</span>
             </div>
           </li>
           <li class="nav-item " onclick="window.location.href='fpo-hauls.html'">
@@ -119,7 +73,6 @@
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
               <span>Bulk FPO Hauls</span>
             </div>
-            <span class="badge badge-grade-a" style="font-size:0.65rem; padding:1px 6px;">3 Active</span>
           </li>
           <li class="nav-item " onclick="window.location.href='individual-orders.html'">
             <div class="nav-item-left">
@@ -130,26 +83,25 @@
           <li class="nav-item active" onclick="window.location.href='gps-tracking.html'">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              <span>GPS Telemetry</span>
+              <span>Live Tracking</span>
             </div>
-            <span class="badge badge-status-transit" style="font-size:0.62rem; padding:1px 5px;">LIVE</span>
           </li>
           <li class="nav-item " onclick="window.location.href='profile.html'">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
-              <span>Operator Profile</span>
+              <span>Passbook & Profile</span>
             </div>
           </li>
 
-          <!-- RED GRIEVANCE MODULE LINK -->
-          <li class="nav-item nav-item-grievance" onclick="window.location.href='../farmer-module/grievance.html'" title="File transit dispute & payment grievances">
+          <!-- RED GRIEVANCE MODULE LINK (Identical across all modules) -->
+          <li class="nav-item nav-item-grievance" onclick="window.location.href='../farmer-module/grievance.html'" title="File transit complaints & payment redressal">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
               </svg>
-              <span style="font-weight: 800;">Grievance Desk</span>
+              <span style="font-weight: 800;">Grievance Module</span>
             </div>
             <span class="grv-badge-red">Support</span>
           </li>
@@ -162,9 +114,9 @@
           <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80" alt="Dinesh Yadav" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" />
           <div style="min-width:0; flex:1;">
             <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Dinesh Yadav</div>
-            <div style="font-size:0.65rem; color:#86efac;">Fleet Captain • Nashik</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Fleet Partner • Nashik</div>
           </div>
-          <a href="../login_details/farmer_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
+          <a href="../login_details/logistics_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
           </a>
         </div>
@@ -172,22 +124,22 @@
     </aside>
 
     <main class="main-wrapper">
-      <!-- Top Extended Navbar Header -->
+      <!-- Top Extended Navbar Header (Identical across Farmer & Buyer modules) -->
       <header class="top-navbar">
         <div class="navbar-left">
           <div class="navbar-search" style="min-width: 320px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" placeholder="Search consignment ID, vehicle reg, APMC hub..." oninput="handleSearch(this.value)" />
+            <input type="text" placeholder="Search orders, crops, buyer locations..." oninput="handleSearch(this.value)" />
           </div>
-          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0;" title="Active Regional Corridor">
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer; white-space: nowrap;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
               <circle cx="12" cy="10" r="3"></circle>
             </svg>
-            <span>Nashik Regional Mandi Hub, Maharashtra</span>
+            <span>Nashik Mandi Hub, Maharashtra</span>
           </div>
         </div>
 
@@ -202,16 +154,11 @@
             <span>Grievance Module</span>
           </a>
 
-          <div style="display:flex; align-items:center; gap:8px;">
-            <a href="../buyer-module/index.html" class="btn btn-outline" style="font-size:0.75rem; padding:5px 10px;">Buyer Hub</a>
-            <a href="../farmer-module/index.html" class="btn btn-outline" style="font-size:0.75rem; padding:5px 10px;">Farmer Hub</a>
-          </div>
-
           <div class="profile-widget">
             <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80" alt="Dinesh Yadav" class="profile-avatar" />
             <div class="profile-info">
               <span class="profile-name">Dinesh Yadav</span>
-              <span class="profile-role">Fleet Captain</span>
+              <span class="profile-role">Logistics Partner</span>
             </div>
           </div>
         </div>
@@ -221,57 +168,51 @@
         
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
           <div>
-            <span style="font-size:0.75rem; color:#0284c7; font-weight:800; background:#e0f2fe; padding:2px 8px; border-radius:4px; border:1px solid #bae6fd;">
-              ● REAL-TIME GPS TELEMETRY & e-PoD
-            </span>
-            <h2 style="font-size:1.4rem; font-weight:800; color:#0f172a; margin-top:4px;">Highway Route Navigator: MH-15-AQ-9011</h2>
+            <h2 style="font-size:1.35rem; font-weight:800; color:#0f172a; margin:0;">📍 Live Delivery Tracking</h2>
+            <div style="font-size:0.82rem; color:#64748b; margin-top:4px;">Vehicle: <strong>MH-15-AQ-9011</strong> • Consignment: <strong>IND-MH-401</strong></div>
           </div>
           <div style="display:flex; gap:8px;">
-            <a href="https://maps.google.com/?q=19.7042,73.4862" target="_blank" class="btn btn-outline" style="font-size:0.78rem;">🗺️ Open in Google Maps</a>
-            <button class="btn btn-primary" onclick="openPinModal('IND-MH-401')" style="font-size:0.78rem; background:#0284c7;">🔐 Enter Receiving PIN</button>
+            <button class="btn btn-outline" onclick="initLogisticsMap()" style="font-size:0.78rem;">🔄 Refresh Map</button>
+            <button class="btn btn-primary" onclick="openPinModal('IND-MH-401')" style="font-size:0.78rem; background:#0284c7;">🔐 Complete Delivery</button>
           </div>
         </div>
 
-        <!-- 4-Step Milestone Tracker -->
-        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px; margin-bottom:20px; box-shadow:0 2px 8px rgba(0,0,0,0.02);">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:10px; margin-bottom:14px;">
+        <!-- 4-Step Simple Progress Box -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:10px; margin-bottom:10px;">
             <div>
-              <strong style="font-size:1rem; color:#0f172a;">Active Consignment: IND-MH-401</strong>
+              <strong style="color:#0f172a; font-size:0.95rem;">Tomato (50 Qt / 5,000 kg)</strong>
               <span style="margin:0 8px; color:#cbd5e1;">|</span>
-              <span style="font-size:0.82rem; color:#059669; font-weight:700;">Tomato (Shivam Hybrid - 50 Qt / 5,000 kg)</span>
+              <span style="font-size:0.8rem; color:#059669; font-weight:700;">Farmer: Ramesh Patil</span>
             </div>
-            <span style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:4px 12px; border-radius:999px; font-size:0.78rem; font-weight:800;">
-              ● In Transit (Kasara Bypass)
+            <span style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:3px 10px; border-radius:999px; font-size:0.75rem; font-weight:800;">
+              ● In Transit
             </span>
           </div>
 
           <div class="step-track">
             <div>
               <div class="step-dot done">✓</div>
-              <div style="font-size:0.78rem; font-weight:800; color:#0f172a;">Farm Gate Loaded</div>
-              <div style="font-size:0.7rem; color:#64748b;">Ramesh Patil Farm (Nashik)</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#0f172a;">Farm Gate Loaded</div>
             </div>
             <div>
               <div class="step-dot done">✓</div>
-              <div style="font-size:0.78rem; font-weight:800; color:#0f172a;">35% Advance Escrow</div>
-              <div style="font-size:0.7rem; color:#64748b;">₹ 21,875 Disbursed</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#0f172a;">Advance Paid</div>
             </div>
             <div>
               <div class="step-dot active">3</div>
-              <div style="font-size:0.78rem; font-weight:800; color:#0284c7;">Expressway Transit</div>
-              <div style="font-size:0.7rem; color:#64748b;">Kasara Ghat (52 km/h)</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#0284c7;">On Highway</div>
             </div>
             <div>
               <div class="step-dot">4</div>
-              <div style="font-size:0.78rem; font-weight:800; color:#64748b;">PIN Verified & Settled</div>
-              <div style="font-size:0.7rem; color:#64748b;">AgriFoods DC (Thane)</div>
+              <div style="font-size:0.78rem; font-weight:700; color:#64748b;">Delivered & Settled</div>
             </div>
           </div>
         </div>
 
-        <!-- Interactive Map -->
-        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.02);">
-          <div id="logistics-radar-map" style="height: 480px; width: 100%; border-radius: 12px; border: 1px solid #e2e8f0;"></div>
+        <!-- Clean Interactive Map -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+          <div id="logistics-radar-map" style="height: 420px; width: 100%; border-radius: 12px; border: 1px solid #e2e8f0;"></div>
         </div>
 
       </div>
@@ -280,7 +221,7 @@
 
   <!-- DIGITAL GATE PASS MODAL -->
   <div class="modal-overlay" id="modal-gate-pass">
-    <div class="modal-card" style="max-width: 540px; padding: 0;" id="modal-gate-pass-body">
+    <div class="modal-card" style="max-width: 500px; padding: 0;" id="modal-gate-pass-body">
       <!-- Injected via JS -->
     </div>
   </div>
@@ -289,19 +230,19 @@
   <div class="modal-overlay" id="modal-verify-pin">
     <div class="modal-card" style="max-width: 440px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">
-        <h3 style="font-size:1.15rem; font-weight:800; color:#0f172a;">🔐 Verify Delivery Security PIN</h3>
+        <h3 style="font-size:1.15rem; font-weight:800; color:#0f172a;">🔐 Complete Delivery</h3>
         <button onclick="closePinModal()" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:#64748b;">&times;</button>
       </div>
-      <p style="font-size:0.82rem; color:#475569; line-height:1.5; margin-bottom:16px;">
-        Order <strong id="pin-modal-order-code" style="color:#0c5a36;">#IND-MH-401</strong>: Ask the receiving warehouse manager for the 4-digit Security PIN to confirm delivery and release the 65% balance escrow payout.
+      <p style="font-size:0.85rem; color:#475569; line-height:1.5; margin-bottom:16px;">
+        Ask the buyer receiving manager for their <strong>4-digit PIN</strong> to confirm delivery and receive your freight payout.
       </p>
       <div style="margin-bottom:18px;">
-        <label style="display:block; font-size:0.8rem; font-weight:700; color:#334155; margin-bottom:6px;">Enter 4-Digit PIN</label>
-        <input type="text" id="delivery-pin-input" maxlength="4" placeholder="e.g. 5519" style="width:100%; font-size:1.5rem; letter-spacing:8px; text-align:center; font-weight:900; color:#0c5a36; padding:10px; border:2px solid #cbd5e1; border-radius:10px;" />
+        <label style="display:block; font-size:0.8rem; font-weight:700; color:#334155; margin-bottom:6px;">Enter 4-Digit Delivery PIN</label>
+        <input type="text" id="delivery-pin-input" maxlength="4" placeholder="e.g. 5519" style="width:100%; font-size:1.4rem; letter-spacing:6px; text-align:center; font-weight:800; color:#0c5a36; padding:10px; border:2px solid #cbd5e1; border-radius:10px;" />
       </div>
       <div style="display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="submitDeliveryPin()" style="background:#0c5a36;">✓ Confirm Delivery</button>
+        <button class="btn btn-primary" onclick="submitDeliveryPin()" style="background:#0c5a36;">✓ Verify & Complete</button>
       </div>
     </div>
   </div>
