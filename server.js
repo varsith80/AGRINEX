@@ -483,7 +483,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     // 2. Dashboard Unified Summary
-    if (urlPath === '/api/dashboard/stats' || urlPath === '/api/dashboard/summary') {
+    if (urlPath === '/api/stats' || urlPath === '/api/dashboard/stats' || urlPath === '/api/dashboard/summary') {
       const totalEscrow = db.escrow_contracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
       const totalAdvance = db.escrow_contracts.reduce((sum, c) => sum + (c.advance_amount || 0), 0);
 
