@@ -711,7 +711,7 @@
               <img id="active-crop-img" src="assets/images/tomato.jpg" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid #0c5a36;" />
               <div>
                 <strong style="font-size: 1rem; color: #0f172a;" id="active-crop-title">Tomato (Hybrid Red)</strong>
-                <div style="font-size: 0.75rem; color: #64748b;" id="active-crop-location">Coimbatore APMC Mandi</div>
+                <div style="font-size: 0.75rem; color: #64748b;" id="active-crop-location">Nashik APMC Mandi</div>
               </div>
             </div>
 
@@ -791,7 +791,7 @@
               </div>
               <div>
                 <strong style="font-size: 0.84rem; color: #166534; display: block;">Prices likely to increase</strong>
-                <span style="font-size: 0.74rem; color: #15803d;">Across Tamil Nadu APMC terminals over next 3–5 days</span>
+                <span style="font-size: 0.74rem; color: #15803d;">Across Maharashtra APMC terminals over next 3–5 days</span>
               </div>
             </div>
 
@@ -821,7 +821,7 @@
 
             <div style="display: flex; gap: 8px;">
               <button class="unit-toggle-btn active" onclick="filterTableByState('all', this)">All Mandis</button>
-              <button class="unit-toggle-btn" onclick="filterTableByState('Tamil Nadu', this)">Tamil Nadu Hubs</button>
+              <button class="unit-toggle-btn" onclick="filterTableByState('Maharashtra', this)">Maharashtra Hubs</button>
               <button class="unit-toggle-btn" onclick="filterTableByState('National', this)">National Benchmark</button>
             </div>
           </div>
@@ -860,7 +860,7 @@
           <img id="modal-crop-img" src="assets/images/tomato.jpg" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover;" />
           <div>
             <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #0f172a;" id="modal-crop-title">Tomato (Hybrid Red)</h3>
-            <div style="font-size: 0.8rem; color: #64748b;" id="modal-crop-subtitle">Coimbatore APMC • Grade A</div>
+            <div style="font-size: 0.8rem; color: #64748b;" id="modal-crop-subtitle">Nashik APMC • Grade A</div>
           </div>
         </div>
         <button onclick="closeMandiModal()" style="background: #f1f5f9; border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer;">✕</button>
@@ -1407,10 +1407,10 @@
       if (!marketData) return;
       if (filter === "all") {
         renderMandiTable(marketData.commodities);
-      } else if (filter === "Tamil Nadu") {
-        renderMandiTable(marketData.commodities.filter(c => c.state === "Tamil Nadu"));
+      } else if (filter === "Maharashtra") {
+        renderMandiTable(marketData.commodities.filter(c => c.state === "Maharashtra" || c.state === "Tamil Nadu"));
       } else {
-        renderMandiTable(marketData.commodities.filter(c => c.state !== "Tamil Nadu"));
+        renderMandiTable(marketData.commodities.filter(c => c.state !== "Maharashtra"));
       }
     }
 

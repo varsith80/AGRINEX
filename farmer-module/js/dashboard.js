@@ -657,7 +657,7 @@ function setupLocationChange() {
   const locChangeBtn = document.getElementById("btn-change-location");
   if (locChangeBtn) {
     locChangeBtn.addEventListener("click", () => {
-      const newLoc = prompt("Enter your Mandi Location / Region:", "Erode, Tamil Nadu");
+      const newLoc = prompt("Enter your Mandi Location / Region:", "Lasalgaon, Nashik, Maharashtra");
       if (newLoc && newLoc.trim()) {
         document.getElementById("hero-location-text").textContent = newLoc.trim();
         showToast(`Mandi location switched to ${newLoc.trim()}`);

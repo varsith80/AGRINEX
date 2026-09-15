@@ -1,42 +1,42 @@
 /**
  * AgriNex - Emergency Sale & Salvage Procurement Data Store
- * Coordinates between Farmer lots facing expiry/no-bids and Emergency Institutional Buyers
+ * Coordinates between Farmer lots facing expiry/no-bids and Emergency Institutional Buyers in Maharashtra
  */
 
 const EMERGENCY_BUYER_POOL = [
   {
     id: "EMG_BUYER_01",
-    name: "Sri Balaji Food Processing & Purees",
+    name: "Sahyadri Food Processing & Purees",
     type: "Food Processing Unit",
     typeBadge: "buyer-type-processing",
     icon: "🥫",
-    location: "Erode SIPCOT, TN",
-    acceptedCrops: ["Tomato", "Onion", "Mango", "Chilli"],
-    autoBidRatio: 0.72, // 72% of farmer floor to ensure breakeven recovery
+    location: "Narayangaon Food Park, Junnar, Pune",
+    acceptedCrops: ["Tomato", "Onion", "Mango", "Pomegranate"],
+    autoBidRatio: 0.75, // 75% of farmer floor to ensure breakeven recovery
     rating: "4.9 ★",
     paymentTime: "Instant 1-Hour Escrow"
   },
   {
     id: "EMG_BUYER_02",
-    name: "Annapoorna Institutional Catering Network",
+    name: "Annapoorna Commercial Catering Network",
     type: "Commercial Caterers",
     typeBadge: "buyer-type-caterer",
     icon: "🍲",
-    location: "Coimbatore Industrial Zone, TN",
-    acceptedCrops: ["Tomato", "Onion", "Potato", "Paddy", "Vegetables"],
-    autoBidRatio: 0.75, // 75% breakeven recovery
+    location: "Pimpri-Chinchwad Agro Hub, Pune",
+    acceptedCrops: ["Tomato", "Onion", "Potato", "Rice", "Vegetables"],
+    autoBidRatio: 0.78, // 78% breakeven recovery
     rating: "4.8 ★",
     paymentTime: "Instant 30-Min Escrow"
   },
   {
     id: "EMG_BUYER_03",
-    name: "GreenEarth Organic Bio-Compost & Fertilizer Corp",
+    name: "MahaBio Organic Compost & Energy Corp",
     type: "Compost & Bio-Energy Manufacturer",
     typeBadge: "buyer-type-compost",
     icon: "🌱",
-    location: "Salem Agricultural Park, TN",
-    acceptedCrops: ["Tomato", "Onion", "Paddy", "Cotton", "Vegetables", "All Perishables"],
-    autoBidRatio: 0.65, // 65% breakeven baseline
+    location: "Nashik Bio-Energy Industrial Park",
+    acceptedCrops: ["Tomato", "Onion", "Rice", "Cotton", "Vegetables", "All Perishables"],
+    autoBidRatio: 0.68, // 68% breakeven baseline
     rating: "5.0 ★",
     paymentTime: "Instant Mandi Clearance"
   }
@@ -65,7 +65,7 @@ class AgriNexEmergencySale {
     const lot = farmerListings.find(l => l.id === lotId);
     if (!lot) return null;
 
-    // Parse floor price number (e.g., "₹ 1,200 /Qt" -> 1200)
+    // Parse floor price number (e.g., "₹ 1,800 /Qt" -> 1800)
     const basePrice = parseInt(lot.expectedPrice.replace(/[^0-9]/g, "")) || 1000;
     
     // Find matching emergency buyers
@@ -99,52 +99,19 @@ class AgriNexEmergencySale {
     lot.statusBadgeClass = "badge-status-emergency";
     if (bestOffer) {
       lot.bestBid = bestOffer.offerPriceFormatted;
-      lot.buyerName = `${bestOffer.buyerName} (${bestOffer.buyerType})`;
+      lot.bestBidNumber = bestOffer.offerPricePerQt;
+      lot.buyerName = bestOffer.buyerName;
     }
 
-    // Persist in global emergency pool for buyers to see
-    const allEmergency = this.getEmergencyLots();
-    const existingIdx = allEmergency.findIndex(item => item.id === lot.id);
+    const emergencyLots = this.getEmergencyLots();
+    const existingIdx = emergencyLots.findIndex(l => l.id === lotId);
     if (existingIdx >= 0) {
-      allEmergency[existingIdx] = lot;
+      emergencyLots[existingIdx] = lot;
     } else {
-      allEmergency.unshift(lot);
+      emergencyLots.push(lot);
     }
-    this.saveEmergencyLots(allEmergency);
+    this.saveEmergencyLots(emergencyLots);
 
-    return {
-      lot,
-      bestOffer,
-      offersCount: emergencyOffers.length
-    };
-  }
-
-  /**
-   * Complete instant emergency salvage sale
-   */
-  static acceptEmergencyOffer(lotId, buyerId, farmerListings) {
-    const lot = farmerListings.find(l => l.id === lotId);
-    if (!lot || !lot.emergencyOffers) return null;
-
-    const offer = lot.emergencyOffers.find(o => o.buyerId === buyerId) || lot.emergencyOffers[0];
-    lot.status = "✅ Emergency Sold (Breakeven Cleared)";
-    lot.statusBadgeClass = "badge-status-sold";
-    lot.soldTo = offer;
-    lot.bestBid = offer.offerPriceFormatted;
-    lot.buyerName = offer.buyerName;
-
-    // Remove from active emergency pool or mark sold
-    const allEmergency = this.getEmergencyLots();
-    const existingIdx = allEmergency.findIndex(item => item.id === lot.id);
-    if (existingIdx >= 0) {
-      allEmergency[existingIdx].status = lot.status;
-      allEmergency[existingIdx].isSold = true;
-    }
-    this.saveEmergencyLots(allEmergency);
-
-    return { lot, offer };
+    return { lot, bestOffer, matchingBuyersCount: emergencyOffers.length };
   }
 }
-
-window.EMERGENCY_BUYER_POOL = EMERGENCY_BUYER_POOL;
-window.AgriNexEmergencySale = AgriNexEmergencySale;
