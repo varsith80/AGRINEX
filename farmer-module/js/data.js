@@ -1,23 +1,20 @@
 /**
  * AgriNex - Farmer Module Enterprise Data Store
+ * Grounded in Maharashtra Agricultural Hubs, APMC Mandis, and Regional Produce
+ * Standardized in ₹/kg pricing across all 23 commodity lots, demands, and forecasts.
+ * Completely synchronized with Buyer Module.
  */
 
 const farmerData = {
   profile: {
-
-
     name: "Patil Rameshwar",
     role: "Progressive Farmer & FPO Director",
     location: "Lasalgaon APMC Yard, Nashik, Maharashtra",
-
- (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
     avatar: "assets/images/farmer-avatar.jpg",
-    notificationsCount: 2,
-    messagesCount: 1
+    notificationsCount: 5,
+    messagesCount: 3
   },
   stats: {
-
-
     totalLots: 23,
     activeListingsSubtitle: "Active verified listings",
     activeBids: 18,
@@ -25,14 +22,10 @@ const farmerData = {
     pendingShipments: 4,
     shipmentSubtitle: "In transit to Vashi & Pune APMC",
     estimatedProfit: "₹ 28,45,000",
-
- (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
     profitSubtitle: "(Expected gross value)"
   },
   listings: [
     {
-
-
         "id": "LOT-ONI-01",
         "crop": "Red Onion (Nashik Garwa Quality)",
         "category": "Vegetables",
@@ -491,61 +484,65 @@ const farmerData = {
         "status": "Bids Open",
         "statusBadgeClass": "badge-status-open",
         "location": "Dharur Hill Belt, Beed"
-
- (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
     }
-  ],
+],
   mandiPrices: [
     {
-
-
       crop: "Red Onion (Nashik)",
       currentPrice: "₹ 18.00 /kg (₹ 1,800 /Qt)",
-
- (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
       trendPercent: "+6.2%",
       direction: "up",
       trendPoints: [20, 16, 18, 12, 14, 8, 4]
     },
     {
-      crop: "Onion",
-      currentPrice: "₹ 9.00 /kg (₹ 900 /Qt)",
+      crop: "Tomato (Narayangaon)",
+      currentPrice: "₹ 13.00 /kg (₹ 1,300 /Qt)",
       trendPercent: "+4.8%",
       direction: "up",
       trendPoints: [22, 19, 16, 14, 11, 7, 5]
     },
     {
-      crop: "Paddy",
-      currentPrice: "₹ 20.00 /kg (₹ 2,000 /Qt)",
+      crop: "Yellow Soybean (Latur)",
+      currentPrice: "₹ 42.00 /kg (₹ 4,200 /Qt)",
       trendPercent: "+3.5%",
       direction: "up",
       trendPoints: [18, 17, 19, 15, 12, 9, 7]
     },
     {
-      crop: "Cotton",
-      currentPrice: "₹ 58.00 /kg (₹ 5,800 /Qt)",
+      crop: "Raw Cotton (Amravati)",
+      currentPrice: "₹ 62.00 /kg (₹ 6,200 /Qt)",
       trendPercent: "-1.2%",
       direction: "down",
       trendPoints: [5, 8, 12, 9, 14, 18, 22]
+    },
+    {
+      crop: "Sangli Rajapuri Turmeric",
+      currentPrice: "₹ 135.00 /kg (₹ 13,500 /Qt)",
+      trendPercent: "+7.4%",
+      direction: "up",
+      trendPoints: [12, 15, 18, 20, 24, 28, 32]
+    },
+    {
+      crop: "Alphonso Mango (Ratnagiri)",
+      currentPrice: "₹ 180.00 /kg (₹ 18,000 /Qt)",
+      trendPercent: "+9.1%",
+      direction: "up",
+      trendPoints: [8, 12, 16, 21, 25, 29, 35]
     }
   ],
   forecast: {
-    crop: "Tomato",
-    image: "assets/images/tomato.jpg",
+    crop: "Red Onion (Nashik Garwa)",
+    image: "assets/images/onion.jpg",
     timeframe: "Next 7 days",
     percentage: "+8.5% *",
     subtext: "(Expected)",
-    description: "Market trend is positive. Prices are expected to rise in the next 7 days."
+    description: "Market trend is positive. Prices expected to rise across Lasalgaon & Vashi APMC mandis due to strong export demand."
   },
   shipmentTracking: {
     orderId: "#AG12345",
-
-
     crop: "Red Onion",
     quantity: "100 Qt",
     image: "assets/images/onion.jpg",
     status: "In Transit to Vashi Terminal"
-
- (Resolve all merge conflicts cleanly and harmonize logistics and admin endpoints)
   }
 };

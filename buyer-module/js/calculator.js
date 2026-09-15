@@ -1,465 +1,504 @@
 /**
  * AgriNex - Comprehensive Wholesale Agricultural Landed Cost, Mandi Arbitrage & Freight Intelligence Engine
- * Grounded in Live APMC Mandi Benchmarks, Origin-Destination Logistics Routes, Fleet Selection, and Multi-Layer Sourcing Comparisons.
+ * Grounded in Maharashtra APMC Mandi Benchmarks, Origin-Destination Logistics Routes, Fleet Selection, and Direct Farm Sourcing.
  */
 
-// Route Distance Matrix between Major Agricultural APMC Mandis & Regional Buyer Hubs (in km)
+// Route Distance Matrix between Major Maharashtra APMC Mandis & Regional Buyer Hubs (in km)
 const MANDI_ROUTE_MATRIX = {
-  erode: {
-    name: 'Erode APMC (Tamil Nadu)',
-    state: 'TN',
-    distances: {
-      hosur_hub: 210,
-      bengaluru_dc: 250,
-      chennai_dc: 395,
-      coimbatore_hub: 100,
-      hyderabad_hub: 810,
-      kochi_hub: 280,
-      mumbai_pune_hub: 1220
-    },
-    mandiPrices: {
-      turmeric: 138.0,
-      tomato: 13.5,
-      banana: 15.5,
-      onion: 23.0,
-      potato: 18.0,
-      chilli: 41.5,
-      ginger: 76.0,
-      garlic: 142.0,
-      rice: 79.0,
-      wheat: 30.5,
-      carrot: 26.0,
-      cabbage: 11.5
-    }
-  },
-  dindigul: {
-    name: 'Dindigul APMC (Tamil Nadu)',
-    state: 'TN',
-    distances: {
-      hosur_hub: 330,
-      bengaluru_dc: 370,
-      chennai_dc: 430,
-      coimbatore_hub: 160,
-      hyderabad_hub: 930,
-      kochi_hub: 210,
-      mumbai_pune_hub: 1340
-    },
-    mandiPrices: {
-      tomato: 12.8,
-      onion: 23.5,
-      chilli: 41.0,
-      banana: 15.0,
-      turmeric: 135.0,
-      potato: 18.5,
-      ginger: 75.0,
-      garlic: 140.0,
-      rice: 80.0,
-      wheat: 31.0,
-      carrot: 27.0,
-      cabbage: 11.0
-    }
-  },
-  kolar: {
-    name: 'Kolar APMC (Karnataka)',
-    state: 'KA',
-    distances: {
-      hosur_hub: 75,
-      bengaluru_dc: 65,
-      chennai_dc: 290,
-      coimbatore_hub: 390,
-      hyderabad_hub: 550,
-      kochi_hub: 590,
-      mumbai_pune_hub: 1040
-    },
-    mandiPrices: {
-      tomato: 14.2,
-      capsicum: 36.0,
-      potato: 18.5,
-      onion: 24.5,
-      chilli: 42.0,
-      cabbage: 11.8,
-      carrot: 28.0,
-      banana: 16.5,
-      turmeric: 136.0,
-      ginger: 77.0,
-      garlic: 144.0,
-      rice: 81.0,
-      wheat: 31.5
-    }
-  },
-  nashik: {
-    name: 'Nashik APMC (Maharashtra)',
+  lasalgaon: {
+    name: 'Lasalgaon APMC (Nashik, MH)',
     state: 'MH',
     distances: {
-      hosur_hub: 1020,
-      bengaluru_dc: 980,
-      chennai_dc: 1280,
-      coimbatore_hub: 1280,
-      hyderabad_hub: 690,
-      kochi_hub: 1480,
-      mumbai_pune_hub: 170
+      vashi_hub: 225,
+      pune_dc: 215,
+      nashik_hub: 55,
+      nagpur_hub: 620,
+      csn_hub: 145,
+      kolhapur_hub: 435
     },
     mandiPrices: {
-      onion: 24.0,
-      tomato: 13.0,
-      potato: 17.5,
-      chilli: 39.0,
-      garlic: 138.0,
-      ginger: 74.0,
+      onion: 18.5,
+      tomato: 12.8,
+      banana: 14.2,
+      soybean: 41.5,
+      orange: 37.0,
       turmeric: 132.0,
-      banana: 14.5,
-      rice: 80.0,
-      wheat: 29.5,
-      carrot: 25.0,
-      cabbage: 10.5
+      pomegranate: 86.0,
+      cotton: 61.0,
+      grapes: 52.0,
+      chilli: 35.0,
+      jowar: 33.5,
+      mango: 175.0
     }
   },
-  ottanchathiram: {
-    name: 'Ottanchathiram Market (Tamil Nadu)',
-    state: 'TN',
+  pune: {
+    name: 'Pune APMC - Gultekdi (Maharashtra)',
+    state: 'MH',
     distances: {
-      hosur_hub: 310,
-      bengaluru_dc: 350,
-      chennai_dc: 450,
-      coimbatore_hub: 125,
-      hyderabad_hub: 910,
-      kochi_hub: 195,
-      mumbai_pune_hub: 1320
-    },
-    mandiPrices: {
-      chilli: 43.0,
-      tomato: 13.2,
-      onion: 23.8,
-      banana: 15.2,
-      cabbage: 11.2,
-      carrot: 26.5,
-      potato: 18.2,
-      turmeric: 136.0,
-      ginger: 76.0,
-      garlic: 141.0,
-      rice: 80.0,
-      wheat: 31.0
-    }
-  },
-  hosur: {
-    name: 'Hosur APMC (Tamil Nadu)',
-    state: 'TN',
-    distances: {
-      hosur_hub: 15,
-      bengaluru_dc: 40,
-      chennai_dc: 310,
-      coimbatore_hub: 340,
-      hyderabad_hub: 605,
-      kochi_hub: 540,
-      mumbai_pune_hub: 1020
-    },
-    mandiPrices: {
-      carrot: 27.5,
-      cabbage: 11.5,
-      tomato: 13.8,
-      potato: 18.0,
-      onion: 24.2,
-      chilli: 42.0,
-      banana: 16.0,
-      turmeric: 137.0,
-      ginger: 77.5,
-      garlic: 143.0,
-      rice: 81.5,
-      wheat: 31.2
-    }
-  },
-  chittoor: {
-    name: 'Chittoor APMC (Andhra Pradesh)',
-    state: 'AP',
-    distances: {
-      hosur_hub: 140,
-      bengaluru_dc: 165,
-      chennai_dc: 160,
-      coimbatore_hub: 460,
-      hyderabad_hub: 540,
-      kochi_hub: 660,
-      mumbai_pune_hub: 1140
+      vashi_hub: 145,
+      pune_dc: 15,
+      nashik_hub: 210,
+      nagpur_hub: 710,
+      csn_hub: 235,
+      kolhapur_hub: 230
     },
     mandiPrices: {
       tomato: 13.0,
-      onion: 24.0,
-      potato: 18.2,
-      chilli: 43.5,
-      turmeric: 136.0,
-      banana: 15.8,
-      ginger: 76.0,
-      garlic: 142.0,
-      rice: 82.0,
-      wheat: 31.0,
-      carrot: 27.0,
-      cabbage: 11.5
+      onion: 19.2,
+      banana: 14.8,
+      soybean: 42.0,
+      orange: 38.5,
+      turmeric: 134.0,
+      pomegranate: 88.0,
+      cotton: 62.0,
+      grapes: 54.0,
+      chilli: 36.0,
+      jowar: 34.0,
+      mango: 180.0
     }
   },
-  madurai: {
-    name: 'Madurai APMC (Tamil Nadu)',
-    state: 'TN',
+  pimpalgaon: {
+    name: 'Pimpalgaon Baswant APMC (Nashik, MH)',
+    state: 'MH',
     distances: {
-      hosur_hub: 390,
-      bengaluru_dc: 430,
-      chennai_dc: 460,
-      coimbatore_hub: 215,
-      hyderabad_hub: 990,
-      kochi_hub: 260,
-      mumbai_pune_hub: 1400
+      vashi_hub: 205,
+      pune_dc: 230,
+      nashik_hub: 32,
+      nagpur_hub: 645,
+      csn_hub: 165,
+      kolhapur_hub: 450
     },
     mandiPrices: {
-      banana: 16.0,
-      onion: 24.5,
-      chilli: 42.5,
-      tomato: 13.4,
-      potato: 18.8,
-      turmeric: 137.5,
-      ginger: 77.0,
-      garlic: 143.0,
-      rice: 81.0,
-      wheat: 31.5,
-      carrot: 27.8,
-      cabbage: 12.0
+      onion: 18.2,
+      tomato: 12.5,
+      grapes: 50.0,
+      pomegranate: 85.0,
+      soybean: 41.0,
+      banana: 14.0,
+      orange: 37.5,
+      turmeric: 131.0,
+      cotton: 60.5,
+      chilli: 34.5,
+      jowar: 33.0,
+      mango: 175.0
     }
   },
-  salem: {
-    name: 'Salem APMC (Tamil Nadu)',
-    state: 'TN',
+  manchar: {
+    name: 'Manchar / Narayangaon APMC (Pune, MH)',
+    state: 'MH',
     distances: {
-      hosur_hub: 160,
-      bengaluru_dc: 200,
-      chennai_dc: 345,
-      coimbatore_hub: 165,
-      hyderabad_hub: 760,
-      kochi_hub: 335,
-      mumbai_pune_hub: 1170
+      vashi_hub: 155,
+      pune_dc: 65,
+      nashik_hub: 145,
+      nagpur_hub: 680,
+      csn_hub: 200,
+      kolhapur_hub: 290
     },
     mandiPrices: {
-      turmeric: 140.0,
-      tomato: 13.6,
-      onion: 23.8,
-      potato: 18.2,
-      chilli: 41.5,
-      banana: 15.8,
-      ginger: 76.5,
-      garlic: 142.5,
-      rice: 80.5,
-      wheat: 31.0,
-      carrot: 26.8,
-      cabbage: 11.8
+      tomato: 12.6,
+      onion: 18.8,
+      chilli: 35.0,
+      banana: 14.5,
+      pomegranate: 87.0,
+      soybean: 41.5,
+      orange: 38.0,
+      turmeric: 133.0,
+      cotton: 61.5,
+      grapes: 53.0,
+      jowar: 33.5,
+      mango: 178.0
     }
   },
-  guntur: {
-    name: 'Guntur APMC (Andhra Pradesh)',
-    state: 'AP',
+  jalgaon: {
+    name: 'Jalgaon APMC (Khandesh, MH)',
+    state: 'MH',
     distances: {
-      hosur_hub: 560,
-      bengaluru_dc: 590,
-      chennai_dc: 390,
-      coimbatore_hub: 870,
-      hyderabad_hub: 275,
-      kochi_hub: 1070,
-      mumbai_pune_hub: 920
+      vashi_hub: 410,
+      pune_dc: 390,
+      nashik_hub: 245,
+      nagpur_hub: 440,
+      csn_hub: 160,
+      kolhapur_hub: 610
     },
     mandiPrices: {
-      chilli: 185.0,
-      turmeric: 135.0,
-      onion: 24.2,
+      banana: 14.5,
+      cotton: 62.5,
+      soybean: 41.8,
+      onion: 18.0,
+      tomato: 12.8,
+      orange: 36.5,
+      turmeric: 130.0,
+      pomegranate: 85.0,
+      grapes: 51.0,
+      chilli: 35.5,
+      jowar: 34.0,
+      mango: 172.0
+    }
+  },
+  latur: {
+    name: 'Latur Mega APMC (Marathwada, MH)',
+    state: 'MH',
+    distances: {
+      vashi_hub: 480,
+      pune_dc: 330,
+      nashik_hub: 440,
+      nagpur_hub: 460,
+      csn_hub: 240,
+      kolhapur_hub: 340
+    },
+    mandiPrices: {
+      soybean: 42.0,
+      turmeric: 133.0,
+      jowar: 33.0,
+      cotton: 61.0,
+      onion: 18.4,
       tomato: 13.2,
-      potato: 18.0,
-      banana: 15.5,
-      ginger: 75.0,
-      garlic: 141.0,
-      rice: 82.5,
-      wheat: 30.5,
-      carrot: 27.0,
-      cabbage: 11.2
+      banana: 14.6,
+      orange: 37.0,
+      pomegranate: 87.0,
+      grapes: 53.0,
+      chilli: 35.0,
+      mango: 175.0
     }
   },
-  karnal: {
-    name: 'Karnal Mandi (Haryana)',
-    state: 'HR',
+  nagpur: {
+    name: 'Nagpur APMC (Vidarbha, MH)',
+    state: 'MH',
     distances: {
-      hosur_hub: 2200,
-      bengaluru_dc: 2180,
-      chennai_dc: 2220,
-      coimbatore_hub: 2490,
-      hyderabad_hub: 1620,
-      kochi_hub: 2690,
-      mumbai_pune_hub: 1450
+      vashi_hub: 810,
+      pune_dc: 710,
+      nashik_hub: 640,
+      nagpur_hub: 15,
+      csn_hub: 490,
+      kolhapur_hub: 890
     },
     mandiPrices: {
-      rice: 82.0,
-      wheat: 31.0,
-      potato: 16.5,
-      onion: 23.0,
-      tomato: 14.0,
-      chilli: 44.0,
-      turmeric: 142.0,
-      banana: 18.0,
-      ginger: 80.0,
-      garlic: 148.0,
-      carrot: 24.0,
-      cabbage: 10.0
+      orange: 38.0,
+      cotton: 63.0,
+      soybean: 42.5,
+      chilli: 36.5,
+      onion: 19.5,
+      tomato: 13.5,
+      banana: 15.0,
+      turmeric: 134.0,
+      pomegranate: 89.0,
+      grapes: 55.0,
+      jowar: 34.5,
+      mango: 182.0
     }
   },
-  shimla: {
-    name: 'Shimla / Solan Mandi (Himachal Pradesh)',
-    state: 'HP',
+  kolhapur: {
+    name: 'Kolhapur Shahu Market Yard (MH)',
+    state: 'MH',
     distances: {
-      hosur_hub: 2420,
-      bengaluru_dc: 2400,
-      chennai_dc: 2440,
-      coimbatore_hub: 2710,
-      hyderabad_hub: 1840,
-      kochi_hub: 2910,
-      mumbai_pune_hub: 1670
+      vashi_hub: 370,
+      pune_dc: 230,
+      nashik_hub: 440,
+      nagpur_hub: 890,
+      csn_hub: 460,
+      kolhapur_hub: 12
     },
     mandiPrices: {
-      tomato: 15.5,
-      carrot: 29.0,
-      cabbage: 13.0,
-      potato: 17.5,
-      onion: 25.0,
-      chilli: 46.0,
-      turmeric: 145.0,
-      banana: 19.0,
-      ginger: 82.0,
-      garlic: 150.0,
-      rice: 84.0,
-      wheat: 32.0
+      chilli: 36.0,
+      turmeric: 136.0,
+      jowar: 34.2,
+      tomato: 12.9,
+      onion: 19.0,
+      banana: 14.7,
+      soybean: 41.8,
+      orange: 38.0,
+      pomegranate: 88.0,
+      cotton: 61.5,
+      grapes: 53.5,
+      mango: 176.0
+    }
+  },
+  solapur: {
+    name: 'Solapur APMC (Western MH)',
+    state: 'MH',
+    distances: {
+      vashi_hub: 395,
+      pune_dc: 250,
+      nashik_hub: 410,
+      nagpur_hub: 610,
+      csn_hub: 310,
+      kolhapur_hub: 235
+    },
+    mandiPrices: {
+      pomegranate: 88.0,
+      jowar: 33.5,
+      onion: 18.2,
+      chilli: 35.5,
+      tomato: 13.0,
+      banana: 14.5,
+      soybean: 41.5,
+      orange: 37.5,
+      turmeric: 133.0,
+      cotton: 61.0,
+      grapes: 52.5,
+      mango: 175.0
+    }
+  },
+  sangli: {
+    name: 'Sangli APMC (Turmeric & Raisins Yard, MH)',
+    state: 'MH',
+    distances: {
+      vashi_hub: 380,
+      pune_dc: 235,
+      nashik_hub: 445,
+      nagpur_hub: 870,
+      csn_hub: 450,
+      kolhapur_hub: 48
+    },
+    mandiPrices: {
+      turmeric: 135.0,
+      grapes: 52.0,
+      pomegranate: 87.5,
+      onion: 18.6,
+      tomato: 12.8,
+      banana: 14.6,
+      soybean: 41.7,
+      orange: 37.8,
+      cotton: 61.2,
+      chilli: 35.8,
+      jowar: 34.0,
+      mango: 174.0
+    }
+  },
+  ahmednagar: {
+    name: 'Ahmednagar / Rahuri APMC (MH)',
+    state: 'MH',
+    distances: {
+      vashi_hub: 245,
+      pune_dc: 125,
+      nashik_hub: 155,
+      nagpur_hub: 610,
+      csn_hub: 115,
+      kolhapur_hub: 350
+    },
+    mandiPrices: {
+      pomegranate: 86.5,
+      onion: 18.4,
+      tomato: 12.7,
+      soybean: 41.5,
+      banana: 14.4,
+      orange: 37.2,
+      turmeric: 132.0,
+      cotton: 61.0,
+      grapes: 52.0,
+      chilli: 35.2,
+      jowar: 33.8,
+      mango: 176.0
+    }
+  },
+  amravati: {
+    name: 'Amravati APMC (Cotton & Soy Yard, MH)',
+    state: 'MH',
+    distances: {
+      vashi_hub: 660,
+      pune_dc: 560,
+      nashik_hub: 490,
+      nagpur_hub: 155,
+      csn_hub: 340,
+      kolhapur_hub: 740
+    },
+    mandiPrices: {
+      cotton: 62.0,
+      soybean: 42.0,
+      orange: 37.5,
+      chilli: 36.0,
+      onion: 19.0,
+      tomato: 13.2,
+      banana: 14.8,
+      turmeric: 133.5,
+      pomegranate: 88.5,
+      grapes: 54.0,
+      jowar: 34.2,
+      mango: 180.0
+    }
+  },
+  ratnagiri: {
+    name: 'Ratnagiri APMC (Konkan Mango & Cashew, MH)',
+    state: 'MH',
+    distances: {
+      vashi_hub: 325,
+      pune_dc: 300,
+      nashik_hub: 480,
+      nagpur_hub: 980,
+      csn_hub: 530,
+      kolhapur_hub: 130
+    },
+    mandiPrices: {
+      mango: 180.0,
+      chilli: 37.0,
+      banana: 15.2,
+      onion: 19.8,
+      tomato: 13.6,
+      soybean: 42.5,
+      orange: 39.0,
+      turmeric: 135.0,
+      pomegranate: 90.0,
+      cotton: 63.0,
+      grapes: 56.0,
+      jowar: 35.0
+    }
+  },
+  vashi: {
+    name: 'Vashi APMC Terminal (Navi Mumbai, MH)',
+    state: 'MH',
+    distances: {
+      vashi_hub: 10,
+      pune_dc: 145,
+      nashik_hub: 175,
+      nagpur_hub: 810,
+      csn_hub: 340,
+      kolhapur_hub: 375
+    },
+    mandiPrices: {
+      onion: 20.5,
+      tomato: 15.0,
+      banana: 16.8,
+      soybean: 47.5,
+      orange: 44.0,
+      turmeric: 152.0,
+      pomegranate: 102.0,
+      cotton: 69.5,
+      grapes: 62.0,
+      chilli: 42.0,
+      jowar: 38.0,
+      mango: 210.0
     }
   }
 };
 
-// Commodity Intelligence & Perishability Factors
+// Commodity Intelligence & Perishability Factors for Maharashtra Staples
 const COMMODITY_CATALOG = {
-  tomato: {
-    name: 'Tomato (Hybrid / Shivam)',
-    category: 'Vegetables',
-    defaultMandi: 14.50,
-    perishability: 'high',
-    ambientTransitLossRate: 0.038, // 3.8% loss in traditional ambient
-    reeferTransitLossRate: 0.005,  // 0.5% in reefer
-    defaultPackaging: 'crates',
-    icon: '🍅'
-  },
   onion: {
-    name: 'Red Onion (Nashik Medium Garwa)',
+    name: 'Red Onion (Nashik Garwa Quality)',
     category: 'Vegetables',
-    defaultMandi: 24.00,
+    defaultMandi: 18.50,
     perishability: 'low',
     ambientTransitLossRate: 0.012,
     reeferTransitLossRate: 0.004,
     defaultPackaging: 'gunny',
     icon: '🧅'
   },
-  potato: {
-    name: 'Potato (Jyoti / Chipsona)',
+  tomato: {
+    name: 'Tomato (Pune Junnar / Narayangaon Hybrid)',
     category: 'Vegetables',
-    defaultMandi: 18.00,
-    perishability: 'low',
-    ambientTransitLossRate: 0.008,
-    reeferTransitLossRate: 0.003,
-    defaultPackaging: 'gunny',
-    icon: '🥔'
-  },
-  chilli: {
-    name: 'Green Chilli (G4 / Teja)',
-    category: 'Spices & High-Value',
-    defaultMandi: 42.00,
-    perishability: 'medium',
-    ambientTransitLossRate: 0.028,
-    reeferTransitLossRate: 0.006,
-    defaultPackaging: 'boxes',
-    icon: '🌶️'
-  },
-  turmeric: {
-    name: 'Turmeric Finger (Salem / Erode Gold)',
-    category: 'Spices & High-Value',
-    defaultMandi: 138.00,
-    perishability: 'zero',
-    ambientTransitLossRate: 0.001,
-    reeferTransitLossRate: 0.001,
-    defaultPackaging: 'gunny',
-    icon: '🌿'
+    defaultMandi: 13.00,
+    perishability: 'high',
+    ambientTransitLossRate: 0.038,
+    reeferTransitLossRate: 0.005,
+    defaultPackaging: 'crates',
+    icon: '🍅'
   },
   banana: {
-    name: 'Banana (Robusta / G9 Cavendish)',
+    name: 'Grand Naine Banana (Jalgaon GI Khandesh)',
     category: 'Fruits',
-    defaultMandi: 16.00,
+    defaultMandi: 14.50,
     perishability: 'high',
     ambientTransitLossRate: 0.042,
     reeferTransitLossRate: 0.008,
     defaultPackaging: 'crates',
     icon: '🍌'
   },
-  ginger: {
-    name: 'Fresh Ginger (Cochin Washed)',
-    category: 'Spices & High-Value',
-    defaultMandi: 78.00,
-    perishability: 'low',
-    ambientTransitLossRate: 0.015,
-    reeferTransitLossRate: 0.004,
-    defaultPackaging: 'gunny',
-    icon: '🫚'
-  },
-  garlic: {
-    name: 'Garlic (Ooty Big Bulb)',
-    category: 'Spices & High-Value',
-    defaultMandi: 145.00,
-    perishability: 'zero',
-    ambientTransitLossRate: 0.002,
-    reeferTransitLossRate: 0.001,
-    defaultPackaging: 'gunny',
-    icon: '🧄'
-  },
-  rice: {
-    name: 'Basmati Rice (1121 Premium)',
+  soybean: {
+    name: 'Yellow Soybean (JS 335 / Latur Mega APMC)',
     category: 'Grains & Cereals',
-    defaultMandi: 82.00,
+    defaultMandi: 42.00,
     perishability: 'zero',
     ambientTransitLossRate: 0.000,
     reeferTransitLossRate: 0.000,
     defaultPackaging: 'gunny',
     icon: '🌾'
   },
-  wheat: {
-    name: 'Wheat (Sharbati MP Gold)',
-    category: 'Grains & Cereals',
-    defaultMandi: 31.00,
-    perishability: 'zero',
-    ambientTransitLossRate: 0.000,
-    reeferTransitLossRate: 0.000,
-    defaultPackaging: 'gunny',
-    icon: '🌾'
-  },
-  carrot: {
-    name: 'Carrot (Ooty Hill Fresh)',
-    category: 'Vegetables',
-    defaultMandi: 28.00,
+  orange: {
+    name: 'Nagpur Orange / Santra (GI Vidarbha Quality)',
+    category: 'Fruits',
+    defaultMandi: 38.00,
     perishability: 'medium',
-    ambientTransitLossRate: 0.024,
+    ambientTransitLossRate: 0.025,
     reeferTransitLossRate: 0.005,
     defaultPackaging: 'crates',
-    icon: '🥕'
+    icon: '🍊'
   },
-  cabbage: {
-    name: 'Cabbage / Cauliflower',
-    category: 'Vegetables',
-    defaultMandi: 12.00,
-    perishability: 'medium',
-    ambientTransitLossRate: 0.030,
-    reeferTransitLossRate: 0.006,
+  turmeric: {
+    name: 'Sangli Rajapuri Turmeric Finger (High Curcumin)',
+    category: 'Spices & High-Value',
+    defaultMandi: 135.00,
+    perishability: 'zero',
+    ambientTransitLossRate: 0.001,
+    reeferTransitLossRate: 0.001,
     defaultPackaging: 'gunny',
-    icon: '🥬'
+    icon: '🌿'
+  },
+  pomegranate: {
+    name: 'Bhagwa Pomegranate (Solapur Export Grade)',
+    category: 'Fruits',
+    defaultMandi: 88.00,
+    perishability: 'medium',
+    ambientTransitLossRate: 0.018,
+    reeferTransitLossRate: 0.004,
+    defaultPackaging: 'boxes',
+    icon: '🍈'
+  },
+  cotton: {
+    name: 'Raw Cotton (Vidarbha / Khandesh Long Staple)',
+    category: 'Cash Crops',
+    defaultMandi: 62.00,
+    perishability: 'zero',
+    ambientTransitLossRate: 0.000,
+    reeferTransitLossRate: 0.000,
+    defaultPackaging: 'gunny',
+    icon: '☁️'
+  },
+  grapes: {
+    name: 'Thompson Seedless Grapes (Nashik / Sangli)',
+    category: 'Fruits',
+    defaultMandi: 52.00,
+    perishability: 'high',
+    ambientTransitLossRate: 0.045,
+    reeferTransitLossRate: 0.006,
+    defaultPackaging: 'boxes',
+    icon: '🍇'
+  },
+  chilli: {
+    name: 'Green Chilli (Kolhapur Jwala / G4 Spicy)',
+    category: 'Spices & High-Value',
+    defaultMandi: 36.00,
+    perishability: 'medium',
+    ambientTransitLossRate: 0.028,
+    reeferTransitLossRate: 0.006,
+    defaultPackaging: 'boxes',
+    icon: '🌶️'
+  },
+  jowar: {
+    name: 'Maldandi Jowar / Sorghum (Solapur Shalu)',
+    category: 'Grains & Cereals',
+    defaultMandi: 33.50,
+    perishability: 'zero',
+    ambientTransitLossRate: 0.000,
+    reeferTransitLossRate: 0.000,
+    defaultPackaging: 'gunny',
+    icon: '🌾'
+  },
+  mango: {
+    name: 'Alphonso Mango (Ratnagiri / Devgad Hapus)',
+    category: 'Fruits',
+    defaultMandi: 180.00,
+    perishability: 'high',
+    ambientTransitLossRate: 0.040,
+    reeferTransitLossRate: 0.006,
+    defaultPackaging: 'boxes',
+    icon: '🥭'
   }
 };
 
 // Logistics Fleet Specs
 const FLEET_TYPES = {
   tata: {
-    name: 'Tata Ace Mini (1.5 MT)',
+    name: 'Tata Ace Mini (15 Qt / 1,500 kg)',
     capacityKg: 1500,
     baseFare: 1200,
     ratePerKm: 18.0,
@@ -467,7 +506,7 @@ const FLEET_TYPES = {
     isReefer: false
   },
   dost: {
-    name: 'Ashok Leyland Dost (2.5 MT)',
+    name: 'Ashok Leyland Dost (25 Qt / 2,500 kg)',
     capacityKg: 2500,
     baseFare: 1800,
     ratePerKm: 22.0,
@@ -475,7 +514,7 @@ const FLEET_TYPES = {
     isReefer: false
   },
   bolero: {
-    name: 'Mahindra Bolero Maxi (3.0 MT)',
+    name: 'Mahindra Bolero Maxi (30 Qt / 3,000 kg)',
     capacityKg: 3000,
     baseFare: 2200,
     ratePerKm: 25.0,
@@ -483,7 +522,7 @@ const FLEET_TYPES = {
     isReefer: false
   },
   eicher: {
-    name: 'Eicher Pro 1110 (7.5 MT)',
+    name: 'Eicher Pro 1110 (75 Qt / 7,500 kg)',
     capacityKg: 7500,
     baseFare: 4000,
     ratePerKm: 34.0,
@@ -491,7 +530,7 @@ const FLEET_TYPES = {
     isReefer: false
   },
   bharatbenz: {
-    name: 'BharatBenz Heavy (16.0 MT)',
+    name: 'BharatBenz Heavy (160 Qt / 16,000 kg)',
     capacityKg: 16000,
     baseFare: 6500,
     ratePerKm: 48.0,
@@ -499,7 +538,7 @@ const FLEET_TYPES = {
     isReefer: false
   },
   reefer: {
-    name: '❄️ Cold-Chain Reefer Truck (8.0 MT)',
+    name: '❄️ Cold-Chain Reefer Truck (80 Qt / 8,000 kg)',
     capacityKg: 8000,
     baseFare: 7000,
     ratePerKm: 52.0,
@@ -507,7 +546,7 @@ const FLEET_TYPES = {
     isReefer: true
   },
   ev: {
-    name: '⚡ Euler EV Cargo (1.2 MT)',
+    name: '⚡ Euler EV Cargo (12 Qt / 1,200 kg)',
     capacityKg: 1200,
     baseFare: 900,
     ratePerKm: 11.5,
@@ -539,13 +578,13 @@ const PACKAGING_MODES = {
 // State Object
 let comprehensiveCalcState = {
   qtyUnit: 'qt', // 'qt', 'kg', 'mt'
-  priceUnit: 'qt', // 'qt', 'kg'
-  selectedMandiKey: 'erode',
-  selectedHubKey: 'hosur_hub',
-  selectedProductKey: 'tomato',
+  priceUnit: 'kg', // 'qt', 'kg'
+  selectedMandiKey: 'lasalgaon',
+  selectedHubKey: 'vashi_hub',
+  selectedProductKey: 'onion',
   selectedGrade: 'grade_a', // 'grade_a', 'grade_b', 'grade_c'
   selectedVehicleKey: 'tata',
-  selectedPackagingKey: 'crates',
+  selectedPackagingKey: 'gunny',
   manualDistanceOverride: false,
   manualMandiPriceOverride: false,
   manualFarmPriceOverride: false
@@ -676,7 +715,7 @@ function onProductOrGradeChange() {
 function updateMandiPriceForSelection() {
   const mandiKey = comprehensiveCalcState.selectedMandiKey;
   const prodKey = comprehensiveCalcState.selectedProductKey;
-  const mandiData = MANDI_ROUTE_MATRIX[mandiKey] || MANDI_ROUTE_MATRIX.erode;
+  const mandiData = MANDI_ROUTE_MATRIX[mandiKey] || MANDI_ROUTE_MATRIX.lasalgaon;
   const prodData = COMMODITY_CATALOG[prodKey] || COMMODITY_CATALOG.tomato;
 
   let baseMandiPerKg = (mandiData.mandiPrices && mandiData.mandiPrices[prodKey]) || prodData.defaultMandi;
@@ -870,12 +909,12 @@ function recalculateBuyerCosts() {
   const perKgSavingsEl = document.getElementById('calc-summary-perkg-savings');
 
   if (directTotalEl) directTotalEl.textContent = `₹ ${directTotalLandedCost.toLocaleString('en-IN')}`;
-  if (directPerKgEl) directPerKgEl.textContent = `₹ ${directLandedPerKg}/kg • ₹ ${parseFloat(directLandedPerQt).toLocaleString('en-IN')}/Qt`;
+  if (directPerKgEl) directPerKgEl.textContent = `₹ ${directLandedPerKg} /kg`;
   if (mandiTotalEl) mandiTotalEl.textContent = `₹ ${traditionalTotalLandedCost.toLocaleString('en-IN')}`;
-  if (mandiPerKgEl) mandiPerKgEl.textContent = `₹ ${traditionalLandedPerKg}/kg • ₹ ${parseFloat(traditionalLandedPerQt).toLocaleString('en-IN')}/Qt`;
+  if (mandiPerKgEl) mandiPerKgEl.textContent = `₹ ${traditionalLandedPerKg} /kg`;
   if (netSavingsEl) netSavingsEl.textContent = `₹ ${netSavings.toLocaleString('en-IN')}`;
   if (netSavingsPctEl) netSavingsPctEl.textContent = `${netSavingsPct}% Lower Cost`;
-  if (perKgSavingsEl) perKgSavingsEl.textContent = `₹ ${savingsPerKg} / kg Saved`;
+  if (perKgSavingsEl) perKgSavingsEl.textContent = `₹ ${savingsPerKg} /kg Saved`;
 
   // Direct Line Items
   setText('calc-item-direct-produce', `₹ ${directProduceCost.toLocaleString('en-IN')}`);
@@ -948,13 +987,32 @@ function prefillDemandFromCalculator() {
 
   // Prefill fields in modal
   setTimeout(() => {
-    const modalCrop = document.getElementById('demand-crop-type');
-    const modalQty = document.getElementById('demand-qty-kg');
-    const modalPrice = document.getElementById('demand-target-price');
+    const modalCrop = document.getElementById('demand-crop');
+    const modalQty = document.getElementById('demand-tonnage');
+    const modalUnit = document.getElementById('demand-unit');
+    const modalPrice = document.getElementById('demand-price');
+    const modalPriceUnit = document.getElementById('demand-price-unit');
 
-    if (modalCrop) modalCrop.value = prod.name;
-    if (modalQty) modalQty.value = comprehensiveCalcState.qtyUnit === 'kg' ? rawQty : Math.round(rawQty * 100);
-    if (modalPrice) modalPrice.value = comprehensiveCalcState.priceUnit === 'kg' ? rawPrice : (rawPrice / 100).toFixed(2);
+    if (modalCrop) {
+      for (let opt of modalCrop.options) {
+        if (opt.value.toLowerCase().includes(prod.name.toLowerCase().split(' ')[0])) {
+          modalCrop.value = opt.value;
+          break;
+        }
+      }
+    }
+    if (modalQty) modalQty.value = rawQty;
+    if (modalUnit) modalUnit.value = comprehensiveCalcState.qtyUnit === 'kg' ? 'kg' : 'Qt';
+    if (modalPrice) {
+      if (modalPriceUnit && modalPriceUnit.value === 'kg') {
+        modalPrice.value = comprehensiveCalcState.priceUnit === 'kg' ? rawPrice : (rawPrice / 100).toFixed(2);
+      } else {
+        modalPrice.value = comprehensiveCalcState.priceUnit === 'kg' ? Math.round(rawPrice * 100) : rawPrice;
+      }
+    }
+    if (typeof updateDemandPricePreview === 'function') {
+      updateDemandPricePreview();
+    }
   }, 100);
 }
 
