@@ -317,15 +317,19 @@ input, select, textarea {
   opacity: 1;
 }
 
+.modal-card,
 .modal-content {
-  background: #ffffff;
+  background: #ffffff !important;
+  color: #0f172a;
   border-radius: var(--radius-xl);
   max-width: 520px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.05);
   padding: 26px;
+  position: relative;
+  z-index: 10000;
   animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

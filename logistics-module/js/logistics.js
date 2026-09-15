@@ -238,20 +238,22 @@ function openGatePassModal(orderCode) {
   if (!modal || !body) return;
 
   body.innerHTML = `
-    <div style="background:#0c5a36; color:white; padding:18px 20px; border-radius:14px 14px 0 0; display:flex; justify-content:space-between; align-items:center;">
+    <div style="background: linear-gradient(135deg, #064e3b 0%, #0c5a36 100%); color: #ffffff; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #10b981;">
       <div>
-        <span style="font-size:0.75rem; background:rgba(255,255,255,0.2); padding:3px 8px; border-radius:4px; font-weight:800; letter-spacing:0.5px;">OFFICIAL e-GATE PASS</span>
-        <h3 style="font-size:1.25rem; font-weight:800; margin-top:4px;">${order.orderCode} • Transit Permit</h3>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 0.7rem; background: rgba(255, 255, 255, 0.22); color: #ffffff; padding: 3px 8px; border-radius: 4px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;">OFFICIAL e-GATE PASS</span>
+          <span style="font-size: 0.7rem; background: #10b981; color: #ffffff; padding: 3px 8px; border-radius: 4px; font-weight: 800;">VERIFIED</span>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.01em;">${order.orderCode} • Transit Permit</h3>
       </div>
-      <button onclick="closeGatePassModal()" style="background:none; border:none; font-size:1.5rem; color:white; cursor:pointer;">&times;</button>
+      <button onclick="closeGatePassModal()" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); font-size: 1.2rem; color: #ffffff; cursor: pointer; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; line-height: 1; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">&times;</button>
     </div>
 
-    <div style="padding:22px;">
-      <!-- QR Verification Box -->
-      <div style="background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:12px; padding:16px; text-align:center; margin-bottom:18px;">
-        <div style="display:inline-block; background:white; padding:10px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-          <!-- Styled SVG Barcode / QR Simulation -->
-          <svg width="180" height="48" viewBox="0 0 180 48" fill="#0f172a">
+    <div style="padding: 24px; background: #ffffff;">
+      <!-- QR / Barcode Verification Box -->
+      <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 18px;">
+        <div style="display: inline-block; background: #ffffff; padding: 10px 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+          <svg width="200" height="48" viewBox="0 0 200 48" fill="#0f172a" style="display: block; margin: 0 auto;">
             <rect x="0" y="0" width="4" height="48"/>
             <rect x="8" y="0" width="8" height="48"/>
             <rect x="20" y="0" width="4" height="48"/>
@@ -268,52 +270,59 @@ function openGatePassModal(orderCode) {
             <rect x="144" y="0" width="10" height="48"/>
             <rect x="158" y="0" width="6" height="48"/>
             <rect x="168" y="0" width="8" height="48"/>
+            <rect x="180" y="0" width="4" height="48"/>
+            <rect x="188" y="0" width="10" height="48"/>
           </svg>
         </div>
-        <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-top:6px; letter-spacing:1px;">
+        <div style="font-size: 0.75rem; font-weight: 800; color: #334155; margin-top: 8px; letter-spacing: 1px; font-family: monospace;">
           AUTH CODE: AGX-GP-${order.orderCode}-2026
         </div>
       </div>
 
-      <!-- Consignment Details -->
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.85rem; margin-bottom:18px;">
-        <div style="background:#f1f5f9; padding:10px 12px; border-radius:8px;">
-          <span style="font-size:0.72rem; color:#64748b; display:block;">PRODUCE & VOLUME</span>
-          <strong style="color:#0f172a;">${order.cropName}</strong>
-          <div style="font-size:0.78rem; color:#0c5a36; font-weight:700;">${order.quantityQt} Qt (${(order.quantityKg).toLocaleString()} kg)</div>
+      <!-- Consignment Grid Details -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 14px; border-radius: 10px;">
+          <span style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">PRODUCE & VOLUME</span>
+          <strong style="color: #0f172a; font-size: 0.95rem; display: block;">${order.cropName}</strong>
+          <div style="font-size: 0.82rem; color: #065f46; font-weight: 800; margin-top: 2px;">${order.quantityQt} Qt (${(order.quantityKg).toLocaleString()} kg)</div>
         </div>
 
-        <div style="background:#f1f5f9; padding:10px 12px; border-radius:8px;">
-          <span style="font-size:0.72rem; color:#64748b; display:block;">ASSIGNED VEHICLE & REEFER</span>
-          <strong style="color:#0f172a;">${order.vehicleNo || logisticsData.profile.vehicleNo}</strong>
-          <div style="font-size:0.78rem; color:#0284c7; font-weight:700;">❄️ Temp: ${order.temperatureC}</div>
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 14px; border-radius: 10px;">
+          <span style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">ASSIGNED VEHICLE & REEFER</span>
+          <strong style="color: #0f172a; font-size: 0.95rem; display: block;">${order.vehicleNo || logisticsData.profile.vehicleNo}</strong>
+          <div style="font-size: 0.82rem; color: #0284c7; font-weight: 800; margin-top: 2px;">❄️ Temp: ${order.temperatureC}</div>
         </div>
       </div>
 
-      <!-- Route Details -->
-      <div style="border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; font-size:0.82rem; margin-bottom:18px; line-height:1.5;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-          <span style="color:#64748b;">📍 Origin Farm / Mandi:</span>
-          <strong style="color:#0f172a; text-align:right;">${order.pickupAddress}</strong>
+      <!-- Route & Escrow Breakdown Box -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 10px;">
+          <span style="color: #475569; font-weight: 700; font-size: 0.82rem; white-space: nowrap; display: flex; align-items: center; gap: 4px;">📍 Origin Mandi:</span>
+          <span style="color: #0f172a; font-weight: 700; font-size: 0.85rem; text-align: right; line-height: 1.35;">${order.pickupAddress}</span>
         </div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-          <span style="color:#64748b;">🏁 Delivery Destination:</span>
-          <strong style="color:#0f172a; text-align:right;">${order.deliveryAddress}</strong>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 12px;">
+          <span style="color: #475569; font-weight: 700; font-size: 0.82rem; white-space: nowrap; display: flex; align-items: center; gap: 4px;">🏁 Destination:</span>
+          <span style="color: #0f172a; font-weight: 700; font-size: 0.85rem; text-align: right; line-height: 1.35;">${order.deliveryAddress}</span>
         </div>
-        <div style="display:flex; justify-content:space-between; border-top:1px dashed #e2e8f0; padding-top:6px; margin-top:6px;">
-          <span style="color:#64748b;">Guaranteed Freight Escrow:</span>
-          <strong style="color:#0c5a36; font-size:0.95rem;">${order.freightFormatted}</strong>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 4px;">
+          <span style="color: #1e293b; font-weight: 700; font-size: 0.85rem;">Guaranteed Freight Escrow:</span>
+          <strong style="color: #0c5a36; font-size: 1.15rem; font-weight: 800;">${order.freightFormatted}</strong>
         </div>
       </div>
 
       <!-- Security PIN Alert for Driver -->
-      <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:10px 14px; margin-bottom:18px; font-size:0.8rem; color:#065f46;">
-        🛡️ <strong>Delivery Protocol:</strong> Upon reaching receiving dock, obtain the 4-digit Security PIN (<strong>${order.deliveryPin}</strong>) from the buyer receiving lead to trigger instant escrow freight payout.
+      <div style="background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: 10px; padding: 12px 16px; margin-bottom: 22px; font-size: 0.82rem; color: #065f46; line-height: 1.5;">
+        🛡️ <strong>Delivery Protocol:</strong> Upon reaching receiving dock, obtain the 4-digit Security PIN (<strong style="color: #047857; font-size: 0.95rem; font-family: monospace; background: #d1fae5; padding: 2px 6px; border-radius: 4px;">${order.deliveryPin}</strong>) from the buyer receiving manager to trigger instant escrow freight payout.
       </div>
 
-      <div style="display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn btn-outline" onclick="window.print()" style="font-size:0.82rem;">🖨️ Print Gate Pass</button>
-        <button class="btn btn-primary" onclick="closeGatePassModal()" style="font-size:0.82rem;">✓ Done</button>
+      <!-- Action Buttons -->
+      <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px;">
+        <button class="btn btn-outline" onclick="window.print()" style="font-size: 0.85rem; padding: 9px 18px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #1e293b; font-weight: 700; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+          <span>🖨️</span> Print Gate Pass
+        </button>
+        <button class="btn btn-primary" onclick="closeGatePassModal()" style="font-size: 0.85rem; padding: 9px 22px; background: #0c5a36; color: #ffffff; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(12,90,54,0.3);">
+          <span>✓</span> Done
+        </button>
       </div>
     </div>
   `;

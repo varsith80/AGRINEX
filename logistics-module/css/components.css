@@ -1,4 +1,4 @@
-﻿/* Base Styles & Reset */
+/* Base Styles & Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -215,13 +215,15 @@ input, select, textarea {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.55);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   opacity: 0;
+  padding: 16px;
   transition: opacity 0.2s ease;
 }
 
@@ -230,16 +232,28 @@ input, select, textarea {
   opacity: 1;
 }
 
+.modal-card,
 .modal-content {
-  background: #ffffff;
-  border-radius: var(--radius-xl);
+  background: #ffffff !important;
+  color: #0f172a;
+  border-radius: 16px;
   max-width: 520px;
-  width: 90%;
+  width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: var(--shadow-lg);
-  padding: 26px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 10000;
+  padding: 24px;
   animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-card {
+  overflow: hidden;
+}
+
+#modal-gate-pass-body {
+  padding: 0 !important;
 }
 
 @keyframes modalPop {
