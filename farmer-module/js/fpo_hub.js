@@ -5,13 +5,13 @@
 
 const FPO_COOPERATIVE_DATA = {
   fpoProfile: {
-    fpoName: "MahaAgri Farmers Producer Co-op Ltd. (MAFPC)",
-    fpoId: "FPO-MH-NASHIK-09",
-    regNo: "FPO/MH/2023/8892",
+    fpoName: "Nashik Agro Farmer Producer Co. (NAFPO)",
+    fpoId: "FPO-MH-NASHIK-8821",
+    regNo: "FPO/MH/2023/8821",
     totalMemberFarmers: 450,
-    activePoolsCount: 4,
+    activePoolsCount: 6,
     location: "Lasalgaon APMC Terminal, Nashik, Maharashtra",
-    president: "Patil Rameshwar (Managing Director)",
+    president: "Ramesh Patil (Managing Director)",
     cooperativeSecretary: "Shetkari Suresh Bhalerao",
     fpoWalletLocked: "₹ 98,50,000",
     nabardStatus: "NABARD & SFAC Grade-A Certified",
@@ -39,7 +39,7 @@ const FPO_COOPERATIVE_DATA = {
       qualitySpecs: "TSS > 4.5%, Uniform Red Firm, Moisture < 88%, Zero Pest Damage",
       advancePercent: "35% Advance",
       farmerContributors: [
-        { name: "Patil Rameshwar (You)", qty: 50, timestamp: "Today 10:15 AM", status: "Committed (Escrow Locked)" },
+        { name: "Ramesh Patil (You)", qty: 50, timestamp: "Today 10:15 AM", status: "Committed (Escrow Locked)" },
         { name: "Sanjay Deshmukh", qty: 120, timestamp: "Yesterday", status: "Verified" },
         { name: "Balasaheb More", qty: 110, timestamp: "2 days ago", status: "Verified" },
         { name: "Shankar Mhetre", qty: 100, timestamp: "3 days ago", status: "Verified" }
@@ -47,7 +47,7 @@ const FPO_COOPERATIVE_DATA = {
     },
     {
       id: "BULK-DEM-ONI-02",
-      crop: "Red Onions (Nashik Garwa Grade A Export)",
+      crop: "Red Onion (Nashik Export Grade)",
       image: "assets/images/onion.jpg",
       buyerName: "Dubai Agro-Gulf Exporters Ltd.",
       buyerLogo: "🧅",
@@ -69,31 +69,31 @@ const FPO_COOPERATIVE_DATA = {
       ]
     },
     {
-      id: "BULK-DEM-SOY-03",
-      crop: "Yellow Soybean (Latur JS 335)",
-      image: "assets/images/soybean.jpg?v=3",
-      buyerName: "Adani Wilmar Agro Processing",
-      buyerLogo: "🌻",
-      buyerCategory: "Institutional Corporate Buyer",
+      id: "BULK-DEM-PAD-05",
+      crop: "Paddy (1121 Basmati)",
+      image: "assets/images/rice.jpg?v=2",
+      buyerName: "ITC Agri-Business Division",
+      buyerLogo: "🌾",
+      buyerCategory: "Institutional Grain Exporter",
       totalRequiredQty: "2,000 Qt (2,00,000 kg)",
       totalRequiredNumber: 2000,
       currentPooledQty: 1850,
-      targetPricePerQt: "₹ 46.00 /kg (₹ 4,600 /Qt)",
-      targetPriceNumber: 4600,
-      minContribution: "50 Qt (5,000 kg)",
+      targetPricePerQt: "₹ 24.00 /kg (₹ 2,400 /Qt)",
+      targetPriceNumber: 2400,
+      minContribution: "25 Qt (2,500 kg)",
       deadline: "1 Day Remaining",
-      destination: "Latur Industrial Solvent Extraction Hub",
+      destination: "Bhiwandi Central Grain Processing Terminal",
       status: "Near Completion (92.5% Filled)",
-      qualitySpecs: "Moisture < 10%, Oil Content > 19.5%, Foreign Matter < 1%",
+      qualitySpecs: "Moisture < 12%, Extra Long Grain 8.3mm+, Zero Discoloration",
       advancePercent: "35% Advance",
       farmerContributors: [
-        { name: "Marathwada Farmers Syndicate (14 Farmers)", qty: 1500, timestamp: "3 days ago", status: "Verified" },
-        { name: "Govind Marathe", qty: 350, timestamp: "Yesterday", status: "Verified" }
+        { name: "Ramesh Patil (You)", qty: 100, timestamp: "2 days ago", status: "Committed (Escrow Locked)" },
+        { name: "Gondia Farmers Co-op", qty: 1750, timestamp: "3 days ago", status: "Verified" }
       ]
     },
     {
       id: "BULK-DEM-COT-04",
-      crop: "Raw Cotton (Yavatmal / Amravati Long Staple)",
+      crop: "Raw Cotton (MCU-5 Long Staple)",
       image: "assets/images/cotton.jpg?v=2",
       buyerName: "Raymond Textile Mills Consortium",
       buyerLogo: "☁️",
@@ -113,6 +113,50 @@ const FPO_COOPERATIVE_DATA = {
         { name: "Vidarbha Cotton Union (8 Farmers)", qty: 320, timestamp: "Yesterday", status: "Verified" },
         { name: "Prakash Patil", qty: 160, timestamp: "2 days ago", status: "Verified" }
       ]
+    },
+    {
+      id: "BULK-DEM-CHI-06",
+      crop: "Green Chilli (G4 Spicy)",
+      image: "assets/images/chilli.jpg",
+      buyerName: "Everest Spices & Food Processing",
+      buyerLogo: "🌶️",
+      buyerCategory: "Spices & Food Processor",
+      totalRequiredQty: "300 Qt (30,000 kg)",
+      totalRequiredNumber: 300,
+      currentPooledQty: 190,
+      targetPricePerQt: "₹ 34.00 /kg (₹ 3,400 /Qt)",
+      targetPriceNumber: 3400,
+      minContribution: "5 Qt (500 kg)",
+      deadline: "3 Days Remaining",
+      destination: "Turbhe Spice Terminal, Navi Mumbai",
+      status: "Pooling Active (63% Filled)",
+      qualitySpecs: "Pungency High G4, Fresh Stalk Attached, Moisture < 80%",
+      advancePercent: "35% Advance",
+      farmerContributors: [
+        { name: "Sinnar Chilli Growers", qty: 190, timestamp: "Yesterday", status: "Verified" }
+      ]
+    },
+    {
+      id: "BULK-DEM-SOY-03",
+      crop: "Yellow Soybean (Latur JS 335)",
+      image: "assets/images/soybean.jpg?v=3",
+      buyerName: "Adani Wilmar Agro Processing",
+      buyerLogo: "🌻",
+      buyerCategory: "Institutional Corporate Buyer",
+      totalRequiredQty: "1,500 Qt (1,50,000 kg)",
+      totalRequiredNumber: 1500,
+      currentPooledQty: 1200,
+      targetPricePerQt: "₹ 48.00 /kg (₹ 4,800 /Qt)",
+      targetPriceNumber: 4800,
+      minContribution: "20 Qt (2,000 kg)",
+      deadline: "2 Days Remaining",
+      destination: "Latur Industrial Solvent Extraction Hub",
+      status: "Pooling Active (80% Filled)",
+      qualitySpecs: "Moisture < 10%, Oil Content > 19.5%, Foreign Matter < 1%",
+      advancePercent: "35% Advance",
+      farmerContributors: [
+        { name: "Marathwada Farmers Syndicate (14 Farmers)", qty: 1200, timestamp: "3 days ago", status: "Verified" }
+      ]
     }
   ],
 
@@ -126,7 +170,7 @@ const FPO_COOPERATIVE_DATA = {
       contractValue: "₹ 14,40,000",
       settlementStatus: "100% Escrow Released to Farmers",
       dispatchDate: "04 Sep 2026",
-      transportAgent: "MahaTrans Logistics (MH-15-AX-8910)"
+      transportAgent: "GreenWays Agro Transit (MH-15-AX-8910)"
     },
     {
       id: "FPO-DISP-841",
@@ -142,7 +186,7 @@ const FPO_COOPERATIVE_DATA = {
 
   // Governance & Member Board
   boardMembers: [
-    { name: "Patil Rameshwar", role: "President & Managing Director", village: "Lasalgaon, Nashik", phone: "+91 98220 44911", term: "2023 - 2028" },
+    { name: "Ramesh Patil", role: "President & Managing Director", village: "Lasalgaon, Nashik", phone: "+91 98421 88390", term: "2023 - 2028" },
     { name: "Sanjay Deshmukh", role: "Vice President (Horticulture Lead)", village: "Narayangaon, Junnar", phone: "+91 98224 33100", term: "2023 - 2028" },
     { name: "Dr. Vijay Pawar", role: "MPKV Rahuri Nodal Technical Advisor", village: "MPKV Rahuri Campus", phone: "+91 94223 99881", term: "Permanent Nominee" },
     { name: "Govind Marathe", role: "Elected Farmer Executive (Marathwada Zone)", village: "Latur Mandi", phone: "+91 98228 11922", term: "2024 - 2027" }
@@ -163,7 +207,7 @@ class AgriNexFPOHub {
     localStorage.setItem("agrinex_fpo_bulk_demands", JSON.stringify(demands));
   }
 
-  static contributeToPool(demandId, qtyQt, farmerName = "Patil Rameshwar") {
+  static contributeToPool(demandId, qtyQt, farmerName = "Ramesh Patil") {
     // Check argument order flexibility if called as (demandId, farmerName, qtyQt)
     let actualQty = qtyQt;
     let actualFarmer = farmerName;
@@ -186,7 +230,7 @@ class AgriNexFPOHub {
 
     item.currentPooledQty += qty;
     item.farmerContributors.unshift({
-      name: actualFarmer || "Patil Rameshwar (You)",
+      name: actualFarmer || "Ramesh Patil (You)",
       qty: qty,
       timestamp: "Just Now",
       status: "Committed (Escrow Locked)"
@@ -199,7 +243,7 @@ class AgriNexFPOHub {
     return { success: true, message: `Successfully committed ${qty} Qt to ${item.crop} FPO pool!` };
   }
 
-  static getMyCommitments(farmerName = "Patil Rameshwar") {
+  static getMyCommitments(farmerName = "Ramesh Patil") {
     const demands = this.getBulkDemands();
     const commitments = [];
 
@@ -244,4 +288,3 @@ class AgriNexFPOHub {
     return FPO_COOPERATIVE_DATA.fpoProfile;
   }
 }
-
