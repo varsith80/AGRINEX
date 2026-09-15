@@ -86,7 +86,9 @@ const logisticsData = {
       driverName: null,
       driverPhone: null,
       vehicleNo: null,
-      deliveryPin: "8821"
+      deliveryPin: "8821",
+      deliveryWindow: "01:00 PM – 05:30 PM",
+      deliveryDate: "Today, 15 Sept"
     },
     {
       id: 2,
@@ -130,7 +132,9 @@ const logisticsData = {
       driverName: null,
       driverPhone: null,
       vehicleNo: null,
-      deliveryPin: "4912"
+      deliveryPin: "4912",
+      deliveryWindow: "04:00 PM – 09:30 PM",
+      deliveryDate: "Today, 15 Sept"
     },
     {
       id: 3,
@@ -174,7 +178,9 @@ const logisticsData = {
       driverName: null,
       driverPhone: null,
       vehicleNo: null,
-      deliveryPin: "7730"
+      deliveryPin: "7730",
+      deliveryWindow: "10:00 AM – 03:00 PM",
+      deliveryDate: "Today, 15 Sept"
     },
     {
       id: 4,
@@ -218,7 +224,9 @@ const logisticsData = {
       driverName: "Dinesh Yadav",
       driverPhone: "+91 97230 44819",
       vehicleNo: "MH-15-AQ-9011 (Tata 407 Reefer)",
-      deliveryPin: "5519"
+      deliveryPin: "5519",
+      deliveryWindow: "11:30 AM – 02:30 PM",
+      deliveryDate: "Today, 15 Sept"
     },
     {
       id: 5,
@@ -262,7 +270,9 @@ const logisticsData = {
       driverName: "Dinesh Yadav",
       driverPhone: "+91 97230 44819",
       vehicleNo: "MH-15-AQ-9011 (Tata 407 Reefer 5°C)",
-      deliveryPin: "6204"
+      deliveryPin: "6204",
+      deliveryWindow: "01:00 PM – 05:00 PM",
+      deliveryDate: "Today, 15 Sept"
     },
     {
       id: 6,
@@ -306,7 +316,9 @@ const logisticsData = {
       driverName: "Dinesh Yadav",
       driverPhone: "+91 97230 44819",
       vehicleNo: "MH-15-AQ-9011 (Tata 407 Reefer 5°C)",
-      deliveryPin: "9182"
+      deliveryPin: "9182",
+      deliveryWindow: "12:00 PM – 04:00 PM",
+      deliveryDate: "Today, 15 Sept"
     }
   ],
   passbook: [

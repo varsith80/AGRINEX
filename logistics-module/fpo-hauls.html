@@ -218,9 +218,15 @@
       container.innerHTML = fpos.map(o => `
         <div class="fpo-card">
           <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; gap:8px;">
               <span class="badge badge-grade-a">${o.typeLabel}</span>
-              <span class="badge ${o.statusBadgeClass}">${o.deliveryStatus}</span>
+              <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+                <span class="badge ${o.statusBadgeClass}">${o.deliveryStatus}</span>
+                <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:3px 7px; font-size:0.7rem; line-height:1.2; text-align:right;">
+                  <span style="font-size:0.64rem; color:#64748b; font-weight:800; display:block;">🚚 DELIVER BETWEEN:</span>
+                  <strong style="color:#0c5a36; font-size:0.75rem;">${o.deliveryWindow || '01:00 PM – 05:00 PM'}</strong>
+                </div>
+              </div>
             </div>
 
             <div style="display:flex; gap:12px; align-items:center; margin-bottom:14px;">

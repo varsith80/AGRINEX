@@ -282,12 +282,16 @@ function openGatePassModal(orderCode) {
       <!-- Flexible Schedule & Arrival Window Banner in Gate Pass -->
       <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 0.82rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <span style="color: #166534; font-weight: 700;">🕒 Permissible Window:</span>
+          <span style="color: #166534; font-weight: 700;">🕒 Pickup Window:</span>
           <span style="color: #14532d; font-weight: 800;">${order.pickupWindow || "06:00 AM – 12:00 PM"}</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #bbf7d0; padding-top: 4px; margin-top: 4px;">
-          <span style="color: #166534; font-weight: 700;">🚚 Driver Scheduled Arrival:</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #bbf7d0; padding-top: 4px; margin-top: 4px; margin-bottom: 4px;">
+          <span style="color: #166534; font-weight: 700;">🚚 Driver Pickup Slot:</span>
           <strong style="color: #0c5a36; font-size: 0.9rem;">${order.driverScheduledSlot || "Flexible (Anytime Today)"}</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #bbf7d0; padding-top: 4px; margin-top: 4px;">
+          <span style="color: #166534; font-weight: 700;">🎯 Deliver Between:</span>
+          <strong style="color: #047857; font-size: 0.9rem;">${order.deliveryWindow || "01:00 PM – 05:30 PM (Today)"}</strong>
         </div>
       </div>
 
