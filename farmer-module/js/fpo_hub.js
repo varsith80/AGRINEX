@@ -198,13 +198,20 @@ class AgriNexFPOHub {
     let data = null;
     try {
       const stored = localStorage.getItem("agrinex_fpo_bulk_demands");
-      if (stored) data = JSON.parse(stored);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          data = parsed;
+        }
+      }
     } catch(e) {}
-    return data || FPO_COOPERATIVE_DATA.bulkDemands;
+    return (data && data.length > 0) ? data : FPO_COOPERATIVE_DATA.bulkDemands;
   }
 
   static saveBulkDemands(demands) {
-    localStorage.setItem("agrinex_fpo_bulk_demands", JSON.stringify(demands));
+    try {
+      localStorage.setItem("agrinex_fpo_bulk_demands", JSON.stringify(demands));
+    } catch(e) {}
   }
 
   static contributeToPool(demandId, qtyQt, farmerName = "Ramesh Patil") {
@@ -229,6 +236,7 @@ class AgriNexFPOHub {
     }
 
     item.currentPooledQty += qty;
+    if (!item.farmerContributors) item.farmerContributors = [];
     item.farmerContributors.unshift({
       name: actualFarmer || "Ramesh Patil (You)",
       qty: qty,
@@ -250,9 +258,11 @@ class AgriNexFPOHub {
     demands.forEach(d => {
       if (!d.farmerContributors) return;
       d.farmerContributors.forEach(c => {
-        const isMe = c.name.toLowerCase().includes("you") || 
-                     c.name.toLowerCase().includes("patil") || 
-                     c.name.toLowerCase().includes("ramesh");
+        const isMe = c.name && (
+          c.name.toLowerCase().includes("you") || 
+          c.name.toLowerCase().includes("patil") || 
+          c.name.toLowerCase().includes("ramesh")
+        );
         if (isMe) {
           const totalVal = c.qty * d.targetPriceNumber;
           const advanceVal = Math.round(totalVal * 0.35);
@@ -287,4 +297,17 @@ class AgriNexFPOHub {
   static getFPOProfile() {
     return FPO_COOPERATIVE_DATA.fpoProfile;
   }
+}
+
+// Global & Window Object Bindings
+if (typeof window !== "undefined") {
+  window.AgriNexFPOHub = AgriNexFPOHub;
+  window.FPO_COOPERATIVE_DATA = FPO_COOPERATIVE_DATA;
+}
+if (typeof global !== "undefined") {
+  global.AgriNexFPOHub = AgriNexFPOHub;
+  global.FPO_COOPERATIVE_DATA = FPO_COOPERATIVE_DATA;
+}
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { AgriNexFPOHub, FPO_COOPERATIVE_DATA };
 }

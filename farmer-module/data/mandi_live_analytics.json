@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "generated_at": "2026-09-15 16:08:48",
+    "generated_at": "2026-09-16 09:15:18",
     "data_source": "Maharashtra State Agricultural Marketing Board (MSAMB Live API) & Agmarknet Verified",
     "model_version": "AgriNex AI/ML TimeSeries-HoltWinters v3.0 (Maharashtra APMC Feed)",
     "total_mandi_volume_qt": 684500,
-    "avg_modal_price": 7036,
+    "avg_modal_price": 7139,
     "overall_market_trend": "Bullish",
     "top_gainer": {
       "commodity": "Red Onion",
@@ -40,7 +40,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Export Calibrated",
-      "modal_price": 1297,
+      "modal_price": 1293,
       "arrivals_qt": 42000,
       "history_7d": [
         1120,
@@ -53,37 +53,37 @@
       ],
       "change_1w_pct": 11.6,
       "forecast": {
-        "target_price_7d": 1440,
+        "target_price_7d": 1435,
         "pct_change_7d": 11.6,
         "confidence_pct": 96.4,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 1316
+            "forecast_price": 1312
           },
           {
             "day_offset": 2,
-            "forecast_price": 1336
+            "forecast_price": 1332
           },
           {
             "day_offset": 3,
-            "forecast_price": 1355
+            "forecast_price": 1351
           },
           {
             "day_offset": 4,
-            "forecast_price": 1375
+            "forecast_price": 1371
           },
           {
             "day_offset": 5,
-            "forecast_price": 1394
+            "forecast_price": 1390
           },
           {
             "day_offset": 6,
-            "forecast_price": 1414
+            "forecast_price": 1409
           },
           {
             "day_offset": 7,
-            "forecast_price": 1433
+            "forecast_price": 1429
           }
         ]
       },
@@ -123,7 +123,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A 55mm+ Bold",
-      "modal_price": 1952,
+      "modal_price": 2020,
       "arrivals_qt": 85000,
       "history_7d": [
         1680,
@@ -136,37 +136,37 @@
       ],
       "change_1w_pct": 10.1,
       "forecast": {
-        "target_price_7d": 2167,
+        "target_price_7d": 2242,
         "pct_change_7d": 16.2,
         "confidence_pct": 94.8,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 1981
+            "forecast_price": 2050
           },
           {
             "day_offset": 2,
-            "forecast_price": 2011
+            "forecast_price": 2081
           },
           {
             "day_offset": 3,
-            "forecast_price": 2040
+            "forecast_price": 2111
           },
           {
             "day_offset": 4,
-            "forecast_price": 2069
+            "forecast_price": 2141
           },
           {
             "day_offset": 5,
-            "forecast_price": 2098
+            "forecast_price": 2172
           },
           {
             "day_offset": 6,
-            "forecast_price": 2128
+            "forecast_price": 2202
           },
           {
             "day_offset": 7,
-            "forecast_price": 2157
+            "forecast_price": 2232
           }
         ]
       },
@@ -196,7 +196,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Export Quality",
-      "modal_price": 3460,
+      "modal_price": 3544,
       "arrivals_qt": 18000,
       "history_7d": [
         2900,
@@ -209,37 +209,37 @@
       ],
       "change_1w_pct": 10.3,
       "forecast": {
-        "target_price_7d": 3841,
+        "target_price_7d": 3934,
         "pct_change_7d": 11.8,
         "confidence_pct": 92.5,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 3512
+            "forecast_price": 3597
           },
           {
             "day_offset": 2,
-            "forecast_price": 3564
+            "forecast_price": 3650
           },
           {
             "day_offset": 3,
-            "forecast_price": 3616
+            "forecast_price": 3703
           },
           {
             "day_offset": 4,
-            "forecast_price": 3668
+            "forecast_price": 3757
           },
           {
             "day_offset": 5,
-            "forecast_price": 3720
+            "forecast_price": 3810
           },
           {
             "day_offset": 6,
-            "forecast_price": 3771
+            "forecast_price": 3863
           },
           {
             "day_offset": 7,
-            "forecast_price": 3823
+            "forecast_price": 3916
           }
         ]
       },
@@ -258,7 +258,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Maruti Premium",
-      "modal_price": 7480,
+      "modal_price": 7694,
       "arrivals_qt": 65000,
       "history_7d": [
         6900,
@@ -271,37 +271,37 @@
       ],
       "change_1w_pct": 5,
       "forecast": {
-        "target_price_7d": 8303,
+        "target_price_7d": 8540,
         "pct_change_7d": 5.9,
         "confidence_pct": 95.1,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 7592
+            "forecast_price": 7809
           },
           {
             "day_offset": 2,
-            "forecast_price": 7704
+            "forecast_price": 7925
           },
           {
             "day_offset": 3,
-            "forecast_price": 7817
+            "forecast_price": 8040
           },
           {
             "day_offset": 4,
-            "forecast_price": 7929
+            "forecast_price": 8156
           },
           {
             "day_offset": 5,
-            "forecast_price": 8041
+            "forecast_price": 8271
           },
           {
             "day_offset": 6,
-            "forecast_price": 8153
+            "forecast_price": 8386
           },
           {
             "day_offset": 7,
-            "forecast_price": 8265
+            "forecast_price": 8502
           }
         ]
       },
@@ -320,7 +320,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Brix >18°",
-      "modal_price": 7253,
+      "modal_price": 7371,
       "arrivals_qt": 35000,
       "history_7d": [
         6200,
@@ -333,37 +333,37 @@
       ],
       "change_1w_pct": 9.6,
       "forecast": {
-        "target_price_7d": 8051,
+        "target_price_7d": 8182,
         "pct_change_7d": 9.5,
         "confidence_pct": 97.2,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 7362
+            "forecast_price": 7482
           },
           {
             "day_offset": 2,
-            "forecast_price": 7471
+            "forecast_price": 7592
           },
           {
             "day_offset": 3,
-            "forecast_price": 7579
+            "forecast_price": 7703
           },
           {
             "day_offset": 4,
-            "forecast_price": 7688
+            "forecast_price": 7813
           },
           {
             "day_offset": 5,
-            "forecast_price": 7797
+            "forecast_price": 7924
           },
           {
             "day_offset": 6,
-            "forecast_price": 7906
+            "forecast_price": 8034
           },
           {
             "day_offset": 7,
-            "forecast_price": 8015
+            "forecast_price": 8145
           }
         ]
       },
@@ -382,7 +382,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Export (250g+)",
-      "modal_price": 12078,
+      "modal_price": 12095,
       "arrivals_qt": 28000,
       "history_7d": [
         10500,
@@ -395,37 +395,37 @@
       ],
       "change_1w_pct": 9.5,
       "forecast": {
-        "target_price_7d": 13407,
+        "target_price_7d": 13425,
         "pct_change_7d": 11.3,
         "confidence_pct": 96,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 12259
+            "forecast_price": 12276
           },
           {
             "day_offset": 2,
-            "forecast_price": 12440
+            "forecast_price": 12458
           },
           {
             "day_offset": 3,
-            "forecast_price": 12622
+            "forecast_price": 12639
           },
           {
             "day_offset": 4,
-            "forecast_price": 12803
+            "forecast_price": 12821
           },
           {
             "day_offset": 5,
-            "forecast_price": 12984
+            "forecast_price": 13002
           },
           {
             "day_offset": 6,
-            "forecast_price": 13165
+            "forecast_price": 13184
           },
           {
             "day_offset": 7,
-            "forecast_price": 13346
+            "forecast_price": 13365
           }
         ]
       },
@@ -444,7 +444,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Oil >20%",
-      "modal_price": 5067,
+      "modal_price": 5046,
       "arrivals_qt": 95000,
       "history_7d": [
         4600,
@@ -457,37 +457,37 @@
       ],
       "change_1w_pct": 5.4,
       "forecast": {
-        "target_price_7d": 5624,
+        "target_price_7d": 5601,
         "pct_change_7d": 7.2,
         "confidence_pct": 93.8,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 5143
+            "forecast_price": 5122
           },
           {
             "day_offset": 2,
-            "forecast_price": 5219
+            "forecast_price": 5197
           },
           {
             "day_offset": 3,
-            "forecast_price": 5295
+            "forecast_price": 5273
           },
           {
             "day_offset": 4,
-            "forecast_price": 5371
+            "forecast_price": 5349
           },
           {
             "day_offset": 5,
-            "forecast_price": 5447
+            "forecast_price": 5424
           },
           {
             "day_offset": 6,
-            "forecast_price": 5523
+            "forecast_price": 5500
           },
           {
             "day_offset": 7,
-            "forecast_price": 5599
+            "forecast_price": 5576
           }
         ]
       },
@@ -506,7 +506,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "GI Tagged Export Grade (220g+)",
-      "modal_price": 19245,
+      "modal_price": 19344,
       "arrivals_qt": 15000,
       "history_7d": [
         17000,
@@ -519,37 +519,37 @@
       ],
       "change_1w_pct": 8.8,
       "forecast": {
-        "target_price_7d": 21362,
+        "target_price_7d": 21472,
         "pct_change_7d": 10.2,
         "confidence_pct": 98.1,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 19534
+            "forecast_price": 19634
           },
           {
             "day_offset": 2,
-            "forecast_price": 19822
+            "forecast_price": 19924
           },
           {
             "day_offset": 3,
-            "forecast_price": 20111
+            "forecast_price": 20214
           },
           {
             "day_offset": 4,
-            "forecast_price": 20400
+            "forecast_price": 20505
           },
           {
             "day_offset": 5,
-            "forecast_price": 20688
+            "forecast_price": 20795
           },
           {
             "day_offset": 6,
-            "forecast_price": 20977
+            "forecast_price": 21085
           },
           {
             "day_offset": 7,
-            "forecast_price": 21266
+            "forecast_price": 21375
           }
         ]
       },
@@ -568,7 +568,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Machine Polished",
-      "modal_price": 6070,
+      "modal_price": 6170,
       "arrivals_qt": 52000,
       "history_7d": [
         5400,
@@ -581,37 +581,37 @@
       ],
       "change_1w_pct": 7.4,
       "forecast": {
-        "target_price_7d": 6738,
+        "target_price_7d": 6849,
         "pct_change_7d": 7.7,
         "confidence_pct": 94.5,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 6161
+            "forecast_price": 6263
           },
           {
             "day_offset": 2,
-            "forecast_price": 6252
+            "forecast_price": 6355
           },
           {
             "day_offset": 3,
-            "forecast_price": 6343
+            "forecast_price": 6448
           },
           {
             "day_offset": 4,
-            "forecast_price": 6434
+            "forecast_price": 6540
           },
           {
             "day_offset": 5,
-            "forecast_price": 6525
+            "forecast_price": 6633
           },
           {
             "day_offset": 6,
-            "forecast_price": 6616
+            "forecast_price": 6725
           },
           {
             "day_offset": 7,
-            "forecast_price": 6707
+            "forecast_price": 6818
           }
         ]
       },
@@ -630,7 +630,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Export Double Polished",
-      "modal_price": 14322,
+      "modal_price": 14693,
       "arrivals_qt": 38000,
       "history_7d": [
         12400,
@@ -643,37 +643,37 @@
       ],
       "change_1w_pct": 8.8,
       "forecast": {
-        "target_price_7d": 15897,
+        "target_price_7d": 16309,
         "pct_change_7d": 10,
         "confidence_pct": 96.8,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 14537
+            "forecast_price": 14913
           },
           {
             "day_offset": 2,
-            "forecast_price": 14752
+            "forecast_price": 15134
           },
           {
             "day_offset": 3,
-            "forecast_price": 14966
+            "forecast_price": 15354
           },
           {
             "day_offset": 4,
-            "forecast_price": 15181
+            "forecast_price": 15575
           },
           {
             "day_offset": 5,
-            "forecast_price": 15396
+            "forecast_price": 15795
           },
           {
             "day_offset": 6,
-            "forecast_price": 15611
+            "forecast_price": 16015
           },
           {
             "day_offset": 7,
-            "forecast_price": 15826
+            "forecast_price": 16236
           }
         ]
       },
@@ -692,7 +692,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Calibrated",
-      "modal_price": 4471,
+      "modal_price": 4614,
       "arrivals_qt": 60000,
       "history_7d": [
         3800,
@@ -705,37 +705,37 @@
       ],
       "change_1w_pct": 10.5,
       "forecast": {
-        "target_price_7d": 4963,
+        "target_price_7d": 5122,
         "pct_change_7d": 11.4,
         "confidence_pct": 93.9,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 4538
+            "forecast_price": 4683
           },
           {
             "day_offset": 2,
-            "forecast_price": 4605
+            "forecast_price": 4752
           },
           {
             "day_offset": 3,
-            "forecast_price": 4672
+            "forecast_price": 4822
           },
           {
             "day_offset": 4,
-            "forecast_price": 4739
+            "forecast_price": 4891
           },
           {
             "day_offset": 5,
-            "forecast_price": 4806
+            "forecast_price": 4960
           },
           {
             "day_offset": 6,
-            "forecast_price": 4873
+            "forecast_price": 5029
           },
           {
             "day_offset": 7,
-            "forecast_price": 4940
+            "forecast_price": 5098
           }
         ]
       },
@@ -754,7 +754,7 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Export Calibrated",
-      "modal_price": 1731,
+      "modal_price": 1778,
       "arrivals_qt": 110000,
       "history_7d": [
         1480,
@@ -767,37 +767,37 @@
       ],
       "change_1w_pct": 11.5,
       "forecast": {
-        "target_price_7d": 1921,
+        "target_price_7d": 1974,
         "pct_change_7d": 13.9,
         "confidence_pct": 95.8,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 1757
+            "forecast_price": 1805
           },
           {
             "day_offset": 2,
-            "forecast_price": 1783
+            "forecast_price": 1831
           },
           {
             "day_offset": 3,
-            "forecast_price": 1809
+            "forecast_price": 1858
           },
           {
             "day_offset": 4,
-            "forecast_price": 1835
+            "forecast_price": 1885
           },
           {
             "day_offset": 5,
-            "forecast_price": 1861
+            "forecast_price": 1911
           },
           {
             "day_offset": 6,
-            "forecast_price": 1887
+            "forecast_price": 1938
           },
           {
             "day_offset": 7,
-            "forecast_price": 1913
+            "forecast_price": 1965
           }
         ]
       },
