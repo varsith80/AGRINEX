@@ -335,6 +335,10 @@ function setupModals() {
 
   if (createBtn && modalCreate) {
     createBtn.addEventListener("click", () => {
+      const dateInput = document.getElementById("new-crop-harvest-date");
+      if (dateInput && !dateInput.value) {
+        dateInput.value = new Date().toISOString().split('T')[0];
+      }
       modalCreate.classList.add("active");
     });
   }
@@ -359,6 +363,16 @@ function setupModals() {
       const grade = document.getElementById("new-crop-grade").value;
       const quantity = document.getElementById("new-crop-qty").value;
       const price = document.getElementById("new-crop-price").value;
+      const rawHarvestDate = document.getElementById("new-crop-harvest-date") ? document.getElementById("new-crop-harvest-date").value : "";
+
+      let formattedDate = "";
+      if (rawHarvestDate) {
+        const parts = rawHarvestDate.split('-');
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        formattedDate = `${parts[2]} ${months[parseInt(parts[1], 10) - 1]} ${parts[0]}`;
+      } else {
+        formattedDate = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      }
 
       let img = "assets/images/tomato.jpg";
       if (cropName.toLowerCase().includes("onion")) img = "assets/images/onion.jpg";
@@ -373,6 +387,7 @@ function setupModals() {
         gradeBadgeClass: grade === "Grade A" ? "badge-grade-a" : "badge-grade-b",
         quantity: `${quantity} Qt`,
         expectedPrice: `₹ ${price} /Qt`,
+        harvestDate: formattedDate,
         bestBid: "Awaiting Bids",
         buyerName: "Matching Buyers...",
         status: "Bids Open",
@@ -389,7 +404,7 @@ function setupModals() {
       modalCreate.classList.remove("active");
       formCreate.reset();
 
-      showToast(`Crop listing for "${cropName}" published successfully! Buyers are being notified.`);
+      showToast(`Crop listing for "${cropName}" (Harvested: ${formattedDate}) published successfully!`);
     });
   }
 

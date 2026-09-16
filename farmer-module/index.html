@@ -462,9 +462,15 @@
             <input type="number" id="new-crop-qty" class="form-input" placeholder="e.g. 50" min="1" required />
           </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Expected Floor Price (₹ / Quintal)</label>
-          <input type="number" id="new-crop-price" class="form-input" placeholder="e.g. 1400" required />
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Date of Harvest *</label>
+            <input type="date" id="new-crop-harvest-date" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expected Floor Price (₹ / Quintal)</label>
+            <input type="number" id="new-crop-price" class="form-input" placeholder="e.g. 1400" required />
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label">Harvest Mandi / Pickup Location</label>

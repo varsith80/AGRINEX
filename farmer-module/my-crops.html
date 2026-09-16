@@ -1171,35 +1171,25 @@
 
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-
           <div class="form-group">
-
+            <label class="form-label">Date of Harvest *</label>
+            <input type="date" id="new-crop-harvest-date" class="form-input" required />
+          </div>
+          <div class="form-group">
             <label class="form-label">Shelf Life / Perishability</label>
-
             <select id="new-crop-shelflife" class="form-select">
-
               <option value="3 Days (Perishable)">3 Days (High Perishable)</option>
-
               <option value="7 Days (Perishable)">7 Days (Perishable)</option>
-
               <option value="25 Days">25 Days (Semi-perishable)</option>
-
               <option value="180 Days">180 Days (Grains/Stable)</option>
-
               <option value="365 Days">365 Days (Cash Crops)</option>
-
             </select>
-
           </div>
+        </div>
 
-          <div class="form-group">
-
-            <label class="form-label">Pickup Mandi Location</label>
-
-            <input type="text" id="new-crop-location" class="form-input" value="Lasalgaon APMC Yard, Nashik, Maharashtra" required />
-
-          </div>
-
+        <div class="form-group">
+          <label class="form-label">Pickup Mandi Location</label>
+          <input type="text" id="new-crop-location" class="form-input" value="Lasalgaon APMC Yard, Nashik, Maharashtra" required />
         </div>
 
 
@@ -1891,174 +1881,112 @@
 
 
     function openCreateListingModal() {
-
       const modal = document.getElementById("modal-create-listing");
-
+      const dateInput = document.getElementById("new-crop-harvest-date");
+      if (dateInput && !dateInput.value) {
+        dateInput.value = new Date().toISOString().split('T')[0];
+      }
       if (modal) modal.classList.add("active");
-
     }
-
-
 
     function closeCreateListingModal() {
-
       const modal = document.getElementById("modal-create-listing");
-
       if (modal) modal.classList.remove("active");
-
     }
-
-
 
     function handleCreateCrop(e) {
-
       e.preventDefault();
-
       const name = document.getElementById("new-crop-name").value;
-
       const category = document.getElementById("new-crop-category").value;
-
       const grade = document.getElementById("new-crop-grade").value;
-
       const qty = parseInt(document.getElementById("new-crop-qty").value) || 50;
-
       const price = parseInt(document.getElementById("new-crop-price").value) || 1200;
-
       const shelfLife = document.getElementById("new-crop-shelflife").value;
-
       const location = document.getElementById("new-crop-location").value;
+      const rawHarvestDate = document.getElementById("new-crop-harvest-date").value;
 
-
+      let formattedDate = "";
+      if (rawHarvestDate) {
+        const parts = rawHarvestDate.split('-');
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        formattedDate = `${parts[2]} ${months[parseInt(parts[1], 10) - 1]} ${parts[0]}`;
+      } else {
+        formattedDate = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      }
 
       let img = "assets/images/tomato.jpg";
-
       const lower = name.toLowerCase();
-
       if (lower.includes("onion")) img = "assets/images/onion.jpg";
-
       else if (lower.includes("paddy") || lower.includes("rice")) img = "assets/images/paddy.jpg";
-
       else if (lower.includes("cotton")) img = "assets/images/cotton.jpg";
-
       else if (lower.includes("chilli")) img = "assets/images/chilli.jpg";
-
       else if (lower.includes("okra") || lower.includes("ladyfinger")) img = "assets/images/okra.jpg";
 
-
-
       const newListing = {
-
         id: `LOT-${name.slice(0,3).toUpperCase()}-${Date.now().toString().slice(-3)}`,
-
         crop: name,
-
         category: category,
-
         shelfLife: shelfLife,
-
-        harvestDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-
+        harvestDate: formattedDate,
         image: img,
-
         grade: grade,
-
         gradeBadgeClass: grade === "Grade A" ? "badge-grade-a" : (grade === "Grade B" ? "badge-grade-b" : "badge-grade-b"),
-
         quantity: `${qty} Qt`,
-
         quantityNumber: qty,
-
         expectedPrice: `₹ ${price.toLocaleString('en-IN')} /Qt`,
-
         expectedPriceNumber: price,
-
         bestBid: `Awaiting Bids`,
-
         bestBidNumber: price,
-
         buyerName: "Matching Enterprise Buyers...",
-
         status: "Bids Open",
-
         statusBadgeClass: "badge-status-open",
-
         location: location
-
       };
 
-
-
       farmerData.listings.unshift(newListing);
-
       closeCreateListingModal();
-
       document.getElementById("form-create-listing-full").reset();
 
-
-
       renderAllCrops();
-
       updateKpis();
-
-      alert(`🎉 Crop Lot "${name}" has been published to the AgriNex exchange! Buyers are being matched.`);
-
+      alert(`🎉 Crop Lot "${name}" with Harvest Date (${formattedDate}) has been published to the AgriNex exchange!`);
     }
 
-
-
     function openLotDetail(lotId) {
-
       const lot = farmerData.listings.find(l => l.id === lotId);
-
       if (!lot) return;
 
-
-
       const detailModal = document.getElementById("modal-lot-detail");
-
       const detailBody = document.getElementById("modal-lot-detail-content");
 
-
-
       if (detailModal && detailBody) {
-
         detailBody.innerHTML = `
-
           <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: center;">
-
             <img src="${lot.image}" alt="${lot.crop}" style="width: 72px; height: 72px; border-radius: 12px; object-fit: cover; border: 1px solid #e2e8f0;" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
-
             <div>
-
               <div style="display: flex; gap: 8px; align-items: center;">
-
                 <h3 style="font-size: 1.3rem; font-weight: 800; color: #0c5a36;">${lot.crop}</h3>
-
                 <span class="crop-lot-code">${lot.id}</span>
-
               </div>
-
               <div style="margin-top: 4px; display: flex; gap: 6px;">
-
                 <span class="badge ${lot.gradeBadgeClass}">${lot.grade}</span>
-
                 <span class="badge ${lot.statusBadgeClass}">${lot.status}</span>
-
                 <span class="shelf-life-pill shelf-life-stable">${lot.shelfLife || 'Standard'}</span>
-
               </div>
-
             </div>
-
           </div>
 
-
-
           <div style="background: #f8fafc; padding: 18px; border-radius: 14px; font-size: 0.88rem; line-height: 1.6; border: 1px solid #e2e8f0; margin-bottom: 20px;">
-
             <div style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #eef2f6; padding-bottom: 8px;">
-
+              <span style="color: #64748b;">📅 Date of Harvest:</span>
+              <strong style="color: #0c5a36; font-size: 0.95rem;">${lot.harvestDate || 'Fresh Harvest'}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #eef2f6; padding-bottom: 8px;">
               <span style="color: #64748b;">Harvest Quantity:</span>
+              <strong style="color: #0f172a; font-size: 1rem;">${lot.quantity}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #eef2f6; padding-bottom: 8px;">
+              <span style="color: #64748b;">Expected Floor Price:</span>
 
               <strong style="color: #0f172a; font-size: 1rem;">${lot.quantity}</strong>
 

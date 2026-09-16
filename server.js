@@ -640,6 +640,7 @@ const server = http.createServer(async (req, res) => {
           variety: variety,
           category: body.category || "Vegetables",
           shelf_life: body.shelf_life || "7 Days",
+          harvest_date: body.harvest_date || body.harvestDate || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
           quantity_qt: qtyQt,
           quantity_kg: qtyQt * 100,
           quantity: `${qtyQt} Qt (${(qtyQt * 100).toLocaleString()} kg)`,
