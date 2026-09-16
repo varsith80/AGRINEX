@@ -16087,6 +16087,9 @@
     }).join('');
 
     modal.style.display = 'flex';
+    if (typeof window.walkAndTranslateDOM === 'function') {
+      window.walkAndTranslateDOM(modal);
+    }
   }
 
   function openCurrentDistrictMatrixModal() {

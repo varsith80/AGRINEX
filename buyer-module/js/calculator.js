@@ -909,13 +909,18 @@ function recalculateBuyerCosts() {
   const netSavingsPctEl = document.getElementById('calc-summary-savings-pct');
   const perKgSavingsEl = document.getElementById('calc-summary-perkg-savings');
 
+  const curLang = (window.AgriNexI18n && typeof window.AgriNexI18n.getBuyerLanguage === 'function') ? window.AgriNexI18n.getBuyerLanguage() : 'en';
+  const lowerCostSuffix = (curLang === 'mr') ? '% कमी खर्च' : (curLang === 'hi') ? '% कम लागत' : '% Lower Cost';
+  const savedSuffix = (curLang === 'mr') ? '/कि.ग्रॅ. बचत' : (curLang === 'hi') ? '/किग्रा बचत' : '/kg Saved';
+  const kgSuffix = (curLang === 'mr') ? ' /कि.ग्रॅ.' : (curLang === 'hi') ? ' /किग्रा' : ' /kg';
+
   if (directTotalEl) directTotalEl.textContent = `₹ ${directTotalLandedCost.toLocaleString('en-IN')}`;
-  if (directPerKgEl) directPerKgEl.textContent = `₹ ${directLandedPerKg} /kg`;
+  if (directPerKgEl) directPerKgEl.textContent = `₹ ${directLandedPerKg}${kgSuffix}`;
   if (mandiTotalEl) mandiTotalEl.textContent = `₹ ${traditionalTotalLandedCost.toLocaleString('en-IN')}`;
-  if (mandiPerKgEl) mandiPerKgEl.textContent = `₹ ${traditionalLandedPerKg} /kg`;
+  if (mandiPerKgEl) mandiPerKgEl.textContent = `₹ ${traditionalLandedPerKg}${kgSuffix}`;
   if (netSavingsEl) netSavingsEl.textContent = `₹ ${netSavings.toLocaleString('en-IN')}`;
-  if (netSavingsPctEl) netSavingsPctEl.textContent = `${netSavingsPct}% Lower Cost`;
-  if (perKgSavingsEl) perKgSavingsEl.textContent = `₹ ${savingsPerKg} /kg Saved`;
+  if (netSavingsPctEl) netSavingsPctEl.textContent = `${netSavingsPct}${lowerCostSuffix}`;
+  if (perKgSavingsEl) perKgSavingsEl.textContent = `₹ ${savingsPerKg} ${savedSuffix}`;
 
   // Direct Line Items
   setText('calc-item-direct-produce', `₹ ${directProduceCost.toLocaleString('en-IN')}`);

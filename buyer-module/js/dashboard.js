@@ -749,6 +749,13 @@ function switchView(viewId) {
   if (typeof window.scrollTo === 'function') {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  // Trigger i18n DOM translation pass for newly activated view
+  if (typeof window.walkAndTranslateDOM === 'function') {
+    setTimeout(() => {
+      window.walkAndTranslateDOM(document.body);
+    }, 20);
+  }
 }
 
 // Setup Sidebar Click Handlers
@@ -1841,30 +1848,36 @@ function renderChatSidebar() {
   const container = document.getElementById('chat-contacts-container');
   if (!container) return;
 
+  const isMr = window.getBuyerLanguage && window.getBuyerLanguage() === 'mr';
+  const isHi = window.getBuyerLanguage && window.getBuyerLanguage() === 'hi';
+  const onlineText = isMr ? 'सक्रिय' : isHi ? 'सक्रिय' : 'Online';
+
   const keys = Object.keys(chatConversations);
   const badge = document.getElementById('chat-active-count-badge');
-  if (badge) badge.textContent = `${keys.length} Online`;
+  if (badge) badge.textContent = `${keys.length} ${onlineText}`;
 
   container.innerHTML = keys
     .map(key => {
       const chat = chatConversations[key];
+      const transName = window.tPerson ? window.tPerson(chat.name) : chat.name;
+      const transCrop = window.tCrop ? window.tCrop(chat.crop) : chat.crop;
       const lastMsg = chat.messages && chat.messages.length > 0 
-        ? chat.messages[chat.messages.length - 1].text 
+        ? (window.tText ? window.tText(chat.messages[chat.messages.length - 1].text) : chat.messages[chat.messages.length - 1].text)
         : `Ask: ${chat.offerText.replace(/<[^>]*>/g, '')}`;
       const isActive = key === activeChatKey ? 'active' : '';
 
       return `
         <div class="chat-contact ${isActive}" id="chat-contact-${key}" onclick="selectChatContact('${key}')">
           <div class="avatar-wrapper">
-            <img src="${chat.avatar}" alt="${chat.name}" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
+            <img src="${chat.avatar}" alt="${transName}" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
             <span class="avatar-online-dot"></span>
           </div>
           <div style="flex: 1; min-width: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
-              <strong style="font-size: 0.88rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px;">${chat.name}</strong>
-              <span style="font-size: 0.65rem; color: #166534; font-weight: 700; background: #f0fdf4; padding: 1px 5px; border-radius: 4px;">Online</span>
+              <strong style="font-size: 0.88rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px;">${transName}</strong>
+              <span style="font-size: 0.65rem; color: #166534; font-weight: 700; background: #f0fdf4; padding: 1px 5px; border-radius: 4px;">${onlineText}</span>
             </div>
-            <div style="font-size: 0.72rem; color: #0c5a36; font-weight: 700;">${chat.crop}</div>
+            <div style="font-size: 0.72rem; color: #0c5a36; font-weight: 700;">${transCrop}</div>
             <span style="font-size: 0.72rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 2px;">${lastMsg}</span>
           </div>
         </div>
@@ -1879,6 +1892,18 @@ function selectChatContact(contactKey) {
   activeChatKey = contactKey;
   const chat = chatConversations[contactKey];
 
+  const isMr = window.getBuyerLanguage && window.getBuyerLanguage() === 'mr';
+  const isHi = window.getBuyerLanguage && window.getBuyerLanguage() === 'hi';
+
+  const transName = window.tPerson ? window.tPerson(chat.name) : chat.name;
+  const transCrop = window.tCrop ? window.tCrop(chat.crop) : chat.crop;
+  const transStatus = window.tLocation ? window.tLocation(chat.status) : chat.status;
+  const counterBtnText = isMr ? 'प्रति-बोली द्या' : isHi ? 'प्रति-प्रस्ताव' : 'Counter Offer';
+  const lockRateBtnText = window.tText ? window.tText(chat.lockRateText) : chat.lockRateText;
+  const activeOfferLabel = isMr ? 'सक्रिय ऑफर:' : isHi ? 'सक्रिय ऑफर:' : 'Active Offer:';
+  const acceptLockText = isMr ? '✓ स्वीकारा व सुरक्षित करा' : isHi ? '✓ स्वीकारें एवं लॉक करें' : '✓ Accept & Lock';
+  const reCounterText = isMr ? 'पुन्हा बोली द्या' : isHi ? 'पुनः बोली लगाएं' : 'Re-counter';
+
   // Update active pill in sidebar
   document.querySelectorAll('.chat-contact').forEach(c => c.classList.remove('active'));
   const activeEl = document.getElementById(`chat-contact-${contactKey}`);
@@ -1888,29 +1913,30 @@ function selectChatContact(contactKey) {
   const headerName = document.getElementById('chat-header-name');
   const headerStatus = document.getElementById('chat-header-status');
   const headerAvatar = document.getElementById('chat-header-avatar');
-  if (headerName) headerName.textContent = chat.name;
-  if (headerStatus) headerStatus.textContent = `${chat.status} • ${chat.crop}`;
+  if (headerName) headerName.textContent = transName;
+  if (headerStatus) headerStatus.textContent = `${transStatus} • ${transCrop}`;
   if (headerAvatar) headerAvatar.src = chat.avatar;
 
   const headerActions = document.querySelector('.chat-main .chat-header div:last-child');
   if (headerActions) {
     headerActions.innerHTML = `
-      <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="font-weight: 700; border-color: #cbd5e1; color: #334155;">Counter Offer</button>
-      <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${chat.lotId}')" style="background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); font-weight: 800; box-shadow: 0 4px 10px rgba(12, 90, 54, 0.25);">${chat.lockRateText}</button>
+      <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="font-weight: 700; border-color: #cbd5e1; color: #334155;">${counterBtnText}</button>
+      <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${chat.lotId}')" style="background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); font-weight: 800; box-shadow: 0 4px 10px rgba(12, 90, 54, 0.25);">${lockRateBtnText}</button>
     `;
   }
 
   // Update Active Offer Banner
   const banner = document.querySelector('.chat-offer-banner');
   if (banner) {
+    const transOfferText = window.tText ? window.tText(chat.offerText) : chat.offerText;
     banner.innerHTML = `
       <div style="display: flex; align-items: center; gap: 10px;">
         <span style="background: #ca8a04; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; box-shadow: 0 2px 6px rgba(202,138,4,0.3);">⚡</span>
-        <span style="color: #713f12;"><strong>Active Offer:</strong> ${chat.offerText}</span>
+        <span style="color: #713f12;"><strong>${activeOfferLabel}</strong> ${transOfferText}</span>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('${chat.lotId}', ${chat.counterRate})" style="background: #15803d; border-color: #15803d; padding: 5px 12px; font-size: 0.76rem; font-weight: 800;">✓ Accept & Lock</button>
-        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="padding: 5px 10px; font-size: 0.76rem; font-weight: 700; background: #ffffff;">Re-counter</button>
+        <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('${chat.lotId}', ${chat.counterRate})" style="background: #15803d; border-color: #15803d; padding: 5px 12px; font-size: 0.76rem; font-weight: 800;">${acceptLockText}</button>
+        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="padding: 5px 10px; font-size: 0.76rem; font-weight: 700; background: #ffffff;">${reCounterText}</button>
       </div>
     `;
   }
@@ -1923,7 +1949,7 @@ function selectChatContact(contactKey) {
       .map(m => `
         <div class="chat-bubble-group ${m.type}">
           <div class="chat-bubble ${m.type}">
-            ${m.text}
+            ${window.tText ? window.tText(m.text) : m.text}
           </div>
           <div class="chat-meta-bar ${m.type}">
             <span>${timeNow}</span>
@@ -3409,6 +3435,16 @@ if (demandForm) {
       showToast(`🚚 Fleet booked successfully! Consignment #${newTrkId} dispatched for ${cropName || 'Farm Lot'}.`);
       switchView('view-consignments');
     });
+  }
+
+  // Synchronize persisted buyer language after all initial DOM renders
+  if (window.AgriNexI18n && typeof window.AgriNexI18n.getBuyerLanguage === 'function') {
+    const savedLang = window.AgriNexI18n.getBuyerLanguage();
+    if (savedLang && savedLang !== 'en') {
+      setTimeout(() => {
+        window.AgriNexI18n.setBuyerLanguage(savedLang);
+      }, 50);
+    }
   }
 });
 
