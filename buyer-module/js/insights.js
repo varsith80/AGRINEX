@@ -15589,14 +15589,17 @@
     renderMaharashtraMandisTable();
   }
 
+  let chartLoadRetries = 0;
   // Render High-DPI Chart.js Interactive Graph
   function renderInsightChart() {
     const canvas = document.getElementById('buyer-insight-chart');
     if (!canvas) return;
 
     if (typeof Chart === 'undefined') {
-      console.warn('Chart.js not loaded yet. Waiting...');
-      setTimeout(renderInsightChart, 200);
+      if (chartLoadRetries < 20) {
+        chartLoadRetries++;
+        setTimeout(renderInsightChart, 200);
+      }
       return;
     }
 

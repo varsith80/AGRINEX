@@ -11,6 +11,8 @@
 (function () {
   'use strict';
 
+  const showToast = (msg, type) => (typeof window !== 'undefined' && typeof window.showToast === 'function') ? window.showToast(msg, type) : console.log('[Toast]', msg);
+
   // State Management
   const selectedCompareLots = new Set();
 
@@ -581,6 +583,7 @@
   window.closeCopilotModal = closeCopilotModal;
   window.askCopilot = askCopilot;
   window.handleCopilotSubmit = handleCopilotSubmit;
+  window.openDigitalPOModal = generateAndOpenPO;
   window.generateAndOpenPO = generateAndOpenPO;
   window.closeDigitalPOModal = closeDigitalPOModal;
   window.printDigitalPO = printDigitalPO;

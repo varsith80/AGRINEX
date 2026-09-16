@@ -1096,8 +1096,18 @@ function initComprehensiveCalculator() {
   recalculateBuyerCosts();
 }
 
+// Global Window Exports
+window.recalculateBuyerCosts = recalculateBuyerCosts;
+window.setCalcUnit = setCalcUnit;
+window.setCalcPriceUnit = setCalcPriceUnit;
+window.prefillDemandFromCalculator = prefillDemandFromCalculator;
+window.filterMarketplaceFromCalculator = filterMarketplaceFromCalculator;
+window.printProcurementCostSheet = printProcurementCostSheet;
+window.initComprehensiveCalculator = initComprehensiveCalculator;
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initComprehensiveCalculator);
 } else {
   initComprehensiveCalculator();
 }
+

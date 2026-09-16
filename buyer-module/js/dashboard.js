@@ -3,6 +3,8 @@
  * Handles Standard Marketplace Bids + Emergency Salvage Buyouts (Breakeven Procurement)
  */
 
+var buyerData = (typeof window !== 'undefined' && window.buyerData) ? window.buyerData : ((typeof buyerData !== 'undefined') ? buyerData : { verifiedLots: [], consignments: [], demands: [], storageFacilities: [], grievances: [] });
+
 const DEFAULT_EMERGENCY_FEED = [
   {
     id: "EMG-LOT-TOM-99",
@@ -711,7 +713,11 @@ function showToast(message, type = 'success') {
 
   document.body.appendChild(toast);
   setTimeout(() => {
-    toast.remove();
+    if (toast && toast.parentNode) {
+      toast.parentNode.removeChild(toast);
+    } else if (toast && typeof toast.remove === 'function') {
+      toast.remove();
+    }
   }, 4000);
 }
 
@@ -4160,7 +4166,60 @@ function handleEnwrPledgeSubmit(e) {
   }, 900);
 }
 
-// Storage & Logistics Window Bindings
+// Storage & Logistics & Dashboard Window Bindings
+window.switchView = switchView;
+window.showToast = showToast;
+window.showNotification = showNotification;
+window.applyFilters = applyFilters;
+window.filterByCategoryPill = filterByCategoryPill;
+window.setMarketViewMode = setMarketViewMode;
+window.setBuyerPersona = setBuyerPersona;
+window.handleBuyerSearch = handleBuyerSearch;
+window.resetBuyerFilters = resetBuyerFilters;
+window.updateBuyerMarketStats = updateBuyerMarketStats;
+window.openBidModal = openBidModal;
+window.closeBidModal = closeBidModal;
+window.updateBidKgPreview = updateBidKgPreview;
+window.openDirectBuyModal = openDirectBuyModal;
+window.closeDirectBuyModal = closeDirectBuyModal;
+window.updateDirectBuyCalculations = updateDirectBuyCalculations;
+window.executeBuyerLotPurchase = executeBuyerLotPurchase;
+window.openPostDemandModal = openPostDemandModal;
+window.closePostDemandModal = closePostDemandModal;
+window.updateDemandPricePreview = updateDemandPricePreview;
+window.openDemandBidsModal = openDemandBidsModal;
+window.closeDemandBidsModal = closeDemandBidsModal;
+window.handleDemandSearch = handleDemandSearch;
+window.filterDemandsByStatus = filterDemandsByStatus;
+window.filterDemandsByHub = filterDemandsByHub;
+window.refreshDemandMatches = refreshDemandMatches;
+window.openEmergencyBuyoutModal = openEmergencyBuyoutModal;
+window.closeEmergencyBuyoutModal = closeEmergencyBuyoutModal;
+window.executeEmergencyBuyoutConfirmed = executeEmergencyBuyoutConfirmed;
+window.openBuyerProfileModal = openBuyerProfileModal;
+window.closeBuyerProfileModal = closeBuyerProfileModal;
+window.openNegotiationModal = openNegotiationModal;
+window.closeNegotiationModal = closeNegotiationModal;
+window.acceptFarmerCounter = acceptFarmerCounter;
+window.confirmEscrowFromCounter = confirmEscrowFromCounter;
+window.openGrievanceModal = openGrievanceModal;
+window.closeGrievanceModal = closeGrievanceModal;
+window.handleGrievanceFileUpload = handleGrievanceFileUpload;
+window.filterGrievance = filterGrievance;
+window.openDepositEscrowModal = openDepositEscrowModal;
+window.closeDepositEscrowModal = closeDepositEscrowModal;
+window.updateEscrowGatewayAmount = updateEscrowGatewayAmount;
+window.setEscrowPresetAmount = setEscrowPresetAmount;
+window.setEscrowDepositRail = setEscrowDepositRail;
+window.copyEscrowField = copyEscrowField;
+window.handleDepositEscrowSubmit = handleDepositEscrowSubmit;
+window.selectCorpBank = selectCorpBank;
+window.printDepositReceipt = printDepositReceipt;
+window.closeDepositReceiptModal = closeDepositReceiptModal;
+window.openEscrowDeedModal = openEscrowDeedModal;
+window.closeEscrowDeedModal = closeEscrowDeedModal;
+window.downloadAllPurchaseOrders = downloadAllPurchaseOrders;
+window.downloadEscrowStatement = downloadEscrowStatement;
 window.renderStorageFacilities = renderStorageFacilities;
 window.renderStorageBookings = renderStorageBookings;
 window.filterStorageFacilities = filterStorageFacilities;
@@ -4194,6 +4253,5 @@ window.renderBuyerEscrowVault = renderBuyerEscrowVault;
 window.renderVerifiedLots = renderVerifiedLots;
 window.renderBuyerDemands = renderBuyerDemands;
 window.renderGrievances = renderGrievances;
-window.openDirectBuyModal = openDirectBuyModal;
-window.executeBuyerLotPurchase = executeBuyerLotPurchase;
+
 
