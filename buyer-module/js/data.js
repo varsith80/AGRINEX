@@ -1076,28 +1076,28 @@ const buyerData = {
       currentPrice: "₹ 18.50 /kg",
       trendPercent: "+5.4%",
       direction: "up",
-      trendPoints: [15, 16, 17, 16, 18, 19, 20]
+      trendPoints: [16.2, 16.8, 16.5, 17.2, 17.6, 18.0, 18.5]
     },
     {
       crop: "Tomato (Narayangaon)",
       currentPrice: "₹ 13.00 /kg",
       trendPercent: "+6.2%",
       direction: "up",
-      trendPoints: [20, 16, 18, 12, 14, 8, 4]
+      trendPoints: [11.8, 12.0, 12.1, 12.4, 12.6, 12.8, 13.0]
     },
     {
       crop: "Soybean (Latur APMC)",
       currentPrice: "₹ 42.00 /kg",
       trendPercent: "+3.8%",
       direction: "up",
-      trendPoints: [18, 17, 19, 15, 12, 9, 7]
+      trendPoints: [39.5, 40.0, 40.2, 40.8, 41.1, 41.5, 42.0]
     },
     {
       crop: "Banana (Jalgaon)",
       currentPrice: "₹ 14.50 /kg",
       trendPercent: "-1.5%",
       direction: "down",
-      trendPoints: [5, 8, 12, 9, 14, 18, 22]
+      trendPoints: [15.2, 15.0, 14.9, 14.8, 14.7, 14.6, 14.5]
     }
   ],
   consignments: [

@@ -661,10 +661,10 @@ function setCalcPriceUnit(unit) {
 
 // On Mandi or Destination Hub Change
 function onMandiOrHubChange() {
-  const mandiSelect = document.getElementById('calc-mandi-origin');
-  const hubSelect = document.getElementById('calc-buyer-hub');
+  const mandiSelect = document.getElementById('calc-buyer-origin') || document.getElementById('calc-mandi-origin');
+  const hubSelect = document.getElementById('calc-buyer-destination') || document.getElementById('calc-buyer-hub');
   const distanceInput = document.getElementById('calc-buyer-distance');
-  const routeBadge = document.getElementById('calc-route-badge');
+  const routeBadge = document.getElementById('calc-route-duration-hint') || document.getElementById('calc-route-badge');
 
   if (!mandiSelect || !hubSelect) return;
 
@@ -680,7 +680,8 @@ function onMandiOrHubChange() {
       distanceInput.value = distanceKm;
     }
     if (routeBadge) {
-      routeBadge.textContent = `${distanceKm} km Highway Transit`;
+      const estHours = Math.round(distanceKm / 45);
+      routeBadge.textContent = `⏱️ ~${estHours}h transit via Highway • ${distanceKm} km Route`;
     }
   }
 
@@ -691,8 +692,8 @@ function onMandiOrHubChange() {
 
 // On Commodity or Grade Change
 function onProductOrGradeChange() {
-  const productSelect = document.getElementById('calc-product-select');
-  const gradeSelect = document.getElementById('calc-product-grade');
+  const productSelect = document.getElementById('calc-buyer-produce') || document.getElementById('calc-product-select');
+  const gradeSelect = document.getElementById('calc-buyer-grade') || document.getElementById('calc-product-grade');
   const packagingSelect = document.getElementById('calc-packaging-mode');
 
   if (productSelect) {
@@ -970,9 +971,9 @@ function setText(id, text) {
   if (el) el.textContent = text;
 }
 
-// Action: Prefill Bulk Demand from Calculator
+// Action: Prefill Post Demand Modal from Calculator Selection
 function prefillDemandFromCalculator() {
-  const productSelect = document.getElementById('calc-product-select');
+  const productSelect = document.getElementById('calc-buyer-produce') || document.getElementById('calc-product-select');
   const qtyInput = document.getElementById('calc-buyer-qty');
   const farmPriceInput = document.getElementById('calc-buyer-price');
 
@@ -1018,15 +1019,17 @@ function prefillDemandFromCalculator() {
 
 // Action: Filter Marketplace from Calculator Selection
 function filterMarketplaceFromCalculator() {
-  const productSelect = document.getElementById('calc-product-select');
+  const productSelect = document.getElementById('calc-buyer-produce') || document.getElementById('calc-product-select');
   const prodKey = (productSelect && productSelect.value) || 'tomato';
   const prod = COMMODITY_CATALOG[prodKey] || COMMODITY_CATALOG.tomato;
 
   switchView('view-verified-produce');
-  const searchInput = document.getElementById('marketplace-search-input');
+  const searchInput = document.getElementById('marketplace-search-input') || document.getElementById('buyer-global-search');
   if (searchInput) {
     searchInput.value = prod.name.split(' ')[0];
-    handleBuyerSearch(searchInput.value);
+    if (typeof handleBuyerSearch === 'function') {
+      handleBuyerSearch(searchInput.value);
+    }
   }
 }
 
@@ -1042,10 +1045,10 @@ function initComprehensiveCalculator() {
   const mandiPriceInput = document.getElementById('calc-mandi-benchmark-price');
   const distanceInput = document.getElementById('calc-buyer-distance');
   const vehicleSelect = document.getElementById('calc-buyer-vehicle');
-  const mandiSelect = document.getElementById('calc-mandi-origin');
-  const hubSelect = document.getElementById('calc-buyer-hub');
-  const productSelect = document.getElementById('calc-product-select');
-  const gradeSelect = document.getElementById('calc-product-grade');
+  const mandiSelect = document.getElementById('calc-buyer-origin') || document.getElementById('calc-mandi-origin');
+  const hubSelect = document.getElementById('calc-buyer-destination') || document.getElementById('calc-buyer-hub');
+  const productSelect = document.getElementById('calc-buyer-produce') || document.getElementById('calc-product-select');
+  const gradeSelect = document.getElementById('calc-buyer-grade') || document.getElementById('calc-product-grade');
   const packagingSelect = document.getElementById('calc-packaging-mode');
   const hamaliInput = document.getElementById('calc-hamali-rate');
 
@@ -1088,6 +1091,8 @@ function initComprehensiveCalculator() {
   recalculateBuyerCosts();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initComprehensiveCalculator);
+} else {
   initComprehensiveCalculator();
-});
+}

@@ -15525,18 +15525,25 @@
       list = list.filter(c => (CROP_CATEGORIES[c.key] || 'vegetables') === activeCategory);
     }
 
-    container.innerHTML = list.map(c => `
-      <div class="produce-chip ${c.key === activeCommodity ? 'active' : ''}" onclick="selectInsightCommodity('${c.key}')">
-        <span style="font-size: 1.4rem; line-height: 1;">${c.emoji}</span>
-        <div>
-          <strong style="font-size: 0.85rem; color: #0f172a; display: block; white-space: nowrap;">${c.name.split('(')[0].trim()}</strong>
-          <span style="font-size: 0.72rem; color: #64748b;">${c.hub.split('(')[0].trim()}</span>
+    container.innerHTML = list.map(c => {
+      const cleanCropName = c.name.replace(/\(.*?\)/g, '').trim();
+      const cleanHubName = c.hub.replace(/\(.*?\)/g, '').trim();
+      const translatedCrop = window.tCrop ? window.tCrop(cleanCropName) : cleanCropName;
+      const translatedHub = window.tLocation ? window.tLocation(cleanHubName) : cleanHubName;
+
+      return `
+        <div class="produce-chip ${c.key === activeCommodity ? 'active' : ''}" onclick="selectInsightCommodity('${c.key}')">
+          <span style="font-size: 1.4rem; line-height: 1;">${c.emoji}</span>
+          <div>
+            <strong style="font-size: 0.85rem; color: #0f172a; display: block; white-space: nowrap;">${translatedCrop}</strong>
+            <span style="font-size: 0.72rem; color: #64748b;">${translatedHub}</span>
+          </div>
+          <span class="badge ${c.trendDir === 'up' ? 'badge-grade-green' : 'badge-grade-blue'}" style="font-size: 0.7rem; font-weight: 800; margin-left: 4px;">
+            ${c.trendPct}
+          </span>
         </div>
-        <span class="badge ${c.trendDir === 'up' ? 'badge-grade-green' : 'badge-grade-blue'}" style="font-size: 0.7rem; font-weight: 800; margin-left: 4px;">
-          ${c.trendPct}
-        </span>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   function selectInsightCommodity(key) {
@@ -15609,10 +15616,17 @@
       priceChartInstance.destroy();
     }
 
+    if (!canvas || typeof canvas.getContext !== 'function') return;
+
     const ctx = canvas.getContext('2d');
     const gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
     gradientFill.addColorStop(0, 'rgba(12, 90, 54, 0.22)');
     gradientFill.addColorStop(1, 'rgba(12, 90, 54, 0.00)');
+
+    const lblModal = window.t ? window.t('insights_legend_modal', 'Mandi Modal Price') : 'Mandi Modal Price';
+    const lblForecast = window.t ? window.t('insights_legend_forecast', 'AI Forward Forecast') : 'AI Forward Forecast';
+    const lblCeiling = window.t ? window.t('insights_legend_ceiling', 'Mandi Ceiling') : 'Mandi Ceiling';
+    const lblFloor = window.t ? window.t('insights_legend_floor', 'Mandi Floor') : 'Mandi Floor';
 
     priceChartInstance = new Chart(ctx, {
       type: 'line',
@@ -15620,7 +15634,7 @@
         labels: dataObj.labels,
         datasets: [
           {
-            label: `Mandi Modal Price (${unitLabel})`,
+            label: `${lblModal} (${unitLabel})`,
             data: histData,
             borderColor: '#0c5a36',
             backgroundColor: gradientFill,
@@ -15632,7 +15646,7 @@
             pointHoverRadius: 6
           },
           {
-            label: `AI Forward Forecast (${unitLabel})`,
+            label: `${lblForecast} (${unitLabel})`,
             data: foreData,
             borderColor: '#2563eb',
             backgroundColor: 'transparent',
@@ -15645,7 +15659,7 @@
             pointHoverRadius: 6
           },
           {
-            label: `Mandi Ceiling / Max (${unitLabel})`,
+            label: `${lblCeiling} (${unitLabel})`,
             data: maxData,
             borderColor: 'rgba(239, 68, 68, 0.4)',
             borderWidth: 1.5,
@@ -15655,7 +15669,7 @@
             pointRadius: 0
           },
           {
-            label: `Mandi Floor / Min (${unitLabel})`,
+            label: `${lblFloor} (${unitLabel})`,
             data: minData,
             borderColor: 'rgba(16, 185, 129, 0.4)',
             borderWidth: 1.5,
@@ -15727,8 +15741,14 @@
     // Update Chart Top Header Info
     const titleEl = document.getElementById('insight-chart-title');
     const subEl = document.getElementById('insight-chart-sub');
-    if (titleEl) titleEl.textContent = `${commodity.emoji} ${commodity.name} • Mandi Rate Trends & AI Projection`;
-    if (subEl) subEl.textContent = `Primary Hub: ${commodity.hub} • 24h Modal: ${formatInsightPrice(commodity.currentModalQt)}`;
+    const transCrop = window.tCrop ? window.tCrop(commodity.name) : commodity.name;
+    const transHub = window.tLocation ? window.tLocation(commodity.hub) : commodity.hub;
+    const transTrends = window.tText ? window.tText('Mandi Rate Trends & AI Projection') : 'Mandi Rate Trends & AI Projection';
+    const transPrimaryHub = window.t ? (window.getBuyerLanguage && window.getBuyerLanguage() === 'mr' ? 'मुख्य केंद्र' : window.getBuyerLanguage && window.getBuyerLanguage() === 'hi' ? 'प्रमुख मंडी' : 'Primary Hub') : 'Primary Hub';
+    const transModal = window.t ? (window.getBuyerLanguage && window.getBuyerLanguage() === 'mr' ? '२४ तास सरासरी' : window.getBuyerLanguage && window.getBuyerLanguage() === 'hi' ? '24 घंटे मॉडल' : '24h Modal') : '24h Modal';
+
+    if (titleEl) titleEl.textContent = `${commodity.emoji} ${transCrop} • ${transTrends}`;
+    if (subEl) subEl.textContent = `${transPrimaryHub}: ${transHub} • ${transModal}: ${formatInsightPrice(commodity.currentModalQt)}`;
   }
 
   // Render Top KPI & Summary Cards
@@ -15740,16 +15760,48 @@
     const spreadEl = document.getElementById('kpi-insight-spread');
     const arrivalsEl = document.getElementById('kpi-insight-arrivals');
     const sentimentEl = document.getElementById('kpi-insight-sentiment');
+    const spreadSub = document.getElementById('kpi-spread-subtext');
+    const arrivalsSub = document.getElementById('kpi-arrivals-subtext');
+    const sentimentSub = document.getElementById('kpi-sentiment-subtext');
 
-    if (modalEl) modalEl.innerHTML = `${formatInsightPrice(commodity.currentModalQt)} <span style="font-size:0.75rem; color:${commodity.trendDir === 'up' ? '#166534' : '#991b1b'}; font-weight:700;">(${commodity.trendPct})</span>`;
-    if (spreadEl) spreadEl.innerHTML = `+${commodity.arbitragePct}% <span style="font-size:0.74rem; color:#166534; font-weight:600;">(Save ₹ ${((commodity.terminalVashiQt - commodity.farmGateQt) / 100).toFixed(2)} /kg)</span>`;
-    if (arrivalsEl) arrivalsEl.innerHTML = `${commodity.arrivalsQt.toLocaleString('en-IN')} Qt <span style="font-size:0.74rem; color:#64748b;">(${commodity.arrivalsChange})</span>`;
-    if (sentimentEl) sentimentEl.innerHTML = `${commodity.sentiment} <span style="font-size:0.74rem; color:#0c5a36; font-weight:700;">(${commodity.sentimentScore}/100)</span>`;
+    const savingsVal = ((commodity.terminalVashiQt - commodity.farmGateQt) / 100).toFixed(2);
+    const transVsLastWeek = window.t ? window.t('vs_last_week', 'vs last week') : 'vs last week';
+    const transSentiment = window.tText ? window.tText(commodity.sentiment) : commodity.sentiment;
+
+    let transSpreadSub = `Save ₹ ${savingsVal}/kg vs Vashi Middlemen`;
+    let transArrivalsSub = `${commodity.arrivalsChange}`;
+    let transSentimentSub = `Index: ${commodity.sentimentScore}/100 • Export Peak`;
+
+    if (window.getBuyerLanguage && window.getBuyerLanguage() === 'mr') {
+      transSpreadSub = `वाशी दलालांच्या तुलनेत ₹ ${savingsVal}/किलो बचत`;
+      transArrivalsSub = `${commodity.arrivalsChange.replace('vs last week', 'मागील आठवड्यापेक्षा')}`;
+      transSentimentSub = `निर्देशांक: ${commodity.sentimentScore}/१०० • निर्यात उच्चांक`;
+    } else if (window.getBuyerLanguage && window.getBuyerLanguage() === 'hi') {
+      transSpreadSub = `वाशी बिचौलियों की तुलना में ₹ ${savingsVal}/किग्रा बचत`;
+      transArrivalsSub = `${commodity.arrivalsChange.replace('vs last week', 'पिछले सप्ताह की तुलना में')}`;
+      transSentimentSub = `इंडेक्स: ${commodity.sentimentScore}/100 • निर्यात पीक`;
+    }
+
+    if (modalEl) modalEl.innerHTML = `${formatInsightPrice(commodity.currentModalQt)}`;
+    const trendSpan = document.getElementById('kpi-modal-trend-pct');
+    if (trendSpan) {
+      trendSpan.textContent = `▲ ${commodity.trendPct}`;
+      trendSpan.style.color = commodity.trendDir === 'up' ? '#166534' : '#991b1b';
+    }
+
+    if (spreadEl) spreadEl.textContent = `+${commodity.arbitragePct}%`;
+    if (spreadSub) spreadSub.textContent = transSpreadSub;
+
+    if (arrivalsEl) arrivalsEl.textContent = `${commodity.arrivalsQt.toLocaleString('en-IN')} Qt`;
+    if (arrivalsSub) arrivalsSub.textContent = transArrivalsSub;
+
+    if (sentimentEl) sentimentEl.textContent = transSentiment;
+    if (sentimentSub) sentimentSub.textContent = transSentimentSub;
   }
 
   // Render Left Column: Supply Inflow & Belts Heatmap
   function renderSupplyInflowHeatmap() {
-    const container = document.getElementById('supply-inflow-container');
+    const container = document.getElementById('insight-producing-belts') || document.getElementById('supply-inflow-container');
     if (!container) return;
 
     const belts = [
@@ -15760,62 +15812,85 @@
       { name: 'Vidarbha Citrus & Cotton', mandi: 'Katol, Amravati, Kalamna', crop: 'Nagpur Orange, Raw Cotton', volume: '5,800 Qt', pct: 65, status: 'Fresh Harvest', color: '#ea580c' }
     ];
 
-    container.innerHTML = belts.map(b => `
-      <div style="margin-bottom: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-          <div>
-            <strong style="font-size: 0.88rem; color: #0f172a;">${b.name}</strong>
-            <span style="font-size: 0.74rem; color: #64748b; display: block;">📍 ${b.mandi} • ${b.crop}</span>
+    container.innerHTML = belts.map(b => {
+      const transName = window.tLocation ? window.tLocation(b.name) : b.name;
+      const transMandi = window.tLocation ? window.tLocation(b.mandi) : b.mandi;
+      const transCrop = window.tCrop ? window.tCrop(b.crop) : b.crop;
+      const transStatus = window.tText ? window.tText(b.status) : b.status;
+
+      return `
+        <div style="margin-bottom: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div>
+              <strong style="font-size: 0.88rem; color: #0f172a;">${transName}</strong>
+              <span style="font-size: 0.74rem; color: #64748b; display: block;">📍 ${transMandi} • ${transCrop}</span>
+            </div>
+            <div style="text-align: right;">
+              <strong style="font-size: 0.9rem; color: ${b.color};">${b.volume}</strong>
+              <span style="font-size: 0.7rem; color: #166534; font-weight: 700; background: #e8f5ed; padding: 1px 6px; border-radius: 4px; display: inline-block;">${transStatus}</span>
+            </div>
           </div>
-          <div style="text-align: right;">
-            <strong style="font-size: 0.9rem; color: ${b.color};">${b.volume}</strong>
-            <span style="font-size: 0.7rem; color: #166534; font-weight: 700; background: #e8f5ed; padding: 1px 6px; border-radius: 4px; display: inline-block;">${b.status}</span>
+          <div style="background: #e2e8f0; height: 6px; border-radius: 999px; overflow: hidden;">
+            <div style="width: ${b.pct}%; height: 100%; background: ${b.color}; border-radius: 999px;"></div>
           </div>
         </div>
-        <div style="background: #e2e8f0; height: 6px; border-radius: 999px; overflow: hidden;">
-          <div style="width: ${b.pct}%; height: 100%; background: ${b.color}; border-radius: 999px;"></div>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   // Render Right Column: AI Procurement & Arbitrage Advisory
   function renderAiProcurementAdvisories() {
-    const container = document.getElementById('ai-advisory-container');
+    const container = document.getElementById('insight-ai-advisory') || document.getElementById('ai-advisory-container');
     if (!container) return;
 
     const commodity = COMMODITY_INSIGHTS[activeCommodity];
     if (!commodity) return;
 
+    const transCropName = window.tCrop ? window.tCrop(commodity.name) : commodity.name;
+    const cleanShortCrop = window.tCrop ? window.tCrop(commodity.name.replace(/\(.*?\)/g, '').trim()) : commodity.name.split('(')[0];
+    const isMr = window.getBuyerLanguage && window.getBuyerLanguage() === 'mr';
+    const isHi = window.getBuyerLanguage && window.getBuyerLanguage() === 'hi';
+
+    const transPlanTitle = isMr ? 'AI खरेदी कृती आराखडा:' : isHi ? 'AI खरीद कार्य योजना:' : 'AI Procurement Action Plan:';
+    const transBrowseBtn = isMr ? `प्रमाणित ${cleanShortCrop} लॉट्स पहा →` : isHi ? `प्रमाणित ${cleanShortCrop} लॉट्स देखें →` : `Browse Verified ${cleanShortCrop} Lots &rarr;`;
+    const transMatrixBtn = isMr ? `🗺️ ${cleanShortCrop} साठी सर्व जिल्ह्यांमधील दर` : isHi ? `🗺️ ${cleanShortCrop} के लिए सभी जिलों के भाव` : `🗺️ All District Rates for ${cleanShortCrop}`;
+    const transSpreadTitle = isMr ? 'थेट खरेदीतील नफा/बचत' : isHi ? 'सीधी खरीद बचत' : 'Direct Sourcing Spread';
+    const transSpreadSub = isMr ? 'वाशी बाजार समिती दलालांच्या दरापेक्षा' : isHi ? 'वाशी मंडी दलालों के भाव से' : 'vs Vashi APMC middleman rate';
+    const transWindow = isMr ? 'खरेदीसाठी सर्वोत्तम कालावधी' : isHi ? 'खरीद का सही समय' : 'Optimal Sourcing Window';
+    const transWindowVal = isMr ? 'पुढील ३–५ दिवस' : isHi ? 'अगले 3–5 दिन' : 'Next 3–5 Days';
+    const transWindowSub = isMr ? 'सणासुदीच्या मागणीपूर्वी' : isHi ? 'त्योहारी मांग से पहले' : 'Before festive demand uptick';
+
+    const savingsVal = ((commodity.terminalVashiQt - commodity.farmGateQt) / 100).toFixed(2);
+
     container.innerHTML = `
       <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 14px;">
         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
           <span style="font-size: 1.2rem;">🤖</span>
-          <strong style="color: #065f46; font-size: 0.95rem;">AI Procurement Action Plan: ${commodity.name}</strong>
+          <strong style="color: #065f46; font-size: 0.95rem;">${transPlanTitle} ${transCropName}</strong>
         </div>
         <p style="font-size: 0.82rem; color: #166534; line-height: 1.5; margin: 0 0 12px 0;">
           ${commodity.recommendation}
         </p>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="btn btn-primary btn-sm" onclick="switchView('view-verified-produce')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
-            Browse Verified ${commodity.name.split('(')[0]} Lots &rarr;
+            ${transBrowseBtn}
           </button>
           <button class="btn btn-outline btn-sm" onclick="openDistrictMatrixModal('${commodity.key}')" style="font-size: 0.76rem; border-color: #0c5a36; color: #0c5a36;">
-            🗺️ All District Rates for ${commodity.name.split('(')[0]}
+            ${transMatrixBtn}
           </button>
         </div>
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.8rem;">
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-          <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">Direct Sourcing Spread</span>
-          <strong style="font-size: 1.05rem; color: #0c5a36;">Save ₹ ${((commodity.terminalVashiQt - commodity.farmGateQt) / 100).toFixed(2)} /kg</strong>
-          <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">vs Vashi APMC middleman rate</div>
+          <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">${transSpreadTitle}</span>
+          <strong style="font-size: 1.05rem; color: #0c5a36;">Save ₹ ${savingsVal} /kg</strong>
+          <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">${transSpreadSub}</div>
         </div>
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-          <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">Optimal Sourcing Window</span>
-          <strong style="font-size: 1.05rem; color: #1e3a8a;">Next 3–5 Days</strong>
-          <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">Before festive demand uptick</div>
+          <span style="color: #64748b; font-size: 0.72rem; display: block; text-transform: uppercase;">${transWindow}</span>
+          <strong style="font-size: 1.05rem; color: #1e3a8a;">${transWindowVal}</strong>
+          <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">${transWindowSub}</div>
         </div>
       </div>
     `;
@@ -15836,85 +15911,104 @@
     });
 
     const paginationContainer = document.getElementById('insights-table-pagination');
+    const isMr = window.getBuyerLanguage && window.getBuyerLanguage() === 'mr';
+    const isHi = window.getBuyerLanguage && window.getBuyerLanguage() === 'hi';
 
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 30px; color:#64748b;">No APMC mandis found in ${tableDistrictFilter !== 'all' ? tableDistrictFilter : 'search query'}. Select another district or search.</td></tr>`;
+      const emptyMsg = isMr ? `निवडलेल्या निकषांनुसार बाजार समित्या आढळल्या नाहीत.` : isHi ? `कोई मंडी नहीं मिली।` : `No APMC mandis found.`;
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 30px; color:#64748b;">${emptyMsg}</td></tr>`;
       if (paginationContainer) paginationContainer.style.display = 'none';
       return;
     }
 
     const visibleItems = filtered.slice(0, tableVisibleCount);
+    const btnDistricts = window.t ? window.t('btn_districts', '🗺️ Districts') : '🗺️ Districts';
+    const btnChart = window.t ? window.t('btn_chart', '📈 Chart') : '📈 Chart';
+    const btnDirectBuy = window.t ? window.t('btn_direct_buy', 'Direct Buy') : 'Direct Buy';
+    const transSpread = isMr ? 'नफा' : isHi ? 'बचत' : 'Spread';
+    const transSave = isMr ? 'बचत' : isHi ? 'बचत' : 'Save';
 
-    tbody.innerHTML = visibleItems.map(item => `
-      <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s ease;">
-        <td style="padding: 12px 14px;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">${item.emoji}</span>
-            <div>
-              <strong style="color: #0f172a; font-size: 0.88rem;">${item.crop}</strong>
-              <div style="font-size: 0.72rem; color: #64748b;">📍 ${item.mandi} (${item.district}, MH)</div>
+    tbody.innerHTML = visibleItems.map(item => {
+      const transCrop = window.tCrop ? window.tCrop(item.crop) : item.crop;
+      const transMandi = window.tLocation ? window.tLocation(item.mandi) : item.mandi;
+      const transDistrict = window.tLocation ? window.tLocation(item.district) : item.district;
+
+      return `
+        <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s ease;">
+          <td style="padding: 12px 14px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.3rem;">${item.emoji}</span>
+              <div>
+                <strong style="color: #0f172a; font-size: 0.88rem;">${transCrop}</strong>
+                <div style="font-size: 0.72rem; color: #64748b;">📍 ${transMandi} (${transDistrict}, MH)</div>
+              </div>
             </div>
-          </div>
-        </td>
-        <td style="padding: 12px 14px;">
-          <strong style="color: #0f172a; font-size: 0.88rem;">${item.arrivalsQt.toLocaleString('en-IN')} Qt</strong>
-          <div style="font-size: 0.7rem; color: #64748b;">(${item.arrivalsKg.toLocaleString('en-IN')} kg)</div>
-        </td>
-        <td style="padding: 12px 14px; font-size: 0.82rem; color: #64748b;">
-          ${formatInsightPrice(item.minPriceQt)}
-        </td>
-        <td style="padding: 12px 14px;">
-          <strong style="font-size: 0.95rem; color: #0c5a36;">${formatInsightPrice(item.modalPriceQt)}</strong>
-          <span class="badge ${item.trend === 'up' ? 'badge-grade-green' : 'badge-grade-blue'}" style="font-size: 0.68rem; font-weight: 800; margin-left: 4px;">
-            ${item.trendText}
-          </span>
-        </td>
-        <td style="padding: 12px 14px; font-size: 0.82rem; color: #64748b;">
-          ${formatInsightPrice(item.maxPriceQt)}
-        </td>
-        <td style="padding: 12px 14px;">
-          <div style="font-weight: 800; color: #166534; font-size: 0.88rem;">+${item.savingsPct}% Spread</div>
-          <span style="font-size: 0.72rem; color: #64748b;">(Save ${formatInsightPrice(item.savingsQt)})</span>
-        </td>
-        <td style="padding: 12px 14px; text-align: right;">
-          <div style="display: flex; gap: 6px; justify-content: flex-end;">
-            <button class="btn btn-outline btn-sm" onclick="openDistrictMatrixModal('${item.cropKey}')" style="font-size: 0.72rem; padding: 4px 8px; border-color: #0c5a36; color: #0c5a36;" title="View All District Rates">
-              🗺️ Districts
-            </button>
-            <button class="btn btn-outline btn-sm" onclick="selectInsightCommodity('${item.cropKey}'); window.scrollTo({top: 0, behavior: 'smooth'});" style="font-size: 0.72rem; padding: 4px 8px;" title="View AI Chart">
-              📈 Chart
-            </button>
-            <button class="btn btn-primary btn-sm" onclick="switchView('view-verified-produce')" style="font-size: 0.72rem; padding: 4px 8px; background: #0c5a36;" title="Buy from Farmers">
-              Direct Buy
-            </button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
+          </td>
+          <td style="padding: 12px 14px;">
+            <strong style="color: #0f172a; font-size: 0.88rem;">${item.arrivalsQt.toLocaleString('en-IN')} Qt</strong>
+            <div style="font-size: 0.7rem; color: #64748b;">(${item.arrivalsKg.toLocaleString('en-IN')} kg)</div>
+          </td>
+          <td style="padding: 12px 14px; font-size: 0.82rem; color: #64748b;">
+            ${formatInsightPrice(item.minPriceQt)}
+          </td>
+          <td style="padding: 12px 14px;">
+            <strong style="font-size: 0.95rem; color: #0c5a36;">${formatInsightPrice(item.modalPriceQt)}</strong>
+            <span class="badge ${item.trend === 'up' ? 'badge-grade-green' : 'badge-grade-blue'}" style="font-size: 0.68rem; font-weight: 800; margin-left: 4px;">
+              ${item.trendText}
+            </span>
+          </td>
+          <td style="padding: 12px 14px; font-size: 0.82rem; color: #64748b;">
+            ${formatInsightPrice(item.maxPriceQt)}
+          </td>
+          <td style="padding: 12px 14px;">
+            <div style="font-weight: 800; color: #166534; font-size: 0.88rem;">+${item.savingsPct}% ${transSpread}</div>
+            <span style="font-size: 0.72rem; color: #64748b;">(${transSave} ${formatInsightPrice(item.savingsQt)})</span>
+          </td>
+          <td style="padding: 12px 14px; text-align: right;">
+            <div style="display: flex; gap: 6px; justify-content: flex-end;">
+              <button class="btn btn-outline btn-sm" onclick="openDistrictMatrixModal('${item.cropKey}')" style="font-size: 0.72rem; padding: 4px 8px; border-color: #0c5a36; color: #0c5a36;" title="View All District Rates">
+                ${btnDistricts}
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="selectInsightCommodity('${item.cropKey}'); window.scrollTo({top: 0, behavior: 'smooth'});" style="font-size: 0.72rem; padding: 4px 8px;" title="View AI Chart">
+                ${btnChart}
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="switchView('view-verified-produce')" style="font-size: 0.72rem; padding: 4px 8px; background: #0c5a36;" title="Buy from Farmers">
+                ${btnDirectBuy}
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
 
     if (paginationContainer) {
       paginationContainer.style.display = 'flex';
       paginationContainer.style.alignItems = 'center';
       paginationContainer.style.gap = '10px';
 
+      const btnMoreText = window.t ? window.t('btn_show_more_crops', 'Show More Crops (+5)') : 'Show More Crops (+5)';
+      const btnLessText = window.t ? window.t('btn_show_less', '▲ Show Less (-5)') : '▲ Show Less (-5)';
+      const transShowing = isMr ? `दर्शवित आहे: ${filtered.length} पैकी ${visibleItems.length}` : isHi ? `प्रदर्शित: ${filtered.length} में से ${visibleItems.length}` : `Showing ${visibleItems.length} of ${filtered.length}`;
+      const transAllEntries = isMr ? `✓ सर्व ${filtered.length} बाजार समिती नोंदी दर्शवित आहे` : isHi ? `✓ सभी ${filtered.length} मंडी प्रविष्टियां प्रदर्शित` : `✓ Showing all ${filtered.length} APMC entries`;
+
       let buttonsHtml = '';
       if (tableVisibleCount < filtered.length) {
         buttonsHtml += `
           <button class="btn btn-outline" onclick="showMoreMandis()" style="font-weight: 700; font-size: 0.85rem; padding: 8px 20px; border-color: #0c5a36; color: #0c5a36; display: flex; align-items: center; gap: 8px; border-radius: 8px;">
-            <span>Show More Crops (+5)</span>
-            <span style="background: #e8f5ed; color: #0c5a36; font-size: 0.75rem; padding: 2px 8px; border-radius: 999px;">Showing ${visibleItems.length} of ${filtered.length}</span>
+            <span>${btnMoreText}</span>
+            <span style="background: #e8f5ed; color: #0c5a36; font-size: 0.75rem; padding: 2px 8px; border-radius: 999px;">${transShowing}</span>
           </button>
         `;
       } else {
         buttonsHtml += `
-          <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">✓ Showing all ${filtered.length} APMC entries</span>
+          <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">${transAllEntries}</span>
         `;
       }
 
       if (tableVisibleCount > 5) {
         buttonsHtml += `
           <button class="btn btn-outline" onclick="showLessMandis()" style="font-weight: 700; font-size: 0.85rem; padding: 8px 18px; border-color: #cbd5e1; color: #475569; display: flex; align-items: center; gap: 6px; border-radius: 8px; background: #ffffff;">
-            <span>▲ Show Less (-5)</span>
+            <span>${btnLessText}</span>
           </button>
         `;
       }
@@ -15922,6 +16016,7 @@
       paginationContainer.innerHTML = buttonsHtml;
     }
   }
+
   // Open District Price Comparison Matrix Modal
   function openDistrictMatrixModal(cropKey) {
     const modal = document.getElementById('modal-district-crop-matrix');
@@ -15931,6 +16026,12 @@
     const commodity = COMMODITY_INSIGHTS[targetKey];
     if (!commodity) return;
 
+    const isMr = window.getBuyerLanguage && window.getBuyerLanguage() === 'mr';
+    const isHi = window.getBuyerLanguage && window.getBuyerLanguage() === 'hi';
+
+    const transCropName = window.tCrop ? window.tCrop(commodity.name) : commodity.name;
+    const cleanCropName = window.tCrop ? window.tCrop(commodity.name.replace(/\(.*?\)/g, '').trim()) : commodity.name.split('(')[0];
+
     const emojiEl = document.getElementById('district-matrix-emoji');
     const titleEl = document.getElementById('district-matrix-title');
     const subEl = document.getElementById('district-matrix-subtitle');
@@ -15938,22 +16039,28 @@
     const countEl = document.getElementById('district-matrix-count');
 
     if (emojiEl) emojiEl.textContent = commodity.emoji;
-    if (titleEl) titleEl.textContent = `All Maharashtra Districts APMC Price Matrix: ${commodity.name}`;
-    if (subEl) subEl.textContent = `Live APMC benchmark rates & arrival volumes across all producing districts for ${commodity.name.split('(')[0]}`;
+    if (titleEl) titleEl.textContent = isMr ? `सर्व महाराष्ट्र जिल्ह्यांमधील बाजार समिती दर तक्ता: ${transCropName}` : isHi ? `सभी महाराष्ट्र जिलों की मंडी दर तालिका: ${transCropName}` : `All Maharashtra Districts APMC Price Matrix: ${commodity.name}`;
+    if (subEl) subEl.textContent = isMr ? `${cleanCropName} साठी सर्व उत्पादक जिल्ह्यांमधील थेट बाजार भाव आणि आवक प्रमाण` : isHi ? `${cleanCropName} के लिए सभी उत्पादक जिलों के लाइव मंडी भाव और आवक मात्रा` : `Live APMC benchmark rates & arrival volumes across all producing districts for ${commodity.name.split('(')[0]}`;
 
     const hubs = commodity.districtHubs || [];
-    if (countEl) countEl.textContent = `${hubs.length} Districts Available`;
+    if (countEl) countEl.textContent = isMr ? `${hubs.length} जिल्हे उपलब्ध` : isHi ? `${hubs.length} जिले उपलब्ध` : `${hubs.length} Districts Available`;
 
     tbody.innerHTML = hubs.map(h => {
       const kgPrice = (h.modalQt / 100).toFixed(2);
       const minKg = (h.minQt / 100).toFixed(2);
       const maxKg = (h.maxQt / 100).toFixed(2);
       const savingsKg = ((commodity.terminalVashiQt - commodity.farmGateQt) / 100).toFixed(2);
+      const transDist = window.tLocation ? window.tLocation(h.district) : h.district;
+      const transMandi = window.tLocation ? window.tLocation(h.mandi) : h.mandi;
+      const transDistrictLabel = isMr ? `📍 ${transDist} जिल्हा` : isHi ? `📍 ${transDist} जिला` : `📍 ${h.district} District`;
+      const transProcureBtn = isMr ? 'लॉट खरेदी करा' : isHi ? 'लॉट खरीदें' : 'Procure Lot';
+      const transSaveText = isMr ? `बचत ₹ ${savingsKg}/किलो` : isHi ? `बचत ₹ ${savingsKg}/किग्रा` : `Save ₹ ${savingsKg}/kg`;
+
       return `
         <tr style="border-bottom: 1px solid #f1f5f9;">
           <td style="padding: 12px 14px;">
-            <strong style="color: #0f172a; font-size: 0.9rem;">📍 ${h.district} District</strong>
-            <div style="font-size: 0.74rem; color: #64748b;">${h.mandi}</div>
+            <strong style="color: #0f172a; font-size: 0.9rem;">${transDistrictLabel}</strong>
+            <div style="font-size: 0.74rem; color: #64748b;">${transMandi}</div>
           </td>
           <td style="padding: 12px 14px;">
             <strong style="font-size: 1.05rem; color: #0c5a36;">₹ ${kgPrice} /kg</strong>
@@ -15968,11 +16075,11 @@
             ${h.arrivalsQt.toLocaleString('en-IN')} Qt
           </td>
           <td style="padding: 12px 14px;">
-            <span class="badge badge-grade-green" style="font-size: 0.72rem;">+${commodity.arbitragePct}% (Save ₹ ${savingsKg}/kg)</span>
+            <span class="badge badge-grade-green" style="font-size: 0.72rem;">+${commodity.arbitragePct}% (${transSaveText})</span>
           </td>
           <td style="padding: 12px 14px; text-align: right;">
             <button class="btn btn-primary btn-sm" onclick="closeDistrictMatrixModal(); switchView('view-verified-produce');" style="font-size: 0.72rem; padding: 4px 10px; background: #0c5a36;">
-              Procure Lot
+              ${transProcureBtn}
             </button>
           </td>
         </tr>
@@ -15981,13 +16088,16 @@
 
     modal.style.display = 'flex';
   }
+
   function openCurrentDistrictMatrixModal() {
     openDistrictMatrixModal(activeCommodity);
   }
+
   function closeDistrictMatrixModal() {
     const modal = document.getElementById('modal-district-crop-matrix');
     if (modal) modal.style.display = 'none';
   }
+
   function filterDistrictMatrixSearch(query) {
     const q = (query || '').trim().toLowerCase();
     const rows = document.querySelectorAll('#district-matrix-tbody tr');
@@ -15996,18 +16106,22 @@
       r.style.display = text.includes(q) ? '' : 'none';
     });
   }
+
   function showMoreMandis() {
     tableVisibleCount += 5;
     renderMaharashtraMandisTable();
   }
+
   function showLessMandis() {
     tableVisibleCount = Math.max(5, tableVisibleCount - 5);
     renderMaharashtraMandisTable();
   }
+
   function resetMandisTableCount() {
     tableVisibleCount = 5;
     renderMaharashtraMandisTable();
   }
+
   function formatInsightPrice(priceQt) {
     if (activePriceUnit === 'kg') {
       const kg = (priceQt / 100).toFixed(2);
@@ -16015,20 +16129,26 @@
     }
     return `₹ ${priceQt.toLocaleString('en-IN')} /Qt`;
   }
+
   function handleMandiTableSearch(val) {
     tableSearchQuery = (val || '').trim().toLowerCase();
     tableVisibleCount = 5;
     renderMaharashtraMandisTable();
   }
+
   function filterMandiDistrict(dist) {
     tableDistrictFilter = dist;
     tableVisibleCount = 5;
     renderMaharashtraMandisTable();
   }
+
   function triggerMandiSync() {
     const icon = document.getElementById('mandi-sync-icon');
     if (icon) icon.style.animation = 'spin 1s linear infinite';
-    showToast('Connecting to e-NAM & Maharashtra APMC Mandi Servers...', 'info');
+    const msgConnecting = (window.getBuyerLanguage && window.getBuyerLanguage() === 'mr') ? 'ई-नाम व महाराष्ट्र बाजार समिती सर्व्हर्सशी जोडणी करत आहे...' : (window.getBuyerLanguage && window.getBuyerLanguage() === 'hi') ? 'ई-नाम एवं महाराष्ट्र मंडी सर्वर से कनेक्ट हो रहा है...' : 'Connecting to e-NAM & Maharashtra APMC Mandi Servers...';
+    const msgSuccess = (window.getBuyerLanguage && window.getBuyerLanguage() === 'mr') ? '✓ बाजार समिती थेट लिलाव दर आणि आवक अद्ययावत झाली आहे!' : (window.getBuyerLanguage && window.getBuyerLanguage() === 'hi') ? '✓ मंडी भाव और आवक डेटा सिंक हो गया है!' : '✓ Mandi arrival volumes & live auction benchmarks synchronized!';
+    
+    if (typeof showToast === 'function') showToast(msgConnecting, 'info');
     setTimeout(() => {
       if (icon) icon.style.animation = 'none';
       updateLiveTimestamp();
@@ -16036,14 +16156,23 @@
       renderInsightChart();
       renderInsightSummaryCards();
       renderMaharashtraMandisTable();
-      showToast('✓ Mandi arrival volumes & live auction benchmarks synchronized!', 'success');
+      if (typeof showToast === 'function') showToast(msgSuccess, 'success');
     }, 900);
   }
+
   function updateLiveTimestamp() {
     const el = document.getElementById('mandi-live-timestamp');
     if (el) {
       const now = new Date();
-      el.textContent = `Synced: Today at ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • e-NAM & APMC Live`;
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const lang = (window.getBuyerLanguage && window.getBuyerLanguage()) || 'en';
+      if (lang === 'mr') {
+        el.textContent = `सिंक झाले: आज ${timeStr} • ई-नाम व बाजार समिती थेट`;
+      } else if (lang === 'hi') {
+        el.textContent = `सिंक हुआ: आज ${timeStr} • ई-नाम व मंडी लाइव`;
+      } else {
+        el.textContent = `Synced: Today at ${timeStr} • e-NAM & APMC Live`;
+      }
     }
   }
   // Export to window
@@ -16058,6 +16187,8 @@
   window.showLessMandis = showLessMandis;
   window.resetMandisTableCount = resetMandisTableCount;
   window.triggerMandiSync = triggerMandiSync;
+  window.renderProduceSelectorChips = renderProduceSelectorChips;
+  window.renderMaharashtraMandisTable = renderMaharashtraMandisTable;
   window.openDistrictMatrixModal = openDistrictMatrixModal;
   window.openCurrentDistrictMatrixModal = openCurrentDistrictMatrixModal;
   window.closeDistrictMatrixModal = closeDistrictMatrixModal;

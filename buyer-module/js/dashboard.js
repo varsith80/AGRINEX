@@ -7,7 +7,7 @@ const DEFAULT_EMERGENCY_FEED = [
   {
     id: "EMG-LOT-TOM-99",
     crop: "Narayangaon Tomatoes (Perishable)",
-    image: "../farmer-module/assets/images/tomato.jpg",
+    image: "assets/images/tomato.jpg",
     farmerName: "Sanjay Deshmukh",
     mandi: "Manchar / Narayangaon Yard, Pune, MH",
     quantity: "4,500 kg (45 Qt)",
@@ -22,7 +22,7 @@ const DEFAULT_EMERGENCY_FEED = [
   {
     id: "EMG-LOT-ONI-88",
     crop: "Nashik Garwa Red Onion Lot",
-    image: "../farmer-module/assets/images/onion.jpg",
+    image: "assets/images/onion.jpg",
     farmerName: "Patil Rameshwar",
     mandi: "Lasalgaon APMC Yard, Nashik, MH",
     quantity: "6,000 kg (60 Qt)",
@@ -36,11 +36,144 @@ const DEFAULT_EMERGENCY_FEED = [
   }
 ];
 
+let currentEmergencyLot = null;
+
 function renderBuyerEmergencyDesk() {
-  const tbody = document.getElementById("emergency-buyer-tbody");
-  if (!tbody) return;
+  const tbodies = [
+    document.getElementById("emergency-buyer-tbody"),
+    document.getElementById("emergency-buyer-tbody-marketplace")
+  ].filter(Boolean);
+  if (tbodies.length === 0) return;
 
   // Retrieve any dynamic emergency lots triggered by farmers
+  let dynamicEmergency = [];
+  try {
+    if (window.AgriNexEmergencySale) {
+      dynamicEmergency = AgriNexEmergencySale.getEmergencyLots().filter(item => !item.isSold);
+    }
+  } catch(e) {}
+
+  // Load purchased emergency lot IDs
+  let purchasedEmergency = [];
+  try {
+    const saved = localStorage.getItem('agrinex_emergency_purchased_ids');
+    if (saved) purchasedEmergency = JSON.parse(saved);
+  } catch(e) {}
+
+  const allLots = [...dynamicEmergency.map(d => ({
+    id: d.id,
+    crop: `${d.crop} (${d.grade || 'Standard'})`,
+    image: d.image && (d.image.startsWith("assets/") || d.image.startsWith("../")) ? d.image : (d.image && d.image.includes("onion") ? "assets/images/onion.jpg" : "assets/images/tomato.jpg"),
+    farmerName: "Rameshwar Patil (Farmer)",
+    mandi: "Narayangaon / Lasalgaon APMC, Pune, MH",
+    quantity: d.quantity || "4,500 kg (45 Qt)",
+    floorPrice: d.expectedPrice || "₹ 15.00 /kg",
+    breakevenPrice: d.bestBid || "₹ 9.20 /kg",
+    targetUse: "Purees, Catering & Bio-Compost",
+    targetUseBadge: "buyer-type-processing",
+    targetIcon: "🥫",
+    shelfLife: "⚡ 24-48 Hours Urgency",
+    status: d.status
+  })), ...DEFAULT_EMERGENCY_FEED];
+
+  const html = allLots.map(item => {
+    const isPurchased = purchasedEmergency.includes(item.id) || (buyerData.verifiedLots && buyerData.verifiedLots.some(l => l.id === item.id && (l.isPurchased || l.isSoldOut)));
+    const isViewingAsOther = (buyerFilterState && buyerFilterState.buyerPersona === 'other-buyer');
+
+    let rowBg = '#fffdfa';
+    let borderStyle = '';
+    if (isPurchased) {
+      rowBg = isViewingAsOther ? '#fef2f2' : '#f0fdf4';
+      borderStyle = isViewingAsOther ? 'border-left: 4px solid #ef4444;' : 'border-left: 4px solid #16a34a;';
+    }
+
+    return `
+      <tr style="background-color: ${rowBg}; ${borderStyle}">
+        <td>
+          <div class="crop-cell">
+            <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
+            <div>
+              <div class="crop-name" style="color: #991b1b; font-weight: 800;">${window.tCrop ? window.tCrop(item.crop) : item.crop}</div>
+              ${isPurchased ? (
+                isViewingAsOther ? `
+                  <span style="font-size: 0.72rem; color: #991b1b; font-weight: 800; background: #fee2e2; padding: 2px 6px; border-radius: 4px; border: 1px solid #fca5a5; display: inline-flex; align-items: center; gap: 4px; margin-top: 2px;">
+                    ${window.t ? window.t('sold_out_salvage', '🚫 Sold Out (100% Breakeven Salvaged)') : '🚫 Sold Out (100% Breakeven Salvaged)'}
+                  </span>
+                ` : `
+                  <span style="font-size: 0.72rem; color: #15803d; font-weight: 800; background: #dcfce7; padding: 2px 6px; border-radius: 4px; border: 1px solid #86efac; display: inline-flex; align-items: center; gap: 4px; margin-top: 2px;">
+                    ${window.t ? window.t('procured_in_transit', '✓ Procured • In Transit') : '✓ Procured • In Transit'}
+                  </span>
+                `
+              ) : `
+                <span style="font-size: 0.72rem; color: #dc2626; font-weight: 700;">${window.tText ? window.tText(item.status) : item.status}</span>
+              `}
+            </div>
+          </div>
+        </td>
+        <td>
+          <div style="font-weight: 700; color: #0f172a; font-size: 0.88rem;">${window.tPerson ? window.tPerson(item.farmerName) : item.farmerName}</div>
+          <div style="font-size: 0.74rem; color: #64748b;">📍 ${window.tLocation ? window.tLocation(item.mandi) : item.mandi}</div>
+        </td>
+        <td>
+          <strong style="color: ${isPurchased && isViewingAsOther ? '#ef4444' : '#0f172a'}; font-size: 0.95rem;">
+            ${isPurchased && isViewingAsOther ? (window.t ? window.t('sold_out_qty', '0 kg (Sold Out)') : '0 kg (Sold Out)') : item.quantity}
+          </strong>
+        </td>
+        <td>
+          <div>
+            <span style="font-size: 1.05rem; font-weight: 800; color: #15803d;">${item.breakevenPrice}</span>
+            <div style="font-size: 0.72rem; color: #64748b; text-decoration: line-through;">Orig: ${item.floorPrice}</div>
+          </div>
+        </td>
+        <td>
+          <span class="badge-buyer-type ${item.targetUseBadge}">
+            <span>${item.targetIcon}</span> ${window.tText ? window.tText(item.targetUse) : item.targetUse}
+          </span>
+        </td>
+        <td>
+          <span class="badge badge-status-emergency" style="font-size: 0.72rem;">
+            ${window.tText ? window.tText(item.shelfLife) : item.shelfLife}
+          </span>
+        </td>
+        <td>
+          ${isPurchased ? (
+            isViewingAsOther ? `
+              <button class="btn btn-secondary" disabled style="background: #e2e8f0; color: #64748b; font-size: 0.8rem; padding: 7px 14px; font-weight: 800; border: 1px solid #cbd5e1; cursor: not-allowed; border-radius: 8px;">
+                ${window.t ? window.t('sold_out', '🚫 Sold Out') : '🚫 Sold Out'}
+              </button>
+            ` : `
+              <button class="btn btn-primary" style="background: #0c5a36; font-size: 0.8rem; padding: 7px 14px; font-weight: 800; border: none; cursor: pointer; border-radius: 8px; box-shadow: 0 2px 8px rgba(12,90,54,0.25);" onclick="switchView('view-consignments')">
+                ${window.t ? window.t('in_transit_btn', '🚚 In Transit ➔') : '🚚 In Transit ➔'}
+              </button>
+            `
+          ) : `
+            <button class="btn btn-primary" style="background: #dc2626; font-size: 0.8rem; padding: 7px 14px; font-weight: 800; box-shadow: 0 2px 8px rgba(220,38,38,0.25); border: none; cursor: pointer; border-radius: 8px;" onclick="openEmergencyBuyoutModal('${item.id}')">
+              ${window.t ? window.t('insta_buyout', '⚡ Instant Buyout') : '⚡ Instant Buyout'}
+            </button>
+          `}
+        </td>
+      </tr>
+    `;
+  }).join("");
+
+  tbodies.forEach(tb => {
+    tb.innerHTML = html;
+  });
+}
+
+function toggleEmergencySection(btn) {
+  const container = document.getElementById('marketplace-emergency-table-container');
+  if (!container) return;
+  if (container.style.display === 'none') {
+    container.style.display = 'block';
+    if (btn) btn.innerHTML = 'Hide / Show ▾';
+  } else {
+    container.style.display = 'none';
+    if (btn) btn.innerHTML = 'Expand ▴';
+  }
+}
+
+function openEmergencyBuyoutModal(lotId) {
   let dynamicEmergency = [];
   try {
     if (window.AgriNexEmergencySale) {
@@ -51,11 +184,11 @@ function renderBuyerEmergencyDesk() {
   const allLots = [...dynamicEmergency.map(d => ({
     id: d.id,
     crop: `${d.crop} (${d.grade || 'Standard'})`,
-    image: d.image.startsWith("../") ? d.image : `../${d.image}`,
+    image: d.image && (d.image.startsWith("assets/") || d.image.startsWith("../")) ? d.image : (d.image && d.image.includes("onion") ? "assets/images/onion.jpg" : "assets/images/tomato.jpg"),
     farmerName: "Rameshwar Patil (Farmer)",
     mandi: "Narayangaon / Lasalgaon APMC, Pune, MH",
-    quantity: d.quantity,
-    floorPrice: d.expectedPrice,
+    quantity: d.quantity || "4,500 kg (45 Qt)",
+    floorPrice: d.expectedPrice || "₹ 15.00 /kg",
     breakevenPrice: d.bestBid || "₹ 9.20 /kg",
     targetUse: "Purees, Catering & Bio-Compost",
     targetUseBadge: "buyer-type-processing",
@@ -64,71 +197,483 @@ function renderBuyerEmergencyDesk() {
     status: d.status
   })), ...DEFAULT_EMERGENCY_FEED];
 
-  tbody.innerHTML = allLots.map(item => `
-    <tr style="background-color: #fffdfa;">
-      <td>
-        <div class="crop-cell">
-          <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
-          <div>
-            <div class="crop-name" style="color: #991b1b; font-weight: 800;">${item.crop}</div>
-            <span style="font-size: 0.72rem; color: #dc2626; font-weight: 700;">${item.status}</span>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div style="font-weight: 700; color: #0f172a; font-size: 0.88rem;">${item.farmerName}</div>
-        <div style="font-size: 0.74rem; color: #64748b;">📍 ${item.mandi}</div>
-      </td>
-      <td>
-        <strong style="color: #0f172a; font-size: 0.95rem;">${item.quantity}</strong>
-      </td>
-      <td>
-        <div>
-          <span style="font-size: 1.05rem; font-weight: 800; color: #15803d;">${item.breakevenPrice}</span>
-          <div style="font-size: 0.72rem; color: #64748b; text-decoration: line-through;">Orig: ${item.floorPrice}</div>
-        </div>
-      </td>
-      <td>
-        <span class="badge-buyer-type ${item.targetUseBadge}">
-          <span>${item.targetIcon}</span> ${item.targetUse}
-        </span>
-      </td>
-      <td>
-        <span class="badge badge-status-emergency" style="font-size: 0.72rem;">
-          ${item.shelfLife}
-        </span>
-      </td>
-      <td>
-        <button class="btn btn-primary" style="background: #dc2626; font-size: 0.8rem; padding: 7px 14px; font-weight: 800; box-shadow: 0 2px 8px rgba(220,38,38,0.25);" onclick="executeEmergencyBuyout('${item.id}', '${item.crop}', '${item.breakevenPrice}')">
-          ⚡ Instant Buyout
-        </button>
-      </td>
-    </tr>
-  `).join("");
+  const lot = allLots.find(l => l.id === lotId) || allLots[0];
+  if (!lot) return;
+
+  currentEmergencyLot = lot;
+
+  let numPrice = 9.00;
+  const pMatch = (lot.breakevenPrice || '').match(/([0-9]+(?:\.[0-9]+)?)/);
+  if (pMatch) numPrice = parseFloat(pMatch[1]);
+
+  let qtyKg = 4500;
+  const qMatch = (lot.quantity || '').match(/([0-9,]+)\s*kg/i);
+  if (qMatch) qtyKg = parseFloat(qMatch[1].replace(/,/g, ''));
+
+  const totalVal = Math.round(numPrice * qtyKg);
+  const advAmount = Math.round(totalVal * 0.35);
+  const balAmount = totalVal - advAmount;
+
+  const modal = document.getElementById('modal-emergency-buyout');
+  if (!modal) return;
+
+  const imgEl = document.getElementById('emg-modal-img');
+  const cropEl = document.getElementById('emg-modal-crop');
+  const urgencyEl = document.getElementById('emg-modal-urgency');
+  const farmerEl = document.getElementById('emg-modal-farmer');
+  const qtyEl = document.getElementById('emg-modal-qty');
+  const rateEl = document.getElementById('emg-modal-rate');
+  const origRateEl = document.getElementById('emg-modal-orig-rate');
+  const totalEl = document.getElementById('emg-modal-total-val');
+  const advEl = document.getElementById('emg-modal-adv-val');
+  const balEl = document.getElementById('emg-modal-bal-val');
+
+  if (imgEl) imgEl.src = lot.image;
+  if (cropEl) cropEl.textContent = lot.crop;
+  if (urgencyEl) urgencyEl.textContent = lot.shelfLife;
+  if (farmerEl) farmerEl.textContent = `Farmer: ${lot.farmerName} • 📍 ${lot.mandi}`;
+  if (qtyEl) qtyEl.textContent = `${qtyKg.toLocaleString('en-IN')} kg (${(qtyKg / 100).toFixed(0)} Qt)`;
+  if (rateEl) rateEl.textContent = `₹ ${numPrice.toFixed(2)} /kg`;
+  if (origRateEl) origRateEl.textContent = `Orig: ${lot.floorPrice}`;
+  if (totalEl) totalEl.textContent = `₹ ${totalVal.toLocaleString('en-IN')}`;
+  if (advEl) advEl.textContent = `₹ ${advAmount.toLocaleString('en-IN')}`;
+  if (balEl) balEl.textContent = `₹ ${balAmount.toLocaleString('en-IN')}`;
+
+  modal.classList.add('active');
+}
+
+function closeEmergencyBuyoutModal() {
+  const modal = document.getElementById('modal-emergency-buyout');
+  if (modal) modal.classList.remove('active');
+}
+
+function executeEmergencyBuyoutConfirmed() {
+  if (!currentEmergencyLot) return;
+  const lot = currentEmergencyLot;
+
+  let purchasedEmergency = [];
+  try {
+    const saved = localStorage.getItem('agrinex_emergency_purchased_ids');
+    if (saved) purchasedEmergency = JSON.parse(saved);
+  } catch(e) {}
+
+  if (!purchasedEmergency.includes(lot.id)) {
+    purchasedEmergency.push(lot.id);
+    localStorage.setItem('agrinex_emergency_purchased_ids', JSON.stringify(purchasedEmergency));
+  }
+
+  // Settle in AgriNexEmergencySale if available
+  try {
+    if (window.AgriNexEmergencySale) {
+      AgriNexEmergencySale.acceptEmergencyOffer(lot.id, "EMG_BUYER_01", []);
+    }
+  } catch(e) {}
+
+  executeBuyerEmergencyPurchase(lot.id, lot.crop, lot.breakevenPrice, lot);
+  renderBuyerEmergencyDesk();
+  closeEmergencyBuyoutModal();
+
+  showToast(`🎉 Instant Salvage Buyout Secured! 35% advance escrow locked for ${lot.crop}. Reefer dispatch assigned!`, 'success');
+  switchView('view-consignments');
 }
 
 function executeEmergencyBuyout(lotId, cropName, price) {
-  if (confirm(`Execute Immediate Salvage Purchase for ${cropName} at ${price}?\n\nEscrow payment will be locked instantly and transit dispatch triggered.`)) {
-    // Settle in localStorage if active
-    try {
-      if (window.AgriNexEmergencySale) {
-        AgriNexEmergencySale.acceptEmergencyOffer(lotId, "EMG_BUYER_01", []);
-      }
-    } catch(e) {}
-
-    renderBuyerEmergencyDesk();
-    alert(`🎉 Success! Salvage purchase locked for ${cropName} at ${price}.\nEscrow payment released to farmer. Logistics dispatch assigned automatically!`);
-  }
+  openEmergencyBuyoutModal(lotId);
 }
 
-// Global Filter State for Feature 4 & Unit System
+// -------------------------------------------------------------
+// REAL-TIME BUYER MODULE SYNCHRONIZATION ENGINE
+// -------------------------------------------------------------
+function loadPersistedBuyerState() {
+  try {
+    const savedLots = localStorage.getItem('agrinex_verified_lots');
+    if (savedLots) {
+      const parsed = JSON.parse(savedLots);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        buyerData.verifiedLots = parsed;
+      }
+    }
+  } catch(e) {}
+
+  try {
+    const savedConsignments = localStorage.getItem('agrinex_buyer_consignments');
+    if (savedConsignments) {
+      const parsed = JSON.parse(savedConsignments);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        buyerData.consignments = parsed;
+      }
+    }
+  } catch(e) {}
+}
+
+function updateBuyerMarketStats() {
+  const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
+  const activeCount = consignments.filter(c => c.status === 'transit' || c.status === 'scheduled').length;
+  const totalKg = consignments.reduce((sum, c) => sum + (c.quantity_kg || (c.quantity_qt * 100) || 0), 0);
+  const totalVal = consignments.reduce((sum, c) => sum + (c.total_val || 0), 0);
+
+  const ordersEl = document.getElementById('stat-active-orders-num');
+  const volumeEl = document.getElementById('stat-total-volume-num');
+  const procuredEl = document.getElementById('stat-total-procured-num');
+  const savingsEl = document.getElementById('stat-direct-savings-num');
+
+  const kgUnit = window.t ? window.t('units_kg', 'kg') : 'kg';
+  const savedLabel = window.t ? window.t('saved_text', 'Saved') : 'Saved';
+
+  if (ordersEl) ordersEl.textContent = activeCount.toLocaleString('en-IN');
+  if (volumeEl) volumeEl.textContent = `${totalKg.toLocaleString('en-IN')} ${kgUnit}`;
+  if (procuredEl) procuredEl.textContent = `₹ ${totalVal.toLocaleString('en-IN')}`;
+  if (savingsEl) savingsEl.textContent = `~14.5% ${savedLabel}`;
+}
+
+function renderBuyerEscrowVault() {
+  const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
+  const activeContractsCount = consignments.filter(c => c.status !== 'completed').length;
+  const totalCommitted = consignments.reduce((sum, c) => sum + (c.total_val || 0), 0);
+  const totalAdvance = consignments.reduce((sum, c) => sum + (c.adv_paid || Math.round((c.total_val || 0) * 0.35)), 0);
+  const totalBalance = totalCommitted - totalAdvance;
+
+  const countEl = document.getElementById('vault-contracts-count');
+  const committedEl = document.getElementById('vault-committed-pool');
+  const advEl = document.getElementById('vault-advance-locked');
+  const balEl = document.getElementById('vault-delivery-hold');
+  const tracksEl = document.getElementById('vault-tracks-count');
+
+  if (countEl) countEl.textContent = `${activeContractsCount} Orders`;
+  if (committedEl) committedEl.textContent = `₹ ${totalCommitted.toLocaleString('en-IN')}`;
+  if (advEl) advEl.textContent = `₹ ${totalAdvance.toLocaleString('en-IN')}`;
+  if (balEl) balEl.textContent = `₹ ${totalBalance.toLocaleString('en-IN')}`;
+  if (tracksEl) tracksEl.textContent = `${activeContractsCount} Active Milestone Tracks`;
+}
+
+function executeBuyerLotPurchase(lotId, customPricePerKg = null, customQtyKg = null) {
+  if (!buyerData.verifiedLots) return null;
+  const lot = buyerData.verifiedLots.find(l => l.id === lotId) || buyerData.verifiedLots[0];
+  if (!lot) return null;
+
+  const priceKg = customPricePerKg !== null ? parseFloat(customPricePerKg) : (lot.pricePerKg || (lot.priceNum ? lot.priceNum / 100 : 18.0));
+  const availableBefore = (lot.availableQtyKg !== undefined) ? parseFloat(lot.availableQtyKg) : (lot.qtyNum ? lot.qtyNum * 100 : 5000);
+  const qtyKg = customQtyKg !== null ? Math.min(parseFloat(customQtyKg), availableBefore) : availableBefore;
+  const remainingQty = Math.max(0, availableBefore - qtyKg);
+  const qtyQt = parseFloat((qtyKg / 100).toFixed(1));
+  const totalVal = Math.round(priceKg * qtyKg);
+  const advAmount = Math.round(totalVal * 0.35);
+  const balAmount = totalVal - advAmount;
+
+  const randSuffix = Math.floor(1000 + Math.random() * 9000);
+  const contractNo = `ESC-MH-${randSuffix}`;
+  const trackingId = `TRK-MH-${(lot.id || 'LOT').replace(/[^a-zA-Z0-9]/g, '')}-${randSuffix}`;
+  const gatePass = `GP-2026-${randSuffix}-MH`;
+
+  // 1. Mark Lot as purchased & adjust remaining volume
+  lot.availableQtyKg = remainingQty;
+  lot.isPurchased = true;
+  lot.purchasedBy = "my-account";
+  lot.purchasedByName = "Karthik Sundaram (BigBasket)";
+  lot.purchasedQtyKg = (lot.purchasedQtyKg || 0) + qtyKg;
+
+  if (remainingQty === 0) {
+    lot.isSoldOut = true;
+    lot.status = "🚫 Sold Out (In Transit)";
+    lot.statusBadgeClass = "badge-status-sold";
+  } else {
+    lot.status = `✅ Partially Procured (${remainingQty.toLocaleString('en-IN')} kg left)`;
+  }
+  lot.purchasedAt = new Date().toISOString();
+  lot.trackingId = trackingId;
+  lot.contractNo = contractNo;
+
+  try {
+    localStorage.setItem('agrinex_verified_lots', JSON.stringify(buyerData.verifiedLots));
+  } catch(e) {}
+
+  // 2. Create and Prepend Consignment
+  const newConsignment = {
+    tracking_id: trackingId,
+    gate_pass: gatePass,
+    contract_no: contractNo,
+    crop: `${lot.crop} (${lot.grade || 'Grade A'})`,
+    quantity_qt: qtyQt,
+    quantity_kg: qtyKg,
+    farmer: lot.farmerName,
+    farmer_phone: lot.farmerPhone || '+91 98220-44911',
+    farmer_origin: lot.farmerLocation,
+    destination: "BigBasket Distribution Terminal, Vashi / Navi Mumbai",
+    driver: "Sanjay Patil",
+    driver_phone: "+91 98220 44911",
+    transporter: "Sahyadri Agro Logistics Lines",
+    dl_no: "DL-MH-15-2022-4412",
+    vehicle: "Eicher Pro 2049 (MH 15 DK 8810)",
+    capacity: `${qtyQt} Qt Reefer`,
+    fastag: "Active (₹ 2,800 Balance)",
+    gps_device_id: `GPS-AIS140-${Math.floor(10000 + Math.random() * 90000)}`,
+    temp: lot.isEmergency ? "14.5°C (Controlled Cold-Chain)" : "14.5°C (Controlled)",
+    status: "transit",
+    status_label: lot.isEmergency ? "On The Road (High-Priority Reefer)" : "On The Road",
+    step: 3,
+    loc: `${lot.farmerLocation} ➔ Central DC (${lot.isEmergency ? 'Express Salvage Dispatched' : 'Dispatched'})`,
+    eta: lot.isEmergency ? "Today 3:30 PM (Perishable Rush)" : "Today 4:45 PM (Speed: 56 km/h)",
+    total_val: totalVal,
+    adv_paid: advAmount,
+    balance_due: balAmount,
+    assay_moisture: lot.moisture || "13.2% (Certified)",
+    gross_wt: `${qtyKg + 3400} kg`,
+    tare_wt: "3,400 kg",
+    gate_seal: `#SEAL-${Math.floor(10000 + Math.random() * 90000)}`
+  };
+
+  if (!buyerData.consignments) buyerData.consignments = [];
+  buyerData.consignments.unshift(newConsignment);
+  try {
+    localStorage.setItem('agrinex_buyer_consignments', JSON.stringify(buyerData.consignments));
+  } catch(e) {}
+
+  // 3. Prepend new Escrow contract card in Escrow Vault
+  const escrowContainer = document.getElementById('vault-escrow-cards-container');
+  if (escrowContainer) {
+    const newCardHtml = `
+      <div class="vault-contract-card" id="escrow-card-${trackingId}" style="border: 1.5px solid #86efac; animation: fadeIn 0.4s ease-out; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <strong style="font-size: 1.02rem; color: #0f172a; font-weight: 800;">Contract #${contractNo} • ${lot.crop} (${qtyQt} Qt)</strong>
+              <span class="badge badge-grade-a">${lot.grade || 'Grade A'}</span>
+              ${lot.isEmergency ? `
+                <span class="badge badge-status-emergency" style="background:#fee2e2; color:#991b1b; border-color:#fca5a5; font-weight:800;">⚡ Salvage Buyout</span>
+              ` : `
+                <span class="badge badge-status-emergency" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd;">🚀 Newly Booked</span>
+              `}
+            </div>
+            <div style="font-size: 0.8rem; color: #64748b; margin-top: 3px;">
+              Farmer: <strong style="color: #0f172a;">${lot.farmerName}</strong> (${lot.farmerLocation}) • Total Escrow: <strong style="color: #0c5a36; font-weight: 800;">₹ ${totalVal.toLocaleString('en-IN')}</strong> (₹ ${priceKg.toFixed(2)}/kg)
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="badge badge-grade-a" id="escrow-status-badge-${trackingId}" style="background: #e8f5ed; color: #0c5a36; border: 1px solid #bbf7d0; font-weight: 800; padding: 4px 10px;">35% Locked (₹ ${advAmount.toLocaleString('en-IN')})</span>
+            <button class="btn btn-outline btn-sm" onclick="openEscrowDeedModal('${contractNo}', '${lot.crop} (${qtyQt} Qt)', '${lot.farmerName}', ${totalVal}, ${advAmount})" style="font-size: 0.78rem; font-weight: 700; border-radius: 8px;">View Agreement Deed</button>
+          </div>
+        </div>
+
+        <!-- Stepper -->
+        <div class="stepper-container" style="max-width: 720px; margin: 18px 0;">
+          <div class="stepper-step">
+            <div class="stepper-dot active">✓</div>
+            <span class="stepper-label">Contract Created</span>
+          </div>
+          <div class="stepper-step">
+            <div class="stepper-dot active">✓</div>
+            <span class="stepper-label">35% Advance Locked</span>
+          </div>
+          <div class="stepper-step">
+            <div class="stepper-dot active" id="stepper-dot-dispatch-${trackingId}">🚚</div>
+            <span class="stepper-label">Dispatched (Eicher Pro 2049)</span>
+          </div>
+          <div class="stepper-step">
+            <div class="stepper-dot" id="stepper-dot-settled-${trackingId}">4</div>
+            <span class="stepper-label">Arrival QC & 100% Settled</span>
+          </div>
+        </div>
+
+        <!-- Action Footer -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 12px; font-size: 0.82rem; flex-wrap: wrap; gap: 10px;">
+          <span style="color: #64748b;">Transit Vehicle: <strong style="color: #0f172a;">${newConsignment.vehicle}</strong> • Driver: <strong style="color: #0f172a;">${newConsignment.driver} (${newConsignment.driver_phone})</strong></span>
+          <button class="btn btn-primary btn-sm" id="btn-escrow-vault-release-${trackingId}" onclick="openArrivalReleaseModal('${contractNo}', '${lot.crop}', ${balAmount}, '${lot.farmerName}', ${totalVal}, ${advAmount}, 'escrow-card-${trackingId}')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 800; padding: 7px 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(12,90,54,0.2);">
+            Release 65% Balance (₹ ${balAmount.toLocaleString('en-IN')})
+          </button>
+        </div>
+      </div>
+    `;
+    escrowContainer.insertAdjacentHTML('afterbegin', newCardHtml);
+  }
+
+  // 4. Prepend Transaction Ledger Row
+  const ledgerTbody = document.getElementById('escrow-ledger-tbody');
+  if (ledgerTbody) {
+    const txnRef = `TXN-ESC-${randSuffix}-A`;
+    const newTxnRow = `
+      <tr style="border-bottom: 1px solid #f1f5f9; background-color: #f0fdf4;" data-type="advance">
+        <td style="padding: 14px 16px;">
+          <strong style="color: #0f172a; font-weight: 800;">${txnRef}</strong>
+          <div style="font-size: 0.72rem; color: #166534; font-weight: 700;">Just now</div>
+        </td>
+        <td style="padding: 14px 16px; font-weight: 700; color: #475569;">#${contractNo}</td>
+        <td style="padding: 14px 16px;">
+          <strong style="color: #0f172a;">${lot.farmerName}</strong>
+          <div style="font-size: 0.72rem; color: #64748b;">HDFC A/C ••${randSuffix}</div>
+        </td>
+        <td style="padding: 14px 16px; font-weight: 600;">${lot.crop} (${qtyQt} Qt)</td>
+        <td style="padding: 14px 16px;"><span style="color: #0c5a36; font-weight: 800;">35% Advance Locked</span></td>
+        <td style="padding: 14px 16px;"><strong style="color: #0f172a; font-size: 0.92rem;">₹ ${advAmount.toLocaleString('en-IN')}</strong></td>
+        <td style="padding: 14px 16px;"><code style="font-size: 0.75rem; background: #f1f5f9; padding: 3px 8px; border-radius: 6px; font-weight: 700; color: #334155;">HDFC000${randSuffix}</code></td>
+        <td style="padding: 14px 16px;"><span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36; border: 1px solid #bbf7d0; font-weight: 800;">🔒 In Escrow</span></td>
+        <td style="padding: 14px 16px; text-align: right;">
+          <button class="btn btn-outline btn-sm" onclick="showToast('Downloading Escrow Deposit Receipt ${txnRef}...')" style="font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">📄 Receipt</button>
+        </td>
+      </tr>
+    `;
+    ledgerTbody.insertAdjacentHTML('afterbegin', newTxnRow);
+  }
+
+  // 5. Update Grievances Dropdown
+  const grvSelect = document.getElementById('grv-lot-select');
+  if (grvSelect) {
+    const opt = document.createElement('option');
+    opt.value = `${trackingId}|${lot.crop}|${lot.farmerName}`;
+    if (typeof grvSelect.prepend === 'function') {
+      grvSelect.prepend(opt);
+    } else if (typeof grvSelect.insertBefore === 'function') {
+      grvSelect.insertBefore(opt, grvSelect.firstChild);
+    } else if (typeof grvSelect.appendChild === 'function') {
+      grvSelect.appendChild(opt);
+    }
+  }
+
+  // 6. Update Messages / Chat thread
+  if (window.chatContacts) {
+    let contact = window.chatContacts.find(c => (c.name && c.name.includes(lot.farmerName)) || (c.lotId && c.lotId === lot.id));
+    if (contact) {
+      contact.messages.push({
+        type: "outgoing",
+        text: `🎉 Order Confirmed! Locked 35% advance escrow (₹ ${advAmount.toLocaleString('en-IN')}) for ${lot.crop} (${qtyKg.toLocaleString('en-IN')} kg) under Contract #${contractNo}. Consignment #${trackingId} is dispatched.`
+      });
+      if (typeof renderChatMessages === 'function') renderChatMessages();
+    }
+  }
+
+  // 7. Update All Displays
+  updateBuyerMarketStats();
+  renderBuyerConsignments();
+  renderVerifiedLots();
+  renderBuyerEscrowVault();
+
+  // 8. Backend Sync
+  if (typeof fetch === 'function') {
+    fetch('/api/bids', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        crop_id: lot.id,
+        crop: lot.crop,
+        variety: lot.crop,
+        buyer_name: "Karthik Sundaram (BigBasket)",
+        buyer_phone: "+91 98421 88390",
+        buyer_type: "Wholesale Procurement Lead",
+        bid_rate_qt: priceKg * 100,
+        quantity_qt: qtyQt,
+        image: lot.image
+      })
+    }).catch(e => {});
+  }
+
+  try {
+    window.dispatchEvent(new Event('storage'));
+  } catch(e) {}
+
+  return newConsignment;
+}
+
+function executeBuyerEmergencyPurchase(lotId, cropName, priceFormatted, emergencyDetails = null) {
+  let numPrice = 9.0;
+  const match = (priceFormatted || '').match(/([0-9]+(?:\.[0-9]+)?)/);
+  if (match) numPrice = parseFloat(match[1]);
+
+  let qtyKg = 4500;
+  if (emergencyDetails && emergencyDetails.quantity) {
+    const qMatch = emergencyDetails.quantity.match(/([0-9,]+)\s*kg/i);
+    if (qMatch) qtyKg = parseFloat(qMatch[1].replace(/,/g, ''));
+  }
+
+  const farmer = (emergencyDetails && emergencyDetails.farmerName) || "Sanjay Deshmukh (Emergency Seller)";
+  const mandi = (emergencyDetails && emergencyDetails.mandi) || "Narayangaon / Lasalgaon APMC, MH";
+  const img = (emergencyDetails && emergencyDetails.image) || (cropName.toLowerCase().includes("onion") ? "assets/images/onion.jpg" : "assets/images/tomato.jpg");
+
+  const emergencyLot = {
+    id: lotId,
+    crop: `${cropName} (Perishable Salvage)`,
+    farmerName: farmer,
+    farmerLocation: mandi,
+    farmerPhone: "+91 98224-33100",
+    grade: "Grade A (Perishable)",
+    pricePerKg: numPrice,
+    priceNum: numPrice * 100,
+    qtyNum: qtyKg / 100,
+    availableQtyKg: 0,
+    isSoldOut: true,
+    quantity: `${qtyKg.toLocaleString('en-IN')} kg (${(qtyKg / 100).toFixed(0)} Qt)`,
+    image: img,
+    moisture: "High Perishable (Express Reefer)",
+    askPrice: priceFormatted,
+    isPurchased: true,
+    purchasedBy: "my-account",
+    purchasedByName: "Karthik Sundaram (BigBasket)",
+    isEmergency: true
+  };
+
+  if (!buyerData.verifiedLots) buyerData.verifiedLots = [];
+  const existingIdx = buyerData.verifiedLots.findIndex(l => l.id === lotId);
+  if (existingIdx >= 0) {
+    buyerData.verifiedLots[existingIdx] = emergencyLot;
+  } else {
+    buyerData.verifiedLots.unshift(emergencyLot);
+  }
+
+  try {
+    localStorage.setItem('agrinex_verified_lots', JSON.stringify(buyerData.verifiedLots));
+  } catch(e) {}
+
+  return executeBuyerLotPurchase(lotId, numPrice, qtyKg);
+}
+
+// Global Filter State for Feature 4, Unit System & Buyer Perspective
 let buyerFilterState = {
   search: '',
   grade: 'all',
   category: 'all',
   sort: 'default',
-  unitDisplay: 'both' // 'both', 'kg', 'qt'
+  unitDisplay: 'both', // 'both', 'kg', 'qt'
+  buyerPersona: 'my-account' // 'my-account' or 'other-buyer'
 };
+
+function setBuyerPersona(persona, btnEl) {
+  if (!buyerFilterState) return;
+  buyerFilterState.buyerPersona = persona;
+
+  const selfBtn = document.getElementById('btn-persona-self');
+  const otherBtn = document.getElementById('btn-persona-other');
+  const simBanner = document.getElementById('other-buyer-sim-banner');
+
+  if (persona === 'my-account') {
+    if (selfBtn) {
+      selfBtn.classList.add('active');
+      selfBtn.style.background = '#0c5a36';
+      selfBtn.style.color = '#ffffff';
+    }
+    if (otherBtn) {
+      otherBtn.classList.remove('active');
+      otherBtn.style.background = 'transparent';
+      otherBtn.style.color = '#475569';
+    }
+    if (simBanner) simBanner.style.display = 'none';
+    showToast('🏢 Switched to My Account (BigBasket Procurement)', 'success');
+  } else {
+    if (otherBtn) {
+      otherBtn.classList.add('active');
+      otherBtn.style.background = '#dc2626';
+      otherBtn.style.color = '#ffffff';
+    }
+    if (selfBtn) {
+      selfBtn.classList.remove('active');
+      selfBtn.style.background = 'transparent';
+      selfBtn.style.color = '#475569';
+    }
+    if (simBanner) simBanner.style.display = 'flex';
+    showToast('👥 Simulating Other Buyer View: Sold-out crops are locked & unavailable', 'info');
+  }
+
+  renderVerifiedLots();
+  renderBuyerEmergencyDesk();
+}
+window.setBuyerPersona = setBuyerPersona;
 
 // Global Negotiation State for Feature 6
 let currentNegotiation = {
@@ -141,7 +686,10 @@ let currentNegotiation = {
 // Toast notification helper
 function showToast(message, type = 'success') {
   const existing = document.getElementById('agrinex-toast');
-  if (existing) existing.remove();
+  if (existing) {
+    if (typeof existing.remove === 'function') existing.remove();
+    else if (existing.parentNode) existing.parentNode.removeChild(existing);
+  }
 
   const toast = document.createElement('div');
   toast.id = 'agrinex-toast';
@@ -198,7 +746,9 @@ function switchView(viewId) {
   }
 
   // Scroll to top of main wrapper
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (typeof window.scrollTo === 'function') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 // Setup Sidebar Click Handlers
@@ -230,7 +780,7 @@ function handleBuyerSearch(query) {
 
   // If user is searching and not currently in verified produce view, switch to it
   const activeView = document.querySelector('.portal-view.active-view');
-  if (buyerFilterState.search && activeView && activeView.id !== 'view-verified-produce' && activeView.id !== 'view-dashboard') {
+  if (buyerFilterState.search && activeView && activeView.id !== 'view-verified-produce') {
     switchView('view-verified-produce');
   }
 
@@ -443,8 +993,11 @@ function renderVerifiedLots(lotsToRender = null) {
 
   // Update badge count
   const countText = `${lots.length} Lots`;
-  if (countBadge) countBadge.textContent = `Showing ${lots.length} of ${buyerData.verifiedLots.length} Verified Lots`;
-  if (marketCountBadge) marketCountBadge.textContent = `${lots.length} Lots Available`;
+  const showingStr = (window.t ? window.t('showing_lots', 'Showing {0} of {1} Verified Lots') : 'Showing {0} of {1} Verified Lots')
+    .replace('{0}', lots.length).replace('{1}', buyerData.verifiedLots.length);
+  const lotsAvailStr = `${lots.length} ${window.t ? window.t('lots_available', 'Lots Available') : 'Lots Available'}`;
+  if (countBadge) countBadge.textContent = showingStr;
+  if (marketCountBadge) marketCountBadge.textContent = lotsAvailStr;
 
   // 1. Render 3-Column Visual Grid (Screenshot Match)
   if (grid) {
@@ -458,27 +1011,74 @@ function renderVerifiedLots(lotsToRender = null) {
         </div>
       `;
     } else {
+      const soldOutText = window.t ? window.t('sold_out', 'Sold Out') : 'Sold Out';
+      const inTransitText = window.t ? window.t('your_order_transit', '0 kg (Your Order • In Transit)') : '0 kg (Your Order • In Transit)';
+      const soldOutBannerText = window.t ? window.t('sold_out_overlay', '🚫 SOLD OUT') : '🚫 SOLD OUT';
+      const soldOutSubText = window.t ? window.t('sold_out_subtext', '100% Crop Procured by Buyer') : '100% Crop Procured by Buyer';
+      const farmerTagText = window.t ? window.t('lot_badge_farmer', '🌿 Farmer') : '🌿 Farmer';
+      const compareText = window.t ? window.t('lot_compare', '⚖️ Compare') : '⚖️ Compare';
+      const buyNowText = window.t ? window.t('buy_now', 'Buy Now') : 'Buy Now';
+      const inTransitBtnText = window.t ? window.t('in_transit_btn', 'In Transit ➔') : 'In Transit ➔';
+      const availQtyLabelText = window.t ? window.t('avail_qty_label', 'Available Qty:') : 'Available Qty:';
+
       grid.innerHTML = lots
         .map((lot) => {
           const kgRate = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
-          const availQty = lot.availableQtyKg ? `${lot.availableQtyKg.toLocaleString('en-IN')} kg` : `${(lot.qtyNum * 100).toLocaleString('en-IN')} kg`;
+          const availKg = (lot.availableQtyKg !== undefined) ? lot.availableQtyKg : (lot.qtyNum ? lot.qtyNum * 100 : 5000);
+          const isSoldOut = lot.isSoldOut || availKg <= 0;
+          const isOwnedByMe = (lot.isPurchased || isSoldOut) && (lot.purchasedBy === 'my-account' || !lot.purchasedBy || (lot.purchasedByName && lot.purchasedByName.includes('BigBasket')));
+          const isViewingAsOther = (buyerFilterState && buyerFilterState.buyerPersona === 'other-buyer');
           const gradeText = lot.grade || 'Grade A';
 
+          let availQtyDisplay = `${availKg.toLocaleString('en-IN')} kg`;
+          if (isSoldOut) {
+            if (isViewingAsOther) {
+              availQtyDisplay = `<span style="color:#fca5a5; font-weight:800;">0 kg (${soldOutText})</span>`;
+            } else if (isOwnedByMe) {
+              availQtyDisplay = `<span style="color:#bbf7d0; font-weight:800;">${inTransitText}</span>`;
+            } else {
+              availQtyDisplay = `<span style="color:#fca5a5; font-weight:800;">0 kg (${soldOutText})</span>`;
+            }
+          }
+
           return `
-            <div class="farm-lot-card" id="card-${lot.id}">
+            <div class="farm-lot-card" id="card-${lot.id}" style="${isSoldOut && isViewingAsOther ? 'opacity: 0.94; border: 1.5px solid #fecdd3;' : ''}">
               <!-- Visual Image Box with Gradient Overlay & Badges -->
-              <div class="lot-img-container">
-                <img src="${lot.image}" alt="${lot.crop}" class="lot-img" onerror="this.src='assets/images/tomato.jpg'" />
+              <div class="lot-img-container" style="position: relative;">
+                <img src="${lot.image}" alt="${lot.crop}" class="lot-img" onerror="this.src='assets/images/tomato.jpg'" style="${isSoldOut && isViewingAsOther ? 'filter: grayscale(20%) contrast(95%);' : ''}" />
                 <div class="lot-img-gradient-overlay"></div>
-                
+
+                <!-- Sold Out Banner Overlay for other buyers -->
+                ${isSoldOut && (isViewingAsOther || !isOwnedByMe) ? `
+                  <div style="position: absolute; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(1.5px); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 4; border-radius: 12px 12px 0 0; text-align: center; padding: 12px;">
+                    <span style="background: #dc2626; color: #ffffff; font-size: 0.82rem; font-weight: 900; padding: 6px 16px; border-radius: 20px; letter-spacing: 0.8px; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.5); text-transform: uppercase;">${soldOutBannerText}</span>
+                    <span style="color: #f1f5f9; font-size: 0.74rem; font-weight: 700; margin-top: 5px;">${soldOutSubText}</span>
+                  </div>
+                ` : ''}
+
                 <!-- Top Badges -->
                 <div class="lot-top-badges">
-                  <span class="lot-badge-farmer-tag">🌿 Farmer</span>
-                  <span class="lot-badge-grade-tag">${gradeText}</span>
-                  <label style="margin-left: auto; background: rgba(0,0,0,0.65); color: #ffffff; padding: 2px 8px; border-radius: 6px; font-size: 0.68rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px);" onclick="event.stopPropagation()">
-                    <input type="checkbox" class="lot-compare-checkbox" data-lot-id="${lot.id}" onchange="toggleLotComparison('${lot.id}', event)" style="cursor: pointer;" />
-                    <span>⚖️ Compare</span>
-                  </label>
+                  <span class="lot-badge-farmer-tag">${farmerTagText}</span>
+                  <span class="lot-badge-grade-tag">${window.tGrade ? window.tGrade(gradeText) : gradeText}</span>
+                  ${isSoldOut ? (
+                    isViewingAsOther ? `
+                      <span class="badge" style="background:#fee2e2; color:#991b1b; border:1.5px solid #fca5a5; font-weight:900; font-size:0.7rem;">${soldOutBannerText}</span>
+                    ` : (
+                      isOwnedByMe ? `
+                        <span class="badge badge-grade-a" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-weight:800; font-size:0.7rem;">${window.t ? window.t('your_order_badge', '🔒 Sold Out • Your Order') : '🔒 Sold Out • Your Order'}</span>
+                      ` : `
+                        <span class="badge" style="background:#fee2e2; color:#991b1b; border:1.5px solid #fca5a5; font-weight:900; font-size:0.7rem;">${soldOutBannerText}</span>
+                      `
+                    )
+                  ) : (
+                    lot.isPurchased ? `<span class="badge badge-grade-a" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-weight:800;">${window.t ? window.t('escrow_locked_badge', '🔒 Escrow Locked') : '🔒 Escrow Locked'}</span>` : ''
+                  )}
+                  ${!isSoldOut || !isViewingAsOther ? `
+                    <label style="margin-left: auto; background: rgba(0,0,0,0.65); color: #ffffff; padding: 2px 8px; border-radius: 6px; font-size: 0.68rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px);" onclick="event.stopPropagation()">
+                      <input type="checkbox" class="lot-compare-checkbox" data-lot-id="${lot.id}" onchange="toggleLotComparison('${lot.id}', event)" style="cursor: pointer;" />
+                      <span>${compareText}</span>
+                    </label>
+                  ` : ''}
                 </div>
 
                 <!-- Bottom Price & Quantity Overlay -->
@@ -487,7 +1087,7 @@ function renderVerifiedLots(lotsToRender = null) {
                     ₹${kgRate} <span>/ kg</span>
                   </div>
                   <div class="lot-overlay-qty">
-                    Available Qty: ${availQty}
+                    ${availQtyLabelText} ${availQtyDisplay}
                   </div>
                 </div>
               </div>
@@ -495,34 +1095,68 @@ function renderVerifiedLots(lotsToRender = null) {
               <!-- Card Body Info -->
               <div class="lot-card-body">
                 <div>
-                  <div class="lot-title">${lot.crop}</div>
+                  <div class="lot-title">${window.tCrop ? window.tCrop(lot.crop) : lot.crop}</div>
                   <div class="lot-farmer-meta">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
                       <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                       <circle cx="12" cy="7" r="4"></circle>
                     </svg>
-                    <span><strong>${lot.farmerName}</strong> • ${lot.farmerRating || '4.9 ⭐'}</span>
+                    <span><strong>${window.tPerson ? window.tPerson(lot.farmerName) : lot.farmerName}</strong> • ${lot.farmerRating || '4.9 ⭐'}</span>
                   </div>
                   <div class="lot-location-meta">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
                       <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
                       <circle cx="12" cy="10" r="3"></circle>
                     </svg>
-                    <span>${lot.farmerLocation}</span>
+                    <span>${window.tLocation ? window.tLocation(lot.farmerLocation) : lot.farmerLocation}</span>
                   </div>
                 </div>
 
-                <!-- Actions: Buy Now + WhatsApp Chat -->
+                <!-- Actions: Buy Now / Sold Out / In Transit -->
                 <div class="lot-actions-row">
-                  <button class="btn-lot-buy" onclick="openDirectBuyModal('${lot.id}')">
-                    <span>🛒</span>
-                    <span>Buy Now</span>
-                  </button>
-                  <button class="btn-lot-whatsapp" onclick="openFarmerChat('${lot.id}')" title="Direct Chat & Negotiation with ${lot.farmerName}">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.316 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.818-1.001z"/>
-                    </svg>
-                  </button>
+                  ${isSoldOut ? (
+                    (isViewingAsOther || !isOwnedByMe) ? `
+                      <button class="btn-lot-buy" disabled style="background:#e2e8f0; color:#64748b; border:1px solid #cbd5e1; cursor:not-allowed; opacity:0.9; font-weight:800;" title="Sold Out — This crop was fully procured by another institutional buyer">
+                        <span>🚫</span>
+                        <span>${soldOutText}</span>
+                      </button>
+                      <button class="btn-lot-whatsapp" disabled style="background:#f1f5f9; color:#94a3b8; cursor:not-allowed; border:1px solid #e2e8f0;" title="Produce is sold out">
+                        ✕
+                      </button>
+                    ` : `
+                      <button class="btn-lot-buy" onclick="switchView('view-consignments')" style="background:#0c5a36; color:#ffffff; font-weight:800;" title="Track your dispatched consignment">
+                        <span>🚚</span>
+                        <span>${inTransitBtnText}</span>
+                      </button>
+                      <button class="btn-lot-whatsapp" onclick="openFarmerChat('${lot.id}')" title="Direct Chat & Negotiation with ${lot.farmerName}">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.316 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.818-1.001z"/>
+                        </svg>
+                      </button>
+                    `
+                  ) : (
+                    lot.isPurchased ? `
+                      <button class="btn-lot-buy" onclick="switchView('view-consignments')" style="background:#0c5a36; color:#ffffff; font-weight:800;">
+                        <span>🚚</span>
+                        <span>${inTransitBtnText}</span>
+                      </button>
+                      <button class="btn-lot-whatsapp" onclick="openFarmerChat('${lot.id}')" title="Direct Chat & Negotiation with ${lot.farmerName}">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.316 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.818-1.001z"/>
+                        </svg>
+                      </button>
+                    ` : `
+                      <button class="btn-lot-buy" onclick="openDirectBuyModal('${lot.id}')">
+                        <span>🛒</span>
+                        <span>${buyNowText}</span>
+                      </button>
+                      <button class="btn-lot-whatsapp" onclick="openFarmerChat('${lot.id}')" title="Direct Chat & Negotiation with ${lot.farmerName}">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.316 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.818-1.001z"/>
+                        </svg>
+                      </button>
+                    `
+                  )}
                 </div>
               </div>
             </div>
@@ -548,53 +1182,102 @@ function renderVerifiedLots(lotsToRender = null) {
     } else {
       tbody.innerHTML = lots
         .map((lot) => {
-          const kgRate = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
-          const totalKg = lot.availableQtyKg ? lot.availableQtyKg.toLocaleString('en-IN') : (lot.qtyNum * 100).toLocaleString('en-IN');
-          const mandiNum = parseFloat(lot.mandiRate.replace(/[^0-9.]/g, '')) || 0;
-          const mandiKgRate = (mandiNum / 100).toFixed(0);
+          const kgRate = lot.pricePerKg || (lot.priceNum ? (lot.priceNum / 100).toFixed(0) : '12');
+          const availKg = (lot.availableQtyKg !== undefined) ? lot.availableQtyKg : (lot.qtyNum ? lot.qtyNum * 100 : 5000);
+          const isSoldOut = lot.isSoldOut || availKg <= 0;
+          const isOwnedByMe = (lot.isPurchased || isSoldOut) && (lot.purchasedBy === 'my-account' || !lot.purchasedBy || (lot.purchasedByName && lot.purchasedByName.includes('BigBasket')));
+          const isViewingAsOther = (buyerFilterState && buyerFilterState.buyerPersona === 'other-buyer');
+
+          const mandiRateStr = lot.mandiRate || `₹ ${(parseFloat(kgRate) * 1.15 * 100).toFixed(0)} /Qt`;
+          const gradeBadge = lot.gradeBadgeClass || 'badge-grade-a';
+          const farmerRating = lot.farmerRating || '4.9 ⭐';
+          const savingsText = lot.savings || '~15% Saved';
+
+          let qtyColumnHtml = `
+            <strong style="font-size: 0.92rem; color: #0f172a;">${availKg.toLocaleString('en-IN')} kg</strong>
+            <span style="font-size: 0.72rem; color: #64748b; display: block;">(${lot.quantity || availKg.toLocaleString('en-IN') + ' kg'})</span>
+          `;
+
+          if (isSoldOut) {
+            if (isViewingAsOther || !isOwnedByMe) {
+              qtyColumnHtml = `
+                <strong style="font-size: 0.92rem; color: #ef4444;">0 kg</strong>
+                <span class="badge" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; font-size: 0.68rem; padding: 2px 6px; font-weight: 800; display: block; width: fit-content; margin-top: 2px;">🚫 Sold Out</span>
+              `;
+            } else {
+              qtyColumnHtml = `
+                <strong style="font-size: 0.92rem; color: #15803d;">0 kg</strong>
+                <span class="badge badge-grade-a" style="font-size: 0.68rem; padding: 2px 6px; font-weight: 800; display: block; width: fit-content; margin-top: 2px;">🔒 Procured by You</span>
+              `;
+            }
+          }
+
+          let actionColHtml = '';
+          if (isSoldOut) {
+            if (isViewingAsOther || !isOwnedByMe) {
+              actionColHtml = `
+                <button class="btn btn-secondary btn-sm" disabled style="padding: 5px 12px; font-size: 0.78rem; background:#e2e8f0; color:#64748b; border: 1px solid #cbd5e1; cursor:not-allowed; font-weight:700;">
+                  🚫 Sold Out
+                </button>
+              `;
+            } else {
+              actionColHtml = `
+                <button class="btn btn-primary btn-sm" onclick="switchView('view-consignments')" style="padding: 5px 10px; font-size: 0.78rem; background:#0c5a36; border-color:#0c5a36; font-weight:800;">
+                  🚚 In Transit ➔
+                </button>
+              `;
+            }
+          } else if (lot.isPurchased) {
+            actionColHtml = `
+              <button class="btn btn-primary btn-sm" onclick="switchView('view-consignments')" style="padding: 5px 10px; font-size: 0.78rem; background:#0c5a36; border-color:#0c5a36; font-weight:800;">
+                🚚 In Transit ➔
+              </button>
+            `;
+          } else {
+            actionColHtml = `
+              <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem;">
+                Buy Now
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="openFarmerChat('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem; display: flex; align-items: center; gap: 4px;">
+                <span>💬</span> Chat
+              </button>
+            `;
+          }
 
           return `
-            <tr>
+            <tr style="${isSoldOut && isViewingAsOther ? 'background-color: #fff8f8;' : ''}">
               <td>
                 <div class="crop-cell">
                   <img src="${lot.image}" alt="${lot.crop}" class="crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
                   <div>
-                    <strong style="display: block; font-size: 0.88rem; color: #0f172a;">${lot.crop}</strong>
-                    <span style="font-size: 0.72rem; color: #64748b;">${lot.farmerLocation}</span>
+                    <strong style="display: block; font-size: 0.88rem; color: #0f172a;">${window.tCrop ? window.tCrop(lot.crop) : lot.crop}</strong>
+                    <span style="font-size: 0.72rem; color: #64748b;">${window.tLocation ? window.tLocation(lot.farmerLocation) : lot.farmerLocation}</span>
                   </div>
                 </div>
               </td>
               <td>
-                <span class="badge ${lot.gradeBadgeClass}">${lot.grade}</span>
-                <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">Moisture: ${lot.moisture}</div>
+                <span class="badge ${gradeBadge}">${window.tGrade ? window.tGrade(lot.grade || 'Grade A') : (lot.grade || 'Grade A')}</span>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">Moisture: ${lot.moisture || '13.5%'}</div>
               </td>
               <td>
-                <strong>${lot.farmerName}</strong>
-                <div style="font-size: 0.72rem; color: #d97706; font-weight: 700;">${lot.farmerRating}</div>
+                <strong>${window.tPerson ? window.tPerson(lot.farmerName) : lot.farmerName}</strong>
+                <div style="font-size: 0.72rem; color: #d97706; font-weight: 700;">${farmerRating}</div>
               </td>
-              <td>
-                <strong style="font-size: 0.92rem; color: #0f172a;">${totalKg} kg</strong>
-                <span style="font-size: 0.72rem; color: #64748b; display: block;">(${lot.quantity})</span>
-              </td>
+              <td>${qtyColumnHtml}</td>
               <td>
                 <div style="display: flex; align-items: baseline; gap: 4px;">
                   <strong style="color: #0c5a36; font-size: 0.96rem;">₹ ${kgRate} /kg</strong>
                 </div>
                 <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">
-                  Mandi: <span style="text-decoration: line-through;">${lot.mandiRate}</span>
+                  Mandi: <span style="text-decoration: line-through;">${mandiRateStr}</span>
                 </div>
               </td>
               <td>
-                <span class="badge badge-grade-a">${lot.savings}</span>
+                <span class="badge badge-grade-a">${window.tText ? window.tText(savingsText) : savingsText}</span>
               </td>
               <td>
                 <div style="display: flex; gap: 6px;">
-                  <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem;">
-                    Buy Now
-                  </button>
-                  <button class="btn btn-outline btn-sm" onclick="openFarmerChat('${lot.id}')" style="padding: 5px 10px; font-size: 0.78rem; display: flex; align-items: center; gap: 4px;">
-                    <span>💬</span> Chat
-                  </button>
+                  ${actionColHtml}
                 </div>
               </td>
             </tr>
@@ -610,31 +1293,47 @@ function renderVerifiedLots(lotsToRender = null) {
       .slice(0, 3)
       .map((lot) => {
         const kgRate = lot.pricePerKg || (lot.priceNum / 100).toFixed(0);
+        const availKg = (lot.availableQtyKg !== undefined) ? lot.availableQtyKg : (lot.qtyNum ? lot.qtyNum * 100 : 5000);
+        const isSoldOut = lot.isSoldOut || availKg <= 0;
+        const isOwnedByMe = (lot.isPurchased || isSoldOut) && (lot.purchasedBy === 'my-account' || !lot.purchasedBy || (lot.purchasedByName && lot.purchasedByName.includes('BigBasket')));
+        const isViewingAsOther = (buyerFilterState && buyerFilterState.buyerPersona === 'other-buyer');
+
+        let actionHtml = '';
+        if (isSoldOut) {
+          if (isViewingAsOther || !isOwnedByMe) {
+            actionHtml = `<button class="btn btn-secondary btn-sm" disabled style="padding: 4px 8px; font-size: 0.75rem; background:#e2e8f0; color:#64748b; border: 1px solid #cbd5e1; cursor:not-allowed; font-weight:700;">🚫 Sold</button>`;
+          } else {
+            actionHtml = `<button class="btn btn-primary btn-sm" onclick="switchView('view-consignments')" style="padding: 4px 8px; font-size: 0.75rem; background:#0c5a36; border-color:#0c5a36; font-weight:800;">🚚 Transit</button>`;
+          }
+        } else if (lot.isPurchased) {
+          actionHtml = `<button class="btn btn-primary btn-sm" onclick="switchView('view-consignments')" style="padding: 4px 8px; font-size: 0.75rem; background:#0c5a36; border-color:#0c5a36; font-weight:800;">🚚 Transit</button>`;
+        } else {
+          actionHtml = `<button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${lot.id}')" style="padding: 4px 8px; font-size: 0.75rem;">Buy</button>`;
+        }
+
         return `
           <tr>
             <td>
               <div class="crop-cell">
                 <img src="${lot.image}" alt="${lot.crop}" class="crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
                 <div>
-                  <strong style="display: block; font-size: 0.85rem; color: #0f172a;">${lot.crop}</strong>
-                  <span style="font-size: 0.7rem; color: #64748b;">${lot.farmerLocation}</span>
+                  <strong style="display: block; font-size: 0.85rem; color: #0f172a;">${window.tCrop ? window.tCrop(lot.crop) : lot.crop}</strong>
+                  <span style="font-size: 0.7rem; color: #64748b;">${window.tLocation ? window.tLocation(lot.farmerLocation) : lot.farmerLocation}</span>
                 </div>
               </div>
             </td>
-            <td><span class="badge ${lot.gradeBadgeClass}">${lot.grade}</span></td>
-            <td><strong>${lot.farmerName}</strong></td>
+            <td><span class="badge ${lot.gradeBadgeClass || 'badge-grade-a'}">${window.tGrade ? window.tGrade(lot.grade || 'Grade A') : (lot.grade || 'Grade A')}</span></td>
+            <td><strong>${window.tPerson ? window.tPerson(lot.farmerName) : lot.farmerName}</strong></td>
             <td>
-              <strong>${lot.availableQtyKg ? lot.availableQtyKg.toLocaleString('en-IN') + ' kg' : lot.quantity}</strong>
+              <strong style="color: ${isSoldOut ? '#ef4444' : '#0f172a'};">
+                ${isSoldOut ? '0 kg (Sold Out)' : availKg.toLocaleString('en-IN') + ' kg'}
+              </strong>
             </td>
             <td>
               <strong style="color: #0c5a36;">₹ ${kgRate}/kg</strong>
               <div style="font-size: 0.68rem; color: #64748b;">(${lot.askPrice})</div>
             </td>
-            <td>
-              <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${lot.id}')" style="padding: 4px 8px; font-size: 0.75rem;">
-                Buy
-              </button>
-            </td>
+            <td>${actionHtml}</td>
           </tr>
         `;
       })
@@ -745,19 +1444,19 @@ function renderBuyerDemands() {
             <img src="${dem.image}" alt="${dem.crop}" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; border: 1.5px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);" onerror="this.src='assets/images/tomato.jpg'" />
             <div>
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                <strong style="font-size: 1.15rem; color: #0f172a; font-weight: 900;">${dem.crop}</strong>
+                <strong style="font-size: 1.15rem; color: #0f172a; font-weight: 900;">${window.tCrop ? window.tCrop(dem.crop) : dem.crop}</strong>
                 <span class="badge" style="background: #f1f5f9; color: #475569; font-size: 0.74rem; font-weight: 800; border: 1px solid #cbd5e1; font-family: monospace;">#${dem.id}</span>
-                <span class="badge" style="background: #f0fdf4; color: #166534; font-size: 0.74rem; font-weight: 800; border: 1px solid #bbf7d0;">${dem.category || 'Agricultural Crop'}</span>
+                <span class="badge" style="background: #f0fdf4; color: #166534; font-size: 0.74rem; font-weight: 800; border: 1px solid #bbf7d0;">${window.tText ? window.tText(dem.category || 'Agricultural Crop') : (dem.category || 'Agricultural Crop')}</span>
               </div>
               <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px; font-weight: 500;">
-                Destination: <strong style="color: #0f172a; font-weight: 700;">📍 ${dem.location}</strong> • Sourcing Deadline: <strong style="${dem.daysLeft <= 3 ? 'color: #dc2626; font-weight: 800;' : 'color: #0f172a; font-weight: 700;'}">⏱️ ${dem.deadline} ${dem.daysLeft > 0 ? `(${dem.daysLeft}d left)` : '(Completed)'}</strong>
+                Destination: <strong style="color: #0f172a; font-weight: 700;">📍 ${window.tLocation ? window.tLocation(dem.location) : dem.location}</strong> • Sourcing Deadline: <strong style="${dem.daysLeft <= 3 ? 'color: #dc2626; font-weight: 800;' : 'color: #0f172a; font-weight: 700;'}">⏱️ ${dem.deadline} ${dem.daysLeft > 0 ? `(${dem.daysLeft}d left)` : '(Completed)'}</strong>
               </div>
             </div>
           </div>
 
           <div style="display: flex; align-items: center; gap: 8px;">
             <span class="badge" style="background: ${isFulfilled ? '#15803d' : '#f0fdf4'}; color: ${isFulfilled ? '#ffffff' : '#166534'}; font-size: 0.78rem; font-weight: 800; padding: 5px 12px; border-radius: 999px; border: 1px solid ${isFulfilled ? '#15803d' : '#bbf7d0'};">
-              ${dem.statusLabel || '● Broadcasting Quota'}
+              ${window.tText ? window.tText(dem.statusLabel || '● Broadcasting Quota') : (dem.statusLabel || '● Broadcasting Quota')}
             </span>
           </div>
         </div>
@@ -781,7 +1480,7 @@ function renderBuyerDemands() {
           </div>
           <div>
             <span style="color: #64748b; font-size: 0.68rem; font-weight: 800; display: block; text-transform: uppercase; letter-spacing: 0.03em;">QUALITY & LOGISTICS SPEC</span>
-            <span style="color: #0f172a; font-weight: 700; font-size: 0.82rem; margin-top: 2px; display: block;">${dem.grade || 'Grade A'} • ${dem.deliveryMode || 'Farm-Gate'}</span>
+            <span style="color: #0f172a; font-weight: 700; font-size: 0.82rem; margin-top: 2px; display: block;">${window.tGrade ? window.tGrade(dem.grade || 'Grade A') : (dem.grade || 'Grade A')} • ${dem.deliveryMode || 'Farm-Gate'}</span>
           </div>
         </div>
 
@@ -846,9 +1545,9 @@ function openDemandBidsModal(demandId) {
   const listContainer = document.getElementById('bids-list-container');
 
   if (titleEl) titleEl.textContent = `Matching Farmer Bids (${demand.bids ? demand.bids.length : 0})`;
-  if (subtitleEl) subtitleEl.textContent = `Quota #${demand.id} • ${demand.crop} (${demand.tonnage})`;
+  if (subtitleEl) subtitleEl.textContent = `Quota #${demand.id} • ${window.tCrop ? window.tCrop(demand.crop) : demand.crop} (${demand.tonnage})`;
   if (ceilingEl) ceilingEl.textContent = demand.targetPrice;
-  if (destEl) destEl.textContent = demand.location;
+  if (destEl) destEl.textContent = window.tLocation ? window.tLocation(demand.location) : demand.location;
   if (remainingEl) {
     const rem = Math.max(0, (demand.tonnageNum || 150) - (demand.fulfilledTonnage || 0));
     remainingEl.textContent = `${rem} ${demand.unit || 'Qt'} (${(rem * 100).toLocaleString('en-IN')} kg)`;
@@ -871,11 +1570,11 @@ function openDemandBidsModal(demandId) {
                 <img src="${bid.farmerAvatar || 'assets/images/tomato.jpg'}" alt="${bid.farmerName}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid #86efac;" onerror="this.src='assets/images/tomato.jpg'" />
                 <div>
                   <div style="display: flex; align-items: center; gap: 6px;">
-                    <strong style="font-size: 0.95rem; color: #0f172a;">${bid.farmerName}</strong>
+                    <strong style="font-size: 0.95rem; color: #0f172a;">${window.tPerson ? window.tPerson(bid.farmerName) : bid.farmerName}</strong>
                     <span style="font-size: 0.75rem; color: #0c5a36; font-weight: 700;">${bid.rating}</span>
                     <span class="badge" style="background: #f0fdf4; color: #166534; font-size: 0.7rem; font-weight: 700; padding: 2px 6px;">${bid.status || 'Verified Match'}</span>
                   </div>
-                  <div style="font-size: 0.74rem; color: #64748b;">📍 ${bid.location} • Lead Time: <strong>${bid.leadTime || '6 Hours'}</strong></div>
+                  <div style="font-size: 0.74rem; color: #64748b;">📍 ${window.tLocation ? window.tLocation(bid.location) : bid.location} • Lead Time: <strong>${bid.leadTime || '6 Hours'}</strong></div>
                 </div>
               </div>
 
@@ -1346,18 +2045,91 @@ window.insertQuickChatMsg = insertQuickChatMsg;
 function openDirectBuyModal(lotId) {
   const lot = buyerData.verifiedLots.find((l) => l.id === lotId) || buyerData.verifiedLots[0];
   const modal = document.getElementById('modal-direct-buy');
-  if (!modal) return;
+  if (!modal || !lot) return;
 
-  const totalKg = (lot.qtyNum * 100).toLocaleString('en-IN');
-  const kgRate = (lot.priceNum / 100).toFixed(2);
+  const availKg = (lot.availableQtyKg !== undefined) ? parseFloat(lot.availableQtyKg) : (lot.qtyNum ? lot.qtyNum * 100 : 5000);
+  const kgRate = lot.pricePerKg || (lot.priceNum ? lot.priceNum / 100 : 12.0);
 
-  document.getElementById('buy-modal-crop').textContent = `${lot.crop} (${lot.quantity} • ${totalKg} kg)`;
-  document.getElementById('buy-modal-farmer').textContent = `Farmer: ${lot.farmerName} (${lot.farmerLocation})`;
-  document.getElementById('buy-modal-price').innerHTML = `${lot.askPrice} <span style="font-size: 0.8rem; background: #e8f5ed; color: #166534; padding: 2px 6px; border-radius: 4px; border: 1px solid #bbf7d0;">(₹ ${kgRate} /kg)</span>`;
-  document.getElementById('buy-modal-lot-id').value = lot.id;
+  const cropEl = document.getElementById('buy-modal-crop');
+  const farmerEl = document.getElementById('buy-modal-farmer');
+  const priceEl = document.getElementById('buy-modal-price');
+  const lotIdInput = document.getElementById('buy-modal-lot-id');
+  const thumbEl = document.getElementById('buy-modal-thumb');
+  const allKgLabel = document.getElementById('buy-modal-all-kg-label');
+  const availBadge = document.getElementById('buy-modal-avail-badge');
+  const customInput = document.getElementById('buy-custom-qty-kg');
+  const modeAll = document.getElementById('buy-mode-all');
 
+  if (cropEl) cropEl.textContent = `${lot.crop} (${lot.quantity || availKg.toLocaleString('en-IN') + ' kg'})`;
+  if (farmerEl) farmerEl.textContent = `Farmer: ${lot.farmerName} • 📍 ${lot.farmerLocation}`;
+  if (priceEl) priceEl.innerHTML = `${lot.askPrice || '₹ ' + kgRate + ' /kg'} <span style="font-size: 0.8rem; background: #e8f5ed; color: #166534; padding: 2px 6px; border-radius: 4px; border: 1px solid #bbf7d0;">(₹ ${kgRate.toFixed(2)} /kg)</span>`;
+  if (lotIdInput) lotIdInput.value = lot.id;
+  if (thumbEl) thumbEl.src = lot.image || 'assets/images/tomato.jpg';
+  if (allKgLabel) allKgLabel.textContent = `${availKg.toLocaleString('en-IN')} kg`;
+  if (availBadge) availBadge.textContent = `Available: ${availKg.toLocaleString('en-IN')} kg`;
+  if (customInput) {
+    customInput.max = availKg;
+    customInput.value = Math.min(availKg, 1000);
+  }
+  if (modeAll) modeAll.checked = true;
+
+  updateDirectBuyCalculations();
   modal.classList.add('active');
 }
+
+function updateDirectBuyCalculations() {
+  const lotId = document.getElementById('buy-modal-lot-id')?.value;
+  const lot = (buyerData.verifiedLots && buyerData.verifiedLots.find(l => l.id === lotId)) || (buyerData.verifiedLots && buyerData.verifiedLots[0]);
+  if (!lot) return;
+
+  const kgRate = lot.pricePerKg || (lot.priceNum ? lot.priceNum / 100 : 12.0);
+  const availKg = (lot.availableQtyKg !== undefined) ? parseFloat(lot.availableQtyKg) : (lot.qtyNum ? lot.qtyNum * 100 : 5000);
+
+  const isModeAll = document.getElementById('buy-mode-all')?.checked;
+  const customInput = document.getElementById('buy-custom-qty-kg');
+
+  let targetQty = availKg;
+  if (!isModeAll && customInput) {
+    let entered = parseFloat(customInput.value);
+    if (isNaN(entered) || entered <= 0) entered = Math.min(1000, availKg);
+    if (entered > availKg) {
+      entered = availKg;
+      customInput.value = availKg;
+    }
+    targetQty = entered;
+  }
+
+  const remaining = Math.max(0, availKg - targetQty);
+  const totalVal = Math.round(targetQty * kgRate);
+  const advAmount = Math.round(totalVal * 0.35);
+
+  const calcQty = document.getElementById('buy-modal-calc-qty');
+  const calcTotal = document.getElementById('buy-modal-calc-total');
+  const calcAdv = document.getElementById('buy-modal-calc-advance');
+  const calcRemaining = document.getElementById('buy-modal-calc-remaining');
+  const submitBtn = document.getElementById('btn-submit-direct-buy');
+
+  if (calcQty) calcQty.textContent = `${targetQty.toLocaleString('en-IN')} kg (${(targetQty / 100).toFixed(1)} Qt)`;
+  if (calcTotal) calcTotal.textContent = `₹ ${totalVal.toLocaleString('en-IN')}`;
+  if (calcAdv) calcAdv.textContent = `₹ ${advAmount.toLocaleString('en-IN')}`;
+
+  if (calcRemaining) {
+    if (remaining === 0) {
+      calcRemaining.innerHTML = `<span style="color:#dc2626; font-weight:800;">0 kg (🚫 Will be SOLD OUT for other buyers)</span>`;
+    } else {
+      calcRemaining.innerHTML = `<span style="color:#0c5a36; font-weight:700;">${remaining.toLocaleString('en-IN')} kg still available for others</span>`;
+    }
+  }
+
+  if (submitBtn) {
+    if (remaining === 0) {
+      submitBtn.textContent = `🔒 Lock 35% Escrow (₹ ${advAmount.toLocaleString('en-IN')}) & Procure All`;
+    } else {
+      submitBtn.textContent = `🔒 Lock 35% Escrow (₹ ${advAmount.toLocaleString('en-IN')}) for ${targetQty.toLocaleString('en-IN')} kg`;
+    }
+  }
+}
+window.updateDirectBuyCalculations = updateDirectBuyCalculations;
 
 function closeDirectBuyModal() {
   const modal = document.getElementById('modal-direct-buy');
@@ -1377,9 +2149,13 @@ function openBidModal(lotId) {
   const baseKg = lot.pricePerKg || (lot.priceNum ? lot.priceNum / 100 : 18.0);
   const totalKg = (lot.qtyNum * 100).toLocaleString('en-IN');
 
-  document.getElementById('bid-modal-crop').textContent = `${lot.crop} (${lot.quantity} • ${totalKg} kg)`;
-  document.getElementById('bid-modal-ask').innerHTML = `Farmer Ask Price: <strong style="color: #0c5a36;">${lot.askPrice}</strong>`;
-  document.getElementById('bid-modal-lot-id').value = lot.id;
+  const elCrop = document.getElementById('bid-modal-crop');
+  const elAsk = document.getElementById('bid-modal-ask');
+  const elId = document.getElementById('bid-modal-lot-id');
+
+  if (elCrop) elCrop.textContent = `${lot.crop} (${lot.quantity} • ${totalKg} kg)`;
+  if (elAsk) elAsk.innerHTML = `Farmer Ask Price: <strong style="color: #0c5a36;">${lot.askPrice}</strong>`;
+  if (elId) elId.value = lot.id;
 
   // Suggest a counter price ~6% below ask price in ₹/kg
   const suggestedCounter = (baseKg * 0.94).toFixed(2);
@@ -1471,7 +2247,8 @@ function acceptFarmerCounter(lotId, agreedRate) {
 // Confirm 35% Escrow from Negotiation modal
 function confirmEscrowFromCounter() {
   closeNegotiationModal();
-  showToast(`35% Advance Escrow (₹ ${currentNegotiation.escrowAmount.toLocaleString('en-IN')}) locked! Contract created with ${currentNegotiation.farmerName || 'Farmer'}.`);
+  executeBuyerLotPurchase(currentNegotiation.lotId, currentNegotiation.bidPrice);
+  showToast(`🎉 35% Advance Escrow (₹ ${currentNegotiation.escrowAmount.toLocaleString('en-IN')}) locked! Contract created with ${currentNegotiation.farmerName || 'Farmer'}.`, 'success');
   switchView('view-consignments');
 }
 
@@ -1541,6 +2318,26 @@ function renderBuyerConsignments() {
   if (volumeTransitEl) volumeTransitEl.innerHTML = `${transitQt} Qt <span style="font-size:0.72rem; color:#64748b; font-weight:600;">(${transitKg.toLocaleString('en-IN')} kg)</span>`;
   if (gatePassesEl) gatePassesEl.textContent = `${readyGatePasses} Ready`;
 
+  // Update Shipment Filter Tab Badges
+  const allCount = consignments.length;
+  const transitCount = onRoadCount;
+  const schedCount = consignments.filter(c => c.status === 'scheduled').length;
+  const delivCount = consignments.filter(c => c.status === 'delivered').length;
+
+  const tabAll = document.getElementById('tab-shipments-all');
+  const tabTransit = document.getElementById('tab-shipments-transit');
+  const tabSched = document.getElementById('tab-shipments-scheduled');
+  const tabDeliv = document.getElementById('tab-shipments-delivered');
+  const tabDrivers = document.getElementById('tab-shipments-drivers');
+
+  if (tabAll) tabAll.textContent = `All Active Orders (${allCount})`;
+  if (tabTransit) tabTransit.textContent = `On The Road (${transitCount})`;
+  if (tabSched) tabSched.textContent = `Scheduled (${schedCount})`;
+  if (tabDeliv) tabDeliv.textContent = `Delivered & Settled (${delivCount})`;
+  if (tabDrivers) tabDrivers.textContent = `Driver & Vehicle Telemetry (${allCount})`;
+
+  updateBuyerMarketStats();
+
   // Filter list
   const filtered = consignments.filter(s => {
     if (currentBuyerShipmentTab !== 'all' && currentBuyerShipmentTab !== 'drivers' && s.status !== currentBuyerShipmentTab) return false;
@@ -1609,7 +2406,7 @@ function renderBuyerConsignments() {
                     </div>
                     <div>
                       <div style="display: flex; align-items: center; gap: 6px;">
-                        <strong style="font-size: 1.02rem; color: #0f172a;">${s.driver}</strong>
+                        <strong style="font-size: 1.02rem; color: #0f172a;">${window.tPerson ? window.tPerson(s.driver) : s.driver}</strong>
                         <span style="font-size: 0.68rem; background: #e8f5ed; color: #0c5a36; font-weight: 800; padding: 1px 6px; border-radius: 4px;">✓ Verified</span>
                       </div>
                       <span style="font-size: 0.76rem; color: #64748b;">${s.transporter || 'GreenWays Transit'} • <strong style="color: #f59e0b;">4.9 ⭐</strong></span>
@@ -1643,11 +2440,11 @@ function renderBuyerConsignments() {
                 <!-- Route & Consignment Strip -->
                 <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 9px 12px; font-size: 0.78rem; margin-bottom: 14px; color: #1e3a8a;">
                   <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                    <span>📦 <strong>${s.crop}</strong> (${s.quantity_qt} Qt • ${qtyKg.toLocaleString('en-IN')} kg)</span>
+                    <span>📦 <strong>${window.tCrop ? window.tCrop(s.crop) : s.crop}</strong> (${s.quantity_qt} Qt • ${qtyKg.toLocaleString('en-IN')} kg)</span>
                     <span style="font-family: monospace; font-weight: 700; color: #2563eb;">#${s.tracking_id}</span>
                   </div>
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 0.74rem; color: #3b82f6;">
-                    <span>📍 ${s.loc}</span>
+                    <span>📍 ${window.tLocation ? window.tLocation(s.loc) : s.loc}</span>
                     <span style="font-weight: 700; color: #1d4ed8;">⏱️ ${s.eta}</span>
                   </div>
                 </div>
@@ -1721,14 +2518,14 @@ function renderBuyerConsignments() {
         <div class="shipment-info-box">
           <div>
             <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">PRODUCE & FARMER</div>
-            <div style="font-weight: 900; font-size: 1rem; color: #0f172a; margin: 2px 0;">${s.crop}</div>
+            <div style="font-weight: 900; font-size: 1rem; color: #0f172a; margin: 2px 0;">${window.tCrop ? window.tCrop(s.crop) : s.crop}</div>
             <div style="color: #0c5a36; font-weight: 800; font-size: 0.88rem;">${s.quantity_qt} Qt (${qtyKg.toLocaleString('en-IN')} kg)</div>
-            <div style="color: #475569; font-size: 0.78rem; font-weight: 600; margin-top: 2px;">📍 ${s.farmer} (${s.farmer_origin})</div>
+            <div style="color: #475569; font-size: 0.78rem; font-weight: 600; margin-top: 2px;">📍 ${window.tPerson ? window.tPerson(s.farmer) : s.farmer} (${window.tLocation ? window.tLocation(s.farmer_origin) : s.farmer_origin})</div>
           </div>
           <div>
             <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">DRIVER & FLEET TELEMETRY</div>
             <div style="font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 6px; margin: 2px 0;">
-              <span>👨‍✈️ ${s.driver}</span>
+              <span>👨‍✈️ ${window.tPerson ? window.tPerson(s.driver) : s.driver}</span>
               <span style="font-size: 0.68rem; background: #e0f2fe; color: #0369a1; padding: 1px 6px; border-radius: 4px; font-weight: 800;">${s.transporter ? s.transporter.split(' ')[0] : 'Transit'}</span>
             </div>
             <div style="color: #334155; font-size: 0.82rem; font-weight: 700;">🚛 ${s.vehicle}</div>
@@ -1739,8 +2536,8 @@ function renderBuyerConsignments() {
           </div>
           <div>
             <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">DELIVERY DESTINATION & ETA</div>
-            <div style="color: #0f172a; font-weight: 800; margin: 2px 0;">🏢 ${s.destination}</div>
-            <div style="color: #0284c7; font-weight: 800; font-size: 0.82rem;">📍 ${s.loc}</div>
+            <div style="color: #0f172a; font-weight: 800; margin: 2px 0;">🏢 ${window.tLocation ? window.tLocation(s.destination) : s.destination}</div>
+            <div style="color: #0284c7; font-weight: 800; font-size: 0.82rem;">📍 ${window.tLocation ? window.tLocation(s.loc) : s.loc}</div>
             <div style="color: #d97706; font-weight: 800; font-size: 0.82rem; margin-top: 2px;">⏱️ ETA: ${s.eta}</div>
           </div>
         </div>
@@ -2248,13 +3045,13 @@ function renderGrievances(filterStatus = 'all') {
               </span>
             </div>
             <div style="font-size: 0.88rem; color: #334155; font-weight: 600;">
-              Consignment: <strong style="color: #0f172a;">${grv.consignmentId || 'LOT-CONS-992'}</strong> • <span style="color: #059669; font-weight: 700;">${grv.crop}</span>
+              Consignment: <strong style="color: #0f172a;">${grv.consignmentId || 'LOT-CONS-992'}</strong> • <span style="color: #059669; font-weight: 700;">${window.tCrop ? window.tCrop(grv.crop) : grv.crop}</span>
             </div>
           </div>
 
           <div style="text-align: right; background: #f8fafc; padding: 8px 14px; border-radius: 10px; border: 1px solid #e2e8f0;">
             <span style="font-size: 0.72rem; color: #64748b; display: block; text-transform: uppercase; font-weight: 700; letter-spacing: 0.03em;">Farmer / Source</span>
-            <strong style="font-size: 0.88rem; color: #0f172a;">${grv.farmerName}</strong>
+            <strong style="font-size: 0.88rem; color: #0f172a;">${window.tPerson ? window.tPerson(grv.farmerName) : grv.farmerName}</strong>
           </div>
         </div>
 
@@ -2262,14 +3059,14 @@ function renderGrievances(filterStatus = 'all') {
         <div style="background: #f8fafc; border-left: 4px solid ${isUnderReview ? '#d97706' : '#059669'}; border-radius: 8px; padding: 14px 16px; margin-bottom: 18px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
             <span style="font-size: 0.78rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.04em;">
-              Dispute Category: <span style="color: #0f172a;">${grv.category}</span>
+              Dispute Category: <span style="color: #0f172a;">${window.tText ? window.tText(grv.category) : grv.category}</span>
             </span>
             <span style="font-size: 0.78rem; font-weight: 800; color: #dc2626; background: #fee2e2; border: 1px solid #fecaca; padding: 3px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
               🔒 ${grv.amountUnderHold}
             </span>
           </div>
           <div style="font-size: 0.84rem; color: #1e293b; line-height: 1.5; font-weight: 500;">
-            ${grv.description}
+            ${window.tText ? window.tText(grv.description) : grv.description}
           </div>
         </div>
 
@@ -2312,16 +3109,19 @@ function renderGrievances(filterStatus = 'all') {
 
 // Form Handlers
 document.addEventListener('DOMContentLoaded', () => {
-  setupSidebarNav();
-  renderVerifiedLots();
-  renderBuyerDemands();
-  renderBuyerConsignments();
-  renderGrievances();
-  renderBuyerEmergencyDesk();
-  renderChatSidebar();
-  initLocationSwitcher();
-  renderStorageFacilities();
-  renderStorageBookings();
+  try { renderBuyerEmergencyDesk(); } catch(e) { console.error('Emergency desk init error:', e); }
+  try { loadPersistedBuyerState(); } catch(e) { console.error('Load persisted state error:', e); }
+  try { updateBuyerMarketStats(); } catch(e) { console.error('Market stats error:', e); }
+  try { renderBuyerEscrowVault(); } catch(e) { console.error('Escrow vault error:', e); }
+  try { setupSidebarNav(); } catch(e) { console.error('Sidebar nav error:', e); }
+  try { renderVerifiedLots(); } catch(e) { console.error('Verified lots error:', e); }
+  try { renderBuyerDemands(); } catch(e) { console.error('Demands error:', e); }
+  try { renderBuyerConsignments(); } catch(e) { console.error('Consignments error:', e); }
+  try { renderGrievances(); } catch(e) { console.error('Grievances error:', e); }
+  try { renderChatSidebar(); } catch(e) { console.error('Chat sidebar error:', e); }
+  try { initLocationSwitcher(); } catch(e) { console.error('Location switcher error:', e); }
+  try { renderStorageFacilities(); } catch(e) { console.error('Storage facilities error:', e); }
+  try { renderStorageBookings(); } catch(e) { console.error('Storage bookings error:', e); }
 
   // Global keyboard shortcuts (Esc to close any active modal, Ctrl+K to search)
   document.addEventListener('keydown', (e) => {
@@ -2353,8 +3153,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (profileForm) {
     profileForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const newName = document.getElementById('buyer-input-name').value;
-      const newCompany = document.getElementById('buyer-input-company').value;
+      const newName = document.getElementById('buyer-input-name')?.value || 'Karthik Sundaram';
+      const newCompany = document.getElementById('buyer-input-company')?.value || 'BigBasket';
 
       const nameEl = document.querySelector('.profile-name');
       if (nameEl) nameEl.textContent = newName;
@@ -2381,10 +3181,10 @@ const demandForm = document.getElementById('form-new-demand');
 if (demandForm) {
   demandForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const crop = document.getElementById('demand-crop').value;
-    const tonnage = parseFloat(document.getElementById('demand-tonnage').value) || 50;
+    const crop = document.getElementById('demand-crop')?.value || 'Tomato';
+    const tonnage = parseFloat(document.getElementById('demand-tonnage')?.value) || 50;
     const unit = document.getElementById('demand-unit')?.value || 'Qt';
-    const price = document.getElementById('demand-price').value;
+    const price = document.getElementById('demand-price')?.value;
     const priceUnit = document.getElementById('demand-price-unit')?.value || 'qt';
     const numPrice = parseFloat(price) || 1250;
 
@@ -2456,8 +3256,32 @@ if (demandForm) {
   if (buyForm) {
     buyForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const lotId = document.getElementById('buy-modal-lot-id')?.value;
+      const lot = (buyerData.verifiedLots && buyerData.verifiedLots.find(l => l.id === lotId)) || (buyerData.verifiedLots && buyerData.verifiedLots[0]);
+      if (!lot) return;
+
+      const availKg = (lot.availableQtyKg !== undefined) ? parseFloat(lot.availableQtyKg) : (lot.qtyNum ? lot.qtyNum * 100 : 5000);
+      const isModeAll = document.getElementById('buy-mode-all')?.checked;
+      let qtyKg = availKg;
+
+      if (!isModeAll) {
+        const customInput = document.getElementById('buy-custom-qty-kg');
+        const customVal = parseFloat(customInput?.value);
+        if (!isNaN(customVal) && customVal > 0) {
+          qtyKg = Math.min(customVal, availKg);
+        }
+      }
+
+      const kgRate = lot.pricePerKg || (lot.priceNum ? lot.priceNum / 100 : 12.0);
+
       closeDirectBuyModal();
-      showToast(`35% Advance Escrow locked! Dispatch consignment tracking initiated.`);
+      executeBuyerLotPurchase(lotId, kgRate, qtyKg);
+
+      if (qtyKg >= availKg) {
+        showToast(`🎉 100% Volume Procured (${qtyKg.toLocaleString('en-IN')} kg)! Lot is now SOLD OUT for all other buyers.`, 'success');
+      } else {
+        showToast(`🎉 Procured ${qtyKg.toLocaleString('en-IN')} kg! Remaining ${(availKg - qtyKg).toLocaleString('en-IN')} kg available in market.`, 'success');
+      }
       switchView('view-consignments');
     });
   }
@@ -2467,8 +3291,9 @@ if (demandForm) {
   if (bidForm) {
     bidForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const lotId = document.getElementById('bid-modal-lot-id').value;
-      const bidPrice = document.getElementById('counter-bid-price').value;
+      const lotId = document.getElementById('bid-modal-lot-id')?.value;
+      const bidPrice = document.getElementById('counter-bid-price')?.value;
+      if (!lotId || !bidPrice) return;
       
       closeBidModal();
       openNegotiationModal(lotId, bidPrice);
@@ -2481,11 +3306,11 @@ if (demandForm) {
   if (grvForm) {
     grvForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const lotRaw = document.getElementById('grv-lot-select').value;
+      const lotRaw = document.getElementById('grv-lot-select')?.value || '';
       const [lotId, cropName, farmerName] = lotRaw.split('|');
-      const category = document.getElementById('grv-category').value;
-      const amount = document.getElementById('grv-claim-amount').value;
-      const desc = document.getElementById('grv-description').value;
+      const category = document.getElementById('grv-category')?.value || 'Quality Dispute';
+      const amount = document.getElementById('grv-claim-amount')?.value || '12000';
+      const desc = document.getElementById('grv-description')?.value || '';
 
       const numAmount = parseFloat(amount) || 12000;
       const newGrvId = `GRV-2026-${Math.floor(100 + Math.random() * 900)}`;
@@ -2620,13 +3445,13 @@ function updateEscrowVaultDOM() {
   const advEl = document.getElementById('vault-advance-locked');
   const holdEl = document.getElementById('vault-delivery-hold');
   const resEl = document.getElementById('escrow-liquid-reserves');
-  const settledEl = document.getElementById('escrow-settled-total');
+  const settledEl = document.getElementById('escrow-settled-total') || document.getElementById('grv-resolved-count');
 
   if (commEl) commEl.textContent = `₹ ${buyerEscrowState.committedPool.toLocaleString('en-IN')}`;
   if (advEl) advEl.textContent = `₹ ${buyerEscrowState.advanceLocked.toLocaleString('en-IN')}`;
   if (holdEl) holdEl.textContent = `₹ ${buyerEscrowState.deliveryHold.toLocaleString('en-IN')}`;
   if (resEl) resEl.textContent = `₹ ${buyerEscrowState.availableLiquidity.toLocaleString('en-IN')}`;
-  if (settledEl) settledEl.textContent = `₹ ${buyerEscrowState.completedSettlements.toLocaleString('en-IN')}`;
+  if (settledEl && settledEl.id === 'escrow-settled-total') settledEl.textContent = `₹ ${buyerEscrowState.completedSettlements.toLocaleString('en-IN')}`;
 }
 
 function openDepositEscrowModal() {
@@ -3002,7 +3827,7 @@ function renderStorageFacilities(filterType = 'all') {
             ${f.name}
           </h3>
           <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 14px; font-weight: 500;">
-            📍 ${f.location}
+            📍 ${window.tLocation ? window.tLocation(f.location) : f.location}
           </div>
 
           <!-- IoT Climate Sensors & Specs -->
@@ -3035,7 +3860,7 @@ function renderStorageFacilities(filterType = 'all') {
           <div style="margin-bottom: 14px;">
             <span style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;">Suitable Commodities:</span>
             <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
-              ${f.suitableCrops.map(c => `<span style="font-size: 0.72rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 2px 7px; border-radius: 5px; font-weight: 600;">${c}</span>`).join('')}
+              ${f.suitableCrops.map(c => `<span style="font-size: 0.72rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 2px 7px; border-radius: 5px; font-weight: 600;">${window.tCrop ? window.tCrop(c) : c}</span>`).join('')}
             </div>
           </div>
         </div>
@@ -3085,7 +3910,7 @@ function renderStorageBookings() {
         <span style="font-size: 0.7rem; color: #64748b;">${b.chamberNo}</span>
       </td>
       <td>
-        <strong style="color: #0f172a; font-size: 0.88rem;">${b.crop}</strong>
+        <strong style="color: #0f172a; font-size: 0.88rem;">${window.tCrop ? window.tCrop(b.crop) : b.crop}</strong>
         <div style="font-size: 0.72rem; color: #64748b;">Lot Ref: ${b.lotRef}</div>
       </td>
       <td>
@@ -3126,8 +3951,8 @@ function filterStorageFacilities(filterType, btnEl) {
       b.classList.add('btn-outline');
     });
     btnEl.classList.add('active');
-    btnEl.classList.remove('btn-outline');
     btnEl.classList.add('btn-primary');
+    btnEl.classList.remove('btn-outline');
   }
   renderStorageFacilities(filterType);
 }
@@ -3324,4 +4149,11 @@ window.openBookTransportModal = openBookTransportModal;
 window.closeBookTransportModal = closeBookTransportModal;
 window.calculateTransportEstimate = calculateTransportEstimate;
 window.updateTransportLotMeta = updateTransportLotMeta;
+window.renderBuyerEmergencyDesk = renderBuyerEmergencyDesk;
+window.renderBuyerEscrowVault = renderBuyerEscrowVault;
+window.renderVerifiedLots = renderVerifiedLots;
+window.renderBuyerDemands = renderBuyerDemands;
+window.renderGrievances = renderGrievances;
+window.openDirectBuyModal = openDirectBuyModal;
+window.executeBuyerLotPurchase = executeBuyerLotPurchase;
 

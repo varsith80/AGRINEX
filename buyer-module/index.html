@@ -271,19 +271,8 @@
 
         <!-- Navigation Links (Data-View Controlled) -->
         <ul class="sidebar-nav">
-          <!-- 1. Dashboard -->
-          <li class="nav-item active" data-view="view-dashboard">
-            <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-              <span>Dashboard</span>
-            </div>
-          </li>
-
-          <!-- 2. Marketplace Lots -->
-          <li class="nav-item" data-view="view-verified-produce">
+          <!-- 1. Marketplace Lots -->
+          <li class="nav-item active" data-view="view-verified-produce">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
@@ -425,7 +414,34 @@
           </div>
         </div>
 
-        <div class="navbar-right">
+        <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
+          <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
+          <div class="lang-selector-widget" style="position: relative;">
+            <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
+              <span id="current-language-label">🇬🇧 English</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div id="language-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 12px 28px -4px rgba(0,0,0,0.15), 0 8px 12px -6px rgba(0,0,0,0.08); width: 185px; z-index: 1100; overflow: hidden; font-size: 0.82rem;">
+              <div style="padding: 8px 12px; font-size: 0.7rem; font-weight: 800; color: #64748b; background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; justify-content: space-between;">
+                <span>🌐 Select Language</span>
+              </div>
+              <button type="button" id="lang-opt-en" onclick="setBuyerLanguage('en')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: #e8f5ed; color: #0c5a36; cursor: pointer; text-align: left; font-weight: 700; transition: background 0.15s ease;">
+                <span style="display: flex; align-items: center; gap: 8px;">🇬🇧 English</span>
+                <span class="lang-check" style="font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+              <button type="button" id="lang-opt-hi" onclick="setBuyerLanguage('hi')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;" onmouseover="if(window.getBuyerLanguage && window.getBuyerLanguage()!=='hi')this.style.background='#f8fafc'" onmouseout="if(window.getBuyerLanguage && window.getBuyerLanguage()!=='hi')this.style.background='transparent'">
+                <span style="display: flex; align-items: center; gap: 8px;">🇮🇳 हिन्दी (Hindi)</span>
+                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+              <button type="button" id="lang-opt-mr" onclick="setBuyerLanguage('mr')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;" onmouseover="if(window.getBuyerLanguage && window.getBuyerLanguage()!=='mr')this.style.background='#f8fafc'" onmouseout="if(window.getBuyerLanguage && window.getBuyerLanguage()!=='mr')this.style.background='transparent'">
+                <span style="display: flex; align-items: center; gap: 8px;">🚩 मराठी (Marathi)</span>
+                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+            </div>
+          </div>
+
           <!-- Notification Bell -->
           <button class="notif-btn" title="Notifications" onclick="showToast('3 new farmer lots match your active tomato quota!')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -445,162 +461,8 @@
         </div>
       </header>
 
-      <!-- VIEW 1: OVERVIEW DASHBOARD (Default Active) -->
-      <div id="view-dashboard" class="portal-view active-view dashboard-content">
-        
-        <!-- Buyer Hero Section -->
-        <section class="hero-banner" style="justify-content: flex-end; padding: 18px 24px;">
-          <div class="hero-actions">
-            <button class="btn btn-primary" onclick="openPostDemandModal()">
-              + Post Sourcing Quota
-            </button>
-            <button class="btn btn-outline" style="background: rgba(255,255,255,0.15); color: #ffffff; border-color: rgba(255,255,255,0.3);" onclick="switchView('view-verified-produce')">
-              📦 Browse Produce
-            </button>
-            <button class="btn btn-outline" style="background: rgba(255,255,255,0.22); color: #ffffff; border-color: rgba(255,255,255,0.4); font-weight: 700;" onclick="switchView('view-insights')">
-              📈 APMC Insights
-            </button>
-          </div>
-        </section>
-
-        <!-- 4-Column Stat Cards -->
-        <section class="stats-grid" style="margin-top: 20px;">
-          <div class="stat-card" style="cursor: pointer;" onclick="switchView('view-bulk-demands')">
-            <div class="stat-header">
-              <span class="stat-title">Active Demands</span>
-              <div class="stat-icon-box" style="background: #e8f5ed; color: #0c5a36;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                </svg>
-              </div>
-            </div>
-            <div class="stat-value">4 Quotas</div>
-            <div class="stat-subtext">Active procurement quotas &rarr;</div>
-          </div>
-
-          <div class="stat-card" style="cursor: pointer;" onclick="switchView('view-verified-produce')">
-            <div class="stat-header">
-              <span class="stat-title">Matched Lots</span>
-              <div class="stat-icon-box" style="background: #eff6ff; color: #2563eb;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-                </svg>
-              </div>
-            </div>
-            <div class="stat-value">8 Lots</div>
-            <div class="stat-subtext">Verified farmer lots in radius &rarr;</div>
-          </div>
-
-          <div class="stat-card" style="cursor: pointer;" onclick="switchView('view-consignments')">
-            <div class="stat-header">
-              <span class="stat-title">In Transit</span>
-              <div class="stat-icon-box" style="background: #f0f9ff; color: #0284c7;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
-                  <circle cx="17" cy="18" r="2"></circle>
-                  <circle cx="7" cy="18" r="2"></circle>
-                </svg>
-              </div>
-            </div>
-            <div class="stat-value">2 Shipments</div>
-            <div class="stat-subtext">Consignments on the road &rarr;</div>
-          </div>
-
-          <div class="stat-card" style="cursor: pointer;" onclick="switchView('view-calculator')">
-            <div class="stat-header">
-              <span class="stat-title">Middleman Savings</span>
-              <div class="stat-icon-box" style="background: #fef3c7; color: #d97706;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <line x1="12" x2="12" y1="2" y2="22"></line>
-                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
-              </div>
-            </div>
-            <div class="stat-value" style="color: #0c5a36;">₹ 46,200</div>
-            <div class="stat-subtext">Saved vs traditional brokers &rarr;</div>
-          </div>
-        </section>
-
-        <!-- Emergency Salvage & Short Shelf-Life Procurement Feed -->
-        <section class="card" style="border: 1.5px solid #fca5a5; background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%);">
-          <div class="card-header">
-            <div>
-              <h3 class="card-title" style="color: #b91c1c;">
-                <span style="font-size: 1.25rem;">🚨</span>
-                Emergency Salvage Exchange (Breakeven Procurement)
-              </h3>
-              <p style="font-size: 0.8rem; color: #78350f; margin-top: 2px;">
-                Direct sourcing stream for <strong>Food Processors</strong>, <strong>Commercial Caterers</strong> & <strong>Bio-Compost Manufacturers</strong> to purchase low shelf-life harvests immediately.
-              </p>
-            </div>
-            <span class="badge badge-status-emergency">⚡ Instant Escrow Match</span>
-          </div>
-
-          <div class="listings-table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Emergency Crop Lot</th>
-                  <th>Farmer & Mandi</th>
-                  <th>Quantity</th>
-                  <th>Breakeven Buyout Price</th>
-                  <th>Target Salvage Use</th>
-                  <th>Shelf-Life Urgency</th>
-                  <th>Immediate Buy Action</th>
-                </tr>
-              </thead>
-              <tbody id="emergency-buyer-tbody">
-                <!-- Rendered dynamically by buyer/js/dashboard.js -->
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <!-- Main Summary Grid -->
-        <div class="main-grid" style="grid-template-columns: 1fr;">
-          
-          <div class="left-column">
-            <!-- Table Preview -->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
-                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-                  </svg>
-                  <span>Featured Verified Lots Ready for Sourcing</span>
-                </h3>
-                <button class="card-action-link" onclick="switchView('view-verified-produce')">
-                  <span>View All 8 Lots &rarr;</span>
-                </button>
-              </div>
-
-              <div class="data-table-container">
-                <table class="data-table">
-                  <thead>
-                    <tr>
-                      <th>Crop & Farmer</th>
-                      <th>Quality Grade</th>
-                      <th>Farmer Trust</th>
-                      <th>Quantity</th>
-                      <th>Ask Price (₹/kg)</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="dashboard-lots-tbody">
-                    <!-- Top lots preview rendered via JS -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- VIEW 2: VERIFIED PRODUCE / MARKETPLACE (EXACT SCREENSHOT LAYOUT) -->
-      <div id="view-verified-produce" class="portal-view dashboard-content">
+      <!-- VIEW: VERIFIED PRODUCE / MARKETPLACE (Default Active) -->
+      <div id="view-verified-produce" class="portal-view active-view dashboard-content">
 
         <!-- 2. 4-Column Stat Metric Pills -->
         <div class="market-stats-row">
@@ -665,6 +527,132 @@
           </div>
         </div>
 
+        <!-- Emergency Salvage Exchange (Breakeven Procurement) -->
+        <section class="card" id="marketplace-emergency-salvage-section" style="border: 1.5px solid #fca5a5; background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%); margin-bottom: 20px; border-radius: 14px; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.07);">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #fee2e2; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: #fee2e2; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);">
+                🚨
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <h3 class="card-title" style="color: #b91c1c; font-size: 1.05rem; font-weight: 800; margin: 0;">
+                    Emergency Salvage Exchange (Breakeven Procurement)
+                  </h3>
+                  <span class="badge badge-status-emergency" style="font-size: 0.72rem; padding: 2px 8px; border-radius: 6px;">⚡ Instant Escrow Match</span>
+                </div>
+                <p style="font-size: 0.78rem; color: #78350f; margin: 3px 0 0 0;">
+                  Direct sourcing stream for <strong>Food Processors</strong>, <strong>Commercial Caterers</strong> &amp; <strong>Bio-Compost Manufacturers</strong> to purchase low shelf-life harvests immediately.
+                </p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 0.75rem; color: #991b1b; font-weight: 700; background: #fff1f2; padding: 4px 10px; border-radius: 6px; border: 1px solid #fecdd3;">
+                🛡️ Guaranteed 65%–75% Farmer Recovery
+              </span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="toggleEmergencySection(this)" style="font-size: 0.74rem; font-weight: 700; border-color: #fca5a5; color: #991b1b; background: #ffffff; padding: 4px 10px; border-radius: 6px; cursor: pointer;">
+                Hide / Show ▾
+              </button>
+            </div>
+          </div>
+
+          <div class="data-table-container" id="marketplace-emergency-table-container" style="overflow-x: auto; padding: 0;">
+            <table class="data-table" style="margin: 0; width: 100%;">
+              <thead>
+                <tr style="background: #fef2f2; border-bottom: 1.5px solid #fecdd3;">
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 16px;">Emergency Crop Lot</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 14px;">Farmer &amp; Mandi</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 14px;">Quantity</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 14px;">Breakeven Buyout Price</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 14px;">Target Salvage Use</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 14px;">Shelf-Life Urgency</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 16px;">Immediate Buy Action</th>
+                </tr>
+              </thead>
+              <tbody id="emergency-buyer-tbody-marketplace" class="emergency-buyer-tbody">
+                <tr style="background-color: #fffdfa;">
+                  <td>
+                    <div class="crop-cell">
+                      <img src="assets/images/tomato.jpg" alt="Tomato" class="crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
+                      <div>
+                        <div class="crop-name" style="color: #991b1b; font-weight: 800;">Narayangaon Tomatoes (Perishable)</div>
+                        <span style="font-size: 0.72rem; color: #dc2626; font-weight: 700;">🚨 Active Salvage Call</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div style="font-weight: 700; color: #0f172a; font-size: 0.88rem;">Sanjay Deshmukh</div>
+                    <div style="font-size: 0.74rem; color: #64748b;">📍 Manchar / Narayangaon Yard, Pune, MH</div>
+                  </td>
+                  <td>
+                    <strong style="color: #0f172a; font-size: 0.95rem;">4,500 kg (45 Qt)</strong>
+                  </td>
+                  <td>
+                    <div>
+                      <span style="font-size: 1.05rem; font-weight: 800; color: #15803d;">₹ 8.90 /kg</span>
+                      <div style="font-size: 0.72rem; color: #64748b; text-decoration: line-through;">Orig: ₹ 12.00 /kg</div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge-buyer-type buyer-type-processing">
+                      <span>🥫</span> Tomato Puree &amp; Sauce
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge badge-status-emergency" style="font-size: 0.72rem;">
+                      ⚡ 24-36 Hours Left
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary" style="background: #dc2626; font-size: 0.8rem; padding: 7px 14px; font-weight: 800; box-shadow: 0 2px 8px rgba(220,38,38,0.25); border: none; cursor: pointer; border-radius: 8px;" onclick="openEmergencyBuyoutModal('EMG-LOT-TOM-99')">
+                      ⚡ Instant Buyout
+                    </button>
+                  </td>
+                </tr>
+                <tr style="background-color: #fffdfa;">
+                  <td>
+                    <div class="crop-cell">
+                      <img src="assets/images/onion.jpg" alt="Onion" class="crop-thumb" onerror="this.src='assets/images/onion.jpg'" />
+                      <div>
+                        <div class="crop-name" style="color: #991b1b; font-weight: 800;">Nashik Garwa Red Onion Lot</div>
+                        <span style="font-size: 0.72rem; color: #dc2626; font-weight: 700;">🚨 Active Salvage Call</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div style="font-weight: 700; color: #0f172a; font-size: 0.88rem;">Patil Rameshwar</div>
+                    <div style="font-size: 0.74rem; color: #64748b;">📍 Lasalgaon APMC Yard, Nashik, MH</div>
+                  </td>
+                  <td>
+                    <strong style="color: #0f172a; font-size: 0.95rem;">6,000 kg (60 Qt)</strong>
+                  </td>
+                  <td>
+                    <div>
+                      <span style="font-size: 1.05rem; font-weight: 800; color: #15803d;">₹ 13.50 /kg</span>
+                      <div style="font-size: 0.72rem; color: #64748b; text-decoration: line-through;">Orig: ₹ 18.00 /kg</div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge-buyer-type buyer-type-caterer">
+                      <span>🍲</span> Bulk Kitchen Catering
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge badge-status-emergency" style="font-size: 0.72rem;">
+                      ⚡ 48 Hours Left
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary" style="background: #dc2626; font-size: 0.8rem; padding: 7px 14px; font-weight: 800; box-shadow: 0 2px 8px rgba(220,38,38,0.25); border: none; cursor: pointer; border-radius: 8px;" onclick="openEmergencyBuyoutModal('EMG-LOT-ONI-88')">
+                      ⚡ Instant Buyout
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         <!-- 3. Sticky Glassmorphic Filter Header -->
         <div class="market-sticky-filter-wrapper">
           <div style="position: relative; margin-bottom: 12px;">
@@ -700,7 +688,18 @@
             <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Inspected quality crops available for immediate dispatch</div>
           </div>
 
-          <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <!-- Buyer Perspective Simulator: You vs Other Buyer -->
+            <div style="display: flex; align-items: center; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 9px; padding: 2px 4px; gap: 4px;" title="Switch perspective to see how sold-out lots appear to other buyers">
+              <span style="font-size: 0.72rem; font-weight: 800; color: #475569; padding-left: 4px;">👤 View as:</span>
+              <button id="btn-persona-self" class="unit-toggle-btn active" onclick="setBuyerPersona('my-account', this)" style="background: #0c5a36; color: #ffffff; border: none; padding: 4px 9px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">
+                🏢 You (BigBasket)
+              </button>
+              <button id="btn-persona-other" class="unit-toggle-btn" onclick="setBuyerPersona('other-buyer', this)" style="background: transparent; color: #475569; border: none; padding: 4px 9px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">
+                👥 Other Buyer (Simulate)
+              </button>
+            </div>
+
             <!-- View Mode Switcher: Grid vs Table -->
             <div style="display: flex; align-items: center; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 2px;">
               <button id="btn-view-grid" class="unit-toggle-btn active" onclick="setMarketViewMode('grid', this)" style="background: #0c5a36; color: #ffffff; border: none; padding: 5px 9px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer;" title="Grid View">
@@ -720,6 +719,20 @@
               <option value="savings">Highest Mandi Savings</option>
             </select>
           </div>
+        </div>
+
+        <!-- Simulated Other Buyer Notification Banner -->
+        <div id="other-buyer-sim-banner" style="display: none; background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 12px; padding: 12px 18px; margin-bottom: 16px; font-size: 0.83rem; color: #991b1b; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.06);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.25rem;">👥</span>
+            <div>
+              <strong style="color: #991b1b; display: block; margin-bottom: 2px;">Simulating Other Buyer View (Reliance Fresh / External Buyer)</strong>
+              <span style="color: #7f1d1d; font-size: 0.78rem;">Any crop lot fully procured by another buyer appears as <strong>🚫 SOLD OUT (0 kg Available)</strong> and procurement is strictly disabled.</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline" onclick="setBuyerPersona('my-account', document.getElementById('btn-persona-self'))" style="border-color: #fca5a5; color: #991b1b; background: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 5px 12px; border-radius: 7px; white-space: nowrap; cursor: pointer;">
+            ✕ Exit Simulation
+          </button>
         </div>
 
         <!-- 7. 3-Column Visual Grid of Farm-Direct Produce Cards -->
@@ -920,11 +933,11 @@
 
         <!-- TABS -->
         <div class="filter-tabs-row">
-          <button class="filter-tab buyer-shipment-tab active" onclick="filterBuyerShipmentsTab('all', this)">All Orders (4)</button>
-          <button class="filter-tab buyer-shipment-tab" onclick="filterBuyerShipmentsTab('transit', this)">On The Road (2)</button>
-          <button class="filter-tab buyer-shipment-tab" onclick="filterBuyerShipmentsTab('scheduled', this)">Pickup Scheduled (1)</button>
-          <button class="filter-tab buyer-shipment-tab" onclick="filterBuyerShipmentsTab('delivered', this)">Delivered (1)</button>
-          <button class="filter-tab buyer-shipment-tab" onclick="filterBuyerShipmentsTab('drivers', this)">Driver &amp; Vehicle Details (4)</button>
+          <button class="filter-tab buyer-shipment-tab active" id="tab-shipments-all" onclick="filterBuyerShipmentsTab('all', this)">All Orders (3)</button>
+          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-transit" onclick="filterBuyerShipmentsTab('transit', this)">On The Road (3)</button>
+          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-scheduled" onclick="filterBuyerShipmentsTab('scheduled', this)">Pickup Scheduled (0)</button>
+          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-delivered" onclick="filterBuyerShipmentsTab('delivered', this)">Delivered (0)</button>
+          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-drivers" onclick="filterBuyerShipmentsTab('drivers', this)">Driver &amp; Vehicle Details (3)</button>
         </div>
 
         <!-- SHIPMENTS LIST CONTAINER -->
@@ -1012,9 +1025,10 @@
           <div style="margin-bottom: 28px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
               <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.01em;">Active Escrow Contracts & Milestone Steppers</h3>
-              <span style="font-size: 0.78rem; color: #64748b; font-weight: 700; background: #f1f5f9; padding: 4px 10px; border-radius: 6px;">3 Active Milestone Tracks</span>
+              <span style="font-size: 0.78rem; color: #64748b; font-weight: 700; background: #f1f5f9; padding: 4px 10px; border-radius: 6px;" id="vault-tracks-count">3 Active Milestone Tracks</span>
             </div>
 
+            <div id="vault-escrow-cards-container">
             <!-- Escrow Contract 1 -->
             <div class="vault-contract-card" id="escrow-card-1">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
@@ -1148,6 +1162,7 @@
                   Release 65% Balance (₹ 91,000)
                 </button>
               </div>
+            </div>
             </div>
 
           </div>
@@ -1328,7 +1343,7 @@
                 <span id="calc-summary-savings-pct" style="font-size: 0.7rem; background: #bbf7d0; color: #0c5a36; font-weight: 800; padding: 3px 8px; border-radius: 6px;">15.2% Lower</span>
               </div>
               <div id="calc-summary-net-savings" style="font-size: 1.55rem; font-weight: 800; color: #0c5a36; margin: 8px 0 2px; letter-spacing: -0.02em;">₹ 11,350</div>
-              <div style="font-size: 0.78rem; color: #166534; font-weight: 700;">Retained Profit Margin</div>
+              <div id="calc-summary-perkg-savings" style="font-size: 0.78rem; color: #166534; font-weight: 700;">₹ 2.27 /kg Saved</div>
             </div>
 
             <!-- Transit & Shrinkage -->
@@ -2079,10 +2094,10 @@
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
           <div>
             <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-              <h1 class="dash-title" style="margin: 0; font-size: 1.5rem; color: #0c5a36;">Maharashtra APMC Market Insights & AI Hedging</h1>
-              <span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36; font-weight: 800;">e-NAM Live Feed</span>
+              <h1 class="dash-title" data-i18n="insights_header_title" style="margin: 0; font-size: 1.5rem; color: #0c5a36;">Maharashtra APMC Market Insights & AI Hedging</h1>
+              <span class="badge badge-grade-a" data-i18n="insights_enam_live" style="background: #e8f5ed; color: #0c5a36; font-weight: 800;">e-NAM Live Feed</span>
             </div>
-            <p class="dash-subtitle" style="margin: 4px 0 0 0;">
+            <p class="dash-subtitle" data-i18n="insights_header_subtitle" style="margin: 4px 0 0 0;">
               Real-time APMC mandi modal rates, direct farm-gate arbitrage spreads, arrival volumes across Maharashtra agricultural belts, and AI forward price forecasting.
             </p>
           </div>
@@ -2094,7 +2109,7 @@
             </div>
             <button class="btn btn-primary btn-sm" onclick="triggerMandiSync()" style="background: #0c5a36; border-color: #0c5a36; display: flex; align-items: center; gap: 6px; font-weight: 700;">
               <span id="mandi-sync-icon" style="display: inline-block;">🔄</span>
-              <span>Sync Mandi Rates</span>
+              <span data-i18n="insights_sync_btn">Sync Mandi Rates</span>
             </button>
           </div>
         </div>
@@ -2103,18 +2118,18 @@
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px 20px; margin-bottom: 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
             <div>
-              <span style="font-size: 0.85rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; display: block;">Select Maharashtra Commodity Benchmark:</span>
-              <span style="font-size: 0.74rem; color: #64748b;">Click crop to inspect APMC historical curves & AI 7-day projection</span>
+              <span data-i18n="insights_select_benchmark" style="font-size: 0.85rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; display: block;">Select Maharashtra Commodity Benchmark:</span>
+              <span data-i18n="insights_select_benchmark_sub" style="font-size: 0.74rem; color: #64748b;">Click crop to inspect APMC historical curves & AI 7-day projection</span>
             </div>
             
             <!-- Category Filter Tabs -->
             <div id="insight-cat-tabs" style="display: flex; gap: 6px; flex-wrap: wrap;">
-              <button class="insight-cat-tab active" data-cat="all" onclick="selectInsightCategory('all')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #0c5a36; background: #0c5a36; color: #ffffff; cursor: pointer; transition: all 0.2s;">All (28)</button>
-              <button class="insight-cat-tab" data-cat="vegetables" onclick="selectInsightCategory('vegetables')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; transition: all 0.2s;">🥬 Vegetables</button>
-              <button class="insight-cat-tab" data-cat="fruits" onclick="selectInsightCategory('fruits')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; transition: all 0.2s;">🍎 Fruits</button>
-              <button class="insight-cat-tab" data-cat="grains" onclick="selectInsightCategory('grains')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; transition: all 0.2s;">🌾 Grains & Millets</button>
-              <button class="insight-cat-tab" data-cat="pulses" onclick="selectInsightCategory('pulses')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; transition: all 0.2s;">🫘 Pulses</button>
-              <button class="insight-cat-tab" data-cat="spices" onclick="selectInsightCategory('spices')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; transition: all 0.2s;">🌿 Spices & Oilseeds</button>
+              <button class="insight-cat-tab active" data-cat="all" data-i18n="insights_cat_all" onclick="selectInsightCategory('all')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #0c5a36; background: #0c5a36; color: #ffffff; cursor: pointer; transition: all 0.2s;">All (28)</button>
+              <button class="insight-cat-tab" data-cat="vegetables" data-i18n="insights_cat_veg" onclick="selectInsightCategory('vegetables')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; transition: all 0.2s;">🥬 Vegetables</button>
+              <button class="insight-cat-tab" data-cat="fruits" data-i18n="insights_cat_fruits" onclick="selectInsightCategory('fruits')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; transition: all 0.2s;">🍎 Fruits</button>
+              <button class="insight-cat-tab" data-cat="grains" data-i18n="insights_cat_grains" onclick="selectInsightCategory('grains')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; transition: all 0.2s;">🌾 Grains & Millets</button>
+              <button class="insight-cat-tab" data-cat="pulses" data-i18n="insights_cat_pulses" onclick="selectInsightCategory('pulses')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; transition: all 0.2s;">🫘 Pulses</button>
+              <button class="insight-cat-tab" data-cat="spices" data-i18n="insights_cat_spices" onclick="selectInsightCategory('spices')" style="padding: 5px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; transition: all 0.2s;">🌿 Spices & Oilseeds</button>
             </div>
           </div>
           
@@ -2128,52 +2143,52 @@
           <!-- Card 1: Benchmark Modal -->
           <div class="insight-kpi-card" style="background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%); border: 1px solid #bbf7d0; border-top: 4px solid #0c5a36; border-radius: 14px; padding: 18px; box-shadow: 0 4px 12px rgba(12, 90, 54, 0.05); transition: transform 0.2s, box-shadow 0.2s;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-              <span class="stat-label" style="font-size: 0.78rem; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: 0.4px;">Mandi Benchmark Modal</span>
+              <span class="stat-label" data-i18n="kpi_modal_label" style="font-size: 0.78rem; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: 0.4px;">Mandi Benchmark Modal</span>
               <div style="background: #dcfce7; color: #15803d; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
               </div>
             </div>
             <div class="stat-value" id="kpi-insight-modal" style="color: #0c5a36; font-size: 1.5rem; font-weight: 800; margin-bottom: 4px;">₹ 18.50 /kg</div>
             <div class="stat-change positive" style="font-size: 0.74rem; font-weight: 700; color: #15803d; display: flex; align-items: center; gap: 4px;">
-              <span>▲ +4.8%</span>
-              <span style="color: #64748b; font-weight: 500;">vs last week</span>
+              <span id="kpi-modal-trend-pct">▲ +4.8%</span>
+              <span data-i18n="vs_last_week" style="color: #64748b; font-weight: 500;">vs last week</span>
             </div>
           </div>
 
           <!-- Card 2: Arbitrage Spread -->
           <div class="insight-kpi-card" style="background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); border: 1px solid #bfdbfe; border-top: 4px solid #2563eb; border-radius: 14px; padding: 18px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.05); transition: transform 0.2s, box-shadow 0.2s;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-              <span class="stat-label" style="font-size: 0.78rem; font-weight: 700; color: #1e40af; text-transform: uppercase; letter-spacing: 0.4px;">Direct Farm Arbitrage</span>
+              <span class="stat-label" data-i18n="kpi_arbitrage_label" style="font-size: 0.78rem; font-weight: 700; color: #1e40af; text-transform: uppercase; letter-spacing: 0.4px;">Direct Farm Arbitrage</span>
               <div style="background: #dbeafe; color: #1d4ed8; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               </div>
             </div>
             <div class="stat-value" id="kpi-insight-spread" style="color: #1e3a8a; font-size: 1.5rem; font-weight: 800; margin-bottom: 4px;">+16.3%</div>
-            <div class="stat-change positive" style="font-size: 0.74rem; font-weight: 700; color: #1d4ed8;">Save ₹ 3.50/kg vs Vashi Middlemen</div>
+            <div class="stat-change positive" id="kpi-spread-subtext" style="font-size: 0.74rem; font-weight: 700; color: #1d4ed8;">Save ₹ 3.50/kg vs Vashi Middlemen</div>
           </div>
 
           <!-- Card 3: Arrival Inflow -->
           <div class="insight-kpi-card" style="background: linear-gradient(135deg, #ffffff 0%, #fefce8 100%); border: 1px solid #fef08a; border-top: 4px solid #ca8a04; border-radius: 14px; padding: 18px; box-shadow: 0 4px 12px rgba(202, 138, 4, 0.05); transition: transform 0.2s, box-shadow 0.2s;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-              <span class="stat-label" style="font-size: 0.78rem; font-weight: 700; color: #854d0e; text-transform: uppercase; letter-spacing: 0.4px;">24h Mandi Arrival Volume</span>
+              <span class="stat-label" data-i18n="kpi_arrivals_label" style="font-size: 0.78rem; font-weight: 700; color: #854d0e; text-transform: uppercase; letter-spacing: 0.4px;">24h Mandi Arrival Volume</span>
               <div style="background: #fef9c3; color: #a16207; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
               </div>
             </div>
             <div class="stat-value" id="kpi-insight-arrivals" style="color: #0f172a; font-size: 1.5rem; font-weight: 800; margin-bottom: 4px;">6,850 Qt</div>
-            <div class="stat-change positive" style="font-size: 0.74rem; font-weight: 700; color: #854d0e;">+12.4% vs last week</div>
+            <div class="stat-change positive" id="kpi-arrivals-subtext" style="font-size: 0.74rem; font-weight: 700; color: #854d0e;">+12.4% vs last week</div>
           </div>
 
           <!-- Card 4: AI Procurement Sentiment -->
           <div class="insight-kpi-card" style="background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%); border: 1px solid #e9d5ff; border-top: 4px solid #9333ea; border-radius: 14px; padding: 18px; box-shadow: 0 4px 12px rgba(147, 51, 234, 0.05); transition: transform 0.2s, box-shadow 0.2s;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-              <span class="stat-label" style="font-size: 0.78rem; font-weight: 700; color: #6b21a8; text-transform: uppercase; letter-spacing: 0.4px;">AI Procurement Sentiment</span>
+              <span class="stat-label" data-i18n="kpi_sentiment_label" style="font-size: 0.78rem; font-weight: 700; color: #6b21a8; text-transform: uppercase; letter-spacing: 0.4px;">AI Procurement Sentiment</span>
               <div style="background: #f3e8ff; color: #7e22ce; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               </div>
             </div>
             <div class="stat-value" id="kpi-insight-sentiment" style="color: #6b21a8; font-size: 1.25rem; font-weight: 800; margin-bottom: 4px;">Bullish</div>
-            <div class="stat-change positive" style="font-size: 0.74rem; font-weight: 700; color: #7e22ce;">Index: 82/100 • Export Peak</div>
+            <div class="stat-change positive" id="kpi-sentiment-subtext" style="font-size: 0.74rem; font-weight: 700; color: #7e22ce;">Index: 82/100 • Export Peak</div>
           </div>
         </div>
 
@@ -2210,7 +2225,7 @@
               <!-- All District Comparison Matrix Modal Trigger -->
               <button class="btn btn-outline btn-sm" onclick="openCurrentDistrictMatrixModal()" style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 700; border-color: #0c5a36; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 8px; cursor: pointer;">
                 <span>🗺️</span>
-                <span>Compare All District Rates</span>
+                <span data-i18n="insights_btn_matrix">Compare All District Rates</span>
               </button>
 
             </div>
@@ -2224,13 +2239,13 @@
           <!-- Legend Bar & Indicator Explanation -->
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #f1f5f9; font-size: 0.74rem; color: #64748b;">
             <div style="display: flex; align-items: center; gap: 14px;">
-              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 3px; background: #0c5a36; display: inline-block;"></span> Mandi Modal (Realized)</span>
-              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 3px; background: #2563eb; border-top: 2px dashed #2563eb; display: inline-block;"></span> AI 7-Day Forward Forecast</span>
-              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 2px; background: rgba(239, 68, 68, 0.6); display: inline-block;"></span> Mandi Ceiling</span>
-              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 2px; background: rgba(16, 185, 129, 0.6); display: inline-block;"></span> Mandi Floor</span>
+              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 3px; background: #0c5a36; display: inline-block;"></span> <span data-i18n="insights_legend_modal">Mandi Modal (Realized)</span></span>
+              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 3px; background: #2563eb; border-top: 2px dashed #2563eb; display: inline-block;"></span> <span data-i18n="insights_legend_forecast">AI 7-Day Forward Forecast</span></span>
+              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 2px; background: rgba(239, 68, 68, 0.6); display: inline-block;"></span> <span data-i18n="insights_legend_ceiling">Mandi Ceiling</span></span>
+              <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 2px; background: rgba(16, 185, 129, 0.6); display: inline-block;"></span> <span data-i18n="insights_legend_floor">Mandi Floor</span></span>
             </div>
             <div>
-              <span>⚡ Model trained on 5-year APMC arrivals, weather indices & diesel freight data</span>
+              <span data-i18n="insights_legend_note">⚡ Model trained on 5-year APMC arrivals, weather indices & diesel freight data</span>
             </div>
           </div>
 
@@ -2244,9 +2259,9 @@
             <div class="card-header" style="margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;">
               <h3 class="card-title" style="font-size: 1.05rem;">
                 <span>🚚</span>
-                <span>Maharashtra Sourcing Belts & Inflow Pressure</span>
+                <span data-i18n="insights_supply_belts_title">Maharashtra Sourcing Belts & Inflow Pressure</span>
               </h3>
-              <span class="badge badge-grade-a">Live Volume</span>
+              <span class="badge badge-grade-a" data-i18n="insights_live_volume">Live Volume</span>
             </div>
             <div id="insight-producing-belts" style="display: flex; flex-direction: column; gap: 8px;">
               <!-- Rendered dynamically by insights.js renderSupplyInflowHeatmap() -->
@@ -2258,9 +2273,9 @@
             <div class="card-header" style="margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;">
               <h3 class="card-title" style="font-size: 1.05rem;">
                 <span>🛡️</span>
-                <span>AI Procurement Strategy & Direct Hedging</span>
+                <span data-i18n="insights_ai_strategy_title">AI Procurement Strategy & Direct Hedging</span>
               </h3>
-              <span class="badge" style="background: #e0e7ff; color: #3730a3; font-weight: 800; font-size: 0.72rem;">Zero Middlemen</span>
+              <span class="badge" data-i18n="insights_zero_middlemen" style="background: #e0e7ff; color: #3730a3; font-weight: 800; font-size: 0.72rem;">Zero Middlemen</span>
             </div>
             <div id="insight-ai-advisory" style="padding: 14px; background: #eef2ff; border-radius: 10px; border: 1px solid #c7d2fe; color: #312e81; font-size: 0.86rem; line-height: 1.5; font-weight: 600;">
               <!-- Rendered dynamically by insights.js renderAiProcurementAdvisories() -->
@@ -2275,14 +2290,14 @@
           <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 18px; border-bottom: 1px solid #f1f5f9; padding-bottom: 16px;">
             <div>
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                <h3 style="font-size: 1.2rem; font-weight: 800; color: #0c5a36; margin: 0;">
+                <h3 style="font-size: 1.2rem; font-weight: 800; color: #0c5a36; margin: 0;" data-i18n="insights_mandis_table_title">
                   🏛️ Maharashtra APMC Mandis Live Auction Benchmark Table
                 </h3>
-                <span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36; border: 1px solid #bbf7d0; font-size: 0.72rem; font-weight: 800;">
+                <span class="badge badge-grade-a" data-i18n="insights_enam_live" style="background: #e8f5ed; color: #0c5a36; border: 1px solid #bbf7d0; font-size: 0.72rem; font-weight: 800;">
                   e-NAM Real-Time Feed
                 </span>
               </div>
-              <p style="font-size: 0.8rem; color: #64748b; margin: 0; max-width: 780px;">
+              <p style="font-size: 0.8rem; color: #64748b; margin: 0; max-width: 780px;" data-i18n="insights_mandis_table_sub">
                 Compare major regulated mandis (Lasalgaon, Narayangaon, Raver, Latur, Katol, Sangli, Pandharpur, Pimpalgaon, Kolhapur, Solapur) vs Direct Farm Sourcing to maximize institutional arbitrage.
               </p>
             </div>
@@ -2294,7 +2309,7 @@
                   <circle cx="11" cy="11" r="8"></circle>
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <input type="text" id="mandis-table-search" placeholder="Search mandi, crop, or district..." oninput="handleMandiTableSearch(this.value)" style="padding: 9px 14px 9px 36px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.84rem; outline: none; width: 240px; transition: all 0.2s;" onfocus="this.style.borderColor='#0c5a36'; this.style.boxShadow='0 0 0 3px rgba(12,90,54,0.12)';" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none';" />
+                <input type="text" id="mandis-table-search" placeholder="Search mandi, crop, or district..." data-i18n-placeholder="insights_search_mandi_ph" oninput="handleMandiTableSearch(this.value)" style="padding: 9px 14px 9px 36px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.84rem; outline: none; width: 240px; transition: all 0.2s;" onfocus="this.style.borderColor='#0c5a36'; this.style.boxShadow='0 0 0 3px rgba(12,90,54,0.12)';" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none';" />
               </div>
               
               <select id="mandis-table-district" onchange="filterMandiDistrict(this.value)" style="padding: 9px 14px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.84rem; font-weight: 600; color: #334155; outline: none; background: #ffffff; cursor: pointer;">
@@ -2330,27 +2345,27 @@
 
           <!-- District Quick-Filter Chips Bar -->
           <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; scrollbar-width: thin;">
-            <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; align-self: center; white-space: nowrap; margin-right: 4px;">Quick Districts:</span>
-            <button class="btn btn-outline btn-sm active" onclick="document.getElementById('mandis-table-district').value='all'; filterMandiDistrict('all');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;">🌾 All APMCs</button>
-            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Nashik'; filterMandiDistrict('Nashik');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;">🧅 Nashik (Lasalgaon)</button>
-            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Pune'; filterMandiDistrict('Pune');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;">🍅 Pune (Narayangaon)</button>
-            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Jalgaon'; filterMandiDistrict('Jalgaon');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;">🍌 Jalgaon (Raver)</button>
-            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Nagpur'; filterMandiDistrict('Nagpur');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;">🍊 Nagpur (Bhiwapur)</button>
-            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Latur'; filterMandiDistrict('Latur');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;">🫘 Latur (Pulses Hub)</button>
-            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Sangli'; filterMandiDistrict('Sangli');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;">🌶️ Sangli (Spices)</button>
+            <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; align-self: center; white-space: nowrap; margin-right: 4px;" data-i18n="insights_quick_districts">Quick Districts:</span>
+            <button class="btn btn-outline btn-sm active" onclick="document.getElementById('mandis-table-district').value='all'; filterMandiDistrict('all');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;" data-i18n="insights_all_apmcs">🌾 All APMCs</button>
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Nashik'; filterMandiDistrict('Nashik');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;" data-i18n="quick_dist_nashik">🧅 Nashik</button>
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Pune'; filterMandiDistrict('Pune');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;" data-i18n="quick_dist_pune">🍅 Pune</button>
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Jalgaon'; filterMandiDistrict('Jalgaon');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;" data-i18n="quick_dist_jalgaon">🍌 Jalgaon</button>
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Nagpur'; filterMandiDistrict('Nagpur');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;" data-i18n="quick_dist_nagpur">🍊 Nagpur</button>
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Latur'; filterMandiDistrict('Latur');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;" data-i18n="quick_dist_latur">🫘 Latur</button>
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandis-table-district').value='Sangli'; filterMandiDistrict('Sangli');" style="font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap;" data-i18n="quick_dist_sangli">🌶️ Sangli</button>
           </div>
 
           <div class="data-table-container" style="border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
             <table class="data-table">
               <thead style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0;">
                 <tr>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;">APMC Mandi & Crop</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;">Arrival Volume (Qt & kg)</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;">Min Price</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;">Modal Price (Live)</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;">Max Price</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;">Direct Arbitrage (Spread)</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase; text-align: right;">Sourcing Actions</th>
+                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_commodity_hub">APMC Mandi & Crop</th>
+                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_24h_arrivals">Arrival Volume (Qt & kg)</th>
+                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_min_price">Min Price</th>
+                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_modal_price">Modal Price (Live)</th>
+                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_max_price">Max Price</th>
+                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_direct_arbitrage">Direct Arbitrage (Spread)</th>
+                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase; text-align: right;" data-i18n="th_action">Sourcing Actions</th>
                 </tr>
               </thead>
               <tbody id="insights-mandis-tbody">
@@ -2486,33 +2501,180 @@
 
   <!-- MODAL 2: DIRECT ESCROW BUY (35% LOCK) -->
   <div class="modal-overlay" id="modal-direct-buy">
-    <div class="modal-content">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-        <h3 style="font-size: 1.25rem; font-weight: 800; color: #0c5a36;">Direct Escrow Purchase</h3>
-        <button onclick="closeDirectBuyModal()" style="font-size: 1.2rem; color: #64748b;">✕</button>
+    <div class="modal-content" style="max-width: 530px; border-radius: 16px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 9px; background: #e8f5ed; color: #0c5a36; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+            🛒
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">Direct Escrow Procurement</h3>
+            <span style="font-size: 0.74rem; color: #64748b;">Farm-Direct Quality Assayed Sourcing</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeDirectBuyModal()" style="font-size: 1.25rem; color: #64748b; background: transparent; border: none; cursor: pointer; padding: 4px 8px;">✕</button>
       </div>
 
-      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px; margin-bottom: 16px;">
-        <h4 id="buy-modal-crop" style="font-size: 1.05rem; font-weight: 800; color: #064e3b; margin-bottom: 4px;">Crop</h4>
-        <div id="buy-modal-farmer" style="font-size: 0.78rem; color: #166534; margin-bottom: 8px;">Farmer details</div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 700;">
-          <span>Ask Rate:</span>
-          <span id="buy-modal-price" style="color: #0c5a36;">₹ 12.00 /kg</span>
+      <!-- Lot Meta Box -->
+      <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;">
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <img id="buy-modal-thumb" src="assets/images/tomato.jpg" alt="Crop" style="width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 1.5px solid #86efac;" onerror="this.src='assets/images/tomato.jpg'" />
+          <div style="flex: 1;">
+            <h4 id="buy-modal-crop" style="font-size: 1.02rem; font-weight: 800; color: #064e3b; margin: 0 0 3px 0;">Crop</h4>
+            <div id="buy-modal-farmer" style="font-size: 0.78rem; color: #166534; font-weight: 600;">Farmer details</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-size: 0.85rem;">
+              <span style="color: #475569; font-weight: 600;">Ask Rate:</span>
+              <span id="buy-modal-price" style="color: #0c5a36; font-weight: 800;">₹ 12.00 /kg</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <form id="form-direct-buy">
         <input type="hidden" id="buy-modal-lot-id" />
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; font-size: 0.8rem; color: #334155; margin-bottom: 16px;">
-          <p style="margin-bottom: 6px;">🔒 <strong>35% Advance Escrow Protection:</strong></p>
-          <p>Your deposit will be locked safely in AgriNex Escrow vault. Funds are only released when the farmer dispatches and goods pass quality inspection at your hub.</p>
+
+        <!-- Quantity Selection Options -->
+        <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+            <span>Procurement Volume</span>
+            <span id="buy-modal-avail-badge" style="font-size: 0.72rem; color: #0c5a36; background: #e8f5ed; padding: 2px 8px; border-radius: 6px; border: 1px solid #bbf7d0; font-weight: 800;">Available: 5,000 kg</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Option 1: Buy 100% / All Harvest -->
+            <label style="display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1.5px solid #0c5a36; background: #f0fdf4; border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="buy_qty_mode" id="buy-mode-all" value="all" checked onchange="updateDirectBuyCalculations()" style="margin-top: 3px; accent-color: #0c5a36; cursor: pointer;" />
+              <div style="flex: 1;">
+                <div style="font-weight: 800; font-size: 0.88rem; color: #064e3b; display: flex; justify-content: space-between;">
+                  <span>Procure Entire Harvest (100% Volume)</span>
+                  <span id="buy-modal-all-kg-label" style="color: #0c5a36; font-weight: 800;">5,000 kg</span>
+                </div>
+                <div style="font-size: 0.72rem; color: #166534; margin-top: 2px;">
+                  ✨ Buys all available crop. Lot status will be marked <strong>SOLD OUT</strong> for all other buyers.
+                </div>
+              </div>
+            </label>
+
+            <!-- Option 2: Custom Partial Quantity -->
+            <label style="display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1.5px solid #cbd5e1; background: #ffffff; border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="buy_qty_mode" id="buy-mode-partial" value="partial" onchange="updateDirectBuyCalculations()" style="margin-top: 3px; accent-color: #0c5a36; cursor: pointer;" />
+              <div style="flex: 1;">
+                <div style="font-weight: 700; font-size: 0.88rem; color: #334155;">
+                  Procure Partial Harvest Volume (kg)
+                </div>
+                <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px;" id="buy-custom-input-container">
+                  <input type="number" id="buy-custom-qty-kg" min="100" step="50" style="flex: 1; padding: 7px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; font-size: 0.85rem; font-weight: 700;" placeholder="Enter quantity in kg" oninput="updateDirectBuyCalculations()" />
+                  <span style="font-size: 0.8rem; font-weight: 700; color: #64748b;">kg</span>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Escrow Financial Breakdown -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; font-size: 0.82rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: #475569;">
+            <span>Procured Volume:</span>
+            <strong id="buy-modal-calc-qty" style="color: #0f172a;">5,000 kg (50 Qt)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: #475569;">
+            <span>Total Contract Value:</span>
+            <strong id="buy-modal-calc-total" style="color: #0f172a;">₹ 60,000</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: #0c5a36; font-weight: 700; background: #e8f5ed; padding: 6px 8px; border-radius: 6px;">
+            <span>🔒 35% Advance Escrow to Lock:</span>
+            <strong id="buy-modal-calc-advance" style="font-size: 0.95rem;">₹ 21,000</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; color: #64748b; font-size: 0.75rem; margin-top: 4px; padding-top: 4px; border-top: 1px dashed #e2e8f0;">
+            <span>Remaining for Other Buyers:</span>
+            <strong id="buy-modal-calc-remaining" style="color: #ef4444; font-weight: 800;">0 kg (🚫 Will be SOLD OUT)</strong>
+          </div>
         </div>
 
         <div style="display: flex; gap: 10px;">
-          <button type="submit" class="btn btn-primary" style="flex: 1;">Lock 35% Escrow & Confirm</button>
+          <button type="submit" id="btn-submit-direct-buy" class="btn btn-primary" style="flex: 1; background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); font-weight: 800; font-size: 0.9rem; padding: 11px; box-shadow: 0 4px 12px rgba(12,90,54,0.25);">
+            🔒 Lock 35% Escrow &amp; Procure All
+          </button>
           <button type="button" class="btn btn-outline" onclick="closeDirectBuyModal()">Cancel</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL: EMERGENCY SALVAGE BUYOUT CONFIRMATION -->
+  <div class="modal-overlay" id="modal-emergency-buyout">
+    <div class="modal-content" style="max-width: 540px; border-radius: 16px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1.5px solid #fee2e2; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; box-shadow: 0 2px 6px rgba(220,38,38,0.15);">
+            ⚡
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #991b1b; margin: 0;">Emergency Salvage Buyout</h3>
+            <span style="font-size: 0.75rem; color: #78350f;">Breakeven Procurement • Immediate Reefer Transit Dispatch</span>
+          </div>
+        </div>
+        <button onclick="closeEmergencyBuyoutModal()" style="font-size: 1.3rem; color: #64748b; background: transparent; border: none; cursor: pointer; font-weight: 700;">✕</button>
+      </div>
+
+      <!-- Lot Summary Box -->
+      <div style="background: #fffdfa; border: 1.5px solid #fecdd3; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;">
+        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px;">
+          <img id="emg-modal-img" src="assets/images/tomato.jpg" alt="Crop" style="width: 58px; height: 58px; border-radius: 10px; object-fit: cover; border: 1.5px solid #fca5a5;" onerror="this.src='assets/images/tomato.jpg'" />
+          <div style="flex: 1;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap;">
+              <strong id="emg-modal-crop" style="font-size: 1.05rem; font-weight: 800; color: #0f172a;">Narayangaon Tomatoes</strong>
+              <span id="emg-modal-urgency" class="badge badge-status-emergency" style="font-size: 0.7rem; padding: 2px 8px;">⚡ 24-36 Hours Left</span>
+            </div>
+            <div style="font-size: 0.78rem; color: #64748b; margin-top: 3px;" id="emg-modal-farmer">Farmer: Sanjay Deshmukh • 📍 Pune, MH</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #ffffff; border: 1px solid #fee2e2; border-radius: 8px; padding: 10px 12px; font-size: 0.82rem;">
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block; text-transform: uppercase; font-weight: 700;">Certified Quantity</span>
+            <strong id="emg-modal-qty" style="color: #0f172a; font-size: 0.95rem;">4,500 kg (45 Qt)</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block; text-transform: uppercase; font-weight: 700;">Breakeven Buyout Rate</span>
+            <div style="display: flex; align-items: baseline; gap: 6px;">
+              <strong id="emg-modal-rate" style="color: #15803d; font-size: 1.05rem; font-weight: 800;">₹ 8.90 /kg</strong>
+              <span id="emg-modal-orig-rate" style="font-size: 0.72rem; color: #94a3b8; text-decoration: line-through;">Orig: ₹ 12.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Escrow Breakdown -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.84rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="color: #475569;">Total Contract Value:</span>
+          <strong id="emg-modal-total-val" style="color: #0f172a; font-size: 0.95rem;">₹ 40,050</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #0c5a36;">
+          <span>🔒 <strong>35% Immediate Advance Escrow:</strong></span>
+          <strong id="emg-modal-adv-val" style="font-size: 1rem; color: #0c5a36;">₹ 14,018</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; color: #64748b; font-size: 0.78rem; border-top: 1px dashed #cbd5e1; padding-top: 8px;">
+          <span>65% Balance on Delivery &amp; QC Pass:</span>
+          <span id="emg-modal-bal-val" style="font-weight: 700;">₹ 26,032</span>
+        </div>
+      </div>
+
+      <!-- Instant Dispatch Guarantee -->
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 12px; margin-bottom: 18px; font-size: 0.78rem; color: #166534; display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.3rem;">🚚</span>
+        <div>
+          <strong>Express Reefer Logistics Assigned:</strong> Eicher Pro 2049 Reefer auto-assigned with AIS-140 GPS beacon &amp; 14.5°C cold-chain monitoring.
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn btn-outline" onclick="closeEmergencyBuyoutModal()" style="flex: 1; font-weight: 700;">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-confirm-emergency-buyout" onclick="executeEmergencyBuyoutConfirmed()" style="flex: 2; background: #dc2626; border-color: #dc2626; font-weight: 800; font-size: 0.92rem; box-shadow: 0 4px 12px rgba(220,38,38,0.25); border-radius: 8px;">
+          ⚡ Confirm Buyout &amp; Lock Escrow
+        </button>
+      </div>
     </div>
   </div>
 
@@ -3806,7 +3968,7 @@
 
       <!-- Filter bar inside modal -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 10px; flex-wrap: wrap;">
-        <input type="text" id="district-matrix-search" placeholder="Search district or mandi yard..." oninput="filterDistrictMatrixSearch(this.value)" style="padding: 7px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.8rem; width: 260px; outline: none;" />
+        <input type="text" id="district-matrix-search" placeholder="Search district or mandi yard..." data-i18n-placeholder="ph_search_dist_mandi" oninput="filterDistrictMatrixSearch(this.value)" style="padding: 7px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.8rem; width: 260px; outline: none;" />
         <span style="font-size: 0.76rem; color: #0c5a36; font-weight: 700; background: #e8f5ed; padding: 4px 12px; border-radius: 999px;" id="district-matrix-count">Showing All Districts</span>
       </div>
 
@@ -3815,13 +3977,13 @@
         <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
           <thead style="position: sticky; top: 0; background: #f8fafc; z-index: 10; border-bottom: 2px solid #e2e8f0;">
             <tr>
-              <th style="padding: 10px 14px; color: #475569;">District & Mandi Yard</th>
-              <th style="padding: 10px 14px; color: #475569;">Modal Price (₹/kg)</th>
-              <th style="padding: 10px 14px; color: #475569;">Modal Rate (₹/Qt)</th>
-              <th style="padding: 10px 14px; color: #475569;">Min – Max Range</th>
-              <th style="padding: 10px 14px; color: #475569;">24h Arrivals</th>
-              <th style="padding: 10px 14px; color: #475569;">Arbitrage Spread</th>
-              <th style="padding: 10px 14px; text-align: right; color: #475569;">Action</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_dist_mandi">District & Mandi Yard</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_modal_price_kg">Modal Price (₹/kg)</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_modal_price_qt">Modal Rate (₹/Qt)</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_min_max_range">Min – Max Range</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_24h_arrivals_col">24h Arrivals</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_arbitrage_spread">Arbitrage Spread</th>
+              <th style="padding: 10px 14px; text-align: right; color: #475569;" data-i18n="th_action">Action</th>
             </tr>
           </thead>
           <tbody id="district-matrix-tbody">
@@ -3831,8 +3993,8 @@
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 14px; margin-top: 16px;">
-        <span style="font-size: 0.76rem; color: #64748b;">* Live e-NAM & APMC auction feeds updated every 15 mins.</span>
-        <button type="button" class="btn btn-outline" onclick="closeDistrictMatrixModal()">Close Matrix</button>
+        <span style="font-size: 0.76rem; color: #64748b;" data-i18n="matrix_footer_note">* Live e-NAM & APMC auction feeds updated every 15 mins.</span>
+        <button type="button" class="btn btn-outline" onclick="closeDistrictMatrixModal()" data-i18n="btn_close_matrix">Close Matrix</button>
       </div>
     </div>
   </div>
@@ -3845,6 +4007,7 @@
 
   <!-- Scripts -->
   <script src="js/data.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/emergency_sale.js"></script>
   <script src="js/charts.js"></script>
   <script src="js/calculator.js"></script>
