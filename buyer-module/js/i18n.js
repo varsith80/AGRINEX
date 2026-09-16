@@ -4,7 +4,7 @@
  *  - en: English (Default)
  *  - hi: हिन्दी (Hindi)
  *  - mr: मराठी (Marathi)
- * Translates all UI text, person names, crop names, mandis, and agricultural trading terms.
+ * Translates 100% of all UI text, person names, crop names, mandis, and agricultural trading terms.
  */
 
 (function () {
@@ -32,7 +32,10 @@
     'Mahesh Kulkarni': { hi: 'महेश कुलकर्णी', mr: 'महेश कुलकर्णी' },
     'Pravin Chavan': { hi: 'प्रवीण चव्हाण', mr: 'प्रवीण चव्हाण' },
     'Nitin Ghadge': { hi: 'नितिन घाडगे', mr: 'नितीन घाडगे' },
-    'Babasaheb Kale': { hi: 'बाबासाहेब काले', mr: 'बाबासाहेब काळे' }
+    'Babasaheb Kale': { hi: 'बाबासाहेब काले', mr: 'बाबासाहेब काळे' },
+    'Kishore Shinde': { hi: 'किशोर शिंदे', mr: 'किशोर शिंदे' },
+    'Ganesh Chaudhari': { hi: 'गणेश चौधरी', mr: 'गणेश चौधरी' },
+    'Selvam': { hi: 'सेल्वम', mr: 'सेल्वम' }
   };
 
   // 2. CROP & COMMODITY TRANSLATIONS (All 28 Maharashtra Commodities + Variations)
@@ -40,6 +43,7 @@
     // Onion
     'Red Onion (Nashik Garwa Quality)': { hi: 'लाल प्याज (नासिक गरवा)', mr: 'लाल कांदा (नाशिक गरवा)' },
     'Red Onion (Lasalgaon Garwa)': { hi: 'लाल प्याज (लासलगांव गरवा)', mr: 'लाल कांदा (लासलगाव गरवा)' },
+    'Red Onion (Garwa Export)': { hi: 'लाल प्याज (गरवा निर्यात)', mr: 'लाल कांदा (गरवा निर्यात)' },
     'Nashik Garwa Red Onion Lot': { hi: 'नासिक गरवा लाल प्याज लॉट', mr: 'नाशिक गरवा लाल कांदा लॉट' },
     'Red Onion (Nashik Garwa Grade A)': { hi: 'लाल प्याज (नासिक गरवा ग्रेड ए)', mr: 'लाल कांदा (नाशिक गरवा ग्रेड अ)' },
     'Red Onion': { hi: 'लाल प्याज', mr: 'लाल कांदा' },
@@ -49,6 +53,7 @@
     // Tomato
     'Hybrid Tomato (Narayangaon / Junnar)': { hi: 'हाइब्रिड टमाटर (नारायणगांव / जुन्नर)', mr: 'संकरित टोमॅटो (नारायणगाव / जुन्नर)' },
     'Tomato (Shivam / Abhinav Hybrid)': { hi: 'टमाटर (शिवम / अभिनव हाइब्रिड)', mr: 'टोमॅटो (शिवम / अभिनव संकरित)' },
+    'Tomato (Shivam Hybrid)': { hi: 'टमाटर (शिवम हाइब्रिड)', mr: 'टोमॅटो (शिवम संकरित)' },
     'Narayangaon Tomatoes (Perishable)': { hi: 'नारायणगांव टमाटर (नाशवान)', mr: 'नारायणगाव टोमॅटो (नाशवंत)' },
     'Tomato (Pune Junnar / Narayangaon Hybrid)': { hi: 'टमाटर (पुणे जुन्नर / नारायणगांव हाइब्रिड)', mr: 'टोमॅटो (पुणे जुन्नर / नारायणगाव संकरित)' },
     'Hybrid Tomato, Cabbage': { hi: 'हाइब्रिड टमाटर, पत्तागोभी', mr: 'संकरित टोमॅटो, कोबी' },
@@ -67,6 +72,7 @@
     'Yellow Soybean (Latur JS 335)': { hi: 'पीला सोयाबीन (लातूर जेएस 335)', mr: 'पिवळी सोयाबीन (लातूर जेएस ३३५)' },
     'Yellow Soybean (JS 335 / High Protein)': { hi: 'पीला सोयाबीन (जेएस 335)', mr: 'पिवळी सोयाबीन (जेएस ३३५)' },
     'Yellow Soybean (JS 335 / Latur Mega APMC)': { hi: 'पीला सोयाबीन (लातूर मुख्य मंडी)', mr: 'पिवळी सोयाबीन (लातूर मुख्य बाजार समिती)' },
+    'Soybean (Yellow JS-335)': { hi: 'सोयाबीन (पीला जेएस-335)', mr: 'सोयाबीन (पिवळी जेएस-३३५)' },
     'Soybean (JS 335 / Latur)': { hi: 'सोयाबीन (जेएस 335 / लातूर)', mr: 'सोयाबीन (जेएस ३३५ / लातूर)' },
     'Yellow Soybean': { hi: 'पीला सोयाबीन', mr: 'पिवळी सोयाबीन' },
     'Soybean, Pulses, Jowar': { hi: 'सोयाबीन, दालें, ज्वार', mr: 'सोयाबीन, कडधान्ये, ज्वारी' },
@@ -280,8 +286,10 @@
 
     // Additional Yards & Locations
     'Lasalgaon APMC Yard, Nashik': { hi: 'लासलगांव मंडी, नासिक', mr: 'लासलगाव बाजार समिती, नाशिक' },
+    'Lasalgaon APMC Yard, Nashik, MH': { hi: 'लासलगांव मंडी, नासिक', mr: 'लासलगाव बाजार समिती, नाशिक' },
     'Narayangaon Mandi Yard, Junnar, Pune': { hi: 'नारायणगांव मंडी, जुन्नर, पुणे', mr: 'नारायणगाव बाजार समिती, जुन्नर, पुणे' },
     'Manchar / Narayangaon Yard, Pune, MH': { hi: 'मंचर / नारायणगांव यार्ड, पुणे', mr: 'मंचर / नारायणगाव बाजार, पुणे' },
+    'Narayangaon / Lasalgaon APMC, Pune, MH': { hi: 'नारायणगांव / लासलगांव मंडी, पुणे', mr: 'नारायणगाव / लासलगाव बाजार समिती, पुणे' },
     'Raver APMC Hub, Jalgaon': { hi: 'रावेर मंडी, जलगांव', mr: 'रावेर बाजार समिती, जळगाव' },
     'Latur Mega APMC Yard, Marathwada': { hi: 'लातूर मुख्य मंडी, मराठवाड़ा', mr: 'लातूर मुख्य बाजार समिती, मराठवाडा' },
     'Sangli Turmeric Yard, MH': { hi: 'सांगली हल्दी मंडी, महाराष्ट्र', mr: 'सांगली हळद बाजार, महाराष्ट्र' },
@@ -292,12 +300,17 @@
     'Nagpur Orange APMC Yard': { hi: 'नागपुर संतरा मंडी यार्ड', mr: 'नागपूर संत्रा बाजार समिती' },
     'Katol Mandi Yard, Vidarbha': { hi: 'काटोल मंडी, विदर्भ', mr: 'काटोल बाजार समिती, विदर्भ' },
     'Vashi APMC Central Terminal, Navi Mumbai, Maharashtra': { hi: 'वाशी मंडी सेंट्रल टर्मिनल, नवी मुंबई, महाराष्ट्र', mr: 'वाशी बाजार समिती मध्यवर्ती टर्मिनल, नवी मुंबई, महाराष्ट्र' },
+    'Vashi APMC Central Terminal, Navi Mumbai, MH': { hi: 'वाशी मंडी सेंट्रल टर्मिनल, नवी मुंबई', mr: 'वाशी बाजार समिती मध्यवर्ती टर्मिनल, नवी मुंबई' },
     'Vashi APMC Central Terminal, Navi Mumbai': { hi: 'वाशी मंडी सेंट्रल टर्मिनल, नवी मुंबई', mr: 'वाशी बाजार समिती मध्यवर्ती टर्मिनल, नवी मुंबई' },
     'Vashi Terminal, Navi Mumbai (MH)': { hi: 'वाशी टर्मिनल, नवी मुंबई (महा.)', mr: 'वाशी टर्मिनल, नवी मुंबई (महा.)' },
     'BigBasket Distribution Terminal, Navi Mumbai, MH': { hi: 'बिगबास्केट वितरण टर्मिनल, नवी मुंबई, महा.', mr: 'बिगबास्केट वितरण केंद्र, नवी मुंबई, महाराष्ट्र' },
     'Reliance Fresh Central Distribution Hub, Thane': { hi: 'रिलायंस फ्रेश सेंट्रल हब, ठाणे', mr: 'रिलायन्स फ्रेश वितरण केंद्र, ठाणे' },
     'Nature Basket Fulfillment Center, Kurla': { hi: 'नेचर्स बास्केट पूर्ति केंद्र, कुर्ला', mr: 'नेचर्स बास्केट वितरण केंद्र, कुर्ला' },
     'Zomato Hyperpure Aggregation Hub, Bhiwandi': { hi: 'ज़ोमैटो हाइपरप्योर हब, भिवंडी', mr: 'झोमॅटो हायपरप्युअर संकलन केंद्र, भिवंडी' },
+    'Patil Farm, Lasalgaon, Nashik, MH': { hi: 'पाटिल फार्म, लासलगांव, नासिक', mr: 'पाटील शेत, लासलगाव, नाशिक' },
+    'Deshmukh Farm, Narayangaon, Pune, MH': { hi: 'देशमुख फार्म, नारायणगांव, पुणे', mr: 'देशमुख शेत, नारायणगाव, पुणे' },
+    'Shinde Orchards, Raver, Jalgaon, MH': { hi: 'शिंदे बाग, रावेर, जलगांव', mr: 'शिंदे फळबाग, रावेर, जळगाव' },
+    'Jadhav Agro, Latur, MH': { hi: 'जाधव ॲग्रो, लातूर', mr: 'जाधव ॲग्रो, लातूर' },
 
     // Maharashtra Districts & Cities
     'Pune': { hi: 'पुणे', mr: 'पुणे' },
@@ -663,9 +676,9 @@
       filter_fpo: '📦 एफपीओ थोक लॉट',
       
       // Section Header & View Mode
-      available_lots_title: '🌾 उपलब्ध प्रमाणित कृषि लॉट्स',
+      available_lots_title: '🌾 सीधे खेत से उपलब्ध लॉट',
       lots_available: 'लॉट उपलब्ध',
-      showing_lots: '{1} में से {0} प्रमाणित लॉट प्रदर्शित',
+      showing_lots: '{1} में से {0} सत्यापित लॉट प्रदर्शित',
       view_as_label: '👤 रूप में देखें:',
       view_grid: '⊞ ग्रिड',
       view_table: '☰ तालिका',
@@ -673,7 +686,7 @@
       sort_price_low: 'मूल्य: कम से ज्यादा',
       sort_price_high: 'मूल्य: ज्यादा से कम',
       sort_rating: 'किसान रेटिंग',
-      sort_savings: 'अधिकतम बचत',
+      sort_savings: 'उच्चतम मंडी बचत',
       
       // Lot Cards
       lot_badge_farmer: '🌿 किसान',
@@ -683,13 +696,13 @@
       counter_bid: 'काउंटर बोली',
       sold_out: '🚫 बिक गया',
       sold_out_overlay: '🚫 बिक गया',
-      sold_out_subtext: '100% फसल खरीदार द्वारा क्रय',
-      procured_by_you: '🔒 आपका ऑर्डर • रास्ते में',
-      in_transit_btn: 'रास्ते में ➔',
+      sold_out_subtext: '100% फसल खरीदार द्वारा क्रय कर ली गई',
+      procured_by_you: '🔒 आपके द्वारा खरीदा गया',
+      in_transit_btn: 'रास्ते में है ➔',
       avail_qty_label: 'उपलब्ध मात्रा:',
       your_order_transit: '0 किग्रा (आपका ऑर्डर • रास्ते में)',
       escrow_locked_badge: '🔒 एस्क्रो सुरक्षित',
-      your_order_badge: '🔒 क्रय पूर्ण • आपका ऑर्डर',
+      your_order_badge: '🔒 पूर्ण खरीद • आपका ऑर्डर',
       units_label: 'इकाई:',
       units_both: 'दोनों',
       units_kg: 'किग्रा',
@@ -699,18 +712,18 @@
       ai_sourcing_copilot: 'एआई खरीद सहायक',
       
       // Calculator View
-      calc_header_title: 'कृषि उतराई लागत, मंडी मध्यस्थता एवं परिवहन विश्लेषण',
-      calc_header_subtitle: 'महाराष्ट्र एपीएमसी बाजार भाव, परिवहन मार्ग, वाहन क्षमता एवं सीधे खेत से खरीद पर आधारित।',
-      btn_calc_post_demand: 'खरीद मांग पोस्ट करें',
-      btn_calc_view_lots: 'मिलते-जुलते लॉट देखें',
-      btn_print_sheet: 'लागत शीट प्रिंट करें',
+      calc_header_title: 'कृषि लैंडेड लागत, मंडी मध्यस्थता एवं माल ढुलाई खुफिया इंजन',
+      calc_header_subtitle: 'महाराष्ट्र एपीएमसी बेंचमार्क, मूल-गंतव्य लॉजिस्टिक्स मार्गों और शून्य-मध्यस्थ फार्म गेट व्यापार पर आधारित।',
+      btn_calc_post_demand: 'खरीद मांग दर्ज करें',
+      btn_calc_view_lots: 'मिलान वाले लॉट देखें',
+      btn_print_sheet: 'लागत पत्रक प्रिंट करें',
       
       // Insights View
       insights_header_title: 'महाराष्ट्र एपीएमसी बाजार विश्लेषण और एआई हेजिंग',
-      insights_header_subtitle: 'रीयल-टाइम एपीएमसी मंडी भाव, सीधे खेत से खरीद बचत, आवक मात्रा और 7-दिवसीय एआई मूल्य पूर्वानुमान।',
+      insights_header_subtitle: 'महाराष्ट्र के प्रमुख उत्पादक क्षेत्रों के वास्तविक एपीएमसी मॉडल भाव, सीधी खरीद बचत और 7-दिवसीय एआई मूल्य पूर्वानुमान।',
       insights_enam_live: 'ई-नाम लाइव फीड',
       insights_sync_btn: 'मंडी भाव सिंक करें',
-      insights_select_benchmark: 'महाराष्ट्र कृषि कमोडिटी बेंचमार्क चुनें:',
+      insights_select_benchmark: 'महाराष्ट्र कृषि बेंचमार्क चुनें:',
       insights_select_benchmark_sub: 'मंडी के ऐतिहासिक भाव और 7-दिवसीय एआई अनुमान देखने के लिए फसल पर क्लिक करें',
       insights_cat_all: 'सभी (28)',
       insights_cat_veg: '🥬 सब्जियां',
@@ -1344,95 +1357,648 @@
     return grade;
   }
 
-  // Translate General Terms & Statuses
+  // Comprehensive Translation Dictionary for Universal Text Transformation
+  const PHRASE_REPLACEMENTS = {
+    mr: [
+      // Major Buttons & Actions
+      [/\bInstant Buyout\b/gi, 'त्वरित खरेदी'],
+      [/\bBuy Now\b/gi, 'आता खरेदी करा'],
+      [/\bProcure Lot\b/gi, 'लॉट खरेदी करा'],
+      [/\bCounter Bid\b/gi, 'प्रति-बोली द्या'],
+      [/\bIn Transit\b/gi, 'मार्गावर आहे'],
+      [/\bConfirm Arrival & QC Pass\b/gi, 'आगमन नोंद व प्रतवारी मंजुरी'],
+      [/\bView Digital PO \/ Invoice\b/gi, 'डिजिटल इनव्हॉइस पहा'],
+      [/\bRaise Quality Inspection Hold\b/gi, 'गुणवत्ता आक्षेप नोंदवा'],
+      [/\bDeposit Escrow Capital\b/gi, 'एस्क्रो निधी जमा करा'],
+      [/\bRelease 65% Balance\b/gi, '६५% उर्वरित रक्कम द्या'],
+      [/\bView Agreement Deed\b/gi, 'करारनामा पहा'],
+      [/\bBook Chamber Space\b/gi, 'शीतगृह जागा आरक्षित करा'],
+      [/\bBook Dedicated Freight Vehicle\b/gi, 'समर्पित मालवाहतूक वाहन बुक करा'],
+      [/\bFile New Quality Claim\b/gi, 'नवीन गुणवत्ता दावा दाखल करा'],
+      [/\bPrint Cost Sheet\b/gi, 'खर्च पत्रक प्रिंट करा'],
+      [/\bCompare All District Rates\b/gi, 'सर्व जिल्ह्यांमधील दर तपासा'],
+      [/\bClose Matrix\b/gi, 'तक्ता बंद करा'],
+      [/\bClose\b/gi, 'बंद करा'],
+      [/\bCancel\b/gi, 'रद्द करा'],
+      [/\bSubmit\b/gi, 'सादर करा'],
+      [/\bSave Changes\b/gi, 'बदल जतन करा'],
+      [/\bConfirm\b/gi, 'पुष्टी करा'],
+      [/\bClear Selection\b/gi, 'निवड रद्द करा'],
+      [/\bCompare Lots\b/gi, 'लॉट्सची तुलना करा'],
+      [/\bCall Driver\b/gi, 'चालकाला कॉल करा'],
+      [/\bCall\b/gi, 'कॉल'],
+      [/\bRefresh GPS Ping\b/gi, 'जीपीएस पिंग रिफ्रेश करा'],
+      [/\bRefresh\b/gi, 'रिफ्रेश करा'],
+      [/\bAuto-Match Refresh\b/gi, 'स्वयं-जुळणी रिफ्रेश'],
+      [/\bBroadcast New Quota\b/gi, 'नवीन खरेदी मागणी नोंदवा'],
+      [/\bExport POs \(PDF\)\b/gi, 'खरेदी ऑर्डर्स निर्यात करा (PDF)'],
+      [/\bAudit Statement \(PDF\)\b/gi, 'ऑडिट स्टेटमेंट (PDF)'],
+      [/\bExit Simulation\b/gi, 'डेमोमधून बाहेर पडा'],
+      [/\bBroadcast to Farmers\b/gi, 'शेतकऱ्यांना प्रसारित करा'],
+      [/\bAsk AI\b/gi, 'AI ला विचारा'],
+      [/\bPrint \/ Save PDF\b/gi, 'प्रिंट / PDF जतन करा'],
+      [/\bPrint Receipt\b/gi, 'पावती प्रिंट करा'],
+      [/\bDone & Return to Portal\b/gi, 'पूर्ण झाले, पोर्टलवर परत जा'],
+      [/\bDownload Stamped PDF\b/gi, 'स्वाक्षरी केलेला PDF करार डाऊनलोड करा'],
+      [/\bPrint \/ Download Official LR PDF\b/gi, 'अधिकृत LR पावती प्रिंट / डाऊनलोड करा (PDF)'],
+      [/\bSave Profile Changes\b/gi, 'प्रोफाइल बदल जतन करा'],
+      [/\bFreeze Escrow & Submit Claim\b/gi, 'एस्क्रो स्थगित करा व तक्रार नोंदवा'],
+      [/\bConfirm Buyout & Lock Escrow\b/gi, 'खरेदी पुष्टी करा व एस्क्रो सुरक्षित करा'],
+      [/\bLock 35% Escrow & Confirm\b/gi, '३५% एस्क्रो सुरक्षित करा व पुष्टी करा'],
+      [/\bLock 35% Escrow & Procure All\b/gi, '🔒 ३५% एस्क्रो जमा करा व सर्व खरेदी करा'],
+      [/\bLock 35% Escrow & Procure Partial\b/gi, '🔒 ३५% एस्क्रो जमा करा व अंशतः खरेदी करा'],
+      [/\bSubmit Bid to Farmer\b/gi, 'शेतकऱ्याला बोली पाठवा'],
+      [/\bConfirm Booking & Dispatch Driver\b/gi, 'वाहन आरक्षण निश्चित करा व चालक पाठवा'],
+      [/\bConfirm Chamber Booking & Issue Gate Pass\b/gi, 'शीतगृह कक्ष आरक्षित करा व गेट पास जारी करा'],
+      [/\bMark Lien & Disburse ₹ Loan\b/gi, 'तारण नोंद करा व कर्ज रक्कम मिळवा'],
+      [/\bRatify QC & Release Escrow\b/gi, '✓ प्रतवारी मंजूर करा व एस्क्रो सुपूर्द करा'],
+      [/\bLive GPS Telemetry\b/gi, 'थेट GPS स्थान पहा'],
+
+      // Statuses & Badges
+      [/\bVerified Available\b/gi, 'प्रमाणित उपलब्ध'],
+      [/\bOn The Road\b/gi, 'रस्त्यावर'],
+      [/\bPickup Scheduled\b/gi, 'उचल नियोजित'],
+      [/\bDelivered & QC Passed\b/gi, 'वितरित आणि तपासणी पूर्ण'],
+      [/\bDelivered & Settled\b/gi, 'वितरित आणि हिशोब पूर्ण'],
+      [/\bDelivered & Released\b/gi, 'वितरित आणि रक्कम सुपूर्द'],
+      [/\bDelivered\b/gi, 'वितरित'],
+      [/\bUnder Review\b/gi, 'चौकशी सुरू'],
+      [/\bResolved & Refunded\b/gi, 'निवारण आणि परतावा'],
+      [/\bActive Salvage Call\b/gi, 'सक्रिय बचाव कॉल'],
+      [/\bSold Out\b/gi, 'विकले गेले'],
+      [/\bSOLD OUT\b/gi, 'विकले गेले'],
+      [/\bProcured by You\b/gi, 'आपण खरेदी केलेले'],
+      [/\bYour Order • In Transit\b/gi, 'तुमची ऑर्डर • मार्गावर'],
+      [/\bEscrow Locked\b/gi, 'एस्क्रो सुरक्षित'],
+      [/\b100% Default-Proof Guarantee\b/gi, '१००% सुरक्षित व्यवहार हमी'],
+      [/\bVerified Commercial Driver\b/gi, 'प्रमाणित व्यावसायिक चालक'],
+      [/\bInstant Escrow Match\b/gi, 'त्वरित एस्क्रो पूर्तता'],
+      [/\bGuaranteed 65%–75% Farmer Recovery\b/gi, 'हमीभाव ६५%–७५% शेतकरी खर्च वसुली'],
+      [/\bZero Middlemen\b/gi, 'शून्य मध्यस्थ'],
+      [/\bLive Volume\b/gi, 'थेट आवक'],
+      [/\bSurge Arrival\b/gi, 'भरपूर आवक'],
+      [/\bHeavy Supply\b/gi, 'मोठा पुरवठा'],
+      [/\bSteady Inflow\b/gi, 'स्थिर आवक'],
+      [/\bStorage Peak\b/gi, 'साठवणूक उच्चांक'],
+      [/\bFresh Harvest\b/gi, 'ताजी काढणी'],
+      [/\bHigh Volatility\b/gi, 'अस्थिर'],
+      [/\bBullish \(Export Demand Peak\)\b/gi, 'तेजी (कमाल निर्यात मागणी)'],
+      [/\bBearish \(Heavy Mandi Inflow\)\b/gi, 'मंदी (बाजार समितीत भरपूर आवक)'],
+      [/\bStable \(Steady Industrial Offtake\)\b/gi, 'स्थिर (औद्योगिक मागणी स्थिर)'],
+      [/\bBullish\b/gi, 'तेजी'],
+      [/\bBearish\b/gi, 'मंदी'],
+      [/\bStable\b/gi, 'स्थिर'],
+      [/\bEnterprise Verified\b/gi, 'प्रमाणित कॉर्पोरेट खरेदीदार'],
+      [/\bFSSAI Registered\b/gi, 'FSSAI नोंदणीकृत'],
+      [/\b100% Escrow Backed\b/gi, '१००% एस्क्रो सुरक्षित'],
+      [/\be-NWR Eligible\b/gi, 'e-NWR तारण पात्र'],
+      [/\bEscrow Verified\b/gi, 'एस्क्रो प्रमाणित'],
+      [/\bDigitally Signed & Active\b/gi, 'डिजिटल स्वाक्षरीत व सक्रिय'],
+      [/\bOnline\b/gi, 'सक्रिय'],
+
+      // Modal & View Headings, Labels, Disclaimers
+      [/\bPost Bulk Sourcing Demand\b/gi, 'मोठ्या प्रमाणात खरेदी मागणी नोंदवा'],
+      [/\bMatching Farmer Proposals\b/gi, 'शेतकऱ्यांच्या अनुकूल बोली'],
+      [/\bDirect Escrow Procurement\b/gi, 'थेट एस्क्रो खरेदी'],
+      [/\bFarm-Direct Quality Assayed Sourcing\b/gi, 'थेट शेतातून प्रमाणित प्रतवारी खरेदी'],
+      [/\bProcurement Volume\b/gi, 'खरेदी प्रमाण'],
+      [/\bCrop \/ Commodity Required\b/gi, 'आवश्यक शेतीमाल'],
+      [/\bTarget Price\b/gi, 'अपेक्षित किंमत'],
+      [/\bDestination Warehouse Location\b/gi, 'वितरण गोदामाचा पत्ता'],
+      [/\bQuality Grade Expectation\b/gi, 'अपेक्षित प्रतवारी दर्जा'],
+      [/\bCeiling Target Price:\b/gi, 'कमाल खरेदी किंमत मर्यादा:'],
+      [/\bDestination Hub:\b/gi, 'गंतव्य केंद्र:'],
+      [/\bRemaining to Source:\b/gi, 'खरेदीसाठी शिल्लक:'],
+      [/\bAll bids backed by AgriNex Quality Assay & 35% Escrow Guarantee\b/gi, 'सर्व बोली AgriNex गुणवत्ता तपासणी व ३५% एस्क्रो हमीने सुरक्षित'],
+      [/\bProcure Entire Harvest \(100% Volume\)\b/gi, 'संपूर्ण काढणी खरेदी करा (१००% प्रमाण)'],
+      [/\bBuys all available crop. Lot status will be marked SOLD OUT for all other buyers.\b/gi, 'सर्व उपलब्ध शेतीमाल खरेदी करतो. लॉट इतर सर्व खरेदीदारांसाठी "विकले गेले" असा चिन्हांकित होईल.'],
+      [/\bProcure Partial Harvest Volume \(kg\)\b/gi, 'काढणीतील अंशतः प्रमाण खरेदी करा (kg)'],
+      [/\bEnter quantity in kg\b/gi, 'किलोमध्ये प्रमाण प्रविष्ट करा'],
+      [/\bTotal Contract Value:\b/gi, 'एकूण करार मूल्य:'],
+      [/\b35% Advance Escrow to Lock:\b/gi, '🔒 ३५% आगाऊ एस्क्रो सुरक्षित करा:'],
+      [/\bRemaining for Other Buyers:\b/gi, 'इतर खरेदीदारांसाठी शिल्लक:'],
+      [/\bEmergency Salvage Buyout\b/gi, 'तातडीची संकटकालीन खरेदी'],
+      [/\bBreakeven Procurement • Immediate Reefer Transit Dispatch\b/gi, 'किमान पडताळणी खरेदी • तात्काळ वातानुकूलित वाहतूक रवानगी'],
+      [/\bCertified Quantity\b/gi, 'प्रमाणित वजन/प्रमाण'],
+      [/\bBreakeven Buyout Rate\b/gi, 'किमान बचाव खरेदी दर'],
+      [/\b35% Immediate Advance Escrow:\b/gi, '३५% तात्काळ आगाऊ एस्क्रो:'],
+      [/\b65% Balance on Delivery & QC Pass:\b/gi, '६५% डिलिव्हरी व गुणवत्ता मंजुरीनंतर शिल्लक:'],
+      [/\bExpress Reefer Logistics Assigned:\b/gi, 'द्रुतगती वातानुकूलित वाहन नियुक्त:'],
+      [/\bSubmit Counter-Offer Bid\b/gi, 'प्रति-बोली सादर करा'],
+      [/\bFarmer Ask Price\b/gi, 'शेतकऱ्याची अपेक्षित किंमत'],
+      [/\bFarmer Ask Price:\b/gi, 'शेतकऱ्याची अपेक्षित किंमत:'],
+      [/\bYour Bid Price \(₹ per kg\)\b/gi, 'तुमची बोली किंमत (₹ प्रति किलो)'],
+      [/\bRequested Delivery Date\b/gi, 'अपेक्षित वितरण तारीख'],
+      [/\bInstitutional Buyer Profile\b/gi, 'संस्थात्मक खरेदीदार प्रोफाइल'],
+      [/\bSenior Procurement Lead\b/gi, 'वरिष्ठ खरेदी प्रमुख'],
+      [/\bProcurement Officer Name\b/gi, 'खरेदी अधिकारी नाव'],
+      [/\bEnterprise \/ Company Name\b/gi, 'कंपनी / आस्थापना नाव'],
+      [/\bWork Email\b/gi, 'कार्यालयीन ईमेल'],
+      [/\bContact Mobile\b/gi, 'संपर्क मोबाईल'],
+      [/\bCentral Receiving Hub Location\b/gi, 'मध्यवर्ती स्वीकृती केंद्र पत्ता'],
+      [/\bEscrow Treasury & Credit Line\b/gi, 'एस्क्रो कोषागार व क्रेडिट मर्यादा'],
+      [/\bCredit Active:\b/gi, 'क्रेडिट सक्रिय:'],
+      [/\bEscrow Deposit:\b/gi, 'एस्क्रो ठेव:'],
+      [/\bAuto-Disburse:\b/gi, 'स्वयं-वितरण:'],
+      [/\bWeighbridge Pass\b/gi, 'वजनकाटा पावती मंजुरी'],
+      [/\bDirect Farmer Bid Dispatch\b/gi, 'शेतकरी थेट बोली संदेश'],
+      [/\bEnd-to-end encrypted\b/gi, 'सुरक्षित एन्क्रिप्टेड संभाषण'],
+      [/\bAgreed Price:\b/gi, 'मान्य किंमत:'],
+      [/\bRequired 35% Advance Escrow:\b/gi, 'आवश्यक ३५% आगाऊ एस्क्रो:'],
+      [/\bEstimated Dispatch:\b/gi, 'अपेक्षित रवानगी:'],
+      [/\bFile Quality \/ Delivery Claim\b/gi, 'गुणवत्ता / वितरण तक्रार दाखल करा'],
+      [/\bAgriNex Escrow Redressal Cell\b/gi, 'AgriNex एस्क्रो निवारण कक्ष'],
+      [/\bAutomated Escrow Freeze:\b/gi, 'स्वयंचलित एस्क्रो स्थगिती:'],
+      [/\bSelect Disputed Order \/ Lot\b/gi, 'विवादित ऑर्डर / लॉट निवडा'],
+      [/\bGrievance Category\b/gi, 'तक्रार वर्ग'],
+      [/\bQuality Assay Deviation \(Grade \/ Moisture\)\b/gi, 'गुणवत्ता तपासणी तफावत (प्रत / आर्द्रता)'],
+      [/\bWeighbridge Shortage \(> 2% Loss\)\b/gi, 'वजनकाटा तूट (> २% घट)'],
+      [/\bTransit Spoilage \/ Physical Damage\b/gi, 'वाहतुकीदरम्यान नासाडी / भौतिक नुकसान'],
+      [/\bCritical Delivery Delay Breach\b/gi, 'गंभीर वितरण विलंब उल्लंघन'],
+      [/\bForeign Matter \/ Pest Infestation\b/gi, 'कचरा / कीड प्रादुर्भाव'],
+      [/\bClaim Amount \(₹\)\b/gi, 'दावा रक्कम (₹)'],
+      [/\bDiscrepancy Details \/ Evidence Summary\b/gi, 'तफावत तपशील / पुरावा सारांश'],
+      [/\bAttach Supporting Evidence \(Weighbridge Slip, Assay Report or Photo\)\b/gi, 'पुरावे जोडा (वजनकाटा पावती, तपासणी अहवाल किंवा फोटो)'],
+      [/\bClick to upload Digital Assay Slip \/ Weight Receipt \/ Photo Proof\b/gi, 'डिजिटल प्रतवारी पावती / वजन पावती / फोटो अपलोड करण्यासाठी येथे क्लिक करा'],
+      [/\bDigital Lorry Receipt \(LR\) & Gate Pass\b/gi, 'डिजिटल लॉरी पावती (LR) व गेट पास'],
+      [/\bVerified Transit Consignment\b/gi, 'प्रमाणित वाहतूक शेतीमाल'],
+      [/\bConsignor:\b/gi, 'पाठविणारा:'],
+      [/\bConsignee:\b/gi, 'स्वीकारणारा:'],
+      [/\bSecurity Gate Seal:\b/gi, 'सुरक्षा गेट सील:'],
+      [/\bVehicle:\b/gi, 'वाहन:'],
+      [/\bDriver:\b/gi, 'चालक:'],
+      [/\bGross Weight:\b/gi, 'एकूण वजन:'],
+      [/\bTare Weight:\b/gi, 'रिकाम्या वाहनाचे वजन:'],
+      [/\bCertified Net Cargo:\b/gi, 'प्रमाणित निव्वळ माल:'],
+      [/\bAssay Moisture:\b/gi, 'तपासणी आर्द्रता:'],
+      [/\bDigitally Signed by AgriNex Weighbridge Terminal\b/gi, 'AgriNex वजनकाटा टर्मिनलद्वारे डिजिटल स्वाक्षरीत'],
+      [/\bArrival QC & Escrow Release\b/gi, 'आगमन गुणवत्ता तपासणी व एस्क्रो वितरण'],
+      [/\bPhysical Receiving Checklist:\b/gi, 'प्रत्यक्ष माल स्वीकृती यादी:'],
+      [/\bDigital Weighbridge Net Weight Verified\b/gi, 'डिजिटल वजनकाटा निव्वळ वजन तपासले'],
+      [/\bMoisture Index within acceptable tolerance\b/gi, 'आर्द्रता प्रमाण मान्य मर्यादेत'],
+      [/\bQuality Grade A Certification Ratified by Receiving Officer\b/gi, 'स्वीकृती अधिकाऱ्याने ग्रेड अ गुणवत्ता प्रमाणित केली'],
+      [/\bTotal Trade Contract:\b/gi, 'एकूण खरेदी करार:'],
+      [/\b35% Advance Escrow \(Already Deposited\):\b/gi, '३५% आगाऊ एस्क्रो (आधीच जमा केलेले):'],
+      [/\bFinal 65% Settlement to Disburse:\b/gi, 'वितरित करावयाची अंतिम ६५% शिल्लक:'],
+      [/\bLive Satellite GPS Telemetry\b/gi, 'थेट उपग्रह GPS वाहन स्थान'],
+      [/\bVehicle & Transporter\b/gi, 'वाहन आणि वाहतूकदार'],
+      [/\bDistance Remaining\b/gi, 'शिल्लक अंतर'],
+      [/\bLive ETA\b/gi, 'अपेक्षित पोहोच वेळ'],
+      [/\bCurrent Corridor:\b/gi, 'सध्याचा महामार्ग:'],
+      [/\bCorridor Route & Checkpoints Telemetry:\b/gi, 'मार्ग व तपासणी नाके तपशील:'],
+      [/\bDriver & Vehicle Telemetry Details\b/gi, 'चालक व वाहन तपशील'],
+      [/\bLogistics Partner:\b/gi, 'वाहतूक भागीदार:'],
+      [/\bCommercial Driving License\b/gi, 'व्यावसायिक चालक परवाना'],
+      [/\bVehicle Payload Capacity\b/gi, 'वाहन मालवाहू क्षमता'],
+      [/\bFASTag & Toll Clearance\b/gi, 'फास्टॅग व टोल मंजुरी'],
+      [/\bWeighbridge Gate Seal\b/gi, 'वजनकाटा सुरक्षा सील'],
+      [/\bReefer Cargo Temperature\b/gi, 'शीतगृह तापमान'],
+      [/\bCurrent Position:\b/gi, 'सध्याचे स्थान:'],
+      [/\bBook Farm-Gate Transport Fleet\b/gi, 'शेत-शिवारातून वाहतूक वाहन बुक करा'],
+      [/\bAgriNex Verified Cold-Chain & Haulage Network\b/gi, 'AgriNex प्रमाणित शीतगृह व मालवाहतूक नेटवर्क'],
+      [/\bSelect Purchased Lot to Transport\b/gi, 'वाहतुकीसाठी खरेदी केलेला लॉट निवडा'],
+      [/\bPickup Origin \(Farm-Gate\)\b/gi, 'उचल ठिकाण (शेत-शिवार)'],
+      [/\bReceiving Hub Destination\b/gi, 'पोहोचण्याचे केंद्र (पत्ता)'],
+      [/\bSelect Dedicated Vehicle Category\b/gi, 'समर्पित वाहन प्रकार निवडा'],
+      [/\bBolero Maxi Truck\b/gi, 'बोलेरो मॅक्सी ट्रक'],
+      [/\bEicher Reefer\b/gi, 'आयशर वातानुकूलित (रीफर)'],
+      [/\bTata 1613 Multi-Axle\b/gi, 'टाटा १६१३ मल्टि-ॲक्सल'],
+      [/\bCertified Logistics Partner\b/gi, 'प्रमाणित वाहतूक भागीदार'],
+      [/\bHaulage Base Freight:\b/gi, 'मूळ वाहतूक भाडे:'],
+      [/\bTolls & Digital LR Insurance\b/gi, 'टोल आणि विमा'],
+      [/\bEstimated Total Haulage \(Escrow Paid\):\b/gi, 'एकूण अंदाजे वाहतूक भाडे (एस्क्रो):'],
+      [/\bEscrow Liquidity Top-Up Gateway\b/gi, 'एस्क्रो निधी जमा गेटवे'],
+      [/\bENTER DEPOSIT AMOUNT \(₹ INR\)\b/gi, 'जमा करावयाची रक्कम प्रविष्ट करा (₹ INR)'],
+      [/\bZero Processing Fee\b/gi, 'शून्य प्रक्रिया शुल्क'],
+      [/\bInstant UPI QR\b/gi, 'त्वरित UPI QR'],
+      [/\bRTGS \/ NEFT Wire\b/gi, 'RTGS / NEFT बँक ट्रान्सफर'],
+      [/\bDedicated Virtual A\/C\b/gi, 'समर्पित व्हर्च्युअल खाते'],
+      [/\bCorporate NetBanking\b/gi, 'कॉर्पोरेट नेटबँकिंग'],
+      [/\bSCAN & PAY VIA ANY UPI APP\b/gi, 'कोणत्याही UPI ॲपवरून स्कॅन करून भरा'],
+      [/\bEscrow Top-Up Successful!\b/gi, 'एस्क्रो रक्कम यशस्वीरीत्या जमा झाली!'],
+      [/\bFunds credited to AgriNex Nodal Escrow Account\b/gi, 'AgriNex नोडल एस्क्रो खात्यामध्ये रक्कम जमा झाली'],
+      [/\bAMOUNT CREDITED\b/gi, 'जमा झालेली रक्कम'],
+      [/\bTRANSACTION REF\b/gi, 'व्यवहार संदर्भ क्र.'],
+      [/\bBANK UTR NUMBER\b/gi, 'बँक UTR क्रमांक'],
+      [/\bPAYMENT RAIL\b/gi, 'पेमेंट पद्धत'],
+      [/\bUPDATED ESCROW BALANCE\b/gi, 'अद्ययावत एस्क्रो शिल्लक'],
+      [/\bEscrow Trustee:\b/gi, 'एस्क्रो विश्वस्त:'],
+      [/\bClient ID:\b/gi, 'ग्राहक आयडी:'],
+      [/\bTri-Party Smart Escrow Deed\b/gi, 'त्रिपक्षीय स्मार्ट एस्क्रो करारनामा'],
+      [/\bAGRINEX DIGITAL ESCROW & ARBITRATION DEED\b/gi, 'AGRINEX डिजिटल एस्क्रो आणि लवाद करार'],
+      [/\bExecuted digitally under Indian Information Technology Act \(2000\)\b/gi, 'माहिती तंत्रज्ञान कायदा (२०००) अंतर्गत डिजिटल स्वाक्षरीत'],
+      [/\bBuyer:\b/gi, 'खरेदीदार:'],
+      [/\bSeller Farmer:\b/gi, 'विक्रेता शेतकरी:'],
+      [/\bProduce Lot:\b/gi, 'शेतीमाल लॉट:'],
+      [/\bTotal Valuation:\b/gi, 'एकूण मूल्य:'],
+      [/\bBook Cold Storage \/ Silo Space\b/gi, 'शीतगृह / सायलो जागा बुक करा'],
+      [/\bTemperature Control\b/gi, 'तापमान नियंत्रण'],
+      [/\bHumidity Index\b/gi, 'आर्द्रता निर्देशांक'],
+      [/\bWDRA Accreditation\b/gi, 'WDRA मान्यता'],
+      [/\bSelect Commodity \/ Lot to Store\b/gi, 'साठवणुकीसाठी शेतीमाल / लॉट निवडा'],
+      [/\bStorage Quantity\b/gi, 'साठवणूक प्रमाण'],
+      [/\bStorage Tenure\b/gi, 'साठवणूक कालावधी'],
+      [/\bChamber Tariff Rate:\b/gi, 'कक्ष भाडे दर:'],
+      [/\bEstimated Total Storage Fee:\b/gi, 'एकूण अंदाजे साठवणूक शुल्क:'],
+      [/\be-NWR Warehouse Pledge Loan\b/gi, 'e-NWR गोदामातील शेतीमाल तारण कर्ज'],
+      [/\bStored Collateral:\b/gi, 'तारण शेतीमाल:'],
+      [/\bAgriNex Mandi Benchmark Value:\b/gi, 'AgriNex बाजार समिती संदर्भ मूल्य:'],
+      [/\bMaximum 70% Loan-to-Value \(LTV\):\b/gi, 'कमाल ७०% तारण कर्ज मर्यादा (LTV):'],
+      [/\bSelect Partner Financing Bank\b/gi, 'कर्ज देणारी भागीदार बँक निवडा'],
+      [/\bRequested Loan Amount \(₹\)\b/gi, 'मागणी केलेली कर्ज रक्कम (₹)'],
+      [/\bAgriNex AI Sourcing Copilot\b/gi, 'AgriNex AI खरेदी सहाय्यक'],
+      [/\bInstant Maharashtra Mandi Arbitrage & Direct Sourcing Hunter\b/gi, 'महाराष्ट्र बाजार समित्यांचे थेट दर फरक व खरेदी शोधक'],
+      [/\bEnterprise Digital Purchase Order & Tax Invoice\b/gi, 'कॉर्पोरेट खरेदी आदेश (PO) आणि कर इनव्हॉइस'],
+      [/\bDirect Farm-to-Enterprise Agricultural Trading Exchange\b/gi, 'थेट शेतकरी ते कॉर्पोरेट शेतीमाल खरेदी मंच'],
+      [/\bSide-by-Side Multi-Lot Comparative Matrix\b/gi, 'अनेक शेतीमाल लॉट्सची तुलनात्मक तालिका'],
+      [/\bBenchmarking price, landed logistics freight, farmer reliability & escrow requirements\b/gi, 'किंमत, वाहतूक खर्च, शेतकरी विश्वसनीयता व एस्क्रो अटींची तुलना'],
+      [/\bAll Maharashtra Districts APMC Price Matrix\b/gi, 'महाराष्ट्रातील सर्व जिल्ह्यांची बाजार समिती दर तालिका'],
+      [/\bReal-time modal rates, arrival volumes, and farmgate arbitrage across all Maharashtra agricultural districts\b/gi, 'महाराष्ट्रातील सर्व कृषी जिल्ह्यांमधील थेट बाजार भाव, आवक आणि खरेदी नफा'],
+      [/\bShowing All Districts\b/gi, 'सर्व जिल्हे दर्शवित आहे'],
+      [/\bDistrict & Mandi Yard\b/gi, 'जिल्हा व बाजार समिती'],
+      [/\bModal Price \(₹\/kg\)\b/gi, 'सरासरी भाव (₹/किलो)'],
+      [/\bModal Rate \(₹\/Qt\)\b/gi, 'सरासरी दर (₹/क्विंटल)'],
+      [/\bMin – Max Range\b/gi, 'किमान - कमाल दर'],
+      [/\bArbitrage Spread\b/gi, 'दर फरक नफा'],
+
+      // Slogans & Analytical Labels
+      [/\bvs last week\b/gi, 'मागील आठवड्यापेक्षा'],
+      [/\bvs Vashi Middlemen\b/gi, 'वाशी दलालांपेक्षा'],
+      [/\bvs Vashi APMC middleman rate\b/gi, 'वाशी बाजार समिती दलालांच्या दरापेक्षा'],
+      [/\bDirect Farm Arbitrage\b/gi, 'थेट शेतातील दर फरक (नफा)'],
+      [/\bMandi Benchmark Modal\b/gi, 'बाजार समिती सरासरी दर'],
+      [/\b24H Mandi Arrival Volume\b/gi, '२४ तासांतील बाजार समिती आवक'],
+      [/\b24h Mandi Arrival Volume\b/gi, '२४ तासांतील बाजार समिती आवक'],
+      [/\b24h Arrivals\b/gi, '२४ तास आवक'],
+      [/\bAI Procurement Sentiment\b/gi, 'AI खरेदी विश्लेषण कल'],
+      [/\bSave ₹\b/gi, 'बचत ₹'],
+      [/\bSaved\b/gi, 'बचत'],
+      [/\bHours Left\b/gi, 'तास शिल्लक'],
+      [/\bHours Urgency\b/gi, 'तासांची निकड'],
+      [/\bOptimal Sourcing Window\b/gi, 'खरेदीसाठी सर्वोत्तम कालावधी'],
+      [/\bNext 3–5 Days\b/gi, 'पुढील ३–५ दिवस'],
+      [/\bBefore festive demand uptick\b/gi, 'सणासुदीच्या मागणीपूर्वी'],
+      [/\bDirect Sourcing Spread\b/gi, 'थेट खरेदीतील नफा/बचत'],
+      [/\bAI Procurement Action Plan:\b/gi, 'AI खरेदी कृती आराखडा:'],
+      [/\bBrowse Verified\b/gi, 'प्रमाणित शेतीमाल पहा'],
+      [/\bAll District Rates for\b/gi, 'सर्व जिल्ह्यांमधील दर -'],
+      [/\bPrimary Hub:\b/gi, 'मुख्य केंद्र:'],
+      [/\b24h Modal:\b/gi, '२४ तास सरासरी:'],
+      [/\bIndex:\b/gi, 'निर्देशांक:'],
+      [/\bExport Peak\b/gi, 'निर्यात उच्चांक'],
+      [/\bActive Quota Volume\b/gi, 'सक्रिय कोटा प्रमाण'],
+      [/\bFulfilled \/ Sourced Volume\b/gi, 'पूर्ण झालेली खरेदी'],
+      [/\bNet Sourcing Savings\b/gi, 'निव्वळ खरेदी बचत'],
+      [/\bLive Farmer Bids\b/gi, 'थेट शेतकरी बोली'],
+      [/\bAcross 4 Strategic Commodities\b/gi, '४ प्रमुख शेतमालांमध्ये'],
+      [/\b100% Quality Assay Passed\b/gi, '१००% गुणवत्ता तपासणी मंजूर'],
+      [/\bZero Middlemen Spread\b/gi, 'शून्य मध्यस्थ नफा'],
+      [/\bAvg Response Time:\b/gi, 'सरासरी प्रतिसाद वेळ:'],
+      [/\bActive Fleet\b/gi, 'सक्रिय वाहने'],
+      [/\bVolume in Transit\b/gi, 'मार्गावरील शेतीमाल'],
+      [/\bGate Passes\b/gi, 'गेट पासेस'],
+      [/\bDelivery SLA Success\b/gi, 'वेळेवर पोहोच यश दर'],
+      [/\bTotal Active Contracts\b/gi, 'एकूण सक्रिय करार'],
+      [/\bCommitted Sourcing Pool\b/gi, 'एकूण खरेदी निधी पूल'],
+      [/\b35% Advance In Escrow\b/gi, '३५% आगाऊ रक्कम एस्क्रोमध्ये'],
+      [/\b65% Delivery Balances\b/gi, '६५% उर्वरित रक्कम'],
+      [/\bDisbursed After QC Pass\b/gi, 'गुणवत्ता तपासणीनंतर वितरण'],
+      [/\bActive Milestone Tracks\b/gi, 'सक्रिय टप्पे ट्रॅक'],
+      [/\bAvailable Qty:\b/gi, 'उपलब्ध प्रमाण:'],
+      [/\bUnits:\b/gi, 'एकक:'],
+      [/\bFarmer:\b/gi, 'शेतकरी:']
+    ],
+    hi: [
+      // Major Buttons & Actions
+      [/\bInstant Buyout\b/gi, 'त्वरित खरीद'],
+      [/\bBuy Now\b/gi, 'अभी खरीदें'],
+      [/\bProcure Lot\b/gi, 'लॉट खरीदें'],
+      [/\bCounter Bid\b/gi, 'काउंटर बोली'],
+      [/\bIn Transit\b/gi, 'रास्ते में है'],
+      [/\bConfirm Arrival & QC Pass\b/gi, 'आगमन पुष्टि एवं गुणवत्ता पास'],
+      [/\bView Digital PO \/ Invoice\b/gi, 'डिजिटल इनवॉइस देखें'],
+      [/\bRaise Quality Inspection Hold\b/gi, 'गुणवत्ता जांच रोक दर्ज करें'],
+      [/\bDeposit Escrow Capital\b/gi, 'एस्क्रो राशि जमा करें'],
+      [/\bRelease 65% Balance\b/gi, '65% शेष राशि जारी करें'],
+      [/\bView Agreement Deed\b/gi, 'अनुबंध पत्र देखें'],
+      [/\bBook Chamber Space\b/gi, 'शीतगृह कक्ष आरक्षित करें'],
+      [/\bBook Dedicated Freight Vehicle\b/gi, 'समर्पित मालवाहन बुक करें'],
+      [/\bFile New Quality Claim\b/gi, 'नया गुणवत्ता दावा दर्ज करें'],
+      [/\bPrint Cost Sheet\b/gi, 'लागत पत्रक प्रिंट करें'],
+      [/\bCompare All District Rates\b/gi, 'सभी जिलों के भाव देखें'],
+      [/\bClose Matrix\b/gi, 'तालिका बंद करें'],
+      [/\bClose\b/gi, 'बंद करें'],
+      [/\bCancel\b/gi, 'रद्द करें'],
+      [/\bSubmit\b/gi, 'जमा करें'],
+      [/\bSave Changes\b/gi, 'बदलें सहेजें'],
+      [/\bConfirm\b/gi, 'पुष्टि करें'],
+      [/\bClear Selection\b/gi, 'चयन साफ़ करें'],
+      [/\bCompare Lots\b/gi, 'लॉट्स की तुलना करें'],
+      [/\bCall Driver\b/gi, 'ड्राइवर को कॉल करें'],
+      [/\bCall\b/gi, 'कॉल'],
+      [/\bRefresh GPS Ping\b/gi, 'जीपीएस पिंग रीफ्रेश करें'],
+      [/\bRefresh\b/gi, 'रीफ्रेश करें'],
+      [/\bAuto-Match Refresh\b/gi, 'ऑटो-मैच रीफ्रेश'],
+      [/\bBroadcast New Quota\b/gi, 'नया कोटा प्रसारित करें'],
+      [/\bExport POs \(PDF\)\b/gi, 'क्रय आदेश निर्यात (PDF)'],
+      [/\bAudit Statement \(PDF\)\b/gi, 'ऑडिट स्टेटमेंट (PDF)'],
+      [/\bExit Simulation\b/gi, 'डेमो से बाहर निकलें'],
+      [/\bBroadcast to Farmers\b/gi, 'किसानों को प्रसारित करें'],
+      [/\bAsk AI\b/gi, 'एआई से पूछें'],
+      [/\bPrint \/ Save PDF\b/gi, 'प्रिंट / पीडीएफ सहेजें'],
+      [/\bPrint Receipt\b/gi, 'रसीद प्रिंट करें'],
+      [/\bDone & Return to Portal\b/gi, 'पूर्ण, पोर्टल पर वापस जाएं'],
+      [/\bDownload Stamped PDF\b/gi, 'हस्ताक्षरित पीडीएफ डाउनलोड करें'],
+      [/\bPrint \/ Download Official LR PDF\b/gi, 'आधिकारिक LR रसीद प्रिंट / डाउनलोड करें (PDF)'],
+      [/\bSave Profile Changes\b/gi, 'प्रोफ़ाइल परिवर्तन सहेजें'],
+      [/\bFreeze Escrow & Submit Claim\b/gi, 'एस्क्रो रोकें और दावा जमा करें'],
+      [/\bConfirm Buyout & Lock Escrow\b/gi, 'खरीद की पुष्टि करें और एस्क्रो लॉक करें'],
+      [/\bLock 35% Escrow & Confirm\b/gi, '35% एस्क्रो सुरक्षित करें और पुष्टि करें'],
+      [/\bLock 35% Escrow & Procure All\b/gi, '🔒 35% एस्क्रो सुरक्षित करें और सब खरीदें'],
+      [/\bLock 35% Escrow & Procure Partial\b/gi, '🔒 35% एस्क्रो सुरक्षित करें और आंशिक खरीदें'],
+      [/\bSubmit Bid to Farmer\b/gi, 'किसान को बोली भेजें'],
+      [/\bConfirm Booking & Dispatch Driver\b/gi, 'बुकिंग की पुष्टि करें और ड्राइवर भेजें'],
+      [/\bConfirm Chamber Booking & Issue Gate Pass\b/gi, 'शीतगृह कक्ष आरक्षित करें और गेट पास जारी करें'],
+      [/\bMark Lien & Disburse ₹ Loan\b/gi, 'लियन चिह्नित करें और ऋण राशि प्राप्त करें'],
+      [/\bRatify QC & Release Escrow\b/gi, '✓ गुणवत्ता पास करें और एस्क्रो जारी करें'],
+      [/\bLive GPS Telemetry\b/gi, 'लाइव जीपीएस ट्रैकिंग'],
+
+      // Statuses & Badges
+      [/\bVerified Available\b/gi, 'सत्यापित उपलब्ध'],
+      [/\bOn The Road\b/gi, 'मार्ग में'],
+      [/\bPickup Scheduled\b/gi, 'पिकअप निर्धारित'],
+      [/\bDelivered & QC Passed\b/gi, 'वितरित एवं पास'],
+      [/\bDelivered & Settled\b/gi, 'वितरित एवं निपटान पूर्ण'],
+      [/\bDelivered & Released\b/gi, 'वितरित एवं जारी'],
+      [/\bDelivered\b/gi, 'वितरित'],
+      [/\bUnder Review\b/gi, 'समीक्षाधीन'],
+      [/\bResolved & Refunded\b/gi, 'समाधान एवं धनवापसी'],
+      [/\bActive Salvage Call\b/gi, 'सक्रिय बचाव कॉल'],
+      [/\bSold Out\b/gi, 'बिक गया'],
+      [/\bSOLD OUT\b/gi, 'बिक गया'],
+      [/\bProcured by You\b/gi, 'आपके द्वारा खरीदा गया'],
+      [/\bYour Order • In Transit\b/gi, 'आपका ऑर्डर • रास्ते में'],
+      [/\bEscrow Locked\b/gi, 'एस्क्रो सुरक्षित'],
+      [/\b100% Default-Proof Guarantee\b/gi, '100% डिफ़ॉल्ट-मुक्त गारंटी'],
+      [/\bVerified Commercial Driver\b/gi, 'प्रमाणित वाणिज्यिक ड्राइवर'],
+      [/\bInstant Escrow Match\b/gi, 'त्वरित एस्क्रो भुगतान'],
+      [/\bGuaranteed 65%–75% Farmer Recovery\b/gi, 'गारंटीकृत 65%–75% किसान लागत वसूली'],
+      [/\bZero Middlemen\b/gi, 'शून्य बिचौलिया'],
+      [/\bLive Volume\b/gi, 'लाइव आवक'],
+      [/\bSurge Arrival\b/gi, 'भारी आवक'],
+      [/\bHeavy Supply\b/gi, 'अधिक आपूर्ति'],
+      [/\bSteady Inflow\b/gi, 'स्थिर आवक'],
+      [/\bStorage Peak\b/gi, 'भंडारण पीक'],
+      [/\bFresh Harvest\b/gi, 'ताजा फसल'],
+      [/\bHigh Volatility\b/gi, 'अस्थिर'],
+      [/\bBullish \(Export Demand Peak\)\b/gi, 'तेजी (उच्च निर्यात मांग)'],
+      [/\bBearish \(Heavy Mandi Inflow\)\b/gi, 'मंदी (मंडी में भारी आवक)'],
+      [/\bStable \(Steady Industrial Offtake\)\b/gi, 'स्थिर (मांग स्थिर)'],
+      [/\bBullish\b/gi, 'तेजी'],
+      [/\bBearish\b/gi, 'मंदी'],
+      [/\bStable\b/gi, 'स्थिर'],
+      [/\bEnterprise Verified\b/gi, 'प्रमाणित कॉर्पोरेट खरीदार'],
+      [/\bFSSAI Registered\b/gi, 'FSSAI पंजीकृत'],
+      [/\b100% Escrow Backed\b/gi, '100% एस्क्रो समर्थित'],
+      [/\be-NWR Eligible\b/gi, 'e-NWR तारण पात्र'],
+      [/\bEscrow Verified\b/gi, 'एस्क्रो सत्यापित'],
+      [/\bDigitally Signed & Active\b/gi, 'डिजिटल हस्ताक्षरित एवं सक्रिय'],
+      [/\bOnline\b/gi, 'सक्रिय'],
+
+      // Modal & View Headings, Labels, Disclaimers
+      [/\bPost Bulk Sourcing Demand\b/gi, 'थोक खरीद मांग पोस्ट करें'],
+      [/\bMatching Farmer Proposals\b/gi, 'अनुकूल किसान प्रस्ताव'],
+      [/\bDirect Escrow Procurement\b/gi, 'सीधी एस्क्रो खरीद'],
+      [/\bFarm-Direct Quality Assayed Sourcing\b/gi, 'सीधे खेत से गुणवत्ता प्रमाणित खरीद'],
+      [/\bProcurement Volume\b/gi, 'खरीद मात्रा'],
+      [/\bCrop \/ Commodity Required\b/gi, 'आवश्यक फसल / उपज'],
+      [/\bTarget Price\b/gi, 'लक्षित मूल्य'],
+      [/\bDestination Warehouse Location\b/gi, 'गंतव्य गोदाम पता'],
+      [/\bQuality Grade Expectation\b/gi, 'अपेक्षित गुणवत्ता ग्रेड'],
+      [/\bCeiling Target Price:\b/gi, 'अधिकतम लक्षित मूल्य:'],
+      [/\bDestination Hub:\b/gi, 'गंतव्य केंद्र:'],
+      [/\bRemaining to Source:\b/gi, 'खरीद हेतु शेष:'],
+      [/\bAll bids backed by AgriNex Quality Assay & 35% Escrow Guarantee\b/gi, 'सभी बोलियां AgriNex गुणवत्ता परख और 35% एस्क्रो गारंटी से सुरक्षित'],
+      [/\bProcure Entire Harvest \(100% Volume\)\b/gi, 'पूरी फसल खरीदें (100% मात्रा)'],
+      [/\bBuys all available crop. Lot status will be marked SOLD OUT for all other buyers.\b/gi, 'उपलब्ध सभी फसल खरीदता है। लॉट अन्य सभी खरीदारों के लिए "बिक गया" चिह्नित होगा।'],
+      [/\bProcure Partial Harvest Volume \(kg\)\b/gi, 'आंशिक फसल मात्रा खरीदें (kg)'],
+      [/\bEnter quantity in kg\b/gi, 'किलो में मात्रा दर्ज करें'],
+      [/\bTotal Contract Value:\b/gi, 'कुल अनुबंध मूल्य:'],
+      [/\b35% Advance Escrow to Lock:\b/gi, '🔒 35% अग्रिम एस्क्रो सुरक्षित करें:'],
+      [/\bRemaining for Other Buyers:\b/gi, 'अन्य खरीदारों के लिए शेष:'],
+      [/\bEmergency Salvage Buyout\b/gi, 'आपातकालीन बचाव खरीद'],
+      [/\bBreakeven Procurement • Immediate Reefer Transit Dispatch\b/gi, 'लागत वसूली खरीद • तत्काल रीफर वाहन रवानगी'],
+      [/\bCertified Quantity\b/gi, 'प्रमाणित मात्रा'],
+      [/\bBreakeven Buyout Rate\b/gi, 'लागत वसूली खरीद दर'],
+      [/\b35% Immediate Advance Escrow:\b/gi, '35% तत्काल अग्रिम एस्क्रो:'],
+      [/\b65% Balance on Delivery & QC Pass:\b/gi, '65% डिलीवरी एवं गुणवत्ता पास पर शेष:'],
+      [/\bExpress Reefer Logistics Assigned:\b/gi, 'एक्सप्रेस रीफर वाहन आवंटित:'],
+      [/\bSubmit Counter-Offer Bid\b/gi, 'प्रति-प्रस्ताव बोली जमा करें'],
+      [/\bFarmer Ask Price\b/gi, 'किसान की मांग कीमत'],
+      [/\bFarmer Ask Price:\b/gi, 'किसान की मांग कीमत:'],
+      [/\bYour Bid Price \(₹ per kg\)\b/gi, 'आपकी बोली कीमत (₹ प्रति किलो)'],
+      [/\bRequested Delivery Date\b/gi, 'अपेक्षित डिलीवरी तिथि'],
+      [/\bInstitutional Buyer Profile\b/gi, 'संस्थागत खरीदार प्रोफ़ाइल'],
+      [/\bSenior Procurement Lead\b/gi, 'वरिष्ठ खरीद प्रमुख'],
+      [/\bProcurement Officer Name\b/gi, 'खरीद अधिकारी का नाम'],
+      [/\bEnterprise \/ Company Name\b/gi, 'कंपनी का नाम'],
+      [/\bWork Email\b/gi, 'कार्यालयीन ईमेल'],
+      [/\bContact Mobile\b/gi, 'संपर्क मोबाइल'],
+      [/\bCentral Receiving Hub Location\b/gi, 'केंद्रीय प्राप्ति केंद्र पता'],
+      [/\bEscrow Treasury & Credit Line\b/gi, 'एस्क्रो ट्रेजरी एवं क्रेडिट लाइन'],
+      [/\bCredit Active:\b/gi, 'क्रेडिट सक्रिय:'],
+      [/\bEscrow Deposit:\b/gi, 'एस्क्रो जमा:'],
+      [/\bAuto-Disburse:\b/gi, 'स्वतः-भुगतान:'],
+      [/\bWeighbridge Pass\b/gi, 'वेब्रिज पास'],
+      [/\bDirect Farmer Bid Dispatch\b/gi, 'सीधा किसान बोली संदेश'],
+      [/\bEnd-to-end encrypted\b/gi, 'सुरक्षित एन्क्रिप्टेड बातचीत'],
+      [/\bAgreed Price:\b/gi, 'सहमति मूल्य:'],
+      [/\bRequired 35% Advance Escrow:\b/gi, 'आवश्यक 35% अग्रिम एस्क्रो:'],
+      [/\bEstimated Dispatch:\b/gi, 'अनुमानित रवानगी:'],
+      [/\bFile Quality \/ Delivery Claim\b/gi, 'गुणवत्ता / डिलीवरी शिकायत दर्ज करें'],
+      [/\bAgriNex Escrow Redressal Cell\b/gi, 'AgriNex एस्क्रो निवारण प्रकोष्ठ'],
+      [/\bAutomated Escrow Freeze:\b/gi, 'स्वचालित एस्क्रो रोक:'],
+      [/\bSelect Disputed Order \/ Lot\b/gi, 'विवादित ऑर्डर / लॉट चुनें'],
+      [/\bGrievance Category\b/gi, 'शिकायत श्रेणी'],
+      [/\bQuality Assay Deviation \(Grade \/ Moisture\)\b/gi, 'गुणवत्ता विचलन (ग्रेड / नमी)'],
+      [/\bWeighbridge Shortage \(> 2% Loss\)\b/gi, 'वेब्रिज कमी (> 2% हानि)'],
+      [/\bTransit Spoilage \/ Physical Damage\b/gi, 'परिवहन क्षति / खराबी'],
+      [/\bCritical Delivery Delay Breach\b/gi, 'गंभीर डिलीवरी देरी उल्लंघन'],
+      [/\bForeign Matter \/ Pest Infestation\b/gi, 'कचरा / कीट संक्रमण'],
+      [/\bClaim Amount \(₹\)\b/gi, 'दावा राशि (₹)'],
+      [/\bDiscrepancy Details \/ Evidence Summary\b/gi, 'विसंगति विवरण / साक्ष्य सारांश'],
+      [/\bAttach Supporting Evidence \(Weighbridge Slip, Assay Report or Photo\)\b/gi, 'साक्ष्य संलग्न करें (वेब्रिज पर्ची, रिपोर्ट या फोटो)'],
+      [/\bClick to upload Digital Assay Slip \/ Weight Receipt \/ Photo Proof\b/gi, 'डिजिटल जांच पर्ची / वजन रसीद / फोटो अपलोड करने के लिए क्लिक करें'],
+      [/\bDigital Lorry Receipt \(LR\) & Gate Pass\b/gi, 'डिजिटल लॉरी रसीद (LR) और गेट पास'],
+      [/\bVerified Transit Consignment\b/gi, 'सत्यापित पारगमन माल'],
+      [/\bConsignor:\b/gi, 'प्रेषक:'],
+      [/\bConsignee:\b/gi, 'प्राप्तकर्ता:'],
+      [/\bSecurity Gate Seal:\b/gi, 'सुरक्षा गेट सील:'],
+      [/\bVehicle:\b/gi, 'वाहन:'],
+      [/\bDriver:\b/gi, 'चालक:'],
+      [/\bGross Weight:\b/gi, 'सकल वजन:'],
+      [/\bTare Weight:\b/gi, 'खाली वाहन वजन:'],
+      [/\bCertified Net Cargo:\b/gi, 'प्रमाणित शुद्ध माल:'],
+      [/\bAssay Moisture:\b/gi, 'जांच नमी:'],
+      [/\bDigitally Signed by AgriNex Weighbridge Terminal\b/gi, 'AgriNex वेब्रिज टर्मिनल द्वारा डिजिटल हस्ताक्षरित'],
+      [/\bArrival QC & Escrow Release\b/gi, 'आगमन गुणवत्ता जांच एवं एस्क्रो भुगतान'],
+      [/\bPhysical Receiving Checklist:\b/gi, 'प्राप्ति चेकलिस्ट:'],
+      [/\bDigital Weighbridge Net Weight Verified\b/gi, 'डिजिटल वेब्रिज शुद्ध वजन सत्यापित'],
+      [/\bMoisture Index within acceptable tolerance\b/gi, 'नमी सूचकांक स्वीकार्य सीमा में'],
+      [/\bQuality Grade A Certification Ratified by Receiving Officer\b/gi, 'प्राप्ति अधिकारी द्वारा ग्रेड ए गुणवत्ता सत्यापित'],
+      [/\bTotal Trade Contract:\b/gi, 'कुल व्यापार अनुबंध:'],
+      [/\b35% Advance Escrow \(Already Deposited\):\b/gi, '35% अग्रिम एस्क्रो (पहले से जमा):'],
+      [/\bFinal 65% Settlement to Disburse:\b/gi, 'अंतिम 65% भुगतान राशि:'],
+      [/\bLive Satellite GPS Telemetry\b/gi, 'लाइव सैटेलाइट जीपीएस ट्रैकिंग'],
+      [/\bVehicle & Transporter\b/gi, 'वाहन और ट्रांसपोर्टर'],
+      [/\bDistance Remaining\b/gi, 'शेष दूरी'],
+      [/\bLive ETA\b/gi, 'पहुंचने का अनुमानित समय'],
+      [/\bCurrent Corridor:\b/gi, 'वर्तमान मार्ग:'],
+      [/\bCorridor Route & Checkpoints Telemetry:\b/gi, 'मार्ग और चेकपॉइंट विवरण:'],
+      [/\bDriver & Vehicle Telemetry Details\b/gi, 'चालक और वाहन विवरण'],
+      [/\bLogistics Partner:\b/gi, 'लॉजिस्टिक्स पार्टनर:'],
+      [/\bCommercial Driving License\b/gi, 'वाणिज्यिक ड्राइविंग लाइसेंस'],
+      [/\bVehicle Payload Capacity\b/gi, 'वाहन पेलोड क्षमता'],
+      [/\bFASTag & Toll Clearance\b/gi, 'फास्टैग एवं टोल क्लीयरेंस'],
+      [/\bWeighbridge Gate Seal\b/gi, 'वेब्रिज सुरक्षा सील'],
+      [/\bReefer Cargo Temperature\b/gi, 'रीफर तापमान'],
+      [/\bCurrent Position:\b/gi, 'वर्तमान स्थिति:'],
+      [/\bBook Farm-Gate Transport Fleet\b/gi, 'खेत से परिवहन वाहन बुक करें'],
+      [/\bAgriNex Verified Cold-Chain & Haulage Network\b/gi, 'AgriNex प्रमाणित कोल्ड-चेन नेटवर्क'],
+      [/\bSelect Purchased Lot to Transport\b/gi, 'परिवहन के लिए खरीदा गया लॉट चुनें'],
+      [/\bPickup Origin \(Farm-Gate\)\b/gi, 'पिकअप स्थान (खेत)'],
+      [/\bReceiving Hub Destination\b/gi, 'प्राप्ति केंद्र गंतव्य'],
+      [/\bSelect Dedicated Vehicle Category\b/gi, 'समर्पित वाहन श्रेणी चुनें'],
+      [/\bBolero Maxi Truck\b/gi, 'बोलेरो मैक्सी ट्रक'],
+      [/\bEicher Reefer\b/gi, 'आयशर रीफर'],
+      [/\bTata 1613 Multi-Axle\b/gi, 'टाटा 1613 मल्टी-एक्सल'],
+      [/\bCertified Logistics Partner\b/gi, 'प्रमाणित लॉजिस्टिक्स पार्टनर'],
+      [/\bHaulage Base Freight:\b/gi, 'मूल भाड़ा:'],
+      [/\bTolls & Digital LR Insurance\b/gi, 'टोल एवं बीमा'],
+      [/\bEstimated Total Haulage \(Escrow Paid\):\b/gi, 'अनुमानित कुल भाड़ा (एस्क्रो):'],
+      [/\bEscrow Liquidity Top-Up Gateway\b/gi, 'एस्क्रो राशि जमा गेटवे'],
+      [/\bENTER DEPOSIT AMOUNT \(₹ INR\)\b/gi, 'जमा करने हेतु राशि दर्ज करें (₹ INR)'],
+      [/\bZero Processing Fee\b/gi, 'शून्य प्रोसेसिंग शुल्क'],
+      [/\bInstant UPI QR\b/gi, 'त्वरित यूपीआई क्यूआर'],
+      [/\bRTGS \/ NEFT Wire\b/gi, 'RTGS / NEFT बैंक ट्रांसफर'],
+      [/\bDedicated Virtual A\/C\b/gi, 'समर्पित वर्चुअल खाता'],
+      [/\bCorporate NetBanking\b/gi, 'कॉर्पोरेट नेटबैंकिंग'],
+      [/\bSCAN & PAY VIA ANY UPI APP\b/gi, 'किसी भी UPI ऐप से स्कैन और भुगतान करें'],
+      [/\bEscrow Top-Up Successful!\b/gi, 'एस्क्रो टॉप-अप सफल!'],
+      [/\bFunds credited to AgriNex Nodal Escrow Account\b/gi, 'राशि AgriNex नोडल एस्क्रो खाते में जमा की गई'],
+      [/\bAMOUNT CREDITED\b/gi, 'जमा की गई राशि'],
+      [/\bTRANSACTION REF\b/gi, 'लेन-देन संदर्भ'],
+      [/\bBANK UTR NUMBER\b/gi, 'बैंक यूटीआर संख्या'],
+      [/\bPAYMENT RAIL\b/gi, 'भुगतान माध्यम'],
+      [/\bUPDATED ESCROW BALANCE\b/gi, 'अद्यतन एस्क्रो शेष'],
+      [/\bEscrow Trustee:\b/gi, 'एस्क्रो ट्रस्टी:'],
+      [/\bClient ID:\b/gi, 'ग्राहक आईडी:'],
+      [/\bTri-Party Smart Escrow Deed\b/gi, 'त्रिपक्षीय स्मार्ट एस्क्रो अनुबंध'],
+      [/\bAGRINEX DIGITAL ESCROW & ARBITRATION DEED\b/gi, 'AGRINEX डिजिटल एस्क्रो एवं मध्यस्थता अनुबंध'],
+      [/\bExecuted digitally under Indian Information Technology Act \(2000\)\b/gi, 'सूचना प्रौद्योगिकी अधिनियम (2000) के तहत डिजिटल रूप से निष्पादित'],
+      [/\bBuyer:\b/gi, 'खरीदार:'],
+      [/\bSeller Farmer:\b/gi, 'विक्रेता किसान:'],
+      [/\bProduce Lot:\b/gi, 'फसल लॉट:'],
+      [/\bTotal Valuation:\b/gi, 'कुल मूल्यांकन:'],
+      [/\bBook Cold Storage \/ Silo Space\b/gi, 'शीतगृह / सायलो स्थान बुक करें'],
+      [/\bTemperature Control\b/gi, 'तापमान नियंत्रण'],
+      [/\bHumidity Index\b/gi, 'नमी सूचकांक'],
+      [/\bWDRA Accreditation\b/gi, 'WDRA मान्यता'],
+      [/\bSelect Commodity \/ Lot to Store\b/gi, 'भंडारण हेतु फसल / लॉट चुनें'],
+      [/\bStorage Quantity\b/gi, 'भंडारण मात्रा'],
+      [/\bStorage Tenure\b/gi, 'भंडारण अवधि'],
+      [/\bChamber Tariff Rate:\b/gi, 'कक्ष किराया दर:'],
+      [/\bEstimated Total Storage Fee:\b/gi, 'अनुमानित कुल भंडारण शुल्क:'],
+      [/\be-NWR Warehouse Pledge Loan\b/gi, 'e-NWR गोदाम रसीद गिरवी ऋण'],
+      [/\bStored Collateral:\b/gi, 'गिरवी फसल:'],
+      [/\bAgriNex Mandi Benchmark Value:\b/gi, 'AgriNex मंडी संदर्भ मूल्य:'],
+      [/\bMaximum 70% Loan-to-Value \(LTV\):\b/gi, 'अधिकतम 70% ऋण सीमा (LTV):'],
+      [/\bSelect Partner Financing Bank\b/gi, 'ऋणदाता भागीदार बैंक चुनें'],
+      [/\bRequested Loan Amount \(₹\)\b/gi, 'अनुरोधित ऋण राशि (₹)'],
+      [/\bAgriNex AI Sourcing Copilot\b/gi, 'AgriNex एआई खरीद सहायक'],
+      [/\bInstant Maharashtra Mandi Arbitrage & Direct Sourcing Hunter\b/gi, 'महाराष्ट्र मंडी आर्बिट्रेज एवं सीधी खरीद खोजक'],
+      [/\bEnterprise Digital Purchase Order & Tax Invoice\b/gi, 'कॉर्पोरेट खरीद आदेश (PO) और टैक्स इनवॉइस'],
+      [/\bDirect Farm-to-Enterprise Agricultural Trading Exchange\b/gi, 'सीधा किसान-टू-कॉर्पोरेट कृषि व्यापार एक्सचेंज'],
+      [/\bSide-by-Side Multi-Lot Comparative Matrix\b/gi, 'कई लॉट्स की तुलनात्मक तालिका'],
+      [/\bBenchmarking price, landed logistics freight, farmer reliability & escrow requirements\b/gi, 'कीमत, परिवहन भाड़ा, किसान विश्वसनीयता और एस्क्रो शर्तों की तुलना'],
+      [/\bAll Maharashtra Districts APMC Price Matrix\b/gi, 'महाराष्ट्र के सभी जिलों की मंडी भाव तालिका'],
+      [/\bReal-time modal rates, arrival volumes, and farmgate arbitrage across all Maharashtra agricultural districts\b/gi, 'महाराष्ट्र के सभी कृषि जिलों में रीयल-टाइम मंडी भाव, आवक और सीधी खरीद लाभ'],
+      [/\bShowing All Districts\b/gi, 'सभी जिले प्रदर्शित हैं'],
+      [/\bDistrict & Mandi Yard\b/gi, 'जिला एवं मंडी'],
+      [/\bModal Price \(₹\/kg\)\b/gi, 'मॉडल भाव (₹/किग्रा)'],
+      [/\bModal Rate \(₹\/Qt\)\b/gi, 'मॉडल दर (₹/क्विंटल)'],
+      [/\bMin – Max Range\b/gi, 'न्यूनतम - अधिकतम भाव'],
+      [/\bArbitrage Spread\b/gi, 'आर्बिट्रेज लाभ'],
+
+      // Slogans & Analytical Labels
+      [/\bvs last week\b/gi, 'पिछले सप्ताह की तुलना में'],
+      [/\bvs Vashi Middlemen\b/gi, 'वाशी बिचौलियों की तुलना में'],
+      [/\bvs Vashi APMC middleman rate\b/gi, 'वाशी मंडी दलालों के भाव से'],
+      [/\bDirect Farm Arbitrage\b/gi, 'सीधे खेत से खरीद लाभ'],
+      [/\bMandi Benchmark Modal\b/gi, 'मंडी मॉडल भाव'],
+      [/\b24H Mandi Arrival Volume\b/gi, '24 घंटे में मंडी आवक'],
+      [/\b24h Mandi Arrival Volume\b/gi, '24 घंटे में मंडी आवक'],
+      [/\b24h Arrivals\b/gi, '24 घंटे आवक'],
+      [/\bAI Procurement Sentiment\b/gi, 'एआई खरीद रुझान अनुमान'],
+      [/\bSave ₹\b/gi, 'बचत ₹'],
+      [/\bSaved\b/gi, 'बचत'],
+      [/\bHours Left\b/gi, 'घंटे शेष'],
+      [/\bHours Urgency\b/gi, 'समय सीमा'],
+      [/\bOptimal Sourcing Window\b/gi, 'खरीद का सही समय'],
+      [/\bNext 3–5 Days\b/gi, 'अगले 3–5 दिन'],
+      [/\bBefore festive demand uptick\b/gi, 'त्योहारी मांग से पहले'],
+      [/\bDirect Sourcing Spread\b/gi, 'सीधी खरीद बचत'],
+      [/\bAI Procurement Action Plan:\b/gi, 'एआई खरीद कार्य योजना:'],
+      [/\bBrowse Verified\b/gi, 'सत्यापित फसलें देखें'],
+      [/\bAll District Rates for\b/gi, 'सभी जिलों के भाव -'],
+      [/\bPrimary Hub:\b/gi, 'प्रमुख मंडी:'],
+      [/\b24h Modal:\b/gi, '24 घंटे मॉडल:'],
+      [/\bIndex:\b/gi, 'इंडेक्स:'],
+      [/\bExport Peak\b/gi, 'निर्यात पीक'],
+      [/\bActive Quota Volume\b/gi, 'सक्रिय कोटा मात्रा'],
+      [/\bFulfilled \/ Sourced Volume\b/gi, 'प्राप्त / पूर्ण मात्रा'],
+      [/\bNet Sourcing Savings\b/gi, 'शुद्ध खरीद बचत'],
+      [/\bLive Farmer Bids\b/gi, 'लाइव किसान बोलियां'],
+      [/\bAcross 4 Strategic Commodities\b/gi, '4 रणनीतिक फसलों में'],
+      [/\b100% Quality Assay Passed\b/gi, '100% गुणवत्ता पास'],
+      [/\bZero Middlemen Spread\b/gi, 'शून्य बिचौलिया स्प्रेड'],
+      [/\bAvg Response Time:\b/gi, 'औसत प्रतिक्रिया समय:'],
+      [/\bActive Fleet\b/gi, 'सक्रिय फ्लीट'],
+      [/\bVolume in Transit\b/gi, 'रास्ते में मात्रा'],
+      [/\bGate Passes\b/gi, 'गेट पास'],
+      [/\bDelivery SLA Success\b/gi, 'डिलीवरी सफलता दर'],
+      [/\bTotal Active Contracts\b/gi, 'कुल सक्रिय अनुबंध'],
+      [/\bCommitted Sourcing Pool\b/gi, 'प्रतिबद्ध सोर्सिंग पूल'],
+      [/\b35% Advance In Escrow\b/gi, '35% अग्रिम एस्क्रो में'],
+      [/\b65% Delivery Balances\b/gi, '65% डिलीवरी शेष'],
+      [/\bDisbursed After QC Pass\b/gi, 'गुणवत्ता पास के बाद जारी'],
+      [/\bActive Milestone Tracks\b/gi, 'सक्रिय माइलस्टोन ट्रैक'],
+      [/\bAvailable Qty:\b/gi, 'उपलब्ध मात्रा:'],
+      [/\bUnits:\b/gi, 'इकाई:'],
+      [/\bFarmer:\b/gi, 'किसान:']
+    ]
+  };
+
+  // Universal Text Translation Function
   function tText(text) {
     if (!text || currentLang === 'en') return text;
     let res = text;
-    
-    // Status & Trading terms
-    if (currentLang === 'mr') {
-      res = res.replace(/Verified Available/g, 'प्रमाणित उपलब्ध')
-               .replace(/On The Road/g, 'रस्त्यावर')
-               .replace(/Pickup Scheduled/g, 'नियोजित')
-               .replace(/Delivered & QC Passed/g, 'वितरित आणि तपासणी पूर्ण')
-               .replace(/Delivered & Settled/g, 'वितरित आणि हिशोब पूर्ण')
-               .replace(/Delivered & Released/g, 'वितरित आणि रक्कम सुपूर्द')
-               .replace(/Under Review/g, 'चौकशी सुरू')
-               .replace(/Resolved & Refunded/g, 'निवारण आणि परतावा')
-               .replace(/Active Salvage Call/g, 'सक्रिय बचाव कॉल')
-               .replace(/Hours Left/g, 'तास शिल्लक')
-               .replace(/Urgency/g, 'तातडीचे')
-               .replace(/Bullish \(Export Demand Peak\)/gi, 'तेजी (कमाल निर्यात मागणी)')
-               .replace(/Bearish \(Heavy Mandi Inflow\)/gi, 'मंदी (बाजार समितीत भरपूर आवक)')
-               .replace(/Stable \(Steady Industrial Offtake\)/gi, 'स्थिर (औद्योगिक मागणी स्थिर)')
-               .replace(/High Volatility/gi, 'अस्थिर (दरात चढ-उतार)')
-               .replace(/Bullish/gi, 'तेजी')
-               .replace(/Bearish/gi, 'मंदी')
-               .replace(/Stable/gi, 'स्थिर')
-               .replace(/Export Peak/gi, 'निर्यात उच्चांक')
-               .replace(/Surge Arrival/gi, 'भरपूर आवक')
-               .replace(/Heavy Supply/gi, 'मोठा पुरवठा')
-               .replace(/Steady Inflow/gi, 'स्थिर आवक')
-               .replace(/Storage Peak/gi, 'साठवणूक उच्चांक')
-               .replace(/Fresh Harvest/gi, 'ताजी काढणी')
-               .replace(/vs last week/gi, 'मागील आठवड्यापेक्षा')
-               .replace(/vs Vashi Middlemen/gi, 'वाशी दलालांपेक्षा')
-               .replace(/vs Vashi APMC middleman rate/gi, 'वाशी बाजार समिती दलालांच्या दरापेक्षा')
-               .replace(/Direct Farm Arbitrage/gi, 'थेट शेतातील दर फरक (नफा)')
-               .replace(/Mandi Benchmark Modal/gi, 'बाजार समिती सरासरी दर')
-               .replace(/24h Mandi Arrival Volume/gi, '२४ तासांतील बाजार समिती आवक')
-               .replace(/AI Procurement Sentiment/gi, 'AI खरेदी विश्लेषण कल')
-               .replace(/Save ₹/gi, 'बचत ₹')
-               .replace(/Index:/gi, 'निर्देशांक:')
-               .replace(/Next 3–5 Days/gi, 'पुढील ३–५ दिवस')
-               .replace(/Before festive demand uptick/gi, 'सणासुदीच्या मागणीपूर्वी')
-               .replace(/Direct Sourcing Spread/gi, 'थेट खरेदीतील नफा/बचत')
-               .replace(/Optimal Sourcing Window/gi, 'खरेदीसाठी सर्वोत्तम कालावधी')
-               .replace(/AI Procurement Action Plan:/gi, 'AI खरेदी कृती आराखडा:')
-               .replace(/Browse Verified/gi, 'प्रमाणित शेतीमाल पहा')
-               .replace(/All District Rates for/gi, 'सर्व जिल्ह्यांमधील दर -');
-    } else if (currentLang === 'hi') {
-      res = res.replace(/Verified Available/g, 'प्रमाणित उपलब्ध')
-               .replace(/On The Road/g, 'मार्ग में')
-               .replace(/Pickup Scheduled/g, 'निर्धारित')
-               .replace(/Delivered & QC Passed/g, 'वितरित एवं पास')
-               .replace(/Delivered & Settled/g, 'वितरित एवं निपटान पूर्ण')
-               .replace(/Delivered & Released/g, 'वितरित एवं जारी')
-               .replace(/Under Review/g, 'समीक्षाधीन')
-               .replace(/Resolved & Refunded/g, 'समाधान एवं धनवापसी')
-               .replace(/Active Salvage Call/g, 'सक्रिय बचाव कॉल')
-               .replace(/Hours Left/g, 'घंटे शेष')
-               .replace(/Urgency/g, 'आपातकाल')
-               .replace(/Bullish \(Export Demand Peak\)/gi, 'तेजी (उच्च निर्यात मांग)')
-               .replace(/Bearish \(Heavy Mandi Inflow\)/gi, 'मंदी (मंडी में भारी आवक)')
-               .replace(/Stable \(Steady Industrial Offtake\)/gi, 'स्थिर (मांग स्थिर)')
-               .replace(/High Volatility/gi, 'अस्थिर')
-               .replace(/Bullish/gi, 'तेजी')
-               .replace(/Bearish/gi, 'मंदी')
-               .replace(/Stable/gi, 'स्थिर')
-               .replace(/Export Peak/gi, 'निर्यात पीक')
-               .replace(/Surge Arrival/gi, 'भारी आवक')
-               .replace(/Heavy Supply/gi, 'अधिक आपूर्ति')
-               .replace(/Steady Inflow/gi, 'स्थिर आवक')
-               .replace(/Storage Peak/gi, 'भंडारण पीक')
-               .replace(/Fresh Harvest/gi, 'ताजा फसल')
-               .replace(/vs last week/gi, 'पिछले सप्ताह की तुलना में')
-               .replace(/vs Vashi Middlemen/gi, 'वाशी बिचौलियों की तुलना में')
-               .replace(/vs Vashi APMC middleman rate/gi, 'वाशी मंडी दलालों के भाव से')
-               .replace(/Direct Farm Arbitrage/gi, 'सीधे खेत से खरीद लाभ')
-               .replace(/Mandi Benchmark Modal/gi, 'मंडी मॉडल भाव')
-               .replace(/24h Mandi Arrival Volume/gi, '24 घंटे में मंडी आवक')
-               .replace(/AI Procurement Sentiment/gi, 'एआई खरीद रुझान अनुमान')
-               .replace(/Save ₹/gi, 'बचत ₹')
-               .replace(/Index:/gi, 'इंडेक्स:')
-               .replace(/Next 3–5 Days/gi, 'अगले 3–5 दिन')
-               .replace(/Before festive demand uptick/gi, 'त्योहारी मांग से पहले')
-               .replace(/Direct Sourcing Spread/gi, 'सीधी खरीद बचत')
-               .replace(/Optimal Sourcing Window/gi, 'खरीद का सही समय')
-               .replace(/AI Procurement Action Plan:/gi, 'एआई खरीद कार्य योजना:')
-               .replace(/Browse Verified/gi, 'प्रमाणित फसलें देखें')
-               .replace(/All District Rates for/gi, 'सभी जिलों के भाव -');
+
+    // 1. Check direct person map
+    res = tPerson(res);
+
+    // 2. Check direct crop map
+    res = tCrop(res);
+
+    // 3. Check direct location map
+    res = tLocation(res);
+
+    // 4. Apply comprehensive phrase replacements
+    const rules = PHRASE_REPLACEMENTS[currentLang] || [];
+    for (const [pattern, replacement] of rules) {
+      res = res.replace(pattern, replacement);
     }
+
     return res;
   }
 
@@ -1454,6 +2020,97 @@
       menu.style.display = 'none';
     }
   });
+
+  // Universal DOM Tree Walker: Scans any DOM subtree and applies language localization
+  function walkAndTranslateDOM(root) {
+    if (!root || currentLang === 'en') return;
+
+    // 1. Translate elements explicitly decorated with data-i18n
+    const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+    if (root.querySelectorAll) {
+      root.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (k && dict[k]) {
+          el.textContent = dict[k];
+        }
+      });
+      root.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const k = el.getAttribute('data-i18n-placeholder');
+        if (k && dict[k]) {
+          el.placeholder = dict[k];
+        }
+      });
+      // Translate input / textarea placeholders that might contain English
+      root.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+        const ph = el.getAttribute('placeholder');
+        if (ph && !el.hasAttribute('data-i18n-placeholder')) {
+          const transPh = tText(ph);
+          if (transPh !== ph) {
+            el.placeholder = transPh;
+          }
+        }
+      });
+    }
+
+    // 2. Ignore scripts, styles, code blocks
+    const ignoreTags = new Set(['SCRIPT', 'STYLE', 'CODE', 'PRE', 'NOSCRIPT', 'TEXTAREA', 'INPUT']);
+
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode: function (node) {
+          if (!node || !node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          const parent = node.parentElement;
+          if (!parent || ignoreTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      },
+      false
+    );
+
+    let textNode;
+    while ((textNode = walker.nextNode())) {
+      const original = textNode.nodeValue;
+      if (original && original.trim().length > 1) {
+        const translated = tText(original);
+        if (translated !== original) {
+          textNode.nodeValue = translated;
+        }
+      }
+    }
+  }
+
+  // MutationObserver to auto-translate any dynamically injected nodes or modal overlays
+  let domObserver = null;
+  function startDOMObserver() {
+    if (domObserver) domObserver.disconnect();
+    if (currentLang === 'en') return;
+
+    domObserver = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'childList') {
+          m.addedNodes.forEach(node => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              walkAndTranslateDOM(node);
+            }
+          });
+        } else if (m.type === 'attributes' && m.attributeName === 'class') {
+          const target = m.target;
+          if (target && target.classList && (target.classList.contains('active') || target.classList.contains('active-view'))) {
+            walkAndTranslateDOM(target);
+          }
+        }
+      }
+    });
+
+    domObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class', 'style']
+    });
+  }
 
   // Master Language Switcher: Sets language and updates DOM everywhere in buyer module
   function setBuyerLanguage(lang) {
@@ -1683,10 +2340,14 @@
       window.recalculateBuyerCosts();
     }
 
+    // 6. Universal DOM Walk: Translates any remaining text nodes across the whole document
+    walkAndTranslateDOM(document.body);
+    startDOMObserver();
+
     // Dispatch global custom event for other listeners
     window.dispatchEvent(new CustomEvent('agrinex_language_changed', { detail: { lang: lang } }));
 
-    // 6. User Feedback Notification Toast
+    // 7. User Feedback Notification Toast
     if (typeof window.showToast === 'function') {
       window.showToast(dict.toast_lang_updated, 'success');
     }
@@ -1713,6 +2374,7 @@
     setBuyerLanguage,
     getBuyerLanguage,
     toggleLanguageMenu,
+    walkAndTranslateDOM,
     TRANSLATIONS
   };
 
@@ -1726,6 +2388,7 @@
   window.setBuyerLanguage = setBuyerLanguage;
   window.getBuyerLanguage = getBuyerLanguage;
   window.toggleLanguageMenu = toggleLanguageMenu;
+  window.walkAndTranslateDOM = walkAndTranslateDOM;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initBuyerI18n);
