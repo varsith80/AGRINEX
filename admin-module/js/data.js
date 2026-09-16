@@ -386,7 +386,120 @@ const ADMIN_GOVERNANCE_DATA = {
     { timestamp: "15 Sep 2026 10:45:00", action: "Buyer KYC Approved & Credit Limit Set", targetId: "KYC-BUYER-1088", amount: "Limit: ₹ 50L", actor: "Mandi Board Registrar", txHash: "0x34c1b...77ae", status: "Success" },
     { timestamp: "15 Sep 2026 09:12:44", action: "APMC Price Ceiling Adjusted (+5%)", targetId: "CROP-ONI", amount: "Ceiling: ₹ 28/kg", actor: "State Mandi Price Committee", txHash: "0x9920d...11fe", status: "Success" },
     { timestamp: "14 Sep 2026 18:00:20", action: "Dispute Settled & Compensation Awarded", targetId: "DISP-MH-8809", amount: "₹ 18,000", actor: "Arbitration Tribunal Bench", txHash: "0xaa19c...55d0", status: "Success" }
-  ]
+  ],
+
+  // MSWC & APMC Cold Storage Warehousing Data (2A)
+  warehouses: [
+    {
+      id: "MSWC-PUNE-01",
+      name: "MSWC Regional Logistics & Cold Hub",
+      location: "Narayangaon APMC, Pune",
+      totalCapacity: 15000,
+      occupiedCapacity: 11850,
+      occupiedPct: 79,
+      primaryCrops: "Tomato, Exotic Greens, Potato",
+      tempRange: "2°C - 8°C (Optimal)",
+      status: "Active (79% Occupied)",
+      humidity: "85% HR",
+      manager: "R. V. Deshmukh"
+    },
+    {
+      id: "MSWC-NSK-02",
+      name: "Nashik Mega Cold Chain & Sorting Terminal",
+      location: "Pimpalgaon Baswant, Nashik",
+      totalCapacity: 25000,
+      occupiedCapacity: 21500,
+      occupiedPct: 86,
+      primaryCrops: "Onion Garwa, Export Grapes",
+      tempRange: "-1°C - 4°C (Pre-Cooling)",
+      status: "High Occupancy Alert (86%)",
+      humidity: "90% HR",
+      manager: "K. S. Patil"
+    },
+    {
+      id: "MSWC-LTR-03",
+      name: "Marathwada Nodal Grain & Oilseed Silo Complex",
+      location: "Latur APMC Mega Yard",
+      totalCapacity: 40000,
+      occupiedCapacity: 24000,
+      occupiedPct: 60,
+      primaryCrops: "Yellow Soybean, Chana, Red Tur",
+      tempRange: "Ambient Dry Silo (18°C)",
+      status: "Optimal (60% Occupied)",
+      humidity: "45% HR",
+      manager: "A. B. Gaikwad"
+    },
+    {
+      id: "MSWC-NGP-04",
+      name: "Vidarbha APMC Citrus & Cotton Cold Terminal",
+      location: "Nagpur Kalmeshwar Yard",
+      totalCapacity: 18000,
+      occupiedCapacity: 13140,
+      occupiedPct: 73,
+      primaryCrops: "Nagpur Orange, Cotton Bales",
+      tempRange: "4°C - 10°C",
+      status: "Active (73% Occupied)",
+      humidity: "80% HR",
+      manager: "M. N. Joshi"
+    }
+  ],
+
+  // IoT Cold-Chain Telemetry Log Map (2B)
+  coldChainTelemetry: {
+    "ESC-MH-2026-905": {
+      reeferId: "MH-15-HH-9021",
+      driverName: "Mahesh Kale (+91 98220 11200)",
+      origin: "Pimpalgaon Pre-Cooling Center, Nashik",
+      destination: "Bhiwandi Cold Hub, Thane",
+      routeWaypoints: [
+        { location: "Pimpalgaon APMC Yard", timestamp: "14-Sep 09:30 PM", temp: 2.5, status: "Pre-Cooled (OK)" },
+        { location: "Kasara Ghat Pass Checkpoint", timestamp: "15-Sep 02:15 AM", temp: 3.2, status: "In Transit (OK)" },
+        { location: "Bhiwandi Cold Storage Receiving", timestamp: "15-Sep 05:45 AM", temp: 4.2, status: "Door Tier Temp Rise (4.2°C)" }
+      ],
+      currentTemp: 4.2,
+      targetTemp: 2.5,
+      humidity: "88% HR",
+      status: "Minor Door Tier Variance (4.2°C)"
+    },
+    "DISP-MH-8819": {
+      reeferId: "MH-15-HH-9021",
+      driverName: "Mahesh Kale (+91 98220 11200)",
+      origin: "Pimpalgaon Pre-Cooling Center, Nashik",
+      destination: "Bhiwandi Cold Hub, Thane",
+      routeWaypoints: [
+        { location: "Pimpalgaon APMC Yard", timestamp: "14-Sep 09:30 PM", temp: 2.5, status: "Pre-Cooled (OK)" },
+        { location: "Kasara Ghat Pass Checkpoint", timestamp: "15-Sep 02:15 AM", temp: 3.2, status: "In Transit (OK)" },
+        { location: "Bhiwandi Cold Storage Receiving", timestamp: "15-Sep 05:45 AM", temp: 4.2, status: "Door Tier Temp Rise (4.2°C)" }
+      ],
+      currentTemp: 4.2,
+      targetTemp: 2.5,
+      humidity: "88% HR",
+      status: "Minor Door Tier Variance (4.2°C)"
+    },
+    "DISP-MH-8812": {
+      reeferId: "MH-14-GH-8812",
+      driverName: "Sandeep Patil (+91 98440 33112)",
+      origin: "Lasalgaon Farm Gate, Nashik",
+      destination: "Vashi DC, Navi Mumbai",
+      routeWaypoints: [
+        { location: "Lasalgaon Farm Gate Loading", timestamp: "15-Sep 06:30 AM", temp: 18.0, status: "Crated & Loaded" },
+        { location: "Igatpuri Toll Plaza (NH-160)", timestamp: "15-Sep 10:45 AM", temp: 22.5, status: "Ventilated Transit" },
+        { location: "Vashi Dock Dock #04 Intake", timestamp: "15-Sep 02:15 PM", temp: 26.0, status: "Casara Bumpy Transit Squish (12%)" }
+      ],
+      currentTemp: 26.0,
+      targetTemp: 20.0,
+      humidity: "72% HR",
+      status: "Ventilated Produce Transit"
+    }
+  },
+
+  // Fast-Track Auto-Arbitration Rules Configuration (4B)
+  autoArbitrationRules: {
+    maxDisputedAmount: 50000,
+    requiredLabStatus: "PASSED",
+    minBrixPct: 4.5,
+    maxMoisturePct: 10.0
+  }
 };
 
 class AgriNexAdminGovernance {
@@ -550,5 +663,59 @@ class AgriNexAdminGovernance {
   static getStats() {
     return ADMIN_GOVERNANCE_DATA.stats;
   }
+
+  static getWarehouses() {
+    try {
+      if (typeof localStorage !== "undefined") {
+        const stored = localStorage.getItem("agrinex_admin_warehouses");
+        if (stored) return JSON.parse(stored);
+      }
+    } catch(e) {}
+    return ADMIN_GOVERNANCE_DATA.warehouses;
+  }
+
+  static getColdChainTelemetry(caseId) {
+    if (ADMIN_GOVERNANCE_DATA.coldChainTelemetry && ADMIN_GOVERNANCE_DATA.coldChainTelemetry[caseId]) {
+      return ADMIN_GOVERNANCE_DATA.coldChainTelemetry[caseId];
+    }
+    return null;
+  }
+
+  static evaluateFastTrackAutoArbitration(ticketId) {
+    const cases = this.getGrievances();
+    const item = cases.find(g => g.ticketId === ticketId);
+    if (!item) return { success: false, message: "Dispute ticket not found" };
+
+    if (item.status.includes("Settled")) {
+      return { success: false, message: "Ticket is already settled." };
+    }
+
+    const rules = ADMIN_GOVERNANCE_DATA.autoArbitrationRules;
+    const amountOk = item.disputedAmount <= rules.maxDisputedAmount;
+    const labOk = item.labAssay && item.labAssay.labStatus && item.labAssay.labStatus.includes("PASSED");
+
+    if (!amountOk) {
+      return { success: false, message: `Disputed amount (₹${item.disputedAmount.toLocaleString('en-IN')}) exceeds Fast-Track threshold of ₹${rules.maxDisputedAmount.toLocaleString('en-IN')}. Requires full Tribunal bench review.` };
+    }
+
+    if (!labOk) {
+      return { success: false, message: "Lab assay verification pending or failed. Cannot auto-arbitrate." };
+    }
+
+    // Auto-execute binding award (100% payout to farmer based on passed lab assay)
+    const splitData = item.recommendedSplit || {
+      farmerPct: 100,
+      farmerPayout: item.disputedAmount,
+      buyerPct: 0,
+      buyerRefund: 0,
+      insurancePct: 0,
+      insuranceClaim: 0
+    };
+
+    const awardText = `⚡ FAST-TRACK AUTO-ARBITRATION ENFORCED: 100% Payout (₹${splitData.farmerPayout.toLocaleString('en-IN')}) awarded to Farmer ${item.farmer} based on Certified ${item.labAssay.labName} (${item.labAssay.certNo}).`;
+
+    return this.resolveGrievanceWithSplit(ticketId, splitData, awardText);
+  }
 }
+
 

@@ -388,7 +388,102 @@ const DEFAULT_DATA = {
       resolution_note: "₹38,587 advance credited via IMPS (UTR: HDFC9901824). Remaining 65% locked under escrow.",
       created_at: new Date(Date.now() - 86400000).toISOString()
     }
-  ]
+  ],
+  admin_governance: {
+    stats: {
+      verifiedFarmers: "14,280",
+      enterpriseBuyers: "850",
+      totalEscrowLocked: "₹ 18,45,00,000",
+      disputeRate: "0.14%",
+      disputeSLA: "<2h"
+    },
+    warehouses: [
+      {
+        id: "MSWC-PUNE-01",
+        name: "MSWC Regional Logistics & Cold Hub",
+        location: "Narayangaon APMC, Pune",
+        totalCapacity: 15000,
+        occupiedCapacity: 11850,
+        occupiedPct: 79,
+        primaryCrops: "Tomato, Exotic Greens, Potato",
+        tempRange: "2°C - 8°C (Optimal)",
+        status: "Active (79% Occupied)",
+        humidity: "85% HR",
+        manager: "R. V. Deshmukh"
+      },
+      {
+        id: "MSWC-NSK-02",
+        name: "Nashik Mega Cold Chain & Sorting Terminal",
+        location: "Pimpalgaon Baswant, Nashik",
+        totalCapacity: 25000,
+        occupiedCapacity: 21500,
+        occupiedPct: 86,
+        primaryCrops: "Onion Garwa, Export Grapes",
+        tempRange: "-1°C - 4°C (Pre-Cooling)",
+        status: "High Occupancy Alert (86%)",
+        humidity: "90% HR",
+        manager: "K. S. Patil"
+      },
+      {
+        id: "MSWC-LTR-03",
+        name: "Marathwada Nodal Grain & Oilseed Silo Complex",
+        location: "Latur APMC Mega Yard",
+        totalCapacity: 40000,
+        occupiedCapacity: 24000,
+        occupiedPct: 60,
+        primaryCrops: "Yellow Soybean, Chana, Red Tur",
+        tempRange: "Ambient Dry Silo (18°C)",
+        status: "Optimal (60% Occupied)",
+        humidity: "45% HR",
+        manager: "A. B. Gaikwad"
+      },
+      {
+        id: "MSWC-NGP-04",
+        name: "Vidarbha APMC Citrus & Cotton Cold Terminal",
+        location: "Nagpur Kalmeshwar Yard",
+        totalCapacity: 18000,
+        occupiedCapacity: 13140,
+        occupiedPct: 73,
+        primaryCrops: "Nagpur Orange, Cotton Bales",
+        tempRange: "4°C - 10°C",
+        status: "Active (73% Occupied)",
+        humidity: "80% HR",
+        manager: "M. N. Joshi"
+      }
+    ],
+    coldChainTelemetry: {
+      "ESC-MH-2026-905": {
+        reeferId: "MH-15-HH-9021",
+        driverName: "Mahesh Kale (+91 98220 11200)",
+        origin: "Pimpalgaon Pre-Cooling Center, Nashik",
+        destination: "Bhiwandi Cold Hub, Thane",
+        routeWaypoints: [
+          { location: "Pimpalgaon APMC Yard", timestamp: "14-Sep 09:30 PM", temp: 2.5, status: "Pre-Cooled (OK)" },
+          { location: "Kasara Ghat Pass Checkpoint", timestamp: "15-Sep 02:15 AM", temp: 3.2, status: "In Transit (OK)" },
+          { location: "Bhiwandi Cold Storage Receiving", timestamp: "15-Sep 05:45 AM", temp: 4.2, status: "Door Tier Temp Rise (4.2°C)" }
+        ],
+        currentTemp: 4.2,
+        targetTemp: 2.5,
+        humidity: "88% HR",
+        status: "Minor Door Tier Variance (4.2°C)"
+      },
+      "DISP-MH-8812": {
+        reeferId: "MH-14-GH-8812",
+        driverName: "Sandeep Patil (+91 98440 33112)",
+        origin: "Lasalgaon Farm Gate, Nashik",
+        destination: "Vashi DC, Navi Mumbai",
+        routeWaypoints: [
+          { location: "Lasalgaon Farm Gate Loading", timestamp: "15-Sep 06:30 AM", temp: 18.0, status: "Crated & Loaded" },
+          { location: "Igatpuri Toll Plaza (NH-160)", timestamp: "15-Sep 10:45 AM", temp: 22.5, status: "Ventilated Transit" },
+          { location: "Vashi Dock Dock #04 Intake", timestamp: "15-Sep 02:15 PM", temp: 26.0, status: "Casara Bumpy Transit Squish (12%)" }
+        ],
+        currentTemp: 26.0,
+        targetTemp: 20.0,
+        humidity: "72% HR",
+        status: "Ventilated Produce Transit"
+      }
+    }
+  }
 };
 
 function loadDB() {
@@ -1222,15 +1317,43 @@ const server = http.createServer(async (req, res) => {
     }
 
     // 11. Admin & Governance REST APIs
-    if (urlPath === '/api/admin/stats') {
+    if (urlPath === '/api/admin/stats' || urlPath === '/api/admin/overview') {
       return sendJSON(res, 200, {
-        verifiedFarmers: "14,280",
-        enterpriseBuyers: "850",
-        totalEscrowLocked: "₹ 18,45,00,000",
-        dailyTradeVolume: "₹ 3,12,40,000",
-        disputeRate: "0.14%",
-        activeCommodities: 23,
-        mandiJurisdiction: "305 APMC Mandis across Maharashtra"
+        stats: db.admin_governance ? db.admin_governance.stats : {
+          verifiedFarmers: "14,280",
+          enterpriseBuyers: "850",
+          totalEscrowLocked: "₹ 18,45,00,000",
+          disputeRate: "0.14%",
+          disputeSLA: "<2h"
+        },
+        warehouses: db.admin_governance ? db.admin_governance.warehouses : [],
+        coldChainTelemetry: db.admin_governance ? db.admin_governance.coldChainTelemetry : {}
+      });
+    }
+
+    if (urlPath === '/api/admin/warehouses') {
+      return sendJSON(res, 200, db.admin_governance ? db.admin_governance.warehouses : []);
+    }
+
+    if (urlPath === '/api/admin/cold-chain-telemetry') {
+      const ticketId = queryParams.get('case_id') || queryParams.get('ticket_id');
+      const telemetry = (db.admin_governance && db.admin_governance.coldChainTelemetry) || {};
+      if (ticketId && telemetry[ticketId]) {
+        return sendJSON(res, 200, telemetry[ticketId]);
+      }
+      return sendJSON(res, 200, telemetry);
+    }
+
+    if (urlPath === '/api/admin/disputes/auto-arbitrate' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const ticketId = body.ticketId || body.ticket_id;
+      
+      return sendJSON(res, 200, {
+        success: true,
+        ticketId: ticketId,
+        autoAwardExecuted: true,
+        awardSummary: `Fast-Track Auto-Arbitration Enforced: 100% Payout Awarded based on NABL Lab Assay & Calibrated Weighbridge Clearance.`,
+        executedAt: new Date().toISOString()
       });
     }
 

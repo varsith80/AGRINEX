@@ -250,18 +250,48 @@
 
       <div class="dashboard-content">
         
-        <!-- Header Banner -->
-        <div style="background: linear-gradient(135deg, #881337 0%, #4c0519 100%); border-radius: 14px; padding: 20px 24px; color: #ffffff; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <!-- Executive Glass Hero Banner -->
+        <div class="gov-hero-banner" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
           <div>
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #ffffff;">Maharashtra Fast-Track Agricultural Arbitration Tribunal</h2>
-            <p style="font-size: 0.84rem; color: #fecdd3; margin-top: 4px;">
-              Statutory dispute settlement with side-by-side photographic evidence, certified NABL lab assays, and dynamic compensation splitting
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(225, 29, 72, 0.15); border: 1px solid rgba(225, 29, 72, 0.3); border-radius: 999px; font-size: 0.75rem; font-weight: 700; color: #fda4af; margin-bottom: 8px;">
+              <span>⚖️ Statutory Fast-Track APMC Tribunal Bench</span>
+            </div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0 0 6px 0;">Maharashtra Fast-Track Agricultural Dispute Tribunal</h2>
+            <p style="font-size: 0.84rem; color: #94a3b8; margin: 0; max-width: 780px;">
+              Statutory dispute arbitration with side-by-side photographic evidence inspection, certified NABL lab quality assays, and binding escrow settlement ratifications.
             </p>
           </div>
-          <div style="display: flex; gap: 10px;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="btn btn-primary" style="background: #e11d48;" onclick="alert('Fast-Track Tribunal Bench Active. Average statutory hearing & settlement turnaround is 2.1 Hours.')">
-              ⚖️ Fast-Track SLA Active (&lt; 2.1h)
+              ⚖️ Fast-Track SLA (&lt; 2.1h)
             </button>
+            <button class="btn btn-outline" style="border-color: rgba(255,255,255,0.2); color: #ffffff;" onclick="alert('Downloading Certified APMC Tribunal Precedents & Legal Rulings Register...')">
+              📄 Precedents Register
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 KPI Summary Cards -->
+        <div class="gov-kpi-grid">
+          <div class="gov-kpi-card kpi-gov-gold">
+            <div class="gov-kpi-icon">⚖️</div>
+            <div class="gov-kpi-value">4 Active Cases</div>
+            <div class="gov-kpi-label">Under Fast-Track Tribunal Review</div>
+          </div>
+          <div class="gov-kpi-card kpi-gov-purple">
+            <div class="gov-kpi-icon">🔒</div>
+            <div class="gov-kpi-value">₹1,02,40,000</div>
+            <div class="gov-kpi-label">Quarantined Escrow Funds</div>
+          </div>
+          <div class="gov-kpi-card kpi-gov-green">
+            <div class="gov-kpi-icon">✅</div>
+            <div class="gov-kpi-value">98.2%</div>
+            <div class="gov-kpi-label">Settlement Ratification Rate</div>
+          </div>
+          <div class="gov-kpi-card kpi-gov-blue">
+            <div class="gov-kpi-icon">⏱️</div>
+            <div class="gov-kpi-value">2.1 Hours</div>
+            <div class="gov-kpi-label">Avg Hearing SLA Turnaround</div>
           </div>
         </div>
 
@@ -634,12 +664,15 @@
                   </div>
                 </div>
 
-                <div style="display: flex; gap: 8px;">
-                  <button class="btn-gov-inspect" style="padding: 8px 16px; font-size: 0.84rem; background: #fdf2f8; color: #9f1239; border-color: #fbcfe8;" onclick="openTribunalInspector('${c.ticketId}')">
-                    🔍 Open Evidence & Award Inspector
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  <button class="btn-gov-inspect" style="padding: 8px 14px; font-size: 0.82rem; background: #fdf2f8; color: #9f1239; border-color: #fbcfe8;" onclick="openTribunalInspector('${c.ticketId}')">
+                    🔍 Open Evidence
                   </button>
                   ${!isSettled ? `
-                    <button class="btn-gov-approve" style="padding: 8px 16px; font-size: 0.84rem; background: #881337;" onclick="openTribunalInspector('${c.ticketId}', 'tab-split')">
+                    <button class="btn-gov-approve" style="padding: 8px 14px; font-size: 0.82rem; background: #d97706; border-color: #d97706;" onclick="handleFastTrackAutoArbitrate('${c.ticketId}')" title="Auto-Arbitrate via NABL Lab Assay & Weighbridge Rules">
+                      ⚡ Auto-Arbitrate
+                    </button>
+                    <button class="btn-gov-approve" style="padding: 8px 14px; font-size: 0.82rem; background: #881337;" onclick="openTribunalInspector('${c.ticketId}', 'tab-split')">
                       ⚖️ Enforce Award
                     </button>
                   ` : `
@@ -654,6 +687,18 @@
           </div>
         `;
       }).join('');
+    }
+
+    function handleFastTrackAutoArbitrate(ticketId) {
+      if (confirm(`Run Fast-Track Auto-Arbitration Rules Engine on ${ticketId}?\n\nThis will evaluate NABL Lab Assays and Calibrated Weighbridge Slips to auto-execute an immediate binding award.`)) {
+        const res = AgriNexAdminGovernance.evaluateFastTrackAutoArbitration(ticketId);
+        if (res.success) {
+          renderTribunalCards();
+          alert(`🎉 ${res.message}`);
+        } else {
+          alert(`⚠️ ${res.message}`);
+        }
+      }
     }
 
     function openTribunalInspector(ticketId, initialTab = 'tab-visual') {

@@ -732,95 +732,95 @@ function renderBuyerDemands() {
 
   container.innerHTML = filtered.map(dem => {
     const fulfilledPct = dem.fulfilledPct || 0;
-    const progressColor = fulfilledPct >= 100 ? '#15803d' : (fulfilledPct >= 60 ? '#0c5a36' : '#d97706');
+    const progressColor = fulfilledPct >= 100 ? 'linear-gradient(90deg, #16a34a 0%, #15803d 100%)' : (fulfilledPct >= 60 ? 'linear-gradient(90deg, #10b981 0%, #059669 100%)' : 'linear-gradient(90deg, #eab308 0%, #ca8a04 100%)');
+    const progressTextColor = fulfilledPct >= 100 ? '#15803d' : (fulfilledPct >= 60 ? '#0c5a36' : '#a16207');
     const bidsCount = (dem.bids && dem.bids.length) || 0;
     const isFulfilled = fulfilledPct >= 100;
 
     return `
-      <div style="background: #ffffff; border: 1.5px solid ${isFulfilled ? '#86efac' : '#e2e8f0'}; border-radius: 14px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.25s ease;" id="demand-card-${dem.id}">
+      <div class="bulk-quota-card" style="border-top: 4.5px solid ${isFulfilled ? '#16a34a' : '#0c5a36'};" id="demand-card-${dem.id}">
         <!-- Top Bar: Crop Info + Status Badge -->
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
           <div style="display: flex; align-items: center; gap: 14px;">
-            <img src="${dem.image}" alt="${dem.crop}" style="width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.06);" onerror="this.src='assets/images/tomato.jpg'" />
+            <img src="${dem.image}" alt="${dem.crop}" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; border: 1.5px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);" onerror="this.src='assets/images/tomato.jpg'" />
             <div>
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                <strong style="font-size: 1.1rem; color: #0f172a;">${dem.crop}</strong>
-                <span class="badge" style="background: #f1f5f9; color: #475569; font-size: 0.72rem; font-weight: 700; border: 1px solid #cbd5e1;">#${dem.id}</span>
-                <span class="badge" style="background: #f0fdf4; color: #166534; font-size: 0.72rem; font-weight: 700; border: 1px solid #bbf7d0;">${dem.category || 'Agricultural Crop'}</span>
+                <strong style="font-size: 1.15rem; color: #0f172a; font-weight: 900;">${dem.crop}</strong>
+                <span class="badge" style="background: #f1f5f9; color: #475569; font-size: 0.74rem; font-weight: 800; border: 1px solid #cbd5e1; font-family: monospace;">#${dem.id}</span>
+                <span class="badge" style="background: #f0fdf4; color: #166534; font-size: 0.74rem; font-weight: 800; border: 1px solid #bbf7d0;">${dem.category || 'Agricultural Crop'}</span>
               </div>
-              <div style="font-size: 0.78rem; color: #64748b; margin-top: 3px;">
-                Destination: <strong style="color: #0f172a;">${dem.location}</strong> • Sourcing Deadline: <strong style="${dem.daysLeft <= 3 ? 'color: #dc2626;' : 'color: #0f172a;'}">${dem.deadline} ${dem.daysLeft > 0 ? `(${dem.daysLeft}d left)` : '(Completed)'}</strong>
+              <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px; font-weight: 500;">
+                Destination: <strong style="color: #0f172a; font-weight: 700;">📍 ${dem.location}</strong> • Sourcing Deadline: <strong style="${dem.daysLeft <= 3 ? 'color: #dc2626; font-weight: 800;' : 'color: #0f172a; font-weight: 700;'}">⏱️ ${dem.deadline} ${dem.daysLeft > 0 ? `(${dem.daysLeft}d left)` : '(Completed)'}</strong>
               </div>
             </div>
           </div>
 
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="badge" style="background: ${isFulfilled ? '#15803d' : '#e8f5ed'}; color: ${isFulfilled ? '#ffffff' : '#0c5a36'}; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid ${isFulfilled ? '#15803d' : '#bbf7d0'};">
+            <span class="badge" style="background: ${isFulfilled ? '#15803d' : '#f0fdf4'}; color: ${isFulfilled ? '#ffffff' : '#166534'}; font-size: 0.78rem; font-weight: 800; padding: 5px 12px; border-radius: 999px; border: 1px solid ${isFulfilled ? '#15803d' : '#bbf7d0'};">
               ${dem.statusLabel || '● Broadcasting Quota'}
             </span>
           </div>
         </div>
 
         <!-- 4-Column Procurement Spec Grid -->
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-size: 0.8rem;">
+        <div class="quota-spec-box">
           <div>
-            <span style="color: #64748b; font-size: 0.72rem; display: block;">TARGET QUOTA VOLUME</span>
-            <strong style="color: #0f172a; font-size: 0.95rem;">${dem.tonnage}</strong>
+            <span style="color: #64748b; font-size: 0.68rem; font-weight: 800; display: block; text-transform: uppercase; letter-spacing: 0.03em;">TARGET QUOTA VOLUME</span>
+            <strong style="color: #0f172a; font-size: 1rem; font-weight: 900;">${dem.tonnage}</strong>
           </div>
           <div>
-            <span style="color: #64748b; font-size: 0.72rem; display: block;">CEILING TARGET PRICE</span>
-            <strong style="color: #0c5a36; font-size: 0.95rem;">${dem.targetPrice}</strong>
+            <span style="color: #64748b; font-size: 0.68rem; font-weight: 800; display: block; text-transform: uppercase; letter-spacing: 0.03em;">CEILING TARGET PRICE</span>
+            <strong style="color: #0c5a36; font-size: 1rem; font-weight: 900;">${dem.targetPrice}</strong>
           </div>
           <div>
-            <span style="color: #64748b; font-size: 0.72rem; display: block;">MANDI BENCHMARK RATE</span>
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="color: #64748b; text-decoration: line-through;">${dem.mandiBenchmark || '₹ 14.00 /kg'}</span>
-              <span style="color: #166534; font-weight: 700; font-size: 0.74rem;">${dem.savingsPct || '12% Saved'}</span>
+            <span style="color: #64748b; font-size: 0.68rem; font-weight: 800; display: block; text-transform: uppercase; letter-spacing: 0.03em;">MANDI BENCHMARK RATE</span>
+            <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+              <span style="color: #94a3b8; text-decoration: line-through; font-size: 0.85rem; font-weight: 600;">${dem.mandiBenchmark || '₹ 14.00 /kg'}</span>
+              <span style="color: #166534; font-weight: 800; font-size: 0.76rem; background: #f0fdf4; padding: 1px 6px; border-radius: 4px; border: 1px solid #bbf7d0;">${dem.savingsPct || '12% Saved'}</span>
             </div>
           </div>
           <div>
-            <span style="color: #64748b; font-size: 0.72rem; display: block;">QUALITY & LOGISTICS SPEC</span>
-            <span style="color: #0f172a; font-weight: 600; font-size: 0.75rem;">${dem.grade || 'Grade A'} • ${dem.deliveryMode || 'Farm-Gate'}</span>
+            <span style="color: #64748b; font-size: 0.68rem; font-weight: 800; display: block; text-transform: uppercase; letter-spacing: 0.03em;">QUALITY & LOGISTICS SPEC</span>
+            <span style="color: #0f172a; font-weight: 700; font-size: 0.82rem; margin-top: 2px; display: block;">${dem.grade || 'Grade A'} • ${dem.deliveryMode || 'Farm-Gate'}</span>
           </div>
         </div>
 
         <!-- Sourcing Fulfillment Progress Bar -->
-        <div style="margin-bottom: 14px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.76rem; margin-bottom: 5px;">
-            <span style="color: #64748b;">
-              Sourced: <strong style="color: ${progressColor};">${dem.fulfilledTonnage || 0} / ${dem.tonnageNum || 150} ${dem.unit || 'Qt'}</strong> <span style="font-size: 0.72rem; color: #64748b;">(${((dem.fulfilledTonnage || 0) * 100).toLocaleString('en-IN')} / ${((dem.tonnageNum || 150) * 100).toLocaleString('en-IN')} kg)</span>
+        <div style="margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; margin-bottom: 6px;">
+            <span style="color: #475569; font-weight: 600;">
+              Sourced Volume: <strong style="color: ${progressTextColor}; font-weight: 800;">${dem.fulfilledTonnage || 0} / ${dem.tonnageNum || 150} ${dem.unit || 'Qt'}</strong> <span style="font-size: 0.74rem; color: #64748b;">(${((dem.fulfilledTonnage || 0) * 100).toLocaleString('en-IN')} / ${((dem.tonnageNum || 150) * 100).toLocaleString('en-IN')} kg)</span>
             </span>
-            <strong style="color: ${progressColor};">${fulfilledPct}% Fulfilled</strong>
+            <strong style="color: ${progressTextColor}; font-weight: 800;">${fulfilledPct}% Sourced</strong>
           </div>
-          <div style="height: 7px; background: #e2e8f0; border-radius: 10px; overflow: hidden;">
-            <div style="width: ${fulfilledPct}%; height: 100%; background: ${progressColor}; border-radius: 10px; transition: width 0.4s ease;"></div>
+          <div style="height: 9px; background: #e2e8f0; border-radius: 999px; overflow: hidden;">
+            <div style="width: ${fulfilledPct}%; height: 100%; background: ${progressColor}; border-radius: 999px; transition: width 0.4s ease;"></div>
           </div>
         </div>
 
         <!-- Action Footer -->
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 12px; border-top: 1px solid #f1f5f9;">
-          <div style="display: flex; align-items: center; gap: 8px; font-size: 0.76rem; color: #64748b;">
-            <span>🛡️ ${dem.escrowAdvance || '35% Advance Escrow'}</span>
-            <span>•</span>
-            <span style="color: #0c5a36; font-weight: 700;">${dem.moistureLimit || 'QC Guaranteed'}</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 14px; border-top: 1px solid #f1f5f9;">
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: #475569;">
+            <span style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 2px 8px; border-radius: 6px; font-weight: 600;">🛡️ ${dem.escrowAdvance || '35% Advance Escrow'}</span>
+            <span style="color: #0c5a36; font-weight: 800; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 6px;">${dem.moistureLimit || 'QC Guaranteed'}</span>
           </div>
 
           <div style="display: flex; align-items: center; gap: 8px;">
             ${bidsCount > 0 ? `
-              <button class="btn btn-primary btn-sm" onclick="openDemandBidsModal('${dem.id}')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700; display: flex; align-items: center; gap: 5px;">
+              <button class="btn btn-primary btn-sm" onclick="openDemandBidsModal('${dem.id}')" style="background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); border-color: #0c5a36; font-weight: 800; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(12, 90, 54, 0.25);">
                 📋 Review Farmer Bids (${bidsCount})
               </button>
             ` : `
-              <button class="btn btn-outline btn-sm" onclick="showToast('✓ Broadcasting active! New farmer proposals will appear here automatically.', 'info')" style="font-size: 0.76rem;">
+              <button class="btn btn-outline btn-sm" onclick="showToast('✓ Broadcasting active! New farmer proposals will appear here automatically.', 'info')" style="font-size: 0.78rem; font-weight: 700; border-color: #cbd5e1; color: #475569;">
                 ● Broadcasting for Bids
               </button>
             `}
 
-            <button class="btn btn-outline btn-sm" onclick="sourceFromMarketplaceForDemand('${dem.crop}')" style="font-size: 0.76rem;">
+            <button class="btn btn-outline btn-sm" onclick="sourceFromMarketplaceForDemand('${dem.crop}')" style="font-size: 0.78rem; font-weight: 700; border-color: #cbd5e1; color: #334155;">
               ⚡ Auto-Match Lots &rarr;
             </button>
 
-            <button class="btn btn-outline btn-sm" onclick="downloadPurchaseOrder('${dem.id}')" style="font-size: 0.76rem;" title="Download Institutional Purchase Order">
+            <button class="btn btn-outline btn-sm" onclick="downloadPurchaseOrder('${dem.id}')" style="font-size: 0.78rem; font-weight: 700; border-color: #cbd5e1; color: #334155;" title="Download Institutional Purchase Order">
               📄 PO
             </button>
           </div>
@@ -1114,6 +1114,29 @@ const chatConversations = {
 
 let activeChatKey = 'patil';
 
+// Filter Chat Contacts in Sidebar
+function filterChatContacts(query) {
+  const q = (query || '').toLowerCase().trim();
+  const contacts = document.querySelectorAll('.chat-contact');
+  contacts.forEach(c => {
+    const text = c.textContent.toLowerCase();
+    if (!q || text.includes(q)) {
+      c.style.display = 'flex';
+    } else {
+      c.style.display = 'none';
+    }
+  });
+}
+
+// Quick reply chip helper
+function insertQuickChatMsg(text) {
+  const input = document.getElementById('chat-input-field');
+  if (input) {
+    input.value = text;
+    input.focus();
+  }
+}
+
 // Render Dynamic Chat Sidebar with all active farmers
 function renderChatSidebar() {
   const container = document.getElementById('chat-contacts-container');
@@ -1133,14 +1156,17 @@ function renderChatSidebar() {
 
       return `
         <div class="chat-contact ${isActive}" id="chat-contact-${key}" onclick="selectChatContact('${key}')">
-          <img src="${chat.avatar}" alt="${chat.name}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; flex-shrink: 0;" onerror="this.src='assets/images/tomato.jpg'" />
+          <div class="avatar-wrapper">
+            <img src="${chat.avatar}" alt="${chat.name}" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
+            <span class="avatar-online-dot"></span>
+          </div>
           <div style="flex: 1; min-width: 0;">
-            <div style="display: flex; justify-content: space-between; align-items: baseline;">
-              <strong style="font-size: 0.85rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${chat.name}</strong>
-              <span style="font-size: 0.65rem; color: #166534; font-weight: 700;">● Online</span>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+              <strong style="font-size: 0.88rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px;">${chat.name}</strong>
+              <span style="font-size: 0.65rem; color: #166534; font-weight: 700; background: #f0fdf4; padding: 1px 5px; border-radius: 4px;">Online</span>
             </div>
-            <div style="font-size: 0.72rem; color: #0c5a36; font-weight: 700; margin-top: 1px;">${chat.crop}</div>
-            <span style="font-size: 0.7rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 1px;">${lastMsg}</span>
+            <div style="font-size: 0.72rem; color: #0c5a36; font-weight: 700;">${chat.crop}</div>
+            <span style="font-size: 0.72rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 2px;">${lastMsg}</span>
           </div>
         </div>
       `;
@@ -1160,34 +1186,32 @@ function selectChatContact(contactKey) {
   if (activeEl) activeEl.classList.add('active');
 
   // Update Header
-  const header = document.querySelector('.chat-main .chat-header');
-  if (header) {
-    header.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="${chat.avatar}" alt="${chat.name}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
-        <div>
-          <strong style="font-size: 0.92rem; color: #0f172a;">${chat.name}</strong>
-          <div style="font-size: 0.74rem; color: #166534; font-weight: 700;">${chat.status} • ${chat.crop}</div>
-        </div>
-      </div>
-      <div style="display: flex; gap: 8px;">
-        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')">Counter Offer</button>
-        <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${chat.lotId}')">${chat.lockRateText}</button>
-      </div>
+  const headerName = document.getElementById('chat-header-name');
+  const headerStatus = document.getElementById('chat-header-status');
+  const headerAvatar = document.getElementById('chat-header-avatar');
+  if (headerName) headerName.textContent = chat.name;
+  if (headerStatus) headerStatus.textContent = `${chat.status} • ${chat.crop}`;
+  if (headerAvatar) headerAvatar.src = chat.avatar;
+
+  const headerActions = document.querySelector('.chat-main .chat-header div:last-child');
+  if (headerActions) {
+    headerActions.innerHTML = `
+      <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="font-weight: 700; border-color: #cbd5e1; color: #334155;">Counter Offer</button>
+      <button class="btn btn-primary btn-sm" onclick="openDirectBuyModal('${chat.lotId}')" style="background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); font-weight: 800; box-shadow: 0 4px 10px rgba(12, 90, 54, 0.25);">${chat.lockRateText}</button>
     `;
   }
 
   // Update Active Offer Banner
-  const banner = document.querySelector('.chat-main [style*="background: #fefce8"]');
+  const banner = document.querySelector('.chat-offer-banner');
   if (banner) {
     banner.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="background: #eab308; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">⚡</span>
-        <span><strong>Active Offer:</strong> ${chat.offerText}</span>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="background: #ca8a04; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; box-shadow: 0 2px 6px rgba(202,138,4,0.3);">⚡</span>
+        <span style="color: #713f12;"><strong>Active Offer:</strong> ${chat.offerText}</span>
       </div>
-      <div style="display: flex; gap: 6px;">
-        <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('${chat.lotId}', ${chat.counterRate})" style="padding: 5px 12px; font-size: 0.78rem;">✓ Accept & Lock</button>
-        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="padding: 5px 10px; font-size: 0.78rem;">Re-counter</button>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('${chat.lotId}', ${chat.counterRate})" style="background: #15803d; border-color: #15803d; padding: 5px 12px; font-size: 0.76rem; font-weight: 800;">✓ Accept & Lock</button>
+        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="padding: 5px 10px; font-size: 0.76rem; font-weight: 700; background: #ffffff;">Re-counter</button>
       </div>
     `;
   }
@@ -1195,8 +1219,19 @@ function selectChatContact(contactKey) {
   // Render Messages
   const container = document.getElementById('chat-messages-container');
   if (container) {
+    const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     container.innerHTML = chat.messages
-      .map(m => `<div class="chat-bubble ${m.type}">${m.text}</div>`)
+      .map(m => `
+        <div class="chat-bubble-group ${m.type}">
+          <div class="chat-bubble ${m.type}">
+            ${m.text}
+          </div>
+          <div class="chat-meta-bar ${m.type}">
+            <span>${timeNow}</span>
+            ${m.type === 'outgoing' ? '<span style="color: #16a34a; font-weight: 800;">✓✓</span>' : ''}
+          </div>
+        </div>
+      `)
       .join('');
     container.scrollTop = container.scrollHeight;
   }
@@ -1204,7 +1239,7 @@ function selectChatContact(contactKey) {
 
 // Open Chat directly with any Farmer from Marketplace Lot Card
 function openFarmerChat(lotId) {
-  let matchedKey = 'gowran';
+  let matchedKey = 'patil';
   
   // Find matching key for lotId
   for (const [key, conv] of Object.entries(chatConversations)) {
@@ -1231,7 +1266,7 @@ function openFarmerChat(lotId) {
         counterRate: lot.priceNum,
         lockRateText: `Lock 35% Escrow (₹ ${kgPrice}/kg)`,
         messages: [
-          { type: "incoming", text: `Vanakkam Karthik sir! I am ${lot.farmerName}. My lot of ${lot.crop} (${lot.quantity}) is ready for immediate procurement.` }
+          { type: "incoming", text: `Namaste Karthik sir! I am ${lot.farmerName}. My lot of ${lot.crop} (${lot.quantity}) is ready for immediate procurement.` }
         ]
       };
       matchedKey = slug;
@@ -1252,10 +1287,18 @@ function sendChatMessage() {
   if (!input || !container || !input.value.trim()) return;
 
   const msg = input.value.trim();
-  const bubble = document.createElement('div');
-  bubble.className = 'chat-bubble outgoing';
-  bubble.textContent = msg;
-  container.appendChild(bubble);
+  const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  const group = document.createElement('div');
+  group.className = 'chat-bubble-group outgoing';
+  group.innerHTML = `
+    <div class="chat-bubble outgoing">${msg}</div>
+    <div class="chat-meta-bar outgoing">
+      <span>${timeNow}</span>
+      <span style="color: #16a34a; font-weight: 800;">✓✓</span>
+    </div>
+  `;
+  container.appendChild(group);
 
   if (chatConversations[activeChatKey]) {
     chatConversations[activeChatKey].messages.push({ type: "outgoing", text: msg });
@@ -1266,21 +1309,26 @@ function sendChatMessage() {
 
   // Auto farmer reply after 1s
   const currentKey = activeChatKey;
-  const currentFarmer = chatConversations[currentKey] ? chatConversations[currentKey].name : 'Farmer';
   const currentCrop = chatConversations[currentKey] ? chatConversations[currentKey].crop : 'produce';
 
   setTimeout(() => {
     let replyText = `Thank you for your message! As agreed for ${currentCrop}, we will prepare the vehicle weighing pass once escrow advance is initiated.`;
     if (msg.toLowerCase().includes('price') || msg.toLowerCase().includes('rate') || msg.toLowerCase().includes('discount') || msg.toLowerCase().includes('offer')) {
       replyText = `Understood Karthik sir. I can offer an instant discount of ₹ 1.50/kg if you confirm bulk lifting with verified lorry receipt today!`;
-    } else if (msg.toLowerCase().includes('sample') || msg.toLowerCase().includes('assay') || msg.toLowerCase().includes('quality')) {
-      replyText = `Digital moisture and assay report is verified at ${chatConversations[currentKey]?.status?.split('•')[1] || 'farm gate'}. Quality is 100% guaranteed.`;
+    } else if (msg.toLowerCase().includes('sample') || msg.toLowerCase().includes('assay') || msg.toLowerCase().includes('quality') || msg.toLowerCase().includes('moisture')) {
+      replyText = `Digital moisture and assay report is verified at ${chatConversations[currentKey]?.status?.split('•')[1] || 'farm gate'}. Quality is 100% guaranteed Grade A.`;
     }
 
-    const reply = document.createElement('div');
-    reply.className = 'chat-bubble incoming';
-    reply.textContent = replyText;
-    container.appendChild(reply);
+    const replyGroup = document.createElement('div');
+    replyGroup.className = 'chat-bubble-group incoming';
+    const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    replyGroup.innerHTML = `
+      <div class="chat-bubble incoming">${replyText}</div>
+      <div class="chat-meta-bar incoming">
+        <span>${replyTime}</span>
+      </div>
+    `;
+    container.appendChild(replyGroup);
 
     if (chatConversations[currentKey]) {
       chatConversations[currentKey].messages.push({ type: "incoming", text: replyText });
@@ -1290,6 +1338,9 @@ function sendChatMessage() {
     container.scrollTop = container.scrollHeight;
   }, 900);
 }
+
+window.filterChatContacts = filterChatContacts;
+window.insertQuickChatMsg = insertQuickChatMsg;
 
 // Direct Buy Escrow Modal
 function openDirectBuyModal(lotId) {
@@ -1634,84 +1685,83 @@ function renderBuyerConsignments() {
     const statusLabel = isTransit ? 'On The Road' : (isDelivered ? 'Delivered & QC Passed' : 'Pickup Scheduled');
 
     return `
-      <div class="order-box">
-        <div class="order-header-row">
-          <div>
-            <strong style="font-size:1.02rem; color:#0f172a;">${s.tracking_id}</strong>
-            <span style="margin:0 8px; color:#cbd5e1;">|</span>
-            <span style="font-size:0.82rem; color:#059669; font-weight:700;">Gate Pass: ${s.gate_pass}</span>
+      <div class="shipment-order-box">
+        <div class="order-header-row" style="margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <strong style="font-size: 1.05rem; color: #0f172a; font-family: monospace;">#${s.tracking_id}</strong>
+            <span style="color: #cbd5e1;">|</span>
+            <span style="font-size: 0.82rem; color: #0c5a36; font-weight: 800; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 6px;">📑 Gate Pass: ${s.gate_pass}</span>
           </div>
-          <span style="background:${statusBadgeBg}; color:${statusBadgeColor}; border:1px solid ${statusBadgeBorder}; padding:3px 10px; border-radius:999px; font-size:0.75rem; font-weight:800;">
+          <span style="background: ${statusBadgeBg}; color: ${statusBadgeColor}; border: 1px solid ${statusBadgeBorder}; padding: 4px 12px; border-radius: 999px; font-size: 0.76rem; font-weight: 800;">
             ● ${statusLabel}
           </span>
         </div>
 
-        <!-- 4-Step Stepper (Exact match to Farmer Module) -->
-        <div class="step-track">
+        <!-- 4-Step Stepper -->
+        <div class="step-track" style="margin: 16px 0 22px;">
           <div>
             <div class="step-dot done">✓</div>
-            <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">Confirmed</div>
+            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">1. Confirmed</div>
           </div>
           <div>
             <div class="step-dot ${s.step >= 2 ? 'done' : ''}">${s.step >= 2 ? '✓' : '2'}</div>
-            <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">35% Advance Paid</div>
+            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">2. 35% Advance Paid</div>
           </div>
           <div>
             <div class="step-dot ${s.step >= 3 ? (s.step === 3 ? 'active' : 'done') : ''}">${s.step > 3 ? '✓' : '3'}</div>
-            <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">In Truck</div>
+            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">3. In Truck / Transit</div>
           </div>
           <div>
             <div class="step-dot ${s.step >= 4 ? 'done' : ''}">${s.step === 4 ? '✓' : '4'}</div>
-            <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">Delivered</div>
+            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">4. Delivered & Released</div>
           </div>
         </div>
 
         <!-- 3-Column Info Strip -->
-        <div class="info-strip">
+        <div class="shipment-info-box">
           <div>
-            <div style="font-size:0.7rem; color:#64748b; font-weight:700; text-transform:uppercase;">PRODUCE & FARMER</div>
-            <div style="font-weight:800; font-size:0.95rem; color:#0f172a;">${s.crop}</div>
-            <div style="color:#059669; font-weight:700;">${s.quantity_qt} Qt (${qtyKg.toLocaleString('en-IN')} kg)</div>
-            <div style="color:#64748b;">${s.farmer} (${s.farmer_origin})</div>
+            <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">PRODUCE & FARMER</div>
+            <div style="font-weight: 900; font-size: 1rem; color: #0f172a; margin: 2px 0;">${s.crop}</div>
+            <div style="color: #0c5a36; font-weight: 800; font-size: 0.88rem;">${s.quantity_qt} Qt (${qtyKg.toLocaleString('en-IN')} kg)</div>
+            <div style="color: #475569; font-size: 0.78rem; font-weight: 600; margin-top: 2px;">📍 ${s.farmer} (${s.farmer_origin})</div>
           </div>
           <div>
-            <div style="font-size:0.7rem; color:#64748b; font-weight:700; text-transform:uppercase;">DRIVER & TRUCK</div>
-            <div style="font-weight:800; color:#0f172a; display:flex; align-items:center; gap:6px;">
-              <span>${s.driver}</span>
-              <span style="font-size:0.68rem; background:#e0f2fe; color:#0369a1; padding:1px 5px; border-radius:3px; font-weight:700;">${s.transporter ? s.transporter.split(' ')[0] : 'Transit'}</span>
+            <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">DRIVER & FLEET TELEMETRY</div>
+            <div style="font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 6px; margin: 2px 0;">
+              <span>👨‍✈️ ${s.driver}</span>
+              <span style="font-size: 0.68rem; background: #e0f2fe; color: #0369a1; padding: 1px 6px; border-radius: 4px; font-weight: 800;">${s.transporter ? s.transporter.split(' ')[0] : 'Transit'}</span>
             </div>
-            <div style="color:#334155; font-size:0.8rem; font-weight:600;">${s.vehicle}</div>
-            <div style="font-size:0.78rem; display:flex; gap:8px; align-items:center; margin-top:2px;">
-              <a href="tel:${s.driver_phone}" style="color:#0284c7; text-decoration:none; font-weight:700;">📞 ${s.driver_phone}</a>
-              ${s.temp ? `<span style="color:#059669; font-size:0.72rem; font-weight:700;">🌡️ ${s.temp.split(' ')[0]}</span>` : ''}
+            <div style="color: #334155; font-size: 0.82rem; font-weight: 700;">🚛 ${s.vehicle}</div>
+            <div style="font-size: 0.78rem; display: flex; gap: 8px; align-items: center; margin-top: 3px;">
+              <a href="tel:${s.driver_phone}" style="color: #0284c7; text-decoration: none; font-weight: 800;">📞 ${s.driver_phone}</a>
+              ${s.temp ? `<span style="color: #059669; font-size: 0.74rem; font-weight: 800; background: #ecfdf5; padding: 1px 6px; border-radius: 4px;">🌡️ ${s.temp.split(' ')[0]}</span>` : ''}
             </div>
-            ${s.dl_no ? `<div style="font-size:0.68rem; color:#64748b;">DL: ${s.dl_no}</div>` : ''}
           </div>
           <div>
-            <div style="font-size:0.7rem; color:#64748b; font-weight:700; text-transform:uppercase;">DELIVERY STATUS</div>
-            <div style="color:#0f172a; font-weight:700;">${s.destination}</div>
-            <div style="color:#0284c7; font-weight:700;">📍 ${s.loc}</div>
-            <div style="color:#d97706; font-weight:700;">⏱️ ${s.eta}</div>
+            <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">DELIVERY DESTINATION & ETA</div>
+            <div style="color: #0f172a; font-weight: 800; margin: 2px 0;">🏢 ${s.destination}</div>
+            <div style="color: #0284c7; font-weight: 800; font-size: 0.82rem;">📍 ${s.loc}</div>
+            <div style="color: #d97706; font-weight: 800; font-size: 0.82rem; margin-top: 2px;">⏱️ ETA: ${s.eta}</div>
           </div>
         </div>
 
-        <!-- Actions -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-          <div style="font-size:0.82rem; color:#475569;">
-            Total: <strong>₹ ${s.total_val.toLocaleString('en-IN')}</strong> • <span style="color:#059669; font-weight:700;">35% Advance ₹ ${s.adv_paid.toLocaleString('en-IN')} locked in escrow</span>
+        <!-- Actions & Escrow Footer -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+          <div style="font-size: 0.84rem; color: #475569;">
+            Total Value: <strong style="color: #0f172a; font-weight: 800;">₹ ${s.total_val.toLocaleString('en-IN')}</strong> • <span style="color: #166534; font-weight: 800; background: #f0fdf4; padding: 2px 8px; border-radius: 6px; border: 1px solid #bbf7d0;">🔒 35% Advance ₹ ${s.adv_paid.toLocaleString('en-IN')} locked in escrow</span>
           </div>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            <button class="btn btn-outline btn-sm" onclick="openDriverFleetModal('${s.tracking_id}')" style="display:flex; align-items:center; gap:4px; font-weight:700; color:#0f172a; border-color:#94a3b8;">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-sm" onclick="openDriverFleetModal('${s.tracking_id}')" style="display: flex; align-items: center; gap: 4px; font-weight: 700; color: #334155; border-color: #cbd5e1;">
               <span>🚚</span> Driver & Vehicle
             </button>
-            <button class="btn btn-outline btn-sm" onclick="openLorryReceiptModal('${s.tracking_id}')">📑 Gate Pass</button>
+            <button class="btn btn-outline btn-sm" onclick="openLorryReceiptModal('${s.tracking_id}')" style="font-weight: 700; border-color: #cbd5e1; color: #334155;">📑 Gate Pass</button>
             ${isTransit ? `
-              <button class="btn btn-primary btn-sm" onclick="openGpsModal('${s.tracking_id}', '${s.vehicle}', '${s.driver}', '${s.loc}')">📍 Track Location</button>
-              <button class="btn btn-outline btn-sm" onclick="openArrivalReleaseModal('${s.tracking_id}', '${s.crop}', ${s.balance_due}, '${s.farmer}', ${s.total_val}, ${s.adv_paid})" style="color:#0c5a36; border-color:#86efac; font-weight:700;">✓ Confirm Arrival & QC Release</button>
+              <button class="btn btn-primary btn-sm" onclick="openGpsModal('${s.tracking_id}', '${s.vehicle}', '${s.driver}', '${s.loc}')" style="background: #0284c7; border-color: #0284c7; font-weight: 800;">📍 Track Location</button>
+              <button class="btn btn-outline btn-sm" onclick="openArrivalReleaseModal('${s.tracking_id}', '${s.crop}', ${s.balance_due}, '${s.farmer}', ${s.total_val}, ${s.adv_paid})" style="color: #0c5a36; border-color: #86efac; font-weight: 800; background: #f0fdf4;">✓ Confirm Arrival & QC Release</button>
             ` : isScheduled ? `
-              <a href="tel:${s.driver_phone}" class="btn btn-primary btn-sm" style="text-decoration:none;">📞 Call Driver</a>
+              <a href="tel:${s.driver_phone}" class="btn btn-primary btn-sm" style="text-decoration: none; background: #0c5a36; border-color: #0c5a36; font-weight: 800;">📞 Call Driver</a>
             ` : `
-              <button class="btn btn-primary btn-sm" disabled style="background:#15803d; border-color:#15803d; opacity:0.9; cursor:default;">✓ 100% Settled</button>
+              <button class="btn btn-primary btn-sm" disabled style="background: #15803d; border-color: #15803d; opacity: 0.9; cursor: default; font-weight: 800;">✓ 100% Settled & Released</button>
             `}
           </div>
         </div>
@@ -2162,16 +2212,17 @@ function renderGrievances(filterStatus = 'all') {
 
   container.innerHTML = grievances.map(grv => {
     const isUnderReview = grv.status === 'Under Review';
-    const statusBg = isUnderReview ? '#fef3c7' : '#dcfce7';
+    const statusBg = isUnderReview ? 'rgba(234, 179, 8, 0.12)' : 'rgba(34, 197, 94, 0.12)';
     const statusColor = isUnderReview ? '#b45309' : '#15803d';
+    const statusBorder = isUnderReview ? 'rgba(234, 179, 8, 0.3)' : 'rgba(34, 197, 94, 0.3)';
     const statusDot = isUnderReview ? '🟡' : '✅';
 
     const timelineHtml = (grv.timeline || []).map((tl, idx) => `
       <div class="stepper-step" style="flex: 1; text-align: center; position: relative;">
-        <div class="stepper-dot ${tl.done ? 'active' : ''}" style="margin: 0 auto 6px auto; ${tl.done ? 'background: #0c5a36; color: #fff;' : 'background: #e2e8f0; color: #64748b;'}">
+        <div class="stepper-dot ${tl.done ? 'active' : ''}" style="margin: 0 auto 6px auto; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.78rem; transition: all 0.2s; ${tl.done ? 'background: #059669; color: #fff; box-shadow: 0 2px 6px rgba(5,150,105,0.3);' : 'background: #f1f5f9; color: #94a3b8; border: 1.5px solid #cbd5e1;'}">
           ${tl.done ? '✓' : (idx + 1)}
         </div>
-        <div class="stepper-label" style="font-size: 0.72rem; font-weight: 700; color: ${tl.done ? '#0f172a' : '#94a3b8'};">
+        <div class="stepper-label" style="font-size: 0.74rem; font-weight: 700; color: ${tl.done ? '#0f172a' : '#94a3b8'};">
           ${tl.step}
         </div>
         <div style="font-size: 0.65rem; color: #64748b; margin-top: 2px;">
@@ -2181,50 +2232,50 @@ function renderGrievances(filterStatus = 'all') {
     `).join('');
 
     return `
-      <div class="stat-card" style="padding: 20px; border: 1px solid var(--border-default); background: #ffffff; border-radius: 14px; box-shadow: var(--shadow-sm);">
+      <div class="grv-claim-card" style="margin-bottom: 20px;">
         <!-- Top Row Header -->
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #f1f5f9;">
           <div>
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
-              <span style="font-family: monospace; font-weight: 800; color: #0c5a36; font-size: 0.95rem; background: #e8f5e9; padding: 2px 8px; border-radius: 6px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
+              <span style="font-family: monospace; font-weight: 800; color: #0c5a36; font-size: 0.95rem; background: #e8f5e9; padding: 3px 10px; border-radius: 8px; border: 1px solid #c8e6c9;">
                 ${grv.id}
               </span>
-              <span style="background: ${statusBg}; color: ${statusColor}; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px;">
+              <span style="background: ${statusBg}; color: ${statusColor}; border: 1px solid ${statusBorder}; font-weight: 800; font-size: 0.76rem; padding: 4px 12px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
                 ${statusDot} ${grv.status}
               </span>
-              <span style="font-size: 0.75rem; color: #64748b;">
+              <span style="font-size: 0.76rem; color: #64748b; font-weight: 500;">
                 Filed: ${grv.dateFiled}
               </span>
             </div>
-            <div style="font-size: 0.85rem; color: #334155; font-weight: 600;">
-              Consignment: <strong>${grv.consignmentId || 'LOT-CONS-992'}</strong> • ${grv.crop}
+            <div style="font-size: 0.88rem; color: #334155; font-weight: 600;">
+              Consignment: <strong style="color: #0f172a;">${grv.consignmentId || 'LOT-CONS-992'}</strong> • <span style="color: #059669; font-weight: 700;">${grv.crop}</span>
             </div>
           </div>
 
-          <div style="text-align: right;">
-            <span style="font-size: 0.75rem; color: #64748b; display: block;">Farmer / Source</span>
+          <div style="text-align: right; background: #f8fafc; padding: 8px 14px; border-radius: 10px; border: 1px solid #e2e8f0;">
+            <span style="font-size: 0.72rem; color: #64748b; display: block; text-transform: uppercase; font-weight: 700; letter-spacing: 0.03em;">Farmer / Source</span>
             <strong style="font-size: 0.88rem; color: #0f172a;">${grv.farmerName}</strong>
           </div>
         </div>
 
         <!-- Issue Category & Description -->
-        <div style="background: #f8fafc; border-left: 4px solid ${isUnderReview ? '#f59e0b' : '#10b981'}; border-radius: 6px; padding: 12px 14px; margin-bottom: 16px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <span style="font-size: 0.78rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.04em;">
+        <div style="background: #f8fafc; border-left: 4px solid ${isUnderReview ? '#d97706' : '#059669'}; border-radius: 8px; padding: 14px 16px; margin-bottom: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
+            <span style="font-size: 0.78rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.04em;">
               Dispute Category: <span style="color: #0f172a;">${grv.category}</span>
             </span>
-            <span style="font-size: 0.78rem; font-weight: 700; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 4px;">
+            <span style="font-size: 0.78rem; font-weight: 800; color: #dc2626; background: #fee2e2; border: 1px solid #fecaca; padding: 3px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
               🔒 ${grv.amountUnderHold}
             </span>
           </div>
-          <div style="font-size: 0.82rem; color: #1e293b; line-height: 1.45;">
+          <div style="font-size: 0.84rem; color: #1e293b; line-height: 1.5; font-weight: 500;">
             ${grv.description}
           </div>
         </div>
 
         <!-- 4-Step Interactive Timeline Stepper -->
-        <div style="margin-bottom: 18px; padding: 12px 6px; background: #fdfefe; border: 1px solid #f1f5f9; border-radius: 10px;">
-          <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 12px; padding-left: 8px;">
+        <div style="margin-bottom: 20px; padding: 16px 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);">
+          <div style="font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 14px; padding-left: 4px;">
             Redressal Progress & Smart Contract Milestones:
           </div>
           <div class="stepper" style="display: flex; justify-content: space-between; position: relative;">
@@ -2233,22 +2284,22 @@ function renderGrievances(filterStatus = 'all') {
         </div>
 
         <!-- Action Buttons -->
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 10px; border-top: 1px solid var(--border-subtle);">
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn-outline btn-sm" onclick="showToast('Loading digital assay certificate & weighbridge audit slip for ${grv.id}...', 'success')">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 14px; border-top: 1px solid #f1f5f9;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-sm" onclick="showToast('Loading digital assay certificate & weighbridge audit slip for ${grv.id}...', 'success')" style="border-radius: 8px; font-weight: 700; padding: 7px 14px;">
               📄 View Evidence Dossier
             </button>
-            <button class="btn btn-outline btn-sm" onclick="switchView('view-messages'); showToast('Opening direct grievance chat channel with AgriNex QA Desk...');">
+            <button class="btn btn-outline btn-sm" onclick="switchView('view-messages'); showToast('Opening direct grievance chat channel with AgriNex QA Desk...');" style="border-radius: 8px; font-weight: 700; padding: 7px 14px;">
               💬 Message Arbitrator
             </button>
           </div>
 
           ${isUnderReview ? `
-            <button class="btn btn-primary btn-sm" onclick="acceptGrievanceResolution('${grv.id}')" style="background: #059669; border-color: #059669;">
+            <button class="btn btn-primary btn-sm" onclick="acceptGrievanceResolution('${grv.id}')" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border-color: #047857; border-radius: 8px; font-weight: 800; padding: 8px 16px; box-shadow: 0 3px 10px rgba(5,150,105,0.25);">
               ✓ Settle & Accept 5% Price Rebate (₹ 3,900)
             </button>
           ` : `
-            <span style="font-size: 0.8rem; font-weight: 700; color: #15803d; display: flex; align-items: center; gap: 4px;">
+            <span style="font-size: 0.82rem; font-weight: 800; color: #15803d; background: #dcfce7; border: 1px solid #bbf7d0; padding: 6px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;">
               ✓ Claim Settled & Escrow Released
             </span>
           `}
@@ -2931,74 +2982,79 @@ function renderStorageFacilities(filterType = 'all') {
   container.innerHTML = facilities.map(f => {
     const typeBadgeBg = f.typeKey === 'cold-storage' ? '#e0f2fe' : f.typeKey === 'dry-silo' ? '#fef3c7' : '#ffedd5';
     const typeBadgeColor = f.typeKey === 'cold-storage' ? '#0369a1' : f.typeKey === 'dry-silo' ? '#92400e' : '#c2410c';
+    const topAccentBorder = f.typeKey === 'cold-storage' ? '#0284c7' : f.typeKey === 'dry-silo' ? '#d97706' : '#ea580c';
     const typeIcon = f.typeKey === 'cold-storage' ? '❄️' : f.typeKey === 'dry-silo' ? '🌾' : '☀️';
 
     return `
-      <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-radius: 12px; border: 1px solid var(--border-default); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;">
+      <div class="storage-facility-card" style="border-top: 4px solid ${topAccentBorder};">
         <div>
           <!-- Facility Card Top Header -->
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-            <span class="badge" style="background: ${typeBadgeBg}; color: ${typeBadgeColor}; font-weight: 800; font-size: 0.72rem; padding: 3px 8px; border-radius: 6px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span class="badge" style="background: ${typeBadgeBg}; color: ${typeBadgeColor}; font-weight: 800; font-size: 0.74rem; padding: 4px 10px; border-radius: 6px;">
               ${typeIcon} ${f.type}
             </span>
-            <span style="font-weight: 700; font-size: 0.82rem; color: #0c5a36;">${f.rating}</span>
+            <span style="font-weight: 800; font-size: 0.82rem; color: #0c5a36; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 6px;">
+              ⭐ ${f.rating}
+            </span>
           </div>
 
-          <h3 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-bottom: 4px; line-height: 1.35;">
+          <h3 style="font-size: 1.08rem; font-weight: 800; color: #0f172a; margin-bottom: 4px; line-height: 1.35;">
             ${f.name}
           </h3>
-          <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 14px;">
+          <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 14px; font-weight: 500;">
             📍 ${f.location}
           </div>
 
           <!-- IoT Climate Sensors & Specs -->
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; font-size: 0.78rem; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div class="telemetry-badge-box">
             <div>
-              <span style="color: #64748b; display: block; font-size: 0.7rem;">Temp Controlled:</span>
-              <strong style="color: #0c5a36;">${f.tempRange}</strong>
+              <span style="color: #64748b; display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase;">
+                <span class="pulse-live-dot"></span> Temp Telemetry
+              </span>
+              <strong style="color: #0c5a36; font-size: 0.85rem;">${f.tempRange}</strong>
             </div>
             <div>
-              <span style="color: #64748b; display: block; font-size: 0.7rem;">Humidity Index:</span>
-              <strong style="color: #0284c7;">${f.humidity}</strong>
+              <span style="color: #64748b; display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase;">Humidity RH</span>
+              <strong style="color: #0284c7; font-size: 0.85rem;">${f.humidity}</strong>
             </div>
           </div>
 
           <!-- Capacity Bar -->
           <div style="margin-bottom: 14px;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.76rem; margin-bottom: 4px;">
-              <span style="color: #64748b;">Available Chamber Space:</span>
-              <strong style="color: #0c5a36;">${f.availableCapacity} (${f.availablePct}% Open)</strong>
+            <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 5px;">
+              <span style="color: #64748b; font-weight: 600;">Available Chamber Space:</span>
+              <strong style="color: #0c5a36; font-weight: 800;">${f.availableCapacity} (${f.availablePct}% Open)</strong>
             </div>
-            <div style="width: 100%; height: 8px; background: #e2e8f0; border-radius: 999px; overflow: hidden;">
-              <div style="width: ${f.availablePct}%; height: 100%; background: linear-gradient(90deg, #10b981, #0c5a36); border-radius: 999px;"></div>
+            <div style="width: 100%; height: 9px; background: #e2e8f0; border-radius: 999px; overflow: hidden;">
+              <div style="width: ${f.availablePct}%; height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); border-radius: 999px;"></div>
             </div>
-            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 2px;">Total Facility Volume: ${f.totalCapacity}</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px; font-weight: 500;">Total Facility Volume: ${f.totalCapacity}</div>
           </div>
 
           <!-- Suitable Crops Tags -->
           <div style="margin-bottom: 14px;">
-            <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Suitable Commodities:</span>
-            <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">
-              ${f.suitableCrops.map(c => `<span style="font-size: 0.7rem; background: #e8f5ed; color: #0c5a36; padding: 2px 6px; border-radius: 4px; font-weight: 600;">${c}</span>`).join('')}
+            <span style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;">Suitable Commodities:</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
+              ${f.suitableCrops.map(c => `<span style="font-size: 0.72rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 2px 7px; border-radius: 5px; font-weight: 600;">${c}</span>`).join('')}
             </div>
           </div>
         </div>
 
         <!-- Tariff & Actions Footer -->
-        <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px; margin-top: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
+        <div style="border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;">
             <div>
-              <span style="font-size: 0.7rem; color: #64748b; display: block;">Storage Tariff</span>
-              <span style="font-size: 1.05rem; font-weight: 800; color: #0c5a36;">${f.tariff}</span>
+              <span style="font-size: 0.7rem; color: #64748b; display: block; font-weight: 600;">Storage Tariff</span>
+              <span style="font-size: 1.1rem; font-weight: 900; color: #0c5a36;">${f.tariff}</span>
             </div>
-            <span style="font-size: 0.74rem; color: #475569; font-weight: 600;">${f.tariffPerDay}</span>
+            <span style="font-size: 0.76rem; color: #475569; font-weight: 600; background: #f8fafc; padding: 3px 8px; border-radius: 6px; border: 1px solid #e2e8f0;">${f.tariffPerDay}</span>
           </div>
 
           <div style="display: flex; gap: 8px;">
-            <button class="btn btn-outline btn-sm" onclick="if (window.renderChamberVisualizerForFacility) { window.renderChamberVisualizerForFacility('${f.id}'); showToast('Inspecting 2D chamber slots for ${f.name}...'); }" style="flex: 1; font-size: 0.76rem;" title="Inspect Individual Chamber Slots">
+            <button class="btn btn-outline btn-sm" onclick="if (window.renderChamberVisualizerForFacility) { window.renderChamberVisualizerForFacility('${f.id}'); showToast('Inspecting 2D chamber slots for ${f.name}...'); }" style="flex: 1; font-size: 0.78rem; font-weight: 700; border-color: #cbd5e1; color: #334155;" title="Inspect Individual Chamber Slots">
               🔍 Chambers
             </button>
-            <button class="btn btn-primary btn-sm" onclick="openBookStorageModal('${f.id}')" style="flex: 1.4; background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
+            <button class="btn btn-primary btn-sm" onclick="openBookStorageModal('${f.id}')" style="flex: 1.4; background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); border-color: #0c5a36; font-weight: 800; box-shadow: 0 4px 10px rgba(12, 90, 54, 0.25);">
               ❄️ Book Space
             </button>
           </div>

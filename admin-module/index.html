@@ -127,90 +127,161 @@
       <!-- Dashboard Content -->
       <div class="dashboard-content">
         
-        <!-- 4 Stat Cards Grid -->
-        <section class="stat-cards-grid">
+        <!-- Executive Glass Hero Header Banner -->
+        <div class="gov-hero-banner">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <h2 style="font-size: 1.45rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">
+                Maharashtra APMC Mandi Regulatory Board & Governance HQ
+              </h2>
+              <span class="badge" style="background: rgba(74, 222, 128, 0.2); color: #86efac; border: 1px solid rgba(74, 222, 128, 0.4); padding: 4px 12px; font-weight: 800; font-size: 0.74rem;">
+                🛡️ MSAMB Regulatory Compliance Active
+              </span>
+            </div>
+            <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.85); margin: 6px 0 0 0; max-width: 820px; line-height: 1.45;">
+              State-wide oversight of wholesale agricultural trade, dual-key escrow clearance, mandatory MSP floor price enforcement, and fast-track dispute tribunal arbitration across 305 Maharashtra APMCs.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="escrow-governance.html" class="btn btn-outline" style="background: rgba(255,255,255,0.12); color: #ffffff; border-color: rgba(255,255,255,0.3); font-size: 0.8rem; font-weight: 700; padding: 8px 14px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+              <span>📜</span>
+              <span>State Escrow Ledger</span>
+            </a>
+            <button class="btn btn-outline" onclick="alert('⚡ Emergency Mandi Price Stabilization Freeze triggered. MSAMB Board notified.')" style="background: rgba(239, 68, 68, 0.25); color: #fecaca; border-color: rgba(248, 113, 113, 0.5); font-size: 0.8rem; font-weight: 800; padding: 8px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+              <span>⚡</span>
+              <span>Trigger Mandi Freeze</span>
+            </button>
+            <a href="mandi-governance.html" class="btn btn-primary" style="background: #059669; border-color: #059669; font-size: 0.8rem; font-weight: 800; padding: 8px 16px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 14px rgba(5,150,105,0.3);">
+              <span>📈</span>
+              <span>Mandi Price Indices</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 Pastel Executive KPI Summary Cards -->
+        <div class="gov-kpi-grid">
           <!-- 1. Verified Farmers -->
-          <div class="stat-card">
-            <div class="stat-card-top">
-              <div class="stat-icon-wrapper green">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-                </svg>
-              </div>
-              <div class="stat-meta">
-                <span class="stat-title">Verified Producers</span>
-                <span class="stat-value" id="stat-verified-farmers">14,280</span>
-              </div>
+          <div class="gov-kpi-card kpi-gov-green">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.72rem; color: #166534; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Verified Producers</span>
+              <span style="font-size: 0.7rem; background: #bbf7d0; color: #166534; font-weight: 800; padding: 3px 8px; border-radius: 6px;">Satbara 7/12</span>
             </div>
-            <div class="stat-card-bottom">
-              <span>98.6% Land Satbara Validated</span>
-              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-            </div>
+            <div style="font-size: 1.6rem; font-weight: 900; color: #0c5a36; margin: 8px 0 2px; letter-spacing: -0.02em;" id="stat-verified-farmers">14,280</div>
+            <div style="font-size: 0.78rem; color: #15803d; font-weight: 700;">✓ 98.6% Land Records Authenticated</div>
           </div>
 
           <!-- 2. Registered Buyers -->
-          <div class="stat-card">
-            <div class="stat-card-top">
-              <div class="stat-icon-wrapper blue">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <rect width="16" height="20" x="4" y="2" rx="2"></rect>
-                </svg>
-              </div>
-              <div class="stat-meta">
-                <span class="stat-title">Licensed Buyers</span>
-                <span class="stat-value" id="stat-registered-buyers">850</span>
-              </div>
+          <div class="gov-kpi-card kpi-gov-blue">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.72rem; color: #075985; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Licensed Buyers</span>
+              <span style="font-size: 0.7rem; background: #bae6fd; color: #0369a1; font-weight: 800; padding: 3px 8px; border-radius: 6px;">APMC Licensed</span>
             </div>
-            <div class="stat-card-bottom">
-              <span>GSTIN & Mandi Licensed</span>
-              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-            </div>
+            <div style="font-size: 1.6rem; font-weight: 900; color: #0369a1; margin: 8px 0 2px; letter-spacing: -0.02em;" id="stat-registered-buyers">850</div>
+            <div style="font-size: 0.78rem; color: #0284c7; font-weight: 700;">🏢 GSTIN & Corporate Verified</div>
           </div>
 
           <!-- 3. Escrow Volume -->
-          <div class="stat-card">
-            <div class="stat-card-top">
-              <div class="stat-icon-wrapper purple">
-                <span style="font-weight: 800; font-size: 1.35rem;">₹</span>
-              </div>
-              <div class="stat-meta">
-                <span class="stat-title">Locked Escrow Pool</span>
-                <span class="stat-value" id="stat-escrow-volume">₹ 18.45 Cr</span>
-              </div>
+          <div class="gov-kpi-card kpi-gov-purple">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.72rem; color: #6b21a8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Locked Escrow Pool</span>
+              <span style="font-size: 0.7rem; background: #e9d5ff; color: #7e22ce; font-weight: 800; padding: 3px 8px; border-radius: 6px;">Dual-Key Bank</span>
             </div>
-            <div class="stat-card-bottom">
-              <span>100% Dual-Key Bank Backed</span>
-              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-            </div>
+            <div style="font-size: 1.6rem; font-weight: 900; color: #6b21a8; margin: 8px 0 2px; letter-spacing: -0.02em;" id="stat-escrow-volume">₹ 18.45 Cr</div>
+            <div style="font-size: 0.78rem; color: #7e22ce; font-weight: 700;">🔒 100% Nodal Escrow Protected</div>
           </div>
 
           <!-- 4. Open Disputes -->
-          <div class="stat-card">
-            <div class="stat-card-top">
-              <div class="stat-icon-wrapper orange">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="12"></line>
-                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          <div class="gov-kpi-card kpi-gov-gold">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.72rem; color: #854d0e; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Dispute Rate & SLA</span>
+              <span style="font-size: 0.7rem; background: #fef08a; color: #854d0e; font-weight: 800; padding: 3px 8px; border-radius: 6px;">Fast-Track</span>
+            </div>
+            <div style="font-size: 1.6rem; font-weight: 900; color: #713f12; margin: 8px 0 2px; letter-spacing: -0.02em;" id="stat-open-disputes">0.14% / &lt;2h</div>
+            <div style="font-size: 0.78rem; color: #a16207; font-weight: 700;">⚖️ Tribunal Redressal Speed</div>
+          </div>
+        </div>
+
+        <!-- Regional Maharashtra Mandi Health & Compliance Overview Grid -->
+        <div style="margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h3 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin: 0;">🗺️ State-Wide Regional APMC Compliance Monitor</h3>
+              <span class="badge" style="background: #e8f5ed; color: #0c5a36; font-weight: 800; font-size: 0.72rem; border: 1px solid #bbf7d0;">305 Mandis Active</span>
+            </div>
+            <span style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Real-time auction compliance & e-NAM gateway feed</span>
+          </div>
+
+          <div class="gov-regional-grid">
+            <div class="gov-regional-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="font-size: 0.88rem; color: #0f172a;">Lasalgaon APMC (Nashik)</strong>
+                <span class="badge-gov-clear" style="font-size: 0.68rem; padding: 2px 6px;">✓ 100% OK</span>
+              </div>
+              <div style="font-size: 0.75rem; color: #64748b;">Primary Belt: <strong style="color: #334155;">Red Onion & Garlic</strong></div>
+              <div style="font-size: 0.75rem; color: #059669; font-weight: 700; margin-top: 4px;">Modal: ₹ 18.50/kg • Arrivals: 6,850 Qt</div>
+            </div>
+
+            <div class="gov-regional-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="font-size: 0.88rem; color: #0f172a;">Vashi Terminal (Navi Mumbai)</strong>
+                <span class="badge-gov-clear" style="font-size: 0.68rem; padding: 2px 6px;">✓ 100% OK</span>
+              </div>
+              <div style="font-size: 0.75rem; color: #64748b;">Primary Belt: <strong style="color: #334155;">Consolidated Veg & Fruits</strong></div>
+              <div style="font-size: 0.75rem; color: #0284c7; font-weight: 700; margin-top: 4px;">Modal: ₹ 22.00/kg • Arrivals: 14,200 Qt</div>
+            </div>
+
+            <div class="gov-regional-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="font-size: 0.88rem; color: #0f172a;">Narayangaon Hub (Pune)</strong>
+                <span class="badge-gov-clear" style="font-size: 0.68rem; padding: 2px 6px;">✓ 100% OK</span>
+              </div>
+              <div style="font-size: 0.75rem; color: #64748b;">Primary Belt: <strong style="color: #334155;">Tomato & Exotic Greens</strong></div>
+              <div style="font-size: 0.75rem; color: #059669; font-weight: 700; margin-top: 4px;">Modal: ₹ 12.00/kg • Arrivals: 8,400 Qt</div>
+            </div>
+
+            <div class="gov-regional-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="font-size: 0.88rem; color: #0f172a;">Nagpur Yard (Vidarbha)</strong>
+                <span class="badge-gov-clear" style="font-size: 0.68rem; padding: 2px 6px;">✓ 100% OK</span>
+              </div>
+              <div style="font-size: 0.75rem; color: #64748b;">Primary Belt: <strong style="color: #334155;">Orange & Cotton (Bt)</strong></div>
+              <div style="font-size: 0.75rem; color: #9333ea; font-weight: 700; margin-top: 4px;">Modal: ₹ 42.00/kg • Arrivals: 5,100 Qt</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Maharashtra State Warehousing Corporation (MSWC) & APMC Cold Storage Capacity Grid (2A) -->
+        <section class="card" style="margin-bottom: 24px; border-radius: 16px; border: 1px solid #e2e8f0; padding: 20px 22px;">
+          <div class="card-header" style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <h3 class="card-title" style="font-size: 1.1rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px; margin: 0;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.2">
+                  <path d="M3 21h18"></path>
+                  <path d="M5 21V7l8-4v18"></path>
+                  <path d="M19 21V11l-6-3"></path>
+                  <path d="M9 9j0"></path>
                 </svg>
-              </div>
-              <div class="stat-meta">
-                <span class="stat-title">Dispute Rate & SLA</span>
-                <span class="stat-value" id="stat-open-disputes">0.14% / &lt;2h</span>
-              </div>
+                🏭 Maharashtra State Warehousing (MSWC) & Cold Storage Capacity Tracker
+              </h3>
+              <p style="font-size: 0.8rem; color: #64748b; margin: 2px 0 0 0;">
+                Live occupancy, humidity & temperature telemetry monitoring across regional APMC cold hubs & dry silos
+              </p>
             </div>
-            <div class="stat-card-bottom">
-              <span>Maharashtra Fast-Track Tribunal</span>
-              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-            </div>
+            <span class="badge" style="background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; font-weight: 800; padding: 4px 12px; font-size: 0.74rem;">
+              ❄️ 98,000 MT Total Capacity Tracked
+            </span>
+          </div>
+
+          <div id="warehouse-capacity-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            <!-- Rendered dynamically via dashboard.js -->
           </div>
         </section>
 
         <!-- Live Escrow Clearance Queue Table -->
-        <section class="card" style="margin-bottom: 24px;">
-          <div class="card-header">
+        <section class="card" style="margin-bottom: 24px; border-radius: 16px; border: 1px solid #e2e8f0; padding: 20px 22px;">
+          <div class="card-header" style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
             <div>
-              <h3 class="card-title">
+              <h3 class="card-title" style="font-size: 1.1rem; font-weight: 800; color: #0c5a36; display: flex; align-items: center; gap: 8px;">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2">
                   <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
                 </svg>
@@ -220,7 +291,9 @@
                 Direct RTGS/NEFT milestone disbursements backed by digital e-PoD and Mandi electronic weigh slips
               </p>
             </div>
-            <a href="escrow-governance.html" class="btn btn-primary btn-sm" style="font-weight: 700;">Full Escrow Ledger &rarr;</a>
+            <a href="escrow-governance.html" class="btn btn-primary btn-sm" style="font-weight: 800; background: #0c5a36; border-color: #0c5a36; padding: 8px 16px; border-radius: 8px; text-decoration: none;">
+              Full Escrow Ledger &rarr;
+            </a>
           </div>
 
           <div class="listings-table-container">
@@ -236,33 +309,29 @@
                 </tr>
               </thead>
               <tbody id="admin-queue-tbody">
-                <!-- Rendered dynamically -->
+                <!-- Rendered dynamically via dashboard.js -->
               </tbody>
             </table>
           </div>
         </section>
 
-        <!-- Audit Trail Full Card -->
-        <section class="card">
-          <div class="card-header">
-            <h3 class="card-title">
+        <!-- Cryptographic Governance Audit Trail Card -->
+        <section class="card" style="border-radius: 16px; border: 1px solid #e2e8f0; padding: 20px 22px;">
+          <div class="card-header" style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+            <h3 class="card-title" style="font-size: 1.05rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2">
                 <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
               </svg>
               Cryptographic Governance Audit Trail
             </h3>
-            <span class="badge-gov-audit">Immutable MSAMB Log</span>
+            <span class="badge-gov-audit" style="background: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
+              🔒 Immutable MSAMB Nodal Log
+            </span>
           </div>
           <div id="audit-logs-container" style="max-height: 380px; overflow-y: auto; padding-right: 4px;">
-            <!-- Rendered dynamically -->
+            <!-- Rendered dynamically via dashboard.js -->
           </div>
         </section>
-
-      </div>
-    </main>
-
-  </div>
-
 
       </div>
     </main>

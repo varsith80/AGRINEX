@@ -1,12 +1,52 @@
-/**
- * AgriNex Platform Governance & Admin Center - Main Dashboard Controller
- */
-
 document.addEventListener("DOMContentLoaded", () => {
   renderOverviewStats();
   renderEscrowClearanceQueue();
   renderAuditLogs();
+  renderWarehouseCapacityGrid();
 });
+
+function renderWarehouseCapacityGrid() {
+  const container = document.getElementById("warehouse-capacity-grid");
+  if (!container) return;
+
+  const warehouses = AgriNexAdminGovernance.getWarehouses();
+  if (!warehouses || warehouses.length === 0) return;
+
+  container.innerHTML = warehouses.map(w => {
+    let barColor = "#059669"; // green
+    if (w.occupiedPct >= 85) barColor = "#dc2626"; // red alert
+    else if (w.occupiedPct >= 75) barColor = "#d97706"; // orange warning
+
+    return `
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+          <div>
+            <strong style="font-size: 0.92rem; color: #0f172a;">${w.name}</strong>
+            <div style="font-size: 0.76rem; color: #64748b;">📍 ${w.location} • Mgr: ${w.manager}</div>
+          </div>
+          <span class="badge" style="background: #f1f5f9; color: #334155; font-size: 0.7rem; font-weight: 700; padding: 2px 8px;">
+            ${w.id}
+          </span>
+        </div>
+
+        <div style="margin: 10px 0 6px;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 4px;">
+            <span>Occupancy Level: ${w.occupiedCapacity.toLocaleString()} / ${w.totalCapacity.toLocaleString()} MT</span>
+            <span style="color: ${barColor};">${w.occupiedPct}% Occupied</span>
+          </div>
+          <div style="width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+            <div style="width: ${w.occupiedPct}%; height: 100%; background: ${barColor}; transition: width 0.3s ease;"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #475569; margin-top: 10px; background: #f8fafc; padding: 6px 10px; border-radius: 6px;">
+          <span>🌾 Produce: <strong>${w.primaryCrops}</strong></span>
+          <span>🌡️ Temp: <strong style="color: #0284c7;">${w.tempRange}</strong></span>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
 
 function renderOverviewStats() {
   const stats = AgriNexAdminGovernance.getStats();
@@ -154,6 +194,40 @@ function openEscrowModal(caseId) {
   const c = cases.find(item => item.id === caseId);
   if (!c) return;
 
+  const telemetry = AgriNexAdminGovernance.getColdChainTelemetry(caseId);
+
+  let telemetryHtml = "";
+  if (telemetry) {
+    telemetryHtml = `
+      <div style="background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 14px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 0.85rem; font-weight: 800; color: #0369a1; display: flex; align-items: center; gap: 6px;">
+            ❄️ Real-Time IoT Cold-Chain Transport Telemetry
+          </span>
+          <span class="badge" style="background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; font-size: 0.72rem; font-weight: 800;">
+            Reefer #${telemetry.reeferId}
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-size: 0.78rem; color: #334155; margin-bottom: 10px;">
+          <div>Driver: <strong>${telemetry.driverName}</strong></div>
+          <div>Current Temp: <strong style="color: #0284c7;">${telemetry.currentTemp}°C</strong> (Target: ${telemetry.targetTemp}°C)</div>
+          <div>Status: <strong style="color: #b45309;">${telemetry.status}</strong></div>
+        </div>
+
+        <div style="font-size: 0.76rem; font-weight: 700; color: #475569; margin-bottom: 4px;">📍 Route Waypoint Telemetry Log:</div>
+        <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.74rem;">
+          ${telemetry.routeWaypoints.map(w => `
+            <div style="display: flex; justify-content: space-between; background: #ffffff; padding: 6px 10px; border-radius: 6px; border: 1px solid #e0f2fe;">
+              <span>📍 ${w.location} (${w.timestamp})</span>
+              <span>Temp: <strong>${w.temp}°C</strong> — <em style="color: #0284c7;">${w.status}</em></span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
   const modal = document.getElementById("modal-escrow-inspect");
   const content = document.getElementById("modal-escrow-content");
   if (modal && content) {
@@ -198,6 +272,8 @@ function openEscrowModal(caseId) {
           </div>
         </div>
 
+        ${telemetryHtml}
+
         <!-- Verification Proof -->
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 20px; font-size: 0.82rem;">
           <div style="font-weight: 800; color: #0f172a; margin-bottom: 4px;">📑 Cryptographic Proof & Verification Artefacts:</div>
@@ -219,3 +295,4 @@ function closeEscrowModal() {
   const modal = document.getElementById("modal-escrow-inspect");
   if (modal) modal.classList.remove("active");
 }
+

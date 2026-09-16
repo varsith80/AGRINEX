@@ -114,18 +114,48 @@
 
       <div class="dashboard-content">
         
-        <!-- Header Banner -->
-        <div style="background: linear-gradient(135deg, #78350f 0%, #451a03 100%); border-radius: 14px; padding: 20px 24px; color: #ffffff; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <!-- Executive Glass Hero Banner -->
+        <div class="gov-hero-banner" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
           <div>
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #ffffff;">Maharashtra State APMC Mandi Price Indices & MSP Controls</h2>
-            <p style="font-size: 0.84rem; color: #fde68a; margin-top: 4px;">
-              Statutory MSP floor price enforcement, modal rate calibrations, and anti-hoarding ceiling monitoring across 305 mandis
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 999px; font-size: 0.75rem; font-weight: 700; color: #fbbf24; margin-bottom: 8px;">
+              <span>📈 Statutory MSP & Benchmark Control Desk</span>
+            </div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0 0 6px 0;">Maharashtra State APMC Mandi Price Indices & MSP Controls</h2>
+            <p style="font-size: 0.84rem; color: #94a3b8; margin: 0; max-width: 780px;">
+              Statutory MSP floor price enforcement, modal rate calibrations, and anti-hoarding ceiling monitoring across 305 APMC mandis.
             </p>
           </div>
-          <div style="display: flex; gap: 10px;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="btn btn-primary" style="background: #d97706;" onclick="alert('Broadcasting latest MSAMB daily mandi bulletin to all 305 APMC Yards...')">
               📢 Broadcast APMC Advisory
             </button>
+            <button class="btn btn-outline" style="border-color: rgba(255,255,255,0.2); color: #ffffff;" onclick="alert('Downloading 28-Crop MSAMB Mandi Price Index Report (PDF/Excel)...')">
+              📊 Download MSP Index
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 KPI Summary Cards -->
+        <div class="gov-kpi-grid">
+          <div class="gov-kpi-card kpi-gov-green">
+            <div class="gov-kpi-icon">🌾</div>
+            <div class="gov-kpi-value">28 Commodities</div>
+            <div class="gov-kpi-label">Statutory Benchmarks Tracked</div>
+          </div>
+          <div class="gov-kpi-card kpi-gov-blue">
+            <div class="gov-kpi-icon">🛡️</div>
+            <div class="gov-kpi-value">₹38.50 /kg</div>
+            <div class="gov-kpi-label">Avg MSP Floor Protection</div>
+          </div>
+          <div class="gov-kpi-card kpi-gov-purple">
+            <div class="gov-kpi-icon">🏛️</div>
+            <div class="gov-kpi-value">96.4%</div>
+            <div class="gov-kpi-label">APMC Mandi Compliance Index</div>
+          </div>
+          <div class="gov-kpi-card kpi-gov-gold">
+            <div class="gov-kpi-icon">⚡</div>
+            <div class="gov-kpi-value">2 Volatility Alerts</div>
+            <div class="gov-kpi-label">Active Price Spike Warnings</div>
           </div>
         </div>
 
