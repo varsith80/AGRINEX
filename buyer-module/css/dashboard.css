@@ -93,7 +93,7 @@
   justify-content: space-between;
   padding: 9px 12px;
   border-radius: 10px;
-  color: rgba(255, 255, 255, 0.88);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 0.83rem;
   font-weight: 600;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -103,22 +103,47 @@
   overflow: hidden;
 }
 
+.nav-item span {
+  color: rgba(255, 255, 255, 0.9);
+  transition: color 0.15s ease;
+}
+
 .nav-item:hover {
   background: rgba(255, 255, 255, 0.14);
   color: #ffffff;
   transform: translateX(2px);
 }
 
+.nav-item:hover span {
+  color: #ffffff;
+}
+
 .nav-item.active {
-  background: #ffffff;
-  color: #064e3b;
+  background: #ffffff !important;
+  color: #064e3b !important;
   font-weight: 800;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   border-left: 4px solid #34d399;
 }
 
+.nav-item.active span,
+.nav-item.active .nav-item-left,
+.nav-item.active .nav-item-left span {
+  color: #064e3b !important;
+  font-weight: 800 !important;
+}
+
 .nav-item.active .nav-icon {
-  stroke: #064e3b;
+  stroke: #064e3b !important;
+}
+
+.nav-item.active:hover {
+  background: #ffffff !important;
+  color: #064e3b !important;
+}
+
+.nav-item.active:hover span {
+  color: #064e3b !important;
 }
 
 .nav-item-left {
