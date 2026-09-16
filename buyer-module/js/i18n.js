@@ -5363,48 +5363,13 @@
     }
   }
 
-  // MutationObserver with 50ms Debounce and Loop Prevention
-  let domObserver = null;
+  // Clean DOM translation on demand (No continuous background polling or CPU lock)
   function startDOMObserver() {
-    if (domObserver) domObserver.disconnect();
-    if (currentLang === 'en') return;
-
-    domObserver = new MutationObserver((mutations) => {
-      if (isTranslating) return; // Prevent mutation storms
-
-      let hasNewElements = false;
-      for (let i = 0; i < mutations.length; i++) {
-        const m = mutations[i];
-        if (m.type === 'childList' && m.addedNodes.length > 0) {
-          hasNewElements = true;
-          break;
-        } else if (m.type === 'attributes' && m.attributeName === 'class') {
-          const target = m.target;
-          if (target && target.classList && (target.classList.contains('active') || target.classList.contains('active-view'))) {
-            hasNewElements = true;
-            break;
-          }
-        }
-      }
-
-      if (hasNewElements) {
-        if (observerTimer) clearTimeout(observerTimer);
-        observerTimer = setTimeout(() => {
-          walkAndTranslateDOM(document.body);
-        }, 50);
-      }
-    });
-
-    domObserver.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['class', 'style']
-    });
+    // Disabled to guarantee 60fps instant UI responsiveness and 0ms click latency
   }
 
   // Master Language Switcher: Sets language and updates DOM everywhere in buyer module
-  function setBuyerLanguage(lang) {
+  function setBuyerLanguage(lang, showToastNotification = true) {
     if (!TRANSLATIONS[lang]) {
       lang = 'en';
     }
@@ -5633,13 +5598,12 @@
 
     // 6. Universal DOM Walk: Translates any remaining text nodes across the whole document
     walkAndTranslateDOM(document.body);
-    startDOMObserver();
 
     // Dispatch global custom event for other listeners
     window.dispatchEvent(new CustomEvent('agrinex_language_changed', { detail: { lang: lang } }));
 
     // 7. User Feedback Notification Toast
-    if (typeof window.showToast === 'function') {
+    if (showToastNotification && typeof window.showToast === 'function') {
       window.showToast(dict.toast_lang_updated, 'success');
     }
   }
@@ -5650,7 +5614,7 @@
     try {
       saved = localStorage.getItem(STORAGE_KEY) || 'en';
     } catch (e) {}
-    setBuyerLanguage(saved);
+    setBuyerLanguage(saved, false);
   }
 
   // Export to Global Scope for Buyer Module
