@@ -2662,7 +2662,7 @@
       ["trained", "प्रशिक्षित"],
       ["Appears", "दिसते"],
       ["appears", "दिसते"],
-      ["English", "इंग्रजी"],
+      ["English", "English"],
       ["Marathi", "मराठी"],
       ["ACCOUNT", "खाते"],
       ["AUCTION", "लिलाव बोली"],
@@ -4209,7 +4209,7 @@
       ["trained", "प्रशिक्षित"],
       ["Appears", "दिखता है"],
       ["appears", "प्रतीत होता है"],
-      ["English", "अंग्रेज़ी"],
+      ["English", "English"],
       ["Marathi", "मराठी"],
       ["ACCOUNT", "खाता"],
       ["AUCTION", "नीलामी"],
@@ -5192,7 +5192,7 @@
       });
     }
 
-    // 2. Ignore scripts, styles, code blocks
+    // 2. Ignore scripts, styles, code blocks, and language dropdown menu
     const ignoreTags = new Set(['SCRIPT', 'STYLE', 'CODE', 'PRE', 'NOSCRIPT', 'TEXTAREA', 'INPUT']);
 
     const walker = document.createTreeWalker(
@@ -5203,6 +5203,9 @@
           if (!node || !node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
           const parent = node.parentElement;
           if (!parent || ignoreTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+          if (parent.closest && (parent.closest('#language-dropdown-menu') || parent.closest('.lang-selector-widget'))) {
+            return NodeFilter.FILTER_REJECT;
+          }
           return NodeFilter.FILTER_ACCEPT;
         }
       },
