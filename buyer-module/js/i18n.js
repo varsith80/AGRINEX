@@ -232,6 +232,14 @@
     'Baingan': { hi: 'बैंगन', mr: 'वांगी' },
     'Eggplant': { hi: 'बैंगन', mr: 'वांगे' },
 
+    // Chilli (Green & Red)
+    'Green Chilli (G4 High-Pungency Fresh)': { hi: 'हरी मिर्च (जी-4 तीखी ताजी)', mr: 'हिरवी मिरची (G4 तिखट ताजी)' },
+    'Chilli (Nandurbar Dry Red Chilli)': { hi: 'मिर्च (नंदुरबार सूखी लाल मिर्च)', mr: 'मिरची (नंदुरबार सुकी लाल मिरची)' },
+    'Green Chilli': { hi: 'हरी मिर्च', mr: 'हिरवी मिरची' },
+    'Red Chilli': { hi: 'लाल मिर्च', mr: 'लाल मिरची' },
+    'Dry Red Chilli': { hi: 'सूखी लाल मिर्च', mr: 'सुकी लाल मिरची' },
+    'Chilli': { hi: 'मिर्च', mr: 'मिरची' },
+
     // Vegetables & Others
     'Fresh Green Ginger': { hi: 'ताजा अदरक', mr: 'ताजे आले' },
     'Ginger': { hi: 'अदरक', mr: 'आले' },
