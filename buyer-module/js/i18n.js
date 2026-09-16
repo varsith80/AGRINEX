@@ -224,9 +224,12 @@
     'Potato': { hi: 'आलू', mr: 'बटाटा' },
 
     // Brinjal / Eggplant
+    'Brinjal (Manchar Purple Long / Baingan)': { hi: 'बैंगन (मंचर लंबा बैंगनी / बैंगन)', mr: 'वांगे (मंचर जांभळे लांब / वांगी)' },
     'Purple Brinjal (Baingan / Eggplant)': { hi: 'बैंगन (गोल/लंबा)', mr: 'जांभळे वांगे (वांगी)' },
+    'Manchar Purple Long': { hi: 'मंचर लंबा बैंगनी', mr: 'मंचर जांभळे लांब' },
     'Purple Brinjal': { hi: 'बैंगन', mr: 'जांभळे वांगे' },
     'Brinjal': { hi: 'बैंगन', mr: 'वांगे' },
+    'Baingan': { hi: 'बैंगन', mr: 'वांगी' },
     'Eggplant': { hi: 'बैंगन', mr: 'वांगे' },
 
     // Vegetables & Others
