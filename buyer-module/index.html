@@ -557,8 +557,8 @@
           </div>
         </section>
 
-        <!-- Main 2-Column Summary Grid -->
-        <div class="main-grid">
+        <!-- Main Summary Grid -->
+        <div class="main-grid" style="grid-template-columns: 1fr;">
           
           <div class="left-column">
             <!-- Table Preview -->
@@ -593,76 +593,6 @@
                 </table>
               </div>
             </div>
-          </div>
-
-          <div class="right-column">
-            <!-- Active Consignment Escrow -->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
-                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
-                  </svg>
-                  <span>Active Consignment</span>
-                </h3>
-                <span class="badge badge-status-transit">In Transit</span>
-              </div>
-
-              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
-                <strong style="font-size: 0.92rem; color: #0f172a; display: block; margin-bottom: 4px;">Red Onion (Garwa Export) • 80 Qt</strong>
-                <div style="font-size: 0.76rem; color: #64748b; margin-bottom: 10px;">
-                  Farmer: <strong>Patil Rameshwar</strong> • Tracking: <strong style="color: #0284c7;">TRK-EXP-9921-MH</strong>
-                </div>
-
-                <div class="stepper-container">
-                  <div class="stepper-step">
-                    <div class="stepper-dot active">✓</div>
-                    <span class="stepper-label">Contract</span>
-                  </div>
-                  <div class="stepper-step">
-                    <div class="stepper-dot active">✓</div>
-                    <span class="stepper-label">35% Locked</span>
-                  </div>
-                  <div class="stepper-step">
-                    <div class="stepper-dot active">🚚</div>
-                    <span class="stepper-label">Dispatched</span>
-                  </div>
-                  <div class="stepper-step">
-                    <div class="stepper-dot">4</div>
-                    <span class="stepper-label">Settled</span>
-                  </div>
-                </div>
-              </div>
-
-              <div style="display: flex; gap: 8px;">
-                <button class="btn btn-outline" style="flex: 1; font-size: 0.8rem; padding: 8px 10px;" onclick="switchView('view-consignments')">
-                  Track All &rarr;
-                </button>
-                <button class="btn btn-primary" style="flex: 1.5; font-size: 0.8rem; padding: 8px 10px; background: #0c5a36; border-color: #0c5a36; display: flex; align-items: center; justify-content: center; gap: 4px;" onclick="openBookTransportModal()">
-                  <span>🚚</span>
-                  <span>Book Fleet</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- AI Sourcing Advisory -->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
-                    <path d="M12 2v4"></path>
-                    <path d="m4.93 4.93 2.83 2.83"></path>
-                  </svg>
-                  <span>AI Procurement Advisor</span>
-                </h3>
-                <span class="badge badge-grade-a">ML Projection</span>
-              </div>
-              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px; font-size: 0.8rem; color: #166534;">
-                <strong>Nashik Onion & Junnar Tomato Peak:</strong> Heavy arrivals forecasted at Lasalgaon & Narayangaon mandis. Lock floor prices now via counter-bids.
-              </div>
-            </div>
-
-
           </div>
 
         </div>
