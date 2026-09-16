@@ -463,43 +463,8 @@
           </div>
         </section>
 
-        <!-- Emergency Salvage & Short Shelf-Life Procurement Feed -->
-        <section class="card" style="border: 1.5px solid #fca5a5; background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%);">
-          <div class="card-header">
-            <div>
-              <h3 class="card-title" style="color: #b91c1c;">
-                <span style="font-size: 1.25rem;">🚨</span>
-                Emergency Salvage Exchange (Breakeven Procurement)
-              </h3>
-              <p style="font-size: 0.8rem; color: #78350f; margin-top: 2px;">
-                Direct sourcing stream for <strong>Food Processors</strong>, <strong>Commercial Caterers</strong> & <strong>Bio-Compost Manufacturers</strong> to purchase low shelf-life harvests immediately.
-              </p>
-            </div>
-            <span class="badge badge-status-emergency">⚡ Instant Escrow Match</span>
-          </div>
-
-          <div class="listings-table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Emergency Crop Lot</th>
-                  <th>Farmer & Mandi</th>
-                  <th>Quantity</th>
-                  <th>Breakeven Buyout Price</th>
-                  <th>Target Salvage Use</th>
-                  <th>Shelf-Life Urgency</th>
-                  <th>Immediate Buy Action</th>
-                </tr>
-              </thead>
-              <tbody id="emergency-buyer-tbody">
-                <!-- Rendered dynamically by buyer/js/dashboard.js -->
-              </tbody>
-            </table>
-          </div>
-        </section>
-
         <!-- 4-Column Stat Cards -->
-        <section class="stats-grid">
+        <section class="stats-grid" style="margin-top: 20px;">
           <div class="stat-card" style="cursor: pointer;" onclick="switchView('view-bulk-demands')">
             <div class="stat-header">
               <span class="stat-title">Active Demands</span>
@@ -554,6 +519,41 @@
             </div>
             <div class="stat-value" style="color: #0c5a36;">₹ 46,200</div>
             <div class="stat-subtext">Saved vs traditional brokers &rarr;</div>
+          </div>
+        </section>
+
+        <!-- Emergency Salvage & Short Shelf-Life Procurement Feed -->
+        <section class="card" style="border: 1.5px solid #fca5a5; background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%);">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title" style="color: #b91c1c;">
+                <span style="font-size: 1.25rem;">🚨</span>
+                Emergency Salvage Exchange (Breakeven Procurement)
+              </h3>
+              <p style="font-size: 0.8rem; color: #78350f; margin-top: 2px;">
+                Direct sourcing stream for <strong>Food Processors</strong>, <strong>Commercial Caterers</strong> & <strong>Bio-Compost Manufacturers</strong> to purchase low shelf-life harvests immediately.
+              </p>
+            </div>
+            <span class="badge badge-status-emergency">⚡ Instant Escrow Match</span>
+          </div>
+
+          <div class="listings-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Emergency Crop Lot</th>
+                  <th>Farmer & Mandi</th>
+                  <th>Quantity</th>
+                  <th>Breakeven Buyout Price</th>
+                  <th>Target Salvage Use</th>
+                  <th>Shelf-Life Urgency</th>
+                  <th>Immediate Buy Action</th>
+                </tr>
+              </thead>
+              <tbody id="emergency-buyer-tbody">
+                <!-- Rendered dynamically by buyer/js/dashboard.js -->
+              </tbody>
+            </table>
           </div>
         </section>
 
