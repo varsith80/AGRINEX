@@ -272,7 +272,7 @@
         <!-- Navigation Links (Data-View Controlled) -->
         <ul class="sidebar-nav">
           <!-- 1. Marketplace Lots -->
-          <li class="nav-item active" data-view="view-verified-produce">
+          <li class="nav-item active" data-view="view-verified-produce" onclick="switchView('view-verified-produce')">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
@@ -284,7 +284,7 @@
           </li>
 
           <!-- 3. Market Insights -->
-          <li class="nav-item" data-view="view-insights">
+          <li class="nav-item" data-view="view-insights" onclick="switchView('view-insights')">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="20" x2="18" y2="10"></line>
@@ -296,7 +296,7 @@
           </li>
 
           <!-- 4. Bulk Demands -->
-          <li class="nav-item" data-view="view-bulk-demands">
+          <li class="nav-item" data-view="view-bulk-demands" onclick="switchView('view-bulk-demands')">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -310,7 +310,7 @@
           </li>
 
           <!-- 5. Orders & Shipments -->
-          <li class="nav-item" data-view="view-consignments">
+          <li class="nav-item" data-view="view-consignments" onclick="switchView('view-consignments')">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
@@ -324,7 +324,7 @@
           </li>
 
           <!-- 6. Cold Storage & Silos -->
-          <li class="nav-item" data-view="view-storage">
+          <li class="nav-item" data-view="view-storage" onclick="switchView('view-storage')">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -336,7 +336,7 @@
           </li>
 
           <!-- 7. Landed Cost Calc -->
-          <li class="nav-item" data-view="view-calculator">
+          <li class="nav-item" data-view="view-calculator" onclick="switchView('view-calculator')">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="16" height="20" x="4" y="2" rx="2"></rect>
@@ -355,7 +355,7 @@
           </li>
 
           <!-- 8. Messages -->
-          <li class="nav-item" data-view="view-messages">
+          <li class="nav-item" data-view="view-messages" onclick="switchView('view-messages')">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -366,7 +366,7 @@
           </li>
 
           <!-- 9 (was 6). Escrow Vault -->
-          <li class="nav-item" data-view="view-escrow-vault">
+          <li class="nav-item" data-view="view-escrow-vault" onclick="switchView('view-escrow-vault')">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
@@ -377,7 +377,7 @@
           </li>
 
           <!-- 10. Grievances / Claims -->
-          <li class="nav-item" data-view="view-grievance">
+          <li class="nav-item" data-view="view-grievance" onclick="switchView('view-grievance')">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>

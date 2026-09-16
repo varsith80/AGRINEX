@@ -768,12 +768,14 @@ function switchView(viewId) {
 function setupSidebarNav() {
   const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
   navItems.forEach((item) => {
-    item.addEventListener('click', () => {
-      const viewId = item.getAttribute('data-view');
-      if (viewId) {
-        switchView(viewId);
-      }
-    });
+    if (item && typeof item.addEventListener === 'function') {
+      item.addEventListener('click', () => {
+        const viewId = item.getAttribute('data-view');
+        if (viewId) {
+          switchView(viewId);
+        }
+      });
+    }
   });
 }
 
@@ -3143,8 +3145,7 @@ function renderGrievances(filterStatus = 'all') {
   }).join('');
 }
 
-// Form Handlers
-document.addEventListener('DOMContentLoaded', () => {
+function initBuyerDashboard() {
   try { renderBuyerEmergencyDesk(); } catch(e) { console.error('Emergency desk init error:', e); }
   try { loadPersistedBuyerState(); } catch(e) { console.error('Load persisted state error:', e); }
   try { updateBuyerMarketStats(); } catch(e) { console.error('Market stats error:', e); }
@@ -3158,6 +3159,7 @@ document.addEventListener('DOMContentLoaded', () => {
   try { initLocationSwitcher(); } catch(e) { console.error('Location switcher error:', e); }
   try { renderStorageFacilities(); } catch(e) { console.error('Storage facilities error:', e); }
   try { renderStorageBookings(); } catch(e) { console.error('Storage bookings error:', e); }
+
 
   // Global keyboard shortcuts (Esc to close any active modal, Ctrl+K to search)
   document.addEventListener('keydown', (e) => {
@@ -3456,7 +3458,13 @@ if (demandForm) {
       }, 50);
     }
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initBuyerDashboard);
+} else {
+  initBuyerDashboard();
+}
 
 function updateDemandPricePreview() {
   const priceInput = document.getElementById('demand-price');
