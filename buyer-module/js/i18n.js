@@ -5081,10 +5081,41 @@
     ]
   };
 
-  // Universal Text Translation Function
+  // Pre-compiled Single-Pass Fast Translation Engine
+  const WORD_MAP = { mr: {}, hi: {} };
+  const WORD_REGEX = {};
+  const TRANSLATION_CACHE = { mr: new Map(), hi: new Map() };
+
+  function escapeRegex(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // Pre-compile word dictionaries and master regexes once on module load
+  ['mr', 'hi'].forEach(lang => {
+    const list = WORD_REPLACEMENTS[lang] || [];
+    const keys = [];
+    for (let i = 0; i < list.length; i++) {
+      const [w, r] = list[i];
+      WORD_MAP[lang][w] = r;
+      keys.push(escapeRegex(w));
+    }
+    if (keys.length > 0) {
+      WORD_REGEX[lang] = new RegExp('\\b(' + keys.join('|') + ')\\b', 'g');
+    }
+  });
+
+  // Universal High-Performance Text Translation Function (O(1) Cached / Single-Pass)
   function tText(text) {
     if (!text || currentLang === 'en') return text;
-    let res = String(text);
+    const str = String(text);
+    if (!str || str.trim().length < 2) return text;
+
+    const cache = TRANSLATION_CACHE[currentLang];
+    if (cache && cache.has(str)) {
+      return cache.get(str);
+    }
+
+    let res = str;
 
     // Unescape HTML entities
     res = res.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ');
@@ -5104,13 +5135,16 @@
       res = res.replace(rules[i][0], rules[i][1]);
     }
 
-    // 5. Apply vocabulary word replacements (Tier 2: Length-sorted individual words)
-    const wordList = WORD_REPLACEMENTS[currentLang] || [];
-    for (let i = 0; i < wordList.length; i++) {
-      const w = wordList[i][0];
-      const repl = wordList[i][1];
-      const reg = new RegExp('\\b' + w + '\\b', 'g');
-      res = res.replace(reg, repl);
+    // 5. Apply vocabulary word replacements (Tier 2: Single-pass pre-compiled Regex)
+    const reg = WORD_REGEX[currentLang];
+    if (reg) {
+      const map = WORD_MAP[currentLang];
+      res = res.replace(reg, (match) => map[match] || match);
+    }
+
+    if (cache) {
+      if (cache.size > 5000) cache.clear();
+      cache.set(str, res);
     }
 
     return res;
@@ -5135,115 +5169,132 @@
     }
   });
 
+  let isTranslating = false;
+  let observerTimer = null;
+
   // Universal DOM Tree Walker: Scans any DOM subtree and applies language localization
   function walkAndTranslateDOM(root) {
     if (!root || currentLang === 'en') return;
 
-    // 1. Translate elements explicitly decorated with data-i18n
-    const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
-    if (root.querySelectorAll) {
-      root.querySelectorAll('[data-i18n]').forEach(el => {
-        const k = el.getAttribute('data-i18n');
-        if (k && dict[k]) {
-          el.textContent = dict[k];
-        }
-      });
-      root.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const k = el.getAttribute('data-i18n-placeholder');
-        if (k && dict[k]) {
-          el.placeholder = dict[k];
-        }
-      });
-      root.querySelectorAll('[data-i18n-title]').forEach(el => {
-        const k = el.getAttribute('data-i18n-title');
-        if (k && dict[k]) {
-          el.title = dict[k];
-        }
-      });
-      // Translate input / textarea placeholders
-      root.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
-        const ph = el.getAttribute('placeholder');
-        if (ph && !el.hasAttribute('data-i18n-placeholder')) {
-          const transPh = tText(ph);
-          if (transPh !== ph) {
-            el.placeholder = transPh;
+    isTranslating = true;
+    try {
+      // 1. Translate elements explicitly decorated with data-i18n
+      const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+      if (root.querySelectorAll) {
+        root.querySelectorAll('[data-i18n]').forEach(el => {
+          const k = el.getAttribute('data-i18n');
+          if (k && dict[k]) {
+            el.textContent = dict[k];
           }
-        }
-      });
-      // Translate title tooltips
-      root.querySelectorAll('[title]').forEach(el => {
-        const t = el.getAttribute('title');
-        if (t && !el.hasAttribute('data-i18n-title')) {
-          const transTitle = tText(t);
-          if (transTitle !== t) {
-            el.setAttribute('title', transTitle);
+        });
+        root.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+          const k = el.getAttribute('data-i18n-placeholder');
+          if (k && dict[k]) {
+            el.placeholder = dict[k];
           }
-        }
-      });
-      // Translate select options
-      root.querySelectorAll('select option').forEach(opt => {
-        const t = opt.textContent;
-        if (t && /[a-zA-Z]{2,}/.test(t)) {
-          const transOpt = tText(t);
-          if (transOpt !== t) {
-            opt.textContent = transOpt;
+        });
+        root.querySelectorAll('[data-i18n-title]').forEach(el => {
+          const k = el.getAttribute('data-i18n-title');
+          if (k && dict[k]) {
+            el.title = dict[k];
           }
-        }
-      });
-    }
+        });
+        // Translate input / textarea placeholders
+        root.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+          const ph = el.getAttribute('placeholder');
+          if (ph && !el.hasAttribute('data-i18n-placeholder')) {
+            const transPh = tText(ph);
+            if (transPh !== ph) {
+              el.placeholder = transPh;
+            }
+          }
+        });
+        // Translate title tooltips
+        root.querySelectorAll('[title]').forEach(el => {
+          const t = el.getAttribute('title');
+          if (t && !el.hasAttribute('data-i18n-title')) {
+            const transTitle = tText(t);
+            if (transTitle !== t) {
+              el.setAttribute('title', transTitle);
+            }
+          }
+        });
+        // Translate select options
+        root.querySelectorAll('select option').forEach(opt => {
+          const t = opt.textContent;
+          if (t && /[a-zA-Z]{2,}/.test(t)) {
+            const transOpt = tText(t);
+            if (transOpt !== t) {
+              opt.textContent = transOpt;
+            }
+          }
+        });
+      }
 
-    // 2. Ignore scripts, styles, code blocks, and language dropdown menu
-    const ignoreTags = new Set(['SCRIPT', 'STYLE', 'CODE', 'PRE', 'NOSCRIPT', 'TEXTAREA', 'INPUT']);
+      // 2. Ignore scripts, styles, code blocks, and language dropdown menu
+      const ignoreTags = new Set(['SCRIPT', 'STYLE', 'CODE', 'PRE', 'NOSCRIPT', 'TEXTAREA', 'INPUT']);
 
-    const walker = document.createTreeWalker(
-      root,
-      NodeFilter.SHOW_TEXT,
-      {
-        acceptNode: function (node) {
-          if (!node || !node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-          const parent = node.parentElement;
-          if (!parent || ignoreTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
-          if (parent.closest && (parent.closest('#language-dropdown-menu') || parent.closest('.lang-selector-widget'))) {
-            return NodeFilter.FILTER_REJECT;
+      const walker = document.createTreeWalker(
+        root,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: function (node) {
+            if (!node || !node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            const parent = node.parentElement;
+            if (!parent || ignoreTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+            if (parent.closest && (parent.closest('#language-dropdown-menu') || parent.closest('.lang-selector-widget'))) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            return NodeFilter.FILTER_ACCEPT;
           }
-          return NodeFilter.FILTER_ACCEPT;
-        }
-      },
-      false
-    );
+        },
+        false
+      );
 
-    let textNode;
-    while ((textNode = walker.nextNode())) {
-      const original = textNode.nodeValue;
-      if (original && original.trim().length > 1) {
-        const translated = tText(original);
-        if (translated !== original) {
-          textNode.nodeValue = translated;
+      let textNode;
+      while ((textNode = walker.nextNode())) {
+        const original = textNode.nodeValue;
+        if (original && original.trim().length > 1) {
+          const translated = tText(original);
+          if (translated !== original) {
+            textNode.nodeValue = translated;
+          }
         }
       }
+    } finally {
+      isTranslating = false;
     }
   }
 
-  // MutationObserver to auto-translate any dynamically injected nodes or modal overlays
+  // MutationObserver with 50ms Debounce and Loop Prevention
   let domObserver = null;
   function startDOMObserver() {
     if (domObserver) domObserver.disconnect();
     if (currentLang === 'en') return;
 
     domObserver = new MutationObserver((mutations) => {
-      for (const m of mutations) {
-        if (m.type === 'childList') {
-          m.addedNodes.forEach(node => {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-              walkAndTranslateDOM(node);
-            }
-          });
+      if (isTranslating) return; // Prevent mutation storms
+
+      let hasNewElements = false;
+      for (let i = 0; i < mutations.length; i++) {
+        const m = mutations[i];
+        if (m.type === 'childList' && m.addedNodes.length > 0) {
+          hasNewElements = true;
+          break;
         } else if (m.type === 'attributes' && m.attributeName === 'class') {
           const target = m.target;
           if (target && target.classList && (target.classList.contains('active') || target.classList.contains('active-view'))) {
-            walkAndTranslateDOM(target);
+            hasNewElements = true;
+            break;
           }
         }
+      }
+
+      if (hasNewElements) {
+        if (observerTimer) clearTimeout(observerTimer);
+        observerTimer = setTimeout(() => {
+          walkAndTranslateDOM(document.body);
+        }, 50);
       }
     });
 
