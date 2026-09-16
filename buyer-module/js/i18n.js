@@ -3565,15 +3565,15 @@
       ["as", "प्रमाणे"],
       ["If", "जर"],
       ["if", "जर"],
-      ["AI", "कृत्रिम बुद्धिमत्ता (AI)"],
+      ["AI", "एआय"],
       ["BB", "बीबी"],
       ["BY", "द्वारे"],
-      ["EV", "इलेक्ट्रिक वाहन (EV)"],
-      ["PM", "दुपारी/रात्री"],
+      ["EV", "ईव्ही"],
+      ["PM", "दुपारी"],
       ["AM", "सकाळी"],
-      ["PO", "खरेदी आदेश (PO)"],
-      ["QA", "गुणवत्ता तपासणी (QA)"],
-      ["QC", "गुणवत्ता नियंत्रण (QC)"],
+      ["PO", "खरेदी आदेश"],
+      ["QA", "गुणवत्ता तपासणी"],
+      ["QC", "गुणवत्ता नियंत्रण"],
       ["QR", "क्युआर कोड"],
       ["Re", "पुन्हा"],
       ["Up", "वाढ वर"],
@@ -5121,9 +5121,9 @@
       ["EV", "ईवी"],
       ["PM", "अपराह्न"],
       ["AM", "पूर्वाह्न"],
-      ["PO", "खरीद आदेश (PO)"],
-      ["QA", "गुणवत्ता जांच (QA)"],
-      ["QC", "गुणवत्ता नियंत्रण (QC)"],
+      ["PO", "खरीद आदेश"],
+      ["QA", "गुणवत्ता जांच"],
+      ["QC", "गुणवत्ता नियंत्रण"],
       ["QR", "क्यूआर कोड"],
       ["Re", "पुनः"],
       ["Up", "ऊपर"],
@@ -5229,9 +5229,12 @@
   let isTranslating = false;
   let observerTimer = null;
 
+  const nodeOriginalMap = new WeakMap();
+  const attrOriginalMap = new WeakMap();
+
   // Universal DOM Tree Walker: Scans any DOM subtree and applies language localization
   function walkAndTranslateDOM(root) {
-    if (!root || currentLang === 'en') return;
+    if (!root) return;
 
     isTranslating = true;
     try {
@@ -5258,31 +5261,55 @@
         });
         // Translate input / textarea placeholders
         root.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
-          const ph = el.getAttribute('placeholder');
-          if (ph && !el.hasAttribute('data-i18n-placeholder')) {
-            const transPh = tText(ph);
-            if (transPh !== ph) {
-              el.placeholder = transPh;
+          let origPh = attrOriginalMap.get(el);
+          if (origPh === undefined) {
+            origPh = el.getAttribute('placeholder') || '';
+            attrOriginalMap.set(el, origPh);
+          }
+          if (origPh && !el.hasAttribute('data-i18n-placeholder')) {
+            if (currentLang === 'en') {
+              el.placeholder = origPh;
+            } else {
+              const transPh = tText(origPh);
+              if (el.placeholder !== transPh) {
+                el.placeholder = transPh;
+              }
             }
           }
         });
         // Translate title tooltips
         root.querySelectorAll('[title]').forEach(el => {
-          const t = el.getAttribute('title');
-          if (t && !el.hasAttribute('data-i18n-title')) {
-            const transTitle = tText(t);
-            if (transTitle !== t) {
-              el.setAttribute('title', transTitle);
+          let origTitle = attrOriginalMap.get(el);
+          if (origTitle === undefined) {
+            origTitle = el.getAttribute('title') || '';
+            attrOriginalMap.set(el, origTitle);
+          }
+          if (origTitle && !el.hasAttribute('data-i18n-title')) {
+            if (currentLang === 'en') {
+              el.setAttribute('title', origTitle);
+            } else {
+              const transTitle = tText(origTitle);
+              if (el.getAttribute('title') !== transTitle) {
+                el.setAttribute('title', transTitle);
+              }
             }
           }
         });
         // Translate select options
         root.querySelectorAll('select option').forEach(opt => {
-          const t = opt.textContent;
-          if (t && /[a-zA-Z]{2,}/.test(t)) {
-            const transOpt = tText(t);
-            if (transOpt !== t) {
-              opt.textContent = transOpt;
+          let origOpt = attrOriginalMap.get(opt);
+          if (origOpt === undefined) {
+            origOpt = opt.textContent || '';
+            attrOriginalMap.set(opt, origOpt);
+          }
+          if (origOpt && /[a-zA-Z]{2,}/.test(origOpt)) {
+            if (currentLang === 'en') {
+              opt.textContent = origOpt;
+            } else {
+              const transOpt = tText(origOpt);
+              if (opt.textContent !== transOpt) {
+                opt.textContent = transOpt;
+              }
             }
           }
         });
@@ -5310,11 +5337,24 @@
 
       let textNode;
       while ((textNode = walker.nextNode())) {
-        const original = textNode.nodeValue;
-        if (original && original.trim().length > 1) {
-          const translated = tText(original);
-          if (translated !== original) {
-            textNode.nodeValue = translated;
+        let baseEnglishText = nodeOriginalMap.get(textNode);
+        if (baseEnglishText === undefined) {
+          baseEnglishText = textNode.nodeValue || '';
+          if (baseEnglishText.trim().length > 1) {
+            nodeOriginalMap.set(textNode, baseEnglishText);
+          }
+        }
+
+        if (baseEnglishText && baseEnglishText.trim().length > 1) {
+          if (currentLang === 'en') {
+            if (textNode.nodeValue !== baseEnglishText) {
+              textNode.nodeValue = baseEnglishText;
+            }
+          } else {
+            const translated = tText(baseEnglishText);
+            if (textNode.nodeValue !== translated) {
+              textNode.nodeValue = translated;
+            }
           }
         }
       }
