@@ -62,8 +62,8 @@
       "grade": "Grade A",
       "gradeBadgeClass": "badge-grade-a",
       "image": "assets/images/tomato.jpg?v=2",
-      "status": "Negotiation",
-      "statusBadgeClass": "badge-status-negotiation",
+      "status": "Sold (Under Escrow)",
+      "statusBadgeClass": "badge-status-dispatched",
       "created_at": "2026-09-15T06:07:59.679Z"
     },
     {
@@ -899,7 +899,7 @@
       "total_value": 83460,
       "advance_35": 29211,
       "balance_65": 54249,
-      "status": "Pending",
+      "status": "Accepted",
       "time_ago": "10 mins ago",
       "image": "assets/images/tomato.jpg?v=2"
     },
@@ -1114,6 +1114,20 @@
   ],
   "escrow_contracts": [
     {
+      "contract_no": "ESC-2026-9436",
+      "bank_ref": "HDFC-ESC-269587",
+      "crop": "Tomato",
+      "variety": "Shivam / Abhinav Hybrid (60 Qt / 6000 kg)",
+      "buyer": "Reliance Fresh Supply Chain",
+      "total_amount": 83460,
+      "advance_amount": 29211,
+      "advance_status": "Disbursed (UTR: HDFC8736854)",
+      "balance_amount": 54249,
+      "balance_status": "Locked in Nodal Escrow (Transit)",
+      "overall_status": "Advance Disbursed, Balance Locked",
+      "date": "Just now"
+    },
+    {
       "contract_no": "ESC-2026-0891",
       "bank_ref": "HDFC-ESC-908123",
       "crop": "Red Onion",
@@ -1213,6 +1227,28 @@
     }
   ],
   "shipments": [
+    {
+      "tracking_id": "TRK-9341",
+      "gate_pass": "GP-2026-4939",
+      "contract_no": "ESC-2026-9436",
+      "crop": "Tomato",
+      "variety": "Shivam / Abhinav Hybrid",
+      "quantity_qt": 60,
+      "quantity_kg": 6000,
+      "buyer": "Reliance Fresh Supply Chain",
+      "destination": "Reliance Fresh Supply Chain Central DC",
+      "driver": "Dinesh Yadav",
+      "phone": "+91 97230 44819",
+      "vehicle": "MH-12-AQ-9011 (Tata 407)",
+      "status": "transit",
+      "step": 3,
+      "current_loc": "Farm Pickup Completed • Entering Highway KM 12",
+      "speed": "48 km/h",
+      "eta": "Tomorrow, 9:00 AM",
+      "total_value": 83460,
+      "advance_paid": 29211,
+      "image": "assets/images/tomato.jpg?v=2"
+    },
     {
       "tracking_id": "TRK-MH-9884",
       "gate_pass": "GP-2026-9884",
@@ -1467,6 +1503,131 @@
       "created_at": "2026-09-14T10:11:05.945Z"
     }
   ],
+  "admin_governance": {
+    "stats": {
+      "verifiedFarmers": "14,280",
+      "enterpriseBuyers": "850",
+      "totalEscrowLocked": "₹ 18,45,00,000",
+      "disputeRate": "0.14%",
+      "disputeSLA": "<2h"
+    },
+    "warehouses": [
+      {
+        "id": "MSWC-PUNE-01",
+        "name": "MSWC Regional Logistics & Cold Hub",
+        "location": "Narayangaon APMC, Pune",
+        "totalCapacity": 15000,
+        "occupiedCapacity": 11850,
+        "occupiedPct": 79,
+        "primaryCrops": "Tomato, Exotic Greens, Potato",
+        "tempRange": "2°C - 8°C (Optimal)",
+        "status": "Active (79% Occupied)",
+        "humidity": "85% HR",
+        "manager": "R. V. Deshmukh"
+      },
+      {
+        "id": "MSWC-NSK-02",
+        "name": "Nashik Mega Cold Chain & Sorting Terminal",
+        "location": "Pimpalgaon Baswant, Nashik",
+        "totalCapacity": 25000,
+        "occupiedCapacity": 21500,
+        "occupiedPct": 86,
+        "primaryCrops": "Onion Garwa, Export Grapes",
+        "tempRange": "-1°C - 4°C (Pre-Cooling)",
+        "status": "High Occupancy Alert (86%)",
+        "humidity": "90% HR",
+        "manager": "K. S. Patil"
+      },
+      {
+        "id": "MSWC-LTR-03",
+        "name": "Marathwada Nodal Grain & Oilseed Silo Complex",
+        "location": "Latur APMC Mega Yard",
+        "totalCapacity": 40000,
+        "occupiedCapacity": 24000,
+        "occupiedPct": 60,
+        "primaryCrops": "Yellow Soybean, Chana, Red Tur",
+        "tempRange": "Ambient Dry Silo (18°C)",
+        "status": "Optimal (60% Occupied)",
+        "humidity": "45% HR",
+        "manager": "A. B. Gaikwad"
+      },
+      {
+        "id": "MSWC-NGP-04",
+        "name": "Vidarbha APMC Citrus & Cotton Cold Terminal",
+        "location": "Nagpur Kalmeshwar Yard",
+        "totalCapacity": 18000,
+        "occupiedCapacity": 13140,
+        "occupiedPct": 73,
+        "primaryCrops": "Nagpur Orange, Cotton Bales",
+        "tempRange": "4°C - 10°C",
+        "status": "Active (73% Occupied)",
+        "humidity": "80% HR",
+        "manager": "M. N. Joshi"
+      }
+    ],
+    "coldChainTelemetry": {
+      "ESC-MH-2026-905": {
+        "reeferId": "MH-15-HH-9021",
+        "driverName": "Mahesh Kale (+91 98220 11200)",
+        "origin": "Pimpalgaon Pre-Cooling Center, Nashik",
+        "destination": "Bhiwandi Cold Hub, Thane",
+        "routeWaypoints": [
+          {
+            "location": "Pimpalgaon APMC Yard",
+            "timestamp": "14-Sep 09:30 PM",
+            "temp": 2.5,
+            "status": "Pre-Cooled (OK)"
+          },
+          {
+            "location": "Kasara Ghat Pass Checkpoint",
+            "timestamp": "15-Sep 02:15 AM",
+            "temp": 3.2,
+            "status": "In Transit (OK)"
+          },
+          {
+            "location": "Bhiwandi Cold Storage Receiving",
+            "timestamp": "15-Sep 05:45 AM",
+            "temp": 4.2,
+            "status": "Door Tier Temp Rise (4.2°C)"
+          }
+        ],
+        "currentTemp": 4.2,
+        "targetTemp": 2.5,
+        "humidity": "88% HR",
+        "status": "Minor Door Tier Variance (4.2°C)"
+      },
+      "DISP-MH-8812": {
+        "reeferId": "MH-14-GH-8812",
+        "driverName": "Sandeep Patil (+91 98440 33112)",
+        "origin": "Lasalgaon Farm Gate, Nashik",
+        "destination": "Vashi DC, Navi Mumbai",
+        "routeWaypoints": [
+          {
+            "location": "Lasalgaon Farm Gate Loading",
+            "timestamp": "15-Sep 06:30 AM",
+            "temp": 18,
+            "status": "Crated & Loaded"
+          },
+          {
+            "location": "Igatpuri Toll Plaza (NH-160)",
+            "timestamp": "15-Sep 10:45 AM",
+            "temp": 22.5,
+            "status": "Ventilated Transit"
+          },
+          {
+            "location": "Vashi Dock Dock #04 Intake",
+            "timestamp": "15-Sep 02:15 PM",
+            "temp": 26,
+            "status": "Casara Bumpy Transit Squish (12%)"
+          }
+        ],
+        "currentTemp": 26,
+        "targetTemp": 20,
+        "humidity": "72% HR",
+        "status": "Ventilated Produce Transit"
+      }
+    }
+  },
   "logistics_dispatch_orders": [
     {
       "id": 1,
@@ -1692,21 +1853,23 @@
       "escrowAmount": 16200,
       "escrow_status": "Locked in Smart Escrow",
       "escrowStatus": "Locked in Smart Escrow",
-      "delivery_status": "Available",
-      "deliveryStatus": "Available",
-      "statusBadgeClass": "badge-status-open",
+      "delivery_status": "In Transit",
+      "deliveryStatus": "In Transit",
+      "statusBadgeClass": "badge-status-transit",
       "temperatureC": "Reefer 5.2°C",
       "humidityPct": "85%",
-      "driver_name": null,
-      "driverName": null,
-      "driver_phone": null,
-      "driverPhone": null,
-      "vehicle_no": null,
-      "vehicleNo": null,
+      "driver_name": "Dinesh Yadav",
+      "driverName": "Dinesh Yadav",
+      "driver_phone": "+91 97230 44819",
+      "driverPhone": "+91 97230 44819",
+      "vehicle_no": "MH-15-AQ-9011 (Tata 407 Reefer 5°C)",
+      "vehicleNo": "MH-15-AQ-9011 (Tata 407 Reefer 5°C)",
       "delivery_pin": "7730",
       "delivery_window": "10:00 AM – 03:00 PM",
       "deliveryWindow": "10:00 AM – 03:00 PM",
-      "deliveryDate": "Today, 15 Sept"
+      "deliveryDate": "Today, 15 Sept",
+      "driver_username": "driver_dinesh",
+      "accepted_at": "2026-09-16T05:30:25.729Z"
     },
     {
       "id": 4,

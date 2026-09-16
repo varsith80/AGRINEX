@@ -1,6 +1,8 @@
+require('dotenv').config();
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const dbService = require('./backend/db');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.resolve(__dirname);
@@ -567,11 +569,13 @@ const server = http.createServer(async (req, res) => {
   // ================= API ROUTES =================
   if (urlPath.startsWith('/api/')) {
     db = loadDB();
-    // 1. Health
+    // 1. Health & Database Status
     if (urlPath === '/api/health') {
       return sendJSON(res, 200, {
         status: 'online',
-        app: 'AgriNex Unified Farmer API Backend',
+        app: 'AgriNex Unified Agricultural Platform API',
+        database: dbService.isPostgres() ? 'PostgreSQL (Connected & Active)' : 'Local Persistent Storage (PostgreSQL Ready)',
+        postgres_connected: dbService.isPostgres(),
         node_version: process.version,
         time: new Date().toISOString()
       });
@@ -1422,7 +1426,8 @@ const server = http.createServer(async (req, res) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
   console.log(`AgriNex Platform & REST API server running at http://localhost:${PORT}/`);
   console.log(`REST API Available at http://localhost:${PORT}/api/`);
+  await dbService.initDatabase();
 });
