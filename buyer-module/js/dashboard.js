@@ -2502,10 +2502,12 @@ function renderBuyerConsignments() {
     const isDelivered = s.status === 'delivered';
     const isScheduled = s.status === 'scheduled';
 
+    const tr = (txt) => (window.tText ? window.tText(txt) : txt);
     const statusBadgeBg = isTransit ? '#eff6ff' : (isDelivered ? '#ecfdf5' : '#fefce8');
     const statusBadgeColor = isTransit ? '#1d4ed8' : (isDelivered ? '#047857' : '#a16207');
     const statusBadgeBorder = isTransit ? '#bfdbfe' : (isDelivered ? '#a7f3d0' : '#fef08a');
-    const statusLabel = isTransit ? 'On The Road' : (isDelivered ? 'Delivered & QC Passed' : 'Pickup Scheduled');
+    const rawStatusLabel = isTransit ? 'On The Road' : (isDelivered ? 'Delivered & QC Passed' : 'Pickup Scheduled');
+    const statusLabel = tr(rawStatusLabel);
 
     return `
       <div class="shipment-order-box">
@@ -2513,7 +2515,7 @@ function renderBuyerConsignments() {
           <div style="display: flex; align-items: center; gap: 8px;">
             <strong style="font-size: 1.05rem; color: #0f172a; font-family: monospace;">#${s.tracking_id}</strong>
             <span style="color: #cbd5e1;">|</span>
-            <span style="font-size: 0.82rem; color: #0c5a36; font-weight: 800; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 6px;">📑 Gate Pass: ${s.gate_pass}</span>
+            <span style="font-size: 0.82rem; color: #0c5a36; font-weight: 800; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 6px;">📑 ${tr('Gate Pass')}: ${s.gate_pass}</span>
           </div>
           <span style="background: ${statusBadgeBg}; color: ${statusBadgeColor}; border: 1px solid ${statusBadgeBorder}; padding: 4px 12px; border-radius: 999px; font-size: 0.76rem; font-weight: 800;">
             ● ${statusLabel}
@@ -2524,32 +2526,32 @@ function renderBuyerConsignments() {
         <div class="step-track" style="margin: 16px 0 22px;">
           <div>
             <div class="step-dot done">✓</div>
-            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">1. Confirmed</div>
+            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">${tr('1. Confirmed')}</div>
           </div>
           <div>
             <div class="step-dot ${s.step >= 2 ? 'done' : ''}">${s.step >= 2 ? '✓' : '2'}</div>
-            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">2. 35% Advance Paid</div>
+            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">${tr('2. 35% Advance Paid')}</div>
           </div>
           <div>
             <div class="step-dot ${s.step >= 3 ? (s.step === 3 ? 'active' : 'done') : ''}">${s.step > 3 ? '✓' : '3'}</div>
-            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">3. In Truck / Transit</div>
+            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">${tr('3. In Truck / Transit')}</div>
           </div>
           <div>
             <div class="step-dot ${s.step >= 4 ? 'done' : ''}">${s.step === 4 ? '✓' : '4'}</div>
-            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">4. Delivered & Released</div>
+            <div style="font-size: 0.74rem; font-weight: 800; color: #0f172a;">${tr('4. Delivered & Released')}</div>
           </div>
         </div>
 
         <!-- 3-Column Info Strip -->
         <div class="shipment-info-box">
           <div>
-            <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">PRODUCE & FARMER</div>
+            <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">${tr('Produce & Farmer')}</div>
             <div style="font-weight: 900; font-size: 1rem; color: #0f172a; margin: 2px 0;">${window.tCrop ? window.tCrop(s.crop) : s.crop}</div>
             <div style="color: #0c5a36; font-weight: 800; font-size: 0.88rem;">${s.quantity_qt} Qt (${qtyKg.toLocaleString('en-IN')} kg)</div>
             <div style="color: #475569; font-size: 0.78rem; font-weight: 600; margin-top: 2px;">📍 ${window.tPerson ? window.tPerson(s.farmer) : s.farmer} (${window.tLocation ? window.tLocation(s.farmer_origin) : s.farmer_origin})</div>
           </div>
           <div>
-            <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">DRIVER & FLEET TELEMETRY</div>
+            <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">${tr('Driver & Fleet Telemetry')}</div>
             <div style="font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 6px; margin: 2px 0;">
               <span>👨‍✈️ ${window.tPerson ? window.tPerson(s.driver) : s.driver}</span>
               <span style="font-size: 0.68rem; background: #e0f2fe; color: #0369a1; padding: 1px 6px; border-radius: 4px; font-weight: 800;">${s.transporter ? s.transporter.split(' ')[0] : 'Transit'}</span>
@@ -2561,7 +2563,7 @@ function renderBuyerConsignments() {
             </div>
           </div>
           <div>
-            <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">DELIVERY DESTINATION & ETA</div>
+            <div style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;">${tr('Delivery Destination & ETA')}</div>
             <div style="color: #0f172a; font-weight: 800; margin: 2px 0;">🏢 ${window.tLocation ? window.tLocation(s.destination) : s.destination}</div>
             <div style="color: #0284c7; font-weight: 800; font-size: 0.82rem;">📍 ${window.tLocation ? window.tLocation(s.loc) : s.loc}</div>
             <div style="color: #d97706; font-weight: 800; font-size: 0.82rem; margin-top: 2px;">⏱️ ETA: ${s.eta}</div>
@@ -2571,20 +2573,20 @@ function renderBuyerConsignments() {
         <!-- Actions & Escrow Footer -->
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
           <div style="font-size: 0.84rem; color: #475569;">
-            Total Value: <strong style="color: #0f172a; font-weight: 800;">₹ ${s.total_val.toLocaleString('en-IN')}</strong> • <span style="color: #166534; font-weight: 800; background: #f0fdf4; padding: 2px 8px; border-radius: 6px; border: 1px solid #bbf7d0;">🔒 35% Advance ₹ ${s.adv_paid.toLocaleString('en-IN')} locked in escrow</span>
+            ${tr('Total Value')}: <strong style="color: #0f172a; font-weight: 800;">₹ ${s.total_val.toLocaleString('en-IN')}</strong> • <span style="color: #166534; font-weight: 800; background: #f0fdf4; padding: 2px 8px; border-radius: 6px; border: 1px solid #bbf7d0;">🔒 ${tr('35% Advance')} ₹ ${s.adv_paid.toLocaleString('en-IN')} ${tr('locked in escrow')}</span>
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <button class="btn btn-outline btn-sm" onclick="openDriverFleetModal('${s.tracking_id}')" style="display: flex; align-items: center; gap: 4px; font-weight: 700; color: #334155; border-color: #cbd5e1;">
-              <span>🚚</span> Driver & Vehicle
+              <span>🚚</span> ${tr('Driver & Vehicle')}
             </button>
-            <button class="btn btn-outline btn-sm" onclick="openLorryReceiptModal('${s.tracking_id}')" style="font-weight: 700; border-color: #cbd5e1; color: #334155;">📑 Gate Pass</button>
+            <button class="btn btn-outline btn-sm" onclick="openLorryReceiptModal('${s.tracking_id}')" style="font-weight: 700; border-color: #cbd5e1; color: #334155;">📑 ${tr('Gate Pass')}</button>
             ${isTransit ? `
-              <button class="btn btn-primary btn-sm" onclick="openGpsModal('${s.tracking_id}', '${s.vehicle}', '${s.driver}', '${s.loc}')" style="background: #0284c7; border-color: #0284c7; font-weight: 800;">📍 Track Location</button>
-              <button class="btn btn-outline btn-sm" onclick="openArrivalReleaseModal('${s.tracking_id}', '${s.crop}', ${s.balance_due}, '${s.farmer}', ${s.total_val}, ${s.adv_paid})" style="color: #0c5a36; border-color: #86efac; font-weight: 800; background: #f0fdf4;">✓ Confirm Arrival & QC Release</button>
+              <button class="btn btn-primary btn-sm" onclick="openGpsModal('${s.tracking_id}', '${s.vehicle}', '${s.driver}', '${s.loc}')" style="background: #0284c7; border-color: #0284c7; font-weight: 800;">📍 ${tr('Track Location')}</button>
+              <button class="btn btn-outline btn-sm" onclick="openArrivalReleaseModal('${s.tracking_id}', '${s.crop}', ${s.balance_due}, '${s.farmer}', ${s.total_val}, ${s.adv_paid})" style="color: #0c5a36; border-color: #86efac; font-weight: 800; background: #f0fdf4;">✓ ${tr('Confirm Arrival & QC Release')}</button>
             ` : isScheduled ? `
-              <a href="tel:${s.driver_phone}" class="btn btn-primary btn-sm" style="text-decoration: none; background: #0c5a36; border-color: #0c5a36; font-weight: 800;">📞 Call Driver</a>
+              <a href="tel:${s.driver_phone}" class="btn btn-primary btn-sm" style="text-decoration: none; background: #0c5a36; border-color: #0c5a36; font-weight: 800;">📞 ${tr('Call Driver')}</a>
             ` : `
-              <button class="btn btn-primary btn-sm" disabled style="background: #15803d; border-color: #15803d; opacity: 0.9; cursor: default; font-weight: 800;">✓ 100% Settled & Released</button>
+              <button class="btn btn-primary btn-sm" disabled style="background: #15803d; border-color: #15803d; opacity: 0.9; cursor: default; font-weight: 800;">✓ ${tr('100% Settled & Released')}</button>
             `}
           </div>
         </div>
@@ -2762,13 +2764,15 @@ function confirmReleaseEscrowAction() {
   if (cardId === 'escrow-card-2' || activeArrivalDisbursement.trackingId.includes('4412')) idx = '2';
   else if (cardId === 'escrow-card-3' || activeArrivalDisbursement.trackingId.includes('7730')) idx = '3';
 
+  const tr = (txt) => (window.tText ? window.tText(txt) : txt);
+
   // 1. Update status badge
   const statusBadge = document.getElementById(`escrow-status-badge-${idx}`) || document.getElementById('escrow-status-badge');
   if (statusBadge) {
     statusBadge.className = 'badge';
     statusBadge.style.background = '#15803d';
     statusBadge.style.color = '#ffffff';
-    statusBadge.textContent = '✓ 100% Settled & Released';
+    statusBadge.textContent = '✓ ' + tr('100% Settled & Released');
   }
 
   // 2. Update Stepper dot 4
@@ -2785,7 +2789,7 @@ function confirmReleaseEscrowAction() {
   const btnVault = document.getElementById(`btn-escrow-vault-release-${idx}`) || document.getElementById('btn-escrow-vault-release');
   if (btnVault) {
     btnVault.disabled = true;
-    btnVault.textContent = '✓ 100% Escrow Settled';
+    btnVault.textContent = '✓ ' + tr('100% Escrow Settled');
     btnVault.style.background = '#15803d';
     btnVault.style.borderColor = '#15803d';
     btnVault.style.color = '#ffffff';
@@ -2798,7 +2802,7 @@ function confirmReleaseEscrowAction() {
     const cardBtns = cardEl.querySelectorAll('button.btn-primary');
     cardBtns.forEach(b => {
       b.disabled = true;
-      b.textContent = '✓ 100% Escrow Settled';
+      b.textContent = '✓ ' + tr('100% Escrow Settled');
       b.style.background = '#15803d';
       b.style.borderColor = '#15803d';
       b.style.color = '#ffffff';
@@ -2808,7 +2812,7 @@ function confirmReleaseEscrowAction() {
   // 4. Update Consignment arrival button if present
   const btnArrival = document.getElementById('btn-arrival-release-1');
   if (btnArrival && (idx === '1' || activeArrivalDisbursement.trackingId.includes('9921'))) {
-    btnArrival.textContent = '✓ Delivered & Released';
+    btnArrival.textContent = '✓ ' + tr('Delivered & Released');
     btnArrival.disabled = true;
     btnArrival.style.background = '#15803d';
     btnArrival.style.borderColor = '#15803d';
