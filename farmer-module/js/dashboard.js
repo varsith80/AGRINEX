@@ -57,8 +57,8 @@ function renderFPOHub() {
             <span style="font-size: 0.72rem; color: #15803d; font-weight: 700; background: #e8f5ed; padding: 2px 8px; border-radius: 4px; border: 1px solid #bbf7d0;">
               ${d.buyerLogo} Enterprise Demand
             </span>
-            <h4 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-top: 6px;">${d.crop}</h4>
-            <div style="font-size: 0.76rem; color: #64748b;">Buyer: <strong>${d.buyerName}</strong></div>
+            <h4 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-top: 6px;">${window.tCrop ? window.tCrop(d.crop) : d.crop}</h4>
+            <div style="font-size: 0.76rem; color: #64748b;">Buyer: <strong>${window.tBuyer ? window.tBuyer(d.buyerName) : d.buyerName}</strong></div>
           </div>
           <div style="text-align: right;">
             <div style="font-size: 1.1rem; font-weight: 800; color: #15803d;">${d.targetPricePerQt}</div>
@@ -112,7 +112,7 @@ function openFPOContributeModal(demandId) {
 
       <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 18px;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.88rem;">
-          <span style="color: #166534; font-weight: 700;">Corporate Buyer: ${demand.buyerName}</span>
+          <span style="color: #166534; font-weight: 700;">Corporate Buyer: ${window.tBuyer ? window.tBuyer(demand.buyerName) : demand.buyerName}</span>
           <strong style="color: #15803d; font-size: 1.05rem;">Contract Price: ${demand.targetPricePerQt}</strong>
         </div>
         <p style="font-size: 0.8rem; color: #374151; line-height: 1.45; margin-bottom: 10px;">
@@ -264,6 +264,7 @@ function renderListings() {
     const dispCrop = window.tCrop ? window.tCrop(item.crop) : item.crop;
     const dispGrade = window.tGrade ? window.tGrade(item.grade) : item.grade;
     const dispStatus = window.tStatus ? window.tStatus(item.status) : item.status;
+    const dispBuyer = window.tBuyer ? window.tBuyer(item.buyerName) : item.buyerName;
 
     return `
       <tr style="${isEmergency && !isSold ? 'background-color: #fffaf0; border-left: 4px solid #dc2626;' : ''}">
@@ -292,7 +293,7 @@ function renderListings() {
         <td>
           <div class="crop-details">
             <span class="price-main" style="${isEmergency ? 'color: #dc2626; font-weight: 800;' : ''}">${item.bestBid}</span>
-            <span class="price-subtext">(${item.buyerName})</span>
+            <span class="price-subtext">(${dispBuyer})</span>
           </div>
         </td>
         <td>
@@ -474,7 +475,7 @@ function openLotDetail(lotId) {
         </div>
         <div style="display: flex; justify-content: space-between;">
           <span style="color: #64748b;">Interested Buyer / Mill:</span>
-          <strong style="color: #0f172a;">${lot.buyerName}</strong>
+          <strong style="color: #0f172a;">${window.tBuyer ? window.tBuyer(lot.buyerName) : lot.buyerName}</strong>
         </div>
       </div>
       <div style="display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap;">
@@ -625,7 +626,7 @@ function openEmergencyOffersModal(lotId) {
               <span style="font-size: 24px;">${o.icon}</span>
               <div>
                 <div style="display: flex; align-items: center; gap: 6px;">
-                  <strong style="color: #0f172a; font-size: 0.92rem;">${o.buyerName}</strong>
+                  <strong style="color: #0f172a; font-size: 0.92rem;">${window.tBuyer ? window.tBuyer(o.buyerName) : o.buyerName}</strong>
                   ${idx === 0 ? '<span class="badge badge-grade-a" style="font-size: 0.68rem; padding: 2px 6px;">Highest Breakeven</span>' : ''}
                 </div>
                 <div style="font-size: 0.76rem; color: #64748b; margin-top: 2px;">

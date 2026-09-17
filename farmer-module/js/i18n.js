@@ -41,7 +41,58 @@
     'Selvam': { hi: 'सेल्वम', mr: 'सेल्वम' }
   };
 
-  // 2. COMPLETE CROP & COMMODITY & VARIETY FULL PHRASES (Plurals and Singles)
+  
+  // 2. INSTITUTIONAL BUYERS & CORPORATE SOURCING
+  const BUYER_MAP = {
+    'BigBasket Direct Farm Sourcing': { hi: 'बिगबास्केट डायरेक्ट फार्म सोर्सिंग', mr: 'बिगबास्केट थेट शेतमाल खरेदी' },
+    'Reliance Fresh Supply Chain': { hi: 'रिलायंस फ्रेश सप्लाई चेन', mr: 'रिलायन्स फ्रेश सप्लाय चेन' },
+    'Adani Wilmar Agri Procurement': { hi: 'अदाणी विल्मर कृषि खरीद', mr: 'अदानी विल्मर कृषी खरेदी' },
+    'DMart Wholesale (Avenue Supermarts)': { hi: 'डीमार्ट थोक (एवेन्यू सुपरमार्ट्स)', mr: 'डीमार्ट घाऊक (एव्हेन्यू सुपरमार्ट्स)' },
+    'Kay Bee Exports International': { hi: 'के बी एक्सपोर्ट्स इंटरनेशनल', mr: 'के बी एक्सपोर्ट्स इंटरनॅशनल' },
+    'Mahagrapes Co-op Federation': { hi: 'महाग्रेप्स सहकारी महासंघ', mr: 'महाग्रेप्स सहकारी महासंघ' },
+    'LuLu Hypermarket Gulf Supply': { hi: 'लुलु हाइपरमार्केट गल्फ सप्लाई', mr: 'लुलु हायपरमार्केट गल्फ पुरवठा' },
+    'Everest Spices & Commodities': { hi: 'एवरेस्ट मसाले और कमोडिटीज', mr: 'एव्हरेस्ट मसाले व शेतमाल' },
+    'ITC Agri-Business Division': { hi: 'आईटीसी कृषि-व्यवसाय प्रभाग', mr: 'आयटीसी कृषी-व्यवसाय विभाग' },
+    'Raymond Textile Mills': { hi: 'रेमंड टेक्सटाइल मिल्स', mr: 'रेमंड टेक्सटाईल मिल्स' },
+    'Cargill Animal Nutrition & Starch': { hi: 'कारगिल पशु पोषण और स्टार्च', mr: 'कारगिल पशु पोषण व स्टार्च' },
+    'Marico Saffola Oil Processing': { hi: 'मैरिको सफोला तेल प्रसंस्करण', mr: 'मॅरिको सफोला तेल प्रक्रिया' },
+    'Virdhara International Spices & Seeds': { hi: 'वीरधारा इंटरनेशनल मसाले और बीज', mr: 'वीरधारा इंटरनॅशनल मसाले व बियाणे' },
+    'Everest Spices Procurement Corp': { hi: 'एवरेस्ट मसाले खरीद निगम', mr: 'एव्हरेस्ट मसाले खरेदी महामंडळ' },
+    'Mother Dairy Safal Fresh Processing': { hi: 'मदर डेयरी सफल फ्रेश प्रोसेसिंग', mr: 'मदर डेअरी सफल फ्रेश प्रक्रिया' },
+    'Sahyadri Food Processing & Purees': { hi: 'सह्याद्री फूड प्रोसेसिंग और प्यूरी', mr: 'सह्याद्री फूड प्रोसेसिंग व प्युरी' },
+    'Annapoorna Commercial Catering Network': { hi: 'अन्नपूर्णा कमर्शियल कैटरिंग नेटवर्क', mr: 'अन्नपूर्णा व्यावसायिक केटरिंग नेटवर्क' },
+    'MahaBio Organic Compost & Energy Corp': { hi: 'महाबायो ऑर्गेनिक कंपोस्ट और ऊर्जा निगम', mr: 'महाबायो सेंद्रिय खत व ऊर्जा महामंडळ' },
+    'BigBasket': { hi: 'बिगबास्केट', mr: 'बिगबास्केट' },
+    'Reliance Fresh': { hi: 'रिलायंस फ्रेश', mr: 'रिलायन्स फ्रेश' },
+    'Reliance': { hi: 'रिलायंस', mr: 'रिलायन्स' },
+    'Adani Wilmar': { hi: 'अदाणी विल्मर', mr: 'अदानी विल्मर' },
+    'DMart Wholesale': { hi: 'डीमार्ट थोक', mr: 'डीमार्ट घाऊक' },
+    'DMart': { hi: 'डीमार्ट', mr: 'डीमार्ट' },
+    'Mother Dairy': { hi: 'मदर डेयरी', mr: 'मदर डेअरी' },
+    'Mother Dairy Safal': { hi: 'मदर डेयरी सफल', mr: 'मदर डेअरी सफल' },
+    'Safal': { hi: 'सफल', mr: 'सफल' },
+    'LuLu Hypermarket': { hi: 'लुलु हाइपरमार्केट', mr: 'लुलु हायपरमार्केट' },
+    'Everest Spices': { hi: 'एवरेस्ट मसाले', mr: 'एव्हरेस्ट मसाले' },
+    'ITC Choupal Fresh': { hi: 'आईटीसी चौपाल फ्रेश', mr: 'आयटीसी चौपाल फ्रेश' },
+    'ITC Agri-Business': { hi: 'आईटीसी कृषि-व्यवसाय', mr: 'आयटीसी कृषी-व्यवसाय' },
+    'ITC': { hi: 'आईटीसी', mr: 'आयटीसी' },
+    'Mahagrapes': { hi: 'महाग्रेप्स', mr: 'महाग्रेप्स' },
+    'Marico Saffola': { hi: 'मैरिको सफोला', mr: 'मॅरिको सफोला' },
+    'Swiggy DC': { hi: 'स्विगी डीसी', mr: 'स्विगी डीसी' },
+    'Swiggy': { hi: 'स्विगी', mr: 'स्विगी' },
+    'Zomato Hyperpure': { hi: 'ज़ोमैटो हाइपरप्योर', mr: 'झोमॅटो हायपरप्युअर' },
+    'Zomato': { hi: 'ज़ोमैटो', mr: 'झोमॅटो' },
+    'Blinkit': { hi: 'ब्लिंकइट', mr: 'ब्लिंकइट' },
+    'Zepto': { hi: 'ज़ेप्टो', mr: 'झेप्टो' },
+    'Kissan & Nestle India Procurements': { hi: 'किसान और नेस्ले इंडिया खरीद', mr: 'किसान आणि नेस्ले इंडिया खरेदी' },
+    'Dubai Agro-Gulf Exporters Ltd.': { hi: 'दुबई एग्रो-गल्फ एक्सपोर्टर्स लिमिटेड', mr: 'दुबई अ‍ॅग्रो-गल्फ एक्सपोर्टर्स लि.' },
+    'Raymond Textile Mills Consortium': { hi: 'रेमंड टेक्सटाइल मिल्स कंसोर्टियम', mr: 'रेमंड टेक्सटाईल मिल्स कन्सोर्टियम' },
+    'Reliance Retail Hub': { hi: 'रिलायंस रिटेल हब', mr: 'रिलायन्स रिटेल हब' },
+    'Matching Buyers...': { hi: 'खरीदारों का मिलान हो रहा है...', mr: 'खरेदीदार शोधत आहे...' },
+    'Awaiting Bids': { hi: 'बोलियों की प्रतीक्षा है', mr: 'बोलीची प्रतीक्षा आहे' }
+  };
+
+  // 3. COMPLETE CROP & COMMODITY & VARIETY FULL PHRASES (Plurals and Singles)
   const CROP_MAP = {
     // Exact Full Titles
     'Red Onion (Nashik Garwa Quality)': { hi: 'लाल प्याज (नासिक गरवा क्वालिटी)', mr: 'लाल कांदा (नाशिक गरवा प्रत)' },
@@ -418,6 +469,31 @@
 
   // 8. UI PHRASE REPLACEMENTS (High Precision Ordering - Longest Strings First)
   const RAW_PHRASES = [
+    ['BEST BID (₹/KG & ₹/QT)', 'सर्वोत्तम बोली (₹/किलो और ₹/क्विंटल)', 'सर्वोत्तम बोली (₹/किलो आणि ₹/क्विंटल)'],
+    ['BEST BID', 'सर्वोत्तम बोली', 'सर्वोत्तम बोली'],
+    ['(₹/KG & ₹/QT)', '(₹/किलो और ₹/क्विंटल)', '(₹/किलो आणि ₹/क्विंटल)'],
+    ['(₹/kg & ₹/Qt)', '(₹/किलो और ₹/क्विंटल)', '(₹/किलो आणि ₹/क्विंटल)'],
+    ['BigBasket Direct Farm Sourcing', 'बिगबास्केट डायरेक्ट फार्म सोर्सिंग', 'बिगबास्केट थेट शेतमाल खरेदी'],
+    ['Reliance Fresh Supply Chain', 'रिलायंस फ्रेश सप्लाई चेन', 'रिलायन्स फ्रेश सप्लाय चेन'],
+    ['Adani Wilmar Agri Procurement', 'अदाणी विल्मर कृषि खरीद', 'अदानी विल्मर कृषी खरेदी'],
+    ['DMart Wholesale (Avenue Supermarts)', 'डीमार्ट थोक (एवेन्यू सुपरमार्ट्स)', 'डीमार्ट घाऊक (एव्हेन्यू सुपरमार्ट्स)'],
+    ['Kay Bee Exports International', 'के बी एक्सपोर्ट्स इंटरनेशनल', 'के बी एक्सपोर्ट्स इंटरनॅशनल'],
+    ['Mahagrapes Co-op Federation', 'महाग्रेप्स सहकारी महासंघ', 'महाग्रेप्स सहकारी महासंघ'],
+    ['LuLu Hypermarket Gulf Supply', 'लुलु हाइपरमार्केट गल्फ सप्लाई', 'लुलु हायपरमार्केट गल्फ पुरवठा'],
+    ['Everest Spices & Commodities', 'एवरेस्ट मसाले और कमोडिटीज', 'एव्हरेस्ट मसाले व शेतमाल'],
+    ['ITC Agri-Business Division', 'आईटीसी कृषि-व्यवसाय प्रभाग', 'आयटीसी कृषी-व्यवसाय विभाग'],
+    ['Raymond Textile Mills', 'रेमंड टेक्सटाइल मिल्स', 'रेमंड टेक्सटाईल मिल्स'],
+    ['Cargill Animal Nutrition & Starch', 'कारगिल पशु पोषण और स्टार्च', 'कारगिल पशु पोषण व स्टार्च'],
+    ['Marico Saffola Oil Processing', 'मैरिको सफोला तेल प्रसंस्करण', 'मॅरिको सफोला तेल प्रक्रिया'],
+    ['Virdhara International Spices & Seeds', 'वीरधारा इंटरनेशनल मसाले और बीज', 'वीरधारा इंटरनॅशनल मसाले व बियाणे'],
+    ['Everest Spices Procurement Corp', 'एवरेस्ट मसाले खरीद निगम', 'एव्हरेस्ट मसाले खरेदी महामंडळ'],
+    ['Mother Dairy Safal Fresh Processing', 'मदर डेयरी सफल फ्रेश प्रोसेसिंग', 'मदर डेअरी सफल फ्रेश प्रक्रिया'],
+    ['Crop', 'फसल', 'पीक'],
+    ['Grade', 'ग्रेड / गुणवत्ता', 'प्रत / दर्जा'],
+    ['Quantity', 'मात्रा', 'प्रमाण'],
+    ['Status', 'स्थिति', 'स्थिती'],
+    ['Actions', 'कार्रवाई', 'कृती'],
+
     // Long Sentences & Paragraphs
     ['Got perishable produce nearing shelf life (Tomatoes, Chillies)? Click 🚨 Emergency Sale on any lot to broadcast to verified food processing plants & institutional caterers for instant payout.', 'क्या आपके पास जल्दी खराब होने वाली फसलें (टमाटर, मिर्च) हैं? किसी भी लॉट पर 🚨 संकटकालीन त्वरित बिक्री पर क्लिक करें और तत्काल भुगतान के लिए खाद्य प्रसंस्करण व कैटरर्स को भेजें।', 'तुमच्याकडे नाशवंत शेतमाल (टोमॅटो, मिरची) शिल्लक आहे का? तात्काळ रकमेसाठी कोणत्याही लॉटवर 🚨 तातडीची संकट विक्री वर क्लिक करा व फूड प्रोसेसिंग प्लांट्सना पाठवा.'],
     ['Got perishable produce nearing shelf life (Tomatoes, Chillies)? Click', 'क्या आपके पास जल्दी खराब होने वाली फसलें (टमाटर, मिर्च) हैं? क्लिक करें', 'तुमच्याकडे नाशवंत शेतमाल (टोमॅटो, मिरची) शिल्लक आहे का? क्लिक करा'],
@@ -696,6 +772,24 @@
     return res;
   }
 
+  
+  function tBuyer(buyerName, lang) {
+    if (!buyerName || typeof buyerName !== 'string') return buyerName;
+    const l = lang || getFarmerLanguage();
+    if (l === 'en') return buyerName;
+
+    if (BUYER_MAP[buyerName] && BUYER_MAP[buyerName][l]) {
+      return BUYER_MAP[buyerName][l];
+    }
+    let res = buyerName;
+    for (const [k, v] of Object.entries(BUYER_MAP)) {
+      if (res.includes(k) && v[l]) {
+        res = res.replaceAll(k, v[l]);
+      }
+    }
+    return res;
+  }
+
   function tPerson(name, lang) {
     if (!name || typeof name !== 'string') return name;
     const l = lang || getFarmerLanguage();
@@ -842,6 +936,13 @@
         const row = PHRASE_MAP[i];
         if (translated.includes(row[0])) {
           translated = translated.replaceAll(row[0], row[colIdx]);
+        }
+      }
+
+      // STEP 1.5: Buyer map lookup
+      for (const [k, v] of Object.entries(BUYER_MAP)) {
+        if (translated.includes(k) && v[l]) {
+          translated = translated.replaceAll(k, v[l]);
         }
       }
 
@@ -1024,6 +1125,7 @@
   if (typeof window !== 'undefined') {
     window.AgriNexFarmerI18n = {
       tCrop,
+      tBuyer,
       tVariety,
       tCategory,
       tPerson,
@@ -1038,6 +1140,7 @@
     };
 
     window.tCrop = tCrop;
+  window.tBuyer = tBuyer;
     window.tVariety = tVariety;
     window.tCategory = tCategory;
     window.tPerson = tPerson;
