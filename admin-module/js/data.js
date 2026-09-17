@@ -17,10 +17,22 @@ const ADMIN_GOVERNANCE_DATA = {
   stats: {
     verifiedFarmers: "14,280",
     verifiedFarmersGrowth: "+12.4% this month",
+    pendingFarmers: 48,
     enterpriseBuyers: "850",
     enterpriseBuyersGrowth: "+8.1% licensed",
+    pendingBuyers: 23,
+    activeDeals: "1,420",
+    activeDealsVolume: "₹ 18.45 Cr",
     totalEscrowLocked: "₹ 18,45,00,000",
     escrowSubtext: "100% Dual-Key Protected",
+    activeDeliveries: "312",
+    deliveriesOnSchedule: "98.4%",
+    pendingActions: 14,
+    pendingBreakdown: {
+      escrow: 5,
+      disputes: 3,
+      kyc: 6
+    },
     dailyTradeVolume: "₹ 3,85,60,000",
     tradeVolumeSubtext: "Across 28 MH Commodities",
     disputeRate: "0.14%",
@@ -499,7 +511,493 @@ const ADMIN_GOVERNANCE_DATA = {
     requiredLabStatus: "PASSED",
     minBrixPct: 4.5,
     maxMoisturePct: 10.0
-  }
+  },
+
+  // Users Directory (Farmers, FPOs, Buyers)
+  users: [
+    {
+      id: "USR-FRM-01",
+      name: "Patil Rameshwar",
+      category: "Farmer",
+      phone: "+91 98221 44510",
+      location: "Lasalgaon, Nashik",
+      crops: "Tomato (Shivam), Red Onion",
+      kycDoc: "Satbara 7/12 Land Record #4412",
+      status: "Verified",
+      riskScore: "Low Risk (98/100)",
+      joinedDate: "12-Jan-2026",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-FPO-01",
+      name: "Sahyadri Farmers Producer Co. (SFPC)",
+      category: "FPO",
+      phone: "+91 98230 55120",
+      location: "Dindori, Nashik (1,250 Farmers)",
+      crops: "Grapes, Tomato, Pomegranate",
+      kycDoc: "SFAC Registration & APMC Mandi License #SFAC-MH-99",
+      status: "Verified",
+      riskScore: "Verified (100/100)",
+      joinedDate: "05-Nov-2025",
+      avatar: "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-FRM-02",
+      name: "Govind Marathe",
+      category: "Farmer",
+      phone: "+91 94230 11982",
+      location: "Latur Mega Yard, Marathwada",
+      crops: "Yellow Soybean, Chana",
+      kycDoc: "Satbara 7/12 Land Record #1088",
+      status: "Verified",
+      riskScore: "Low Risk (95/100)",
+      joinedDate: "18-Feb-2026",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-FRM-03",
+      name: "Ganesh Khot",
+      category: "Farmer",
+      phone: "+91 98229 33011",
+      location: "Tasgaon, Sangli",
+      crops: "Turmeric, Raisins",
+      kycDoc: "Satbara 7/12 Uploaded (Pending Land OCR)",
+      status: "Pending Verification",
+      riskScore: "Review Required",
+      joinedDate: "Yesterday",
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-FRM-04",
+      name: "Tukaram Jadhav",
+      category: "Farmer",
+      phone: "+91 97631 88450",
+      location: "Pandharpur, Solapur",
+      crops: "Bhagwa Pomegranate, Jowar",
+      kycDoc: "Aadhaar e-KYC Pending Biometric Match",
+      status: "Pending Verification",
+      riskScore: "Review Required",
+      joinedDate: "Today, 08:30 AM",
+      avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-FPO-02",
+      name: "Balaji Agri Farmer Producer Hub",
+      category: "FPO",
+      phone: "+91 94211 44890",
+      location: "Ahmednagar (420 Farmers)",
+      crops: "Maize, Bajra, Onion",
+      kycDoc: "Board Resolution & APMC Wholesale License",
+      status: "Pending Verification",
+      riskScore: "Review Required",
+      joinedDate: "Today, 09:15 AM",
+      avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-BYR-01",
+      name: "BigBasket Direct Farm Sourcing",
+      category: "Buyer",
+      phone: "+91 80 4455 6600",
+      location: "Vashi DC, Navi Mumbai",
+      businessType: "Corporate E-Commerce",
+      gstin: "27AABCB9812M1ZK",
+      kycDoc: "APMC State Wholesale License #MH-APMC-8821",
+      creditLimit: "₹ 75,00,000",
+      status: "Verified",
+      riskScore: "Verified (100/100)",
+      joinedDate: "10-Oct-2025",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-BYR-02",
+      name: "Adani Wilmar Agro Processing",
+      category: "Buyer",
+      phone: "+91 22 6620 9900",
+      location: "Latur Processing Unit",
+      businessType: "Industrial Food Processor",
+      gstin: "27AACCA5541L1Z2",
+      kycDoc: "Corporate ROC & Mandi Direct Purchase License",
+      creditLimit: "₹ 2,50,00,000",
+      status: "Verified",
+      riskScore: "Verified (100/100)",
+      joinedDate: "15-Aug-2025",
+      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-BYR-03",
+      name: "Kissan & Nestle India Procurements",
+      category: "Buyer",
+      phone: "+91 124 234 1288",
+      location: "Narayangaon Pulping Station",
+      businessType: "FMCG Processing Corp",
+      gstin: "27AAACK1234F1Z8",
+      kycDoc: "FSSAI Mega License & APMC Compliance Bond",
+      creditLimit: "₹ 1,20,00,000",
+      status: "Verified",
+      riskScore: "Verified (100/100)",
+      joinedDate: "01-Sep-2025",
+      avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-BYR-04",
+      name: "Sahyadri Fresh Agro Exports LLP",
+      category: "Buyer",
+      phone: "+91 98220 77123",
+      location: "Nashik Export Hub",
+      businessType: "Export Merchant",
+      gstin: "27AAACS8841F1ZL",
+      kycDoc: "APEDA Export Certification (Awaiting Mandi Guarantee)",
+      creditLimit: "₹ 40,00,000",
+      status: "Pending Verification",
+      riskScore: "Review Required",
+      joinedDate: "Today, 07:45 AM",
+      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-BYR-05",
+      name: "Mahamandi Retailers Pvt Ltd",
+      category: "Buyer",
+      phone: "+91 98231 99201",
+      location: "Pune Market Yard",
+      businessType: "Wholesale Supermarket",
+      gstin: "27AABCM3312R1ZZ",
+      kycDoc: "GSTIN Tax Clearance Certificate Pending",
+      creditLimit: "₹ 25,00,000",
+      status: "Pending Verification",
+      riskScore: "Review Required",
+      joinedDate: "Today, 08:10 AM",
+      avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=80&auto=format&fit=crop&q=80"
+    }
+  ],
+
+  // Active Deals (Current Transactions)
+  activeDealsList: [
+    {
+      id: "DEAL-MH-2026-401",
+      crop: "Red Onion (Nashik Garwa Quality)",
+      farmer: "Kishor Ahire",
+      buyer: "BigBasket Direct Farm Sourcing",
+      volume: "100 Qt (10,000 kg)",
+      totalValue: 180000,
+      escrowLocked: 180000,
+      escrowStage: "35% Advance Cleared, 65% Pending Delivery",
+      status: "In Transit",
+      date: "16-Sep-2026",
+      mandi: "Lasalgaon APMC"
+    },
+    {
+      id: "DEAL-MH-2026-402",
+      crop: "Yellow Soybean (JS 335)",
+      farmer: "Govind Marathe",
+      buyer: "Adani Wilmar Agro Processing",
+      volume: "200 Qt (20,000 kg)",
+      totalValue: 920000,
+      escrowLocked: 920000,
+      escrowStage: "100% Escrow Deposited",
+      status: "Weighbridge Verified",
+      date: "16-Sep-2026",
+      mandi: "Latur Mega Yard"
+    },
+    {
+      id: "DEAL-MH-2026-403",
+      crop: "Tomato (Shivam / Abhinav Hybrid)",
+      farmer: "Patil Rameshwar",
+      buyer: "Kissan & Nestle India",
+      volume: "50 Qt (5,000 kg)",
+      totalValue: 110000,
+      escrowLocked: 110000,
+      escrowStage: "Pending Dual-Key Release",
+      status: "Pickup Scheduled",
+      date: "17-Sep-2026",
+      mandi: "Narayangaon APMC"
+    },
+    {
+      id: "DEAL-MH-2026-404",
+      crop: "Nagpur Orange / Santra (GI)",
+      farmer: "Vidarbha Agro FPO",
+      buyer: "Reliance Retail Fresh Hub",
+      volume: "150 Qt (15,000 kg)",
+      totalValue: 667500,
+      escrowLocked: 667500,
+      escrowStage: "100% Escrow Deposited",
+      status: "Cold-Chain Transit",
+      date: "17-Sep-2026",
+      mandi: "Nagpur Terminal"
+    },
+    {
+      id: "DEAL-MH-2026-405",
+      crop: "Sangli Rajapuri Turmeric Finger",
+      farmer: "Sahyadri Farmers Co.",
+      buyer: "MDH & Everest Spices",
+      volume: "80 Qt (8,000 kg)",
+      totalValue: 1144000,
+      escrowLocked: 1144000,
+      escrowStage: "Lab Quality Tested (Curcumin 4.2%)",
+      status: "Dispatched",
+      date: "17-Sep-2026",
+      mandi: "Sangli Mandi"
+    }
+  ],
+
+  // Active Deliveries (Orders in Transport)
+  activeDeliveriesList: [
+    {
+      id: "DEL-MH-881",
+      vehicleNo: "MH-15-HH-9021",
+      vehicleType: "Reefer Cold-Chain (10T)",
+      driver: "Mahesh Kale (+91 98220 11200)",
+      cargo: "Nashik Thompson Export Grapes (80 Qt)",
+      origin: "Pimpalgaon Pre-Cooling Center",
+      destination: "Bhiwandi Cold Hub, Thane",
+      tempStatus: "3.2°C (Optimal)",
+      eta: "Today, 11:30 AM",
+      progressPct: 75,
+      gpsStatus: "En-Route Kasara Ghat"
+    },
+    {
+      id: "DEL-MH-882",
+      vehicleNo: "MH-14-GH-8812",
+      vehicleType: "Ventilated Heavy Truck (16T)",
+      driver: "Sandeep Patil (+91 98440 33112)",
+      cargo: "Tomato Shivam Hybrid (50 Qt)",
+      origin: "Narayangaon APMC Yard",
+      destination: "Vashi DC, Navi Mumbai",
+      tempStatus: "21.5°C (Ventilated)",
+      eta: "Today, 01:15 PM",
+      progressPct: 45,
+      gpsStatus: "Passing Igatpuri"
+    },
+    {
+      id: "DEL-MH-883",
+      vehicleNo: "MH-24-AA-4410",
+      vehicleType: "Tarpaulin Covered Multi-Axle (25T)",
+      driver: "Dinesh Shinde (+91 94220 88123)",
+      cargo: "Yellow Soybean Seed JS-335 (200 Qt)",
+      origin: "Latur Mega Yard",
+      destination: "Baramati Crushing Plant",
+      tempStatus: "Ambient Dry Silo Grade",
+      eta: "Today, 04:00 PM",
+      progressPct: 30,
+      gpsStatus: "NH-548B In-Transit"
+    },
+    {
+      id: "DEL-MH-884",
+      vehicleNo: "MH-31-CB-1288",
+      vehicleType: "Insulated Reefer Truck (12T)",
+      driver: "Anil Wankhede (+91 97640 12099)",
+      cargo: "Nagpur Orange GI Sweet Grade (120 Qt)",
+      origin: "Kalmeshwar APMC Yard",
+      destination: "Pune Market Yard DC",
+      tempStatus: "6.5°C (Controlled)",
+      eta: "Tomorrow, 06:00 AM",
+      progressPct: 20,
+      gpsStatus: "Samruddhi Expressway"
+    }
+  ],
+
+  // Emergency Sell (Distress Produce Rapid Clearance)
+  emergencySellList: [
+    {
+      id: "EMG-LOT-101",
+      crop: "Tomato (Abhinav Red Hybrid)",
+      volume: "80 Qt (8,000 kg)",
+      mandi: "Narayangaon Mandi Yard",
+      farmer: "Rameshwar Patil",
+      originalPrice: "₹ 22.00 / kg",
+      distressPrice: "₹ 14.00 / kg",
+      discountPct: "-36%",
+      shelfLifeLeft: "18 Hours (Perishable)",
+      reason: "Heavy sudden rainfall harvest; rapid clearance required",
+      status: "Broadcast Active",
+      allocatedColdStorage: "MSWC Narayangaon Hub"
+    },
+    {
+      id: "EMG-LOT-102",
+      crop: "Grand Naine Banana (Export)",
+      volume: "120 Qt (12,000 kg)",
+      mandi: "Raver APMC, Jalgaon",
+      farmer: "Khandesh Banana Growers FPO",
+      originalPrice: "₹ 17.50 / kg",
+      distressPrice: "₹ 12.00 / kg",
+      discountPct: "-31%",
+      shelfLifeLeft: "28 Hours (Ripening Fast)",
+      reason: "Export container cancellation; seeking domestic processors",
+      status: "Broadcast Active",
+      allocatedColdStorage: "MSWC Bhusawal Unit"
+    },
+    {
+      id: "EMG-LOT-103",
+      crop: "Thompson Seedless Grapes",
+      volume: "60 Qt (6,000 kg)",
+      mandi: "Pimpalgaon Baswant, Nashik",
+      farmer: "Sanjay Shinde",
+      originalPrice: "₹ 80.00 / kg",
+      distressPrice: "₹ 52.00 / kg",
+      discountPct: "-35%",
+      shelfLifeLeft: "36 Hours",
+      reason: "Pre-cooling chamber maintenance; seeking rapid bulk dispatch",
+      status: "Matching Processors",
+      allocatedColdStorage: "Nashik Mega Cold Chain"
+    }
+  ],
+
+  // Items Requiring Admin Attention (14 Priority Items)
+  pendingActionsList: [
+    {
+      id: "ACT-01",
+      category: "Escrow Release",
+      badgeClass: "badge-gov-pending",
+      title: "Dual-Key Advance Clearance: ESC-MH-2026-901",
+      entity: "Patil Rameshwar ➔ Kissan & Nestle (Tomato 50 Qt)",
+      amount: "₹ 38,500",
+      urgency: "Immediate (Pickup Ready)",
+      targetAction: "approve-escrow",
+      targetId: "ESC-MH-2026-901"
+    },
+    {
+      id: "ACT-02",
+      category: "Escrow Release",
+      badgeClass: "badge-gov-pending",
+      title: "Dual-Key Advance Clearance: ESC-MH-2026-903",
+      entity: "Govind Marathe ➔ Adani Wilmar (Soybean 200 Qt)",
+      amount: "₹ 3,22,000",
+      urgency: "High Priority",
+      targetAction: "approve-escrow",
+      targetId: "ESC-MH-2026-903"
+    },
+    {
+      id: "ACT-03",
+      category: "Escrow Release",
+      badgeClass: "badge-gov-pending",
+      title: "Dual-Key Advance Clearance: ESC-MH-2026-906",
+      entity: "Vikas Patil ➔ MDH Spices (Chilli 40 Qt)",
+      amount: "₹ 2,52,000",
+      urgency: "Normal",
+      targetAction: "approve-escrow",
+      targetId: "ESC-MH-2026-906"
+    },
+    {
+      id: "ACT-04",
+      category: "Tribunal Dispute",
+      badgeClass: "badge-gov-hold",
+      title: "Hearing & Binding Award: DISP-MH-8812",
+      entity: "Patil Rameshwar vs FreshVeg Corp (Tomato Transit Squish)",
+      amount: "Disputed: ₹ 44,000",
+      urgency: "Scheduled 03:00 PM Today",
+      targetAction: "resolve-dispute",
+      targetId: "DISP-MH-8812"
+    },
+    {
+      id: "ACT-05",
+      category: "Tribunal Dispute",
+      badgeClass: "badge-gov-hold",
+      title: "Tare Deduction Challenge: DISP-MH-8815",
+      entity: "Govind Marathe vs Marathwada Solvents (Moisture Tare)",
+      amount: "Disputed: ₹ 23,000",
+      urgency: "Lab Assay Passed",
+      targetAction: "resolve-dispute",
+      targetId: "DISP-MH-8815"
+    },
+    {
+      id: "ACT-06",
+      category: "Tribunal Dispute",
+      badgeClass: "badge-gov-hold",
+      title: "Brix Sugar Variance: DISP-MH-8819",
+      entity: "Sunil Shinde vs Nature's Basket (Export Grapes)",
+      amount: "Disputed: ₹ 64,000",
+      urgency: "Scheduled 05:15 PM Today",
+      targetAction: "resolve-dispute",
+      targetId: "DISP-MH-8819"
+    },
+    {
+      id: "ACT-07",
+      category: "User KYC",
+      badgeClass: "badge-gov-pending",
+      title: "Farmer Land Record Approval: Ganesh Khot",
+      entity: "Satbara 7/12 Tasgaon, Sangli (#4412)",
+      amount: "Crop: Turmeric",
+      urgency: "Awaiting Admin Sign",
+      targetAction: "approve-user",
+      targetId: "USR-FRM-03"
+    },
+    {
+      id: "ACT-08",
+      category: "User KYC",
+      badgeClass: "badge-gov-pending",
+      title: "Farmer Aadhaar Verification: Tukaram Jadhav",
+      entity: "Pandharpur, Solapur Land Holding 4.5 Ha",
+      amount: "Crop: Pomegranate",
+      urgency: "Biometric Uploaded",
+      targetAction: "approve-user",
+      targetId: "USR-FRM-04"
+    },
+    {
+      id: "ACT-09",
+      category: "User KYC",
+      badgeClass: "badge-gov-pending",
+      title: "FPO Registration Clearance: Balaji Agri Hub",
+      entity: "Ahmednagar FPO (420 Farmers, Board Res. Signed)",
+      amount: "Maize, Bajra",
+      urgency: "Mandatory SFAC Check",
+      targetAction: "approve-user",
+      targetId: "USR-FPO-02"
+    },
+    {
+      id: "ACT-10",
+      category: "Buyer KYC",
+      badgeClass: "badge-gov-pending",
+      title: "Buyer Trade License: Sahyadri Fresh Agro Exports",
+      entity: "APEDA Export License & Mandi Guarantee Bond",
+      amount: "Credit Limit: ₹ 40L",
+      urgency: "Pending License Seal",
+      targetAction: "approve-user",
+      targetId: "USR-BYR-04"
+    },
+    {
+      id: "ACT-11",
+      category: "Buyer KYC",
+      badgeClass: "badge-gov-pending",
+      title: "Buyer Corporate Clearance: Mahamandi Retailers",
+      entity: "GSTIN Verification & APMC License #MH-PUN-99",
+      amount: "Credit Limit: ₹ 25L",
+      urgency: "Tax Clearance Verified",
+      targetAction: "approve-user",
+      targetId: "USR-BYR-05"
+    },
+    {
+      id: "ACT-12",
+      category: "Emergency Clearance",
+      badgeClass: "badge-gov-hold",
+      title: "Perishable Distress Sale: Tomato Lot EMG-LOT-101",
+      entity: "80 Qt Narayangaon Tomato (18h Shelf Life)",
+      amount: "Floor: ₹ 14/kg (-36%)",
+      urgency: "Flash Liquidation Required",
+      targetAction: "broadcast-emergency",
+      targetId: "EMG-LOT-101"
+    },
+    {
+      id: "ACT-13",
+      category: "Emergency Clearance",
+      badgeClass: "badge-gov-hold",
+      title: "Cold-Chain Reefer Allocation: EMG-LOT-103",
+      entity: "60 Qt Export Grapes (Pimpalgaon Baswant)",
+      amount: "₹ 52/kg (-35%)",
+      urgency: "Chamber Switchover Alert",
+      targetAction: "broadcast-emergency",
+      targetId: "EMG-LOT-103"
+    },
+    {
+      id: "ACT-14",
+      category: "Price Oversight",
+      badgeClass: "badge-gov-pending",
+      title: "Sunflower Oilseed MSP Deficit Check",
+      entity: "Beed APMC Mandi Modal ₹ 58/kg (MSP: ₹ 72.80)",
+      amount: "MSP Deficit Trigger",
+      urgency: "Price Support Trigger",
+      targetAction: "market-check",
+      targetId: "CROP-SUN"
+    }
+  ]
 };
 
 class AgriNexAdminGovernance {
@@ -715,6 +1213,120 @@ class AgriNexAdminGovernance {
     const awardText = `⚡ FAST-TRACK AUTO-ARBITRATION ENFORCED: 100% Payout (₹${splitData.farmerPayout.toLocaleString('en-IN')}) awarded to Farmer ${item.farmer} based on Certified ${item.labAssay.labName} (${item.labAssay.certNo}).`;
 
     return this.resolveGrievanceWithSplit(ticketId, splitData, awardText);
+  }
+
+  static getUsers() {
+    try {
+      if (typeof localStorage !== "undefined") {
+        const stored = localStorage.getItem("agrinex_admin_users");
+        if (stored) return JSON.parse(stored);
+      }
+    } catch(e) {}
+    return ADMIN_GOVERNANCE_DATA.users;
+  }
+
+  static saveUsers(users) {
+    try {
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("agrinex_admin_users", JSON.stringify(users));
+      }
+    } catch(e) {}
+  }
+
+  static approveUser(userId) {
+    const users = this.getUsers();
+    const u = users.find(x => x.id === userId);
+    if (!u) return { success: false, message: "User not found" };
+
+    u.status = "Verified";
+    u.riskScore = "Verified (100/100)";
+    this.saveUsers(users);
+
+    this.addAuditLog(`KYC Verification Approved`, `${u.name} (${u.id})`, u.category, "Dr. R. K. Shinde (IAS)");
+    return { success: true, message: `Successfully verified and approved ${u.name}!` };
+  }
+
+  static getActiveDeals() {
+    return ADMIN_GOVERNANCE_DATA.activeDealsList;
+  }
+
+  static getActiveDeliveries() {
+    return ADMIN_GOVERNANCE_DATA.activeDeliveriesList;
+  }
+
+  static getEmergencySellLots() {
+    try {
+      if (typeof localStorage !== "undefined") {
+        const stored = localStorage.getItem("agrinex_admin_emergency_sell");
+        if (stored) return JSON.parse(stored);
+      }
+    } catch(e) {}
+    return ADMIN_GOVERNANCE_DATA.emergencySellList;
+  }
+
+  static saveEmergencySellLots(lots) {
+    try {
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("agrinex_admin_emergency_sell", JSON.stringify(lots));
+      }
+    } catch(e) {}
+  }
+
+  static broadcastEmergencyLot(lotId) {
+    const lots = this.getEmergencySellLots();
+    const item = lots.find(l => l.id === lotId);
+    if (!item) return { success: false, message: "Emergency lot not found" };
+
+    item.status = "Broadcast Dispatched to 850 Buyers";
+    this.saveEmergencySellLots(lots);
+
+    this.addAuditLog(`Emergency Flash Auction Broadcasted`, item.id, item.distressPrice, "Marketplace Admin");
+    return { success: true, message: `Emergency sale broadcast sent for ${item.crop} (${item.volume}) at ${item.distressPrice}!` };
+  }
+
+  static getPendingActions() {
+    try {
+      if (typeof localStorage !== "undefined") {
+        const stored = localStorage.getItem("agrinex_admin_pending_actions");
+        if (stored) return JSON.parse(stored);
+      }
+    } catch(e) {}
+    return ADMIN_GOVERNANCE_DATA.pendingActionsList;
+  }
+
+  static savePendingActions(actions) {
+    try {
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("agrinex_admin_pending_actions", JSON.stringify(actions));
+      }
+    } catch(e) {}
+  }
+
+  static resolvePendingAction(actionId) {
+    const actions = this.getPendingActions();
+    const item = actions.find(a => a.id === actionId);
+    if (!item) return { success: false, message: "Action not found" };
+
+    // Execute corresponding underlying action
+    if (item.targetAction === "approve-escrow") {
+      this.approveEscrow(item.targetId);
+    } else if (item.targetAction === "resolve-dispute") {
+      this.evaluateFastTrackAutoArbitration(item.targetId);
+    } else if (item.targetAction === "approve-user") {
+      this.approveUser(item.targetId);
+    } else if (item.targetAction === "broadcast-emergency") {
+      this.broadcastEmergencyLot(item.targetId);
+    }
+
+    const filtered = actions.filter(a => a.id !== actionId);
+    this.savePendingActions(filtered);
+
+    // Decrement pendingActions count
+    if (ADMIN_GOVERNANCE_DATA.stats.pendingActions > 0) {
+      ADMIN_GOVERNANCE_DATA.stats.pendingActions--;
+    }
+
+    return { success: true, message: `Action resolved: ${item.title}` };
   }
 }
 
