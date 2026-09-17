@@ -992,13 +992,14 @@ const server = http.createServer(async (req, res) => {
 
     // 8. Mandi Forecasts Live Bridge
     if (urlPath === '/api/mandi/forecasts') {
+      const analyticsFile = path.join(__dirname, 'farmer-module', 'data', 'mandi_live_analytics.json');
       try {
-        if (fs.existsSync(FORECAST_FILE)) {
-          const forecastData = JSON.parse(fs.readFileSync(FORECAST_FILE, 'utf8'));
+        if (fs.existsSync(analyticsFile)) {
+          const forecastData = JSON.parse(fs.readFileSync(analyticsFile, 'utf8'));
           return sendJSON(res, 200, forecastData);
         }
       } catch (e) {}
-      return sendJSON(res, 200, { status: "cached", timestamp: new Date().toISOString() });
+      return sendJSON(res, 200, { commodities: [] });
     }
 
     // 9. Profit Calculator Estimate API
@@ -1660,11 +1661,14 @@ const server = http.createServer(async (req, res) => {
         }
       }
 
-      // Save analytics file to both farmer-module and ai_ml_engine & DB
+      // Save analytics file to farmer-module, ai_ml_engine, processed forecast file & DB
       try {
         fs.writeFileSync(analyticsFile, JSON.stringify(analyticsData, null, 2), 'utf-8');
         if (fs.existsSync(path.dirname(engineFile))) {
           fs.writeFileSync(engineFile, JSON.stringify(analyticsData, null, 2), 'utf-8');
+        }
+        if (fs.existsSync(path.dirname(FORECAST_FILE))) {
+          fs.writeFileSync(FORECAST_FILE, JSON.stringify(analyticsData, null, 2), 'utf-8');
         }
       } catch (e) {}
       saveDB(db);
@@ -1675,17 +1679,6 @@ const server = http.createServer(async (req, res) => {
         updated_at: dateStr,
         data: analyticsData
       });
-    }
-
-    if (urlPath === '/api/mandi/forecasts') {
-      const analyticsFile = path.join(__dirname, 'farmer-module', 'data', 'mandi_live_analytics.json');
-      try {
-        if (fs.existsSync(analyticsFile)) {
-          const analyticsData = JSON.parse(fs.readFileSync(analyticsFile, 'utf-8'));
-          return sendJSON(res, 200, analyticsData);
-        }
-      } catch (e) {}
-      return sendJSON(res, 200, { commodities: [] });
     }
 
     // 11. Admin & Governance REST APIs
