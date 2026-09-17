@@ -261,6 +261,9 @@ function renderListings() {
     const isEmergency = Boolean(item.isEmergencySale);
     const isSold = Boolean(item.status && item.status.includes("Sold"));
     const isPerishable = Boolean(item.shelfLife && item.shelfLife.toLowerCase().includes("perishable"));
+    const dispCrop = window.tCrop ? window.tCrop(item.crop) : item.crop;
+    const dispGrade = window.tGrade ? window.tGrade(item.grade) : item.grade;
+    const dispStatus = window.tStatus ? window.tStatus(item.status) : item.status;
 
     return `
       <tr style="${isEmergency && !isSold ? 'background-color: #fffaf0; border-left: 4px solid #dc2626;' : ''}">
@@ -268,9 +271,9 @@ function renderListings() {
           <div class="crop-cell">
             <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
             <div>
-              <div class="crop-name">${item.crop}</div>
+              <div class="crop-name">${dispCrop}</div>
               ${isEmergency && !isSold ? `
-                <span class="badge badge-status-emergency" style="font-size: 0.68rem; padding: 2px 6px; margin-top: 2px;">⚡ Emergency Salvage Active</span>
+                <span class="badge badge-status-emergency" style="font-size: 0.68rem; padding: 2px 6px; margin-top: 2px;">⚡ ${window.tText ? window.tText('Emergency Salvage Active') : 'Emergency Salvage Active'}</span>
               ` : (isPerishable && !isSold ? `
                 <span style="font-size: 0.68rem; color: #dc2626; font-weight: 700;">⏳ ${item.shelfLife}</span>
               ` : '')}
@@ -278,7 +281,7 @@ function renderListings() {
           </div>
         </td>
         <td>
-          <span class="badge ${item.gradeBadgeClass}">${item.grade}</span>
+          <span class="badge ${item.gradeBadgeClass}">${dispGrade}</span>
         </td>
         <td>
           <strong style="color: #0f172a; font-weight: 700;">${item.quantity}</strong>
@@ -293,19 +296,19 @@ function renderListings() {
           </div>
         </td>
         <td>
-          <span class="badge ${item.statusBadgeClass}">${item.status}</span>
+          <span class="badge ${item.statusBadgeClass}">${dispStatus}</span>
         </td>
         <td>
           <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-            <button class="btn btn-outline btn-view-lot" style="padding: 5px 10px; font-size: 0.78rem;" onclick="openLotDetail('${item.id}')">View</button>
+            <button class="btn btn-outline btn-view-lot" style="padding: 5px 10px; font-size: 0.78rem;" onclick="openLotDetail('${item.id}')">${window.tText ? window.tText('View') : 'View'}</button>
             ${!isSold && !isEmergency ? `
               <button class="btn-emergency-action" onclick="openEmergencyModal('${item.id}')" title="No buyers? Activate instant breakeven sale with food processors, composters & caterers">
-                <span>🚨</span> Emergency Sale
+                <span>🚨</span> ${window.tText ? window.tText('Emergency Sale') : 'Emergency Sale'}
               </button>
             ` : ''}
             ${isEmergency && !isSold ? `
               <button class="btn-emergency-action" style="background: #0c5a36;" onclick="openEmergencyOffersModal('${item.id}')" title="Review live salvage bids">
-                <span>⚡</span> Offers (${item.emergencyOffers ? item.emergencyOffers.length : 3})
+                <span>⚡</span> ${window.tText ? window.tText('Offers') : 'Offers'} (${item.emergencyOffers ? item.emergencyOffers.length : 3})
               </button>
             ` : ''}
           </div>

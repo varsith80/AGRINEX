@@ -4,7 +4,7 @@
  *  - en: English (Default)
  *  - hi: हिन्दी (Hindi)
  *  - mr: मराठी (Marathi)
- * Translates 100% of all UI text, person names, crop names, mandis, and agricultural trading terms.
+ * Translates 100% of all UI text, person names, crop names, varieties, mandis, quality grades, and agricultural trading terms.
  */
 
 (function () {
@@ -39,65 +39,186 @@
     'Selvam': { hi: 'सेल्वम', mr: 'सेल्वम' }
   };
 
-  // 2. CROP & COMMODITY TRANSLATIONS
+  // 2. COMPLETE CROP & COMMODITY & VARIETY FULL PHRASES
   const CROP_MAP = {
-    'Red Onion (Nashik Garwa Quality)': { hi: 'लाल प्याज (नासिक गरवा)', mr: 'लाल कांदा (नाशिक गरवा)' },
+    // Exact Full Titles
+    'Red Onion (Nashik Garwa Quality)': { hi: 'लाल प्याज (नासिक गरवा क्वालिटी)', mr: 'लाल कांदा (नाशिक गरवा प्रत)' },
     'Red Onion (Lasalgaon Garwa)': { hi: 'लाल प्याज (लासलगांव गरवा)', mr: 'लाल कांदा (लासलगाव गरवा)' },
     'Red Onion (Garwa Export)': { hi: 'लाल प्याज (गरवा निर्यात)', mr: 'लाल कांदा (गरवा निर्यात)' },
+    'Red Onion (Nashik Export Grade)': { hi: 'लाल प्याज (नासिक निर्यात ग्रेड)', mr: 'लाल कांदा (नाशिक निर्यात प्रत)' },
+    'Red Onion (Nashik Garwa)': { hi: 'लाल प्याज (नासिक गरवा)', mr: 'लाल कांदा (नाशिक गरवा)' },
+    'Nashik Garwa Red Onion': { hi: 'नासिक गरवा लाल प्याज', mr: 'नाशिक गरवा लाल कांदा' },
     'Red Onion': { hi: 'लाल प्याज', mr: 'लाल कांदा' },
     'Garwa Red Onion': { hi: 'गरवा लाल प्याज', mr: 'गरवा लाल कांदा' },
+    'Garwa Onion': { hi: 'गरवा प्याज', mr: 'गरवा कांदा' },
     'Onion': { hi: 'प्याज', mr: 'कांदा' },
+    'Onions': { hi: 'प्याज', mr: 'कांदा' },
 
     'Tomato (Shivam / Abhinav Hybrid)': { hi: 'टमाटर (शिवम / अभिनव हाइब्रिड)', mr: 'टोमॅटो (शिवम / अभिनव संकरित)' },
     'Hybrid Tomato (Narayangaon / Junnar)': { hi: 'हाइब्रिड टमाटर (नारायणगांव / जुन्नर)', mr: 'संकरित टोमॅटो (नारायणगाव / जुन्नर)' },
     'Tomato (Shivam Hybrid)': { hi: 'टमाटर (शिवम हाइब्रिड)', mr: 'टोमॅटो (शिवम संकरित)' },
+    'Tomato (Hybrid Red)': { hi: 'टमाटर (हाइब्रिड लाल)', mr: 'टोमॅटो (संकरित लाल)' },
     'Hybrid Tomato': { hi: 'हाइब्रिड टमाटर', mr: 'संकरित टोमॅटो' },
+    'Salvage Tomatoes': { hi: 'बचाव टमाटर (इमर्जेंसी)', mr: 'त्वरित विक्री टोमॅटो' },
     'Tomato': { hi: 'टमाटर', mr: 'टोमॅटो' },
     'Tomatoes': { hi: 'टमाटर', mr: 'टोमॅटो' },
 
+    'Grand Naine Banana (GI Khandesh Export)': { hi: 'ग्रैंड नैन केला (जीआई खानदेश निर्यात)', mr: 'ग्रँड नैन केळी (GI खान्देश निर्यात)' },
     'Grand Naine Banana (Jalgaon G9)': { hi: 'ग्रैंड नैन केला (जलगांव जी9)', mr: 'ग्रँड नैन केळी (जळगाव जी९)' },
+    'Grand Naine Banana (Jalgaon)': { hi: 'ग्रैंड नैन केला (जलगांव)', mr: 'ग्रँड नैन केळी (जळगाव)' },
     'Grand Naine Banana': { hi: 'ग्रैंड नैन केला', mr: 'ग्रँड नैन केळी' },
+    'Grand Naine Tissue Culture': { hi: 'ग्रैंड नैन टिशू कल्चर', mr: 'ग्रँड नैन उती संवर्धन' },
     'Banana': { hi: 'केला', mr: 'केळी' },
 
+    'Yellow Soybean (JS 335 / High Protein)': { hi: 'पीला सोयाबीन (जेएस 335 / उच्च प्रोटीन)', mr: 'पिवळी सोयाबीन (जेएस ३३५ / उच्च प्रथिने)' },
     'Yellow Soybean (Latur JS 335)': { hi: 'पीला सोयाबीन (लातूर जेएस 335)', mr: 'पिवळी सोयाबीन (लातूर जेएस ३३५)' },
     'Yellow Soybean': { hi: 'पीला सोयाबीन', mr: 'पिवळी सोयाबीन' },
     'Soybean': { hi: 'सोयाबीन', mr: 'सोयाबीन' },
+    'Soyabean': { hi: 'सोयाबीन', mr: 'सोयाबीन' },
 
+    'Nagpur Orange / Santra (GI Vidarbha Quality)': { hi: 'नागपुर संतरा (जीआई विदर्भ क्वालिटी)', mr: 'नागपूर संत्री (GI विदर्भ दर्जा)' },
     'Nagpur Orange / Santra (Table Export Grade)': { hi: 'नागपुर संतरा (टेबल निर्यात)', mr: 'नागपूर संत्री (टेबल निर्यात)' },
     'Nagpur Orange': { hi: 'नागपुर संतरा', mr: 'नागपूर संत्री' },
+    'Nagpur Santra': { hi: 'नागपुर संतरा', mr: 'नागपूर संत्री' },
+    'Nagpur Santra Juicy Grade A': { hi: 'नागपुर संतरा रसीला ग्रेड ए', mr: 'नागपूर संत्री रसाळ प्रत ग्रेड अ' },
     'Orange': { hi: 'संतरा', mr: 'संत्री' },
     'Santra': { hi: 'संतरा', mr: 'संत्री' },
 
     'Sangli Rajapuri Turmeric Finger (High Curcumin)': { hi: 'सांगली राजापुरी हल्दी (उच्च करक्यूमिन)', mr: 'सांगली राजापुरी हळद (उच्च करक्युमिन)' },
+    'Sangli Rajapuri Turmeric Finger': { hi: 'सांगली राजापुरी हल्दी फिंगर', mr: 'सांगली राजापुरी हळद कांडी' },
+    'Sangli Rajapuri Turmeric': { hi: 'सांगली राजापुरी हल्दी', mr: 'सांगली राजापुरी हळद' },
+    'Salem Finger (High Curcumin)': { hi: 'सलेम फिंगर (उच्च करक्यूमिन)', mr: 'सलेम हळद कांडी (उच्च करक्युमिन)' },
+    'Turmeric Finger': { hi: 'हल्दी फिंगर (कांडी)', mr: 'हळद कांडी' },
     'Turmeric': { hi: 'हल्दी', mr: 'हळद' },
 
     'MCU-5 Raw Cotton (Amravati White Gold)': { hi: 'एमसीयू-5 कच्चा कपास (अमरावती सफेद सोना)', mr: 'एमसीयू-५ कच्चा कापूस (अमरावती पांढरे सोने)' },
+    'Raw Cotton (Vidarbha Long Staple)': { hi: 'कच्चा कपास (विदर्भ लंबा स्टेपल)', mr: 'कच्चा कापूस (विदर्भ लांब धागा)' },
+    'Raw Cotton (Vidarbha Staple)': { hi: 'कच्चा कपास (विदर्भ स्टेपल)', mr: 'कच्चा कापूस (विदर्भ स्टेपल)' },
+    'MCU-5 Long Staple': { hi: 'एमसीयू-5 लंबा धागा (स्टेपल)', mr: 'एमसीयू-५ लांब धागा' },
     'Raw Cotton': { hi: 'कच्चा कपास', mr: 'कच्चा कापूस' },
     'Cotton': { hi: 'कपास', mr: 'कापूस' },
 
     'Thompson Seedless Grapes (Nashik Export Grade)': { hi: 'थॉमसन बीजहीन अंगूर (नासिक निर्यात ग्रेड)', mr: 'थॉमसन बिनबियांची द्राक्षे (नाशिक निर्यात प्रत)' },
+    'Nashik Thompson Seedless Grapes': { hi: 'नासिक थॉमसन बीजहीन अंगूर', mr: 'नाशिक थॉमसन बिनबियांची द्राक्षे' },
+    'Nashik Thompson Grapes': { hi: 'नासिक थॉमसन अंगूर', mr: 'नाशिक थॉमसन द्राक्षे' },
+    'Thompson Seedless Export Grade': { hi: 'थॉमसन बीजहीन निर्यात ग्रेड', mr: 'थॉमसन बिनबियांची निर्यात प्रत' },
+    'Thompson Seedless': { hi: 'थॉमसन बीजहीन', mr: 'थॉमसन बिनबियांची' },
     'Grapes': { hi: 'अंगूर', mr: 'द्राक्षे' },
+    'Grape': { hi: 'अंगूर', mr: 'द्राक्षे' },
 
     'Bhagwa Pomegranate (Solapur Export Grade)': { hi: 'भगवा अनार (सोलापुर निर्यात ग्रेड)', mr: 'भगवा डाळिंब (सोलापूर निर्यात प्रत)' },
+    'Bhagwa Pomegranate (Solapur)': { hi: 'भगवा अनार (सोलापुर)', mr: 'भगवा डाळिंब (सोलापूर)' },
+    'Bhagwa Ruby Red': { hi: 'भगवा रूबी लाल', mr: 'भगवा रक्तवर्णी डाळिंब' },
+    'Bhagwa Pomegranate': { hi: 'भगवा अनार', mr: 'भगवा डाळिंब' },
     'Pomegranate': { hi: 'अनार', mr: 'डाळिंब' },
 
     'Devgad Alphonso Mango (GI Tagged Export)': { hi: 'देवगड हापुस आम (जीआई टैग)', mr: 'देवगड हापूस आंबा (GI प्रमाणित)' },
+    'Ratnagiri Alphonso (Hapus) Mango': { hi: 'रत्नागिरी हापुस आम', mr: 'रत्नागिरी हापूस आंबा' },
+    'Ratnagiri Alphonso (GI Tagged)': { hi: 'रत्नागिरी हापुस (जीआई टैग)', mr: 'रत्नागिरी हापूस (GI प्रमाणित)' },
     'Ratnagiri Alphonso Mango': { hi: 'रत्नागिरी हापुस आम', mr: 'रत्नागिरी हापूस आंबा' },
+    'Alphonso Mango': { hi: 'हापुस आम', mr: 'हापूस आंबा' },
     'Mango': { hi: 'आम', mr: 'आंबा' },
 
-    'Green Chilli (G4 Spicy Dark Green)': { hi: 'हरी मिर्च (जी4 तीखी)', mr: 'हिरवी मिरची (जी४ तिखट)' },
+    'Green Chilli (G4 Spicy Dark Green)': { hi: 'हरी मिर्च (जी4 तीखी गहरी हरी)', mr: 'हिरवी मिरची (जी४ तिखट गडद हिरवी)' },
+    'Green Chilli (G4 Spicy)': { hi: 'हरी मिर्च (जी4 तीखी)', mr: 'हिरवी मिरची (जी४ तिखट)' },
+    'G4 Spicy Dark Green': { hi: 'जी4 तीखी गहरी हरी', mr: 'जी४ तिखट गडद हिरवी' },
     'Green Chilli': { hi: 'हरी मिर्च', mr: 'हिरवी मिरची' },
+    'Chilli (Nandurbar Dry Red Chilli)': { hi: 'नंदुरबार सूखी लाल मिर्च', mr: 'नंदुरबार सुकी लाल मिरची' },
+    'Dry Red Chilli': { hi: 'सूखी लाल मिर्च', mr: 'सुकी लाल मिरची' },
+    'Red Chilli': { hi: 'लाल मिर्च', mr: 'लाल मिरची' },
     'Chilli': { hi: 'मिर्च', mr: 'मिरची' },
 
+    'Akola Desi Chana (Bengal Gram)': { hi: 'अकोला देसी चना', mr: 'अकोला देशी हरभरा' },
+    'Digvijay Bold Grade A': { hi: 'दिग्विजय मोटा दाना ग्रेड ए', mr: 'दिग्विजय टपोरा दाणा ग्रेड अ' },
     'Chana (Bengal Gram)': { hi: 'चना (देसी चना)', mr: 'हरभरा (चना)' },
+    'Desi Chana': { hi: 'देसी चना', mr: 'देशी हरभरा' },
+    'Bengal Gram': { hi: 'देसी चना', mr: 'हरभरा' },
     'Chana': { hi: 'चना', mr: 'हरभरा' },
-    'Wheat': { hi: 'गेहूं', mr: 'गहू' },
+
+    'Wada Kolam Rice (Palghar GI Quality)': { hi: 'वाडा कोलम चावल (पालघर जीआई)', mr: 'वाडा कोलम भात/तांदूळ (पालघर GI प्रत)' },
+    'Wada Kolam Rice (Palghar GI)': { hi: 'वाडा कोलम चावल (पालघर जीआई)', mr: 'वाडा कोलम भात (पालघर GI)' },
+    'Wada Kolam Rice': { hi: 'वाडा कोलम चावल', mr: 'वाडा कोलम भात' },
+    '1121 Paddy': { hi: '1121 धान', mr: '११२१ भात' },
+    '1121 Basmati': { hi: '1121 बासमती धान', mr: '११२१ बासमती भात' },
+    'Paddy (1121 Basmati)': { hi: 'धान (1121 बासमती)', mr: 'भात (११२१ बासमती)' },
     'Paddy': { hi: 'धान / चावल', mr: 'भात / तांदूळ' },
     'Rice': { hi: 'चावल', mr: 'तांदूळ' },
+
+    'Sharbati Lokwan Golden Wheat': { hi: 'शरबती लोकवान सुनहरा गेहूं', mr: 'शरबती लोकवान सोनेरी गहू' },
+    'Lokwan Wheat': { hi: 'लोकवान गेहूं', mr: 'लोकवान गहू' },
+    'Wheat': { hi: 'गेहूं', mr: 'गहू' },
+
+    'Solapur Maldandi Jowar (Sorghum)': { hi: 'सोलापुर मालदांडी ज्वार', mr: 'सोलापूर मालदांडी ज्वारी' },
+    'Maldandi Jowar': { hi: 'मालदांडी ज्वार', mr: 'मालदांडी ज्वारी' },
+    'Jowar': { hi: 'ज्वार', mr: 'ज्वारी' },
+    'Sorghum': { hi: 'ज्वार', mr: 'ज्वारी' },
+
+    'Dhule Hybrid Pearl Millet (Bajra)': { hi: 'धुले हाइब्रिड बाजरा', mr: 'धुळे संकरित बाजरी' },
+    'Pearl Millet (Bajra)': { hi: 'बाजरा', mr: 'बाजरी' },
+    'Pearl Millet': { hi: 'बाजरा', mr: 'बाजरी' },
+    'Bajra': { hi: 'बाजरा', mr: 'बाजरी' },
+
+    'Latur Red Tur (Pigeon Pea / Arhar)': { hi: 'लातूर लाल तूर (अरहर दाल)', mr: 'लातूर लाल तूर (अरहर)' },
+    'Red Tur': { hi: 'लाल तूर', mr: 'लाल तूर' },
+    'Tur': { hi: 'तूर दाल', mr: 'तूर डाळ' },
+    'Arhar': { hi: 'अरहर दाल', mr: 'तूर डाळ' },
+
+    'Jalgaon Shiny Green Mung Bean': { hi: 'जलगांव चमकदार हरा मूंग', mr: 'जळगाव चमकदार हिरवा मूग' },
+    'Green Mung Bean': { hi: 'हरा मूंग', mr: 'हिरवा मूग' },
+    'Mung Bean': { hi: 'मूंग दाल', mr: 'मूग' },
+    'Mung': { hi: 'मूंग', mr: 'मूग' },
+
+    'Nanded Black Urad Dal (Black Gram)': { hi: 'नांदेड काली उड़द दाल', mr: 'नांदेड काळी उडीद डाळ' },
+    'Black Urad Dal': { hi: 'काली उड़द दाल', mr: 'काळी उडीद डाळ' },
+    'Black Gram': { hi: 'उड़द', mr: 'उडीद' },
+    'Urad': { hi: 'उड़द', mr: 'उडीद' },
+
+    'Kolhapur Bold Groundnut (Peanut)': { hi: 'कोल्हापुर मोटा मूंगफली दाना', mr: 'कोल्हापूर टपोरी भुईमूग शेंग' },
+    'Bold Groundnut': { hi: 'मोटा मूंगफली', mr: 'टपोरी भुईमूग' },
+    'Groundnut (Peanut)': { hi: 'मूंगफली', mr: 'भुईमूग' },
+    'Groundnut': { hi: 'मूंगफली', mr: 'भुईमूग' },
+    'Peanut': { hi: 'मूंगफली', mr: 'भुईमूग' },
+
+    'Beed High-Oil Sunflower Seeds': { hi: 'बीड उच्च तेल सूरजमुखी बीज', mr: 'बीड उच्च तेल सूर्यफूल बियाणे' },
+    'Sunflower Seeds': { hi: 'सूरजमुखी बीज', mr: 'सूर्यफूल बियाणे' },
+    'Sunflower': { hi: 'सूरजमुखी', mr: 'सूर्यफूल' },
+
+    'Kolhapur Co 86032 Sugarcane': { hi: 'कोल्हापुर को 86032 गन्ना', mr: 'कोल्हापूर को ८६०३२ ऊस' },
+    'Sugarcane': { hi: 'गन्ना', mr: 'ऊस' },
+
+    'Jalna Sweet Lime (Mosambi)': { hi: 'जालना मौसंबी (मीठा नींबू)', mr: 'जालना मोसंबी' },
+    'Sweet Lime (Mosambi)': { hi: 'मौसंबी', mr: 'मोसंबी' },
+    'Mosambi': { hi: 'मौसंबी', mr: 'मोसंबी' },
+
+    'Beed Balanagar Custard Apple (Sitaphal)': { hi: 'बीड बालनगर सीताफल', mr: 'बीड बाळानगर सीताफळ' },
+    'Custard Apple (Sitaphal)': { hi: 'सीताफल', mr: 'सीताफळ' },
+    'Custard Apple': { hi: 'सीताफल', mr: 'सीताफळ' },
+    'Sitaphal': { hi: 'सीताफल', mr: 'सीताफळ' },
+
+    'Maize (Yellow Corn / Makka)': { hi: 'मक्का (पीला भुट्टा / मकई)', mr: 'मका (पिवळा मका)' },
+    'Yellow Corn': { hi: 'पीला मक्का', mr: 'पिवळा मका' },
     'Maize': { hi: 'मक्का', mr: 'मका' },
+    'Corn': { hi: 'मक्का', mr: 'मका' },
+
+    'Safflower (Kardi)': { hi: 'कुसुम (करडी)', mr: 'करडई (कुसुम)' },
+    'Safflower': { hi: 'कुसुम / करडी', mr: 'करडई' },
+    'Kardi': { hi: 'करडी', mr: 'करडई' },
+
+    'Sesame (Til)': { hi: 'तिल', mr: 'तीळ' },
+    'Sesame': { hi: 'तिल', mr: 'तीळ' },
+    'Til': { hi: 'तिल', mr: 'तीळ' },
+
+    'Guava (Sardar L-49 Sweet Guava)': { hi: 'अमरूद (सरदार एल-49 मीठा)', mr: 'पेरू (सरदार एल-४९ गोड पेरू)' },
+    'Sweet Guava': { hi: 'मीठा अमरूद', mr: 'गोड पेरू' },
+    'Guava': { hi: 'अमरूद', mr: 'पेरू' },
+
     'Potato': { hi: 'आलू', mr: 'बटाटा' },
+    'Potatoes': { hi: 'आलू', mr: 'बटाटा' },
     'Okra': { hi: 'भिंडी', mr: 'भेंडी' },
+    'Bhindi': { hi: 'भिंडी', mr: 'भेंडी' },
+    'Ladies Finger': { hi: 'भिंडी', mr: 'भेंडी' },
     'Brinjal': { hi: 'बैंगन', mr: 'वांगी' },
+    'Eggplant': { hi: 'बैंगन', mr: 'वांगी' },
     'Cabbage': { hi: 'पत्तागोभी', mr: 'कोबी' },
     'Cauliflower': { hi: 'फूलगोभी', mr: 'फ्लॉवर' },
     'Carrot': { hi: 'गाजर', mr: 'गाजर' },
@@ -105,12 +226,59 @@
     'Ginger': { hi: 'अदरक', mr: 'आले' },
     'Papaya': { hi: 'पपीता', mr: 'पपई' },
     'Coconut': { hi: 'नारियल', mr: 'नारळ' },
-    'Groundnut': { hi: 'मूंगफली', mr: 'भुईमूग' },
-    'Jowar': { hi: 'ज्वार', mr: 'ज्वारी' },
-    'Bajra': { hi: 'बाजरा', mr: 'बाजरी' }
+    'Watermelon': { hi: 'तरबूज', mr: 'कलिंगड' },
+    'Melon': { hi: 'खरबूजा', mr: 'खरबूज' },
+    'Spinach': { hi: 'पालक', mr: 'पालक' },
+    'Cucumber': { hi: 'खीरा', mr: 'काकडी' },
+    'Beetroot': { hi: 'चुकंदर', mr: 'बीट' },
+    'Capsicum': { hi: 'शिमला मिर्च', mr: 'ढोबळी मिरची' },
+    'Drumstick': { hi: 'सहजन (सहजन की फली)', mr: 'शेवगा' }
   };
 
-  // 3. MANDIS & APMC LOCATIONS
+  // 3. VARIETIES & DESCRIPTIVE QUALIFIERS (Sub-phrases & Tokens)
+  const VARIETY_MAP = {
+    'Shivam / Abhinav Hybrid': { hi: 'शिवम / अभिनव हाइब्रिड', mr: 'शिवम / अभिनव संकरित' },
+    'Garwa Quality (Export Grade)': { hi: 'गरवा गुणवत्ता (निर्यात ग्रेड)', mr: 'गरवा प्रत (निर्यात दर्जा)' },
+    'Garwa Quality': { hi: 'गरवा गुणवत्ता', mr: 'गरवा प्रत' },
+    'Garwa Export': { hi: 'गरवा निर्यात', mr: 'गरवा निर्यात' },
+    'Garwa': { hi: 'गरवा', mr: 'गरवा' },
+    'G4 Spicy Dark Green': { hi: 'जी4 तीखी गहरी हरी', mr: 'जी४ तिखट गडद हिरवी' },
+    'G4 Spicy': { hi: 'जी4 तीखी', mr: 'जी४ तिखट' },
+    'MCU-5 Long Staple': { hi: 'एमसीयू-5 लंबा धागा (स्टेपल)', mr: 'एमसीयू-५ लांब धागा' },
+    'Thompson Seedless Export Grade': { hi: 'थॉमसन बीजहीन निर्यात ग्रेड', mr: 'थॉमसन बिनबियांची निर्यात प्रत' },
+    'Bhagwa Ruby Red': { hi: 'भगवा रूबी लाल', mr: 'भगवा रक्तवर्णी डाळिंब' },
+    'JS 335 High Oil': { hi: 'जेएस 335 उच्च तेल', mr: 'जेएस ३३५ उच्च तेल' },
+    'Ratnagiri Alphonso (GI Tagged)': { hi: 'रत्नागिरी हापुस (जीआई टैग)', mr: 'रत्नागिरी हापूस (GI प्रमाणित)' },
+    'Digvijay Bold Grade A': { hi: 'दिग्विजय मोटा दाना ग्रेड ए', mr: 'दिग्विजय टपोरा दाणा ग्रेड अ' },
+    'Salem Finger (High Curcumin)': { hi: 'सलेम फिंगर (उच्च करक्यूमिन)', mr: 'सलेम हळद कांडी (उच्च करक्युमिन)' },
+    'Nagpur Santra Juicy Grade A': { hi: 'नागपुर संतरा रसीला ग्रेड ए', mr: 'नागपूर संत्री रसाळ प्रत ग्रेड अ' },
+    'Grand Naine Tissue Culture': { hi: 'ग्रैंड नैन टिशू कल्चर', mr: 'ग्रँड नैन उती संवर्धन' },
+    'Hybrid Red': { hi: 'हाइब्रिड लाल', mr: 'संकरित लाल' },
+    'Shivam Hybrid': { hi: 'शिवम हाइब्रिड', mr: 'शिवम संकरित' },
+    'Nashik Garwa': { hi: 'नासिक गरवा', mr: 'नाशिक गरवा' },
+    'Nashik Export Grade': { hi: 'नासिक निर्यात ग्रेड', mr: 'नाशिक निर्यात प्रत' },
+    'Long Staple': { hi: 'लंबा धागा (स्टेपल)', mr: 'लांब धागा' },
+    'Ruby Red': { hi: 'रूबी लाल', mr: 'रक्तवर्णी / लाल' },
+    'High Oil': { hi: 'उच्च तेल', mr: 'उच्च तेल' },
+    'GI Tagged': { hi: 'जीआई टैग', mr: 'GI प्रमाणित' },
+    'GI Tagged Export': { hi: 'जीआई निर्यात', mr: 'GI निर्यात' },
+    'GI Quality': { hi: 'जीआई गुणवत्ता', mr: 'GI दर्जा' },
+    'High Curcumin': { hi: 'उच्च करक्यूमिन', mr: 'उच्च करक्युमिन' },
+    'High Protein': { hi: 'उच्च प्रोटीन', mr: 'उच्च प्रथिने' },
+    'Tissue Culture': { hi: 'टिशू कल्चर', mr: 'उती संवर्धन (टिशू कल्चर)' },
+    'Table Export Grade': { hi: 'टेबल निर्यात ग्रेड', mr: 'टेबल निर्यात प्रत' },
+    'Juicy Grade A': { hi: 'रसीला ग्रेड ए', mr: 'रसाळ ग्रेड अ' },
+    'Export Grade': { hi: 'निर्यात ग्रेड', mr: 'निर्यात प्रत' },
+    'Export Quality': { hi: 'निर्यात गुणवत्ता', mr: 'निर्यात दर्जा' },
+    'Bold Grade A': { hi: 'मोटा दाना ग्रेड ए', mr: 'टपोरा दाणा ग्रेड अ' },
+    'Cleaned Yellow': { hi: 'साफ पीला', mr: 'स्वच्छ पिवळी' },
+    'Double Polished': { hi: 'डबल पॉलिश', mr: 'डबल पॉलिश' },
+    'Spicy Dark Green': { hi: 'तीखी गहरी हरी', mr: 'तिखट गडद हिरवी' },
+    'Hybrid': { hi: 'हाइब्रिड', mr: 'संकरित' },
+    'Seedless': { hi: 'बीजहीन', mr: 'बिनबियांची' }
+  };
+
+  // 4. MANDIS & APMC LOCATIONS
   const MANDI_MAP = {
     'Lasalgaon APMC Yard': { hi: 'लासलगांव एपीएमसी यार्ड', mr: 'लासलगाव बाजार समिती यार्ड' },
     'Lasalgaon APMC': { hi: 'लासलगांव मंडी', mr: 'लासलगाव बाजार समिती' },
@@ -124,15 +292,17 @@
     'Sangli Spices APMC': { hi: 'सांगली मसाला एपीएमसी', mr: 'सांगली हळद व मसाला बाजार समिती' },
     'Nagpur APMC Central Market': { hi: 'नागपुर एपीएमसी मुख्य बाजार', mr: 'नागपूर मुख्य बाजार समिती' },
     'Raver APMC Yard': { hi: 'रावेर एपीएमसी यार्ड', mr: 'रावेर केळी बाजार समिती यार्ड' },
+    'Raver APMC Hub': { hi: 'रावेर एपीएमसी हब', mr: 'रावेर बाजार समिती केंद्र' },
     'Devgad Coastal APMC': { hi: 'देवगड तटीय एपीएमसी', mr: 'देवगड हापूस बाजार समिती' },
     'Akola APMC Market': { hi: 'अकोला एपीएमसी बाजार', mr: 'अकोला बाजार समिती' },
     'Vashi Wholesale APMC': { hi: 'वाशी थोक एपीएमसी (नवी मुंबई)', mr: 'वाशी मुख्य बाजार समिती (नवी मुंबई)' },
     'Vashi APMC Market': { hi: 'वाशी एपीएमसी बाजार', mr: 'वाशी बाजार समिती' },
     'Gultekdi APMC': { hi: 'गुलटेकड़ी एपीएमसी (पुणे)', mr: 'गुलटेकडी बाजार समिती (पुणे)' },
+    'Narayangaon Mandi Yard': { hi: 'नारायणगांव मंडी यार्ड', mr: 'नारायणगाव बाजार समिती यार्ड' },
     'Surat APMC': { hi: 'सूरत एपीएमसी मंडी', mr: 'सुरत बाजार समिती' }
   };
 
-  // 4. DISTRICTS & STATES
+  // 5. DISTRICTS & STATES
   const DISTRICT_MAP = {
     'Nashik': { hi: 'नासिक', mr: 'नाशिक' },
     'Pune': { hi: 'पुणे', mr: 'पुणे' },
@@ -148,6 +318,13 @@
     'Kolhapur': { hi: 'कोल्हापुर', mr: 'कोल्हापूर' },
     'Ahmednagar': { hi: 'अहमदनगर', mr: 'अहमदनगर' },
     'Satara': { hi: 'सातारा', mr: 'सातारा' },
+    'Jalna': { hi: 'जालना', mr: 'जालना' },
+    'Beed': { hi: 'बीड', mr: 'बीड' },
+    'Nanded': { hi: 'नांदेड', mr: 'नांदेड' },
+    'Dhule': { hi: 'धुले', mr: 'धुळे' },
+    'Nandurbar': { hi: 'नंदुरबार', mr: 'नंदुरबार' },
+    'Palghar': { hi: 'पालघर', mr: 'पालघर' },
+    'Junnar': { hi: 'जुन्नर', mr: 'जुन्नर' },
     'Aurangabad': { hi: 'छत्रपति संभाजीनगर', mr: 'छत्रपती संभाजीनगर' },
     'Chhatrapati Sambhajinagar': { hi: 'छत्रपति संभाजीनगर', mr: 'छत्रपती संभाजीनगर' },
     'Maharashtra': { hi: 'महाराष्ट्र', mr: 'महाराष्ट्र' },
@@ -157,17 +334,53 @@
     'Madhya Pradesh': { hi: 'मध्य प्रदेश', mr: 'मध्य प्रदेश' }
   };
 
-  // 5. QUALITY GRADES & LOT STATUSES
+  // 6. CATEGORIES
+  const CATEGORY_MAP = {
+    'Vegetables': { hi: 'सब्जियां', mr: 'भाजीपाला' },
+    'Fruits': { hi: 'फल', mr: 'फळे' },
+    'Grains & Cereals': { hi: 'अनाज और दालें', mr: 'धान्य आणि कडधान्ये' },
+    'Spices & High-Value': { hi: 'मसाले और नकदी फसलें', mr: 'मसाले व उच्च मूल्य पिके' },
+    'Cash Crops': { hi: 'नकदी फसलें', mr: 'नगदी पिके' },
+    'Pulses & Legumes': { hi: 'दालें और दलहन', mr: 'कडधान्ये व डाळी' },
+    'Oilseeds': { hi: 'तिलहन', mr: 'गळीत धान्य (तेलबिया)' },
+    'Grains': { hi: 'अनाज', mr: 'धान्य' },
+    'Spices': { hi: 'मसाले', mr: 'मसाले' }
+  };
+
+  // 7. QUALITY GRADES & LOT STATUSES
   const GRADE_MAP = {
+    'Grade A Export Calibrated (Brix >18°)': { hi: 'ग्रेड ए निर्यात कैलिब्रेटेड (ब्रिक्स >18°)', mr: 'ग्रेड अ निर्यात प्रमाणित (ब्रिक्स >१८°)' },
     'Grade A Export Calibrated': { hi: 'ग्रेड ए निर्यात कैलिब्रेटेड', mr: 'ग्रेड अ निर्यात प्रमाणित' },
     'Grade A Export Quality': { hi: 'ग्रेड ए निर्यात गुणवत्ता', mr: 'ग्रेड अ निर्यात दर्जा' },
+    'Grade A Table / Export': { hi: 'ग्रेड ए टेबल / निर्यात', mr: 'ग्रेड अ टेबल / निर्यात' },
+    'Double Polished Export Grade': { hi: 'डबल पॉलिश निर्यात ग्रेड', mr: 'डबल पॉलिश निर्यात दर्जा' },
+    'Grade A (250g+ Calibrated)': { hi: 'ग्रेड ए (250ग्रा+ कैलिब्रेटेड)', mr: 'ग्रेड अ (२५०ग्रॅम+ डाळिंब)' },
     'Grade A 55mm+ Bold': { hi: 'ग्रेड ए 55मिमी+ बोल्ड', mr: 'ग्रेड अ ५५मिमी+ जाड कांदा' },
-    'Grade A 29mm+ Staple': { hi: 'ग्रेड ए 29मिमी+ स्टेपल', mr: 'ग्रेड अ २९मिमी+ लांब धागा' },
+    'Grade A 29mm+ Staple': { hi: 'ग्रेड ए 29मिमी+ लंबा स्टेपल', mr: 'ग्रेड अ २९मिमी+ लांब धागा' },
+    'Grade A Staple >29mm': { hi: 'ग्रेड ए स्टेपल >29मिमी', mr: 'ग्रेड अ लांब धागा >२९मिमी' },
     'Grade A 250g+ Calibrated': { hi: 'ग्रेड ए 250ग्रा+ कैलिब्रेटेड', mr: 'ग्रेड अ २५०ग्रॅम+ डाळिंब' },
     'Grade A Cleaned Yellow': { hi: 'ग्रेड ए स्वच्छ पीला', mr: 'ग्रेड अ स्वच्छ पिवळी' },
+    'Grade A Bold Grain': { hi: 'ग्रेड ए मोटा दाना', mr: 'ग्रेड अ टपोरा दाणा' },
     'Grade A Double Polished': { hi: 'ग्रेड ए डबल पॉलिश', mr: 'ग्रेड अ डबल पॉलिश हळद' },
     'Grade A Juicy Calibrated': { hi: 'ग्रेड ए रसीला संतरा', mr: 'ग्रेड अ रसाळ संत्री' },
-    'Grade A Bold Grain': { hi: 'ग्रेड ए बोल्ड दाना', mr: 'ग्रेड अ टपोरा दाणा' },
+    'Grade A Aged Aromatic': { hi: 'ग्रेड ए सुगंधित परिपक्व', mr: 'ग्रेड अ सुवासिक जुना तांदूळ' },
+    'Grade A Bold White': { hi: 'ग्रेड ए सफेद मोटा दाना', mr: 'ग्रेड अ पांढरा टपोरा दाणा' },
+    'Grade A Machine Cleaned': { hi: 'ग्रेड ए मशीन से साफ', mr: 'ग्रेड अ यंत्राने स्वच्छ' },
+    'Grade A+ Luster Golden': { hi: 'ग्रेड ए+ चमकदार सुनहरा', mr: 'ग्रेड अ+ चमकदार सोनेरी' },
+    'Grade A Maruti Premium': { hi: 'ग्रेड ए मारुति प्रीमियम', mr: 'ग्रेड अ मारुती प्रीमियम' },
+    'Grade A Bold Digvijay': { hi: 'ग्रेड ए मोटा दिग्विजय चना', mr: 'ग्रेड अ टपोरा दिग्विजय हरभरा' },
+    'Grade A Bold Luster': { hi: 'ग्रेड ए चमकदार मोटा दाना', mr: 'ग्रेड अ चमकदार टपोरा दाणा' },
+    'Grade A Machine Polished': { hi: 'ग्रेड ए मशीन पॉलिश', mr: 'ग्रेड अ यंत्र पॉलिश' },
+    'Grade A Bold 80/90 Count': { hi: 'ग्रेड ए मोटा 80/90 काउंट', mr: 'ग्रेड अ टपोरा ८०/९० काउंट' },
+    'Grade A Oil >40%': { hi: 'ग्रेड ए तेल >40%', mr: 'ग्रेड अ तेल >४०%' },
+    'Grade A High-Brix (>21°)': { hi: 'ग्रेड ए उच्च-ब्रिक्स (>21°)', mr: 'ग्रेड अ उच्च-ब्रिक्स (>२१°)' },
+    'GI Tagged Export Grade (220g+)': { hi: 'जीआई टैग निर्यात ग्रेड (220ग्रा+)', mr: 'GI प्रमाणित निर्यात प्रत (२२०ग्रॅम+)' },
+    'Grade A Premium Pulp (300g+)': { hi: 'ग्रेड ए प्रीमियम गूदा (300ग्रा+)', mr: 'ग्रेड अ प्रीमियम गर (३००ग्रॅम+)' },
+    'Grade A Hybrid Feed Grade': { hi: 'ग्रेड ए हाइब्रिड फीड ग्रेड', mr: 'ग्रेड अ संकरित पशुखाद्य दर्जा' },
+    'High-Oil Cold Press Grade': { hi: 'उच्च तेल कोल्ड प्रेस ग्रेड', mr: 'उच्च तेल कोल्ड प्रेस प्रत' },
+    'Natural White Bold Export Calibrated': { hi: 'प्राकृतिक सफेद मोटा निर्यात कैलिब्रेटेड', mr: 'नैसर्गिक पांढरा टपोरा निर्यात प्रत' },
+    'Teja High-Pungency Sun-Dried': { hi: 'तेजा उच्च तीखा धूप में सुखाया', mr: 'तेजा अति-तिखट उन्हात वाळवलेली' },
+    'Table Grade Extra Sweet': { hi: 'टेबल ग्रेड अतिरिक्त मीठा', mr: 'टेबल प्रत अति गोड' },
     'Grade A': { hi: 'ग्रेड ए (सर्वोत्तम)', mr: 'ग्रेड अ (उत्कृष्ट)' },
     'Grade B': { hi: 'ग्रेड बी (मध्यम)', mr: 'ग्रेड ब (मध्यम)' },
     'Grade C': { hi: 'ग्रेड सी (साधारण)', mr: 'ग्रेड क (साधारण)' }
@@ -182,12 +395,35 @@
     'Delivered': { hi: 'वितरित (डिलीवर)', mr: 'पोहोचवले (डिलिव्हर)' },
     'Payment Released': { hi: 'भुगतान जारी', mr: 'रक्कम जमा झाली' },
     'Bids Open': { hi: 'बोलियां खुली हैं', mr: 'बोली सुरू आहे' },
+    'Negotiation': { hi: 'बातचीत जारी', mr: 'चर्चा सुरू आहे' },
+    'Dispatched': { hi: 'भेज दिया गया', mr: 'रवाना झाले' },
     'Open': { hi: 'सक्रिय', mr: 'सुरू' },
     'Full': { hi: 'पूर्ण (फुल)', mr: 'पूर्ण' }
   };
 
-  // 6. UI PHRASE REPLACEMENTS
+  // 8. UI PHRASE REPLACEMENTS (High Precision Ordering)
   const PHRASE_MAP = [
+    // Direct UI Strings
+    ['Direct price offers from verified buyers for your produce', 'आपकी उपज के लिए सत्यापित खरीदारों से सीधे मूल्य प्रस्ताव', 'तुमच्या शेतमालासाठी प्रमाणित खरेदीदारांकडून थेट दर ऑफर्स'],
+    ['Live Agmarknet (data.gov.in) API Feed', 'लाइव एगमार्कनेट (data.gov.in) सरकारी डेटा', 'थेट अ‍ॅगमार्कनेट (data.gov.in) सरकारी दर'],
+    ['Daily Mandi Price Updates', 'दैनिक मंडी भाव अपडेट', 'दैनिक बाजार समिती भाव'],
+    ['Market Price Trend & 7-Day Forecast', 'मंडी भाव रुझान और 7-दिवसीय पूर्वानुमान', 'बाजार भाव कल आणि ७ दिवसांचा अंदाज'],
+    ['Clear daily prices in', 'स्पष्ट दैनिक मूल्य', 'स्पष्ट दैनिक दर'],
+    ['with simple 7-day forward Expected price trends.', 'सरल 7-दिवसीय अपेक्षित मूल्य रुझान के साथ।', 'सरल ७ दिवसांच्या अंदाजित भावासह.'],
+    ['Solid Green: Past 7 Days Actual Price', 'ठोस हरा: पिछले 7 दिनों का वास्तविक मूल्य', 'हिरवी रेषा: मागील ७ दिवसांचे प्रत्यक्ष भाव'],
+    ['Dashed Blue: Next 7 Days Forecast', 'नीली बिंदीदार: अगले 7 दिनों का पूर्वानुमान', 'निळी डॅश रेषा: पुढील ७ दिवसांचा अंदाज'],
+    ['Official APMC Mandi Data (data.gov.in)', 'आधिकारिक एपीएमसी मंडी डेटा (data.gov.in)', 'अधिकृत कृषी उत्पन्न बाजार समिती डेटा'],
+    ['Live APMC Mandi Rates & Arbitrage Signals', 'लाइव मंडी दर और अंतर-मंडी मुनाफा (आर्बिट्रेज)', 'थेट बाजार भाव आणि आंतर-बाजार नफा संधी'],
+    ['Verified feeds from Agmarknet API (data.gov.in) & e-NAM Mandis', 'एगमार्कनेट और ई-नाम सत्यापित सरकारी मंडी डेटा', 'अ‍ॅगमार्कनेट आणि ई-नाम प्रमाणित अधिकृत डेटा'],
+    ['Across Maharashtra APMC terminals over next 3–5 days', 'अगले 3-5 दिनों में महाराष्ट्र की प्रमुख मंडियों में', 'पुढील ३-५ दिवसांत महाराष्ट्रातील प्रमुख बाजारांत'],
+    ['7-Day Forward Price Projections (In ₹ per kg)', '7-दिवसीय अग्रिम मूल्य अनुमान (₹ प्रति किलो में)', '७ दिवसांचे अंदाजित भाव (₹ प्रति किलोमध्ये)'],
+    ['Best Mandis to Sell (After Transport Cost)', 'माल बेचने के लिए सर्वश्रेष्ठ मंडियां (भाड़ा खर्च काटकर)', 'माल विकण्यासाठी सर्वोत्तम बाजार (वाहतूक खर्च वजा जाता)'],
+    ['Local Mandi is optimal; no regional arbitrage spread exceeds transit costs.', 'स्थानीय मंडी सर्वोत्तम है; किसी बाहरी मंडी में भाड़ा निकालकर अतिरिक्त लाभ नहीं है।', 'स्थानिक बाजार समिती सर्वोत्तम आहे; इतर बाजारातील भाववाढ वाहतूक खर्चापेक्षा कमी आहे.'],
+    ['Prices projected to gain +13.7% over 7 days due to tightening arrivals.', 'आवक कम होने के कारण 7 दिनों में भाव में +13.7% की बढ़त की संभावना है।', 'आवक घटल्याने पुढील ७ दिवसांत भावात +१३.७% वाढ अपेक्षित आहे.'],
+    ['Market trend is positive. Wholesale arrivals down 14%, prices are expected to rise steadily in the next 7 days.', 'बाजार का रुख सकारात्मक है। थोक आवक 14% घटी है, अगले 7 दिनों में भाव बढ़ने की संभावना है।', 'बाजार कल तेजीचा आहे. घाऊक आवक १४% कमी झाली असून पुढील ७ दिवसांत भाव वाढण्याची शक्यता आहे.'],
+    ['Synced APMC yards across Nashik, Lasalgaon, Pune, Solapur & Latur.', 'नासिक, लासलगांव, पुणे, सोलापुर और लातूर मंडियों से सिंक किया गया।', 'नाशिक, लासलगाव, पुणे, सोलापूर आणि लातूर बाजार समित्यांचे भाव जुळवले.'],
+    ['Live Maharashtra Mandi Rates Updated!', 'लाइव महाराष्ट्र मंडी दर अपडेट हो गए!', 'महाराष्ट्रातील थेट बाजार भाव अपडेट झाले!'],
+
     // Sidebar Navigation
     ['FARMER PORTAL', 'किसान पोर्टल', 'शेतकरी पोर्टल'],
     ['Dashboard', 'डैशबोर्ड', 'डॅशबोर्ड'],
@@ -202,27 +438,41 @@
     ['Grievance Desk', 'शिकायत डेस्क', 'तक्रार निवारण'],
     ['Verified Farmer', 'सत्यापित किसान', 'प्रमाणित शेतकरी'],
 
-    // Header Actions
+    // Actions & Headers
     ['List New Crop', '+ नई फसल जोड़ें', '+ नवीन पीक जोडा'],
-    ['Search vegetable, commodity, APMC mandi, state...', 'सब्जी, फसल, एपीएमसी मंडी, राज्य खोजें...', 'भाजीपाला, पीक, बाजार समिती, जिल्हा शोधा...'],
-    ['Search crops, lots, buyers...', 'फसल, लॉट, खरीदार खोजें...', 'पिके, लॉट्स, खरेदीदार शोधा...'],
+    ['Update Rates', 'दर अपडेट करें', 'दर अपडेट करा'],
     ['Change Language', 'भाषा बदलें', 'भाषा बदला'],
     ['Support', 'मदद', 'मदत'],
+    ['Search vegetable, commodity, APMC mandi, state...', 'सब्जी, फसल, एपीएमसी मंडी, राज्य खोजें...', 'भाजीपाला, पीक, बाजार समिती, जिल्हा शोधा...'],
+    ['Search crops, lots, buyers...', 'फसल, लॉट, खरीदार खोजें...', 'पिके, लॉट्स, खरेदीदार शोधा...'],
+    ['Maharashtra Hubs', 'महाराष्ट्र मंडी हब', 'महाराष्ट्र केंद्रे'],
+    ['National Benchmark', 'राष्ट्रीय बेंचमार्क', 'राष्ट्रीय बाजार'],
+    ['All Mandis', 'सभी मंडियां', 'सर्व बाजार समित्या'],
 
-    // Market Insights Ribbon & Controls
-    ['Live Agmarknet (data.gov.in) API Feed', 'लाइव एगमार्कनेट (data.gov.in) सरकारी डेटा', 'थेट अ‍ॅगमार्कनेट (data.gov.in) सरकारी दर'],
-    ['Daily Mandi Price Updates', 'दैनिक मंडी भाव अपडेट', 'दैनिक बाजार समिती भाव'],
-    ['Update Rates', 'दर अपडेट करें', 'दर अपडेट करा'],
-    ['Market Price Trend & 7-Day Forecast', 'मंडी भाव रुझान और 7-दिवसीय पूर्वानुमान', 'बाजार भाव कल आणि ७ दिवसांचा अंदाज'],
-    ['Live Agmarknet', 'लाइव एगमार्कनेट', 'थेट अ‍ॅगमार्कनेट'],
-    ['Clear daily prices in', 'स्पष्ट दैनिक मूल्य', 'स्पष्ट दैनिक दर'],
-    ['with simple 7-day forward Expected price trends.', 'सरल 7-दिवसीय अपेक्षित मूल्य रुझान के साथ।', 'सरल ७ दिवसांच्या अंदाजित भावासह.'],
-    ['Unit:', 'इकाई:', 'एकक:'],
-    ['Today\'s Rate:', 'आज का दर:', 'आजचा दर:'],
-    ['7-Day Target:', '7-दिवसीय लक्ष्य:', '७ दिवसांचे लक्ष्य:'],
-    ['Solid Green: Past 7 Days Actual Price', 'ठोस हरा: पिछले 7 दिनों का वास्तविक मूल्य', 'हिरवी रेषा: मागील ७ दिवसांचे प्रत्यक्ष भाव'],
-    ['Dashed Blue: Next 7 Days Forecast', 'नीली बिंदीदार: अगले 7 दिनों का पूर्वानुमान', 'निळी डॅश रेषा: पुढील ७ दिवसांचा अंदाज'],
-    ['Official APMC Mandi Data (data.gov.in)', 'आधिकारिक एपीएमसी मंडी डेटा (data.gov.in)', 'अधिकृत कृषी उत्पन्न बाजार समिती डेटा'],
+    // Table Headers
+    ['PRODUCE', 'फसल / उपज', 'पीक / शेतमाल'],
+    ['GRADE', 'ग्रेड / गुणवत्ता', 'प्रत / दर्जा'],
+    ['MANDI / LOCATION', 'मंडी / स्थान', 'बाजार समिती / ठिकाण'],
+    ['RATE (PER KG)', 'दर (प्रति किलो)', 'दर (प्रति किलो)'],
+    ['RATE (PER QT)', 'दर (प्रति क्विंटल)', 'दर (प्रति क्विंटल)'],
+    ['CHANGE (1W)', 'बदलाव (1 सप्ताह)', 'बदल (१ आठवडा)'],
+    ['TREND SPARK', 'रुझान ग्राफ', 'भाव आलेख'],
+    ['BEST OPTION', 'विकल्प', 'पर्याय'],
+    ['View Sheet', 'विवरण पत्र', 'तपशील पहा'],
+    ['DESTINATION MANDI', 'गंतव्य मंडी', 'गंतव्य बाजार समिती'],
+    ['DISTANCE', 'दूरी', 'अंतर'],
+    ['MODAL RATE (KG / QT)', 'मॉडल दर (किलो / क्विंटल)', 'सरासरी दर (किलो / क्विंटल)'],
+    ['FREIGHT COST', 'परिवहन भाड़ा', 'वाहतूक खर्च'],
+    ['NET SPREAD / GAIN', 'शुद्ध अतिरिक्त लाभ', 'निव्वळ नफा'],
+    ['ACTION', 'कार्रवाई', 'कृती'],
+    ['Book Freight', 'भाड़ा बुक करें', 'वाहतूक बुक करा'],
+    ['Monitor', 'निगरानी करें', 'निरीक्षण करा'],
+    ['No net gain', 'कोई अतिरिक्त लाभ नहीं', 'अतिरिक्त नफा नाही'],
+    ['MARKET ADVICE', 'बाजार सलाह (AI)', 'बाजार सल्ला (AI)'],
+    ['HOLD / DELAY HARVEST', 'रोकें / कटाई में देरी करें', 'माल राखून ठेवा / थांबवा'],
+    ['SELL NOW / DISPATCH TODAY', 'तुरंत बेचें / आज ही भेजें', 'लगेच विका / आजच पाठवा'],
+    ['MODERATE HARVEST', 'संतुलित बिक्री करें', 'हप्त्या-हप्त्याने विक्री करा'],
+    ['Confidence', 'विश्वसनीयता', 'विश्वासार्हता'],
 
     // KPI Cards
     ['Average Price', 'औसत मूल्य', 'सरासरी भाव'],
@@ -238,50 +488,20 @@
     ['this week', 'इस सप्ताह', 'या आठवड्यात'],
     ['today', 'आज', 'आज'],
     ['Quintals', 'क्विंटल', 'क्विंटल'],
-
-    // Sections & Cards
     ['Top Demanded Produce', 'सर्वाधिक मांग वाली फसलें', 'सर्वाधिक मागणी असलेली पिके'],
     ['By Arrival Volume', 'आवक मात्रा के अनुसार', 'आवक प्रमाणानुसार'],
     ['7-Day Price Forecasts', '7-दिवसीय मूल्य पूर्वानुमान', '७ दिवसांचा भाव अंदाज'],
     ['Prices likely to increase', 'भाव बढ़ने की पूरी संभावना', 'भाव वाढण्याची दाट शक्यता'],
-    ['Across Maharashtra APMC terminals over next 3–5 days', 'अगले 3-5 दिनों में महाराष्ट्र की प्रमुख मंडियों में', 'पुढील ३-५ दिवसांत महाराष्ट्रातील प्रमुख बाजारांत'],
-    ['Live APMC Mandi Rates & Arbitrage Signals', 'लाइव मंडी दर और अंतर-मंडी मुनाफा (आर्बिट्रेज)', 'थेट बाजार भाव आणि आंतर-बाजार नफा संधी'],
-    ['Verified feeds from Agmarknet API (data.gov.in) & e-NAM Mandis', 'एगमार्कनेट और ई-नाम सत्यापित सरकारी मंडी डेटा', 'अ‍ॅगमार्कनेट आणि ई-नाम प्रमाणित अधिकृत डेटा'],
-    ['All Mandis', 'सभी मंडियां', 'सर्व बाजार समित्या'],
-    ['Maharashtra Hubs', 'महाराष्ट्र मंडी हब', 'महाराष्ट्र केंद्रे'],
-    ['National Benchmark', 'राष्ट्रीय बेंचमार्क', 'राष्ट्रीय बाजार'],
 
-    // Table Headers
-    ['PRODUCE', 'फसल / उपज', 'पीक / शेतमाल'],
-    ['GRADE', 'ग्रेड / गुणवत्ता', 'प्रत / दर्जा'],
-    ['MANDI / LOCATION', 'मंडी / स्थान', 'बाजार समिती / ठिकाण'],
-    ['RATE (PER KG)', 'दर (प्रति किलो)', 'दर (प्रति किलो)'],
-    ['RATE (PER QT)', 'दर (प्रति क्विंटल)', 'दर (प्रति क्विंटल)'],
-    ['CHANGE (1W)', 'बदलाव (1 सप्ताह)', 'बदल (१ आठवडा)'],
-    ['TREND SPARK', 'रुझान ग्राफ', 'भाव आलेख'],
-    ['BEST OPTION', 'विकल्प', 'पर्याय'],
-    ['View Sheet', 'विवरण पत्र', 'तपशील पहा'],
-
-    // Modal Details
-    ['MARKET ADVICE', 'बाजार सलाह (AI)', 'बाजार सल्ला (AI)'],
-    ['7-Day Forward Price Projections (In ₹ per kg)', '7-दिवसीय अग्रिम मूल्य अनुमान (₹ प्रति किलो में)', '७ दिवसांचे अंदाजित भाव (₹ प्रति किलोमध्ये)'],
-    ['Best Mandis to Sell (After Transport Cost)', 'माल बेचने के लिए सर्वश्रेष्ठ मंडियां (भाड़ा खर्च काटकर)', 'माल विकण्यासाठी सर्वोत्तम बाजार (वाहतूक खर्च वजा जाता)'],
-    ['DESTINATION MANDI', 'गंतव्य मंडी', 'गंतव्य बाजार समिती'],
-    ['DISTANCE', 'दूरी', 'अंतर'],
-    ['MODAL RATE (KG / QT)', 'मॉडल दर (किलो / क्विंटल)', 'सरासरी दर (किलो / क्विंटल)'],
-    ['FREIGHT COST', 'परिवहन भाड़ा', 'वाहतूक खर्च'],
-    ['NET SPREAD / GAIN', 'शुद्ध अतिरिक्त लाभ', 'निव्वळ नफा'],
-    ['ACTION', 'कार्रवाई', 'कृती'],
-    ['Book Freight', 'भाड़ा बुक करें', 'वाहतूक बुक करा'],
-    ['Monitor', 'निगरानी करें', 'निरीक्षण करा'],
-    ['No net gain', 'कोई अतिरिक्त लाभ नहीं', 'अतिरिक्त नफा नाही'],
-    ['Local Mandi is optimal; no regional arbitrage spread exceeds transit costs.', 'स्थानीय मंडी सर्वोत्तम है; किसी बाहरी मंडी में भाड़ा निकालकर अतिरिक्त लाभ नहीं है।', 'स्थानिक बाजार समिती सर्वोत्तम आहे; इतर बाजारातील भाववाढ वाहतूक खर्चापेक्षा कमी आहे.'],
-
-    // Crop Listing & Forms
+    // Crop Forms & Details
     ['Date of Harvest', 'कटाई की तिथि', 'कापणीची तारीख'],
     ['Harvest Date', 'कटाई की तिथि', 'कापणीची तारीख'],
     ['Posting Date', 'पोस्टिंग तिथि', 'नोंदणी तारीख'],
     ['Expected Price', 'अपेक्षित मूल्य', 'अपेक्षित भाव'],
+    ['Expected Floor Price', 'अपेक्षित न्यूनतम मूल्य', 'अपेक्षित हमीभाव'],
+    ['Original Floor Price', 'मूल न्यूनतम मूल्य', 'मूळ हमीभाव'],
+    ['Current Best Buyer Bid', 'वर्तमान सर्वोत्तम खरीदार बोली', 'सध्याची सर्वोत्तम खरेदीदार बोली'],
+    ['Listed Volume', 'सूचीबद्ध मात्रा', 'नोंदवलेले प्रमाण'],
     ['Best Bid', 'सर्वोत्तम बोली', 'सर्वोत्तम बोली'],
     ['Quantity', 'मात्रा', 'प्रमाण'],
     ['Shelf Life', 'भंडारण अवधि', 'टिकवण क्षमता'],
@@ -292,18 +512,14 @@
     ['Emergency Sale', 'संकटकालीन त्वरित बिक्री', 'तातडीची संकट विक्री'],
     ['Emergency Distress Sale', 'आपातकालीन संकट बिक्री', 'तातडीची संकट विक्री'],
     ['Active Offer', 'सक्रिय प्रस्ताव', 'सक्रिय ऑफर'],
-
-    // FPO & Escrow
-    ['FPO Aggregation Pool', 'एफपीओ एकत्रीकरण पूल', 'एफपीओ संकलन गट'],
-    ['Escrow Protected', 'एस्क्रो सुरक्षित', 'एस्क्रो सुरक्षित'],
-    ['Advance Released (35%)', 'अग्रिम राशि जारी (35%)', 'अ‍ॅडव्हान्स जमा (३५%)'],
-    ['Balance in Escrow (65%)', 'एस्क्रो में शेष (65%)', 'एस्क्रोमध्ये शिल्लक (६५%)'],
-    ['Bank Transfer UTR', 'बैंक ट्रांसफर यूटीआर', 'बँक ट्रान्सफर UTR'],
-    ['Payout Settled', 'भुगतान संपन्न', 'रक्कम वर्ग झाली'],
-
-    // Notifications & Toasts
-    ['Live Maharashtra Mandi Rates Updated!', 'लाइव महाराष्ट्र मंडी दर अपडेट हो गए!', 'महाराष्ट्रातील थेट बाजार भाव अपडेट झाले!'],
-    ['Synced APMC yards across Nashik, Lasalgaon, Pune, Solapur & Latur.', 'नासिक, लासलगांव, पुणे, सोलापुर और लातूर मंडियों से सिंक किया गया।', 'नाशिक, लासलगाव, पुणे, सोलापूर आणि लातूर बाजार समित्यांचे भाव जुळवले.']
+    ['Contract Rate', 'अनुबंध दर', 'करार दर'],
+    ['Contract Price', 'अनुबंध मूल्य', 'करार किंमत'],
+    ['Enter Your Price (₹ / kg):', 'अपना मूल्य दर्ज करें (₹ / किलो):', 'तुमचा भाव प्रविष्ट करा (₹ / किलो):'],
+    ['OFFERED PRICE', 'प्रस्तावित मूल्य', 'ऑफर केलेला दर'],
+    ['Available', 'उपलब्ध', 'उपलब्ध'],
+    ['Harvested', 'काटा गया', 'कापणी झालेली'],
+    ['Days', 'दिन', 'दिवस'],
+    ['Target:', 'लक्ष्य:', 'लक्ष्य:']
   ];
 
   const TRANSLATIONS = {
@@ -333,52 +549,103 @@
   }
 
   function tCrop(cropName, lang) {
-    if (!cropName) return cropName;
+    if (!cropName || typeof cropName !== 'string') return cropName;
     const l = lang || getFarmerLanguage();
     if (l === 'en') return cropName;
+
+    // 1. Direct exact match in CROP_MAP
     if (CROP_MAP[cropName] && CROP_MAP[cropName][l]) {
       return CROP_MAP[cropName][l];
     }
+
+    let res = cropName;
+
+    // 2. Sub-phrase replacements in CROP_MAP
     for (const [k, v] of Object.entries(CROP_MAP)) {
-      if (cropName.includes(k) && v[l]) {
-        return cropName.replace(k, v[l]);
+      if (res.includes(k) && v[l]) {
+        res = res.replaceAll(k, v[l]);
       }
     }
-    return cropName;
+
+    // 3. Sub-phrase replacements in VARIETY_MAP
+    for (const [k, v] of Object.entries(VARIETY_MAP)) {
+      if (res.includes(k) && v[l]) {
+        res = res.replaceAll(k, v[l]);
+      }
+    }
+
+    // 4. Mandi & District replacements in crop string
+    for (const [k, v] of Object.entries(DISTRICT_MAP)) {
+      if (res.includes(k) && v[l]) {
+        res = res.replaceAll(k, v[l]);
+      }
+    }
+
+    return res;
+  }
+
+  function tVariety(varietyName, lang) {
+    if (!varietyName || typeof varietyName !== 'string') return varietyName;
+    const l = lang || getFarmerLanguage();
+    if (l === 'en') return varietyName;
+
+    if (VARIETY_MAP[varietyName] && VARIETY_MAP[varietyName][l]) {
+      return VARIETY_MAP[varietyName][l];
+    }
+
+    let res = varietyName;
+    for (const [k, v] of Object.entries(VARIETY_MAP)) {
+      if (res.includes(k) && v[l]) {
+        res = res.replaceAll(k, v[l]);
+      }
+    }
+    return res;
   }
 
   function tPerson(name, lang) {
-    if (!name) return name;
+    if (!name || typeof name !== 'string') return name;
     const l = lang || getFarmerLanguage();
     if (l === 'en') return name;
     return (PERSON_MAP[name] && PERSON_MAP[name][l]) || name;
   }
 
   function tLocation(loc, lang) {
-    if (!loc) return loc;
+    if (!loc || typeof loc !== 'string') return loc;
     const l = lang || getFarmerLanguage();
     if (l === 'en') return loc;
     if (MANDI_MAP[loc] && MANDI_MAP[loc][l]) return MANDI_MAP[loc][l];
     if (DISTRICT_MAP[loc] && DISTRICT_MAP[loc][l]) return DISTRICT_MAP[loc][l];
     let res = loc;
     for (const [k, v] of Object.entries(MANDI_MAP)) {
-      if (res.includes(k) && v[l]) res = res.replace(k, v[l]);
+      if (res.includes(k) && v[l]) res = res.replaceAll(k, v[l]);
     }
     for (const [k, v] of Object.entries(DISTRICT_MAP)) {
-      if (res.includes(k) && v[l]) res = res.replace(k, v[l]);
+      if (res.includes(k) && v[l]) res = res.replaceAll(k, v[l]);
     }
     return res;
   }
 
+  function tCategory(cat, lang) {
+    if (!cat || typeof cat !== 'string') return cat;
+    const l = lang || getFarmerLanguage();
+    if (l === 'en') return cat;
+    return (CATEGORY_MAP[cat] && CATEGORY_MAP[cat][l]) || cat;
+  }
+
   function tGrade(grade, lang) {
-    if (!grade) return grade;
+    if (!grade || typeof grade !== 'string') return grade;
     const l = lang || getFarmerLanguage();
     if (l === 'en') return grade;
-    return (GRADE_MAP[grade] && GRADE_MAP[grade][l]) || grade;
+    if (GRADE_MAP[grade] && GRADE_MAP[grade][l]) return GRADE_MAP[grade][l];
+    let res = grade;
+    for (const [k, v] of Object.entries(GRADE_MAP)) {
+      if (res.includes(k) && v[l]) res = res.replaceAll(k, v[l]);
+    }
+    return res;
   }
 
   function tStatus(status, lang) {
-    if (!status) return status;
+    if (!status || typeof status !== 'string') return status;
     const l = lang || getFarmerLanguage();
     if (l === 'en') return status;
     return (STATUS_MAP[status] && STATUS_MAP[status][l]) || status;
@@ -474,49 +741,63 @@
 
       let translated = orig;
 
-      // 1. Direct Crop map lookup
+      // 1. Direct Crop map lookup (Longest keys first for greediness)
       for (const [k, v] of Object.entries(CROP_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 2. Direct Mandi map lookup
+      // 2. Direct Variety map lookup
+      for (const [k, v] of Object.entries(VARIETY_MAP)) {
+        if (translated.includes(k) && v[l]) {
+          translated = translated.replaceAll(k, v[l]);
+        }
+      }
+
+      // 3. Category map lookup
+      for (const [k, v] of Object.entries(CATEGORY_MAP)) {
+        if (translated.includes(k) && v[l]) {
+          translated = translated.replaceAll(k, v[l]);
+        }
+      }
+
+      // 4. Direct Mandi map lookup
       for (const [k, v] of Object.entries(MANDI_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 3. Person map lookup
+      // 5. Person map lookup
       for (const [k, v] of Object.entries(PERSON_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 4. District map lookup
+      // 6. District map lookup
       for (const [k, v] of Object.entries(DISTRICT_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 5. Grade map lookup
+      // 7. Grade map lookup
       for (const [k, v] of Object.entries(GRADE_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 6. Status map lookup
+      // 8. Status map lookup
       for (const [k, v] of Object.entries(STATUS_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 7. General Phrase Maps
+      // 9. General Phrase Maps
       for (let i = 0; i < PHRASE_MAP.length; i++) {
         const row = PHRASE_MAP[i];
         if (translated.includes(row[0])) {
@@ -628,6 +909,8 @@
   // Export to global window object
   window.AgriNexFarmerI18n = {
     tCrop,
+    tVariety,
+    tCategory,
     tPerson,
     tLocation,
     tGrade,
@@ -639,6 +922,14 @@
     walkAndTranslateDOM
   };
 
+  window.tCrop = tCrop;
+  window.tVariety = tVariety;
+  window.tCategory = tCategory;
+  window.tPerson = tPerson;
+  window.tLocation = tLocation;
+  window.tGrade = tGrade;
+  window.tStatus = tStatus;
+  window.tText = tText;
   window.setFarmerLanguage = setFarmerLanguage;
   window.getFarmerLanguage = getFarmerLanguage;
   window.toggleLanguageMenu = toggleLanguageMenu;

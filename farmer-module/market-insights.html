@@ -1117,13 +1117,14 @@
         const imgUrl = getProduceImage(c.commodity);
         const priceKg = (c.modal_price / 100.0).toFixed(2);
         const priceQt = c.modal_price.toLocaleString('en-IN');
+        const dispCrop = window.tCrop ? window.tCrop(c.commodity) : c.commodity;
 
         const card = document.createElement("div");
         card.className = `produce-chip ${isActive ? 'active' : ''}`;
         card.innerHTML = `
           <img src="${imgUrl}" alt="${c.commodity}" class="produce-chip-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
           <div>
-            <div style="font-size: 0.86rem; font-weight: 800; color: #0f172a;">${c.commodity}</div>
+            <div style="font-size: 0.86rem; font-weight: 800; color: #0f172a;">${dispCrop}</div>
             <div style="font-size: 0.74rem; font-weight: 700; color: #15803d;">₹ ${priceKg}/kg <span style="font-size: 0.68rem; color: #64748b; font-weight: 600;">(₹${priceQt}/Qt)</span></div>
           </div>
         `;
@@ -1149,10 +1150,16 @@
       const targetQt = (c.forecast?.target_price_7d || c.modal_price).toLocaleString('en-IN');
       const pctChange = c.forecast?.pct_change_7d || 0;
 
+      const dispCrop = window.tCrop ? window.tCrop(c.commodity) : c.commodity;
+      const dispVariety = window.tVariety ? window.tVariety(c.variety) : (c.variety || '');
+      const dispMarket = window.tLocation ? window.tLocation(c.market) : (c.market || '');
+      const dispDistrict = window.tLocation ? window.tLocation(c.district) : (c.district || '');
+      const dispGrade = window.tGrade ? window.tGrade(c.grade) : (c.grade || '');
+
       // Update Summary Bar
       document.getElementById("active-crop-img").src = getProduceImage(c.commodity);
-      document.getElementById("active-crop-title").textContent = `${c.commodity} (${c.variety || ''})`;
-      document.getElementById("active-crop-location").textContent = `${c.market || ''}, ${c.district || ''} • ${c.grade || ''}`;
+      document.getElementById("active-crop-title").textContent = dispVariety ? `${dispCrop} (${dispVariety})` : dispCrop;
+      document.getElementById("active-crop-location").textContent = `${dispMarket}, ${dispDistrict} • ${dispGrade}`;
       document.getElementById("active-spot-rate").innerHTML = `₹ ${spotKg} /kg <span style="font-size: 0.76rem; font-weight: 600; color: #64748b;">(₹ ${spotQt} /Qt)</span>`;
       document.getElementById("active-forecast-target").innerHTML = `₹ ${targetKg} /kg <span style="font-size: 0.76rem; font-weight: 600; color: #64748b;">(₹ ${targetQt} /Qt)</span> <span style="font-size: 0.78rem; font-weight: 800; color: ${pctChange >= 0 ? '#10b981' : '#ef4444'};">(${pctChange >= 0 ? '+' : ''}${pctChange}%)</span>`;
 
@@ -1271,13 +1278,14 @@
         const imgUrl = getProduceImage(c.commodity);
         const priceKg = (c.modal_price / 100.0).toFixed(2);
         const priceQt = c.modal_price.toLocaleString('en-IN');
+        const dispCrop = window.tCrop ? window.tCrop(c.commodity) : c.commodity;
 
         container.innerHTML += `
           <div class="demand-item">
             <div style="display: flex; align-items: center; gap: 10px; min-width: 120px;">
               <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
               <div>
-                <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">${c.commodity}</div>
+                <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">${dispCrop}</div>
                 <div style="font-size: 0.74rem; font-weight: 700; color: #15803d;">₹ ${priceKg}/kg <span style="font-size: 0.68rem; color: #64748b; font-weight: 600;">(₹${priceQt}/Qt)</span></div>
               </div>
             </div>
@@ -1302,13 +1310,14 @@
         const targetPrice = c.forecast?.target_price_7d || c.modal_price;
         const targetKg = (targetPrice / 100.0).toFixed(2);
         const targetQt = targetPrice.toLocaleString('en-IN');
+        const dispCrop = window.tCrop ? window.tCrop(c.commodity) : c.commodity;
 
         container.innerHTML += `
           <div class="forecast-row" onclick="openMandiModal('${c.id}')">
             <div style="display: flex; align-items: center; gap: 10px;">
               <img src="${imgUrl}" alt="${c.commodity}" class="demand-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
               <div>
-                <span style="font-weight: 700; font-size: 0.88rem; color: #0f172a; display: block;">${c.commodity}</span>
+                <span style="font-weight: 700; font-size: 0.88rem; color: #0f172a; display: block;">${dispCrop}</span>
                 <span style="font-size: 0.74rem; color: #64748b;">Target: <strong style="color: #0f172a;">₹ ${targetKg}/kg</strong> <span style="font-size: 0.68rem;">(₹${targetQt}/Qt)</span></span>
               </div>
             </div>
@@ -1334,6 +1343,11 @@
         const gradeStr = c.grade || "Grade A";
         const gradeClass = gradeStr.includes("Grade A") || gradeStr.includes("Class 1") ? "badge-grade-green" : "badge-grade-blue";
 
+        const dispCrop = window.tCrop ? window.tCrop(c.commodity) : c.commodity;
+        const dispVariety = window.tVariety ? window.tVariety(c.variety) : (c.variety || '');
+        const dispGrade = window.tGrade ? window.tGrade(gradeStr) : gradeStr;
+        const dispMarket = window.tLocation ? window.tLocation(c.market || 'APMC Yard') : (c.market || 'APMC Yard');
+
         // Sparkline Points with safety guards
         const history = (c.history_7d && c.history_7d.length > 0) ? c.history_7d : [c.modal_price || 1000];
         const sparkMin = Math.min(...history);
@@ -1350,16 +1364,16 @@
               <div style="display: flex; align-items: center; gap: 10px;">
                 <img src="${imgUrl}" alt="${c.commodity}" class="table-crop-thumb" onerror="this.src='assets/images/hero-field.jpg'" />
                 <div>
-                  <strong style="font-size: 0.88rem; color: #0f172a; display: block;">${c.commodity}</strong>
-                  <span style="font-size: 0.72rem; color: #64748b;">${c.variety || ''}</span>
+                  <strong style="font-size: 0.88rem; color: #0f172a; display: block;">${dispCrop}</strong>
+                  <span style="font-size: 0.72rem; color: #64748b;">${dispVariety}</span>
                 </div>
               </div>
             </td>
             <td style="padding: 12px 10px;">
-              <span class="badge-grade ${gradeClass}">${gradeStr}</span>
+              <span class="badge-grade ${gradeClass}">${dispGrade}</span>
             </td>
             <td style="padding: 12px 10px;">
-              <div style="font-size: 0.84rem; font-weight: 700; color: #334155;">${c.market || 'APMC Yard'}</div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: #334155;">${dispMarket}</div>
               <div style="display: flex; gap: 4px; align-items: center; margin-top: 2px;">
                 <span class="badge-source">${c.source || 'MSAMB & e-NAM'}</span>
               </div>
@@ -1379,7 +1393,7 @@
               </svg>
             </td>
             <td style="padding: 12px 10px; text-align: right;">
-              <button class="btn-details" onclick="openMandiModal('${c.id}')">View Sheet</button>
+              <button class="btn-details" onclick="openMandiModal('${c.id}')">${window.tText ? window.tText('View Sheet') : 'View Sheet'}</button>
             </td>
           </tr>
         `;
@@ -1392,11 +1406,17 @@
       const c = marketData.commodities.find(item => item.id === cropId);
       if (!c) return;
 
+      const dispCrop = window.tCrop ? window.tCrop(c.commodity) : c.commodity;
+      const dispVariety = window.tVariety ? window.tVariety(c.variety) : (c.variety || '');
+      const dispMarket = window.tLocation ? window.tLocation(c.market) : (c.market || '');
+      const dispDistrict = window.tLocation ? window.tLocation(c.district) : (c.district || '');
+      const dispGrade = window.tGrade ? window.tGrade(c.grade) : (c.grade || '');
+
       document.getElementById("modal-crop-img").src = getProduceImage(c.commodity);
-      document.getElementById("modal-crop-title").textContent = `${c.commodity} (${c.variety || ''})`;
+      document.getElementById("modal-crop-title").textContent = dispVariety ? `${dispCrop} (${dispVariety})` : dispCrop;
       const spotKg = (c.modal_price / 100.0).toFixed(2);
       const spotQt = c.modal_price.toLocaleString('en-IN');
-      document.getElementById("modal-crop-subtitle").textContent = `${c.market || ''}, ${c.district || ''} • ${c.grade || ''} • Spot Rate: ₹ ${spotKg}/kg (₹ ${spotQt}/Qt)`;
+      document.getElementById("modal-crop-subtitle").textContent = `${dispMarket}, ${dispDistrict} • ${dispGrade} • Spot Rate: ₹ ${spotKg}/kg (₹ ${spotQt}/Qt)`;
 
       // Advisory
       const confidence = c.forecast?.confidence_pct || 94;
@@ -1404,8 +1424,8 @@
       const rationale = c.advisory?.rationale || "Wholesale arrivals balanced against steady institutional off-take.";
       
       document.getElementById("modal-ai-confidence").textContent = `${confidence}% ML Confidence`;
-      document.getElementById("modal-ai-verdict").textContent = verdict;
-      document.getElementById("modal-ai-rationale").textContent = rationale;
+      document.getElementById("modal-ai-verdict").textContent = window.tText ? window.tText(verdict) : verdict;
+      document.getElementById("modal-ai-rationale").textContent = window.tText ? window.tText(rationale) : rationale;
 
       // 7-Day Forecast Grid in KG
       const fGrid = document.getElementById("modal-forecast-grid");
@@ -1428,27 +1448,29 @@
       if (c.arbitrage_matrix && c.arbitrage_matrix.length > 0) {
         c.arbitrage_matrix.forEach(arb => {
           const isViable = arb.is_viable;
+          const targetMandiDisp = window.tLocation ? window.tLocation(arb.target_mandi) : arb.target_mandi;
+          const targetStateDisp = window.tLocation ? window.tLocation(arb.state) : arb.state;
           aTbody.innerHTML += `
             <tr style="border-bottom: 1px solid #f1f5f9;">
-              <td style="padding: 10px 12px; font-weight: 700; color: #0f172a;">${arb.target_mandi} (${arb.state})</td>
+              <td style="padding: 10px 12px; font-weight: 700; color: #0f172a;">${targetMandiDisp} (${targetStateDisp})</td>
               <td style="padding: 10px 12px; color: #64748b;">${arb.distance_km} km</td>
               <td style="padding: 10px 12px; font-weight: 700; color: #0f172a;">
                 ₹ ${(arb.mandi_modal_price / 100.0).toFixed(2)}/kg <span style="font-size: 0.74rem; color: #64748b;">(₹${arb.mandi_modal_price.toLocaleString('en-IN')}/Qt)</span>
               </td>
               <td style="padding: 10px 12px; color: #dc2626;">- ₹ ${(arb.freight_cost_qt / 100.0).toFixed(2)}/kg</td>
               <td style="padding: 10px 12px; font-weight: 800; color: ${isViable ? '#166534' : '#64748b'};">
-                ${isViable ? '+ ₹ ' + (arb.net_gain_qt / 100.0).toFixed(2) + ' /kg (+' + arb.roi_pct + '%)' : 'No net gain'}
+                ${isViable ? '+ ₹ ' + (arb.net_gain_qt / 100.0).toFixed(2) + ' /kg (+' + arb.roi_pct + '%)' : (window.tText ? window.tText('No net gain') : 'No net gain')}
               </td>
               <td style="padding: 10px 12px; text-align: right;">
                 <button style="padding: 4px 10px; border-radius: 999px; border: 1px solid ${isViable ? '#166534' : '#cbd5e1'}; background: ${isViable ? '#dcfce7' : '#ffffff'}; color: ${isViable ? '#166534' : '#64748b'}; font-weight: 700; font-size: 0.72rem; cursor: pointer;">
-                  ${isViable ? 'Book Freight' : 'Monitor'}
+                  ${isViable ? (window.tText ? window.tText('Book Freight') : 'Book Freight') : (window.tText ? window.tText('Monitor') : 'Monitor')}
                 </button>
               </td>
             </tr>
           `;
         });
       } else {
-        aTbody.innerHTML = `<tr><td colspan="6" style="padding: 12px; text-align: center; color: #64748b;">Local Mandi is optimal; no regional arbitrage spread exceeds transit costs.</td></tr>`;
+        aTbody.innerHTML = `<tr><td colspan="6" style="padding: 12px; text-align: center; color: #64748b;">${window.tText ? window.tText('Local Mandi is optimal; no regional arbitrage spread exceeds transit costs.') : 'Local Mandi is optimal; no regional arbitrage spread exceeds transit costs.'}</td></tr>`;
       }
 
       document.getElementById("mandi-modal").classList.add("active");
