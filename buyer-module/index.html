@@ -470,20 +470,51 @@
       <!-- LITE / SIMPLE / AUDIO-FIRST MODE CONTAINER FOR ELDERLY TRADERS -->
       <div id="lite-mode-container" class="lite-mode-wrapper" style="display: none;">
         
-        <!-- Top Section Selector Tabs (Produce, Orders, Escrow) -->
-        <div class="lite-nav-tabs" style="display: flex; gap: 14px; margin-bottom: 22px; flex-wrap: wrap;">
-          <button type="button" class="lite-nav-tab active" id="lite-tab-produce" onclick="switchLiteSection('produce')">
-            <span style="font-size: 1.4rem;">🌾</span>
-            <span id="lite-tab-produce-text">Buy Produce (शेतीमाल खरेदी)</span>
-          </button>
-          <button type="button" class="lite-nav-tab" id="lite-tab-orders" onclick="switchLiteSection('orders')">
-            <span style="font-size: 1.4rem;">🚚</span>
-            <span id="lite-tab-orders-text">My Orders & Trucks (माझ्या गाड्या)</span>
-          </button>
-          <button type="button" class="lite-nav-tab" id="lite-tab-escrow" onclick="switchLiteSection('escrow')">
-            <span style="font-size: 1.4rem;">🛡️</span>
-            <span id="lite-tab-escrow-text">Safe Escrow (सुरक्षित खाती)</span>
-          </button>
+        <!-- Top Section Selector Tabs (Produce, Orders, Escrow) + Simple Mode Accessibility & Language Bar -->
+        <div class="lite-nav-tabs" style="display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 22px; flex-wrap: wrap;">
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button type="button" class="lite-nav-tab active" id="lite-tab-produce" onclick="switchLiteSection('produce')">
+              <span style="font-size: 1.4rem;">🌾</span>
+              <span id="lite-tab-produce-text">Buy Produce (शेतीमाल खरेदी)</span>
+            </button>
+            <button type="button" class="lite-nav-tab" id="lite-tab-orders" onclick="switchLiteSection('orders')">
+              <span style="font-size: 1.4rem;">🚚</span>
+              <span id="lite-tab-orders-text">My Orders & Trucks (माझ्या गाड्या)</span>
+            </button>
+            <button type="button" class="lite-nav-tab" id="lite-tab-escrow" onclick="switchLiteSection('escrow')">
+              <span style="font-size: 1.4rem;">🛡️</span>
+              <span id="lite-tab-escrow-text">Safe Escrow (सुरक्षित खाती)</span>
+            </button>
+          </div>
+
+          <!-- Elderly-First Accessibility & Audio Controls Bar -->
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <!-- Font Scaler -->
+            <div style="display: flex; gap: 3px; background: #ffffff; padding: 4px; border-radius: 999px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+              <button type="button" onclick="setLiteFontSize('sm')" title="Small Text / लहान अक्षरे" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.75rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">A-</button>
+              <button type="button" id="btn-font-md" onclick="setLiteFontSize('md')" title="Normal Text / मध्यम" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.85rem; font-weight: 800; cursor: pointer; background: #0c5a36; color: #ffffff;">A</button>
+              <button type="button" id="btn-font-lg" onclick="setLiteFontSize('lg')" title="Large Text / मोठी अक्षरे" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.95rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">A+</button>
+            </div>
+
+            <!-- Speech Speed Controller -->
+            <div style="display: flex; gap: 3px; background: #ffffff; padding: 4px; border-radius: 999px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.05);" title="Audio Voice Speed / आवाजाचा वेग">
+              <button type="button" id="btn-speed-slow" onclick="setLiteSpeechRate(0.8)" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.78rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">🐢 0.8x</button>
+              <button type="button" id="btn-speed-normal" onclick="setLiteSpeechRate(1.0)" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.78rem; font-weight: 800; cursor: pointer; background: #0c5a36; color: #ffffff;">🗣️ 1.0x</button>
+            </div>
+
+            <!-- Mandi Sunlight High-Contrast Toggle -->
+            <button type="button" id="btn-sunlight-mode" onclick="toggleSunlightMode()" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #ca8a04; background: #fef08a; color: #854d0e; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 5px;" title="High Contrast for Mandi Sunlight / कडक उन्हासाठी हाय-कॉन्ट्रास्ट">
+              <span>☀️</span>
+              <span id="lite-sunlight-text">Sunlight Mode</span>
+            </button>
+
+            <!-- Quick 1-Tap Language Switcher for Simple Mode -->
+            <div class="lite-lang-switcher" style="display: flex; gap: 6px; background: #ffffff; padding: 4px; border-radius: 999px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+              <button type="button" class="lite-lang-btn" id="lite-lang-en" onclick="setBuyerLanguage('en')" style="padding: 6px 14px; border-radius: 999px; border: none; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: all 0.2s; background: #0c5a36; color: #ffffff;">🇬🇧 English</button>
+              <button type="button" class="lite-lang-btn" id="lite-lang-hi" onclick="setBuyerLanguage('hi')" style="padding: 6px 14px; border-radius: 999px; border: none; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: all 0.2s; background: transparent; color: #475569;">🇮🇳 हिन्दी</button>
+              <button type="button" class="lite-lang-btn" id="lite-lang-mr" onclick="setBuyerLanguage('mr')" style="padding: 6px 14px; border-radius: 999px; border: none; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: all 0.2s; background: transparent; color: #475569;">🚩 मराठी</button>
+            </div>
+          </div>
         </div>
 
         <!-- SECTION 1: PRODUCE MARKETPLACE -->
@@ -551,9 +582,14 @@
                 <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 0;" id="lite-orders-title">🚚 Live Shipments & Booked Trucks</h2>
                 <span style="font-size: 0.95rem; color: #64748b;" id="lite-orders-subtitle">Track your delivery trucks on live GPS with 1-tap call to driver</span>
               </div>
-              <button type="button" class="lite-audio-btn" style="position: static;" onclick="speakOrdersSummary()">
-                🔊 <span id="lite-orders-audio-btn">Listen Status</span>
-              </button>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="lite-btn-call" style="padding: 10px 18px; font-size: 0.92rem; background: #fee2e2; color: #991b1b; border: 1.5px solid #f87171;" onclick="openLiteGrievanceModal()">
+                  🚨 <span id="lite-grievance-btn-text">Voice Dispute / तक्रार नोंदवा</span>
+                </button>
+                <button type="button" class="lite-audio-btn" style="position: static;" onclick="speakOrdersSummary()">
+                  🔊 <span id="lite-orders-audio-btn">Listen Status</span>
+                </button>
+              </div>
             </div>
             <div id="lite-orders-list" style="display: flex; flex-direction: column; gap: 20px;">
               <!-- Populated dynamically by lite_mode.js -->
@@ -566,6 +602,26 @@
           <div style="background: #ffffff; border-radius: 20px; border: 1.5px solid #e2e8f0; padding: 28px; margin-bottom: 24px;">
             <h2 style="font-size: 1.5rem; font-weight: 800; color: #065f46; margin: 0 0 10px 0;" id="lite-escrow-title">🛡️ 100% Protected Escrow Vault</h2>
             <p style="font-size: 0.98rem; color: #334155; margin: 0 0 24px 0;" id="lite-escrow-subtitle">Your money is kept in a government-supervised escrow account until your produce arrives at your warehouse.</p>
+            
+            <!-- 3-Step Visual Escrow Flow Diagram -->
+            <div class="lite-escrow-flow">
+              <div class="lite-escrow-step active-step">
+                <div class="lite-step-badge">1</div>
+                <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800; color: #065f46;" id="lite-step1-title">🔒 35% Deposit Locked</h4>
+                <p style="margin: 0; font-size: 0.88rem; color: #166534;" id="lite-step1-desc">Money stays secure in the bank escrow account during truck transit.</p>
+              </div>
+              <div class="lite-escrow-step">
+                <div class="lite-step-badge">2</div>
+                <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800; color: #0f172a;" id="lite-step2-title">🚛 Produce Inspection</h4>
+                <p style="margin: 0; font-size: 0.88rem; color: #475569;" id="lite-step2-desc">Inspect moisture, grade, and weight at your warehouse upon arrival.</p>
+              </div>
+              <div class="lite-escrow-step">
+                <div class="lite-step-badge">3</div>
+                <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800; color: #0f172a;" id="lite-step3-title">💸 Payment Released</h4>
+                <p style="margin: 0; font-size: 0.88rem; color: #475569;" id="lite-step3-desc">Farmer receives final balance instantly after your 1-tap approval.</p>
+              </div>
+            </div>
+
             <div id="lite-escrow-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
               <!-- Populated dynamically by lite_mode.js -->
             </div>
@@ -573,6 +629,13 @@
         </div>
 
       </div>
+
+      <!-- Persistent Floating Voice Mic for Simple Mode -->
+      <button type="button" id="lite-floating-voice-mic" class="lite-floating-mic" onclick="startLiteVoiceAssistant()" style="display: none;" title="Speak Voice Command / बोलून आदेश द्या">
+        <span style="font-size: 1.5rem;">🎤</span>
+        <span id="lite-floating-mic-label">बोलून शोधा (Speak)</span>
+      </button>
+
 
       <!-- VIEW: VERIFIED PRODUCE / MARKETPLACE (Default Active) -->
       <div id="view-verified-produce" class="portal-view active-view dashboard-content">
@@ -4264,10 +4327,23 @@
           <span style="color: #475569;" id="lite-modal-price-label">Price / Rate:</span>
           <strong id="lite-buy-price" style="color: #16a34a;">₹ 22 / kg</strong>
         </div>
+
         <div class="lite-modal-row">
           <span style="color: #475569;" id="lite-modal-qty-label">Quantity:</span>
           <strong id="lite-buy-qty">5,000 kg (100 Bags)</strong>
         </div>
+
+        <!-- Big 1-Tap Bag Stepper Controls (No Keypad Required) -->
+        <div style="margin: 10px 0 14px 0;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 6px;" id="lite-stepper-label">⚡ 1-Tap Quick Quantity (बोरी निवडा):</span>
+          <div class="lite-stepper-grid">
+            <button type="button" class="lite-stepper-btn" onclick="changeLiteBuyQuantity(-10)">- 10 बोरी</button>
+            <button type="button" class="lite-stepper-btn" onclick="changeLiteBuyQuantity(10)">+ 10 बोरी</button>
+            <button type="button" class="lite-stepper-btn" onclick="changeLiteBuyQuantity(50)">+ 50 बोरी</button>
+            <button type="button" class="lite-stepper-btn" onclick="changeLiteBuyQuantity(100)">+ 100 बोरी</button>
+          </div>
+        </div>
+
         <div class="lite-modal-row" style="background: #f0fdf4; padding: 12px 14px; border-radius: 12px; border: 1px solid #bbf7d0;">
           <span style="font-weight: 800; color: #166534;" id="lite-modal-total-label">Total Amount:</span>
           <strong id="lite-buy-total" style="color: #15803d; font-size: 1.45rem;">₹ 1,10,000</strong>
@@ -4284,6 +4360,121 @@
         </button>
         <button type="button" class="lite-modal-btn-confirm" onclick="confirmLiteBuyOrder()" id="lite-modal-btn-confirm-text">
           ✓ Confirm Purchase
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-Tap Voice Grievance / Quality Dispute Modal for Simple Mode -->
+  <div id="modal-lite-grievance">
+    <div class="lite-modal-card">
+      <div class="lite-modal-header" style="background: #fee2e2; border-color: #fca5a5;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.6rem;">🚨</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #991b1b;" id="lite-grievance-title">1-Tap Voice Dispute</h3>
+            <span style="font-size: 0.85rem; color: #b91c1c;" id="lite-grievance-sub">Record a 15-second voice note about quality, moisture, or weight issue.</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeLiteGrievanceModal()" style="background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer; padding: 4px;">✕</button>
+      </div>
+
+      <div class="lite-modal-body" style="text-align: center; padding: 28px 24px;">
+        <div id="lite-grievance-status" style="font-size: 1.05rem; font-weight: 700; color: #334155; margin-bottom: 20px;">
+          🎙️ माइक बटण दाबा आणि तक्रार बोला (Tap mic to speak issue)
+        </div>
+
+        <button type="button" id="btn-grievance-record" onclick="toggleGrievanceRecord()" style="width: 90px; height: 90px; border-radius: 999px; background: #dc2626; color: #ffffff; border: 4px solid #ffffff; box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4); font-size: 2.2rem; cursor: pointer; transition: all 0.2s; margin-bottom: 18px;">
+          🎤
+        </button>
+
+        <div id="lite-grievance-audio-timer" style="font-size: 0.95rem; font-weight: 800; color: #dc2626; display: none;">
+          ⏱️ <span id="grievance-seconds">00:00</span> / 00:15
+        </div>
+
+        <div id="lite-grievance-result-box" style="display: none; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; padding: 14px; margin-top: 16px; text-align: left;">
+          <span style="font-size: 0.82rem; font-weight: 800; color: #166534; display: block; margin-bottom: 4px;">✓ Voice Dispute Ticket #AGX-DISP-892</span>
+          <p id="lite-grievance-text" style="font-size: 0.95rem; color: #14532d; margin: 0;"></p>
+        </div>
+      </div>
+
+      <div class="lite-modal-footer">
+        <button type="button" class="lite-modal-btn-cancel" onclick="closeLiteGrievanceModal()" id="lite-grievance-btn-cancel">
+          ✕ Cancel
+        </button>
+        <button type="button" class="lite-modal-btn-confirm" style="background: #dc2626;" onclick="submitLiteGrievance()" id="lite-grievance-btn-submit">
+          🚨 Submit Ticket (तक्रार पाठवा)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-Tap Quick Bargain & Counter-Offer Modal for Simple Mode -->
+  <div id="modal-lite-bargain">
+    <div class="lite-modal-card">
+      <div class="lite-modal-header" style="background: #f0f9ff; border-color: #bae6fd;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.6rem;">🤝</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #0369a1;" id="lite-bargain-modal-title">1-Tap Price Bargain (भाव कमी करा)</h3>
+            <span style="font-size: 0.85rem; color: #0284c7;" id="lite-bargain-farmer-info">Farmer: Suresh Patil • Nashik</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeLiteBargainModal()" style="background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer; padding: 4px;">✕</button>
+      </div>
+
+      <div class="lite-modal-body">
+        <div style="text-align: center; margin-bottom: 14px;">
+          <img id="lite-bargain-img" src="assets/images/onion.jpg" alt="Crop" style="width: 110px; height: 110px; object-fit: cover; border-radius: 16px; border: 2px solid #bae6fd; box-shadow: 0 4px 12px rgba(0,0,0,0.08);" />
+          <h4 id="lite-bargain-crop-name" style="margin: 8px 0 2px 0; font-size: 1.15rem; font-weight: 800; color: #0f172a;">Onion (Red)</h4>
+        </div>
+
+        <!-- Price Comparison Box -->
+        <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; padding: 14px 16px; margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 0.88rem; color: #64748b;" id="lite-bargain-farmer-rate-label">Farmer Listed Rate:</span>
+            <span id="lite-bargain-orig-rate" style="font-size: 1.05rem; font-weight: 700; color: #64748b; text-decoration: line-through;">₹ 24 / kg</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.95rem; font-weight: 800; color: #0369a1;" id="lite-bargain-counter-rate-label">Your Counter Offer:</span>
+            <strong id="lite-bargain-offer-rate" style="font-size: 1.55rem; font-weight: 900; color: #0284c7;">₹ 22 / kg</strong>
+          </div>
+          <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; justify-content: space-between; align-items: center;">
+            <span id="lite-bargain-savings-badge" style="background: #dcfce7; color: #166534; font-size: 0.82rem; font-weight: 800; padding: 3px 10px; border-radius: 999px;">💰 You Save ₹ 10,000!</span>
+            <span id="lite-bargain-total-offer" style="font-size: 0.92rem; font-weight: 800; color: #0f172a;">Total: ₹ 1,10,000</span>
+          </div>
+        </div>
+
+        <!-- 1-Tap Quick Counter Pills -->
+        <span style="font-size: 0.82rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 6px;" id="lite-bargain-quick-label">⚡ Select 1-Tap Counter Rate (कमी दर निवडा):</span>
+        <div class="lite-bargain-rate-grid">
+          <button type="button" class="lite-bargain-rate-btn" id="btn-bargain-minus1" onclick="selectBargainRateDelta(-1)">- ₹1 / kg</button>
+          <button type="button" class="lite-bargain-rate-btn active" id="btn-bargain-minus2" onclick="selectBargainRateDelta(-2)">- ₹2 / kg</button>
+          <button type="button" class="lite-bargain-rate-btn" id="btn-bargain-minus3" onclick="selectBargainRateDelta(-3)">- ₹3 / kg</button>
+        </div>
+
+        <!-- Voice Speak Counter Offer Button -->
+        <button type="button" onclick="startVoiceBargainOffer()" style="width: 100%; background: #ffffff; border: 2px dashed #0284c7; color: #0369a1; padding: 10px; border-radius: 12px; font-weight: 800; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+          <span>🎤</span>
+          <span id="lite-bargain-voice-label">बोलून भाव सांगा (Speak Counter Rate)</span>
+        </button>
+
+        <!-- Quantity Stepper -->
+        <span style="font-size: 0.82rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 6px;" id="lite-bargain-qty-label">Quantity: <strong id="lite-bargain-qty-val" style="color: #0f172a;">5,000 kg (100 Bags)</strong></span>
+        <div class="lite-stepper-grid">
+          <button type="button" class="lite-stepper-btn" onclick="changeLiteBargainQuantity(-10)">- 10 बोरी</button>
+          <button type="button" class="lite-stepper-btn" onclick="changeLiteBargainQuantity(10)">+ 10 बोरी</button>
+          <button type="button" class="lite-stepper-btn" onclick="changeLiteBargainQuantity(50)">+ 50 बोरी</button>
+          <button type="button" class="lite-stepper-btn" onclick="changeLiteBargainQuantity(100)">+ 100 बोरी</button>
+        </div>
+      </div>
+
+      <div class="lite-modal-footer" style="grid-template-columns: 1fr 1.6fr;">
+        <button type="button" class="lite-modal-btn-cancel" onclick="closeLiteBargainModal()" id="lite-bargain-btn-cancel">
+          ✕ Cancel
+        </button>
+        <button type="button" class="lite-modal-btn-confirm" style="background: #0284c7;" onclick="sendLiteBargainOffer()" id="lite-bargain-btn-send">
+          💬 Send Offer (शेतकऱ्याला पाठवा)
         </button>
       </div>
     </div>

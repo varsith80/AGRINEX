@@ -757,8 +757,8 @@ function switchView(viewId) {
   // Trigger i18n DOM translation pass for newly activated view
   if (typeof window.walkAndTranslateDOM === 'function') {
     setTimeout(() => {
-      window.walkAndTranslateDOM(document.body);
-    }, 20);
+      window.walkAndTranslateDOM(target);
+    }, 10);
   }
 }
 

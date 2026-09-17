@@ -1966,6 +1966,7 @@
     try {
       localStorage.setItem(STORAGE_KEY, lang);
       localStorage.setItem('agrinex_buyer_language', lang);
+      localStorage.setItem('agrinex_language', lang);
     } catch (e) {}
 
     // Update Dropdown UI & Checkmarks
@@ -1989,12 +1990,6 @@
 
       const menu = document.getElementById('language-dropdown-menu');
       if (menu) menu.style.display = 'none';
-
-      // Translate DOM
-      if (document.body) {
-        walkAndTranslateDOM(document.body, lang);
-        startDOMObserver();
-      }
     }
 
     // Re-render dynamic views
@@ -2022,12 +2017,22 @@
     if (typeof window.renderOffers === 'function') {
       window.renderOffers();
     }
+    // Translate entire DOM immediately including newly rendered dynamic content
+    if (typeof document !== 'undefined' && document.body) {
+      walkAndTranslateDOM(document.body, lang);
+      startDOMObserver();
+    }
+
+    // Trigger toast notification if showNotificationToast exists
+    if (typeof window.showNotificationToast === 'function') {
+      window.showNotificationToast(TRANSLATIONS[lang].toast_lang_updated);
+    }
   }
 
   function initFarmerI18n() {
     let saved = 'en';
     try {
-      saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('agrinex_buyer_language') || 'en';
+      saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('agrinex_buyer_language') || localStorage.getItem('agrinex_language') || 'en';
     } catch (e) {}
     setFarmerLanguage(saved);
   }
@@ -2062,6 +2067,18 @@
     window.setFarmerLanguage = setFarmerLanguage;
     window.getFarmerLanguage = getFarmerLanguage;
     window.toggleLanguageMenu = toggleLanguageMenu;
+
+    // Listen for storage events across modules and tabs
+    if (typeof window.addEventListener === 'function') {
+      window.addEventListener('storage', function (e) {
+        if (e.key === 'agrinex_buyer_language' || e.key === 'agrinex_farmer_language' || e.key === 'agrinex_language') {
+          const newLang = e.newValue;
+          if (newLang && ['en', 'hi', 'mr'].includes(newLang) && newLang !== getFarmerLanguage()) {
+            setFarmerLanguage(newLang);
+          }
+        }
+      });
+    }
   }
 
   if (typeof document !== 'undefined') {

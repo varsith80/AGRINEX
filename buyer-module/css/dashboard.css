@@ -2652,9 +2652,9 @@
 /* Card Action Buttons */
 .lite-card-actions {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 10px;
-  padding: 16px 20px;
+  grid-template-columns: 1.3fr 1.2fr 0.9fr;
+  gap: 8px;
+  padding: 16px 18px;
   background: #ffffff;
 }
 
@@ -2662,9 +2662,9 @@
   background: #16a34a;
   color: #ffffff;
   border: none;
-  padding: 14px 16px;
+  padding: 13px 12px;
   border-radius: 14px;
-  font-size: 1.02rem;
+  font-size: 0.98rem;
   font-weight: 800;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
@@ -2673,6 +2673,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  white-space: nowrap;
 }
 
 .lite-btn-buy:hover {
@@ -2681,13 +2682,37 @@
   box-shadow: 0 6px 16px rgba(22, 163, 74, 0.35);
 }
 
+.lite-btn-bargain {
+  background: #0284c7;
+  color: #ffffff;
+  border: none;
+  padding: 13px 12px;
+  border-radius: 14px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.lite-btn-bargain:hover {
+  background: #0369a1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+}
+
 .lite-btn-call {
   background: #fef3c7;
   color: #92400e;
   border: 1.5px solid #fde68a;
-  padding: 14px 12px;
+  padding: 13px 10px;
   border-radius: 14px;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 800;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -2695,6 +2720,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  white-space: nowrap;
 }
 
 .lite-btn-call:hover {
@@ -2822,3 +2848,354 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   SIMPLE MODE ACCESSIBILITY & EXTENDED FEATURES
+   ========================================================================== */
+
+/* Font Scaler Variations */
+.lite-mode-wrapper.lite-font-lg {
+  font-size: 1.12rem;
+}
+.lite-mode-wrapper.lite-font-lg .lite-hero-title { font-size: 1.85rem; }
+.lite-mode-wrapper.lite-font-lg .lite-crop-tag { font-size: 1.35rem; }
+.lite-mode-wrapper.lite-font-lg .lite-price-value { font-size: 1.7rem; }
+.lite-mode-wrapper.lite-font-lg .lite-qty-value { font-size: 1.5rem; }
+.lite-mode-wrapper.lite-font-lg .lite-btn-buy,
+.lite-mode-wrapper.lite-font-lg .lite-btn-call { font-size: 1.15rem; padding: 16px 20px; }
+
+.lite-mode-wrapper.lite-font-xl {
+  font-size: 1.25rem;
+}
+.lite-mode-wrapper.lite-font-xl .lite-hero-title { font-size: 2.1rem; }
+.lite-mode-wrapper.lite-font-xl .lite-crop-tag { font-size: 1.5rem; }
+.lite-mode-wrapper.lite-font-xl .lite-price-value { font-size: 1.95rem; }
+.lite-mode-wrapper.lite-font-xl .lite-qty-value { font-size: 1.75rem; }
+.lite-mode-wrapper.lite-font-xl .lite-btn-buy,
+.lite-mode-wrapper.lite-font-xl .lite-btn-call { font-size: 1.3rem; padding: 18px 24px; }
+
+/* Mandi Sunlight High-Contrast Theme */
+body.lite-sunlight-mode {
+  background-color: #fefce8 !important;
+}
+body.lite-sunlight-mode .lite-mode-wrapper {
+  color: #000000;
+}
+body.lite-sunlight-mode .lite-produce-card,
+body.lite-sunlight-mode .lite-nav-tab,
+body.lite-sunlight-mode .lite-farmer-box,
+body.lite-sunlight-mode .lite-orders-card,
+body.lite-sunlight-mode .lite-modal-card {
+  background: #ffffff !important;
+  border: 3px solid #000000 !important;
+  box-shadow: 0 6px 0 #000000 !important;
+}
+body.lite-sunlight-mode .lite-hero-card {
+  background: #022c22 !important;
+  border: 3px solid #000000 !important;
+  box-shadow: 0 8px 0 #000000 !important;
+}
+body.lite-sunlight-mode .lite-hero-badge {
+  background: #facc15 !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  border: 2px solid #000000 !important;
+}
+body.lite-sunlight-mode .lite-crop-tag {
+  background: #fef08a !important;
+  color: #713f12 !important;
+  border: 2px solid #ca8a04 !important;
+  font-weight: 900 !important;
+}
+body.lite-sunlight-mode .lite-btn-buy {
+  background: #15803d !important;
+  color: #ffffff !important;
+  border: 3px solid #000000 !important;
+  box-shadow: 0 4px 0 #000000 !important;
+}
+body.lite-sunlight-mode .lite-btn-call {
+  background: #fde047 !important;
+  color: #000000 !important;
+  border: 3px solid #000000 !important;
+  box-shadow: 0 4px 0 #000000 !important;
+  font-weight: 900 !important;
+}
+
+/* Audio Playing Wave Pulse Animation */
+@keyframes audioPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
+  70% { transform: scale(1.06); box-shadow: 0 0 0 14px rgba(22, 163, 74, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+}
+
+.lite-audio-btn.speaking {
+  animation: audioPulse 1.2s infinite ease-in-out;
+  background: #16a34a !important;
+  color: #ffffff !important;
+}
+
+/* Floating Voice Assistant Mic Widget */
+.lite-floating-mic {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+  color: #ffffff;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 12px 30px rgba(6, 95, 70, 0.45);
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 1rem;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.lite-floating-mic:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 16px 36px rgba(6, 95, 70, 0.55);
+}
+
+.lite-floating-mic.listening {
+  animation: audioPulse 1s infinite ease-in-out;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  border-color: #fef08a;
+}
+
+/* Big Visual Quantity Stepper Buttons */
+.lite-stepper-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 12px 0 16px 0;
+}
+
+.lite-stepper-btn {
+  background: #f1f5f9;
+  border: 2px solid #cbd5e1;
+  color: #0f172a;
+  padding: 10px 6px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.lite-stepper-btn:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+}
+
+.lite-stepper-btn:active {
+  background: #dcfce7;
+  border-color: #16a34a;
+  color: #166534;
+}
+
+/* WhatsApp Share Button */
+.lite-btn-whatsapp {
+  background: #25d366;
+  color: #ffffff;
+  border: none;
+  font-weight: 800;
+  padding: 12px 18px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.98rem;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  transition: all 0.2s ease;
+}
+
+.lite-btn-whatsapp:hover {
+  background: #1ebd5a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+
+/* 3-Step Visual Escrow Flow */
+.lite-escrow-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.lite-escrow-step {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 20px;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.lite-escrow-step.active-step {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+
+.lite-step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #065f46;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+/* Highway Journey Milestones */
+.lite-milestone-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin: 16px 0 8px 0;
+  padding: 0 10px;
+}
+
+.lite-milestone-bar::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  right: 30px;
+  height: 4px;
+  background: #e2e8f0;
+  z-index: 1;
+  transform: translateY(-50%);
+}
+
+.lite-milestone-progress {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  width: 55%;
+  height: 4px;
+  background: #16a34a;
+  z-index: 2;
+  transform: translateY(-50%);
+}
+
+.lite-milestone-node {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.lite-node-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 3px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.lite-node-icon.completed {
+  border-color: #16a34a;
+  background: #dcfce7;
+}
+
+.lite-node-icon.current {
+  border-color: #16a34a;
+  background: #16a34a;
+  color: #ffffff;
+  animation: audioPulse 1.5s infinite;
+}
+
+.lite-node-text {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #475569;
+  max-width: 85px;
+}
+
+/* Voice Grievance Modal */
+#modal-lite-grievance {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#modal-lite-grievance.active {
+  display: flex;
+}
+
+/* 1-Tap Quick Bargain / Counter-Offer Modal */
+#modal-lite-bargain {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#modal-lite-bargain.active {
+  display: flex;
+}
+
+.lite-bargain-rate-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.lite-bargain-rate-btn {
+  background: #f0f9ff;
+  border: 2px solid #bae6fd;
+  color: #0369a1;
+  padding: 12px 8px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.lite-bargain-rate-btn:hover {
+  background: #e0f2fe;
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+.lite-bargain-rate-btn.active {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
