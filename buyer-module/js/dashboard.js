@@ -251,30 +251,30 @@ function executeEmergencyBuyoutConfirmed() {
   if (!currentEmergencyLot) return;
   const lot = currentEmergencyLot;
 
-  let purchasedEmergency = [];
-  try {
-    const saved = localStorage.getItem('agrinex_emergency_purchased_ids');
-    if (saved) purchasedEmergency = JSON.parse(saved);
-  } catch(e) {}
+  let qtyKg = 5000;
+  const qMatch = (lot.quantity || '').match(/([0-9,]+)\s*kg/i);
+  if (qMatch) qtyKg = parseFloat(qMatch[1].replace(/,/g, ''));
+  const numPrice = parseFloat(lot.breakevenPrice.replace(/[^0-9.]/g, '')) || 12;
+  const totalVal = Math.round(numPrice * qtyKg);
+  const advAmount = Math.round(totalVal * 0.35);
+  const balAmount = totalVal - advAmount;
 
-  if (!purchasedEmergency.includes(lot.id)) {
-    purchasedEmergency.push(lot.id);
-    localStorage.setItem('agrinex_emergency_purchased_ids', JSON.stringify(purchasedEmergency));
-  }
-
-  // Settle in AgriNexEmergencySale if available
-  try {
-    if (window.AgriNexEmergencySale) {
-      AgriNexEmergencySale.acceptEmergencyOffer(lot.id, "EMG_BUYER_01", []);
-    }
-  } catch(e) {}
-
-  executeBuyerEmergencyPurchase(lot.id, lot.crop, lot.breakevenPrice, lot);
-  renderBuyerEmergencyDesk();
   closeEmergencyBuyoutModal();
-
-  showToast(`🎉 Instant Salvage Buyout Secured! 35% advance escrow locked for ${lot.crop}. Reefer dispatch assigned!`, 'success');
-  switchView('view-consignments');
+  openEscrowPaymentGateway({
+    lotId: lot.id,
+    crop: lot.crop,
+    grade: 'Grade A',
+    farmerName: lot.farmerName,
+    farmerLocation: lot.mandi || 'Maharashtra APMC',
+    farmerPhone: '+91 98220-44911',
+    qtyKg: qtyKg,
+    qtyQt: parseFloat((qtyKg / 100).toFixed(1)),
+    rateKg: numPrice,
+    totalVal: totalVal,
+    advAmount: advAmount,
+    balAmount: balAmount,
+    isEmergency: true
+  });
 }
 
 function executeEmergencyBuyout(lotId, cropName, price) {
@@ -328,25 +328,276 @@ function updateBuyerMarketStats() {
 
 function renderBuyerEscrowVault() {
   const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
-  const activeContractsCount = consignments.filter(c => c.status !== 'completed').length;
+  const payments = (buyerData && buyerData.payments) ? buyerData.payments : [];
+
+  const activeContractsCount = consignments.filter(c => c.status !== 'completed' && c.status !== 'delivered').length;
   const totalCommitted = consignments.reduce((sum, c) => sum + (c.total_val || 0), 0);
   const totalAdvance = consignments.reduce((sum, c) => sum + (c.adv_paid || Math.round((c.total_val || 0) * 0.35)), 0);
-  const totalBalance = totalCommitted - totalAdvance;
+  const totalBalance = consignments.filter(c => c.status !== 'completed' && c.status !== 'delivered').reduce((sum, c) => sum + (c.balance_due || Math.round((c.total_val || 0) * 0.65)), 0);
+  
+  let walletBal = 150000;
+  try {
+    const savedBal = localStorage.getItem('agrinex_escrow_wallet_balance');
+    if (savedBal !== null) walletBal = parseFloat(savedBal) || 0;
+  } catch(e) {}
 
   const countEl = document.getElementById('vault-contracts-count');
   const committedEl = document.getElementById('vault-committed-pool');
   const advEl = document.getElementById('vault-advance-locked');
   const balEl = document.getElementById('vault-delivery-hold');
   const tracksEl = document.getElementById('vault-tracks-count');
+  const walletEl = document.getElementById('escrow-liquid-reserves');
+  const railWalletBalEl = document.getElementById('gateway-rail-wallet-bal');
+  const walletDisplayBalEl = document.getElementById('gateway-wallet-display-bal');
 
   if (countEl) countEl.textContent = `${activeContractsCount} Orders`;
   if (committedEl) committedEl.textContent = `₹ ${totalCommitted.toLocaleString('en-IN')}`;
   if (advEl) advEl.textContent = `₹ ${totalAdvance.toLocaleString('en-IN')}`;
   if (balEl) balEl.textContent = `₹ ${totalBalance.toLocaleString('en-IN')}`;
+  if (walletEl) walletEl.textContent = `₹ ${walletBal.toLocaleString('en-IN')}`;
   if (tracksEl) tracksEl.textContent = `${activeContractsCount} Active Milestone Tracks`;
+  if (railWalletBalEl) railWalletBalEl.textContent = `Bal: ₹ ${walletBal.toLocaleString('en-IN')}`;
+  if (walletDisplayBalEl) walletDisplayBalEl.textContent = `₹ ${walletBal.toLocaleString('en-IN')}`;
+
+  // Render Escrow Contract Cards dynamically
+  const escrowContainer = document.getElementById('vault-escrow-cards-container');
+  if (escrowContainer && consignments.length > 0) {
+    const tr = (txt) => (window.tText ? window.tText(txt) : txt);
+    const tCrop = (c) => (window.tCrop ? window.tCrop(c) : c);
+
+    escrowContainer.innerHTML = consignments.map((c, idx) => {
+      const isDelivered = c.status === 'delivered' || c.status === 'completed';
+      const contractId = c.contract_no || `ESC-MH-${9920 + idx}`;
+      const cardId = `escrow-card-${c.tracking_id || idx}`;
+      const totalAmt = c.total_val || (c.quantity_kg ? c.quantity_kg * 18 : 100000);
+      const advAmt = c.adv_paid || Math.round(totalAmt * 0.35);
+      const balAmt = c.balance_due !== undefined ? c.balance_due : (totalAmt - advAmt);
+      const kgPrice = c.quantity_kg ? (totalAmt / c.quantity_kg).toFixed(2) : '18.00';
+
+      return `
+        <div class="vault-contract-card" id="${cardId}" style="margin-bottom: 20px; border: 1.5px solid ${isDelivered ? '#e2e8f0' : '#86efac'};">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <strong style="font-size: 1.02rem; color: #0f172a; font-weight: 800;">Contract #${contractId} • ${tCrop(c.crop)}</strong>
+                <span class="badge badge-grade-a">Grade A</span>
+                ${c.isEmergency ? `<span class="badge badge-status-emergency" style="background:#fee2e2; color:#991b1b; font-weight:800;">⚡ Salvage Buyout</span>` : ''}
+              </div>
+              <div style="font-size: 0.8rem; color: #64748b; margin-top: 3px;">
+                Farmer: <strong style="color: #0f172a;">${c.farmer || 'Farmer Partner'}</strong> (${c.farmer_origin || 'Maharashtra'}) • Total Escrow: <strong style="color: #0c5a36; font-weight: 800;">₹ ${totalAmt.toLocaleString('en-IN')}</strong> (₹ ${kgPrice}/kg)
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="badge" id="escrow-status-badge-${idx + 1}" style="background: ${isDelivered ? '#15803d' : '#e8f5ed'}; color: ${isDelivered ? '#ffffff' : '#0c5a36'}; border: 1px solid ${isDelivered ? '#15803d' : '#bbf7d0'}; font-weight: 800; padding: 4px 10px;">
+                ${isDelivered ? '✓ ' + tr('100% Settled & Released') : `35% Locked (₹ ${advAmt.toLocaleString('en-IN')})`}
+              </span>
+              <button class="btn btn-outline btn-sm" onclick="openPaymentReceiptModal('${c.tracking_id || contractId}')" style="font-size: 0.78rem; font-weight: 700; border-radius: 8px;">📄 View Payment Deed</button>
+            </div>
+          </div>
+
+          <!-- Stepper -->
+          <div class="stepper-container" style="max-width: 720px; margin: 18px 0;">
+            <div class="stepper-step">
+              <div class="stepper-dot active">✓</div>
+              <span class="stepper-label">Contract Created</span>
+            </div>
+            <div class="stepper-step">
+              <div class="stepper-dot active">✓</div>
+              <span class="stepper-label">35% Advance Locked</span>
+            </div>
+            <div class="stepper-step">
+              <div class="stepper-dot active" id="stepper-dot-dispatch-${idx + 1}">${isDelivered ? '✓' : '🚚'}</div>
+              <span class="stepper-label">${isDelivered ? 'Inward Weighbridge Pass' : (c.loc || 'Dispatched in Transit')}</span>
+            </div>
+            <div class="stepper-step">
+              <div class="stepper-dot ${isDelivered ? 'active' : ''}" id="stepper-dot-settled-${idx + 1}" style="${isDelivered ? 'background: #15803d; border-color: #15803d; color: #ffffff;' : ''}">${isDelivered ? '✓' : '4'}</div>
+              <span class="stepper-label">${isDelivered ? 'Arrival QC & 100% Settled' : 'Arrival QC & 65% Payout'}</span>
+            </div>
+          </div>
+
+          <!-- Action Footer -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 12px; font-size: 0.82rem; flex-wrap: wrap; gap: 10px;">
+            <span style="color: #64748b;">Transit Vehicle: <strong style="color: #0f172a;">${c.vehicle || 'Eicher Pro (MH 15 DK 8810)'}</strong> • Driver: <strong style="color: #0f172a;">${c.driver || 'Sanjay Patil'} (${c.driver_phone || '+91 98220-44911'})</strong></span>
+            <button class="btn btn-primary btn-sm" id="btn-escrow-vault-release-${idx + 1}" ${isDelivered ? 'disabled' : ''} onclick="openArrivalReleaseModal('${contractId}', '${c.crop}', ${balAmt}, '${c.farmer}', ${totalAmt}, ${advAmt}, '${cardId}')" style="background: ${isDelivered ? '#15803d' : '#0c5a36'}; border-color: ${isDelivered ? '#15803d' : '#0c5a36'}; font-weight: 800; padding: 7px 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(12,90,54,0.2); cursor: ${isDelivered ? 'default' : 'pointer'};">
+              ${isDelivered ? '✓ ' + tr('100% Escrow Settled') : `Release 65% Balance (₹ ${balAmt.toLocaleString('en-IN')})`}
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Render Ledger Table dynamically
+  renderEscrowLedgerTable(currentLedgerFilter || 'all');
 }
 
-function executeBuyerLotPurchase(lotId, customPricePerKg = null, customQtyKg = null) {
+let currentLedgerFilter = 'all';
+
+function filterEscrowLedger(type, btn) {
+  currentLedgerFilter = type;
+  document.querySelectorAll('.vault-ledger-card .btn-outline').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderEscrowLedgerTable(type);
+}
+
+function renderEscrowLedgerTable(filterType = 'all') {
+  const tbody = document.getElementById('escrow-ledger-tbody');
+  if (!tbody) return;
+
+  let payments = (buyerData && buyerData.payments) ? buyerData.payments : [];
+  if (!payments || payments.length === 0) {
+    initBuyerPayments();
+    payments = buyerData.payments || [];
+  }
+
+  let filtered = [...payments];
+  if (filterType === 'advance') {
+    filtered = filtered.filter(p => p.tranche_type === 'advance' || p.status === 'ESCROW_LOCKED_35');
+  } else if (filterType === 'final') {
+    filtered = filtered.filter(p => p.tranche_type === 'final' || p.status === 'SETTLED_100');
+  } else if (filterType === 'completed') {
+    filtered = filtered.filter(p => p.status === 'SETTLED_100');
+  }
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8" style="text-align: center; padding: 30px; color: #64748b; font-size: 0.88rem;">
+          No settlement transactions matching "<strong>${filterType}</strong>".
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(p => {
+    const isSettled = p.status === 'SETTLED_100';
+    const isAdvance = p.tranche_type === 'advance' || p.status === 'ESCROW_LOCKED_35';
+    const amt = isAdvance ? (p.adv_paid || Math.round(p.total_val * 0.35)) : (p.balance_due || (p.total_val - (p.adv_paid || 0)));
+    const trancheLabel = isAdvance ? '35% Advance Locked' : '65% Final Payout Released';
+
+    return `
+      <tr style="border-bottom: 1px solid #f1f5f9; ${isSettled ? 'background: #f8fafc;' : ''}" data-type="${isAdvance ? 'advance' : 'final'}">
+        <td style="padding: 14px 16px;">
+          <strong style="color: #0f172a; font-weight: 800;">${p.payment_id || p.gateway_txn_id || 'TXN-AGR-9921'}</strong>
+          <div style="font-size: 0.72rem; color: #64748b;">${p.date_formatted || '18 Sep 2026, 00:30 AM'}</div>
+        </td>
+        <td style="padding: 14px 16px; font-weight: 700; color: #475569;">#${p.contract_no || 'ESC-MH-9921'}</td>
+        <td style="padding: 14px 16px;">
+          <strong style="color: #0f172a;">${p.farmer_name || 'Farmer Beneficiary'}</strong>
+          <div style="font-size: 0.72rem; color: #64748b;">${p.farmer_bank_acc || 'HDFC A/C ••8812'}</div>
+        </td>
+        <td style="padding: 14px 16px; font-weight: 600;">${p.crop || 'Produce Lot'}</td>
+        <td style="padding: 14px 16px;">
+          <span style="color: ${isAdvance ? '#0c5a36' : '#1d4ed8'}; font-weight: 800;">${trancheLabel}</span>
+          <div style="font-size: 0.7rem; color: #64748b;">${p.payment_rail || 'UPI 2.0 (Dynamic QR)'}</div>
+        </td>
+        <td style="padding: 14px 16px;"><strong style="color: #0f172a; font-size: 0.92rem;">₹ ${amt.toLocaleString('en-IN')}</strong></td>
+        <td style="padding: 14px 16px;"><code style="font-size: 0.75rem; background: #f1f5f9; padding: 3px 8px; border-radius: 6px; font-weight: 700; color: #334155;">${p.bank_utr || 'ICICR52026091800'}</code></td>
+        <td style="padding: 14px 16px;">
+          <span class="badge" style="background: ${isSettled ? '#15803d' : '#e8f5ed'}; color: ${isSettled ? '#ffffff' : '#0c5a36'}; border: 1px solid ${isSettled ? '#15803d' : '#bbf7d0'}; font-weight: 800;">
+            ${isSettled ? '✓ Settled' : '🔒 In Escrow'}
+          </span>
+        </td>
+        <td style="padding: 14px 16px; text-align: right;">
+          <button class="btn btn-outline btn-sm" onclick="openPaymentReceiptModal('${p.payment_id || p.contract_no}')" style="font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">📄 Receipt</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function initBuyerPayments() {
+  if (buyerData.payments && buyerData.payments.length > 0) return;
+  try {
+    const saved = localStorage.getItem('agrinex_buyer_payments');
+    if (saved) {
+      buyerData.payments = JSON.parse(saved);
+      return;
+    }
+  } catch(e) {}
+
+  buyerData.payments = [
+    {
+      payment_id: "TXN-ESC-9921-A",
+      contract_no: "ESC-MH-9921",
+      tracking_id: "TRK-MH-LOTONI01-9921",
+      lot_id: "LOT-ONI-01",
+      crop: "Red Onion (Garwa Export 80 Qt)",
+      quantity_kg: 8000,
+      quantity_qt: 80,
+      farmer_name: "Patil Rameshwar",
+      farmer_phone: "+91 98220-44911",
+      farmer_location: "Lasalgaon, Nashik Yard, Maharashtra",
+      farmer_bank_acc: "HDFC A/C ••8812 (Lasalgaon Branch)",
+      total_val: 144000,
+      adv_paid: 50400,
+      balance_due: 93600,
+      tranche_type: "advance",
+      payment_rail: "UPI 2.0 (Dynamic Escrow QR)",
+      gateway_txn_id: "TXN_AGR_99218412",
+      bank_utr: "HDFC0001928471",
+      escrow_cert: "ESC-CERT-MH-9921",
+      status: "ESCROW_LOCKED_35",
+      created_at: "2026-09-12T10:14:00Z",
+      date_formatted: "12 Sep 2026, 10:14 AM"
+    },
+    {
+      payment_id: "TXN-ESC-4412-A",
+      contract_no: "ESC-MH-4412",
+      tracking_id: "TRK-MH-LOTTOM02-4412",
+      lot_id: "LOT-TOM-02",
+      crop: "Tomato (Narayangaon Hybrid 60 Qt)",
+      quantity_kg: 6000,
+      quantity_qt: 60,
+      farmer_name: "Sanjay Deshmukh",
+      farmer_phone: "+91 98901-22440",
+      farmer_location: "Junnar, Pune Yard, Maharashtra",
+      farmer_bank_acc: "SBI A/C ••4491 (Narayangaon Branch)",
+      total_val: 72000,
+      adv_paid: 25200,
+      balance_due: 46800,
+      tranche_type: "advance",
+      payment_rail: "Corporate NetBanking (VAN)",
+      gateway_txn_id: "TXN_AGR_44129981",
+      bank_utr: "SBIN0008891283",
+      escrow_cert: "ESC-CERT-MH-4412",
+      status: "ESCROW_LOCKED_35",
+      created_at: "2026-09-11T16:30:00Z",
+      date_formatted: "11 Sep 2026, 04:30 PM"
+    },
+    {
+      payment_id: "TXN-ESC-7730-A",
+      contract_no: "ESC-MH-7730",
+      tracking_id: "TRK-MH-LOTBAN03-7730",
+      lot_id: "LOT-BAN-03",
+      crop: "Grand Naine Banana (100 Qt)",
+      quantity_kg: 10000,
+      quantity_qt: 100,
+      farmer_name: "Rajesh Shinde",
+      farmer_phone: "+91 97654-11882",
+      farmer_location: "Raver, Jalgaon Yard, Maharashtra",
+      farmer_bank_acc: "ICICI A/C ••7730 (Jalgaon Branch)",
+      total_val: 140000,
+      adv_paid: 49000,
+      balance_due: 91000,
+      tranche_type: "advance",
+      payment_rail: "AgriNex Escrow Wallet",
+      gateway_txn_id: "TXN_AGR_77301149",
+      bank_utr: "ICICR52026091800881",
+      escrow_cert: "ESC-CERT-MH-7730",
+      status: "ESCROW_LOCKED_35",
+      created_at: "2026-09-10T11:00:00Z",
+      date_formatted: "10 Sep 2026, 11:00 AM"
+    }
+  ];
+
+  try {
+    localStorage.setItem('agrinex_buyer_payments', JSON.stringify(buyerData.payments));
+  } catch(e) {}
+}
+
+function executeBuyerLotPurchase(lotId, customPricePerKg = null, customQtyKg = null, paymentDetails = null) {
   if (!buyerData.verifiedLots) return null;
   const lot = buyerData.verifiedLots.find(l => l.id === lotId) || buyerData.verifiedLots[0];
   if (!lot) return null;
@@ -361,7 +612,7 @@ function executeBuyerLotPurchase(lotId, customPricePerKg = null, customQtyKg = n
   const balAmount = totalVal - advAmount;
 
   const randSuffix = Math.floor(1000 + Math.random() * 9000);
-  const contractNo = `ESC-MH-${randSuffix}`;
+  const contractNo = paymentDetails?.contractNo || `ESC-MH-${randSuffix}`;
   const trackingId = `TRK-MH-${(lot.id || 'LOT').replace(/[^a-zA-Z0-9]/g, '')}-${randSuffix}`;
   const gatePass = `GP-2026-${randSuffix}-MH`;
 
@@ -419,7 +670,8 @@ function executeBuyerLotPurchase(lotId, customPricePerKg = null, customQtyKg = n
     assay_moisture: lot.moisture || "13.2% (Certified)",
     gross_wt: `${qtyKg + 3400} kg`,
     tare_wt: "3,400 kg",
-    gate_seal: `#SEAL-${Math.floor(10000 + Math.random() * 90000)}`
+    gate_seal: `#SEAL-${Math.floor(10000 + Math.random() * 90000)}`,
+    isEmergency: !!lot.isEmergency
   };
 
   if (!buyerData.consignments) buyerData.consignments = [];
@@ -428,104 +680,52 @@ function executeBuyerLotPurchase(lotId, customPricePerKg = null, customQtyKg = n
     localStorage.setItem('agrinex_buyer_consignments', JSON.stringify(buyerData.consignments));
   } catch(e) {}
 
-  // 3. Prepend new Escrow contract card in Escrow Vault
-  const escrowContainer = document.getElementById('vault-escrow-cards-container');
-  if (escrowContainer) {
-    const newCardHtml = `
-      <div class="vault-contract-card" id="escrow-card-${trackingId}" style="border: 1.5px solid #86efac; animation: fadeIn 0.4s ease-out; margin-bottom: 20px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
-          <div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <strong style="font-size: 1.02rem; color: #0f172a; font-weight: 800;">Contract #${contractNo} • ${lot.crop} (${qtyQt} Qt)</strong>
-              <span class="badge badge-grade-a">${lot.grade || 'Grade A'}</span>
-              ${lot.isEmergency ? `
-                <span class="badge badge-status-emergency" style="background:#fee2e2; color:#991b1b; border-color:#fca5a5; font-weight:800;">⚡ Salvage Buyout</span>
-              ` : `
-                <span class="badge badge-status-emergency" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd;">🚀 Newly Booked</span>
-              `}
-            </div>
-            <div style="font-size: 0.8rem; color: #64748b; margin-top: 3px;">
-              Farmer: <strong style="color: #0f172a;">${lot.farmerName}</strong> (${lot.farmerLocation}) • Total Escrow: <strong style="color: #0c5a36; font-weight: 800;">₹ ${totalVal.toLocaleString('en-IN')}</strong> (₹ ${priceKg.toFixed(2)}/kg)
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span class="badge badge-grade-a" id="escrow-status-badge-${trackingId}" style="background: #e8f5ed; color: #0c5a36; border: 1px solid #bbf7d0; font-weight: 800; padding: 4px 10px;">35% Locked (₹ ${advAmount.toLocaleString('en-IN')})</span>
-            <button class="btn btn-outline btn-sm" onclick="openEscrowDeedModal('${contractNo}', '${lot.crop} (${qtyQt} Qt)', '${lot.farmerName}', ${totalVal}, ${advAmount})" style="font-size: 0.78rem; font-weight: 700; border-radius: 8px;">View Agreement Deed</button>
-          </div>
-        </div>
+  // 3. Record Immutable Escrow Payment Record
+  const now = new Date();
+  const paymentRecord = {
+    payment_id: paymentDetails?.txnId || `TXN-ESC-${randSuffix}-A`,
+    contract_no: contractNo,
+    tracking_id: trackingId,
+    lot_id: lot.id,
+    crop: `${lot.crop} (${lot.grade || 'Grade A'})`,
+    quantity_kg: qtyKg,
+    quantity_qt: qtyQt,
+    farmer_name: lot.farmerName,
+    farmer_phone: lot.farmerPhone || '+91 98220-44911',
+    farmer_location: lot.farmerLocation || 'Maharashtra Regional Mandi',
+    farmer_bank_acc: `HDFC A/C ••${Math.floor(1000 + Math.random() * 9000)} (${(lot.farmerLocation || 'Lasalgaon').split(',')[0]} Branch)`,
+    total_val: totalVal,
+    adv_paid: advAmount,
+    balance_due: balAmount,
+    tranche_type: 'advance',
+    payment_rail: paymentDetails?.railName || 'UPI 2.0 (Dynamic QR)',
+    gateway_txn_id: paymentDetails?.txnId || `TXN_AGR_${Math.floor(10000000 + Math.random() * 90000000)}`,
+    bank_utr: paymentDetails?.utr || `ICICR52026091800${Math.floor(100 + Math.random() * 900)}`,
+    escrow_cert: paymentDetails?.certNo || `ESC-CERT-MH-${randSuffix}`,
+    status: 'ESCROW_LOCKED_35',
+    status_label: '35% Advance Locked',
+    created_at: now.toISOString(),
+    date_formatted: now.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+  };
 
-        <!-- Stepper -->
-        <div class="stepper-container" style="max-width: 720px; margin: 18px 0;">
-          <div class="stepper-step">
-            <div class="stepper-dot active">✓</div>
-            <span class="stepper-label">Contract Created</span>
-          </div>
-          <div class="stepper-step">
-            <div class="stepper-dot active">✓</div>
-            <span class="stepper-label">35% Advance Locked</span>
-          </div>
-          <div class="stepper-step">
-            <div class="stepper-dot active" id="stepper-dot-dispatch-${trackingId}">🚚</div>
-            <span class="stepper-label">Dispatched (Eicher Pro 2049)</span>
-          </div>
-          <div class="stepper-step">
-            <div class="stepper-dot" id="stepper-dot-settled-${trackingId}">4</div>
-            <span class="stepper-label">Arrival QC & 100% Settled</span>
-          </div>
-        </div>
+  if (!buyerData.payments) buyerData.payments = [];
+  buyerData.payments.unshift(paymentRecord);
+  try {
+    localStorage.setItem('agrinex_buyer_payments', JSON.stringify(buyerData.payments));
+  } catch(e) {}
 
-        <!-- Action Footer -->
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 12px; font-size: 0.82rem; flex-wrap: wrap; gap: 10px;">
-          <span style="color: #64748b;">Transit Vehicle: <strong style="color: #0f172a;">${window.tVehicle ? window.tVehicle(newConsignment.vehicle) : newConsignment.vehicle}</strong> • Driver: <strong style="color: #0f172a;">${window.tPerson ? window.tPerson(newConsignment.driver) : newConsignment.driver} (${newConsignment.driver_phone})</strong></span>
-          <button class="btn btn-primary btn-sm" id="btn-escrow-vault-release-${trackingId}" onclick="openArrivalReleaseModal('${contractNo}', '${lot.crop}', ${balAmount}, '${lot.farmerName}', ${totalVal}, ${advAmount}, 'escrow-card-${trackingId}')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 800; padding: 7px 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(12,90,54,0.2);">
-            Release 65% Balance (₹ ${balAmount.toLocaleString('en-IN')})
-          </button>
-        </div>
-      </div>
-    `;
-    escrowContainer.insertAdjacentHTML('afterbegin', newCardHtml);
-  }
-
-  // 4. Prepend Transaction Ledger Row
-  const ledgerTbody = document.getElementById('escrow-ledger-tbody');
-  if (ledgerTbody) {
-    const txnRef = `TXN-ESC-${randSuffix}-A`;
-    const newTxnRow = `
-      <tr style="border-bottom: 1px solid #f1f5f9; background-color: #f0fdf4;" data-type="advance">
-        <td style="padding: 14px 16px;">
-          <strong style="color: #0f172a; font-weight: 800;">${txnRef}</strong>
-          <div style="font-size: 0.72rem; color: #166534; font-weight: 700;">Just now</div>
-        </td>
-        <td style="padding: 14px 16px; font-weight: 700; color: #475569;">#${contractNo}</td>
-        <td style="padding: 14px 16px;">
-          <strong style="color: #0f172a;">${lot.farmerName}</strong>
-          <div style="font-size: 0.72rem; color: #64748b;">HDFC A/C ••${randSuffix}</div>
-        </td>
-        <td style="padding: 14px 16px; font-weight: 600;">${lot.crop} (${qtyQt} Qt)</td>
-        <td style="padding: 14px 16px;"><span style="color: #0c5a36; font-weight: 800;">35% Advance Locked</span></td>
-        <td style="padding: 14px 16px;"><strong style="color: #0f172a; font-size: 0.92rem;">₹ ${advAmount.toLocaleString('en-IN')}</strong></td>
-        <td style="padding: 14px 16px;"><code style="font-size: 0.75rem; background: #f1f5f9; padding: 3px 8px; border-radius: 6px; font-weight: 700; color: #334155;">HDFC000${randSuffix}</code></td>
-        <td style="padding: 14px 16px;"><span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36; border: 1px solid #bbf7d0; font-weight: 800;">🔒 In Escrow</span></td>
-        <td style="padding: 14px 16px; text-align: right;">
-          <button class="btn btn-outline btn-sm" onclick="showToast('Downloading Escrow Deposit Receipt ${txnRef}...')" style="font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">📄 Receipt</button>
-        </td>
-      </tr>
-    `;
-    ledgerTbody.insertAdjacentHTML('afterbegin', newTxnRow);
-  }
+  // 4. Re-render Escrow Vault
+  try {
+    renderBuyerEscrowVault();
+  } catch(e) {}
 
   // 5. Update Grievances Dropdown
   const grvSelect = document.getElementById('grv-lot-select');
   if (grvSelect) {
     const opt = document.createElement('option');
-    opt.value = `${trackingId}|${lot.crop}|${lot.farmerName}`;
-    if (typeof grvSelect.prepend === 'function') {
-      grvSelect.prepend(opt);
-    } else if (typeof grvSelect.insertBefore === 'function') {
-      grvSelect.insertBefore(opt, grvSelect.firstChild);
-    } else if (typeof grvSelect.appendChild === 'function') {
-      grvSelect.appendChild(opt);
-    }
+    opt.value = `${lot.id}|${lot.crop}|${lot.farmerName}`;
+    opt.textContent = `${lot.crop} - #${contractNo} (${lot.farmerName})`;
+    grvSelect.appendChild(opt);
   }
 
   // 6. Update Messages / Chat thread
@@ -542,9 +742,12 @@ function executeBuyerLotPurchase(lotId, customPricePerKg = null, customQtyKg = n
 
   // 7. Update All Displays
   updateBuyerMarketStats();
-  renderBuyerConsignments();
-  renderVerifiedLots();
-  renderBuyerEscrowVault();
+  if (typeof renderBuyerConsignments === 'function') renderBuyerConsignments();
+  if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
+  if (typeof renderBuyerEscrowVault === 'function') renderBuyerEscrowVault();
+  if (typeof renderLiteProduceCards === 'function') renderLiteProduceCards();
+  if (typeof renderLiteOrdersCards === 'function') renderLiteOrdersCards();
+  if (typeof renderLiteEscrowCards === 'function') renderLiteEscrowCards();
 
   // 8. Backend Sync
   if (typeof fetch === 'function') {
@@ -2346,17 +2549,367 @@ function closeNegotiationModal() {
   if (modal) modal.classList.remove('active');
 }
 
-// Accept Counter Offer directly from In-Chat banner
-function acceptFarmerCounter(lotId, agreedRate) {
-  openNegotiationModal(lotId, agreedRate);
+// ==========================================
+// AGRINEX ESCROW PAYMENT GATEWAY ENGINE
+// ==========================================
+
+let activePendingPayment = null;
+let gatewayUpiTimerInterval = null;
+let selectedGatewayRail = 'upi';
+let lastCompletedPayment = null;
+
+function openEscrowPaymentGateway(orderData) {
+  activePendingPayment = orderData;
+  selectedGatewayRail = 'upi';
+
+  const modal = document.getElementById('modal-escrow-payment-gateway');
+  if (!modal) return;
+
+  const cropEl = document.getElementById('gateway-crop-label');
+  const farmerEl = document.getElementById('gateway-farmer-label');
+  const totalValEl = document.getElementById('gateway-total-lot-val');
+  const advanceDueEl = document.getElementById('gateway-advance-due');
+  const payBtnAmtEl = document.getElementById('gateway-pay-btn-amt');
+  const debitReqEl = document.getElementById('gateway-wallet-debit-req');
+
+  const tr = (txt) => (window.tText ? window.tText(txt) : txt);
+  const tCrop = (c) => (window.tCrop ? window.tCrop(c) : c);
+
+  if (cropEl) cropEl.textContent = `${tCrop(orderData.crop)} (${orderData.grade || 'Grade A'}) • ${orderData.qtyKg.toLocaleString('en-IN')} kg (${orderData.qtyQt || (orderData.qtyKg / 100).toFixed(1)} Qt)`;
+  if (farmerEl) farmerEl.textContent = `${orderData.farmerName} • 📍 ${orderData.farmerLocation}`;
+  if (totalValEl) totalValEl.textContent = `₹ ${orderData.totalVal.toLocaleString('en-IN')}`;
+  if (advanceDueEl) advanceDueEl.textContent = `₹ ${orderData.advAmount.toLocaleString('en-IN')}`;
+  if (payBtnAmtEl) payBtnAmtEl.textContent = `(₹ ${orderData.advAmount.toLocaleString('en-IN')})`;
+  if (debitReqEl) debitReqEl.textContent = `₹ ${orderData.advAmount.toLocaleString('en-IN')}`;
+
+  // Reset to screen 1 (Checkout)
+  const screenCheckout = document.getElementById('gateway-screen-checkout');
+  const screenProc = document.getElementById('gateway-screen-processing');
+  const screenSucc = document.getElementById('gateway-screen-success');
+
+  if (screenCheckout) screenCheckout.style.display = 'flex';
+  if (screenProc) screenProc.classList.remove('active');
+  if (screenSucc) screenSucc.classList.remove('active');
+
+  // Activate UPI rail button by default
+  const upiBtn = document.querySelector('.gateway-rail-btn');
+  if (upiBtn) switchGatewayRail('upi', upiBtn);
+
+  // Start UPI countdown timer (5 mins)
+  startGatewayUpiTimer();
+
+  modal.classList.add('active');
 }
 
-// Confirm 35% Escrow from Negotiation modal
+function closeEscrowPaymentGateway() {
+  if (gatewayUpiTimerInterval) {
+    clearInterval(gatewayUpiTimerInterval);
+    gatewayUpiTimerInterval = null;
+  }
+  const modal = document.getElementById('modal-escrow-payment-gateway');
+  if (modal) modal.classList.remove('active');
+}
+
+function startGatewayUpiTimer() {
+  if (gatewayUpiTimerInterval) clearInterval(gatewayUpiTimerInterval);
+  let duration = 300; // 5 minutes
+  const timerEl = document.getElementById('gateway-upi-timer');
+  
+  const updateDisplay = () => {
+    const mins = Math.floor(duration / 60);
+    const secs = duration % 60;
+    if (timerEl) timerEl.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    if (duration <= 0) {
+      clearInterval(gatewayUpiTimerInterval);
+      if (timerEl) timerEl.textContent = 'Expired';
+    }
+    duration--;
+  };
+
+  updateDisplay();
+  gatewayUpiTimerInterval = setInterval(updateDisplay, 1000);
+}
+
+function switchGatewayRail(rail, btn) {
+  selectedGatewayRail = rail;
+  document.querySelectorAll('.gateway-rail-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  document.querySelectorAll('.gateway-panel').forEach(p => p.classList.remove('active'));
+  const targetPanel = document.getElementById(`gateway-panel-${rail}`);
+  if (targetPanel) targetPanel.classList.add('active');
+
+  const payBtn = document.getElementById('btn-gateway-process-pay');
+  const amtStr = activePendingPayment ? `(₹ ${activePendingPayment.advAmount.toLocaleString('en-IN')})` : '';
+  const railNames = {
+    upi: 'via UPI 2.0',
+    van: 'via Corporate RTGS/NEFT (VAN)',
+    wallet: 'via Escrow Wallet',
+    credit: 'via Agri-Credit PayLater',
+    card: 'via Corporate Card'
+  };
+
+  if (payBtn) {
+    payBtn.innerHTML = `<span>🔒 Lock 35% Escrow ${railNames[rail] || ''}</span> <span id="gateway-pay-btn-amt">${amtStr}</span>`;
+  }
+}
+
+function simulateFastUpiPay(app) {
+  showToast(`Initiating UPI payment with ${app}...`);
+  setTimeout(() => {
+    processEscrowGatewayPayment();
+  }, 400);
+}
+
+function copyVirtualAccountDetails() {
+  const vanDetails = "Beneficiary: AgriNex B2B Escrow Nodal Trustee\nVirtual Account Number: AGRI99201948\nIFSC Code: ICIC0000011\nBank: ICICI Bank Nodal Branch\nMode: RTGS / IMPS";
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(vanDetails).then(() => {
+      showToast('✓ Virtual Account Details copied to clipboard! Paste in corporate ERP/Banking portal.');
+    }).catch(() => {
+      showToast('✓ Virtual Account: AGRI99201948 (IFSC: ICIC0000011)');
+    });
+  } else {
+    showToast('✓ Virtual Account: AGRI99201948 (IFSC: ICIC0000011)');
+  }
+}
+
+function processEscrowGatewayPayment() {
+  if (!activePendingPayment) return;
+
+  const screenCheckout = document.getElementById('gateway-screen-checkout');
+  const screenProc = document.getElementById('gateway-screen-processing');
+  const screenSucc = document.getElementById('gateway-screen-success');
+
+  if (screenCheckout) screenCheckout.style.display = 'none';
+  if (screenProc) screenProc.classList.add('active');
+
+  const randSuffix = Math.floor(1000 + Math.random() * 9000);
+  const txnId = `TXN_AGR_${Math.floor(10000000 + Math.random() * 90000000)}`;
+  const utrNo = `ICICR52026091800${Math.floor(100 + Math.random() * 900)}`;
+  const certNo = `ESC-CERT-MH-${randSuffix}`;
+  const contractNo = `ESC-MH-${randSuffix}`;
+
+  const railLabels = {
+    upi: 'UPI 2.0 (Dynamic QR)',
+    van: 'Corporate NetBanking (VAN)',
+    wallet: 'AgriNex Escrow Wallet',
+    credit: 'Agri-Credit PayLater (Arya.ag)',
+    card: 'Corporate Card (3DS Verified)'
+  };
+
+  // If wallet, deduct balance
+  if (selectedGatewayRail === 'wallet') {
+    let walletBal = 150000;
+    try {
+      const saved = localStorage.getItem('agrinex_escrow_wallet_balance');
+      if (saved !== null) walletBal = parseFloat(saved) || 0;
+    } catch(e) {}
+    walletBal = Math.max(0, walletBal - activePendingPayment.advAmount);
+    try {
+      localStorage.setItem('agrinex_escrow_wallet_balance', walletBal.toString());
+    } catch(e) {}
+  }
+
+  const pDetails = {
+    txnId: txnId,
+    utr: utrNo,
+    certNo: certNo,
+    contractNo: contractNo,
+    railName: railLabels[selectedGatewayRail] || 'UPI 2.0 (Dynamic QR)'
+  };
+
+  // Simulate gateway steps
+  setTimeout(() => {
+    const step2 = document.getElementById('proc-step-2');
+    if (step2) step2.innerHTML = `✓ Lock 35% Advance (₹ ${activePendingPayment.advAmount.toLocaleString('en-IN')}) Earmarked`;
+  }, 700);
+
+  setTimeout(() => {
+    const step3 = document.getElementById('proc-step-3');
+    if (step3) {
+      step3.innerHTML = `✓ UTR Generated: <span style="font-family: monospace;">${utrNo}</span>`;
+      step3.style.color = '#166534';
+    }
+  }, 1300);
+
+  setTimeout(() => {
+    // Execute actual purchase & persistence
+    executeBuyerLotPurchase(activePendingPayment.lotId, activePendingPayment.rateKg, activePendingPayment.qtyKg, pDetails);
+
+    lastCompletedPayment = {
+      ...activePendingPayment,
+      ...pDetails
+    };
+
+    // Update Success Screen details
+    const succTxn = document.getElementById('succ-gateway-txnid');
+    const succUtr = document.getElementById('succ-gateway-utr');
+    const succCert = document.getElementById('succ-gateway-cert');
+    const succAmt = document.getElementById('succ-gateway-amt');
+
+    if (succTxn) succTxn.textContent = txnId;
+    if (succUtr) succUtr.textContent = utrNo;
+    if (succCert) succCert.textContent = certNo;
+    if (succAmt) succAmt.textContent = `₹ ${activePendingPayment.advAmount.toLocaleString('en-IN')}`;
+
+    if (screenProc) screenProc.classList.remove('active');
+    if (screenSucc) screenSucc.classList.add('active');
+
+    showToast(`🎉 35% Escrow Advance (₹ ${activePendingPayment.advAmount.toLocaleString('en-IN')}) locked via ${railLabels[selectedGatewayRail]}!`, 'success');
+  }, 1900);
+}
+
+function openPaymentReceiptFromSuccess() {
+  closeEscrowPaymentGateway();
+  if (lastCompletedPayment) {
+    openPaymentReceiptModal(lastCompletedPayment.txnId || lastCompletedPayment.contractNo);
+  }
+}
+
+function finishEscrowGatewaySuccess() {
+  closeEscrowPaymentGateway();
+  switchView('view-consignments');
+}
+
+// Payment Receipt Modal Controller
+function openPaymentReceiptModal(refId) {
+  let payment = null;
+  if (buyerData && buyerData.payments) {
+    payment = buyerData.payments.find(p => p.payment_id === refId || p.contract_no === refId || p.tracking_id === refId || p.gateway_txn_id === refId);
+  }
+
+  if (!payment) {
+    payment = {
+      payment_id: refId || "TXN-ESC-9921-A",
+      contract_no: "ESC-MH-9921",
+      crop: "Garwa Red Onion (Grade A)",
+      quantity_kg: 5000,
+      quantity_qt: 50,
+      farmer_name: "Patil Rameshwar",
+      farmer_bank_acc: "HDFC Bank A/C ••8812",
+      farmer_location: "Lasalgaon, Nashik Yard, Maharashtra",
+      total_val: 90000,
+      adv_paid: 31500,
+      balance_due: 58500,
+      payment_rail: "UPI 2.0 (Dynamic Escrow QR)",
+      gateway_txn_id: "TXN_AGR_99218412",
+      bank_utr: "ICICR52026091800192",
+      escrow_cert: "ESC-CERT-MH-8821",
+      date_formatted: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+    };
+  }
+
+  const modal = document.getElementById('modal-payment-receipt');
+  if (!modal) return;
+
+  const vNoEl = document.getElementById('rcpt-voucher-no');
+  const dtEl = document.getElementById('rcpt-date-time');
+  const farmerNameEl = document.getElementById('rcpt-farmer-name');
+  const farmerAccEl = document.getElementById('rcpt-farmer-acc');
+  const farmerLocEl = document.getElementById('rcpt-farmer-loc');
+  const tCropEl = document.getElementById('rcpt-table-crop');
+  const tQtyEl = document.getElementById('rcpt-table-qty');
+  const tRateEl = document.getElementById('rcpt-table-rate');
+  const tTotalEl = document.getElementById('rcpt-table-total');
+  const trailTxnEl = document.getElementById('rcpt-trail-txnid');
+  const trailUtrEl = document.getElementById('rcpt-trail-utr');
+  const trailRailEl = document.getElementById('rcpt-trail-rail');
+  const trailCertEl = document.getElementById('rcpt-trail-cert');
+  const sumGrossEl = document.getElementById('rcpt-sum-gross');
+  const sumAdvEl = document.getElementById('rcpt-sum-advance');
+  const sumBalEl = document.getElementById('rcpt-sum-balance');
+
+  const kgRate = payment.quantity_kg ? (payment.total_val / payment.quantity_kg).toFixed(2) : '18.00';
+
+  if (vNoEl) vNoEl.textContent = `VOUCHER #${payment.payment_id || 'ESC-V-9921'}`;
+  if (dtEl) dtEl.textContent = payment.date_formatted || new Date().toLocaleString();
+  if (farmerNameEl) farmerNameEl.textContent = payment.farmer_name || 'Farmer Partner';
+  if (farmerAccEl) farmerAccEl.textContent = payment.farmer_bank_acc || 'Aadhaar Linked DBT A/C ••8812';
+  if (farmerLocEl) farmerLocEl.textContent = payment.farmer_location || 'Lasalgaon, Nashik Yard, Maharashtra';
+  if (tCropEl) tCropEl.textContent = payment.crop || 'Produce Lot';
+  if (tQtyEl) tQtyEl.textContent = `${(payment.quantity_kg || 5000).toLocaleString('en-IN')} kg (${payment.quantity_qt || 50} Qt)`;
+  if (tRateEl) tRateEl.textContent = `₹ ${kgRate}`;
+  if (tTotalEl) tTotalEl.textContent = `₹ ${(payment.total_val || 90000).toLocaleString('en-IN')}`;
+  if (trailTxnEl) trailTxnEl.textContent = payment.gateway_txn_id || payment.payment_id || 'TXN_AGR_99218412';
+  if (trailUtrEl) trailUtrEl.textContent = payment.bank_utr || 'ICICR52026091800192';
+  if (trailRailEl) trailRailEl.textContent = payment.payment_rail || 'UPI 2.0 (Dynamic QR)';
+  if (trailCertEl) trailCertEl.textContent = payment.escrow_cert || 'ESC-CERT-MH-8821';
+  if (sumGrossEl) sumGrossEl.textContent = `₹ ${(payment.total_val || 90000).toLocaleString('en-IN')}`;
+  if (sumAdvEl) sumAdvEl.textContent = `₹ ${(payment.adv_paid || 31500).toLocaleString('en-IN')}`;
+  if (sumBalEl) sumBalEl.textContent = `₹ ${(payment.balance_due || 58500).toLocaleString('en-IN')}`;
+
+  modal.classList.add('active');
+}
+
+function closePaymentReceiptModal() {
+  const modal = document.getElementById('modal-payment-receipt');
+  if (modal) modal.classList.remove('active');
+}
+
+// Escrow Capital Deposit Modal Controller
+function openDepositEscrowModal() {
+  const modal = document.getElementById('modal-deposit-escrow');
+  if (modal) modal.classList.add('active');
+}
+
+function closeDepositEscrowModal() {
+  const modal = document.getElementById('modal-deposit-escrow');
+  if (modal) modal.classList.remove('active');
+}
+
+function setDepositAmount(amt) {
+  const customInput = document.getElementById('deposit-custom-amt');
+  if (customInput) customInput.value = amt;
+  document.querySelectorAll('#modal-deposit-escrow .btn-outline').forEach(b => {
+    b.classList.toggle('active', b.textContent.includes(amt.toLocaleString('en-IN')));
+  });
+}
+
+function submitDepositEscrowCapital() {
+  const customInput = document.getElementById('deposit-custom-amt');
+  const amt = parseFloat(customInput?.value) || 100000;
+  closeDepositEscrowModal();
+
+  let walletBal = 150000;
+  try {
+    const saved = localStorage.getItem('agrinex_escrow_wallet_balance');
+    if (saved !== null) walletBal = parseFloat(saved) || 0;
+  } catch(e) {}
+
+  walletBal += amt;
+  try {
+    localStorage.setItem('agrinex_escrow_wallet_balance', walletBal.toString());
+  } catch(e) {}
+
+  showToast(`✓ ₹ ${amt.toLocaleString('en-IN')} deposited to your Liquid Escrow Reserves via Instant RTGS/UPI!`, 'success');
+  renderBuyerEscrowVault();
+}
+
+// Confirm 35% Escrow from Negotiation modal -> routes to Payment Gateway
 function confirmEscrowFromCounter() {
   closeNegotiationModal();
-  executeBuyerLotPurchase(currentNegotiation.lotId, currentNegotiation.bidPrice);
-  showToast(`🎉 35% Advance Escrow (₹ ${currentNegotiation.escrowAmount.toLocaleString('en-IN')}) locked! Contract created with ${currentNegotiation.farmerName || 'Farmer'}.`, 'success');
-  switchView('view-consignments');
+  const lot = (buyerData.verifiedLots && buyerData.verifiedLots.find(l => l.id === currentNegotiation.lotId)) || buyerData.verifiedLots[0];
+  const totalKg = lot ? (lot.qtyNum * 100) : 5000;
+  const totalVal = Math.round(totalKg * currentNegotiation.bidPrice);
+  const advAmount = Math.round(totalVal * 0.35);
+  const balAmount = totalVal - advAmount;
+
+  openEscrowPaymentGateway({
+    lotId: currentNegotiation.lotId,
+    crop: currentNegotiation.lotCrop,
+    grade: lot ? lot.grade || 'Grade A' : 'Grade A',
+    farmerName: currentNegotiation.farmerName || 'Farmer',
+    farmerLocation: lot ? lot.farmerLocation : 'Lasalgaon, Nashik',
+    farmerPhone: lot ? lot.farmerPhone : '+91 98220-44911',
+    qtyKg: totalKg,
+    qtyQt: parseFloat((totalKg / 100).toFixed(1)),
+    rateKg: currentNegotiation.bidPrice,
+    totalVal: totalVal,
+    advAmount: advAmount,
+    balAmount: balAmount,
+    isEmergency: false
+  });
 }
 
 // Post Demand Modal
@@ -2975,29 +3528,47 @@ function confirmReleaseEscrowAction() {
     settledTotalEl.textContent = `₹ ${curVal.toLocaleString('en-IN')}`;
   }
 
-  // 6. Insert new transaction record in Audit Ledger Table
-  const tbody = document.getElementById('escrow-ledger-tbody');
-  if (tbody) {
-    const newRow = document.createElement('tr');
-    newRow.setAttribute('data-type', 'final');
-    newRow.style.cssText = 'border-bottom: 1px solid #f1f5f9; background: #f0fdf4; transition: all 0.3s ease;';
-    const randomUtr = `ICIC000${Math.floor(100000 + Math.random() * 900000)}`;
-    const randomTxn = `TXN-REL-${Math.floor(1000 + Math.random() * 9000)}`;
-    newRow.innerHTML = `
-      <td style="padding: 10px 14px;"><strong>${randomTxn}</strong><br><span style="font-size: 0.72rem; color: #166534; font-weight: 700;">Just now (Live)</span></td>
-      <td style="padding: 10px 14px;"><span style="font-family: monospace; font-weight: 700; color: #0c5a36;">#${activeArrivalDisbursement.trackingId}</span></td>
-      <td style="padding: 10px 14px;"><strong>${activeArrivalDisbursement.farmer}</strong><br><span style="font-size: 0.72rem; color: #64748b;">${activeArrivalDisbursement.crop}</span></td>
-      <td style="padding: 10px 14px; font-weight: 800; color: #0c5a36;">₹ ${activeArrivalDisbursement.amount.toLocaleString('en-IN')}</td>
-      <td style="padding: 10px 14px;"><span class="badge" style="background: #15803d; color: #ffffff; font-size: 0.72rem; font-weight: 700;">✓ 100% Settled</span></td>
-      <td style="padding: 10px 14px;"><span style="font-size: 0.75rem; color: #0c5a36; font-family: monospace; font-weight: 700;">${randomUtr}</span></td>
-      <td style="padding: 10px 14px;"><button class="btn btn-outline btn-sm" onclick="showToast('✓ Stamped UTR Settlement Receipt #${activeArrivalDisbursement.trackingId} (PDF) downloaded!')" style="font-size: 0.72rem; padding: 2px 8px;">Receipt</button></td>
-    `;
-    tbody.insertBefore(newRow, tbody.firstChild);
-  }
+  // 6. Record 65% Final Settlement in payments array
+  const randomUtr = `ICICR52026091800${Math.floor(100 + Math.random() * 900)}`;
+  const randomTxn = `TXN-REL-${Math.floor(1000 + Math.random() * 9000)}`;
+  const now = new Date();
+
+  const finalPaymentRecord = {
+    payment_id: randomTxn,
+    contract_no: activeArrivalDisbursement.trackingId,
+    tracking_id: activeArrivalDisbursement.trackingId,
+    crop: activeArrivalDisbursement.crop,
+    farmer_name: activeArrivalDisbursement.farmer,
+    farmer_bank_acc: `Aadhaar Linked DBT A/C ••${Math.floor(1000 + Math.random() * 9000)}`,
+    farmer_location: 'Maharashtra Regional Mandi',
+    total_val: activeArrivalDisbursement.totalVal,
+    adv_paid: activeArrivalDisbursement.advVal,
+    balance_due: activeArrivalDisbursement.amount,
+    tranche_type: 'final',
+    payment_rail: 'Direct DBT / IMPS Real-Time Transfer',
+    gateway_txn_id: randomTxn,
+    bank_utr: randomUtr,
+    escrow_cert: `SETTLE-${activeArrivalDisbursement.trackingId}`,
+    status: 'SETTLED_100',
+    status_label: '100% Settled & Released',
+    created_at: now.toISOString(),
+    date_formatted: now.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+  };
+
+  if (!buyerData.payments) buyerData.payments = [];
+  buyerData.payments.unshift(finalPaymentRecord);
+  try {
+    localStorage.setItem('agrinex_buyer_payments', JSON.stringify(buyerData.payments));
+  } catch(e) {}
 
   // Update Consignments list status
   if (buyerData && buyerData.consignments) {
-    const cItem = buyerData.consignments.find(c => c.tracking_id === activeArrivalDisbursement.trackingId || (activeArrivalDisbursement.trackingId && c.tracking_id.includes(activeArrivalDisbursement.trackingId.replace('ESC-', 'TRK-'))));
+    const targetRef = activeArrivalDisbursement.trackingId || '';
+    const cItem = buyerData.consignments.find(c => 
+      c.contract_no === targetRef || 
+      c.tracking_id === targetRef || 
+      (targetRef && c.tracking_id && c.tracking_id.includes(targetRef.replace('ESC-', 'TRK-')))
+    );
     if (cItem) {
       cItem.status = 'delivered';
       cItem.status_label = 'Delivered & QC Passed';
@@ -3006,6 +3577,11 @@ function confirmReleaseEscrowAction() {
       cItem.eta = 'Completed • QC Passed 100%';
     }
   }
+
+  try {
+    renderBuyerEscrowVault();
+  } catch(e) {}
+
   if (typeof renderBuyerConsignments === 'function') {
     renderBuyerConsignments();
   }
@@ -3357,6 +3933,7 @@ function renderGrievances(filterStatus = 'all') {
 
 // Form Handlers
 document.addEventListener('DOMContentLoaded', () => {
+  try { initBuyerPayments(); } catch(e) { console.error('Buyer payments init error:', e); }
   try { renderBuyerEmergencyDesk(); } catch(e) { console.error('Emergency desk init error:', e); }
   try { loadPersistedBuyerState(); } catch(e) { console.error('Load persisted state error:', e); }
   try { updateBuyerMarketStats(); } catch(e) { console.error('Market stats error:', e); }
@@ -3499,7 +4076,7 @@ if (demandForm) {
   });
 }
 
-  // Direct Buy submit
+  // Direct Buy submit -> Opens AgriNex Escrow Payment Gateway
   const buyForm = document.getElementById('form-direct-buy');
   if (buyForm) {
     buyForm.addEventListener('submit', (e) => {
@@ -3521,16 +4098,26 @@ if (demandForm) {
       }
 
       const kgRate = lot.pricePerKg || (lot.priceNum ? lot.priceNum / 100 : 12.0);
+      const totalVal = Math.round(qtyKg * kgRate);
+      const advAmount = Math.round(totalVal * 0.35);
+      const balAmount = totalVal - advAmount;
 
       closeDirectBuyModal();
-      executeBuyerLotPurchase(lotId, kgRate, qtyKg);
-
-      if (qtyKg >= availKg) {
-        showToast(`🎉 100% Volume Procured (${qtyKg.toLocaleString('en-IN')} kg)! Lot is now SOLD OUT for all other buyers.`, 'success');
-      } else {
-        showToast(`🎉 Procured ${qtyKg.toLocaleString('en-IN')} kg! Remaining ${(availKg - qtyKg).toLocaleString('en-IN')} kg available in market.`, 'success');
-      }
-      switchView('view-consignments');
+      openEscrowPaymentGateway({
+        lotId: lot.id,
+        crop: lot.crop,
+        grade: lot.grade || 'Grade A',
+        farmerName: lot.farmerName,
+        farmerLocation: lot.farmerLocation,
+        farmerPhone: lot.farmerPhone || '+91 98220-44911',
+        qtyKg: qtyKg,
+        qtyQt: parseFloat((qtyKg / 100).toFixed(1)),
+        rateKg: kgRate,
+        totalVal: totalVal,
+        advAmount: advAmount,
+        balAmount: balAmount,
+        isEmergency: !!lot.isEmergency
+      });
     });
   }
 
@@ -4459,4 +5046,24 @@ window.getActiveChatKey = function() { return typeof activeChatKey !== 'undefine
 window.startNegotiationWithFarmer = startNegotiationWithFarmer;
 window.switchView = switchView;
 window.showToast = showToast;
+
+// Escrow Payment Gateway & Ledger Bindings
+window.openEscrowPaymentGateway = openEscrowPaymentGateway;
+window.closeEscrowPaymentGateway = closeEscrowPaymentGateway;
+window.switchGatewayRail = switchGatewayRail;
+window.simulateFastUpiPay = simulateFastUpiPay;
+window.copyVirtualAccountDetails = copyVirtualAccountDetails;
+window.processEscrowGatewayPayment = processEscrowGatewayPayment;
+window.openPaymentReceiptFromSuccess = openPaymentReceiptFromSuccess;
+window.finishEscrowGatewaySuccess = finishEscrowGatewaySuccess;
+window.openPaymentReceiptModal = openPaymentReceiptModal;
+window.closePaymentReceiptModal = closePaymentReceiptModal;
+window.openDepositEscrowModal = openDepositEscrowModal;
+window.closeDepositEscrowModal = closeDepositEscrowModal;
+window.setDepositAmount = setDepositAmount;
+window.submitDepositEscrowCapital = submitDepositEscrowCapital;
+window.filterEscrowLedger = filterEscrowLedger;
+window.renderEscrowLedgerTable = renderEscrowLedgerTable;
+window.initBuyerPayments = initBuyerPayments;
+
 

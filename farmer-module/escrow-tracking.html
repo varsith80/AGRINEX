@@ -389,23 +389,30 @@
       { contract_no: 'ESC-2026-0799', bank_ref: 'HDFC-ESC-772910', crop: 'Wheat', variety: 'Sharbati Lokwan (100 Qt / 10,000 kg)', buyer: 'Aashirvaad ITC Foods', total_amount: 260000, advance_amount: 91000, advance_status: 'Paid', balance_amount: 169000, balance_status: 'Paid', status: '100% Settled', date: '10 Sep' }
     ];
 
+    let currentSearchTerm = '';
+
+    function handleSearch(val) {
+      currentSearchTerm = (val || '').trim().toLowerCase();
+      renderEscrow();
+    }
+
     async function loadEscrow() {
       try {
         if (window.AgriNexAPI) {
           const res = await AgriNexAPI.getEscrowContracts();
           if (res && res.length > 0) {
             ESCROWS = res.map(c => ({
-              contract_no: c.contract_no,
-              bank_ref: c.bank_ref,
-              crop: c.crop,
-              variety: c.variety,
-              buyer: c.buyer,
-              total_amount: c.total_amount,
-              advance_amount: c.advance_amount,
+              contract_no: c.contract_no || 'ESC-2026-0000',
+              bank_ref: c.bank_ref || 'HDFC-ESC-000000',
+              crop: c.crop || 'Crop Produce',
+              variety: c.variety || 'Standard Grade',
+              buyer: c.buyer || 'AgriNex Verified Buyer',
+              total_amount: c.total_amount || 0,
+              advance_amount: c.advance_amount || Math.round((c.total_amount || 0) * 0.35),
               advance_status: c.advance_status || 'Paid',
-              balance_amount: c.balance_amount,
+              balance_amount: c.balance_amount || Math.round((c.total_amount || 0) * 0.65),
               balance_status: c.balance_status || 'In Escrow',
-              status: c.overall_status.includes('100%') ? '100% Settled' : 'Advance Paid',
+              status: (c.overall_status && c.overall_status.includes('100%')) ? '100% Settled' : (c.status || 'Advance Paid'),
               date: c.date || 'Recent'
             }));
           }
@@ -416,7 +423,30 @@
 
     function renderEscrow() {
       const container = document.getElementById('escrow-contracts-list');
-      container.innerHTML = ESCROWS.map(c => `
+      if (!container) return;
+
+      const filtered = ESCROWS.filter(c => {
+        if (!currentSearchTerm) return true;
+        const q = currentSearchTerm;
+        return (c.contract_no && c.contract_no.toLowerCase().includes(q)) ||
+               (c.bank_ref && c.bank_ref.toLowerCase().includes(q)) ||
+               (c.crop && c.crop.toLowerCase().includes(q)) ||
+               (c.buyer && c.buyer.toLowerCase().includes(q)) ||
+               (c.variety && c.variety.toLowerCase().includes(q));
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 32px; text-align: center; color: #64748b;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">🔍</div>
+            <div style="font-weight: 700; color: #0f172a; margin-bottom: 4px;">No escrow contracts found</div>
+            <div style="font-size: 0.8rem;">No contract matches "${currentSearchTerm}". Try searching another keyword.</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(c => `
         <div class="contract-card-box">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:8px; margin-bottom:12px; flex-wrap:wrap; gap:6px;">
             <div>
@@ -437,16 +467,16 @@
             </div>
             <div>
               <div style="font-size:0.7rem; color:#64748b; font-weight:700;">TOTAL DEAL VALUE</div>
-              <strong style="font-size:1.05rem; color:#0f172a;">₹ ${c.total_amount.toLocaleString()}</strong>
+              <strong style="font-size:1.05rem; color:#0f172a;">₹ ${(c.total_amount || 0).toLocaleString()}</strong>
             </div>
             <div>
               <div style="font-size:0.7rem; color:#64748b; font-weight:700;">35% ADVANCE (PICKUP)</div>
-              <strong style="color:#059669; font-size:1rem;">₹ ${c.advance_amount.toLocaleString()}</strong>
+              <strong style="color:#059669; font-size:1rem;">₹ ${(c.advance_amount || 0).toLocaleString()}</strong>
               <div style="font-size:0.7rem; color:#059669;">✓ Paid in bank</div>
             </div>
             <div>
               <div style="font-size:0.7rem; color:#64748b; font-weight:700;">65% BALANCE (DELIVERY)</div>
-              <strong style="color:#0284c7; font-size:1rem;">₹ ${c.balance_amount.toLocaleString()}</strong>
+              <strong style="color:#0284c7; font-size:1rem;">₹ ${(c.balance_amount || 0).toLocaleString()}</strong>
               <div style="font-size:0.7rem; color:#0284c7;">${c.balance_status}</div>
             </div>
           </div>
@@ -474,7 +504,7 @@
       if (!c) return;
       document.getElementById('m-cert-no').innerText = c.contract_no;
       document.getElementById('m-cert-ref').innerText = c.bank_ref;
-      document.getElementById('m-cert-amt').innerText = `₹ ${c.total_amount.toLocaleString()}`;
+      document.getElementById('m-cert-amt').innerText = `₹ ${(c.total_amount || 0).toLocaleString()}`;
       document.getElementById('guaranteeModal').classList.add('active');
     }
 
