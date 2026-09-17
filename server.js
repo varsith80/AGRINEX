@@ -1642,6 +1642,21 @@ const server = http.createServer(async (req, res) => {
               current_price: topGainer.modal_price
             };
           }
+
+          // Dynamic Calendar Day Strings
+          const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+          const chartDays = [];
+          for (let i = 6; i >= 0; i--) {
+            const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+            chartDays.push(`${monthNames[d.getMonth()]} ${String(d.getDate()).padStart(2, '0')}`);
+          }
+          const forecastDays = [];
+          for (let i = 1; i <= 7; i++) {
+            const d = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
+            forecastDays.push(`${monthNames[d.getMonth()]} ${String(d.getDate()).padStart(2, '0')}`);
+          }
+          analyticsData.metadata.chart_days = chartDays;
+          analyticsData.metadata.forecast_days = forecastDays;
         }
       }
 
