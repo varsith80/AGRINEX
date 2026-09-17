@@ -415,6 +415,12 @@
         </div>
 
         <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
+          <!-- Simple / Elderly Mode (सरल मोड) Toggle Button -->
+          <button type="button" id="btn-toggle-lite-mode" onclick="toggleLiteMode()" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 800; color: #92400e; background: #fef3c7; padding: 7px 16px; border-radius: 999px; border: 2px solid #f59e0b; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(180, 83, 9, 0.15); transition: all 0.2s ease;" title="Switch to Simple Audio-First Mode / सरल मोड (सुलभ पद्धत)">
+            <span style="font-size: 1.1rem;">👴</span>
+            <span id="lite-mode-toggle-text">सरल मोड (Simple Mode)</span>
+          </button>
+
           <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
           <div class="lang-selector-widget" style="position: relative;">
             <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
@@ -460,6 +466,113 @@
           </div>
         </div>
       </header>
+
+      <!-- LITE / SIMPLE / AUDIO-FIRST MODE CONTAINER FOR ELDERLY TRADERS -->
+      <div id="lite-mode-container" class="lite-mode-wrapper" style="display: none;">
+        
+        <!-- Top Section Selector Tabs (Produce, Orders, Escrow) -->
+        <div class="lite-nav-tabs" style="display: flex; gap: 14px; margin-bottom: 22px; flex-wrap: wrap;">
+          <button type="button" class="lite-nav-tab active" id="lite-tab-produce" onclick="switchLiteSection('produce')">
+            <span style="font-size: 1.4rem;">🌾</span>
+            <span id="lite-tab-produce-text">Buy Produce (शेतीमाल खरेदी)</span>
+          </button>
+          <button type="button" class="lite-nav-tab" id="lite-tab-orders" onclick="switchLiteSection('orders')">
+            <span style="font-size: 1.4rem;">🚚</span>
+            <span id="lite-tab-orders-text">My Orders & Trucks (माझ्या गाड्या)</span>
+          </button>
+          <button type="button" class="lite-nav-tab" id="lite-tab-escrow" onclick="switchLiteSection('escrow')">
+            <span style="font-size: 1.4rem;">🛡️</span>
+            <span id="lite-tab-escrow-text">Safe Escrow (सुरक्षित खाती)</span>
+          </button>
+        </div>
+
+        <!-- SECTION 1: PRODUCE MARKETPLACE -->
+        <div id="lite-section-produce">
+          <!-- Lite Top Bar / Action Hero Banner -->
+          <div class="lite-hero-card">
+            <div class="lite-hero-left">
+              <div class="lite-hero-badge" id="lite-hero-badge">🟢 Direct Farmer Procurement • 100% Quality Verified</div>
+              <h1 class="lite-hero-title" id="lite-hero-title">🌾 Direct Farmer Produce Market</h1>
+              <p class="lite-hero-desc" id="lite-hero-desc">Tap any large crop photo, listen to voice details in your language, and buy directly from farmers in 1-click.</p>
+            </div>
+            <div class="lite-hero-actions">
+              <button type="button" class="lite-voice-search-btn" onclick="startLiteVoiceAssistant()" title="Voice Search / बोलून शोधा / बोलकर खोजें">
+                <span style="font-size: 1.6rem;">🎤</span>
+                <div style="text-align: left;">
+                  <div style="font-size: 0.95rem; font-weight: 800;" id="lite-voice-btn-title">Voice Search</div>
+                  <div style="font-size: 0.75rem; opacity: 0.85;" id="lite-voice-btn-desc">"Show Tomatoes" / "Onion"</div>
+                </div>
+              </button>
+              <button type="button" class="lite-emergency-badge-btn" onclick="filterLiteProduce('emergency')" title="Emergency Sales / सवलत विक्री">
+                <span style="font-size: 1.5rem;">🚨</span>
+                <div style="text-align: left;">
+                  <div style="font-size: 0.95rem; font-weight: 800;" id="lite-emerg-btn-title">Emergency Sales</div>
+                  <div style="font-size: 0.72rem; opacity: 0.9;" id="lite-emerg-btn-desc">Discounted direct lots</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Big Category Filter Tabs -->
+          <div class="lite-category-pills">
+            <button type="button" class="lite-cat-pill active" onclick="filterLiteProduce('all', this)">
+              <span class="cat-icon">🌾</span>
+              <span id="lite-cat-all">All Produce</span>
+            </button>
+            <button type="button" class="lite-cat-pill" onclick="filterLiteProduce('Vegetable', this)">
+              <span class="cat-icon">🍅</span>
+              <span id="lite-cat-veg">Vegetables</span>
+            </button>
+            <button type="button" class="lite-cat-pill" onclick="filterLiteProduce('Fruit', this)">
+              <span class="cat-icon">🥭</span>
+              <span id="lite-cat-fruit">Fruits</span>
+            </button>
+            <button type="button" class="lite-cat-pill" onclick="filterLiteProduce('Grain', this)">
+              <span class="cat-icon">🌾</span>
+              <span id="lite-cat-grain">Grains & Pulses</span>
+            </button>
+            <button type="button" class="lite-cat-pill" onclick="filterLiteProduce('emergency', this)">
+              <span class="cat-icon">🚨</span>
+              <span id="lite-cat-emerg">Emergency Sale</span>
+            </button>
+          </div>
+
+          <!-- Big Visual Produce Grid -->
+          <div id="lite-produce-grid" class="lite-produce-grid">
+            <!-- Rendered dynamically by lite_mode.js -->
+          </div>
+        </div>
+
+        <!-- SECTION 2: MY ORDERS & TRUCKS TRACKING -->
+        <div id="lite-section-orders" style="display: none;">
+          <div style="background: #ffffff; border-radius: 20px; border: 1.5px solid #e2e8f0; padding: 24px; margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+              <div>
+                <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 0;" id="lite-orders-title">🚚 Live Shipments & Booked Trucks</h2>
+                <span style="font-size: 0.95rem; color: #64748b;" id="lite-orders-subtitle">Track your delivery trucks on live GPS with 1-tap call to driver</span>
+              </div>
+              <button type="button" class="lite-audio-btn" style="position: static;" onclick="speakOrdersSummary()">
+                🔊 <span id="lite-orders-audio-btn">Listen Status</span>
+              </button>
+            </div>
+            <div id="lite-orders-list" style="display: flex; flex-direction: column; gap: 20px;">
+              <!-- Populated dynamically by lite_mode.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: SAFE ESCROW & PAYMENTS -->
+        <div id="lite-section-escrow" style="display: none;">
+          <div style="background: #ffffff; border-radius: 20px; border: 1.5px solid #e2e8f0; padding: 28px; margin-bottom: 24px;">
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #065f46; margin: 0 0 10px 0;" id="lite-escrow-title">🛡️ 100% Protected Escrow Vault</h2>
+            <p style="font-size: 0.98rem; color: #334155; margin: 0 0 24px 0;" id="lite-escrow-subtitle">Your money is kept in a government-supervised escrow account until your produce arrives at your warehouse.</p>
+            <div id="lite-escrow-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+              <!-- Populated dynamically by lite_mode.js -->
+            </div>
+          </div>
+        </div>
+
+      </div>
 
       <!-- VIEW: VERIFIED PRODUCE / MARKETPLACE (Default Active) -->
       <div id="view-verified-produce" class="portal-view active-view dashboard-content">
@@ -3868,34 +3981,83 @@
     </div>
   </div>
 
-  <!-- MODAL 13: AI SOURCING COPILOT & ARBITRAGE HUNTER -->
+  <!-- MODAL 13: AI SOURCING COPILOT 2.0 SUITE -->
   <div class="modal-overlay" id="modal-ai-copilot">
-    <div class="modal-content" style="max-width: 720px; width: 95%;">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #0c5a36 0%, #166534 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+    <div class="modal-content" style="max-width: 560px; width: 92%; max-height: 86vh; display: flex; flex-direction: column; padding: 16px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);">
+      
+      <!-- Compact Header -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #0c5a36 0%, #166534 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 2px 6px rgba(12, 90, 54, 0.2);">
             🤖
           </div>
           <div>
-            <h3 style="font-size: 1.2rem; font-weight: 800; color: #0c5a36; margin: 0;">AgriNex AI Sourcing Copilot</h3>
-            <span style="font-size: 0.75rem; color: #64748b;">Instant Maharashtra Mandi Arbitrage & Direct Sourcing Hunter</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <h3 style="font-size: 1rem; font-weight: 800; color: #0c5a36; margin: 0;">AI Sourcing Copilot</h3>
+              <span class="badge" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.62rem; font-weight: 800; padding: 1px 5px;">v2.0</span>
+            </div>
+            <span style="font-size: 0.68rem; color: #64748b;">Mandi Arbitrage & Voice Procurement</span>
           </div>
         </div>
-        <button onclick="closeCopilotModal()" style="font-size: 1.3rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <!-- Compact Language Selector Dropdown -->
+          <div style="display: flex; align-items: center; gap: 4px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 2px 6px;">
+            <span style="font-size: 0.7rem;">🗣️</span>
+            <select id="copilot-lang-select" onchange="setCopilotLanguage(this.value)" style="border: none; background: transparent; font-size: 0.72rem; font-weight: 700; color: #334155; outline: none; cursor: pointer;">
+              <option value="en" selected>English</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="mr">मराठी (Marathi)</option>
+              <option value="bn">বাংলা (Bengali)</option>
+              <option value="te">తెలుగు (Telugu)</option>
+              <option value="ta">தமிழ் (Tamil)</option>
+              <option value="gu">ગુજરાતી (Gujarati)</option>
+              <option value="ur">اردو (Urdu)</option>
+              <option value="kn">ಕನ್ನಡ (Kannada)</option>
+              <option value="or">ଓଡ଼ିଆ (Odia)</option>
+              <option value="ml">മലയാളം (Malayalam)</option>
+            </select>
+          </div>
+
+          <button id="btn-copilot-tts-stop" class="btn btn-outline btn-sm" onclick="stopCopilotTTS()" style="display: none; font-size: 0.68rem; color: #dc2626; border-color: #fca5a5; background: #fef2f2; padding: 2px 6px;" title="Stop Voice Audio">
+            ⏹️ Stop
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="clearCopilotChat()" style="font-size: 0.68rem; color: #64748b; padding: 2px 6px;" title="Reset Conversation">
+            🔄
+          </button>
+          <button onclick="closeCopilotModal()" style="font-size: 1.15rem; color: #64748b; background: transparent; border: none; cursor: pointer; padding: 0 4px; line-height: 1;">✕</button>
+        </div>
       </div>
 
-      <!-- Search Input Form -->
-      <form onsubmit="handleCopilotSubmit(event)" style="display: flex; gap: 8px; margin-bottom: 16px;">
-        <input type="text" id="copilot-query-input" class="form-input" placeholder="e.g. Find best onion arbitrage in Lasalgaon or emergency salvage lots..." style="flex: 1; font-size: 0.9rem;" />
-        <button type="submit" class="btn btn-primary" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700; padding: 0 18px;">
-          ⚡ Ask AI
+      <!-- Scrollable Conversational Thread Container -->
+      <div id="copilot-chat-thread" style="flex: 1; min-height: 220px; max-height: 380px; overflow-y: auto; padding-right: 4px; margin-bottom: 8px;">
+        <!-- Rendered dynamically via copilot.js -->
+      </div>
+
+      <!-- Quick Suggestion Chips Bar -->
+      <div id="copilot-chips-bar" style="display: flex; gap: 5px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 8px; scrollbar-width: none;">
+        <button class="copilot-chip" style="padding: 3px 9px; font-size: 0.72rem;" onclick="askCopilot('Best Onion Arbitrage in Lasalgaon')">🧅 Onion Arbitrage</button>
+        <button class="copilot-chip" style="padding: 3px 9px; font-size: 0.72rem;" onclick="askCopilot('High Grade Tomato Narayangaon under 14/kg')">🍅 Tomato Lots</button>
+        <button class="copilot-chip" style="padding: 3px 9px; font-size: 0.72rem;" onclick="askCopilot('Emergency Salvage processing deals')">🚨 Salvage Lots</button>
+        <button class="copilot-chip" style="padding: 3px 9px; font-size: 0.72rem;" onclick="askCopilot('I have ₹3 Lakh budget for Pune retail store')">💼 ₹3L Budget</button>
+      </div>
+
+      <!-- Voice & Text Query Input Form -->
+      <form onsubmit="handleCopilotSubmit(event)" style="display: flex; gap: 6px; align-items: center;">
+        <button type="button" id="btn-copilot-mic" class="btn-mic-record" onclick="toggleCopilotSpeechRecognition()" title="Click to speak in chosen language" style="width: 36px; height: 36px; min-width: 36px; font-size: 1rem; border-radius: 8px;">
+          🎤
+        </button>
+        <input type="text" id="copilot-query-input" class="form-input" placeholder="Ask in any language: e.g. Onion arbitrage in Lasalgaon..." style="flex: 1; font-size: 0.82rem; padding: 7px 10px; border-radius: 8px;" />
+        <button type="submit" id="btn-copilot-send" class="btn btn-primary" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700; padding: 7px 14px; font-size: 0.82rem; border-radius: 8px; white-space: nowrap;">
+          ⚡ Ask
         </button>
       </form>
-
-      <!-- Response Container -->
-      <div id="copilot-response-container" style="max-height: 480px; overflow-y: auto;">
-        <!-- Rendered dynamically via copilot.js renderCopilotDefault() -->
+      
+      <div id="copilot-mic-status" style="font-size: 0.68rem; color: #64748b; margin-top: 3px; min-height: 14px; display: flex; justify-content: space-between; align-items: center;">
+        <span id="copilot-status-text">💡 Tip: Speak or type in your chosen regional language.</span>
+        <span id="copilot-voice-lang-indicator" style="font-weight: 700; color: #0c5a36;">Voice: English</span>
       </div>
+
     </div>
   </div>
 
@@ -4079,6 +4241,54 @@
     </div>
   </div>
 
+  <!-- Ultra-Simplified Buy Confirmation Modal for Lite Mode -->
+  <div id="modal-lite-buy">
+    <div class="lite-modal-card">
+      <div class="lite-modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.6rem;">🛒</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #065f46;" id="lite-buy-crop-title">Buy Produce</h3>
+            <span style="font-size: 0.85rem; color: #166534;" id="lite-buy-farmer">Farmer: Ramesh Patil (Pune)</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeLiteBuyModal()" style="background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer; padding: 4px;">✕</button>
+      </div>
+
+      <div class="lite-modal-body">
+        <div style="text-align: center; margin-bottom: 18px;">
+          <img id="lite-buy-img" src="assets/images/tomato.jpg" alt="Produce" style="width: 130px; height: 130px; object-fit: cover; border-radius: 18px; border: 2px solid #bbf7d0; box-shadow: 0 4px 12px rgba(0,0,0,0.08);" />
+        </div>
+
+        <div class="lite-modal-row">
+          <span style="color: #475569;" id="lite-modal-price-label">Price / Rate:</span>
+          <strong id="lite-buy-price" style="color: #16a34a;">₹ 22 / kg</strong>
+        </div>
+        <div class="lite-modal-row">
+          <span style="color: #475569;" id="lite-modal-qty-label">Quantity:</span>
+          <strong id="lite-buy-qty">5,000 kg (100 Bags)</strong>
+        </div>
+        <div class="lite-modal-row" style="background: #f0fdf4; padding: 12px 14px; border-radius: 12px; border: 1px solid #bbf7d0;">
+          <span style="font-weight: 800; color: #166534;" id="lite-modal-total-label">Total Amount:</span>
+          <strong id="lite-buy-total" style="color: #15803d; font-size: 1.45rem;">₹ 1,10,000</strong>
+        </div>
+        <div class="lite-modal-row" style="border-bottom: none; padding-top: 8px;">
+          <span style="font-size: 0.88rem; color: #64748b;" id="lite-modal-escrow-label">🛡️ Escrow Advance Deposit:</span>
+          <span id="lite-buy-advance" style="font-size: 0.92rem; font-weight: 700; color: #0f172a;">₹ 38,500 (35% Protected Deposit)</span>
+        </div>
+      </div>
+
+      <div class="lite-modal-footer">
+        <button type="button" class="lite-modal-btn-cancel" onclick="closeLiteBuyModal()" id="lite-modal-btn-cancel-text">
+          ✕ Cancel
+        </button>
+        <button type="button" class="lite-modal-btn-confirm" onclick="confirmLiteBuyOrder()" id="lite-modal-btn-confirm-text">
+          ✓ Confirm Purchase
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Floating AI Sourcing Copilot Trigger Button -->
   <button id="btn-floating-copilot" class="btn-floating-copilot" onclick="openCopilotModal()">
     <span>🤖</span>
@@ -4093,6 +4303,7 @@
   <script src="js/calculator.js"></script>
   <script src="js/insights.js"></script>
   <script src="js/copilot.js"></script>
+  <script src="js/lite_mode.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>

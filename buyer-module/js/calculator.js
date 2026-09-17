@@ -816,9 +816,8 @@ function recalculateBuyerCosts() {
   const fleetWarning = document.getElementById('calc-fleet-capacity-warning');
   if (fleetWarning) {
     if (qtyInKg > fleetData.capacityKg * 1.05) {
-      const neededTrucks = Math.ceil(qtyInKg / fleetData.capacityKg);
-      fleetWarning.style.display = 'block';
-      fleetWarning.innerHTML = `⚠️ Total volume (<strong>${qtyInKg.toLocaleString('en-IN')} kg</strong>) exceeds single ${fleetData.name} capacity (<strong>${fleetData.capacityKg.toLocaleString('en-IN')} kg</strong>). Requires <strong>${neededTrucks} vehicles</strong> or larger fleet (e.g. Eicher/BharatBenz).`;
+      const vehName = (window.AgriNexI18n && typeof window.AgriNexI18n.tVehicle === 'function') ? window.AgriNexI18n.tVehicle(fleetData.name) : (window.tVehicle ? window.tVehicle(fleetData.name) : fleetData.name);
+      fleetWarning.innerHTML = `⚠️ Total volume (<strong>${qtyInKg.toLocaleString('en-IN')} kg</strong>) exceeds single ${vehName} capacity (<strong>${fleetData.capacityKg.toLocaleString('en-IN')} kg</strong>). Requires <strong>${neededTrucks} vehicles</strong> or larger fleet.`;
     } else {
       fleetWarning.style.display = 'none';
     }

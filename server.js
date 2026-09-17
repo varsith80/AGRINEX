@@ -1,8 +1,103 @@
 require('dotenv').config();
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const dbService = require('./backend/db');
+
+// Native Indian Voice Text-to-Speech Engine (Sarvam AI Bulbul)
+async function synthesizeSarvamSpeech(text, languageCode = 'hi-IN', speaker = 'priya') {
+  const apiKey = process.env.SARVAM_API_KEY;
+  if (!apiKey || apiKey.trim() === '') {
+    return { success: false, fallback: true, reason: 'SARVAM_API_KEY_NOT_CONFIGURED' };
+  }
+
+  const langMap = {
+    'hi': 'hi-IN',
+    'mr': 'mr-IN',
+    'en': 'en-IN',
+    'ta': 'ta-IN',
+    'te': 'te-IN',
+    'kn': 'kn-IN',
+    'gu': 'gu-IN',
+    'bn': 'bn-IN',
+    'ml': 'ml-IN',
+    'or': 'od-IN',
+    'pa': 'pa-IN'
+  };
+
+  const normalizedLang = langMap[languageCode.toLowerCase()] || languageCode || 'hi-IN';
+  
+  const validSpeakers = ['priya', 'aditya', 'ritu', 'ashutosh', 'neha', 'rahul', 'pooja', 'rohan', 'simran', 'kavya', 'amit', 'dev', 'ishita', 'shreya', 'ratan', 'varun', 'manan', 'sumit', 'roopa', 'kabir', 'aayan', 'shubh', 'advait', 'anand', 'tanya', 'tarun', 'sunny', 'mani', 'gokul', 'vijay', 'shruti', 'suhani', 'mohit', 'kavitha', 'rehan', 'soham', 'rupali'];
+  const selectedSpeaker = validSpeakers.includes(speaker) ? speaker : 'priya';
+
+  const payload = JSON.stringify({
+    inputs: [text.slice(0, 500)],
+    target_language_code: normalizedLang,
+    speaker: selectedSpeaker,
+    pitch: 0,
+    pace: 0.95,
+    loudness: 1.5,
+    speech_sample_rate: 22050,
+    enable_preprocessing: true,
+    model: 'bulbul:v3'
+  });
+
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'api.sarvam.ai',
+      port: 443,
+      path: '/text-to-speech',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-subscription-key': apiKey,
+        'Content-Length': Buffer.byteLength(payload)
+      },
+      timeout: 8000
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            const parsed = JSON.parse(data);
+            if (parsed.audios && parsed.audios.length > 0) {
+              resolve({
+                success: true,
+                audio_base64: parsed.audios[0],
+                format: 'audio/wav',
+                provider: 'sarvam',
+                language_code: normalizedLang,
+                speaker: speaker || 'meera'
+              });
+            } else {
+              resolve({ success: false, fallback: true, reason: 'NO_AUDIO_RETURNED', raw: data });
+            }
+          } else {
+            resolve({ success: false, fallback: true, statusCode: res.statusCode, reason: 'UPSTREAM_API_ERROR', raw: data });
+          }
+        } catch (err) {
+          resolve({ success: false, fallback: true, reason: 'PARSE_ERROR', error: err.message });
+        }
+      });
+    });
+
+    req.on('error', (err) => {
+      resolve({ success: false, fallback: true, reason: 'NETWORK_ERROR', error: err.message });
+    });
+
+    req.on('timeout', () => {
+      req.destroy();
+      resolve({ success: false, fallback: true, reason: 'TIMEOUT' });
+    });
+
+    req.write(payload);
+    req.end();
+  });
+}
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.resolve(__dirname);
@@ -29,52 +124,216 @@ const DEFAULT_DATA = {
   crops: [
     {
       id: "LOT-TOM-01",
-      farmer_name: "Ramesh Patel",
+      farmer_name: "Sanjay Deshmukh",
       crop: "Tomato",
-      variety: "Hybrid Red (Shivam)",
+      crop_name: "Tomato (Shivam / Abhinav Hybrid)",
+      variety: "Hybrid Red (Shivam / Abhinav)",
       category: "Vegetables",
       shelf_life: "3 Days (Perishable)",
-      quantity_qt: 50,
-      quantity_kg: 5000,
-      price_per_qt: 2400,
-      price_per_kg: 24.0,
-      state: "Gujarat",
-      district: "Surat",
-      mandi: "Surat Mandi Yard",
+      quantity_qt: 60,
+      quantity_kg: 6000,
+      price_per_qt: 1300,
+      price_per_kg: 13.0,
+      state: "Maharashtra",
+      district: "Pune",
+      mandi: "Narayangaon Mandi Yard, Junnar",
       grade: "Grade A",
       image: "assets/images/tomato.jpg",
       status: "Active (Bids Open)",
-      best_bid_qt: 2450,
-      best_bid_kg: 24.50,
+      best_bid_qt: 1400,
+      best_bid_kg: 14.00,
       buyer_name: "FreshCart Supply Chain",
       created_at: new Date().toISOString()
     },
     {
       id: "LOT-ONI-02",
-      farmer_name: "Ramesh Patel",
+      farmer_name: "Patil Rameshwar",
       crop: "Onion",
-      variety: "Nashik Red Export Grade",
+      crop_name: "Red Onion (Nashik Garwa Quality)",
+      variety: "Nashik Garwa Export Calibrated",
       category: "Vegetables",
-      shelf_life: "25 Days",
-      quantity_qt: 80,
-      quantity_kg: 8000,
-      price_per_qt: 2800,
-      price_per_kg: 28.0,
+      shelf_life: "45 Days",
+      quantity_qt: 100,
+      quantity_kg: 10000,
+      price_per_qt: 1800,
+      price_per_kg: 18.0,
       state: "Maharashtra",
       district: "Nashik",
-      mandi: "Lasalgaon Mandi",
-      grade: "Grade A",
+      mandi: "Lasalgaon APMC Yard",
+      grade: "Grade A Export Calibrated",
       image: "assets/images/onion.jpg",
       status: "Active (Bids Open)",
-      best_bid_qt: 2850,
-      best_bid_kg: 28.50,
+      best_bid_qt: 1950,
+      best_bid_kg: 19.50,
       buyer_name: "Mahyco Bulk Exporters",
       created_at: new Date().toISOString()
     },
     {
-      id: "LOT-POT-03",
+      id: "LOT-BAN-03",
+      farmer_name: "Rajesh Shinde",
+      crop: "Banana",
+      crop_name: "Grand Naine Banana (GI Khandesh)",
+      variety: "Grand Naine G9 Export",
+      category: "Fruits",
+      shelf_life: "7 Days (Perishable)",
+      quantity_qt: 120,
+      quantity_kg: 12000,
+      price_per_qt: 1450,
+      price_per_kg: 14.5,
+      state: "Maharashtra",
+      district: "Jalgaon",
+      mandi: "Raver APMC Hub",
+      grade: "Grade A Export Calibrated",
+      image: "assets/images/banana.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 1520,
+      best_bid_kg: 15.20,
+      buyer_name: "Reliance Fresh Sourcing",
+      created_at: new Date().toISOString()
+    },
+    {
+      id: "LOT-SOY-04",
+      farmer_name: "Anandrao Jadhav",
+      crop: "Soybean",
+      crop_name: "Yellow Soybean (Latur JS 335)",
+      variety: "JS 335 High Protein Oilseed",
+      category: "Grains",
+      shelf_life: "180 Days",
+      quantity_qt: 80,
+      quantity_kg: 8000,
+      price_per_qt: 4350,
+      price_per_kg: 43.5,
+      state: "Maharashtra",
+      district: "Latur",
+      mandi: "Latur APMC Mega Grain Yard",
+      grade: "Grade A (Cleaned)",
+      image: "assets/images/soybean.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 4480,
+      best_bid_kg: 44.80,
+      buyer_name: "Adani Wilmar Solvent Extraction",
+      created_at: new Date().toISOString()
+    },
+    {
+      id: "LOT-ORG-05",
+      farmer_name: "Santosh Jagtap",
+      crop: "Orange",
+      crop_name: "Nagpur Mandarin Orange",
+      variety: "Nagpur Sweet Mandarin (Mrig Bahar)",
+      category: "Fruits",
+      shelf_life: "12 Days",
+      quantity_qt: 90,
+      quantity_kg: 9000,
+      price_per_qt: 3100,
+      price_per_kg: 31.0,
+      state: "Maharashtra",
+      district: "Nagpur",
+      mandi: "Kalmeshwar APMC Yard",
+      grade: "Grade A Table Calibrated",
+      image: "assets/images/orange.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 3250,
+      best_bid_kg: 32.50,
+      buyer_name: "Mother Dairy Safal",
+      created_at: new Date().toISOString()
+    },
+    {
+      id: "LOT-TUR-06",
+      farmer_name: "Vikas More",
+      crop: "Turmeric",
+      crop_name: "Salem / Waigaon High Curcumin Turmeric",
+      variety: "Salem Bold 5.2% Curcumin",
+      category: "Spices",
+      shelf_life: "365 Days",
+      quantity_qt: 40,
+      quantity_kg: 4000,
+      price_per_qt: 13200,
+      price_per_kg: 132.0,
+      state: "Maharashtra",
+      district: "Sangli",
+      mandi: "Sangli APMC Turmeric Terminal",
+      grade: "Grade A+ Export",
+      image: "assets/images/turmeric.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 13600,
+      best_bid_kg: 136.00,
+      buyer_name: "Patanjali Ayurved Procurements",
+      created_at: new Date().toISOString()
+    },
+    {
+      id: "LOT-POM-07",
+      farmer_name: "Balasaheb Vikhe",
+      crop: "Pomegranate",
+      crop_name: "Bhagwa Pomegranate (Ruby Red)",
+      variety: "Bhagwa GI Export Grade",
+      category: "Fruits",
+      shelf_life: "18 Days",
+      quantity_qt: 50,
+      quantity_kg: 5000,
+      price_per_qt: 8800,
+      price_per_kg: 88.0,
+      state: "Maharashtra",
+      district: "Solapur",
+      mandi: "Sangola APMC Yard",
+      grade: "Grade A Export Calibrated",
+      image: "assets/images/pomegranate.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 9100,
+      best_bid_kg: 91.00,
+      buyer_name: "Kay Bee Exports Mumbai",
+      created_at: new Date().toISOString()
+    },
+    {
+      id: "LOT-COT-08",
+      farmer_name: "Ganesh Thorat",
+      crop: "Cotton",
+      crop_name: "Medium Staple Raw Seed Cotton",
+      variety: "Bt Hybrid 29-30mm Staple",
+      category: "Grains",
+      shelf_life: "365 Days",
+      quantity_qt: 150,
+      quantity_kg: 15000,
+      price_per_qt: 7100,
+      price_per_kg: 71.0,
+      state: "Maharashtra",
+      district: "Wardha",
+      mandi: "Hinganghat Cotton Yard",
+      grade: "Grade A Cleaned",
+      image: "assets/images/cotton.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 7250,
+      best_bid_kg: 72.50,
+      buyer_name: "Vardhman Textiles",
+      created_at: new Date().toISOString()
+    },
+    {
+      id: "LOT-RIC-09",
+      farmer_name: "Dnyaneshwar Bodke",
+      crop: "Rice",
+      crop_name: "Indrayani Aromatic Rice",
+      variety: "Indrayani Maval Paddy",
+      category: "Grains",
+      shelf_life: "365 Days",
+      quantity_qt: 70,
+      quantity_kg: 7000,
+      price_per_qt: 3700,
+      price_per_kg: 37.0,
+      state: "Maharashtra",
+      district: "Pune",
+      mandi: "Manchar Mandi Yard",
+      grade: "Grade A Single Polish",
+      image: "assets/images/rice.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 3820,
+      best_bid_kg: 38.20,
+      buyer_name: "KRBL India Gate Sourcing",
+      created_at: new Date().toISOString()
+    },
+    {
+      id: "LOT-POT-10",
       farmer_name: "Ramesh Patel",
       crop: "Potato",
+      crop_name: "Potato (Jyoti Fresh Harvest)",
       variety: "Jyoti Grade A Processing Chip Grade",
       category: "Vegetables",
       shelf_life: "60 Days",
@@ -82,37 +341,61 @@ const DEFAULT_DATA = {
       quantity_kg: 12000,
       price_per_qt: 1800,
       price_per_kg: 18.0,
-      state: "Gujarat",
-      district: "Surat",
-      mandi: "Surat Mandi Yard",
+      state: "Maharashtra",
+      district: "Manchar",
+      mandi: "Manchar Potato Market",
       grade: "Grade A",
       image: "assets/images/potato.jpg",
-      status: "Accepted (Escrow Active)",
+      status: "Active (Bids Open)",
       best_bid_qt: 1850,
       best_bid_kg: 18.50,
       buyer_name: "Balaji Wafers Procurement",
       created_at: new Date().toISOString()
     },
     {
-      id: "LOT-WHT-04",
-      farmer_name: "Ramesh Patel",
+      id: "LOT-WHT-11",
+      farmer_name: "Nitin Shinde",
       crop: "Wheat",
-      variety: "Sharbati Lokwan Golden Wheat",
+      crop_name: "Sharbati Lokwan Golden Wheat",
+      variety: "Sharbati Lokwan Milling Grade",
       category: "Grains",
       shelf_life: "180 Days",
       quantity_qt: 150,
       quantity_kg: 15000,
       price_per_qt: 2600,
       price_per_kg: 26.0,
-      state: "Madhya Pradesh",
-      district: "Sehore",
-      mandi: "Sehore Mandi",
+      state: "Maharashtra",
+      district: "Ahmednagar",
+      mandi: "Rahata APMC Silo Yard",
       grade: "Grade A+",
       image: "assets/images/hero-field.jpg",
       status: "Active (Bids Open)",
       best_bid_qt: 2650,
       best_bid_kg: 26.50,
       buyer_name: "ITC Aashirvaad Sourcing",
+      created_at: new Date().toISOString()
+    },
+    {
+      id: "LOT-MAZ-12",
+      farmer_name: "Anil Shinde",
+      crop: "Maize",
+      crop_name: "Maize (Yellow Corn / Makka)",
+      variety: "Hybrid Yellow Feed Grade",
+      category: "Grains",
+      shelf_life: "180 Days",
+      quantity_qt: 150,
+      quantity_kg: 15000,
+      price_per_qt: 2200,
+      price_per_kg: 22.0,
+      state: "Maharashtra",
+      district: "Nashik",
+      mandi: "Malegaon APMC Yard",
+      grade: "Grade A Feed Grade",
+      image: "assets/images/maize.jpg",
+      status: "Active (Bids Open)",
+      best_bid_qt: 2280,
+      best_bid_kg: 22.80,
+      buyer_name: "Godrej Agrovet Feed Mill",
       created_at: new Date().toISOString()
     }
   ],
@@ -1042,6 +1325,404 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
+    // 9.1 Buyer AI Sourcing Copilot Suite Chat API
+    if (urlPath === '/api/buyer/copilot-chat' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const query = (body.query || '').trim();
+      const lang = (body.language || 'en').toLowerCase();
+      const history = Array.isArray(body.history) ? body.history : [];
+      const buyerLocation = body.buyerLocation || "Vashi APMC Central Terminal, Navi Mumbai";
+
+      if (!query) {
+        return sendJSON(res, 400, { error: "Query is required" });
+      }
+
+      const lower = query.toLowerCase();
+      const crops = db.crops || [];
+
+      // Multilingual localized response helper dictionaries
+      const LANG_TRANSLATIONS = {
+        'hi': {
+          titleSuffix: "खरीद व लँडेड आर्बिट्राज विश्लेषण",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `${loc} के फार्म-गेट लॉट्स ₹ ${farmP.toFixed(2)}/किग्रा पर उपलब्ध हैं। ${hub} तक कुल लैंडेड लागत ₹ ${landP.toFixed(2)}/किग्रा है, जबकि थोक मंडी बेंचमार्क दर ₹ ${termP.toFixed(2)}/किग्रा है।`,
+          signalBuy: "🟢 तुरंत खरीदें (मूल्य वृद्धि अपेक्षित)",
+          signalWait: "🟡 रुकें / प्रतीक्षा करें (आवक अधिक होने से दरें गिरेंगी)",
+          signalSalvage: "🚨 आपातकालीन सॉल्वेज (35%+ भारी छूट)",
+          escrowNote: "35% एस्क्रो अग्रिम सुरक्षित • वी-एनडब्ल्यूआर गोदाम सत्यापित",
+          marginAdvantage: "मार्जिन लाभ",
+          landedCostText: "कुल लैंडेड लागत",
+          targetBidText: "अनुशंसित अधिकतम बोली"
+        },
+        'mr': {
+          titleSuffix: "खरेदी व लँडेड नफा विश्लेषण",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `${loc} येथील थेट शेतकरी लॉट्स ₹ ${farmP.toFixed(2)}/किलो उपलब्ध आहेत. ${hub} पर्यंत एकूण लँडेड खर्च ₹ ${landP.toFixed(2)}/किलो आहे, तर वाशी टर्मिनल दर ₹ ${termP.toFixed(2)}/किलो आहे.`,
+          signalBuy: "🟢 त्वरित खरेदी करा (दर वाढीचा अंदाज)",
+          signalWait: "🟡 थांबा / प्रतीक्षा करा (बाजारात आवक वाढणार)",
+          signalSalvage: "🚨 आपत्कालीन साल्वेज (35%+ मोठी सूट)",
+          escrowNote: "35% एस्क्रो आगाऊ सुरक्षित • वाशी टर्मिनल थेट वितरण",
+          marginAdvantage: "नफा मार्जिन फायदा",
+          landedCostText: "एकूण लँडेड खर्च",
+          targetBidText: "शिफारस केलेली कमाल बोली"
+        },
+        'bn': {
+          titleSuffix: "ক্রয় ও ল্যান্ডেড আরবিট্রেজ বিশ্লেষণ",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `${loc}-এর ফার্ম-গেট লট ₹ ${farmP.toFixed(2)}/কেজি দরে উপলব্ধ। ${hub}-এ মোট ল্যান্ডেড খরচ ₹ ${landP.toFixed(2)}/কেজি বনাম পাইকারি বেঞ্চমার্ক ₹ ${termP.toFixed(2)}/কেজি।`,
+          signalBuy: "🟢 এখনই কিনুন (দাম বাড়ার পূর্বাভাস)",
+          signalWait: "🟡 অপেক্ষা করুন (বাজারে সরবরাহ বাড়লে দাম কমবে)",
+          signalSalvage: "🚨 ইমার্জেন্সি সেলভেজ (৩৫%+ ছাড়)",
+          escrowNote: "৩৫% এসক্রো সুরক্ষিত • গুণমান পরীক্ষিত",
+          marginAdvantage: "মার্জিন সুবিধা",
+          landedCostText: "মোট ল্যান্ডেড খরচ",
+          targetBidText: "সুপারিশকৃত সর্বোচ্চ দর"
+        },
+        'te': {
+          titleSuffix: "సేకరణ & ల్యాండెడ్ ఆర్బిట్రేజ్ విశ్లేషణ",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `${loc} లో ఫార్మ్-గేట్ లాట్లు ₹ ${farmP.toFixed(2)}/కిలో అందుబాటులో ఉన్నాయి. ${hub} కు మొత్తం ల్యాండెడ్ ఖర్చు ₹ ${landP.toFixed(2)}/కిలో కాగా, మార్కెట్ బెంచ్మార్క్ ₹ ${termP.toFixed(2)}/కిలో.`,
+          signalBuy: "🟢 ఇప్పుడే కొనండి (ధరల పెరుగుదల అంచనా)",
+          signalWait: "🟡 వేచి ఉండండి (సరఫరా పెరిగి ధరలు తగ్గే అవకాశం)",
+          signalSalvage: "🚨 ఎమర్జెన్సీ సాల్వేజ్ (35%+ భారీ తగ్గింపు)",
+          escrowNote: "35% ఎస్క్రో ముందస్తు లాక్ • గ్రేడ్-A నాణ్యత",
+          marginAdvantage: "మార్జిన్ ప్రయోజనం",
+          landedCostText: "మొత్తం ల్యాండెడ్ ఖర్చు",
+          targetBidText: "సిఫార్సు చేయబడిన గరిష్ట బిడ్"
+        },
+        'ta': {
+          titleSuffix: "கொள்முதல் மற்றும் லேண்டட் லாப பகுப்பாய்வு",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `${loc} பண்ணை விலையில் ₹ ${farmP.toFixed(2)}/கிலோ கிடைக்கிறது. ${hub} டெலிவரிக்கு மொத்த லேண்டட் செலவு ₹ ${landP.toFixed(2)}/கிலோ, சந்தை விலை ₹ ${termP.toFixed(2)}/கிலோ.`,
+          signalBuy: "🟢 உடனே வாங்கவும் (விலை உயர வாய்ப்பு)",
+          signalWait: "🟡 காத்திருங்கள் (வரத்து அதிகமாகி விலை குறையும்)",
+          signalSalvage: "🚨 அவசர தள்ளுபடி சால்வேஜ் (35%+ அதிரடி தள்ளுபடி)",
+          escrowNote: "35% எஸ்க்ரோ முன்பணம் பாதுகாப்பு • நேரடி டெலிவரி",
+          marginAdvantage: "லாப வரம்பு நன்மை",
+          landedCostText: "மொத்த லேண்டட் செலவு",
+          targetBidText: "பரிந்துரைக்கப்பட்ட அதிகபட்ச விலை"
+        },
+        'gu': {
+          titleSuffix: "પ્રાપ્તિ અને લેન્ડેડ આર્બિટ્રેજ વિશ્લેષણ",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `${loc} ના ફાર્મ-ગેટ લોટ ₹ ${farmP.toFixed(2)}/કિલો ઉપલબ્ધ છે. ${hub} સુધીનો કુલ લેન્ડેડ ખર્ચ ₹ ${landP.toFixed(2)}/કિલો છે જ્યારે જથ્થાબંધ દર ₹ ${termP.toFixed(2)}/કિલો છે.`,
+          signalBuy: "🟢 તરત જ ખરીદો (ભાવ વધવાની ધારણા)",
+          signalWait: "🟡 રાહ જુઓ (આવક વધવાથી ભાવ ઘટશે)",
+          signalSalvage: "🚨 ઇમરજન્સી સેલ્વેજ (35%+ ભારે ડિસ્કાઉન્ટ)",
+          escrowNote: "35% એસ્ક્રો સુરક્ષિત એડવાન્સ • વાશી હબ ડિલિવરી",
+          marginAdvantage: "માર્જિન ફાયદો",
+          landedCostText: "કુલ લેન્ડેડ ખર્ચ",
+          targetBidText: "ભલામણ કરેલ મહત્તમ બોલી"
+        },
+        'ur': {
+          titleSuffix: "خریداری اور لینڈڈ آربٹریج تجزیہ",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `${loc} میں فارم گیٹ لاٹس ₹ ${farmP.toFixed(2)} فی کلو دستیاب ہیں۔ ${hub} تک کل لینڈڈ لاگت ₹ ${landP.toFixed(2)} ہے بمقابلہ تھوک قیمت ₹ ${termP.toFixed(2)}۔`,
+          signalBuy: "🟢 فوری خریدیں (قیمتوں میں اضافے کی پیش گوئی)",
+          signalWait: "🟡 انتظار کریں (آمد زیادہ ہونے سے قیمتیں گریں گی)",
+          signalSalvage: "🚨 ایمرجنسی سالویج (35%+ بھاری رعایت)",
+          escrowNote: "35% ایسکرو پیشگی محفوظ • تصدیق شدہ فصل",
+          marginAdvantage: "مارجن کا فائدہ",
+          landedCostText: "کل لینڈڈ لاگت",
+          targetBidText: "تجویز کردہ زیادہ سے زیادہ بولی"
+        },
+        'kn': {
+          titleSuffix: "ಸಂಗ್ರಹಣೆ ಮತ್ತು ಲ್ಯಾಂಡೆಡ್ ಲಾಭ ವಿಶ್ಲೇಷಣೆ",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `${loc} ನಲ್ಲಿ ಫಾರ್ಮ್-ಗೇಟ್ ಲಾಟ್‌ಗಳು ₹ ${farmP.toFixed(2)}/ಕೆಜಿ ಲಭ್ಯವಿದೆ. ${hub} ಗೆ ಒಟ್ಟು ಲ್ಯಾಂಡೆಡ್ ವೆಚ್ಚ ₹ ${landP.toFixed(2)}/ಕೆಜಿ, ಮಾರುಕಟ್ಟೆ ದರ ₹ ${termP.toFixed(2)}/ಕೆಜಿ.`,
+          signalBuy: "🟢 ಈಗಲೇ ಖರೀದಿಸಿ (ಬೆಲೆ ಹೆಚ್ಚಳದ ಮುನ್ಸೂಚನೆ)",
+          signalWait: "🟡 ನಿರೀಕ್ಷಿಸಿ (ಮಾರುಕಟ್ಟೆಗೆ ಹೆಚ್ಚು ಬರುವುದರಿಂದ ಬೆಲೆ ಇಳಿಕೆ)",
+          signalSalvage: "🚨 ತುರ್ತು ಸಾಲ್ವೇಜ್ ಆಫರ್ (35%+ ಭಾರಿ ರಿಯಾಯಿತಿ)",
+          escrowNote: "35% ಎಸ್ಕ್ರೊ ಮುಂಗಡ ಸುರಕ್ಷಿತ • ಗೋದಾಮು ಪರಿಶೀಲಿಸಲಾಗಿದೆ",
+          marginAdvantage: "ಲಾಭದ ಮಾರ್ಜಿನ್ ಪ್ರಯೋಜನ",
+          landedCostText: "ಒಟ್ಟು ಲ್ಯಾಂಡೆಡ್ ವೆಚ್ಚ",
+          targetBidText: "ಶಿಫಾರಸು ಮಾಡಿದ ಗರಿಷ್ಠ ಬಿಡ್"
+        },
+        'or': {
+          titleSuffix: "କ୍ରୟ ଓ ଲ୍ୟାଣ୍ଡେଡ୍ ଆର୍ବିଟ୍ରେଜ୍ ବିଶ୍ଳେଷଣ",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `${loc} ଫାର୍ମ-ଗେଟ୍ ଲଟ୍ ₹ ${farmP.toFixed(2)}/କେଜି ରେ ଉପଲବ୍ଧ। ${hub} କୁ ମୋଟ ଲ୍ୟାଣ୍ଡେଡ୍ ଖର୍ଚ୍ଚ ₹ ${landP.toFixed(2)}/କେଜି ବନାମ ହୋଲସେଲ୍ ଦର ₹ ${termP.toFixed(2)}/କେଜି।`,
+          signalBuy: "🟢 ଏବେ କିଣନ୍ତୁ (ଦର ବୃଦ୍ଧିର ପୂର୍ବାନୁମାନ)",
+          signalWait: "🟡 ଅପେକ୍ଷା କରନ୍ତୁ (ଆମଦାନୀ ବଢିଲେ ଦର କମିବ)",
+          signalSalvage: "🚨 ଜରୁରୀକାଳୀନ ସାଲଭେଜ୍ (୩୫%+ ବିଶେଷ ରିହାତି)",
+          escrowNote: "୩୫% ଏସ୍କ୍ରୋ ସୁରକ୍ଷିତ • ଗୁଣବତ୍ତା ଯାଞ୍ଚ",
+          marginAdvantage: "ମାର୍ଜିନ ଫାଇଦା",
+          landedCostText: "ମୋଟ ଲ୍ୟାଣ୍ଡେଡ୍ ଖର୍ଚ୍ଚ",
+          targetBidText: "ସୁପାରିଶ କରାଯାଇଥିବା ସର୍ବାଧିକ ଦର"
+        },
+        'ml': {
+          titleSuffix: "സംഭരണവും ലാൻഡഡ് ലാഭ വിശകലനവും",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `${loc} ഫാം-ഗേറ്റ് ലോട്ടുകൾ ₹ ${farmP.toFixed(2)}/കിലോഗ്രാമിന് ലഭ്യമാണ്. ${hub} ലേക്ക് ആകെ ലാൻഡഡ് ചെലവ് ₹ ${landP.toFixed(2)}/കിലോ, മൊത്തവ്യാപാര നിരക്ക് ₹ ${termP.toFixed(2)}/കിലോ.`,
+          signalBuy: "🟢 ഉടൻ വാങ്ങുക (വിലക്കയറ്റ സൂചന)",
+          signalWait: "🟡 കാത്തിരിക്കുക (വരവ് കൂടി വില കുറയാൻ സാധ്യത)",
+          signalSalvage: "🚨 എമർജൻസി സാൽവേജ് (35%+ വലിയ കിഴിവ്)",
+          escrowNote: "35% എസ്ക്രോ അഡ്വാൻസ് സുരക്ഷിതം • ഗ്രേഡ്-A ക്വാളിറ്റി",
+          marginAdvantage: "മാർജിൻ നേട്ടം",
+          landedCostText: "ആകെ ലാൻഡഡ് ചെലവ്",
+          targetBidText: "ശുപാർശ ചെയ്യുന്ന പരമാവധി ബിഡ്"
+        },
+        'en': {
+          titleSuffix: "Sourcing & Landed Arbitrage Intelligence",
+          recommendation: (crop, loc, farmP, hub, landP, termP) => `Farm-gate lots in ${loc} available at ₹ ${farmP.toFixed(2)}/kg. Landed cost to ${hub} is ₹ ${landP.toFixed(2)}/kg vs wholesale terminal benchmark ₹ ${termP.toFixed(2)}/kg.`,
+          signalBuy: "🟢 BUY NOW (Price Surge Expected)",
+          signalWait: "🟡 HOLD / WAIT (Harvest Arrival Inflow)",
+          signalSalvage: "🚨 EMERGENCY SALVAGE (35%+ Discount)",
+          escrowNote: "35% Escrow Advance Secured • Farm-Gate Verified Assays",
+          marginAdvantage: "Margin Advantage",
+          landedCostText: "Total Landed Cost",
+          targetBidText: "Recommended Max Target Bid"
+        }
+      };
+
+      const langStrings = LANG_TRANSLATIONS[lang] || LANG_TRANSLATIONS['en'];
+
+      // Check if user is asking for budget basket optimization
+      let budgetMatch = query.match(/(?:budget|spend|funds|worth|రూ|₹|rs\.?|inr)\s*([\d,]+(?:\.\d+)?)\s*(k|lakh|lac|cr)?/i) ||
+                        query.match(/([\d,]+)\s*(?:lakh|lac|thousand|k)\s*(?:budget|for|basket)/i);
+      
+      let isBudgetQuery = !!budgetMatch || lower.includes('basket') || lower.includes('mixed') || lower.includes('budget');
+
+      // Exhaustive Multilingual & Phonetic Crop Synonym Matrix (10 Languages + Dialects)
+      const CROP_SYNONYMS = [
+        {
+          canonical: "Onion",
+          keywords: ["onion", "onions", "कांदा", "कांदे", "कांद्या", "कांद्याचा", "प्याज", "प्याज़", "வெங்காயம்", "உள்ளி", "ఉల్లిపాయ", "ఉల్లి", "ડુંગળી", "કાંદા", "پیاز", "ಈರುಳ್ಳಿ", "ପିଆଜ", "സവാള", "ഉള്ളി", "kanda", "kande", "pyaz", "pyaaz", "dungri", "ullipaya", "ulli", "vengayam", "eerulli", "garwa", "lasalgaon", "red onion"]
+        },
+        {
+          canonical: "Tomato",
+          keywords: ["tomato", "tomatoes", "टोमॅटो", "टोमॅटोचे", "टमाटर", "தக்காளி", "టమోటా", "టమాటో", "ટામેટા", "ટમેટા", "ٹماٹر", "ಟೊಮೆಟೊ", "ଟମାଟୋ", "തക്കാളി", "tamatar", "thakkali", "tameta", "tamata", "shivam", "abhinav", "narayangaon", "junnar"]
+        },
+        {
+          canonical: "Potato",
+          keywords: ["potato", "potatoes", "बटाटा", "बटाटे", "बटाट्याचा", "आलू", "உருளைக்கிழங்கு", "உருளை", "బంగాళాదుంప", "ఆలూ", "બટાકા", "બટાટા", "آلو", "ಆಲೂಗಡ್ಡೆ", "ಆಲೂ", "ଆଳୁ", "ഉരുളക്കിഴങ്ങ്", "batata", "batate", "aloo", "alu", "bataka", "urulaikilangu", "jyoti", "chip"]
+        },
+        {
+          canonical: "Banana",
+          keywords: ["banana", "bananas", "केळी", "केळे", "केळांचा", "केला", "केले", "வாழைப்பழம்", "வாழை", "అరటిపండు", "అరటి", "કેળા", "કેળું", "کیلا", "ಬಾಳೆಹಣ್ಣು", "ಬಾಳೆ", "କଦଳୀ", "വാഴപ്പഴം", "വാഴ", "keli", "kele", "kela", "khandesh", "grand naine", "g9", "jalgaon", "raver", "arati"]
+        },
+        {
+          canonical: "Soybean",
+          keywords: ["soybean", "soya", "soyabean", "सोयाबीन", "सोया", "சோயாபீன்", "సోయాబీన్", "సోయా", "સોયાબીન", "સોયા", "سویا بین", "ಸೋಯಾಬೀನ್", "ಸೋಯಾ", "ସୋୟାବିନ୍", "സോയാബീൻ", "സോയ", "js 335", "yellow soybean", "latur"]
+        },
+        {
+          canonical: "Wheat",
+          keywords: ["wheat", "गहू", "गव्हाचा", "गेहूं", "கோதுமை", "గోధుమలు", "గోధుమ", "ઘઉં", "گیہوں", "ಗೋಧಿ", "ଗହମ", "ഗോതമ്പ്", "gahu", "gavhacha", "gehu", "godhumai", "godhumalu", "sharbati", "lokwan", "sehore", "rahata"]
+        },
+        {
+          canonical: "Rice",
+          keywords: ["rice", "paddy", "तांदूळ", "भात", "तांदळाचा", "चावल", "धान", "அரிசி", "நெல்", "వరి", "బియ్యം", "చోખા", "ડાંગર", "چاول", "ಅಕ್ಕಿ", "ಭತ್ತ", "ଭାତ", "ଚାଉଳ", "ଧାନ", "അരി", "നെല്ല്", "chawal", "dhan", "tandul", "bhat", "indrayani", "arisi", "biyyam", "akki", "wada kolam"]
+        },
+        {
+          canonical: "Cotton",
+          keywords: ["cotton", "कापूस", "कापसाचा", "कपास", "रुई", "பருத்தி", "பஞ்சு", "పత్తి", "దూది", "કપાસ", "રૂ", "کپاس", "ಹತ್ತಿ", "କପା", "പരുത്തി", "kapus", "kapsacha", "kapas", "rui", "paruthi", "patthi", "doodi", "hatti", "wardha", "hinganghat", "staple"]
+        },
+        {
+          canonical: "Turmeric",
+          keywords: ["turmeric", "हळद", "हळदीचा", "हल्दी", "மஞ்சள்", "పసుపు", "હળદર", "ہلدی", "ಅರಿಶಿನ", "ହଳଦୀ", "മഞ്ഞൾ", "haldi", "halad", "pasupu", "manjal", "waigaon", "salem", "sangli", "curcumin"]
+        },
+        {
+          canonical: "Pomegranate",
+          keywords: ["pomegranate", "डाळिंब", "डाळिंबाचे", "अनार", "மாதுளை", "దానిమ్మ", "દાડમ", "انار", "ದಾಳಿಂಬೆ", "ଡାଳିମ୍ବ", "മാതളനാരങ്ങ", "dalimb", "dalimbe", "anar", "bhagwa", "danimma", "madhulai", "solapur", "sangola"]
+        },
+        {
+          canonical: "Orange",
+          keywords: ["orange", "oranges", "संत्रा", "संत्री", "संत्र्याचा", "संतरा", "संतरे", "ஆரஞ்சு", "நாரத்தை", "నారింజ", "కమలా", "સંતરા", "નાસંગી", "سنترہ", "ಕಿತ್ತಳೆ", "କମଳା", "ഓറഞ്ച്", "santra", "santri", "santre", "nagpur", "kalmeshwar", "mosambi", "sweet lime", "amravati"]
+        },
+        {
+          canonical: "Maize",
+          keywords: ["maize", "corn", "मका", "मक्याचा", "मक्का", "भूट्टा", "மக்காச்சோளம்", "சோளம்", "మొక్కజొన్న", "జొన్న", "મકાઈ", "મક્કા", "مکئی", "ಮೆಕ್ಕೆಜೋಳ", "ಜೋಳ", "ମକା", "മക്കച്ചോളം", "ചോളം", "maka", "makyacha", "makka", "bhutta", "corn", "malegaon"]
+        },
+        {
+          canonical: "Jowar",
+          keywords: ["jowar", "sorghum", "ज्वारी", "ज्वारीचा", "ज्वार", "சோளம்", "జొన్నలు", "జొన్న", "જુવાર", "جوار", "ಜೋಳ", "ଜୁଆର", "ചോളം", "jwari", "maldandi", "jonnalu"]
+        },
+        {
+          canonical: "Bajra",
+          keywords: ["bajra", "millet", "बाजरी", "बाजरीचा", "बाजरा", "கம்பு", "சஜ்ஜಲು", "బాజ్రా", "બાજરી", "باجرہ", "ಸಜ್ಜೆ", "ବାଜରା", "കമ്പം", "sajjalu", "kambu", "pearl millet"]
+        },
+        {
+          canonical: "Gram",
+          keywords: ["gram", "chana", "chickpea", "हरभरा", "हरभऱ्याचा", "चना", "छोले", "கொண்டைக்கடலை", "கடலை", "శనగలు", "శనగ", "ચણા", "કાબુલી", "چنا", "ಕಡಲೆ", "ಕಾಳು", "ବୁଟ", "ଚଣା", "കടല", "harbhara", "vishal", "senagalu", "chana"]
+        },
+        {
+          canonical: "Grapes",
+          keywords: ["grapes", "grape", "द्राक्षे", "द्राक्षांचा", "द्राक्ष", "अंगूर", "திராட்சை", "ద్రాక్ష", "ద్రాక్షలు", "દ્રાક્ષ", "انگور", "ದ್ರಾಕ್ಷಿ", "ଅଙ୍ଗୁର", "മുന്തിരി", "draksha", "angoor", "tasgaon", "sonaka", "thompson", "nashik grapes"]
+        },
+        {
+          canonical: "Mango",
+          keywords: ["mango", "mangoes", "आंबा", "आंब्याचा", "आम", "மாம்பழம்", "மாங்காய்", "మామిడి", "మామిడిపండు", "કેરી", "આંબો", "آم", "ಮಾವಿನಹಣ್ಣು", "ಮಾವಿನಕಾಯಿ", "ଆମ୍ବ", "മാങ്ങ", "amba", "aam", "alphonso", "hapus", "kesar", "ratnagiri", "devgad"]
+        }
+      ];
+
+      // Filter matched lots
+      let matchedLots = [];
+      let primaryCrop = "";
+
+      // 1. Detect if any known crop synonym or Indian language word is in the voice query
+      let detectedCanonical = "";
+      for (const syn of CROP_SYNONYMS) {
+        for (const kw of syn.keywords) {
+          if (lower.includes(kw.toLowerCase())) {
+            detectedCanonical = syn.canonical;
+            break;
+          }
+        }
+        if (detectedCanonical) break;
+      }
+
+      // 2. Score crops accurately based on spoken crop
+      crops.forEach(c => {
+        const cropName = (c.crop || c.crop_name || '').toLowerCase();
+        const variety = (c.variety || '').toLowerCase();
+        const dist = (c.district || c.state || '').toLowerCase();
+        const mandi = (c.mandi || '').toLowerCase();
+        
+        let score = 0;
+        if (detectedCanonical && (c.crop || '').toLowerCase().includes(detectedCanonical.toLowerCase())) {
+          score += 50; // Strong match for spoken crop
+          if (!primaryCrop) primaryCrop = c.crop_name || c.crop;
+        } else if (cropName && lower.includes(cropName)) {
+          score += 20;
+          if (!primaryCrop) primaryCrop = c.crop_name || c.crop;
+        }
+
+        if (variety && lower.includes(variety)) score += 10;
+        if (dist && lower.includes(dist)) score += 5;
+        if (mandi && lower.includes(mandi)) score += 5;
+        if (lower.includes('emergency') || lower.includes('salvage') || lower.includes('discount')) {
+          if ((c.status || '').toLowerCase().includes('emergency') || c.shelf_life?.includes('Perishable') || c.shelf_life?.includes('Urgent')) {
+            score += 15;
+          }
+        }
+        if (score > 0) {
+          matchedLots.push({ ...c, matchScore: score });
+        }
+      });
+
+      matchedLots.sort((a, b) => b.matchScore - a.matchScore);
+      if (matchedLots.length === 0) {
+        matchedLots = crops.slice(0, 3);
+      }
+
+      const sampleLot = matchedLots[0] || {
+        crop: "Agricultural Produce",
+        district: "Surat",
+        state: "Gujarat",
+        price_per_kg: 20,
+        price_per_qt: 2000,
+        quantity_kg: 5000,
+        quantity_qt: 50
+      };
+
+      if (!primaryCrop) {
+        primaryCrop = sampleLot.crop || sampleLot.crop_name || "Agri Produce";
+      }
+
+      const farmPriceKg = Number(sampleLot.price_per_kg || (sampleLot.price_per_qt ? sampleLot.price_per_qt / 100 : 20));
+      const isPerishable = (sampleLot.category === 'Vegetables' || sampleLot.category === 'Fruits' || sampleLot.shelf_life?.includes('Day'));
+      const freightPerKg = isPerishable ? 1.80 : 1.40;
+      const mandiCessPerKg = Number((farmPriceKg * 0.015).toFixed(2));
+      const handlingPerKg = isPerishable ? 0.45 : 0.25;
+      const landedCostKg = Number((farmPriceKg + freightPerKg + mandiCessPerKg + handlingPerKg).toFixed(2));
+      const terminalPriceKg = Number((farmPriceKg * 1.25).toFixed(2));
+      const savingsPerKg = Number((terminalPriceKg - landedCostKg).toFixed(2));
+      const marginPct = Number(((savingsPerKg / terminalPriceKg) * 100).toFixed(1));
+      const recommendedBidKg = Number((terminalPriceKg * 0.82).toFixed(2));
+      const lotTotalKg = Number(sampleLot.quantity_kg || (sampleLot.quantity_qt ? sampleLot.quantity_qt * 100 : 5000));
+      const totalLotEscrowAdv = Math.round(farmPriceKg * lotTotalKg * 0.35);
+
+      // Determine Buy vs Wait signal
+      let buySignal = 'BUY_NOW';
+      let signalText = langStrings.signalBuy;
+      let timingWindow = "Next 24 to 48 Hours";
+
+      if (lower.includes('salvage') || lower.includes('emergency') || sampleLot.shelf_life?.includes('Perishable')) {
+        buySignal = 'SALVAGE';
+        signalText = langStrings.signalSalvage;
+        timingWindow = "Immediate buyout (Under 24h shelf-life)";
+      } else if (farmPriceKg > 35 || lower.includes('wait') || lower.includes('hold')) {
+        buySignal = 'HOLD_WAIT';
+        signalText = langStrings.signalWait;
+        timingWindow = "Wait 3–4 days for peak harvest inflow";
+      }
+
+      // Budget basket allocation calculation
+      let basketAllocation = null;
+      if (isBudgetQuery) {
+        let totalBudget = 200000;
+        if (budgetMatch) {
+          let numStr = budgetMatch[1].replace(/,/g, '');
+          let val = parseFloat(numStr);
+          let unit = (budgetMatch[2] || '').toLowerCase();
+          if (unit === 'lakh' || unit === 'lac' || lower.includes('lakh')) val = val < 100 ? val * 100000 : val;
+          else if (unit === 'k' || lower.includes('thousand')) val = val < 1000 ? val * 1000 : val;
+          if (val > 1000) totalBudget = val;
+        }
+
+        const selectedCrops = crops.slice(0, 3);
+        const weightSplit = [0.45, 0.35, 0.20];
+        basketAllocation = selectedCrops.map((cr, idx) => {
+          const allocAmount = Math.round(totalBudget * weightSplit[idx]);
+          const pKg = Number(cr.price_per_kg || (cr.price_per_qt / 100) || 20);
+          const allocatedKg = Math.round(allocAmount / (pKg * 1.1));
+          return {
+            crop: cr.crop || cr.crop_name,
+            variety: cr.variety,
+            allocatedAmount: allocAmount,
+            estimatedQuantityKg: allocatedKg,
+            estimatedQuantityQt: Number((allocatedKg / 100).toFixed(1)),
+            farmPriceKg: pKg,
+            farmerName: cr.farmer_name || "Verified FPO",
+            location: cr.district || cr.state
+          };
+        });
+      }
+
+      const lotOrigin = sampleLot.district || sampleLot.mandi || 'Maharashtra APMC';
+      const hubName = buyerLocation.split(',')[0];
+      const recText = langStrings.recommendation(primaryCrop, lotOrigin, farmPriceKg, hubName, landedCostKg, terminalPriceKg);
+
+      const advisoryData = {
+        title: `${primaryCrop} ${langStrings.titleSuffix}`,
+        primaryCrop,
+        recommendation: recText,
+        buySignal,
+        signalBadge: signalText,
+        arbitrageSpread: `+${marginPct > 0 ? marginPct : 16.5}% ${langStrings.marginAdvantage}`,
+        savingsPerKg: `₹ ${savingsPerKg > 0 ? savingsPerKg.toFixed(2) : '3.20'} /kg`,
+        optimalWindow: timingWindow,
+        escrowAdvance: `35% (₹ ${totalLotEscrowAdv.toLocaleString('en-IN')})`,
+        landedCostBreakdown: {
+          farmgatePriceKg: farmPriceKg,
+          freightKg: freightPerKg,
+          mandiCessKg: mandiCessPerKg,
+          handlingColdChainKg: handlingPerKg,
+          totalLandedCostKg: landedCostKg,
+          terminalBenchmarkKg: terminalPriceKg,
+          recommendedTargetBidKg: recommendedBidKg
+        },
+        matchedLotsCount: matchedLots.length,
+        escrowPolicy: langStrings.escrowNote
+      };
+
+      return sendJSON(res, 200, {
+        success: true,
+        query,
+        language: lang,
+        advisory: advisoryData,
+        matchedLots: matchedLots.slice(0, 4).map(l => ({
+          id: l.id,
+          crop: l.crop || l.crop_name,
+          variety: l.variety,
+          quantity: `${l.quantity_qt} Qt (${l.quantity_kg} kg)`,
+          quantityQt: l.quantity_qt,
+          quantityKg: l.quantity_kg,
+          pricePerKg: l.price_per_kg || (l.price_per_qt / 100),
+          pricePerQt: l.price_per_qt,
+          grade: l.grade || "Grade A",
+          farmerName: l.farmer_name || "Patel Farmers FPO",
+          farmerLocation: `${l.district || 'Surat'}, ${l.state || 'Gujarat'}`,
+          image: l.image || "assets/images/tomato.jpg",
+          shelfLife: l.shelf_life || "Standard",
+          trustScore: "4.9 ⭐",
+          status: l.status || "Active"
+        })),
+        basket: basketAllocation,
+        timestamp: new Date().toISOString()
+      });
+    }
+
     // 10. Grievances & Redressal Endpoints
     if (urlPath === '/api/grievances') {
       if (req.method === 'GET') {
@@ -1735,6 +2416,25 @@ const server = http.createServer(async (req, res) => {
         state: c.state,
         mandi: c.mandi
       })));
+    }
+
+    // 12. Indian Voice Text-to-Speech API (Sarvam AI Bulbul with graceful browser fallback)
+    if (urlPath === '/api/tts/speak' && req.method === 'POST') {
+      try {
+        const body = await parseBody(req);
+        const text = body.text || '';
+        const languageCode = body.language_code || body.lang || 'hi-IN';
+        const speaker = body.speaker || 'meera';
+
+        if (!text || text.trim() === '') {
+          return sendJSON(res, 400, { success: false, error: "Text parameter is required" });
+        }
+
+        const ttsResult = await synthesizeSarvamSpeech(text, languageCode, speaker);
+        return sendJSON(res, 200, ttsResult);
+      } catch (err) {
+        return sendJSON(res, 200, { success: false, fallback: true, error: err.message });
+      }
     }
 
     return sendJSON(res, 404, { error: "Endpoint not found" });

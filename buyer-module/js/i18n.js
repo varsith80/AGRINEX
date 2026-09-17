@@ -239,7 +239,12 @@
     'Ginger': { hi: 'अदरक', mr: 'आले' },
     'Cabbage': { hi: 'पत्तागोभी', mr: 'कोबी' },
     'Cauliflower': { hi: 'फूलगोभी', mr: 'फ्लॉवर' },
-    'Garlic': { hi: 'लहसुन', mr: 'लसूण' }
+    'Garlic': { hi: 'लहसुन', mr: 'लसूण' },
+    'Exotic Vegetables': { hi: 'विदेशी सब्जियां (Exotic)', mr: 'विदेशी भाज्या (Exotic)' },
+    'Yellow Soybean': { hi: 'पीली सोयाबीन', mr: 'पिवळी सोयाबीन' },
+    'Nagpur Orange': { hi: 'नागपुर संतरा', mr: 'नागपूर संत्री' },
+    'Thompson Grapes': { hi: 'थॉमसन अंगूर', mr: 'थॉम्सन द्राक्षे' },
+    'Tur Dal': { hi: 'तूर / अरहर दाल', mr: 'तूर डाळ' }
   };
 
   // 3. LOCATION & MANDI TRANSLATIONS
@@ -326,6 +331,44 @@
     'Deshmukh Farm, Narayangaon, Pune, MH': { hi: 'देशमुख फार्म, नारायणगांव, पुणे', mr: 'देशमुख शेत, नारायणगाव, पुणे' },
     'Shinde Orchards, Raver, Jalgaon, MH': { hi: 'शिंदे बाग, रावेर, जलगांव', mr: 'शिंदे फळबाग, रावेर, जळगाव' },
     'Jadhav Agro, Latur, MH': { hi: 'जाधव ॲग्रो, लातूर', mr: 'जाधव ॲग्रो, लातूर' },
+
+    // Storage Facility & Logistics Hub Locations
+    'Lasalgaon Agro Industrial Park, Nashik, MH ~ 2.0 km from Mandi': {
+      hi: 'लासलगांव कृषि औद्योगिक पार्क, नासिक, MH ~ मंडी से 2.0 किमी',
+      mr: 'लासलगाव कृषी औद्योगिक पार्क, नाशिक, MH ~ बाजार समितीपासून २.० किमी'
+    },
+    'Talegaon Floriculture & Agro Park, Pune, MH ~ Near Mumbai-Pune Expressway': {
+      hi: 'तलेगांव फ्लोरीकल्चर एवं कृषि पार्क, पुणे, MH ~ मुंबई-पुणे एक्सप्रेसवे के पास',
+      mr: 'तळेगाव फ्लोरीकल्चर व कृषी पार्क, पुणे, MH ~ मुंबई-पुणे द्रुतगती मार्गाजवळ'
+    },
+    'Talegaon Floriculture & Agro Park, Pune, MH': {
+      hi: 'तलेगांव फ्लोरीकल्चर एवं कृषि पार्क, पुणे, MH',
+      mr: 'तळेगाव फ्लोरीकल्चर व कृषी पार्क, पुणे, MH'
+    },
+    'Latur Industrial Growth Centre, Marathwada, MH ~ 3.5 km from APMC': {
+      hi: 'लातूर औद्योगिक विकास केंद्र, मराठवाड़ा, MH ~ मंडी से 3.5 किमी',
+      mr: 'लातूर औद्योगिक विकास केंद्र, मराठवाडा, MH ~ बाजार समितीपासून ३.५ किमी'
+    },
+    'Latur Industrial Growth Centre, Marathwada, MH': {
+      hi: 'लातूर औद्योगिक विकास केंद्र, मराठवाड़ा, MH',
+      mr: 'लातूर औद्योगिक विकास केंद्र, मराठवाडा, MH'
+    },
+    'Butibori MIDC Agro Zone, Nagpur, MH ~ Near Wardha Corridor': {
+      hi: 'बुटीबोरी एमआईडीसी कृषि जोन, नागपुर, MH ~ वर्धा कॉरिडोर के पास',
+      mr: 'बुटीबोरी एमआयडीसी कृषी क्षेत्र, नागपूर, MH ~ वर्धा कॉरिडॉरजवळ'
+    },
+    'Butibori MIDC Agro Zone, Nagpur, MH': {
+      hi: 'बुटीबोरी एमआईडीसी कृषि जोन, नागपुर, MH',
+      mr: 'बुटीबोरी एमआयडीसी कृषी क्षेत्र, नागपूर, MH'
+    },
+    'Talegaon': { hi: 'तलेगांव', mr: 'तळेगाव' },
+    'Butibori': { hi: 'बुटीबोरी', mr: 'बुटीबोरी' },
+    'Floriculture': { hi: 'फ्लोरीकल्चर', mr: 'फ्लोरीकल्चर' },
+    'Industrial Growth Centre': { hi: 'औद्योगिक विकास केंद्र', mr: 'औद्योगिक विकास केंद्र' },
+    'Growth Centre': { hi: 'विकास केंद्र', mr: 'विकास केंद्र' },
+    'Agro Zone': { hi: 'कृषि जोन', mr: 'कृषी क्षेत्र' },
+    'Wardha Corridor': { hi: 'वर्धा कॉरिडोर', mr: 'वर्धा कॉरिडॉर' },
+    'Mumbai-Pune Expressway': { hi: 'मुंबई-पुणे एक्सप्रेसवे', mr: 'मुंबई-पुणे द्रुतगती मार्ग' },
 
     // Maharashtra Districts & Cities
     'Pune': { hi: 'पुणे', mr: 'पुणे' },
@@ -414,6 +457,238 @@
     'Grade B': { hi: 'ग्रेड बी', mr: 'ग्रेड ब' },
     'Grade C': { hi: 'ग्रेड सी', mr: 'ग्रेड क' },
     'Standard': { hi: 'मानक गुणवत्ता', mr: 'मानक प्रत' }
+  };
+
+  // 4b. VEHICLE & FLEET TRANSLATIONS (Eicher, Tata, Mahindra, Ashok Leyland, BharatBenz, etc.)
+  const VEHICLE_MAP = {
+    'Eicher Pro 2049 (MH 15 DK 8810)': { hi: 'आयशर प्रो 2049 (MH 15 DK 8810)', mr: 'आयशर प्रो २०४९ (MH 15 DK 8810)' },
+    'Eicher Pro 6028 (MH 24 AF 9901)': { hi: 'आयशर प्रो 6028 (MH 24 AF 9901)', mr: 'आयशर प्रो ६०२८ (MH 24 AF 9901)' },
+    'Eicher Pro Reefer (MH 14 HG 3319)': { hi: 'आयशर प्रो रीफर (MH 14 HG 3319)', mr: 'आयशर प्रो वातानुकूलित (MH 14 HG 3319)' },
+    'Eicher Pro 1110 (75 Qt / 7,500 kg)': { hi: 'आयशर प्रो 1110 (75 क्विंटल / 7,500 किग्रा)', mr: 'आयशर प्रो १११० (७५ क्विंटल / ७,५०० किलो)' },
+    'Eicher Pro 2049 Reefer': { hi: 'आयशर प्रो 2049 रीफर', mr: 'आयशर प्रो २०४९ वातानुकूलित' },
+    'Eicher Pro 2049': { hi: 'आयशर प्रो 2049', mr: 'आयशर प्रो २०४९' },
+    'Eicher Pro 6028': { hi: 'आयशर प्रो 6028', mr: 'आयशर प्रो ६०२८' },
+    'Eicher Pro 1110': { hi: 'आयशर प्रो 1110', mr: 'आयशर प्रो १११०' },
+    'Eicher Pro': { hi: 'आयशर प्रो', mr: 'आयशर प्रो' },
+    'Eicher Reefer': { hi: 'आयशर रीफर', mr: 'आयशर वातानुकूलित (रीफर)' },
+    'Eicher': { hi: 'आयशर', mr: 'आयशर' },
+    'eicher': { hi: 'आयशर', mr: 'आयशर' },
+    'Tata Ace Gold (15 Qt / 1,500 kg)': { hi: 'टाटा एस गोल्ड (15 क्विंटल / 1,500 किग्रा)', mr: 'टाटा एस गोल्ड (१५ क्विंटल / १,५०० किलो)' },
+    'Tata Ace Gold': { hi: 'टाटा एस गोल्ड', mr: 'टाटा एस गोल्ड' },
+    'Tata Ace': { hi: 'टाटा एस', mr: 'टाटा एस' },
+    'Tata 1613 Multi-Axle': { hi: 'टाटा 1613 मल्टी-एक्सल', mr: 'टाटा १६१३ मल्टि-ॲक्सल' },
+    'Tata 1613 (150 Qt / 15,000 kg)': { hi: 'टाटा 1613 (150 क्विंटल / 15,000 किग्रा)', mr: 'टाटा १६१३ (१५० क्विंटल / १५,००० किलो)' },
+    'Tata 407': { hi: 'टाटा 407', mr: 'टाटा ४०७' },
+    'Tata LPT 1109': { hi: 'टाटा एलपीटी 1109', mr: 'टाटा एलपीटी ११०९' },
+    'Tata LPT 1613': { hi: 'टाटा एलपीटी 1613', mr: 'टाटा एलपीटी १६१३' },
+    'Tata': { hi: 'टाटा', mr: 'टाटा' },
+    'Mahindra Bolero Maxi Truck (25 Qt / 2,500 kg)': { hi: 'महिंद्रा बोलेरो मैक्सी ट्रक (25 क्विंटल / 2,500 किग्रा)', mr: 'महिंद्रा बोलेरो मॅक्सी ट्रक (२५ क्विंटल / २,५०० किलो)' },
+    'Mahindra Bolero Maxi Truck': { hi: 'महिंद्रा बोलेरो मैक्सी ट्रक', mr: 'महिंद्रा बोलेरो मॅक्सी ट्रक' },
+    'Bolero Maxi Truck': { hi: 'बोलेरो मैक्सी ट्रक', mr: 'बोलेरो मॅक्सी ट्रक' },
+    'Bolero Pickup': { hi: 'बोलेरो पिकअप', mr: 'बोलेरो पिकअप' },
+    'Mahindra Bolero': { hi: 'महिंद्रा बोलेरो', mr: 'महिंद्रा बोलेरो' },
+    'Mahindra': { hi: 'महिंद्रा', mr: 'महिंद्रा' },
+    'BharatBenz 1617R Reefer (120 Qt / 12,000 kg)': { hi: 'भारतबेंज़ 1617R रीफर (120 क्विंटल / 12,000 किग्रा)', mr: 'भारतबेंझ १६१७R वातानुकूलित (१२० क्विंटल / १२,००० किलो)' },
+    'BharatBenz 1617R Reefer': { hi: 'भारतबेंज़ 1617R रीफर', mr: 'भारतबेंझ १६१७R वातानुकूलित' },
+    'BharatBenz 1617R': { hi: 'भारतबेंज़ 1617R', mr: 'भारतबेंझ १६१७R' },
+    'BharatBenz 2823R': { hi: 'भारतबेंज़ 2823R', mr: 'भारतबेंझ २८२३R' },
+    'BharatBenz': { hi: 'भारतबेंज़', mr: 'भारतबेंझ' },
+    'Ashok Leyland Dost': { hi: 'अशोक लेलैंड दोस्त', mr: 'अशोक लेलँड दोस्त' },
+    'Ashok Leyland Boss': { hi: 'अशोक लेलैंड बॉस', mr: 'अशोक लेलँड बॉस' },
+    'Ashok Leyland Ecomet': { hi: 'अशोक लेलैंड इकोमेट', mr: 'अशोक लेलँड इकोमेट' },
+    'Ashok Leyland 1615': { hi: 'अशोक लेलैंड 1615', mr: 'अशोक लेलँड १६१५' },
+    'Ashok Leyland': { hi: 'अशोक लेलैंड', mr: 'अशोक लेलँड' },
+    'Force Traveller': { hi: 'फोर्स ट्रैवलर', mr: 'फोर्स ट्रॅव्हलर' },
+    'Force': { hi: 'फोर्स', mr: 'फोर्स' },
+    'Swaraj Mazda': { hi: 'स्वराज माज़दा', mr: 'स्वराज माझदा' },
+    'Piaggio Ape': { hi: 'पियाजियो आपे', mr: 'पियाजिओ आपे' }
+  };
+
+  // 4b. WAREHOUSE & STORAGE FACILITY TRANSLATIONS
+  const WAREHOUSE_MAP = {
+    // Facility Full Names
+    'Lasalgaon-Nashik Solar Controlled Agro Complex & Cold Store': {
+      hi: 'लासलगांव-नासिक सौर ऊर्जा नियंत्रित कृषि संकुल एवं शीतगृह',
+      mr: 'लासलगाव-नाशिक सौर ऊर्जा नियंत्रित कृषी संकुल आणि शीतगृह'
+    },
+    'Talegaon-Pune CA Cold Chain & Perishables Agro Logistics Park': {
+      hi: 'तलेगांव-पुणे नियंत्रित वातावरण (CA) शीतगृह व नाशवान कृषि लॉजिस्टिक्स पार्क',
+      mr: 'तळेगाव-पुणे नियंत्रित वातावरण (CA) शीतगृह व नाशवंत कृषी लॉजिस्टिक पार्क'
+    },
+    'Latur Mega Hermetic Grain & Pulse Silos (WDRA Accredited)': {
+      hi: 'लातूर मुख्य हवाबंद अनाज व दाल साइलो (WDRA मान्यता प्राप्त)',
+      mr: 'लातूर मुख्य हवाबंद धान्य व कडधान्य सायलो (WDRA प्रमाणित)'
+    },
+    'Nagpur Integrated Cold Storage & Citrus Packhouse (Butibori MIDC)': {
+      hi: 'नागपुर एकीकृत शीतगृह एवं संतरा/नींबू वर्गीय पैकहाउस (बुटीबोरी एमआईडीसी)',
+      mr: 'नागपूर एकात्मिक शीतगृह व संत्री/लिंबूवर्गीय पॅकहाऊस (बुटीबोरी एमआयडीसी)'
+    },
+    'Lasalgaon-Nashik Solar Storage Complex': {
+      hi: 'लासलगांव-नासिक सौर ऊर्जा संकुल',
+      mr: 'लासलगाव-नाशिक सौर ऊर्जा संकुल'
+    },
+
+    // Facility Types
+    'Solar Onion Controlled Atmosphere (CA) & Cold Storage (0°C – 4°C)': {
+      hi: 'सौर प्याज नियंत्रित वातावरण (CA) एवं शीतगृह (0°C – 4°C)',
+      mr: 'सौर कांदा नियंत्रित वातावरण (CA) व शीतगृह (०°C – ४°C)'
+    },
+    'Controlled Atmosphere (CA) Hub & Reefer Park (0°C – 4°C)': {
+      hi: 'नियंत्रित वातावरण (CA) हब एवं रीफर पार्क (0°C – 4°C)',
+      mr: 'नियंत्रित वातावरण (CA) केंद्र व रीफर पार्क (०°C – ४°C)'
+    },
+    'Hermetic Aerated Dry Silo & Pulse Complex': {
+      hi: 'हवाबंद वातानुकूलित शुष्क साइलो एवं दाल संकुल',
+      mr: 'हवाबंद हवादार कोरडा सायलो व कडधान्य संकुल'
+    },
+    'Multi-Chamber Fruit Cold Chain & Packhouse': {
+      hi: 'मल्टी-चैंबर फल शीतगृह एवं पैकहाउस',
+      mr: 'मल्टी-चेंबर फळ शीतगृह संकुल व पॅकहाऊस'
+    },
+
+    // Climate, Temperature & Sensor Specs
+    'Solar Forced Air Ventilation (25°C) & Cold Chambers (2-4°C)': {
+      hi: 'सौर वायु संवातन (25°C) एवं शीत कक्ष (2-4°C)',
+      mr: 'सौर संवातन व वायूविजन (२५°C) आणि शीतगृह कक्ष (२-४°C)'
+    },
+    '0°C to 4°C (Gas Regulated O2/CO2)': {
+      hi: '0°C से 4°C (गैस नियंत्रित O2/CO2)',
+      mr: '०°C ते ४°C (गॅस नियंत्रित O2/CO2)'
+    },
+    'Ambient Aerated Silo (18°C – 22°C)': {
+      hi: 'हवादार साइलो (18°C – 22°C)',
+      mr: 'हवादार सायलो (१८°C – २२°C)'
+    },
+    '2°C to 8°C (Multi-Chamber)': {
+      hi: '2°C से 8°C (मल्टी-चैंबर)',
+      mr: '२°C ते ८°C (मल्टी-चेंबर)'
+    },
+    '65% RH Anti-Sprouting': {
+      hi: '65% सापेक्ष आर्द्रता (अंकुरण-रोधी)',
+      mr: '६५% सापेक्ष आर्द्रता (कोंब-प्रतिरोधक)'
+    },
+    '90% - 94% Ultra-High Freshness': {
+      hi: '90% - 94% उच्चतम ताजगी',
+      mr: '९०% - ९४% उच्चतम ताजेपणा'
+    },
+    'Max 10% Moisture Guarantee': {
+      hi: 'अधिकतम 10% नमी गारंटी',
+      mr: 'कमाल १०% ओलावा हमी'
+    },
+    '88% - 92% RH Controlled': {
+      hi: '88% - 92% नियंत्रित आर्द्रता',
+      mr: '८८% - ९२% नियंत्रित आर्द्रता'
+    },
+    '24.5°C (Solar Aerated)': {
+      hi: '24.5°C (सौर संवातित)',
+      mr: '२४.५°C (सौर संवातित)'
+    },
+    '64% RH': {
+      hi: '64% सापेक्ष आर्द्रता',
+      mr: '६४% सापेक्ष आर्द्रता'
+    },
+
+    // Additional Keywords and phrases
+    'Controlled Atmosphere (CA)': {
+      hi: 'नियंत्रित वातावरण (CA)',
+      mr: 'नियंत्रित वातावरण (CA)'
+    },
+    'Controlled Atmosphere': {
+      hi: 'नियंत्रित वातावरण',
+      mr: 'नियंत्रित वातावरण'
+    },
+    'Cold Storage': {
+      hi: 'शीतगृह (कोल्ड स्टोरेज)',
+      mr: 'शीतगृह'
+    },
+    'Cold Store': {
+      hi: 'शीतगृह',
+      mr: 'शीतगृह'
+    },
+    'Cold Chain': {
+      hi: 'शीत आपूर्ति श्रृंखला',
+      mr: 'शीत पुरवठा साखळी'
+    },
+    'Hermetic Silos': {
+      hi: 'हवाबंद साइलो',
+      mr: 'हवाबंद सायलो'
+    },
+    'Hermetic Silo': {
+      hi: 'हवाबंद साइलो',
+      mr: 'हवाबंद सायलो'
+    },
+    'Dry Silos': {
+      hi: 'शुष्क साइलो',
+      mr: 'कोरडा सायलो'
+    },
+    'Dry Silo': {
+      hi: 'शुष्क साइलो',
+      mr: 'कोरडा सायलो'
+    },
+    'Solar Onion Complex': {
+      hi: 'सौर प्याज संकुल',
+      mr: 'सौर कांदा संकुल'
+    },
+    'Perishables': {
+      hi: 'नाशवान सामग्री',
+      mr: 'नाशवंत कृषी माल'
+    },
+    'Citrus Packhouse': {
+      hi: 'संतरा/नींबू वर्गीय पैकहाउस',
+      mr: 'संत्री/लिंबूवर्गीय पॅकहाऊस'
+    },
+    'Packhouse': {
+      hi: 'पैकहाउस संकलन केंद्र',
+      mr: 'पॅकहाऊस संकलन केंद्र'
+    },
+    'WDRA Accredited': {
+      hi: 'WDRA मान्यता प्राप्त',
+      mr: 'WDRA प्रमाणित'
+    },
+    'WDRA': {
+      hi: 'WDRA',
+      mr: 'WDRA'
+    },
+    'Anti-Sprouting': {
+      hi: 'अंकुरण-रोधी',
+      mr: 'कोंब-प्रतिरोधक'
+    },
+    'Ultra-High Freshness': {
+      hi: 'उच्चतम ताजगी',
+      mr: 'उच्चतम ताजेपणा'
+    },
+    'Chamber #2-A (Ventilated)': {
+      hi: 'कक्ष #2-A (संवातित)',
+      mr: 'चेंबर #२-ए (हवादार)'
+    },
+    'In Storage (Active)': {
+      hi: 'भंडारण में (सक्रिय)',
+      mr: 'साठवणुकीत (सक्रिय)'
+    },
+    'Your Active Storage Holdings & e-NWR Pledges': {
+      hi: 'आपकी सक्रिय भंडारण होल्डिंग्स एवं e-NWR गिरवी',
+      mr: 'तुमची सक्रिय साठवणूक व e-NWR तारण'
+    },
+    '1 Active Chamber Holding': {
+      hi: '1 सक्रिय कक्ष भंडारण',
+      mr: '१ सक्रिय चेंबर साठवणूक'
+    },
+    'Interactive Chamber & Hermetic Silo Slot Visualizer': {
+      hi: 'इंटरएक्टिव चैंबर एवं साइलो स्लॉट विजुअलाइज़र',
+      mr: 'परस्परसंवादी चेंबर व सायलो स्लॉट दृश्य'
+    },
+    'Select Storage Facility:': {
+      hi: 'भंडारण सुविधा चुनें:',
+      mr: 'साठवणूक सुविधा निवडा:'
+    },
+    'Release Stock': {
+      hi: 'स्टॉक रिलीज करें',
+      mr: 'साठा सोडवा'
+    },
+    'Draw 70% Loan': {
+      hi: '70% ऋण प्राप्त करें',
+      mr: '७०% कर्ज मिळवा'
+    }
   };
 
   // 5. MASTER UI DICTIONARIES
@@ -1535,11 +1810,83 @@
     if (GRADE_MAP[grade] && GRADE_MAP[grade][currentLang]) {
       return GRADE_MAP[grade][currentLang];
     }
-    return tText(grade);
+    return grade;
+  }
+
+  // Pre-sort vehicle keys by length descending
+  const sortedVehicleKeys = Object.keys(VEHICLE_MAP).sort((a, b) => b.length - a.length);
+
+  // Translate Vehicle & Fleet Names
+  function tVehicle(veh) {
+    if (!veh || currentLang === 'en') return veh;
+    if (VEHICLE_MAP[veh] && VEHICLE_MAP[veh][currentLang]) {
+      return VEHICLE_MAP[veh][currentLang];
+    }
+    let res = veh;
+    for (const k of sortedVehicleKeys) {
+      const trans = VEHICLE_MAP[k];
+      if (res.includes(k) && trans && trans[currentLang]) {
+        res = res.replaceAll(k, trans[currentLang]);
+      }
+    }
+    return res;
+  }
+
+  // Pre-sort warehouse keys by length descending
+  const sortedWarehouseKeys = (typeof WAREHOUSE_MAP !== 'undefined') ? Object.keys(WAREHOUSE_MAP).sort((a, b) => b.length - a.length) : [];
+
+  // Translate Warehouse & Storage Facility Names, Types, and Sensor Specs
+  function tWarehouse(name) {
+    if (!name || currentLang === 'en') return name;
+    if (WAREHOUSE_MAP[name] && WAREHOUSE_MAP[name][currentLang]) {
+      return WAREHOUSE_MAP[name][currentLang];
+    }
+    let res = name;
+    for (const k of sortedWarehouseKeys) {
+      const trans = WAREHOUSE_MAP[k];
+      if (res.includes(k) && trans && trans[currentLang]) {
+        res = res.replaceAll(k, trans[currentLang]);
+      }
+    }
+    return res;
   }
 
   const PHRASE_REPLACEMENTS = {
     mr: [
+      // Grievances & MSAMB Tribunal Arbitration Section (Highest Priority)
+      [/\bMSAMB\s+Fast-Track\s+Dispute\s+Tribunal\s+Arbitration\b/gi, 'MSAMB जलद-गती विवाद न्यायाधिकरण लवाद'],
+      [/\bStatutory\s+resolution\s+protocol\s+for\s+quality\s+assay\s+variations\s*&\s*weighbridge\s+shortages\b/gi, 'गुणवत्ता तपासणी तफावत आणि वजन घट यांसाठी वैधानिक निवारण प्रोटोकॉल'],
+      [/\bLegal\s+Binding\s+Escrow\s+Freeze\b/gi, 'कायदेशीर बंधनकारक एस्क्रो स्थगिती'],
+      [/\bStep\s+1:\s+Evidence\s+Dossier\s+Filing\b/gi, 'टप्पा १: पुरावा कागदपत्रे दाखल करणे'],
+      [/\bUpload\s+certified\s+digital\s+weighbridge\s+slip\s*&\s*NABL\s+lab\s+assay\s+report\s+within\s+48h\s+of\s+lot\s+arrival\./gi, 'लॉट पोहोचल्यापासून ४८ तासांच्या आत प्रमाणित डिजिटल वजन पावती व NABL लॅब रिपोर्ट अपलोड करा.'],
+      [/\bStep\s+2:\s+Dual-Key\s+Escrow\s+Freeze\b/gi, 'टप्पा २: दुहेरी-चावी एस्क्रो सुरक्षा स्थगिती'],
+      [/\bThe\s+65%\s+delivery\s+balance\s+is\s+instantly\s+locked\s+in\s+ICICI\s+Nodal\s+Escrow\s+until\s+tribunal\s+ruling\./gi, 'न्यायाधिकरणाचा निर्णय होईपर्यंत ६५% उर्वरित रक्कम ICICI नोडल एस्क्रोमध्ये त्वरित सुरक्षित केली जाते.'],
+      [/\bStep\s+3:\s+<24h\s+Rebate\s+Settlement\b/gi, 'टप्पा ३: <२४ तासांत परतावा व निपटारा'],
+      [/\bState\s+QA\s+Arbitrator\s+orders\s+pro-rata\s+price\s+rebate\s+or\s+lot\s+return\s+with\s+zero\s+transaction\s+loss\./gi, 'राज्य गुणवत्ता लवाद शून्य नुकसान हमीसह प्रमाणशीर भाव सूट किंवा लॉट परतीचा आदेश देतात.'],
+      [/\bFilter\s+Claims:?/gi, 'दावे फिल्टर करा:'],
+      [/\bAll\s+Claims\s*\(\d+\)/gi, 'सर्व दावे (२)'],
+      [/\bUnder\s+Review\s*\(\d+\)/gi, 'चौकशी सुरू (१)'],
+      [/\bResolved\s*&\s*Settled\s*\(\d+\)/gi, 'निवारण पूर्ण (१)'],
+      [/\bShowing\s+verified\s+claim\s+records\b/gi, 'प्रमाणित तक्रार नोंदी दर्शवत आहे'],
+      [/\bDispute\s+Category:?/gi, 'तक्रार वर्ग:'],
+      [/\bFarmer\s*\/\s*Source:?/gi, 'शेतकरी / स्रोत'],
+      [/\bTransit\s+Moisture\s+Divergence\s*\(\s*>\s*4%\s*\)/gi, 'वाहतुकीदरम्यान आर्द्रता तफावत (> ४%)'],
+      [/\bSample\s+test\s+at\s+Vashi\s+Receiving\s+Weighbridge\s+logged\s+moisture\s+at\s+86\.4%\s+vs\s+certified\s+maximum\s+limit\s+of\s+82\.0%\.\s*5%\s+price\s+adjustment\s+requested\s+under\s+AgriNex\s+Arbitration\s+clause\./gi, 'वाशी वजन केंद्रावरील नमुना तपासणीत आर्द्रता ८६.४% नोंदवली गेली (प्रमाणित कमाल मर्यादा ८२.०%). AgriNex लवाद नियमांनुसार ५% दर तडजोडीची मागणी केली आहे.'],
+      [/₹\s*50,700\s*\(65%\s*Escrow\s*Balance\s*Frozen\)/gi, '₹ ५०,७०० (६५% एस्क्रो रक्कम सुरक्षित स्थगित)'],
+      [/\bGrading\s*\/\s*Caliber\s*Under-Size\s*\(\s*<\s*45mm\s*\)/gi, 'प्रतवारी / लहान आकारमान (< ४५ मिमी)'],
+      [/\bMinor\s+undersize\s+sorting\s+divergence\s*\(6%\s+of\s+lot\s+below\s+45mm\)\.\s*Mutual\s+5%\s+credit\s+rebate\s+accepted\s+by\s+Patil\s+Rameshwar\.\s*Escrow\s+balance\s+released\./gi, 'लॉटमध्ये किरकोळ आकार तफावत (६% माल ४५ मिमीपेक्षा लहान). पाटील रामेश्वर यांनी ५% परतावा मान्य केला. उर्वरित एस्क्रो रक्कम वर्ग केली.'],
+      [/₹\s*3,900\s*\(Settled\s+via\s+5%\s+Rebate\)/gi, '₹ ३,९०० (५% परताव्याद्वारे पूर्ण)'],
+      [/\bRedressal\s+Progress\s*&\s*Smart\s+Contract\s+Milestones:?/gi, 'निवारण प्रगती व स्मार्ट करार टप्पे:'],
+      [/\bGrievance\s+Raised\b/gi, 'तक्रार नोंदवली'],
+      [/\bEscrow\s+Settlement\s+Frozen\b/gi, 'एस्क्रो व्यवहार स्थगित'],
+      [/\bAI\s+Assay\s*&\s*Photo\s+Review\b/gi, 'AI तपासणी व फोटो पडताळणी'],
+      [/\bArbitrator\s+Decision\b/gi, 'लवाद निर्णय'],
+      [/\bPending\s+Buyer\/Seller\s+Signoff\b/gi, 'खरेदीदार/विक्रेता स्वाक्षरी प्रलंबित'],
+      [/\bSettlement\s+Agreed\s*&\s*Credited\b/gi, 'तडजोड मान्य व रक्कम जमा'],
+      [/\bView\s+Evidence\s+Dossier\b/gi, 'पुरावा संचिका पहा'],
+      [/\bMessage\s+Arbitrator\b/gi, 'लवादांशी संवाद साधा'],
+      [/\bSettle\s*&\s*Accept\s*5%\s*Price\s*Rebate\s*\(₹\s*3,900\)/gi, '५% भाव सूट स्वीकारा (₹ ३,९००)'],
+      [/\bClaim\s+Settled\s*&\s*Escrow\s+Released\b/gi, 'तक्रार निवारण पूर्ण व एस्क्रो मुक्त'],
       // Modal 8: Confirm Arrival & Escrow Release (Highest Priority)
       [/\bPhysical Receiving Checklist\s*:?/gi, 'भौतिक तपासणी चेकलिस्ट:'],
       [/\bTotal Trade Contract\s*:?/gi, 'एकूण व्यापार करार:'],
@@ -2124,6 +2471,40 @@
       [/\bFarmer:/gi, 'शेतकरी:']
     ],
     hi: [
+      // Grievances & MSAMB Tribunal Arbitration Section (Highest Priority)
+      [/\bMSAMB\s+Fast-Track\s+Dispute\s+Tribunal\s+Arbitration\b/gi, 'MSAMB त्वरित विवाद न्यायाधिकरण मध्यस्थता'],
+      [/\bStatutory\s+resolution\s+protocol\s+for\s+quality\s+assay\s+variations\s*&\s*weighbridge\s+shortages\b/gi, 'गुणवत्ता परख भिन्नता एवं धर्मकांटा वजन कमी के लिए वैधानिक समाधान प्रोटोकॉल'],
+      [/\bLegal\s+Binding\s+Escrow\s+Freeze\b/gi, 'कानूनी रूप से बाध्यकारी एस्क्रो रोक'],
+      [/\bStep\s+1:\s+Evidence\s+Dossier\s+Filing\b/gi, 'चरण 1: साक्ष्य दस्तावेज दाखिल करना'],
+      [/\bUpload\s+certified\s+digital\s+weighbridge\s+slip\s*&\s*NABL\s+lab\s+assay\s+report\s+within\s+48h\s+of\s+lot\s+arrival\./gi, 'लॉट आगमन के 48 घंटे के भीतर प्रमाणित डिजिटल धर्मकांटा पर्ची एवं NABL प्रयोगशाला रिपोर्ट अपलोड करें।'],
+      [/\bStep\s+2:\s+Dual-Key\s+Escrow\s+Freeze\b/gi, 'चरण 2: दोहरी-कुंजी एस्क्रो सुरक्षा रोक'],
+      [/\bThe\s+65%\s+delivery\s+balance\s+is\s+instantly\s+locked\s+in\s+ICICI\s+Nodal\s+Escrow\s+until\s+tribunal\s+ruling\./gi, 'न्यायाधिकरण के निर्णय तक 65% वितरण शेष राशि तुरंत ICICI नोडल एस्क्रो में सुरक्षित रूप से फ्रीज कर दी जाती है।'],
+      [/\bStep\s+3:\s+<24h\s+Rebate\s+Settlement\b/gi, 'चरण 3: <24 घंटे में छूट निपटान'],
+      [/\bState\s+QA\s+Arbitrator\s+orders\s+pro-rata\s+price\s+rebate\s+or\s+lot\s+return\s+with\s+zero\s+transaction\s+loss\./gi, 'राज्य गुणवत्ता मध्यस्थ शून्य लेनदेन हानि के साथ आनुपातिक मूल्य छूट या लॉट वापसी का आदेश देते हैं।'],
+      [/\bFilter\s+Claims:?/gi, 'दावे फ़िल्टर करें:'],
+      [/\bAll\s+Claims\s*\(\d+\)/gi, 'सभी दावे (2)'],
+      [/\bUnder\s+Review\s*\(\d+\)/gi, 'समीक्षाधीन (1)'],
+      [/\bResolved\s*&\s*Settled\s*\(\d+\)/gi, 'निपटान पूर्ण (1)'],
+      [/\bShowing\s+verified\s+claim\s+records\b/gi, 'सत्यापित दावा रिकॉर्ड प्रदर्शित'],
+      [/\bDispute\s+Category:?/gi, 'विवाद श्रेणी:'],
+      [/\bFarmer\s*\/\s*Source:?/gi, 'किसान / स्रोत'],
+      [/\bTransit\s+Moisture\s+Divergence\s*\(\s*>\s*4%\s*\)/gi, 'मार्ग में (ट्रांजिट) नमी अंतर विचलन (> 4%)'],
+      [/\bSample\s+test\s+at\s+Vashi\s+Receiving\s+Weighbridge\s+logged\s+moisture\s+at\s+86\.4%\s+vs\s+certified\s+maximum\s+limit\s+of\s+82\.0%\.\s*5%\s+price\s+adjustment\s+requested\s+under\s+AgriNex\s+Arbitration\s+clause\./gi, 'वाशी धर्मकांटे पर नमूना परीक्षण में नमी 86.4% दर्ज की गई (प्रमाणित अधिकतम सीमा 82.0%)। AgriNex मध्यस्थता क्लॉज के तहत 5% मूल्य समायोजन का अनुरोध किया गया।'],
+      [/₹\s*50,700\s*\(65%\s*Escrow\s*Balance\s*Frozen\)/gi, '₹ 50,700 (65% एस्क्रो राशि फ्रीज)'],
+      [/\bGrading\s*\/\s*Caliber\s*Under-Size\s*\(\s*<\s*45mm\s*\)/gi, 'ग्रेडिंग / कैलिबर आकार छोटा (< 45mm)'],
+      [/\bMinor\s+undersize\s+sorting\s+divergence\s*\(6%\s+of\s+lot\s+below\s+45mm\)\.\s*Mutual\s+5%\s+credit\s+rebate\s+accepted\s+by\s+Patil\s+Rameshwar\.\s*Escrow\s+balance\s+released\./gi, 'लॉट में मामूली आकार विचलन (6% लॉट 45mm से कम)। पाटिल रामेश्वर द्वारा 5% छूट स्वीकार की गई। एस्क्रो शेष राशि जारी।'],
+      [/₹\s*3,900\s*\(Settled\s+via\s+5%\s+Rebate\)/gi, '₹ 3,900 (5% छूट द्वारा निपटान)'],
+      [/\bRedressal\s+Progress\s*&\s*Smart\s+Contract\s+Milestones:?/gi, 'निवारण प्रगति एवं स्मार्ट अनुबंध चरण:'],
+      [/\bGrievance\s+Raised\b/gi, 'शिकायत दर्ज'],
+      [/\bEscrow\s+Settlement\s+Frozen\b/gi, 'एस्क्रो निपटान फ्रीज'],
+      [/\bAI\s+Assay\s*&\s*Photo\s+Review\b/gi, 'एआई परख एवं फोटो समीक्षा'],
+      [/\bArbitrator\s+Decision\b/gi, 'मध्यस्थ निर्णय'],
+      [/\bPending\s+Buyer\/Seller\s+Signoff\b/gi, 'क्रेता/विक्रेता हस्ताक्षर प्रतीक्षारत'],
+      [/\bSettlement\s+Agreed\s*&\s*Credited\b/gi, 'समझौता स्वीकृत एवं क्रेडिट जमा'],
+      [/\bView\s+Evidence\s+Dossier\b/gi, 'साक्ष्य दस्तावेज देखें'],
+      [/\bMessage\s+Arbitrator\b/gi, 'मध्यस्थ को संदेश भेजें'],
+      [/\bSettle\s*&\s*Accept\s*5%\s*Price\s*Rebate\s*\(₹\s*3,900\)/gi, '5% मूल्य छूट स्वीकार करें (₹ 3,900)'],
+      [/\bClaim\s+Settled\s*&\s*Escrow\s+Released\b/gi, 'दावा निपटारा पूर्ण एवं एस्क्रो जारी'],
       // Modal 8: Confirm Arrival & Escrow Release (Highest Priority)
       [/\bPhysical Receiving Checklist\s*:?/gi, 'भौतिक प्राप्ति चेकलिस्ट:'],
       [/\bTotal Trade Contract\s*:?/gi, 'कुल व्यापार अनुबंध:'],
@@ -6019,16 +6400,25 @@
       }
     }
 
-    // 2. Check direct person map
+    // 2. Check direct warehouse & storage map
+    res = tWarehouse(res);
+
+    // 3. Check direct vehicle map (Eicher, Tata, Mahindra, Ashok Leyland, BharatBenz, etc.)
+    res = tVehicle(res);
+
+    // 4. Check direct person map
     res = tPerson(res);
 
-    // 3. Check direct crop map
+    // 5. Check direct crop map
     res = tCrop(res);
 
-    // 4. Check direct location map
+    // 6. Check direct location map
     res = tLocation(res);
 
-    // 5. Apply vocabulary word replacements (Tier 2: Single-pass pre-compiled Regex)
+    // 7. Check direct grade map
+    res = tGrade(res);
+
+    // 7. Apply vocabulary word replacements (Tier 2: Single-pass pre-compiled Regex)
     const reg = WORD_REGEX[currentLang];
     if (reg) {
       const map = WORD_MAP[currentLang];
@@ -6137,19 +6527,24 @@
         } catch (e) {}
       });
 
+      if (!document.createTreeWalker) return;
+      const showTextFilter = (typeof NodeFilter !== 'undefined' && NodeFilter.SHOW_TEXT) ? NodeFilter.SHOW_TEXT : 4;
+      const filterAccept = (typeof NodeFilter !== 'undefined' && NodeFilter.FILTER_ACCEPT) ? NodeFilter.FILTER_ACCEPT : 1;
+      const filterReject = (typeof NodeFilter !== 'undefined' && NodeFilter.FILTER_REJECT) ? NodeFilter.FILTER_REJECT : 2;
+
       const ignoreTags = new Set(['SCRIPT', 'STYLE', 'CODE', 'PRE', 'NOSCRIPT', 'TEXTAREA', 'INPUT']);
       const walker = document.createTreeWalker(
         root,
-        NodeFilter.SHOW_TEXT,
+        showTextFilter,
         {
           acceptNode: function (node) {
-            if (!node || !node.nodeValue) return NodeFilter.FILTER_REJECT;
+            if (!node || !node.nodeValue) return filterReject;
             const parent = node.parentElement;
-            if (!parent || ignoreTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+            if (!parent || ignoreTags.has(parent.tagName)) return filterReject;
             if (parent.closest && (parent.closest('#language-dropdown-menu') || parent.closest('.lang-selector-widget'))) {
-              return NodeFilter.FILTER_REJECT;
+              return filterReject;
             }
-            return NodeFilter.FILTER_ACCEPT;
+            return filterAccept;
           }
         },
         false
@@ -6207,9 +6602,13 @@
           }
           const orig = el.getAttribute('data-orig-placeholder');
           if (orig && !el.hasAttribute('data-i18n-placeholder')) {
-            const transPh = tText(orig);
-            if (transPh !== el.placeholder) {
-              el.placeholder = transPh;
+            if (currentLang === 'en') {
+              el.placeholder = orig;
+            } else {
+              const transPh = tText(orig);
+              if (transPh !== el.placeholder) {
+                el.placeholder = transPh;
+              }
             }
           }
         });
@@ -6223,9 +6622,13 @@
           }
           const orig = el.getAttribute('data-orig-title');
           if (orig && !el.hasAttribute('data-i18n-title')) {
-            const transTitle = tText(orig);
-            if (transTitle !== el.getAttribute('title')) {
-              el.setAttribute('title', transTitle);
+            if (currentLang === 'en') {
+              el.setAttribute('title', orig);
+            } else {
+              const transTitle = tText(orig);
+              if (transTitle !== el.getAttribute('title')) {
+                el.setAttribute('title', transTitle);
+              }
             }
           }
         });
@@ -6238,30 +6641,39 @@
             }
           }
           const orig = opt.getAttribute('data-orig-option');
-          if (orig && /[a-zA-Z]{2,}/.test(orig)) {
-            const transOpt = tText(orig);
-            if (transOpt !== opt.textContent) {
-              opt.textContent = transOpt;
+          if (orig) {
+            if (currentLang === 'en') {
+              opt.textContent = orig;
+            } else if (/[a-zA-Z]{2,}/.test(orig)) {
+              const transOpt = tText(orig);
+              if (transOpt !== opt.textContent) {
+                opt.textContent = transOpt;
+              }
             }
           }
         });
       }
 
       // 2. Ignore scripts, styles, code blocks, and language dropdown menu
+      if (!document.createTreeWalker) return;
+      const showTextFilter = (typeof NodeFilter !== 'undefined' && NodeFilter.SHOW_TEXT) ? NodeFilter.SHOW_TEXT : 4;
+      const filterAccept = (typeof NodeFilter !== 'undefined' && NodeFilter.FILTER_ACCEPT) ? NodeFilter.FILTER_ACCEPT : 1;
+      const filterReject = (typeof NodeFilter !== 'undefined' && NodeFilter.FILTER_REJECT) ? NodeFilter.FILTER_REJECT : 2;
+
       const ignoreTags = new Set(['SCRIPT', 'STYLE', 'CODE', 'PRE', 'NOSCRIPT', 'TEXTAREA', 'INPUT']);
 
       const walker = document.createTreeWalker(
         root,
-        NodeFilter.SHOW_TEXT,
+        showTextFilter,
         {
           acceptNode: function (node) {
-            if (!node || !node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            if (!node || !node.nodeValue || !node.nodeValue.trim()) return filterReject;
             const parent = node.parentElement;
-            if (!parent || ignoreTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+            if (!parent || ignoreTags.has(parent.tagName)) return filterReject;
             if (parent.closest && (parent.closest('#language-dropdown-menu') || parent.closest('.lang-selector-widget'))) {
-              return NodeFilter.FILTER_REJECT;
+              return filterReject;
             }
-            return NodeFilter.FILTER_ACCEPT;
+            return filterAccept;
           }
         },
         false
@@ -6273,6 +6685,12 @@
           if (/[a-zA-Z]/.test(textNode.nodeValue)) {
             textNode.__origValue = textNode.nodeValue;
           }
+        }
+        if (currentLang === 'en') {
+          if (textNode.__origValue && textNode.nodeValue !== textNode.__origValue) {
+            textNode.nodeValue = textNode.__origValue;
+          }
+          continue;
         }
         const sourceText = textNode.__origValue || textNode.nodeValue;
         if (sourceText && sourceText.trim().length > 1 && /[a-zA-Z]/.test(sourceText)) {
@@ -6290,6 +6708,7 @@
   // MutationObserver with 50ms Debounce and Loop Prevention
   let domObserver = null;
   function startDOMObserver() {
+    if (typeof MutationObserver === 'undefined') return;
     if (domObserver) domObserver.disconnect();
     if (currentLang === 'en') return;
 
@@ -6558,13 +6977,33 @@
     if (typeof window.recalculateBuyerCosts === 'function') {
       window.recalculateBuyerCosts();
     }
+    if (typeof window.renderStorageFacilities === 'function') {
+      window.renderStorageFacilities();
+    }
+    if (typeof window.renderStorageBookings === 'function') {
+      window.renderStorageBookings();
+    }
+    if (typeof window.renderChatSidebar === 'function') {
+      window.renderChatSidebar();
+    }
+    if (typeof window.selectChatContact === 'function') {
+      const currentKey = typeof window.getActiveChatKey === 'function' ? window.getActiveChatKey() : 'patil';
+      window.selectChatContact(currentKey);
+    }
 
     // 6. Universal DOM Walk: Translates any remaining text nodes across the whole document
     walkAndTranslateDOM(document.body);
     startDOMObserver();
 
     // Dispatch global custom event for other listeners
-    window.dispatchEvent(new CustomEvent('agrinex_language_changed', { detail: { lang: lang } }));
+    if (typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') {
+      try {
+        window.dispatchEvent(new CustomEvent('agrinex_language_changed', { detail: { lang: lang } }));
+      } catch (e) {}
+    }
+    if (typeof window.updateLiteModeLanguage === 'function') {
+      window.updateLiteModeLanguage(lang);
+    }
 
     // 7. User Feedback Notification Toast
     if (typeof window.showToast === 'function') {
@@ -6614,6 +7053,8 @@
     tPerson,
     tLocation,
     tGrade,
+    tVehicle,
+    tWarehouse,
     tStatus,
     tText,
     setBuyerLanguage,
@@ -6628,6 +7069,8 @@
   window.tPerson = tPerson;
   window.tLocation = tLocation;
   window.tGrade = tGrade;
+  window.tVehicle = tVehicle;
+  window.tWarehouse = tWarehouse;
   window.tStatus = tStatus;
   window.tText = tText;
   window.setBuyerLanguage = setBuyerLanguage;

@@ -1,7 +1,7 @@
 /**
- * AgriNex Buyer Module - Enterprise Intelligence & Sourcing Suite
+ * AgriNex Buyer Module - Enterprise Intelligence & Sourcing Suite 2.0
  * Features:
- * 1. AI Sourcing Copilot & Arbitrage Hunter
+ * 1. AI Sourcing Copilot Suite (Multi-Turn Chat, 10-Language STT & TTS, Dynamic Arbitrage Engine, Buy/Wait Signals, Basket Optimizer)
  * 2. Enterprise Digital Purchase Order (PO) & Tax Invoice Generator
  * 3. Side-by-Side Multi-Lot Comparative Matrix
  * 4. Live GPS Fleet & Reefer Cold-Chain Telemetry Visualizer
@@ -13,101 +13,395 @@
 
   // State Management
   const selectedCompareLots = new Set();
+  let copilotLang = 'en';
+  let copilotHistory = [];
+  let speechRecognizer = null;
+  let isListening = false;
+  let wasVoiceInput = false;
+  let activeSpeechUtterance = null;
+  window.copilotLotCache = window.copilotLotCache || {};
+
+  // 10 Indian Languages (+ English) Configuration
+  const SUPPORTED_LANGUAGES = {
+    'en': { name: "English", code: "en-IN", bcp: "en-IN", voicePrefix: "en", welcome: "Hello! I am your AgriNex AI Sourcing Assistant. Ask for landed arbitrage, APMC mandi forecasts, emergency salvage lots, or enter your budget." },
+    'hi': { name: "हिन्दी", code: "hi-IN", bcp: "hi-IN", voicePrefix: "hi", welcome: "नमस्ते! मैं एग्रीनेक्स प्रोक्योरमेंट एआई हूँ। महाराष्ट्र मंडी आर्बिट्राज, मूल्य पूर्वानुमान, आपातकालीन लॉट या बजट बास्केट के बारे में पूछें।" },
+    'mr': { name: "मराठी", code: "mr-IN", bcp: "mr-IN", voicePrefix: "mr", welcome: "नमस्कार! मी अॅग्रीनेक्स खरेदी सल्लागार एआय आहे. लासलगाव/नारायणगाव बाजारभाव, लँडेड नफा, साल्वेज लॉट किंवा थेट शेतकरी खरेदी बाबत विचारा." },
+    'bn': { name: "বাংলা", code: "bn-IN", bcp: "bn-IN", voicePrefix: "bn", welcome: "নমস্কার! আমি এগ্রিনেক্স প্রকিউরমেন্ট এআই। রিয়েল-টাইম মান্ডি সালভেজ, গুণমান এবং ল্যান্ডেড খরচ সম্পর্কে জিজ্ঞাসা করুন।" },
+    'te': { name: "తెలుగు", code: "te-IN", bcp: "te-IN", voicePrefix: "te", welcome: "నమస్కారం! నేను అగ్రినెక్స్ ప్రొక్యూర్మెంట్ AI. మార్కెట్ ధరలు, ల్యాండెడ్ లాభాలు మరియు బడ్జెట్ కొనుగోళ్ల గురించి అడగండి." },
+    'ta': { name: "தமிழ்", code: "ta-IN", bcp: "ta-IN", voicePrefix: "ta", welcome: "வணக்கம்! நான் அக்ரிநெக்ஸ் கொள்முதல் AI. மண்டல சந்தை விலை, மொத்த லாப வரம்பு மற்றும் நேரடி கொள்முதல் பற்றி கேட்கலாம்." },
+    'gu': { name: "ગુજરાતી", code: "gu-IN", bcp: "gu-IN", voicePrefix: "gu", welcome: "નમસ્તે! હું એગ્રીનેક્સ પ્રાપ્તિ AI છું. મહારાષ્ટ્ર મંડી આર્બિટ્રેજ, જથ્થાબંધ ભાવ અને સસ્તા સોદા વિશે પૂછો." },
+    'ur': { name: "اردو", code: "ur-IN", bcp: "ur-IN", voicePrefix: "ur", welcome: "السلام علیکم! میں ایگری نیکس سورسنگ AI ہوں۔ براہ راست کسانوں سے خریداری اور مارکیٹ کے بہترین نرخوں کے لیے پوچھیں۔" },
+    'kn': { name: "ಕನ್ನಡ", code: "kn-IN", bcp: "kn-IN", voicePrefix: "kn", welcome: "ನಮಸ್ಕಾರ! ನಾನು ಅಗ್ರಿನೆಕ್ಸ್ ಸಂಗ್ರಹಣೆ AI. ಮಂಡಿ ದರಗಳು, ಸಾಗಣೆ ವೆಚ್ಚ ಮತ್ತು ಕಡಿಮೆ ಬೆಲೆಯ ಲಾಟ್‌ಗಳ ಬಗ್ಗೆ ಕೇಳಿ." },
+    'or': { name: "ଓଡ଼ିଆ", code: "or-IN", bcp: "or-IN", voicePrefix: "or", welcome: "ନମସ୍କାର! ମୁଁ ଏଗ୍ରିନେକ୍ସ କ୍ରୟ AI। ମଣ୍ଡି ଦର, ଲାଣ୍ଡେଡ୍ ଖର୍ଚ୍ଚ ଏବଂ କୃଷକଙ୍କ ଉତ୍ପାଦ ବିଷୟରେ ପଚାରନ୍ତୁ।" },
+    'ml': { name: "മലയാളം", code: "ml-IN", bcp: "ml-IN", voicePrefix: "ml", welcome: "നമസ്കാരം! ഞാൻ അഗ്രിനെക്സ് പ്രൊക്യുർമെന്റ് AI. വിപണി വിലകൾ, ലാൻഡഡ് ലാഭം, നേരിട്ടുള്ള കർഷക ഇടപാടുകൾ എന്നിവ ചോദിക്കാം." }
+  };
 
   // =========================================================================
-  // 1. AI SOURCING COPILOT & ARBITRAGE HUNTER
+  // 1. AI SOURCING COPILOT & VOICE MULTILINGUAL SUITE
   // =========================================================================
-
-  const COPILOT_KNOWLEDGE = [
-    {
-      keywords: ["onion", "lasalgaon", "garwa", "kanda", "export onion"],
-      cropKey: "onion",
-      title: "🧅 Lasalgaon Red Onion Sourcing Advisory",
-      recommendation: "Lasalgaon APMC modal price is ₹ 18.50 /kg. Farm-gate verified lots are available at ₹ 18.00 /kg with 96% Grade A export assay. Sourcing direct saves ₹ 3.50 /kg vs Vashi APMC middleman terminal.",
-      matchedLotIds: ["LOT-ONI-01", "LOT-ONI-02"],
-      arbitrageSpread: "+16.3% Margin Advantage",
-      optimalWindow: "Next 48 Hours before export quota rush"
-    },
-    {
-      keywords: ["tomato", "narayangaon", "shivam", "tamatar", "junnar"],
-      cropKey: "tomato",
-      title: "🍅 Narayangaon Hybrid Tomato Sourcing Advisory",
-      recommendation: "High arrival volumes in Junnar/Narayangaon belt (6,200 Qt today). Farm-gate lots offered at ₹ 12.00 /kg with 94% firmness. Vashi terminal selling at ₹ 14.50 /kg.",
-      matchedLotIds: ["LOT-TOM-88", "LOT-TOM-89"],
-      arbitrageSpread: "+17.2% Margin Advantage",
-      optimalWindow: "Immediate procurement (Heavy harvest inflow)"
-    },
-    {
-      keywords: ["banana", "jalgaon", "raver", "grand naine", "kela"],
-      cropKey: "banana",
-      title: "🍌 Khandesh Grand Naine Banana Advisory",
-      recommendation: "Raver APMC benchmark is ₹ 14.80 /kg. Farm-gate export cluster offering 150 Qt at ₹ 14.20 /kg with automated ethylene ripening chambers available at Jalgaon hub.",
-      matchedLotIds: ["LOT-BAN-03"],
-      arbitrageSpread: "+14.5% Margin Advantage",
-      optimalWindow: "3–5 Days lead time recommended"
-    },
-    {
-      keywords: ["soybean", "latur", "js-335", "oilseed", "pulse"],
-      cropKey: "soybean",
-      title: "🌱 Latur Yellow Soybean & Hermetic Silos Advisory",
-      recommendation: "Latur Mega Yard trading JS-335 at ₹ 44.50 /kg. Direct FPO procurement at ₹ 41.50 /kg with max 9.5% moisture assay. Eligible for 70% WDRA e-NWR pledge loan at 6.8% p.a.",
-      matchedLotIds: ["LOT-SOY-04"],
-      arbitrageSpread: "+12.8% Margin Advantage",
-      optimalWindow: "Store in Latur Silo for post-harvest peak"
-    },
-    {
-      keywords: ["orange", "nagpur", "santra", "katol", "citrus"],
-      cropKey: "orange",
-      title: "🍊 Nagpur Mandarin Orange Sourcing Advisory",
-      recommendation: "Katol APMC modal rate is ₹ 39.50 /kg. GI-tagged Nagpur Santra lots available at ₹ 37.50 /kg with Brix > 10.5%. Direct refrigerated transit to Vashi terminal takes 14 hours.",
-      matchedLotIds: ["LOT-ORG-05"],
-      arbitrageSpread: "+15.0% Margin Advantage",
-      optimalWindow: "Book dedicated reefer fleet today"
-    },
-    {
-      keywords: ["emergency", "salvage", "discount", "processing", "puree", "urgent"],
-      cropKey: "emergency",
-      title: "🚨 Emergency Breakeven Salvage Opportunities",
-      recommendation: "4 emergency harvest lots are active with 24–48 hr urgency. Best buyouts: Narayangaon Tomato at ₹ 9.20 /kg (Orig: ₹ 14.00 /kg) and Nashik Onion at ₹ 12.50 /kg. Ideal for food processors and commercial caterers.",
-      matchedLotIds: ["LOT-EMG-TOM-01", "LOT-EMG-ONI-02"],
-      arbitrageSpread: "Up to 38% Salvage Discount",
-      optimalWindow: "Instant buyout before shelf-life expiry"
-    }
-  ];
 
   function openCopilotModal() {
     const modal = document.getElementById('modal-ai-copilot');
     if (modal) {
       modal.classList.add('active');
-      renderCopilotDefault();
+      if (copilotHistory.length === 0) {
+        renderCopilotWelcome();
+      } else {
+        scrollChatToBottom();
+      }
     }
   }
 
   function closeCopilotModal() {
     const modal = document.getElementById('modal-ai-copilot');
     if (modal) modal.classList.remove('active');
+    stopCopilotTTS();
+    stopListening();
   }
 
-  function renderCopilotDefault() {
-    const container = document.getElementById('copilot-response-container');
+  function setCopilotLanguage(langCode) {
+    if (!SUPPORTED_LANGUAGES[langCode]) langCode = 'en';
+    copilotLang = langCode;
+
+    // Sync dropdown select if present
+    const langSel = document.getElementById('copilot-lang-select');
+    if (langSel) langSel.value = langCode;
+
+    // Update active pill UI
+    document.querySelectorAll('.copilot-lang-pill').forEach(pill => {
+      if (pill.getAttribute('data-lang') === langCode) {
+        pill.classList.add('active');
+      } else {
+        pill.classList.remove('active');
+      }
+    });
+
+    const langInfo = SUPPORTED_LANGUAGES[langCode];
+    const ind = document.getElementById('copilot-voice-lang-indicator');
+    if (ind) ind.textContent = `Voice: ${langInfo.name}`;
+
+    const statusEl = document.getElementById('copilot-status-text');
+    if (statusEl) statusEl.textContent = `Switched to ${langInfo.name}. Ready for voice & text queries.`;
+
+    // Re-init speech recognizer language
+    if (speechRecognizer) {
+      speechRecognizer.lang = langInfo.code;
+    }
+
+    if (copilotHistory.length === 0) {
+      renderCopilotWelcome();
+    }
+  }
+
+  function renderCopilotWelcome() {
+    const container = document.getElementById('copilot-chat-thread');
     if (!container) return;
 
+    const langInfo = SUPPORTED_LANGUAGES[copilotLang] || SUPPORTED_LANGUAGES['en'];
+
     container.innerHTML = `
-      <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 24px; text-align: center;">
-        <div style="font-size: 2.4rem; margin-bottom: 8px;">🤖</div>
-        <strong style="font-size: 1.05rem; color: #0f172a; display: block;">AgriNex AI Institutional Procurement Assistant</strong>
-        <p style="font-size: 0.82rem; color: #64748b; margin: 6px auto 16px auto; max-width: 480px;">
-          Ask for real-time Maharashtra APMC arbitrage spreads, lowest landed freight costs, farmer quality assays, or salvage procurement deals.
-        </p>
-        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-          <button class="copilot-chip" onclick="askCopilot('Best Onion Arbitrage in Lasalgaon')">🧅 Onion Arbitrage (Lasalgaon)</button>
-          <button class="copilot-chip" onclick="askCopilot('High Grade Tomato Narayangaon under 14/kg')">🍅 Tomato Lots (Narayangaon)</button>
-          <button class="copilot-chip" onclick="askCopilot('Emergency Salvage processing deals')">🚨 Salvage Lots (30%+ Off)</button>
-          <button class="copilot-chip" onclick="askCopilot('Latur Soybean Silos e-NWR')">🌱 Soybean & Silos (Latur)</button>
+      <div class="copilot-message-ai" id="welcome-msg-block">
+        <div class="copilot-card-ai" style="background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%); border: 1.5px solid #86efac; padding: 12px 14px; border-radius: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 1.1rem;">🧠</span>
+              <strong style="color: #064e3b; font-size: 0.88rem;">AgriNex AI Assistant</strong>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="playCopilotTTS('${encodeURIComponent(langInfo.welcome)}', '${copilotLang}', 'welcome-msg-block')" style="font-size: 0.68rem; padding: 2px 7px; color: #0c5a36; border-color: #86efac; background: #ffffff;">
+              🔊 Listen
+            </button>
+          </div>
+          <p style="font-size: 0.8rem; color: #166534; line-height: 1.4; margin: 0 0 8px 0;">
+            ${langInfo.welcome}
+          </p>
+          <div style="display: flex; gap: 8px; font-size: 0.7rem; color: #475569; flex-wrap: wrap;">
+            <span>⚡ Arbitrage Hunter</span>
+            <span>•</span>
+            <span>📈 Buy/Wait Signals</span>
+            <span>•</span>
+            <span>💼 Basket Allocator</span>
+            <span>•</span>
+            <span>🗣️ 10 Languages</span>
+          </div>
         </div>
       </div>
     `;
   }
+
+  function clearCopilotChat() {
+    copilotHistory = [];
+    stopCopilotTTS();
+    renderCopilotWelcome();
+  }
+
+  function scrollChatToBottom() {
+    const container = document.getElementById('copilot-chat-thread');
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }
+
+  // =========================================================================
+  // VOICE & SPEECH RECOGNITION (STT)
+  // =========================================================================
+
+  function toggleCopilotSpeechRecognition() {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
+    }
+  }
+
+  function startListening() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser. Please use Google Chrome, Edge, or Chromium.");
+      return;
+    }
+
+    try {
+      speechRecognizer = new SpeechRecognition();
+      const langInfo = SUPPORTED_LANGUAGES[copilotLang] || SUPPORTED_LANGUAGES['en'];
+      speechRecognizer.lang = langInfo.code;
+      speechRecognizer.continuous = false;
+      speechRecognizer.interimResults = true;
+
+      const micBtn = document.getElementById('btn-copilot-mic');
+      const statusEl = document.getElementById('copilot-status-text');
+      const input = document.getElementById('copilot-query-input');
+
+      speechRecognizer.onstart = function () {
+        isListening = true;
+        if (micBtn) micBtn.classList.add('recording');
+        if (statusEl) statusEl.innerHTML = `<span style="color: #dc2626; font-weight: 700;">🔴 Listening in ${langInfo.name}... Speak now...</span>`;
+      };
+
+      speechRecognizer.onresult = function (event) {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          transcript += event.results[i][0].transcript;
+        }
+        if (input) input.value = transcript;
+      };
+
+      speechRecognizer.onerror = function (event) {
+        console.warn('Speech recognition error:', event.error);
+        stopListening();
+        if (statusEl) statusEl.textContent = `Mic error: ${event.error}. Please retry.`;
+      };
+
+      speechRecognizer.onend = function () {
+        const queryText = input ? input.value.trim() : '';
+        if (queryText) {
+          wasVoiceInput = true;
+        }
+        stopListening();
+        if (queryText) {
+          executeCopilotQuery(queryText);
+        }
+      };
+
+      speechRecognizer.start();
+    } catch (e) {
+      console.error("Failed to start speech recognition:", e);
+      stopListening();
+    }
+  }
+
+  function stopListening() {
+    isListening = false;
+    const micBtn = document.getElementById('btn-copilot-mic');
+    if (micBtn) micBtn.classList.remove('recording');
+    const statusEl = document.getElementById('copilot-status-text');
+    if (statusEl) statusEl.textContent = "💡 Tip: Speak in your chosen regional language or type procurement queries.";
+    if (speechRecognizer) {
+      try { speechRecognizer.stop(); } catch (e) {}
+    }
+  }
+
+  // =========================================================================
+  // TEXT-TO-SPEECH (TTS) AUDIO ENGINE (Sarvam AI Native Indian TTS + Browser Fallback)
+  // =========================================================================
+
+  let activeAudioObj = null;
+  let currentTTSRequestId = 0;
+  let currentPlayingElementId = null;
+  let ttsAbortController = null;
+
+  async function playCopilotTTS(encodedText, langCode, elementId) {
+    // If the user clicks the same button that is currently playing or loading, toggle it OFF (stop)
+    if (elementId && elementId === currentPlayingElementId) {
+      stopCopilotTTS();
+      return;
+    }
+
+    const text = decodeURIComponent(encodedText);
+    stopCopilotTTS();
+
+    const requestId = ++currentTTSRequestId;
+    currentPlayingElementId = elementId || null;
+
+    if (ttsAbortController) {
+      try { ttsAbortController.abort(); } catch (e) {}
+    }
+    ttsAbortController = new AbortController();
+
+    const stopBtn = document.getElementById('btn-copilot-tts-stop');
+    if (stopBtn) stopBtn.style.display = 'inline-flex';
+
+    if (elementId) {
+      const el = document.getElementById(elementId);
+      if (el) el.classList.add('playing-tts');
+    }
+
+    // Try Sarvam AI Indian Neural Voice endpoint first
+    try {
+      const resp = await fetch('/api/tts/speak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal: ttsAbortController.signal,
+        body: JSON.stringify({
+          text: text,
+          language_code: langCode,
+          speaker: 'meera'
+        })
+      });
+
+      // If another TTS request started while fetch was in-flight, discard this one
+      if (requestId !== currentTTSRequestId) {
+        return;
+      }
+
+      if (resp.ok) {
+        const data = await resp.json();
+        if (requestId !== currentTTSRequestId) {
+          return;
+        }
+
+        if (data && data.success && data.audio_base64) {
+          // Double safety: stop any other audio before starting
+          if (activeAudioObj) {
+            try {
+              activeAudioObj.pause();
+              activeAudioObj.currentTime = 0;
+            } catch (e) {}
+            activeAudioObj = null;
+          }
+          if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+          }
+
+          const audio = new Audio('data:audio/wav;base64,' + data.audio_base64);
+          activeAudioObj = audio;
+
+          audio.onended = function () {
+            if (requestId === currentTTSRequestId) {
+              stopCopilotTTS();
+            }
+          };
+          audio.onerror = function () {
+            if (requestId === currentTTSRequestId) {
+              fallbackBrowserTTS(text, langCode, elementId, requestId);
+            }
+          };
+          await audio.play();
+          return;
+        }
+      }
+    } catch (err) {
+      if (err && err.name === 'AbortError') {
+        return; // Request was aborted by subsequent click
+      }
+      console.warn('Sarvam TTS API request failed, falling back to browser speech synthesis:', err);
+    }
+
+    if (requestId !== currentTTSRequestId) {
+      return;
+    }
+
+    // Fallback: Browser Web Speech API
+    fallbackBrowserTTS(text, langCode, elementId, requestId);
+  }
+
+  function fallbackBrowserTTS(text, langCode, elementId, requestId) {
+    if (!window.speechSynthesis) {
+      stopCopilotTTS();
+      return;
+    }
+
+    if (requestId && requestId !== currentTTSRequestId) {
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    const langInfo = SUPPORTED_LANGUAGES[langCode] || SUPPORTED_LANGUAGES['en'];
+    utterance.lang = langInfo.code;
+    utterance.rate = 0.95;
+    utterance.pitch = 1.0;
+
+    // Find best voice match
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      const match = voices.find(v => v.lang === langInfo.code || v.lang.startsWith(langInfo.voicePrefix) || (langCode === 'en' && (v.lang === 'en-IN' || v.name.includes('India'))));
+      if (match) utterance.voice = match;
+    }
+
+    utterance.onstart = function () {
+      if (requestId && requestId !== currentTTSRequestId) {
+        window.speechSynthesis.cancel();
+        return;
+      }
+      activeSpeechUtterance = utterance;
+      if (elementId) {
+        const el = document.getElementById(elementId);
+        if (el) el.classList.add('playing-tts');
+      }
+    };
+
+    utterance.onend = function () {
+      if (!requestId || requestId === currentTTSRequestId) {
+        stopCopilotTTS();
+      }
+    };
+
+    utterance.onerror = function () {
+      if (!requestId || requestId === currentTTSRequestId) {
+        stopCopilotTTS();
+      }
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function stopCopilotTTS() {
+    currentTTSRequestId++;
+    currentPlayingElementId = null;
+    if (ttsAbortController) {
+      try { ttsAbortController.abort(); } catch (e) {}
+      ttsAbortController = null;
+    }
+    if (activeAudioObj) {
+      try {
+        activeAudioObj.pause();
+        activeAudioObj.currentTime = 0;
+      } catch (e) {}
+      activeAudioObj = null;
+    }
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+    activeSpeechUtterance = null;
+    const stopBtn = document.getElementById('btn-copilot-tts-stop');
+    if (stopBtn) stopBtn.style.display = 'none';
+    document.querySelectorAll('.playing-tts').forEach(el => el.classList.remove('playing-tts'));
+  }
+
+  // =========================================================================
+  // QUERY EXECUTION & MULTI-TURN THREAD ENGINE
+  // =========================================================================
 
   function askCopilot(queryText) {
     const input = document.getElementById('copilot-query-input');
@@ -119,108 +413,299 @@
     if (e) e.preventDefault();
     const input = document.getElementById('copilot-query-input');
     if (!input || !input.value.trim()) return;
-    executeCopilotQuery(input.value.trim());
+    const query = input.value.trim();
+    input.value = '';
+    executeCopilotQuery(query);
   }
 
-  function executeCopilotQuery(query) {
-    const container = document.getElementById('copilot-response-container');
-    if (!container) return;
+  async function executeCopilotQuery(query) {
+    const thread = document.getElementById('copilot-chat-thread');
+    if (!thread) return;
 
-    const lower = query.toLowerCase();
+    // 1. Append User Message Bubble
+    const userMsgId = `user-msg-${Date.now()}`;
+    const userMsgHtml = `
+      <div class="copilot-message-user" id="${userMsgId}">
+        <div class="copilot-bubble-user">
+          ${escapeHtml(query)}
+        </div>
+      </div>
+    `;
+    thread.insertAdjacentHTML('beforeend', userMsgHtml);
 
-    // Loading state
-    container.innerHTML = `
-      <div style="padding: 30px; text-align: center; color: #0c5a36;">
-        <div style="font-size: 2rem; animation: pulse 1s infinite;">⚡</div>
-        <div style="font-weight: 700; margin-top: 6px;">Scanning 12 Maharashtra APMC Mandis & Verified Lots...</div>
-        <div style="font-size: 0.78rem; color: #64748b;">Computing landed cost, transport tolls & 35% escrow requirements</div>
+    // 2. Append Typing Indicator
+    const typingId = `typing-${Date.now()}`;
+    const typingHtml = `
+      <div class="copilot-message-ai" id="${typingId}">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 18px; display: inline-flex; align-items: center; gap: 8px; color: #0c5a36; font-size: 0.85rem; font-weight: 600;">
+          <span style="font-size: 1.2rem; animation: pulse 1s infinite;">⚡</span>
+          <span>Analyzing Mandi APMC Arbitrage, Logistics Freight & 7-Day Forecasts...</span>
+        </div>
+      </div>
+    `;
+    thread.insertAdjacentHTML('beforeend', typingHtml);
+    scrollChatToBottom();
+
+    try {
+      // 3. Request Live Backend AI Copilot Chat Endpoint
+      const response = await fetch('/api/buyer/copilot-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: query,
+          language: copilotLang,
+          history: copilotHistory,
+          buyerLocation: "Vashi APMC Central Terminal, Navi Mumbai"
+        })
+      });
+
+      let data;
+      if (response.ok) {
+        data = await response.json();
+      } else {
+        throw new Error("Backend response error");
+      }
+
+      // Remove typing indicator
+      const typingEl = document.getElementById(typingId);
+      if (typingEl) typingEl.remove();
+
+      // Render AI Answer Card
+      renderAIResponseCard(data, query);
+
+      // Record to history
+      copilotHistory.push({ role: 'user', content: query });
+      copilotHistory.push({ role: 'assistant', content: data.advisory.recommendation });
+
+      // Auto-TTS if user asked via voice mic
+      if (wasVoiceInput) {
+        wasVoiceInput = false;
+        playCopilotTTS(encodeURIComponent(data.advisory.recommendation), copilotLang);
+      }
+
+    } catch (err) {
+      console.warn("Using local dynamic fallback for Copilot query:", err);
+      // Fallback
+      const typingEl = document.getElementById(typingId);
+      if (typingEl) typingEl.remove();
+      renderLocalFallbackResponse(query);
+    }
+  }
+
+  function triggerCopilotPO(lotId) {
+    const lot = window.copilotLotCache && window.copilotLotCache[lotId];
+    if (lot) {
+      const kgPrice = Number(lot.pricePerKg || 20);
+      const totalEst = Math.round((lot.quantityKg || (lot.quantityQt ? lot.quantityQt * 100 : 5000)) * kgPrice);
+      closeCopilotModal();
+      generateAndOpenPO(lot.id, lot.crop, lot.quantity, lot.farmerName, totalEst);
+    } else {
+      closeCopilotModal();
+      generateAndOpenPO(lotId);
+    }
+  }
+
+  function renderAIResponseCard(data, originalQuery) {
+    const thread = document.getElementById('copilot-chat-thread');
+    if (!thread) return;
+
+    const adv = data.advisory;
+    const lots = data.matchedLots || [];
+    const basket = data.basket;
+    const msgId = `ai-msg-${Date.now()}`;
+
+    // Cache lots for safe PO and modal invocation
+    lots.forEach(lot => {
+      window.copilotLotCache[lot.id] = lot;
+    });
+
+    let signalBadgeClass = 'badge-signal-buy';
+    if (adv.buySignal === 'HOLD_WAIT') signalBadgeClass = 'badge-signal-wait';
+    else if (adv.buySignal === 'SALVAGE') signalBadgeClass = 'badge-signal-salvage';
+
+    const ttsText = `${adv.title}. ${adv.recommendation}. ${adv.signalBadge}.`;
+
+    let cardHtml = `
+      <div class="copilot-message-ai" id="${msgId}">
+        <div class="copilot-card-ai" style="padding: 12px; border-radius: 12px;">
+          
+          <!-- Advisory Header -->
+          <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1.5px solid #86efac; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 6px; margin-bottom: 4px;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 1.1rem;">🧠</span>
+                <strong style="color: #064e3b; font-size: 0.88rem;">${adv.title}</strong>
+              </div>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span class="badge ${signalBadgeClass}" style="font-size: 0.65rem; padding: 2px 6px;">${adv.signalBadge}</span>
+                <button class="btn btn-outline btn-sm" onclick="playCopilotTTS('${encodeURIComponent(ttsText)}', '${copilotLang}', '${msgId}')" style="font-size: 0.65rem; padding: 2px 6px; background: #ffffff; color: #0c5a36; border-color: #86efac;">
+                  🔊 Listen
+                </button>
+              </div>
+            </div>
+
+            <p style="font-size: 0.78rem; color: #14532d; line-height: 1.4; margin: 0 0 6px 0;">
+              ${adv.recommendation}
+            </p>
+
+            <div style="display: flex; gap: 8px; font-size: 0.68rem; color: #166534; font-weight: 700; flex-wrap: wrap; border-top: 1px dashed #86efac; padding-top: 6px;">
+              <span>⏱️ Timing: <strong>${adv.optimalWindow}</strong></span>
+              <span>•</span>
+              <span>💰 Spread: <strong style="color: #047857;">${adv.arbitrageSpread}</strong></span>
+              <span>•</span>
+              <span>🛡️ <strong>35% Escrow</strong></span>
+            </div>
+          </div>
+
+          <!-- Dynamic Landed-Cost Breakdown Table -->
+          ${adv.landedCostBreakdown ? `
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; margin-bottom: 10px; font-size: 0.72rem;">
+              <div style="font-weight: 800; color: #0f172a; margin-bottom: 4px; display: flex; justify-content: space-between;">
+                <span>📊 Landed Cost vs Vashi Benchmark</span>
+                <span style="color: #0c5a36;">Save ${adv.savingsPerKg}</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); gap: 4px; text-align: center;">
+                <div style="background: #ffffff; padding: 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                  <span style="color: #64748b; display: block; font-size: 0.65rem;">Farm-Gate</span>
+                  <strong>₹ ${adv.landedCostBreakdown.farmgatePriceKg.toFixed(2)}</strong>
+                </div>
+                <div style="background: #ffffff; padding: 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                  <span style="color: #64748b; display: block; font-size: 0.65rem;">Freight</span>
+                  <strong>+ ₹ ${adv.landedCostBreakdown.freightKg.toFixed(2)}</strong>
+                </div>
+                <div style="background: #ffffff; padding: 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                  <span style="color: #64748b; display: block; font-size: 0.65rem;">Landed</span>
+                  <strong style="color: #0c5a36;">₹ ${adv.landedCostBreakdown.totalLandedCostKg.toFixed(2)}</strong>
+                </div>
+                <div style="background: #ffffff; padding: 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                  <span style="color: #64748b; display: block; font-size: 0.65rem;">Terminal</span>
+                  <strong style="color: #dc2626;">₹ ${adv.landedCostBreakdown.terminalBenchmarkKg.toFixed(2)}</strong>
+                </div>
+                <div style="background: #ecfdf5; padding: 4px; border-radius: 4px; border: 1px solid #a7f3d0;">
+                  <span style="color: #047857; display: block; font-size: 0.65rem;">Target Bid</span>
+                  <strong style="color: #065f46;">₹ ${adv.landedCostBreakdown.recommendedTargetBidKg.toFixed(2)}</strong>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Budget Basket Mix Allocation (if requested) -->
+          ${basket && basket.length > 0 ? `
+            <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 8px 10px; margin-bottom: 10px;">
+              <strong style="font-size: 0.76rem; color: #92400e; display: block; margin-bottom: 4px;">💼 Basket Allocation:</strong>
+              <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.72rem;">
+                ${basket.map(item => `
+                  <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 4px 8px; border-radius: 4px; border: 1px solid #fef3c7;">
+                    <div>
+                      <strong>${item.crop}</strong>
+                      <span style="color: #64748b; font-size: 0.68rem; margin-left: 4px;">📍 ${item.location}</span>
+                    </div>
+                    <div style="text-align: right;">
+                      <strong style="color: #0c5a36;">₹ ${item.allocatedAmount.toLocaleString('en-IN')}</strong>
+                      <span style="color: #475569; font-size: 0.68rem;"> (${item.estimatedQuantityQt} Qt)</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Matched Verified Farm Lots -->
+          ${lots.length > 0 ? `
+            <div style="margin-bottom: 4px;">
+              <strong style="font-size: 0.78rem; color: #0f172a; display: block; margin-bottom: 6px;">Verified Farm Lots:</strong>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                ${lots.map(lot => {
+                  const kgPrice = Number(lot.pricePerKg || 20).toFixed(2);
+                  return `
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <img src="${lot.image || 'assets/images/tomato.jpg'}" alt="${lot.crop}" style="width: 32px; height: 32px; border-radius: 6px; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
+                        <div>
+                          <div style="display: flex; align-items: center; gap: 4px;">
+                            <strong style="font-size: 0.82rem; color: #0f172a;">${lot.crop}</strong>
+                            <span class="badge badge-grade-a" style="font-size: 0.6rem; padding: 1px 4px;">${lot.grade}</span>
+                          </div>
+                          <span style="font-size: 0.68rem; color: #64748b;">${lot.farmerName} • 📍 ${lot.farmerLocation}</span>
+                        </div>
+                      </div>
+
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="text-align: right;">
+                          <strong style="font-size: 0.88rem; color: #0c5a36;">₹ ${kgPrice}/kg</strong>
+                          <div style="font-size: 0.65rem; color: #64748b;">Qty: <strong>${lot.quantity}</strong></div>
+                        </div>
+
+                        <!-- 1-Click Action Buttons -->
+                        <div style="display: flex; gap: 3px; flex-wrap: wrap;">
+                          <button class="btn btn-outline btn-sm" onclick="closeCopilotModal(); openFarmerChat('${lot.id}')" style="font-size: 0.66rem; padding: 3px 5px;" title="Chat">💬</button>
+                          <button class="btn btn-outline btn-sm" onclick="toggleLotComparison('${lot.id}')" style="font-size: 0.66rem; padding: 3px 5px;" title="Compare">⚖️</button>
+                          <button class="btn btn-outline btn-sm" onclick="triggerCopilotPO('${lot.id}')" style="font-size: 0.66rem; padding: 3px 6px; color: #0c5a36; border-color: #86efac;" title="Generate PO">📄 PO</button>
+                          <button class="btn btn-primary btn-sm" onclick="closeCopilotModal(); openDirectBuyModal('${lot.id}')" style="font-size: 0.66rem; padding: 3px 8px; background: #0c5a36; border-color: #0c5a36; font-weight: 700;">⚡ Buy</button>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+        </div>
       </div>
     `;
 
-    setTimeout(() => {
-      // Find matching knowledge or fallback
-      let matched = COPILOT_KNOWLEDGE.find(k => k.keywords.some(kw => lower.includes(kw)));
-      if (!matched) matched = COPILOT_KNOWLEDGE[0]; // fallback to onion
+    thread.insertAdjacentHTML('beforeend', cardHtml);
+    scrollChatToBottom();
+  }
 
-      // Find matching lots from buyerData
-      const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots : [];
-      const relevantLots = lots.filter(l => 
-        matched.matchedLotIds.includes(l.id) || 
-        l.crop.toLowerCase().includes(matched.cropKey) ||
-        lower.includes(l.crop.toLowerCase().split(' ')[0])
-      );
+  function renderLocalFallbackResponse(query) {
+    const thread = document.getElementById('copilot-chat-thread');
+    if (!thread) return;
 
-      container.innerHTML = `
-        <div style="animation: fadeInView 0.25s ease;">
-          
-          <!-- AI Advisory Header Box -->
-          <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1.5px solid #86efac; border-radius: 12px; padding: 18px; margin-bottom: 16px;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 1.3rem;">🧠</span>
-                <strong style="color: #064e3b; font-size: 1rem;">${matched.title}</strong>
-              </div>
-              <span class="badge badge-grade-a" style="background: #0c5a36; color: #fff;">${matched.arbitrageSpread}</span>
-            </div>
-            
-            <p style="font-size: 0.85rem; color: #14532d; line-height: 1.5; margin: 0 0 12px 0;">
-              ${matched.recommendation}
-            </p>
+    const lower = query.toLowerCase();
+    const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots : [];
+    const matchedLots = lots.filter(l => lower.includes(l.crop.toLowerCase().split(' ')[0]) || lower.includes('onion') || lower.includes('tomato'));
+    const finalLots = matchedLots.length > 0 ? matchedLots : lots.slice(0, 2);
 
-            <div style="display: flex; gap: 14px; font-size: 0.76rem; color: #166534; font-weight: 700; flex-wrap: wrap; border-top: 1px dashed #86efac; padding-top: 8px;">
-              <span>⏱️ Optimal Timing: <strong>${matched.optimalWindow}</strong></span>
-              <span>•</span>
-              <span>🛡️ Zero-Risk Escrow: <strong>35% Advance Lock</strong></span>
-              <span>•</span>
-              <span>📍 Delivery: <strong>Vashi Central Hub, Navi Mumbai</strong></span>
-            </div>
-          </div>
+    const fallbackData = {
+      advisory: {
+        title: "AgriNex Local Intelligence Advisory",
+        recommendation: `Verified farm-gate lots matched in Maharashtra APMC zones. Direct procurement provides approx ₹ 3.20/kg savings over terminal middleman rates with 35% escrow guarantee.`,
+        buySignal: "BUY_NOW",
+        signalBadge: "🟢 BUY NOW (Optimal Margin)",
+        arbitrageSpread: "+16.8% Margin Advantage",
+        savingsPerKg: "₹ 3.40 /kg",
+        optimalWindow: "Next 24–48 Hours",
+        landedCostBreakdown: {
+          farmgatePriceKg: 18.00,
+          freightKg: 1.60,
+          mandiCessKg: 0.27,
+          handlingColdChainKg: 0.40,
+          totalLandedCostKg: 20.27,
+          terminalBenchmarkKg: 24.50,
+          recommendedTargetBidKg: 19.50
+        }
+      },
+      matchedLots: finalLots.map(l => ({
+        id: l.id,
+        crop: l.crop,
+        quantity: l.quantity,
+        pricePerKg: l.pricePerKg || 18,
+        grade: l.grade || "Grade A",
+        farmerName: l.farmerName,
+        farmerLocation: l.farmerLocation,
+        image: l.image,
+        trustScore: "4.9 ⭐"
+      }))
+    };
 
-          <!-- Matched Verified Lots -->
-          <div style="margin-bottom: 12px;">
-            <strong style="font-size: 0.88rem; color: #0f172a; display: block; margin-bottom: 8px;">Recommended Verified Farm-Gate Lots:</strong>
-            
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-              ${(relevantLots.length > 0 ? relevantLots : lots.slice(0, 2)).map(lot => {
-                const kgPrice = lot.pricePerKg || (lot.priceNum / 100).toFixed(2);
-                return `
-                  <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                      <img src="${lot.image}" alt="${lot.crop}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
-                      <div>
-                        <div style="display: flex; align-items: center; gap: 6px;">
-                          <strong style="font-size: 0.92rem; color: #0f172a;">${lot.crop}</strong>
-                          <span class="badge ${lot.gradeBadgeClass || 'badge-grade-a'}" style="font-size: 0.68rem; padding: 1px 6px;">${lot.grade}</span>
-                        </div>
-                        <span style="font-size: 0.74rem; color: #64748b;">Farmer: <strong>${lot.farmerName}</strong> • 📍 ${lot.farmerLocation} • Rating: <strong>${lot.trustScore || '4.9 ⭐'}</strong></span>
-                      </div>
-                    </div>
+    renderAIResponseCard(fallbackData, query);
+  }
 
-                    <div style="display: flex; align-items: center; gap: 16px;">
-                      <div style="text-align: right;">
-                        <strong style="font-size: 1.05rem; color: #0c5a36;">₹ ${kgPrice} /kg</strong>
-                        <div style="font-size: 0.72rem; color: #64748b;">${lot.askPrice} • Qty: <strong>${lot.quantity}</strong></div>
-                      </div>
-                      
-                      <div style="display: flex; gap: 6px;">
-                        <button class="btn btn-outline btn-sm" onclick="closeCopilotModal(); openFarmerChat('${lot.id}')" style="font-size: 0.75rem; padding: 5px 9px;">💬 Chat</button>
-                        <button class="btn btn-primary btn-sm" onclick="closeCopilotModal(); openDirectBuyModal('${lot.id}')" style="font-size: 0.75rem; padding: 5px 12px; background: #0c5a36; border-color: #0c5a36; font-weight: 700;">⚡ Direct Buy</button>
-                      </div>
-                    </div>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          </div>
-
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid #f1f5f9;">
-            <button class="btn btn-outline btn-sm" onclick="renderCopilotDefault()" style="font-size: 0.78rem;">&larr; Ask Another Query</button>
-            <button class="btn btn-primary btn-sm" onclick="closeCopilotModal(); switchView('view-insights');" style="font-size: 0.78rem; background: #0284c7; border-color: #0284c7;">📈 Open Full APMC Market Insights</button>
-          </div>
-
-        </div>
-      `;
-    }, 600);
+  function escapeHtml(text) {
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return String(text).replace(/[&<>"']/g, m => map[m]);
   }
 
   // =========================================================================
@@ -682,26 +1167,38 @@
     const facId = facilityId || 'WH-NSK-01';
     const chambers = WAREHOUSE_CHAMBERS_MAP[facId] || WAREHOUSE_CHAMBERS_MAP["WH-NSK-01"];
 
+    const curLang = (typeof currentLang !== 'undefined' ? currentLang : (typeof AgriNexI18n !== 'undefined' && AgriNexI18n.getBuyerLanguage ? AgriNexI18n.getBuyerLanguage() : 'en'));
+
+    const lblLiveSlot = curLang === 'mr' ? '● थेट स्लॉट' : (curLang === 'hi' ? '● लाइव स्लॉट' : '● Live Slot');
+    const lblCap = curLang === 'mr' ? 'क्षमता:' : (curLang === 'hi' ? 'क्षमता:' : 'Capacity:');
+    const lblFilled = curLang === 'mr' ? 'भरलेले' : (curLang === 'hi' ? 'भरा हुआ' : 'Filled');
+    const lblAvail = curLang === 'mr' ? 'उपलब्ध:' : (curLang === 'hi' ? 'उपलब्ध:' : 'Avail:');
+    const lblSelect = curLang === 'mr' ? 'निवडा &rarr;' : (curLang === 'hi' ? 'चुनें &rarr;' : 'Select &rarr;');
+
     container.innerHTML = `
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
         ${chambers.map(ch => {
           const occColor = ch.occPct > 75 ? '#dc2626' : (ch.occPct > 60 ? '#d97706' : '#166534');
+          const typeTrans = window.tWarehouse ? window.tWarehouse(ch.type) : (window.tText ? window.tText(ch.type) : ch.type);
+          const capTrans = window.tText ? window.tText(ch.capacity) : ch.capacity;
+          const availTrans = window.tText ? window.tText(ch.available) : ch.available;
+
           return `
             <div class="chamber-slot-card" onclick="selectChamberSlot('${ch.chamber}', '${ch.type}', '${ch.available}')" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 12px; cursor: pointer; transition: all 0.2s ease;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                 <strong style="font-size: 0.88rem; color: #0f172a;">${ch.chamber}</strong>
-                <span style="font-size: 0.68rem; font-weight: 800; background: #e8f5ed; color: #0c5a36; padding: 1px 6px; border-radius: 4px;">● Live Slot</span>
+                <span style="font-size: 0.68rem; font-weight: 800; background: #e8f5ed; color: #0c5a36; padding: 1px 6px; border-radius: 4px;">${lblLiveSlot}</span>
               </div>
               
               <div style="font-size: 0.74rem; color: #64748b; margin-bottom: 8px;">
-                ${ch.type} • <strong>${ch.temp}</strong> (${ch.humidity} RH)
+                ${typeTrans} • <strong>${ch.temp}</strong> (${ch.humidity} RH)
               </div>
 
               <!-- Occupancy Progress Bar -->
               <div style="margin-bottom: 6px;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #64748b; margin-bottom: 2px;">
-                  <span>Capacity: ${ch.capacity}</span>
-                  <span style="font-weight: 700; color: ${occColor};">${ch.occPct}% Filled</span>
+                  <span>${lblCap} ${capTrans}</span>
+                  <span style="font-weight: 700; color: ${occColor};">${ch.occPct}% ${lblFilled}</span>
                 </div>
                 <div style="background: #f1f5f9; height: 6px; border-radius: 999px; overflow: hidden;">
                   <div style="width: ${ch.occPct}%; height: 100%; background: ${occColor}; border-radius: 999px;"></div>
@@ -709,8 +1206,8 @@
               </div>
 
               <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: #166534; font-weight: 700; background: #f0fdf4; padding: 4px 8px; border-radius: 6px;">
-                <span>Avail: ${ch.available}</span>
-                <span>Select &rarr;</span>
+                <span>${lblAvail} ${availTrans}</span>
+                <span>${lblSelect}</span>
               </div>
             </div>
           `;
@@ -729,6 +1226,12 @@
   window.closeCopilotModal = closeCopilotModal;
   window.askCopilot = askCopilot;
   window.handleCopilotSubmit = handleCopilotSubmit;
+  window.setCopilotLanguage = setCopilotLanguage;
+  window.toggleCopilotSpeechRecognition = toggleCopilotSpeechRecognition;
+  window.playCopilotTTS = playCopilotTTS;
+  window.stopCopilotTTS = stopCopilotTTS;
+  window.clearCopilotChat = clearCopilotChat;
+  window.triggerCopilotPO = triggerCopilotPO;
   window.generateAndOpenPO = generateAndOpenPO;
   window.closeDigitalPOModal = closeDigitalPOModal;
   window.printDigitalPO = printDigitalPO;

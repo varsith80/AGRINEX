@@ -476,7 +476,7 @@ function executeBuyerLotPurchase(lotId, customPricePerKg = null, customQtyKg = n
 
         <!-- Action Footer -->
         <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 12px; font-size: 0.82rem; flex-wrap: wrap; gap: 10px;">
-          <span style="color: #64748b;">Transit Vehicle: <strong style="color: #0f172a;">${newConsignment.vehicle}</strong> • Driver: <strong style="color: #0f172a;">${newConsignment.driver} (${newConsignment.driver_phone})</strong></span>
+          <span style="color: #64748b;">Transit Vehicle: <strong style="color: #0f172a;">${window.tVehicle ? window.tVehicle(newConsignment.vehicle) : newConsignment.vehicle}</strong> • Driver: <strong style="color: #0f172a;">${window.tPerson ? window.tPerson(newConsignment.driver) : newConsignment.driver} (${newConsignment.driver_phone})</strong></span>
           <button class="btn btn-primary btn-sm" id="btn-escrow-vault-release-${trackingId}" onclick="openArrivalReleaseModal('${contractNo}', '${lot.crop}', ${balAmount}, '${lot.farmerName}', ${totalVal}, ${advAmount}, 'escrow-card-${trackingId}')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 800; padding: 7px 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(12,90,54,0.2);">
             Release 65% Balance (₹ ${balAmount.toLocaleString('en-IN')})
           </button>
@@ -711,7 +711,11 @@ function showToast(message, type = 'success') {
 
   document.body.appendChild(toast);
   setTimeout(() => {
-    toast.remove();
+    if (toast && typeof toast.remove === 'function') {
+      toast.remove();
+    } else if (toast && toast.parentNode) {
+      toast.parentNode.removeChild(toast);
+    }
   }, 4000);
 }
 
@@ -2051,6 +2055,38 @@ function openFarmerChat(lotId) {
   showToast(`💬 Direct negotiation room opened with ${farmerObj.name} (${farmerObj.crop})!`);
 }
 
+// Start direct chat negotiation from Demand Bids Modal
+function startNegotiationWithFarmer(farmerName, crop, bidPriceNum, demandId) {
+  closeDemandBidsModal();
+  const cleanName = farmerName || 'Farmer Partner';
+  const slug = cleanName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+  const kgPrice = bidPriceNum ? (bidPriceNum / 100).toFixed(0) : '20';
+
+  if (!chatConversations[slug]) {
+    chatConversations[slug] = {
+      name: cleanName,
+      avatar: 'assets/images/farmer-avatar.jpg',
+      status: '● Online • APMC Verified Direct Farmer',
+      lotId: demandId || 'DEMAND-BID',
+      crop: crop || 'Produce',
+      farmerPhone: '+91 98422-00000',
+      offerText: `Farmer Quota Bid: <strong style="color: #0c5a36;">₹ ${kgPrice} /kg</strong> for ${crop || 'Produce'}`,
+      counterRate: bidPriceNum || 2000,
+      lockRateText: `Lock 35% Escrow (₹ ${kgPrice}/kg)`,
+      messages: [
+        { type: "incoming", text: `Namaste sir! I have placed a quotation bid on your demand #${demandId || ''} for ${crop || 'produce'} at ₹ ${kgPrice}/kg. Let's discuss delivery schedule!` }
+      ]
+    };
+  }
+
+  renderChatSidebar();
+  selectChatContact(slug);
+  switchView('view-messages');
+
+  const farmerObj = chatConversations[slug];
+  showToast(`💬 Direct negotiation room opened with ${farmerObj.name} (${farmerObj.crop})!`);
+}
+
 function sendChatMessage() {
   const input = document.getElementById('chat-input-field');
   const container = document.getElementById('chat-messages-container');
@@ -2504,7 +2540,7 @@ function renderBuyerConsignments() {
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.8rem; margin-bottom: 14px;">
                   <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;">
                     <span style="color: #64748b; font-size: 0.68rem; display: block; text-transform: uppercase;">${window.tText ? window.tText('Vehicle & Model') : 'Vehicle & Model'}</span>
-                    <strong style="color: #0f172a; font-size: 0.82rem;">${s.vehicle}</strong>
+                    <strong style="color: #0f172a; font-size: 0.82rem;">${window.tVehicle ? window.tVehicle(s.vehicle) : s.vehicle}</strong>
                   </div>
                   <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;">
                     <span style="color: #64748b; font-size: 0.68rem; display: block; text-transform: uppercase;">${window.tText ? window.tText('Commercial DL No.') : 'Commercial DL No.'}</span>
@@ -2573,7 +2609,7 @@ function renderBuyerConsignments() {
           <div style="display: flex; align-items: center; gap: 8px;">
             <strong style="font-size: 1.05rem; color: #0f172a; font-family: monospace;">#${s.tracking_id}</strong>
             <span style="color: #cbd5e1;">|</span>
-            <span style="font-size: 0.82rem; color: #0c5a36; font-weight: 800; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 6px;">🚛 ${s.vehicle}</span>
+            <span style="font-size: 0.82rem; color: #0c5a36; font-weight: 800; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 6px;">🚛 ${window.tVehicle ? window.tVehicle(s.vehicle) : s.vehicle}</span>
           </div>
           <span style="background: ${statusBadgeBg}; color: ${statusBadgeColor}; border: 1px solid ${statusBadgeBorder}; padding: 4px 12px; border-radius: 999px; font-size: 0.76rem; font-weight: 800;">
             ● ${statusLabel}
@@ -2614,7 +2650,7 @@ function renderBuyerConsignments() {
               <span>👨‍✈️ ${window.tPerson ? window.tPerson(s.driver) : s.driver}</span>
               <span style="font-size: 0.68rem; background: #e0f2fe; color: #0369a1; padding: 1px 6px; border-radius: 4px; font-weight: 800;">${s.transporter ? s.transporter.split(' ')[0] : 'Transit'}</span>
             </div>
-            <div style="color: #334155; font-size: 0.82rem; font-weight: 700;">🚛 ${s.vehicle}</div>
+            <div style="color: #334155; font-size: 0.82rem; font-weight: 700;">🚛 ${window.tVehicle ? window.tVehicle(s.vehicle) : s.vehicle}</div>
             <div style="font-size: 0.78rem; display: flex; gap: 8px; align-items: center; margin-top: 3px;">
               <a href="tel:${s.driver_phone}" style="color: #0284c7; text-decoration: none; font-weight: 800;">📞 ${s.driver_phone}</a>
               ${s.temp ? `<span style="color: #059669; font-size: 0.74rem; font-weight: 800; background: #ecfdf5; padding: 1px 6px; border-radius: 4px;">🌡️ ${s.temp.split(' ')[0]}</span>` : ''}
@@ -2700,7 +2736,7 @@ function openDriverFleetModal(trackingId) {
     const callTxt = isMr ? 'कॉल' : (isHi ? 'कॉल' : 'Call');
     callBtn.innerHTML = `<span>📞</span> ${callTxt} (${s.driver_phone})`;
   }
-  if (vehEl) vehEl.textContent = s.vehicle;
+  if (vehEl) vehEl.textContent = window.tVehicle ? window.tVehicle(s.vehicle) : s.vehicle;
   if (dlEl) dlEl.textContent = s.dl_no || 'DL-MH-15-2022-4412';
   
   const qtyKg = s.quantity_kg || (s.quantity_qt * 100);
@@ -2775,7 +2811,7 @@ function openLorryReceiptModal(trackingId) {
     if (subEl) subEl.textContent = `${lrTxt}: LR-${s.tracking_id.replace(/[^0-9]/g, '') || '9921'} • ${logTxt}`;
     const unitQt = isMr ? 'क्विंटल' : (isHi ? 'क्विंटल' : 'Qt');
     if (cropEl) cropEl.textContent = `${s.quantity_qt} ${unitQt} ${tCrop(s.crop)}`;
-    if (vehEl) vehEl.textContent = s.vehicle;
+    if (vehEl) vehEl.textContent = window.tVehicle ? window.tVehicle(s.vehicle) : s.vehicle;
     if (driverEl) driverEl.textContent = `${tP(s.driver)} (${s.driver_phone})`;
   } else if (trackingId) {
     const titleEl = document.getElementById('lr-id-display');
@@ -3150,6 +3186,9 @@ function renderGrievances(filterStatus = 'all') {
   const container = document.getElementById('grievances-list-container');
   if (!container || !buyerData.grievances) return;
 
+  const isMr = typeof window.getBuyerLanguage === 'function' && window.getBuyerLanguage() === 'mr';
+  const isHi = typeof window.getBuyerLanguage === 'function' && window.getBuyerLanguage() === 'hi';
+
   let grievances = [...buyerData.grievances];
   if (filterStatus === 'open') {
     grievances = grievances.filter(g => g.status === 'Under Review');
@@ -3157,26 +3196,59 @@ function renderGrievances(filterStatus = 'all') {
     grievances = grievances.filter(g => g.status.includes('Resolved'));
   }
 
-  // Update Summary Counts
+  // Update Summary Counts & Filter Tab Labels
   const openCount = buyerData.grievances.filter(g => g.status === 'Under Review').length;
   const resolvedCount = buyerData.grievances.filter(g => g.status.includes('Resolved')).length;
+  const allCount = buyerData.grievances.length;
 
   const countBadgeEl = document.getElementById('grv-active-count');
-  if (countBadgeEl) countBadgeEl.textContent = `${openCount} Case${openCount === 1 ? '' : 's'}`;
+  if (countBadgeEl) {
+    const caseSuffix = isMr ? 'प्रकरण' : (isHi ? 'मामला' : 'Case');
+    const casesSuffix = isMr ? 'प्रकरणे' : (isHi ? 'मामले' : 'Cases');
+    countBadgeEl.textContent = `${openCount} ${openCount === 1 ? caseSuffix : casesSuffix}`;
+  }
 
   const resolvedBadgeEl = document.getElementById('grv-resolved-count');
-  if (resolvedBadgeEl) resolvedBadgeEl.textContent = `${resolvedCount} Case${resolvedCount === 1 ? '' : 's'}`;
+  if (resolvedBadgeEl) {
+    const caseSuffix = isMr ? 'प्रकरण' : (isHi ? 'मामला' : 'Case');
+    const casesSuffix = isMr ? 'प्रकरणे' : (isHi ? 'मामले' : 'Cases');
+    resolvedBadgeEl.textContent = `${resolvedCount} ${resolvedCount === 1 ? caseSuffix : casesSuffix}`;
+  }
+
+  const filterAllBtn = document.getElementById('filter-grv-all');
+  if (filterAllBtn) filterAllBtn.textContent = `${isMr ? 'सर्व दावे' : (isHi ? 'सभी दावे' : 'All Claims')} (${allCount})`;
+
+  const filterOpenBtn = document.getElementById('filter-grv-open');
+  if (filterOpenBtn) filterOpenBtn.textContent = `${isMr ? 'चौकशी सुरू' : (isHi ? 'समीक्षाधीन' : 'Under Review')} (${openCount})`;
+
+  const filterResolvedBtn = document.getElementById('filter-grv-resolved');
+  if (filterResolvedBtn) filterResolvedBtn.textContent = `${isMr ? 'निवारण पूर्ण' : (isHi ? 'निपटान पूर्ण' : 'Resolved & Settled')} (${resolvedCount})`;
 
   if (grievances.length === 0) {
+    const emptyTitle = isMr ? 'कोणतीही तक्रार आढळली नाही' : (isHi ? 'कोई शिकायत नहीं मिली' : 'No Grievances Found');
+    const emptyDesc = isMr ? 'तुमच्या सर्व खेपा आणि गुणवत्ता तपासण्या कोणत्याही सक्रिय वादाशिवाय सुरळीत सुरू आहेत.' : (isHi ? 'आपकी सभी खेप और गुणवत्ता परीक्षण बिना किसी सक्रिय विवाद के सुचारू रूप से चल रहे हैं।' : 'All your consignments and quality assays are running smoothly without active disputes.');
     container.innerHTML = `
       <div style="background: #ffffff; border-radius: 12px; border: 1px solid var(--border-default); padding: 40px 20px; text-align: center; color: #64748b;">
         <div style="font-size: 2.2rem; margin-bottom: 8px;">🛡️</div>
-        <h4 style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin-bottom: 4px;">No Grievances Found</h4>
-        <p style="font-size: 0.85rem;">All your consignments and quality assays are running smoothly without active disputes.</p>
+        <h4 style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin-bottom: 4px;">${emptyTitle}</h4>
+        <p style="font-size: 0.85rem;">${emptyDesc}</p>
       </div>
     `;
     return;
   }
+
+  const trT = (t) => (window.tText ? window.tText(t) : t);
+  const trS = (t) => (window.tStatus ? window.tStatus(t) : (window.tText ? window.tText(t) : t));
+
+  const filedLabel = isMr ? 'दाखल:' : (isHi ? 'दाखिल:' : 'Filed:');
+  const consignmentLabel = isMr ? 'खेप:' : (isHi ? 'खेप:' : 'Consignment:');
+  const farmerSourceLabel = isMr ? 'शेतकरी / स्रोत' : (isHi ? 'किसान / स्रोत' : 'Farmer / Source');
+  const disputeCatLabel = isMr ? 'तक्रार वर्ग:' : (isHi ? 'विवाद श्रेणी:' : 'Dispute Category:');
+  const stepperTitle = isMr ? 'निवारण प्रगती व स्मार्ट करार टप्पे:' : (isHi ? 'निवारण प्रगति एवं स्मार्ट अनुबंध चरण:' : 'Redressal Progress & Smart Contract Milestones:');
+  const btnDossier = isMr ? '📄 पुरावा संचिका पहा' : (isHi ? '📄 साक्ष्य दस्तावेज देखें' : '📄 View Evidence Dossier');
+  const btnMsg = isMr ? '💬 लवादांशी संवाद साधा' : (isHi ? '💬 मध्यस्थ को संदेश भेजें' : '💬 Message Arbitrator');
+  const btnSettle = isMr ? '✓ ५% भाव सूट स्वीकारा (₹ ३,९००)' : (isHi ? '✓ 5% मूल्य छूट स्वीकार करें (₹ 3,900)' : '✓ Settle & Accept 5% Price Rebate (₹ 3,900)');
+  const settledBadge = isMr ? '✓ तक्रार निवारण पूर्ण व एस्क्रो मुक्त' : (isHi ? '✓ दावा निपटारा पूर्ण एवं एस्क्रो जारी' : '✓ Claim Settled & Escrow Released');
 
   container.innerHTML = grievances.map(grv => {
     const isUnderReview = grv.status === 'Under Review';
@@ -3184,6 +3256,7 @@ function renderGrievances(filterStatus = 'all') {
     const statusColor = isUnderReview ? '#b45309' : '#15803d';
     const statusBorder = isUnderReview ? 'rgba(234, 179, 8, 0.3)' : 'rgba(34, 197, 94, 0.3)';
     const statusDot = isUnderReview ? '🟡' : '✅';
+    const statusText = trS(grv.status);
 
     const timelineHtml = (grv.timeline || []).map((tl, idx) => `
       <div class="stepper-step" style="flex: 1; text-align: center; position: relative;">
@@ -3191,10 +3264,10 @@ function renderGrievances(filterStatus = 'all') {
           ${tl.done ? '✓' : (idx + 1)}
         </div>
         <div class="stepper-label" style="font-size: 0.74rem; font-weight: 700; color: ${tl.done ? '#0f172a' : '#94a3b8'};">
-          ${tl.step}
+          ${trT(tl.step)}
         </div>
         <div style="font-size: 0.65rem; color: #64748b; margin-top: 2px;">
-          ${tl.time}
+          ${trT(tl.time)}
         </div>
       </div>
     `).join('');
@@ -3209,19 +3282,19 @@ function renderGrievances(filterStatus = 'all') {
                 ${grv.id}
               </span>
               <span style="background: ${statusBg}; color: ${statusColor}; border: 1px solid ${statusBorder}; font-weight: 800; font-size: 0.76rem; padding: 4px 12px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
-                ${statusDot} ${grv.status}
+                ${statusDot} ${statusText}
               </span>
               <span style="font-size: 0.76rem; color: #64748b; font-weight: 500;">
-                Filed: ${grv.dateFiled}
+                ${filedLabel} ${trT(grv.dateFiled)}
               </span>
             </div>
             <div style="font-size: 0.88rem; color: #334155; font-weight: 600;">
-              Consignment: <strong style="color: #0f172a;">${grv.consignmentId || 'LOT-CONS-992'}</strong> • <span style="color: #059669; font-weight: 700;">${window.tCrop ? window.tCrop(grv.crop) : grv.crop}</span>
+              ${consignmentLabel} <strong style="color: #0f172a;">${grv.consignmentId || 'LOT-CONS-992'}</strong> • <span style="color: #059669; font-weight: 700;">${window.tCrop ? window.tCrop(grv.crop) : grv.crop}</span>
             </div>
           </div>
 
           <div style="text-align: right; background: #f8fafc; padding: 8px 14px; border-radius: 10px; border: 1px solid #e2e8f0;">
-            <span style="font-size: 0.72rem; color: #64748b; display: block; text-transform: uppercase; font-weight: 700; letter-spacing: 0.03em;">Farmer / Source</span>
+            <span style="font-size: 0.72rem; color: #64748b; display: block; text-transform: uppercase; font-weight: 700; letter-spacing: 0.03em;">${farmerSourceLabel}</span>
             <strong style="font-size: 0.88rem; color: #0f172a;">${window.tPerson ? window.tPerson(grv.farmerName) : grv.farmerName}</strong>
           </div>
         </div>
@@ -3230,21 +3303,21 @@ function renderGrievances(filterStatus = 'all') {
         <div style="background: #f8fafc; border-left: 4px solid ${isUnderReview ? '#d97706' : '#059669'}; border-radius: 8px; padding: 14px 16px; margin-bottom: 18px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
             <span style="font-size: 0.78rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.04em;">
-              Dispute Category: <span style="color: #0f172a;">${window.tText ? window.tText(grv.category) : grv.category}</span>
+              ${disputeCatLabel} <span style="color: #0f172a;">${trT(grv.category)}</span>
             </span>
             <span style="font-size: 0.78rem; font-weight: 800; color: #dc2626; background: #fee2e2; border: 1px solid #fecaca; padding: 3px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
-              🔒 ${grv.amountUnderHold}
+              🔒 ${trT(grv.amountUnderHold)}
             </span>
           </div>
           <div style="font-size: 0.84rem; color: #1e293b; line-height: 1.5; font-weight: 500;">
-            ${window.tText ? window.tText(grv.description) : grv.description}
+            ${trT(grv.description)}
           </div>
         </div>
 
         <!-- 4-Step Interactive Timeline Stepper -->
         <div style="margin-bottom: 20px; padding: 16px 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);">
           <div style="font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 14px; padding-left: 4px;">
-            Redressal Progress & Smart Contract Milestones:
+            ${stepperTitle}
           </div>
           <div class="stepper" style="display: flex; justify-content: space-between; position: relative;">
             ${timelineHtml}
@@ -3254,21 +3327,21 @@ function renderGrievances(filterStatus = 'all') {
         <!-- Action Buttons -->
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 14px; border-top: 1px solid #f1f5f9;">
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button class="btn btn-outline btn-sm" onclick="showToast('Loading digital assay certificate & weighbridge audit slip for ${grv.id}...', 'success')" style="border-radius: 8px; font-weight: 700; padding: 7px 14px;">
-              📄 View Evidence Dossier
+            <button class="btn btn-outline btn-sm" onclick="showToast('${isMr ? 'डिजिटल लॅब प्रमाणपत्र लोड करत आहे...' : (isHi ? 'डिजिटल प्रयोगशाला प्रमाण पत्र लोड हो रहा है...' : 'Loading digital assay certificate...')}', 'success')" style="border-radius: 8px; font-weight: 700; padding: 7px 14px;">
+              ${btnDossier}
             </button>
-            <button class="btn btn-outline btn-sm" onclick="switchView('view-messages'); showToast('Opening direct grievance chat channel with AgriNex QA Desk...');" style="border-radius: 8px; font-weight: 700; padding: 7px 14px;">
-              💬 Message Arbitrator
+            <button class="btn btn-outline btn-sm" onclick="switchView('view-messages'); showToast('${isMr ? 'AgriNex QA लवादांशी संवाद सुरू करत आहे...' : (isHi ? 'AgriNex QA मध्यस्थ डेस्क से संवाद खोल रहे हैं...' : 'Opening direct grievance chat...') }');" style="border-radius: 8px; font-weight: 700; padding: 7px 14px;">
+              ${btnMsg}
             </button>
           </div>
 
           ${isUnderReview ? `
             <button class="btn btn-primary btn-sm" onclick="acceptGrievanceResolution('${grv.id}')" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border-color: #047857; border-radius: 8px; font-weight: 800; padding: 8px 16px; box-shadow: 0 3px 10px rgba(5,150,105,0.25);">
-              ✓ Settle & Accept 5% Price Rebate (₹ 3,900)
+              ${btnSettle}
             </button>
           ` : `
             <span style="font-size: 0.82rem; font-weight: 800; color: #15803d; background: #dcfce7; border: 1px solid #bbf7d0; padding: 6px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;">
-              ✓ Claim Settled & Escrow Released
+              ${settledBadge}
             </span>
           `}
         </div>
@@ -3276,6 +3349,10 @@ function renderGrievances(filterStatus = 'all') {
       </div>
     `;
   }).join('');
+
+  if (typeof window.walkAndTranslateDOM === 'function') {
+    window.walkAndTranslateDOM(container);
+  }
 }
 
 // Form Handlers
@@ -3985,11 +4062,33 @@ function renderStorageFacilities(filterType = 'all') {
     return;
   }
 
+  const curLang = (typeof currentLang !== 'undefined' ? currentLang : (typeof AgriNexI18n !== 'undefined' && AgriNexI18n.getBuyerLanguage ? AgriNexI18n.getBuyerLanguage() : 'en'));
+
   container.innerHTML = facilities.map(f => {
     const typeBadgeBg = f.typeKey === 'cold-storage' ? '#e0f2fe' : f.typeKey === 'dry-silo' ? '#fef3c7' : '#ffedd5';
     const typeBadgeColor = f.typeKey === 'cold-storage' ? '#0369a1' : f.typeKey === 'dry-silo' ? '#92400e' : '#c2410c';
     const topAccentBorder = f.typeKey === 'cold-storage' ? '#0284c7' : f.typeKey === 'dry-silo' ? '#d97706' : '#ea580c';
     const typeIcon = f.typeKey === 'cold-storage' ? '❄️' : f.typeKey === 'dry-silo' ? '🌾' : '☀️';
+
+    const typeTranslated = window.tWarehouse ? window.tWarehouse(f.type) : (window.tText ? window.tText(f.type) : f.type);
+    const nameTranslated = window.tWarehouse ? window.tWarehouse(f.name) : (window.tText ? window.tText(f.name) : f.name);
+    const locTranslated = window.tLocation ? window.tLocation(f.location) : (window.tText ? window.tText(f.location) : f.location);
+    const tempTranslated = window.tWarehouse ? window.tWarehouse(f.tempRange) : (window.tText ? window.tText(f.tempRange) : f.tempRange);
+    const humidityTranslated = window.tWarehouse ? window.tWarehouse(f.humidity) : (window.tText ? window.tText(f.humidity) : f.humidity);
+    const availCapTranslated = window.tText ? window.tText(f.availableCapacity) : f.availableCapacity;
+    const totalCapTranslated = window.tText ? window.tText(f.totalCapacity) : f.totalCapacity;
+    const tariffTranslated = window.tText ? window.tText(f.tariff) : f.tariff;
+    const tariffPerDayTranslated = window.tText ? window.tText(f.tariffPerDay) : f.tariffPerDay;
+
+    const lblTemp = curLang === 'mr' ? 'तापमान सेन्सर' : (curLang === 'hi' ? 'तापमान टेलीमेट्री' : 'Temp Telemetry');
+    const lblHumidity = curLang === 'mr' ? 'आर्द्रता (RH)' : (curLang === 'hi' ? 'आर्द्रता (RH)' : 'Humidity RH');
+    const lblAvailSpace = curLang === 'mr' ? 'उपलब्ध शीतगृह जागा:' : (curLang === 'hi' ? 'उपलब्ध कक्ष क्षमता:' : 'Available Chamber Space:');
+    const lblAvailPct = curLang === 'mr' ? `${f.availablePct}% उपलब्ध` : (curLang === 'hi' ? `${f.availablePct}% उपलब्ध` : `${f.availablePct}% Open`);
+    const lblTotalVol = curLang === 'mr' ? 'एकूण सुविधा क्षमता:' : (curLang === 'hi' ? 'कुल सुविधा क्षमता:' : 'Total Facility Volume:');
+    const lblSuitable = curLang === 'mr' ? 'अनुकूल कृषी जिन्नस:' : (curLang === 'hi' ? 'अनुकूल फसलें:' : 'Suitable Commodities:');
+    const lblTariff = curLang === 'mr' ? 'भंडारण दर' : (curLang === 'hi' ? 'भंडारण टैरिफ' : 'Storage Tariff');
+    const btnChambers = curLang === 'mr' ? '🔍 कक्ष विवरण' : (curLang === 'hi' ? '🔍 कक्ष विवरण' : '🔍 Chambers');
+    const btnBook = curLang === 'mr' ? '❄️ जागा आरक्षित करा' : (curLang === 'hi' ? '❄️ स्थान बुक करें' : '❄️ Book Space');
 
     return `
       <div class="storage-facility-card" style="border-top: 4px solid ${topAccentBorder};">
@@ -3997,7 +4096,7 @@ function renderStorageFacilities(filterType = 'all') {
           <!-- Facility Card Top Header -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <span class="badge" style="background: ${typeBadgeBg}; color: ${typeBadgeColor}; font-weight: 800; font-size: 0.74rem; padding: 4px 10px; border-radius: 6px;">
-              ${typeIcon} ${f.type}
+              ${typeIcon} ${typeTranslated}
             </span>
             <span style="font-weight: 800; font-size: 0.82rem; color: #0c5a36; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 6px;">
               ⭐ ${f.rating}
@@ -4005,41 +4104,41 @@ function renderStorageFacilities(filterType = 'all') {
           </div>
 
           <h3 style="font-size: 1.08rem; font-weight: 800; color: #0f172a; margin-bottom: 4px; line-height: 1.35;">
-            ${f.name}
+            ${nameTranslated}
           </h3>
           <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 14px; font-weight: 500;">
-            📍 ${window.tLocation ? window.tLocation(f.location) : f.location}
+            📍 ${locTranslated}
           </div>
 
           <!-- IoT Climate Sensors & Specs -->
           <div class="telemetry-badge-box">
             <div>
               <span style="color: #64748b; display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase;">
-                <span class="pulse-live-dot"></span> Temp Telemetry
+                <span class="pulse-live-dot"></span> ${lblTemp}
               </span>
-              <strong style="color: #0c5a36; font-size: 0.85rem;">${f.tempRange}</strong>
+              <strong style="color: #0c5a36; font-size: 0.85rem;">${tempTranslated}</strong>
             </div>
             <div>
-              <span style="color: #64748b; display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase;">Humidity RH</span>
-              <strong style="color: #0284c7; font-size: 0.85rem;">${f.humidity}</strong>
+              <span style="color: #64748b; display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase;">${lblHumidity}</span>
+              <strong style="color: #0284c7; font-size: 0.85rem;">${humidityTranslated}</strong>
             </div>
           </div>
 
           <!-- Capacity Bar -->
           <div style="margin-bottom: 14px;">
             <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 5px;">
-              <span style="color: #64748b; font-weight: 600;">Available Chamber Space:</span>
-              <strong style="color: #0c5a36; font-weight: 800;">${f.availableCapacity} (${f.availablePct}% Open)</strong>
+              <span style="color: #64748b; font-weight: 600;">${lblAvailSpace}</span>
+              <strong style="color: #0c5a36; font-weight: 800;">${availCapTranslated} (${lblAvailPct})</strong>
             </div>
             <div style="width: 100%; height: 9px; background: #e2e8f0; border-radius: 999px; overflow: hidden;">
               <div style="width: ${f.availablePct}%; height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); border-radius: 999px;"></div>
             </div>
-            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px; font-weight: 500;">Total Facility Volume: ${f.totalCapacity}</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px; font-weight: 500;">${lblTotalVol} ${totalCapTranslated}</div>
           </div>
 
           <!-- Suitable Crops Tags -->
           <div style="margin-bottom: 14px;">
-            <span style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;">Suitable Commodities:</span>
+            <span style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;">${lblSuitable}</span>
             <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
               ${f.suitableCrops.map(c => `<span style="font-size: 0.72rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 2px 7px; border-radius: 5px; font-weight: 600;">${window.tCrop ? window.tCrop(c) : c}</span>`).join('')}
             </div>
@@ -4050,18 +4149,18 @@ function renderStorageFacilities(filterType = 'all') {
         <div style="border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 8px;">
           <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;">
             <div>
-              <span style="font-size: 0.7rem; color: #64748b; display: block; font-weight: 600;">Storage Tariff</span>
-              <span style="font-size: 1.1rem; font-weight: 900; color: #0c5a36;">${f.tariff}</span>
+              <span style="font-size: 0.7rem; color: #64748b; display: block; font-weight: 600;">${lblTariff}</span>
+              <span style="font-size: 1.1rem; font-weight: 900; color: #0c5a36;">${tariffTranslated}</span>
             </div>
-            <span style="font-size: 0.76rem; color: #475569; font-weight: 600; background: #f8fafc; padding: 3px 8px; border-radius: 6px; border: 1px solid #e2e8f0;">${f.tariffPerDay}</span>
+            <span style="font-size: 0.76rem; color: #475569; font-weight: 600; background: #f8fafc; padding: 3px 8px; border-radius: 6px; border: 1px solid #e2e8f0;">${tariffPerDayTranslated}</span>
           </div>
 
           <div style="display: flex; gap: 8px;">
             <button class="btn btn-outline btn-sm" onclick="if (window.renderChamberVisualizerForFacility) { window.renderChamberVisualizerForFacility('${f.id}'); showToast('Inspecting 2D chamber slots for ${f.name}...'); }" style="flex: 1; font-size: 0.78rem; font-weight: 700; border-color: #cbd5e1; color: #334155;" title="Inspect Individual Chamber Slots">
-              🔍 Chambers
+              ${btnChambers}
             </button>
             <button class="btn btn-primary btn-sm" onclick="openBookStorageModal('${f.id}')" style="flex: 1.4; background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); border-color: #0c5a36; font-weight: 800; box-shadow: 0 4px 10px rgba(12, 90, 54, 0.25);">
-              ❄️ Book Space
+              ${btnBook}
             </button>
           </div>
         </div>
@@ -4078,49 +4177,66 @@ function renderStorageBookings() {
   const tbody = document.getElementById('storage-bookings-tbody');
   if (!tbody || !buyerData || !buyerData.activeStorageBookings) return;
 
+  const isMr = typeof window.getBuyerLanguage === 'function' && window.getBuyerLanguage() === 'mr';
+  const isHi = typeof window.getBuyerLanguage === 'function' && window.getBuyerLanguage() === 'hi';
+
   if (buyerData.activeStorageBookings.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 24px; color: #64748b;">No active storage chamber holdings currently registered.</td></tr>`;
+    const emptyMsg = isMr ? 'सध्या कोणतीही सक्रिय साठवणूक नोंदणी नाही.' : (isHi ? 'वर्तमान में कोई सक्रिय भंडारण होल्डिंग पंजीकृत नहीं है।' : 'No active storage chamber holdings currently registered.');
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 24px; color: #64748b;">${emptyMsg}</td></tr>`;
     return;
   }
+
+  const trW = (t) => (window.tWarehouse ? window.tWarehouse(t) : (window.tText ? window.tText(t) : t));
+  const trT = (t) => (window.tText ? window.tText(t) : t);
+
+  const lotRefLabel = isMr ? 'लॉट संदर्भ:' : (isHi ? 'लॉट संदर्भ:' : 'Lot Ref:');
+  const costLabel = isMr ? 'खर्च:' : (isHi ? 'लागत:' : 'Cost:');
+  const perMoLabel = isMr ? '/महिना' : (isHi ? '/माह' : '/mo');
+  const loanLabel = isMr ? '⚡ कर्ज:' : (isHi ? '⚡ ऋण:' : '⚡ Loan:');
+  const drawLoanBtn = isMr ? '⚡ ७०% कर्ज मिळवा' : (isHi ? '⚡ 70% ऋण प्राप्त करें' : '⚡ Draw 70% Loan');
+  const releaseStockBtn = isMr ? '📦 साठा सोडवा' : (isHi ? '📦 स्टॉक रिलीज करें' : '📦 Release Stock');
 
   tbody.innerHTML = buyerData.activeStorageBookings.map(b => `
     <tr>
       <td>
         <div style="font-weight: 800; font-family: monospace; color: #0c5a36; font-size: 0.88rem;">${b.id}</div>
-        <div style="font-size: 0.75rem; color: #0f172a; font-weight: 600;">${b.warehouseName}</div>
-        <span style="font-size: 0.7rem; color: #64748b;">${b.chamberNo}</span>
+        <div style="font-size: 0.75rem; color: #0f172a; font-weight: 600;">${trW(b.warehouseName)}</div>
+        <span style="font-size: 0.7rem; color: #64748b;">${trW(b.chamberNo)}</span>
       </td>
       <td>
         <strong style="color: #0f172a; font-size: 0.88rem;">${window.tCrop ? window.tCrop(b.crop) : b.crop}</strong>
-        <div style="font-size: 0.72rem; color: #64748b;">Lot Ref: ${b.lotRef}</div>
+        <div style="font-size: 0.72rem; color: #64748b;">${lotRefLabel} ${b.lotRef}</div>
       </td>
       <td>
-        <strong style="color: #0c5a36; font-size: 0.95rem;">${b.quantity}</strong>
+        <strong style="color: #0c5a36; font-size: 0.95rem;">${trT(b.quantity)}</strong>
       </td>
       <td>
-        <div style="font-size: 0.78rem; font-weight: 700; color: #0369a1;">🌡️ ${b.tempCurrent}</div>
-        <div style="font-size: 0.72rem; color: #64748b;">💧 ${b.humidityCurrent}</div>
+        <div style="font-size: 0.78rem; font-weight: 700; color: #0369a1;">🌡️ ${trW(b.tempCurrent)}</div>
+        <div style="font-size: 0.72rem; color: #64748b;">💧 ${trW(b.humidityCurrent)}</div>
       </td>
       <td>
-        <div style="font-size: 0.78rem; color: #0f172a; font-weight: 600;">${b.expiryDate}</div>
-        <span style="font-size: 0.72rem; color: #64748b;">Cost: ${b.monthlyCost}/mo</span>
+        <div style="font-size: 0.78rem; color: #0f172a; font-weight: 600;">${trT(b.expiryDate)}</div>
+        <span style="font-size: 0.72rem; color: #64748b;">${costLabel} ${b.monthlyCost}${perMoLabel}</span>
       </td>
       <td>
         <div style="font-family: monospace; font-weight: 800; color: #2563eb; font-size: 0.78rem;">${b.eNwrReceiptNo}</div>
-        <div style="font-size: 0.75rem; color: #166534; font-weight: 700;">⚡ Loan: ${b.pledgeLoanEligible}</div>
+        <div style="font-size: 0.75rem; color: #166534; font-weight: 700;">${loanLabel} ${trT(b.pledgeLoanEligible)}</div>
       </td>
       <td>
         <div style="display: flex; flex-direction: column; gap: 4px;">
           <button class="btn btn-primary btn-sm" onclick="openEnwrPledgeModal('${b.id}')" style="background: #2563eb; border-color: #2563eb; font-size: 0.72rem; padding: 4px 8px; font-weight: 700;">
-            ⚡ Draw 70% Loan
+            ${drawLoanBtn}
           </button>
-          <button class="btn btn-outline btn-sm" onclick="showToast('Dispatch release request submitted for ${b.id}! Gate pass generated.')" style="font-size: 0.72rem; padding: 4px 8px;">
-            📦 Release Stock
+          <button class="btn btn-outline btn-sm" onclick="showToast(window.tText ? window.tText('Dispatch release request submitted for ${b.id}! Gate pass generated.') : 'Dispatch release request submitted for ${b.id}! Gate pass generated.')" style="font-size: 0.72rem; padding: 4px 8px;">
+            ${releaseStockBtn}
           </button>
         </div>
       </td>
     </tr>
   `).join('');
+  if (typeof window.walkAndTranslateDOM === 'function') {
+    window.walkAndTranslateDOM(tbody);
+  }
 }
 
 function filterStorageFacilities(filterType, btnEl) {
@@ -4337,4 +4453,10 @@ window.renderBuyerDemands = renderBuyerDemands;
 window.renderGrievances = renderGrievances;
 window.openDirectBuyModal = openDirectBuyModal;
 window.executeBuyerLotPurchase = executeBuyerLotPurchase;
+window.renderChatSidebar = renderChatSidebar;
+window.selectChatContact = selectChatContact;
+window.getActiveChatKey = function() { return typeof activeChatKey !== 'undefined' ? activeChatKey : 'patil'; };
+window.startNegotiationWithFarmer = startNegotiationWithFarmer;
+window.switchView = switchView;
+window.showToast = showToast;
 
