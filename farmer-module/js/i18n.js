@@ -990,6 +990,12 @@
     if (typeof window.renderFPOHub === 'function') {
       window.renderFPOHub();
     }
+    if (typeof window.renderAllCrops === 'function') {
+      window.renderAllCrops();
+    }
+    if (typeof window.renderMandiPrices === 'function') {
+      window.renderMandiPrices();
+    }
     if (typeof window.renderCropsTable === 'function') {
       window.renderCropsTable();
     }

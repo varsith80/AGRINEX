@@ -1568,6 +1568,16 @@
 
         const isSold = item.status && item.status.includes("Sold");
 
+        const dispCrop = window.tCrop ? window.tCrop(item.crop) : item.crop;
+
+        const dispGrade = window.tGrade ? window.tGrade(item.grade) : item.grade;
+
+        const dispStatus = window.tStatus ? window.tStatus(item.status) : item.status;
+
+        const dispCat = window.tCategory ? window.tCategory(item.category || 'Agricultural Produce') : (item.category || 'Agricultural Produce');
+
+        const dispLoc = window.tLocation ? window.tLocation(item.location || 'Lasalgaon Mandi Yard, MH') : (item.location || 'Lasalgaon Mandi Yard, MH');
+
 
 
         return `
@@ -1580,9 +1590,9 @@
 
               <div class="crop-card-badges">
 
-                <span class="badge ${item.gradeBadgeClass}">${item.grade}</span>
+                <span class="badge ${item.gradeBadgeClass}">${dispGrade}</span>
 
-                <span class="badge ${item.statusBadgeClass}">${item.status}</span>
+                <span class="badge ${item.statusBadgeClass}">${dispStatus}</span>
 
               </div>
 
@@ -1596,9 +1606,9 @@
 
                 <div>
 
-                  <div class="crop-card-title">${item.crop}</div>
+                  <div class="crop-card-title">${dispCrop}</div>
 
-                  <div style="font-size: 0.74rem; color: #64748b; margin-top: 2px;">Harvest: ${item.harvestDate || 'Fresh Lot'} • ${item.category || 'Agricultural Produce'}</div>
+                  <div style="font-size: 0.74rem; color: #64748b; margin-top: 2px;">${window.tText ? window.tText('Harvest Date') : 'Harvest Date'}: ${item.harvestDate || 'Fresh Lot'} • ${dispCat}</div>
 
                 </div>
 
@@ -1610,7 +1620,7 @@
 
               <div class="crop-meta-row">
 
-                <span>📍 ${item.location || 'Lasalgaon Mandi Yard, MH'}</span>
+                <span>📍 ${dispLoc}</span>
 
                 <span>•</span>
 
@@ -1628,7 +1638,7 @@
 
                 <div class="price-box-item">
 
-                  <span class="price-box-label">Listed Volume</span>
+                  <span class="price-box-label">${window.tText ? window.tText('Listed Volume') : 'Listed Volume'}</span>
 
                   <span class="price-box-val">${item.quantity}</span>
 
@@ -1636,7 +1646,7 @@
 
                 <div class="price-box-item">
 
-                  <span class="price-box-label">Expected Floor</span>
+                  <span class="price-box-label">${window.tText ? window.tText('Expected Floor') : 'Expected Floor'}</span>
 
                   <span class="price-box-val">${item.expectedPrice}</span>
 
@@ -1644,7 +1654,7 @@
 
                 <div class="price-box-item" style="grid-column: 1 / -1; border-top: 1px dashed #e2e8f0; padding-top: 8px; margin-top: 4px;">
 
-                  <span class="price-box-label">Current Best Buyer Bid</span>
+                  <span class="price-box-label">${window.tText ? window.tText('Current Best Buyer Bid') : 'Current Best Buyer Bid'}</span>
 
                   <span class="price-box-val highlight">${item.bestBid}</span>
 
@@ -1656,9 +1666,9 @@
 
               <div class="buyer-info-bar">
 
-                <span>Buyer: <strong>${item.buyerName}</strong></span>
+                <span>${window.tText ? window.tText('Buyer') : 'Buyer'}: <strong>${item.buyerName}</strong></span>
 
-                <span style="font-size: 0.72rem; color: #166534; font-weight: 700;">🛡️ Escrow Verified</span>
+                <span style="font-size: 0.72rem; color: #166534; font-weight: 700;">🛡️ ${window.tText ? window.tText('Escrow Verified') : 'Escrow Verified'}</span>
 
               </div>
 
@@ -1668,7 +1678,7 @@
 
                 <button class="btn btn-outline" style="flex: 1; justify-content: center; font-size: 0.78rem;" onclick="openLotDetail('${item.id}')">
 
-                  View Lot
+                  ${window.tText ? window.tText('View Lot') : 'View Lot'}
 
                 </button>
 
@@ -1678,7 +1688,7 @@
 
                   <button class="btn-emergency-action" style="font-size: 0.76rem; padding: 6px 12px;" onclick="openEmergencyModal('${item.id}')" title="Breakeven Salvage for perishable/unsold lots">
 
-                    <span>🚨</span> Emergency Sale
+                    <span>🚨</span> ${window.tText ? window.tText('Emergency Sale') : 'Emergency Sale'}
 
                   </button>
 
@@ -1690,7 +1700,7 @@
 
                   <button class="btn-emergency-action" style="font-size: 0.76rem; padding: 6px 12px; background: #0c5a36;" onclick="openEmergencyOffersModal('${item.id}')">
 
-                    <span>⚡</span> View Offers (${item.emergencyOffers ? item.emergencyOffers.length : 3})
+                    <span>⚡</span> ${window.tText ? window.tText('View Offers') : 'View Offers'} (${item.emergencyOffers ? item.emergencyOffers.length : 3})
 
                   </button>
 
@@ -1724,6 +1734,12 @@
 
         const isSold = item.status && item.status.includes("Sold");
 
+        const dispCrop = window.tCrop ? window.tCrop(item.crop) : item.crop;
+
+        const dispGrade = window.tGrade ? window.tGrade(item.grade) : item.grade;
+
+        const dispStatus = window.tStatus ? window.tStatus(item.status) : item.status;
+
 
 
         return `
@@ -1738,11 +1754,11 @@
 
                 <div>
 
-                  <div class="crop-name">${item.crop}</div>
+                  <div class="crop-name">${dispCrop}</div>
 
                   <div style="font-size: 0.72rem; color: #64748b;">${item.id} • ${item.shelfLife || 'Perishable'}</div>
 
-                  ${isEmergency && !isSold ? '<span style="font-size: 0.7rem; color: #dc2626; font-weight: 800;">⚡ Emergency Salvage Active</span>' : ''}
+                  ${isEmergency && !isSold ? `<span style="font-size: 0.7rem; color: #dc2626; font-weight: 800;">⚡ ${window.tText ? window.tText('Emergency Salvage Active') : 'Emergency Salvage Active'}</span>` : ''}
 
                 </div>
 
@@ -1752,7 +1768,7 @@
 
             <td>
 
-              <span class="badge ${item.gradeBadgeClass}">${item.grade}</span>
+              <span class="badge ${item.gradeBadgeClass}">${dispGrade}</span>
 
             </td>
 
@@ -1782,13 +1798,13 @@
 
               <div style="font-size: 0.8rem; font-weight: 700; color: #1e293b;">${item.buyerName}</div>
 
-              <span style="font-size: 0.7rem; color: #166534;">✓ Escrow Verified</span>
+              <span style="font-size: 0.7rem; color: #166534;">✓ ${window.tText ? window.tText('Escrow Verified') : 'Escrow Verified'}</span>
 
             </td>
 
             <td>
 
-              <span class="badge ${item.statusBadgeClass}">${item.status}</span>
+              <span class="badge ${item.statusBadgeClass}">${dispStatus}</span>
 
             </td>
 
@@ -1796,26 +1812,17 @@
 
               <div style="display: inline-flex; gap: 6px; align-items: center;">
 
-                <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.76rem;" onclick="openLotDetail('${item.id}')">View</button>
+                <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.76rem;" onclick="openLotDetail('${item.id}')">${window.tText ? window.tText('View') : 'View'}</button>
 
                 ${!isSold && !isEmergency ? `
-
                   <button class="btn-emergency-action" style="padding: 5px 10px; font-size: 0.74rem;" onclick="openEmergencyModal('${item.id}')">
-
-                    <span>🚨</span> Emergency
-
+                    <span>🚨</span> ${window.tText ? window.tText('Emergency') : 'Emergency'}
                   </button>
-
                 ` : ''}
-
                 ${isEmergency && !isSold ? `
-
                   <button class="btn-emergency-action" style="padding: 5px 10px; font-size: 0.74rem; background: #0c5a36;" onclick="openEmergencyOffersModal('${item.id}')">
-
-                    <span>⚡</span> Offers
-
+                    <span>⚡</span> ${window.tText ? window.tText('Offers') : 'Offers'}
                   </button>
-
                 ` : ''}
 
               </div>

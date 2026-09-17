@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AgriNex Farmer Module - Sparklines & Trend Rendering
  */
 
@@ -43,10 +43,11 @@ function renderMandiPrices() {
     const arrow = isUp ? "↑" : "↓";
     const trendClass = isUp ? "trend-up" : "trend-down";
     const sparkline = generateSparklineSVG(item.trendPoints, isUp);
+    const dispCrop = window.tCrop ? window.tCrop(item.crop) : item.crop;
 
     return `
       <div class="mandi-row">
-        <div class="mandi-crop-name">${item.crop}</div>
+        <div class="mandi-crop-name">${dispCrop}</div>
         <div class="mandi-price">${item.currentPrice}</div>
         <div class="mandi-trend ${trendClass}">
           <span>${arrow} ${item.trendPercent}</span>
@@ -57,4 +58,5 @@ function renderMandiPrices() {
   }).join("");
 }
 
+window.renderMandiPrices = renderMandiPrices;
 document.addEventListener("DOMContentLoaded", renderMandiPrices);
