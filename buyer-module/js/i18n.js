@@ -32,6 +32,9 @@
     'Mahesh Kulkarni': { hi: 'महेश कुलकर्णी', mr: 'महेश कुलकर्णी' },
     'Pravin Chavan': { hi: 'प्रवीण चव्हाण', mr: 'प्रवीण चव्हाण' },
     'Nitin Ghadge': { hi: 'नितिन घाडगे', mr: 'नितीन घाडगे' },
+    'Nitin Shinde': { hi: 'नितिन शिंदे', mr: 'नितीन शिंदे' },
+    'Nitin': { hi: 'नितिन', mr: 'नितीन' },
+    'Patil Rameshwar': { hi: 'पाटिल रामेश्वर', mr: 'पाटील रामेश्वर' },
     'Babasaheb Kale': { hi: 'बाबासाहेब काले', mr: 'बाबासाहेब काळे' },
     'Kishore Shinde': { hi: 'किशोर शिंदे', mr: 'किशोर शिंदे' },
     'Ganesh Chaudhari': { hi: 'गणेश चौधरी', mr: 'गणेश चौधरी' },
@@ -79,8 +82,10 @@
     'Soybean': { hi: 'सोयाबीन', mr: 'सोयाबीन' },
 
     // Orange / Santra
-    'Nagpur Orange (Santra GI)': { hi: 'नागपुर संतरा (जीआई)', mr: 'नागपूर संत्री (GI)' },
+    'Nagpur Orange / Santra (Table Export Grade)': { hi: 'नागपुर संतरा (टेबल निर्यात ग्रेड)', mr: 'नागपूर संत्री (टेबल निर्यात प्रत)' },
     'Nagpur Orange / Santra (GI Vidarbha Quality)': { hi: 'नागपुर संतरा (विदर्भ गुणवत्ता)', mr: 'नागपूर संत्री (विदर्भ प्रत)' },
+    'Nagpur Orange / Santra': { hi: 'नागपुर संतरा', mr: 'नागपूर संत्री' },
+    'Nagpur Orange (Santra GI)': { hi: 'नागपुर संतरा (जीआई)', mr: 'नागपूर संत्री (GI)' },
     'Nagpur Santra (GI Grade A)': { hi: 'नागपुर संतरा (ग्रेड ए)', mr: 'नागपूर संत्री (ग्रेड अ)' },
     'Nagpur Orange, Raw Cotton': { hi: 'नागपुर संतरा, कच्चा कपास', mr: 'नागपूर संत्री, कच्चा कापूस' },
     'Nagpur Orange': { hi: 'नागपुर संतरा', mr: 'नागपूर संत्री' },
@@ -224,21 +229,10 @@
     'Potato': { hi: 'आलू', mr: 'बटाटा' },
 
     // Brinjal / Eggplant
-    'Brinjal (Manchar Purple Long / Baingan)': { hi: 'बैंगन (मंचर लंबा बैंगनी / बैंगन)', mr: 'वांगे (मंचर जांभळे लांब / वांगी)' },
     'Purple Brinjal (Baingan / Eggplant)': { hi: 'बैंगन (गोल/लंबा)', mr: 'जांभळे वांगे (वांगी)' },
-    'Manchar Purple Long': { hi: 'मंचर लंबा बैंगनी', mr: 'मंचर जांभळे लांब' },
     'Purple Brinjal': { hi: 'बैंगन', mr: 'जांभळे वांगे' },
     'Brinjal': { hi: 'बैंगन', mr: 'वांगे' },
-    'Baingan': { hi: 'बैंगन', mr: 'वांगी' },
     'Eggplant': { hi: 'बैंगन', mr: 'वांगे' },
-
-    // Chilli (Green & Red)
-    'Green Chilli (G4 High-Pungency Fresh)': { hi: 'हरी मिर्च (जी-4 तीखी ताजी)', mr: 'हिरवी मिरची (G4 तिखट ताजी)' },
-    'Chilli (Nandurbar Dry Red Chilli)': { hi: 'मिर्च (नंदुरबार सूखी लाल मिर्च)', mr: 'मिरची (नंदुरबार सुकी लाल मिरची)' },
-    'Green Chilli': { hi: 'हरी मिर्च', mr: 'हिरवी मिरची' },
-    'Red Chilli': { hi: 'लाल मिर्च', mr: 'लाल मिरची' },
-    'Dry Red Chilli': { hi: 'सूखी लाल मिर्च', mr: 'सुकी लाल मिरची' },
-    'Chilli': { hi: 'मिर्च', mr: 'मिरची' },
 
     // Vegetables & Others
     'Fresh Green Ginger': { hi: 'ताजा अदरक', mr: 'ताजे आले' },
@@ -277,6 +271,10 @@
     'Beed & Dharashiv APMC': { hi: 'बीड व धाराशिव मंडी', mr: 'बीड व धाराशिव बाजार समिती' },
     'Kolhapur & Karad APMC': { hi: 'कोल्हापुर व कराड मंडी', mr: 'कोल्हापूर व कराड बाजार समिती' },
     'Pimpalgaon & Nashik APMC': { hi: 'पिंपलगांव व नासिक मंडी', mr: 'पिंपळगाव व नाशिक बाजार समिती' },
+    'Pimpalgaon Baswant, Nashik (22 km away)': { hi: 'पिंपलगांव बसवंत, नासिक (22 किमी दूर)', mr: 'पिंपळगाव बसवंत, नाशिक (२२ किमी दूर)' },
+    'Pimpalgaon Baswant, Nashik ~ 5.0 km away': { hi: 'पिंपलगांव बसवंत, नासिक (~ 5.0 किमी दूर)', mr: 'पिंपळगाव बसवंत, नाशिक (~ ५.० किमी दूर)' },
+    'Pimpalgaon Baswant, Nashik': { hi: 'पिंपलगांव बसवंत, नासिक', mr: 'पिंपळगाव बसवंत, नाशिक' },
+    'Pimpalgaon Baswant': { hi: 'पिंपलगांव बसवंत', mr: 'पिंपळगाव बसवंत' },
     'Jalna & Aurangabad APMC': { hi: 'जालना व संभाजीनगर मंडी', mr: 'जालना व संभाजीनगर बाजार समिती' },
     'Ratnagiri & Devgad APMC': { hi: 'रत्नागिरी व देवगढ़ मंडी', mr: 'रत्नागिरी व देवगड बाजार समिती' },
     'Nandurbar APMC': { hi: 'नंदुरबार मंडी', mr: 'नंदुरबार बाजार समिती' },
@@ -315,6 +313,12 @@
     'Vashi APMC Central Terminal, Navi Mumbai': { hi: 'वाशी मंडी सेंट्रल टर्मिनल, नवी मुंबई', mr: 'वाशी बाजार समिती मध्यवर्ती टर्मिनल, नवी मुंबई' },
     'Vashi Terminal, Navi Mumbai (MH)': { hi: 'वाशी टर्मिनल, नवी मुंबई (महा.)', mr: 'वाशी टर्मिनल, नवी मुंबई (महा.)' },
     'BigBasket Distribution Terminal, Navi Mumbai, MH': { hi: 'बिगबास्केट वितरण टर्मिनल, नवी मुंबई, महा.', mr: 'बिगबास्केट वितरण केंद्र, नवी मुंबई, महाराष्ट्र' },
+    'BigBasket Distribution Terminal, Vashi / Navi Mumbai': { hi: 'बिगबास्केट वितरण टर्मिनल, वाशी / नवी मुंबई', mr: 'बिगबास्केट वितरण केंद्र, वाशी / नवी मुंबई' },
+    'BigBasket Distribution Terminal, Vashi / Navi Mumbai, MH': { hi: 'बिगबास्केट वितरण टर्मिनल, वाशी / नवी मुंबई, महा.', mr: 'बिगबास्केट वितरण केंद्र, वाशी / नवी मुंबई, महाराष्ट्र' },
+    'Central DC (Dispatched)': { hi: 'केंद्रीय वितरण केंद्र (रवाना)', mr: 'मध्यवर्ती वितरण केंद्र (मार्गस्थ)' },
+    'Central DC (Express Salvage Dispatched)': { hi: 'केंद्रीय वितरण केंद्र (द्रुतगती बचाव रवाना)', mr: 'मध्यवर्ती वितरण केंद्र (तातडीने मार्गस्थ)' },
+    'Central DC': { hi: 'केंद्रीय वितरण केंद्र', mr: 'मध्यवर्ती वितरण केंद्र' },
+    'Dispatched': { hi: 'रवाना', mr: 'मार्गस्थ' },
     'Reliance Fresh Central Distribution Hub, Thane': { hi: 'रिलायंस फ्रेश सेंट्रल हब, ठाणे', mr: 'रिलायन्स फ्रेश वितरण केंद्र, ठाणे' },
     'Nature Basket Fulfillment Center, Kurla': { hi: 'नेचर्स बास्केट पूर्ति केंद्र, कुर्ला', mr: 'नेचर्स बास्केट वितरण केंद्र, कुर्ला' },
     'Zomato Hyperpure Aggregation Hub, Bhiwandi': { hi: 'ज़ोमैटो हाइपरप्योर हब, भिवंडी', mr: 'झोमॅटो हायपरप्युअर संकलन केंद्र, भिवंडी' },
@@ -358,6 +362,17 @@
     'Parbhani': { hi: 'परभणी', mr: 'परभणी' },
     'Chhatrapati Sambhajinagar': { hi: 'छत्रपति संभाजीनगर', mr: 'छत्रपती संभाजीनगर' },
     'Aurangabad': { hi: 'छत्रपति संभाजीनगर', mr: 'छत्रपती संभाजीनगर' },
+    'Mumbai': { hi: 'मुंबई', mr: 'मुंबई' },
+    'Navi Mumbai': { hi: 'नवी मुंबई', mr: 'नवी मुंबई' },
+    'Mumbai City': { hi: 'मुंबई शहर', mr: 'मुंबई शहर' },
+    'Mumbai Suburban': { hi: 'मुंबई उपनगर', mr: 'मुंबई उपनगर' },
+    'Marathwada': { hi: 'मराठवाड़ा', mr: 'मराठवाडा' },
+    'BKC Nodal Escrow, Mumbai': { hi: 'बीकेसी नोडल एस्क्रो, मुंबई', mr: 'बीकेसी नोडल एस्क्रो, मुंबई' },
+    'ICICI Bank Ltd, BKC Nodal Escrow, Mumbai': { hi: 'ICICI बैंक लि., बीकेसी नोडल एस्क्रो, मुंबई', mr: 'ICICI बँक लि., बीकेसी नोडल एस्क्रो, मुंबई' },
+    'Latur Mega Yard, Marathwada, MH': { hi: 'लातूर मुख्य मंडी, मराठवाड़ा', mr: 'लातूर मुख्य बाजार समिती, मराठवाडा' },
+    'Latur Mega APMC (Marathwada, MH)': { hi: 'लातूर मुख्य मंडी (मराठवाड़ा, महा.)', mr: 'लातूर मुख्य बाजार समिती (मराठवाडा, महा.)' },
+    'Latur Industrial Growth Centre, Marathwada, MH ~ 3.5 km from APMC': { hi: 'लातूर औद्योगिक विकास केंद्र, मराठवाड़ा (~ 3.5 किमी)', mr: 'लातूर औद्योगिक विकास केंद्र, मराठवाडा (~ ३.५ किमी)' },
+    'Marathwada Freight Fleet': { hi: 'मराठवाड़ा फ्रेट फ्लीट', mr: 'मराठवाडा मालवाहतूक ताफा' },
 
     // Belts & Corridors
     'Nashik Onion & Grape Belt': { hi: 'नासिक प्याज व अंगूर क्षेत्र', mr: 'नाशिक कांदा व द्राक्ष पट्टा' },
@@ -559,7 +574,9 @@
       th_min_max_range: 'Min – Max Range',
       th_24h_arrivals_col: '24h Arrivals',
       th_arbitrage_spread: 'Arbitrage Spread',
+      insights_search_mandi_ph: 'Search mandi, district, or crop...',
       ph_search_dist_mandi: 'Search district or mandi yard...',
+      ph_type_district: 'Type district name or letter (e.g. P, N, Latur)...',
       matrix_footer_note: '* Live e-NAM & APMC auction feeds updated every 15 mins.',
       btn_close_matrix: 'Close Matrix',
       th_commodity_hub: 'APMC Mandi & Crop',
@@ -579,6 +596,16 @@
       // Orders & Consignments View
       orders_header_title: 'Direct Farm Consignments & GPS Fleet Telemetry',
       orders_header_subtitle: 'Real-time transit monitoring with AIS-140 GPS beacons, calibrated temperature sensors, and dual-key escrow release triggers.',
+      btn_book_transport_fleet: '+ Book Transport Fleet',
+      kpi_active_fleet: 'Active Fleet',
+      kpi_volume_in_transit: 'Volume in Transit',
+      kpi_gate_passes: 'Verified Orders',
+      kpi_verified_orders: 'Verified Orders',
+      lorry_receipt: 'Lorry Receipt',
+      kpi_delivery_sla: 'Delivery SLA Success',
+      produce_farmer_label: 'Produce & Farmer',
+      driver_fleet_telemetry_label: 'Driver & Fleet Telemetry',
+      delivery_dest_eta_label: 'Delivery Destination & ETA',
       tab_all_orders: 'All Active Orders',
       tab_on_road: 'On The Road',
       tab_scheduled: 'Scheduled',
@@ -586,7 +613,32 @@
       tab_telemetry: 'Driver & Vehicle Telemetry',
       btn_confirm_arrival: 'Confirm Arrival & QC Pass',
       btn_view_invoice: 'View Digital PO / Invoice',
+      btn_download_po_pdf: '📥 Download PDF',
       btn_raise_claim: 'Raise Quality Inspection Hold',
+      driver_modal_title: 'Driver & Fleet Telemetry Details',
+      badge_verified_commercial_driver: '✓ Verified Commercial Driver',
+      lbl_logistics_partner: 'Logistics Partner:',
+      lbl_rating: 'Rating:',
+      lbl_vehicle_plate: 'Vehicle & Number Plate',
+      lbl_dl_no: 'Commercial Driving License',
+      lbl_payload_capacity: 'Vehicle Payload Capacity',
+      lbl_fastag_toll: 'FASTag & Toll Clearance',
+      lbl_weighbridge_seal: 'Weighbridge Gate Seal',
+      lbl_reefer_temp: 'Reefer Cargo Temperature',
+      lbl_current_position: 'Current Position:',
+      lbl_satellite_speed: 'Satellite Speed:',
+      btn_live_gps_telemetry: '📍 Live GPS Telemetry',
+      gps_modal_title: 'Live Satellite GPS Telemetry',
+      vehicle_and_transporter: 'Vehicle & Transporter',
+      gps_online_speed: 'Online (58 km/h)',
+      driver: 'Driver',
+      distance_remaining: 'Distance Remaining',
+      live_eta: 'Live ETA',
+      current_corridor_label: '📍 Current Corridor:',
+      satellite_fix_telemetry: 'Satellite Fix: 19.5760° N, 74.2070° E • Reefer Temp: 18.2°C (Optimal Curing)',
+      corridor_route_telemetry: 'Corridor Route & Checkpoints Telemetry:',
+      call_driver_btn: '📞 Call Driver',
+      refresh_gps_ping_btn: '🔄 Refresh GPS Ping',
       
       // Escrow Vault View
       escrow_header_title: 'RBI Compliant Dual-Key Escrow Vault',
@@ -609,6 +661,21 @@
       logistics_header_title: 'Multi-Modal Logistics & Fleet Booking Hub',
       logistics_header_subtitle: 'Book verified reefer containers, multi-axle trucks, and pick-up vans with AIS-140 GPS tracking across Maharashtra farm gates.',
       btn_book_fleet: '+ Book Dedicated Freight Vehicle',
+      
+      // Demands View
+      demand_target_quota_vol: 'TARGET QUOTA VOLUME',
+      demand_ceiling_target_price: 'CEILING TARGET PRICE',
+      demand_mandi_benchmark_rate: 'MANDI BENCHMARK RATE',
+      demand_quality_logistics_spec: 'QUALITY & LOGISTICS SPEC',
+      demand_sourced_vol: 'Sourced Volume:',
+      demand_sourced_status: 'Sourced',
+      demand_destination_lbl: 'Destination:',
+      demand_deadline_lbl: 'Sourcing Deadline:',
+      demand_days_left: 'd left',
+      demand_completed: 'Completed',
+      demand_review_bids: 'Review Farmer Bids',
+      demand_broadcasting_bids: '● Broadcasting for Bids',
+      demand_auto_match: '⚡ Auto-Match Lots →',
       
       // Common UI & Toast
       btn_cancel: 'Cancel',
@@ -775,7 +842,9 @@
       th_min_max_range: 'न्यूनतम – अधिकतम रेंज',
       th_24h_arrivals_col: '24 घंटे आवक',
       th_arbitrage_spread: 'सीधी खरीद बचत',
+      insights_search_mandi_ph: 'मंडी, जिला या फसल खोजें...',
       ph_search_dist_mandi: 'जिला या मंडी यार्ड खोजें...',
+      ph_type_district: 'जिला का नाम या अक्षर टाइप करें (उदा. P, N, लातूर)...',
       matrix_footer_note: '* लाइव ई-नाम व मंडी नीलामी डेटा प्रति 15 मिनट अपडेट होता है।',
       btn_close_matrix: 'तालिका बंद करें',
       th_commodity_hub: 'मंडी एवं फसल',
@@ -795,6 +864,16 @@
       // Orders & Consignments View
       orders_header_title: 'प्रत्यक्ष फार्म कंसाइनमेंट और जीपीएस फ्लीट ट्रैकिंग',
       orders_header_subtitle: 'AIS-140 जीपीएस बीकन, तापमान सेंसर और दोहरी कुंजी एस्क्रो रिलीज के साथ लाइव निगरानी।',
+      btn_book_transport_fleet: '+ मालवाहन बुक करें',
+      kpi_active_fleet: 'सक्रिय फ्लीट',
+      kpi_volume_in_transit: 'मार्गस्थ मात्रा',
+      kpi_gate_passes: 'प्रमाणित ऑर्डर',
+      kpi_verified_orders: 'प्रमाणित ऑर्डर',
+      lorry_receipt: 'लॉरी रसीद',
+      kpi_delivery_sla: 'डिलीवरी सफलता दर',
+      produce_farmer_label: 'उपज व किसान',
+      driver_fleet_telemetry_label: 'चालक व वाहन टेलीमेट्री',
+      delivery_dest_eta_label: 'वितरण गंतव्य व ईटीए',
       tab_all_orders: 'सभी सक्रिय ऑर्डर',
       tab_on_road: 'मार्ग में',
       tab_scheduled: 'निर्धारित',
@@ -802,7 +881,32 @@
       tab_telemetry: 'वाहन व चालक विवरण',
       btn_confirm_arrival: 'आगमन की पुष्टि एवं गुणवत्ता पास',
       btn_view_invoice: 'डिजिटल इनवॉइस देखें',
+      btn_download_po_pdf: '📥 पीडीएफ डाउनलोड करें',
       btn_raise_claim: 'गुणवत्ता जांच रोक दर्ज करें',
+      driver_modal_title: 'चालक व वाहन टेलीमेट्री विवरण',
+      badge_verified_commercial_driver: '✓ प्रमाणित वाणिज्यिक ड्राइवर',
+      lbl_logistics_partner: 'लॉजिस्टिक्स पार्टनर:',
+      lbl_rating: 'रेटिंग:',
+      lbl_vehicle_plate: 'वाहन एवं नंबर प्लेट',
+      lbl_dl_no: 'वाणिज्यिक ड्राइविंग लाइसेंस',
+      lbl_payload_capacity: 'वाहन पेलोड क्षमता',
+      lbl_fastag_toll: 'फास्टैग एवं टोल क्लीयरेंस',
+      lbl_weighbridge_seal: 'वेब्रिज सुरक्षा सील',
+      lbl_reefer_temp: 'रीफर तापमान',
+      lbl_current_position: 'वर्तमान स्थिति:',
+      lbl_satellite_speed: 'सैटेलाइट गति:',
+      btn_live_gps_telemetry: '📍 लाइव जीपीएस ट्रैकिंग',
+      gps_modal_title: 'लाइव सैटेलाइट जीपीएस ट्रैकिंग',
+      vehicle_and_transporter: 'वाहन और ट्रांसपोर्टर',
+      gps_online_speed: 'सक्रिय (58 किमी/घंटा)',
+      driver: 'चालक',
+      distance_remaining: 'शेष दूरी',
+      live_eta: 'पहुंचने का अनुमानित समय',
+      current_corridor_label: '📍 वर्तमान गलियारा:',
+      satellite_fix_telemetry: 'सैटेलाइट स्थिति: 19.5760° N, 74.2070° E • रीफर तापमान: 18.2°C (इष्टतम तापमान)',
+      corridor_route_telemetry: 'गलियारा मार्ग एवं चेकपॉइंट टेलीमेट्री:',
+      call_driver_btn: '📞 चालक को कॉल करें',
+      refresh_gps_ping_btn: '🔄 जीपीएस पिंग रीफ्रेश करें',
       
       // Escrow Vault View
       escrow_header_title: 'आरबीआई अनुपालन दोहरी-कुंजी एस्क्रो सुरक्षित तिजोरी',
@@ -825,6 +929,21 @@
       logistics_header_title: 'मल्टी-मॉडल लॉजिस्टिक्स और फ्लीट बुकिंग केंद्र',
       logistics_header_subtitle: 'सीधे खेत से खरीद के लिए AIS-140 जीपीएस सक्षम रीफर कंटेनर और ट्रक बुक करें।',
       btn_book_fleet: '+ समर्पित मालवाहन बुक करें',
+      
+      // Demands View
+      demand_target_quota_vol: 'कुल लक्षित कोटा मात्रा',
+      demand_ceiling_target_price: 'अधिकतम खरीद मूल्य (सीमा)',
+      demand_mandi_benchmark_rate: 'मंडी बेंचमार्क संदर्भ दर',
+      demand_quality_logistics_spec: 'गुणवत्ता व लॉजिस्टिक्स विवरण',
+      demand_sourced_vol: 'प्राप्त की गई मात्रा:',
+      demand_sourced_status: 'प्राप्त',
+      demand_destination_lbl: 'गंतव्य:',
+      demand_deadline_lbl: 'अंतिम समयसीमा:',
+      demand_days_left: 'दिन शेष',
+      demand_completed: 'पूर्ण',
+      demand_review_bids: 'किसान बोलियों की समीक्षा करें',
+      demand_broadcasting_bids: '● बोलियों हेतु सक्रिय प्रसारण',
+      demand_auto_match: '⚡ स्वतः लॉट मैच करें →',
       
       // Common UI & Toast
       btn_cancel: 'रद्द करें',
@@ -991,7 +1110,9 @@
       th_min_max_range: 'किमान – कमाल मर्यादा',
       th_24h_arrivals_col: '२४ तास आवक',
       th_arbitrage_spread: 'थेट खरेदी नफा (बचत)',
+      insights_search_mandi_ph: 'बाजार समिती, जिल्हा किंवा पीक शोधा...',
       ph_search_dist_mandi: 'जिल्हा किंवा बाजार समिती शोधा...',
+      ph_type_district: 'जिल्ह्याचे नाव किंवा अक्षर टाइप करा (उदा. P, N, लातूर)...',
       matrix_footer_note: '* थेट ई-नाम व बाजार समिती लिलाव माहिती दर १५ मिनिटांनी अद्ययावत केली जाते.',
       btn_close_matrix: 'तक्ता बंद करा',
       th_commodity_hub: 'शेतमाल व बाजार समिती',
@@ -1011,6 +1132,16 @@
       // Orders & Consignments View
       orders_header_title: 'थेट शेतातील शेतीमाल वाहतूक व जीपीएस ट्रॅकिंग',
       orders_header_subtitle: 'AIS-140 जीपीएस व शीतकरण यंत्रणेसह थेट शेतावरून गोदामापर्यंत रिअल-टाइम ट्रॅकिंग.',
+      btn_book_transport_fleet: '+ मालवाहतूक बुक करा',
+      kpi_active_fleet: 'सक्रिय ताफा',
+      kpi_volume_in_transit: 'मार्गस्थ प्रमाण',
+      kpi_gate_passes: 'प्रमाणित ऑर्डर्स',
+      kpi_verified_orders: 'प्रमाणित ऑर्डर्स',
+      lorry_receipt: 'लॉरी पावती',
+      kpi_delivery_sla: 'वितरण यश दर',
+      produce_farmer_label: 'उत्पादन व शेतकरी',
+      driver_fleet_telemetry_label: 'चालक व वाहन टेलिमेट्री',
+      delivery_dest_eta_label: 'वितरण ठिकाण व अपेक्षित वेळ',
       tab_all_orders: 'सर्व सक्रिय ऑर्डर्स',
       tab_on_road: 'रस्त्यावर',
       tab_scheduled: 'नियोजित',
@@ -1018,7 +1149,32 @@
       tab_telemetry: 'वाहन व चालक माहिती',
       btn_confirm_arrival: 'आगमन नोंद व प्रतवारी मंजुरी',
       btn_view_invoice: 'डिजिटल इनव्हॉइस पहा',
+      btn_download_po_pdf: '📥 PDF डाऊनलोड करा',
       btn_raise_claim: 'गुणवत्ता आक्षेप नोंदवा',
+      driver_modal_title: 'चालक व वाहन टेलिमेट्री तपशील',
+      badge_verified_commercial_driver: '✓ प्रमाणित व्यावसायिक चालक',
+      lbl_logistics_partner: 'लॉजिस्टिक्स पार्टनर:',
+      lbl_rating: 'रेटिंग:',
+      lbl_vehicle_plate: 'वाहन आणि नंबर प्लेट',
+      lbl_dl_no: 'व्यावसायिक ड्रायव्हिंग परवाना',
+      lbl_payload_capacity: 'वाहन पेलोड क्षमता',
+      lbl_fastag_toll: 'फास्टॅग आणि टोल क्लिअरन्स',
+      lbl_weighbridge_seal: 'वेब्रिज सुरक्षा सील',
+      lbl_reefer_temp: 'रीफर तापमान',
+      lbl_current_position: 'सद्य स्थिती:',
+      lbl_satellite_speed: 'उपग्रह गती:',
+      btn_live_gps_telemetry: '📍 लाईव्ह जीपीएस ट्रॅकिंग',
+      gps_modal_title: 'थेट उपग्रह जीपीएस ट्रॅकिंग',
+      vehicle_and_transporter: 'वाहन आणि वाहतूकदार',
+      gps_online_speed: 'सक्रिय (58 किमी/तास)',
+      driver: 'चालक',
+      distance_remaining: 'उर्वरित अंतर',
+      live_eta: 'अपेक्षित पोहोच वेळ',
+      current_corridor_label: '📍 सद्य मार्ग:',
+      satellite_fix_telemetry: 'उपग्रह स्थान: 19.5760° N, 74.2070° E • रीफर तापमान: 18.2°C (योग्य तापमान)',
+      corridor_route_telemetry: 'वाहतूक मार्ग व चेकपॉईंट टेलिमेट्री:',
+      call_driver_btn: '📞 चालकाला कॉल करा',
+      refresh_gps_ping_btn: '🔄 जीपीएस पिंग रिफ्रेश करा',
       
       // Escrow Vault View
       escrow_header_title: 'आरबीआय नियमांनुसार सुरक्षित ड्युएल-की एस्क्रो तिजोरी',
@@ -1042,12 +1198,27 @@
       logistics_header_subtitle: 'महाराष्ट्रातील थेट शेतांवरून AIS-140 जीपीएस ट्रॅकिंग असलेली रीफर वाहने आणि ट्रक्स बुक करा.',
       btn_book_fleet: '+ समर्पित मालवाहतूक वाहन बुक करा',
       
+      // Demands View
+      demand_target_quota_vol: 'एकूण उद्दिष्ट कोटा प्रमाण',
+      demand_ceiling_target_price: 'कमाल खरेदी मर्यादा दर',
+      demand_mandi_benchmark_rate: 'बाजार समिती संदर्भ दर',
+      demand_quality_logistics_spec: 'गुणवत्ता व वाहतूक तपशील',
+      demand_sourced_vol: 'प्राप्त झालेले प्रमाण:',
+      demand_sourced_status: 'खरेदी पूर्ण',
+      demand_destination_lbl: 'गंतव्य:',
+      demand_deadline_lbl: 'शेवटची मुदत:',
+      demand_days_left: 'दिवस शिल्लक',
+      demand_completed: 'पूर्ण',
+      demand_review_bids: 'शेतकरी बोल्यांची तपासणी करा',
+      demand_broadcasting_bids: '● बोल्यांसाठी थेट प्रसारण सुरू',
+      demand_auto_match: '⚡ स्वयंचलित लॉट जुळवा →',
+      
       // Common UI & Toast
       btn_cancel: 'रद्द करा',
       btn_submit: 'सादर करा',
       btn_close: 'बंद करा',
       btn_save: 'बदल जतन करा',
-      btn_confirm: 'पुष्टी करा',
+      btn_confirm: 'पुष्टि करा',
       toast_lang_updated: 'भाषा मराठीमध्ये बदलली आहे 🚩'
     }
   };
@@ -1364,17 +1535,255 @@
     if (GRADE_MAP[grade] && GRADE_MAP[grade][currentLang]) {
       return GRADE_MAP[grade][currentLang];
     }
-    for (const [k, trans] of Object.entries(GRADE_MAP)) {
-      if (grade.includes(k) && trans[currentLang]) {
-        return grade.replace(k, trans[currentLang]);
-      }
-    }
-    return grade;
+    return tText(grade);
   }
 
-  // Comprehensive Translation Dictionary for Universal Text Transformation
   const PHRASE_REPLACEMENTS = {
     mr: [
+      // Modal 8: Confirm Arrival & Escrow Release (Highest Priority)
+      [/\bPhysical Receiving Checklist\s*:?/gi, 'भौतिक तपासणी चेकलिस्ट:'],
+      [/\bTotal Trade Contract\s*:?/gi, 'एकूण व्यापार करार:'],
+      [/35%\s*Advance\s*Escrow\s*\(Already Deposited\)\s*:?/gi, '३५% अग्रिम एस्क्रो (आधीच जमा):'],
+      [/35%\s*आगाऊ\s*एस्क्रो\s*\(आधीच जमा केले(?:ले)?\)\s*:?/gi, '३५% अग्रिम एस्क्रो (आधीच जमा):'],
+      [/\bFinal 65% Settlement to Disburse\s*:?/gi, 'अंतिम ६५% वितरण रक्कम:'],
+      [/(?:✓\s*)?Ratify QC & Release Escrow\b/gi, '✓ गुणवत्ता मंजूर करा आणि एस्क्रो जमा करा'],
+      [/\bDigital Weighbridge Net Weight Verified\b/gi, 'डिजिटल वजनकाटा निव्वळ वजन प्रमाणित'],
+      [/\bMoisture Index within acceptable tolerance\b/gi, 'आर्द्रता प्रमाण स्वीकार्य मर्यादेत'],
+      [/\bQuality Grade A Certification Ratified by Receiving Officer\b/gi, 'स्वीकृती अधिकाऱ्याद्वारे प्रतवारी ग्रेड ए प्रमाणित'],
+      [/\bArrival QC & Escrow Release\b/gi, 'आगमन गुणवत्ता तपासणी व एस्क्रो वितरण'],
+
+      // Live GPS Fleet & Reefer Telemetry Route Visualizer Elements (Highest Priority)
+      [/\bLive\s+Satellite\s+GPS\s+Telemetry\b/gi, 'थेट उपग्रह जीपीएस ट्रॅकिंग'],
+      [/\bVehicle\s*&\s*Transporter\b/gi, 'वाहन आणि वाहतूकदार'],
+      [/\bOnline\s*\(\s*(\d+)\s*(?:km\/h|किमी\/घंटा|किमी\/तास)\s*\)/gi, 'सक्रिय ($1 किमी/तास)'],
+      [/\bDistance\s+Remaining\b/gi, 'उर्वरित अंतर'],
+      [/\bLive\s+ETA\b/gi, 'अपेक्षित पोहोच वेळ'],
+      [/\bCurrent\s+Corridor:?/gi, 'सद्य मार्ग:'],
+      [/\bCurrent\s+गलियारा:?/gi, 'सद्य मार्ग:'],
+      [/\bCurrent\s+मार्ग:?/gi, 'सद्य मार्ग:'],
+      [/\bCorridor\s+Route\s*&\s*Checkpoints\s*Telemetry:?/gi, 'वाहतूक मार्ग व चेकपॉईंट टेलिमेट्री:'],
+      [/\bRoute\s*&\s*Checkpoints\s*Telemetry:?/gi, 'मार्ग व चेकपॉईंट टेलिमेट्री:'],
+      [/(?:गलियारा|वाहतूक मार्ग)\s*Route\s*&\s*Checkpoints\s*Telemetry:?/gi, 'वाहतूक मार्ग व चेकपॉईंट टेलिमेट्री:'],
+      [/\bSatellite\s+Fix:?/gi, 'उपग्रह स्थान:'],
+      [/\bReefer\s+Temp:?/gi, 'रीफर तापमान:'],
+      [/\(Optimal(?:\s+Curing)?\)/gi, '(योग्य तापमान)'],
+      [/\bFarm\s+Gate\s+Loading\s+Point\b/gi, 'शेत लोडिंग केंद्र'],
+      [/\bLasalgaon\s+Mandi\s+Yard,\s*Nashik\b/gi, 'लासलगाव बाजार समिती, नाशिक'],
+      [/\bQC\s+Passed\s*&\s*Weighed\b/gi, '✓ गुणवत्ता मंजूर व वजन पूर्ण'],
+      [/\bSamriddhi\s+Expressway\s+Toll\s*#?(\d+)\b/gi, 'समृद्धी महामार्ग टोल #$1'],
+      [/\bIgatpuri\s+(?:Corridor|गलियारा|मार्ग)\s+Checkpoint\b/gi, 'इगतपुरी मार्ग चेकपॉईंट'],
+      [/\bIgatpuri\s+Corridor\b/gi, 'इगतपुरी मार्ग'],
+      [/\bFastag\s+Automated\s+Weigh-In-Motion\b/gi, 'फास्टॅग स्वयंचलित वे-इन-मोशन'],
+      [/\bBhiwandi\s+Agro\s+Logistics\s+(?:Hub|Center|केंद्र)\b/gi, 'भिवंडी ॲग्रो लॉजिस्टिक्स केंद्र'],
+      [/\bMumbai\s+Inward\s+Entry\s+(?:Corridor|गलियारा|मार्ग)\b/gi, 'मुंबई प्रवेश मार्ग'],
+      [/\bLive\s+GPS\s+Speed:\s*(\d+)\s*(?:km\/h|किमी\/घंटा|किमी\/तास)\s*•\s*Temp:\s*([0-9.]+°C)/gi, 'लाईव्ह जीपीएस गती: $1 किमी/तास • तापमान: $2'],
+      [/\bDestination\s+Delivery\s+(?:Hub|Center|केंद्र)\b/gi, 'गंतव्य वितरण केंद्र'],
+      [/\bVashi\s+APMC\s+Central\s+Terminal,\s*Navi\s+Mumbai\b/gi, 'वाशी बाजार समिती मध्यवर्ती टर्मिनल, नवी मुंबई'],
+      [/\bDock\s*#(\d+)\s*Bay\s*Assigned\b/gi, 'डॉक #$1 बे नियुक्त'],
+      [/\bTomorrow\s+(\d+:\d+\s*(?:AM|PM)?)/gi, 'उद्या सकाळी $1'],
+      [/\bTomorrow\b/gi, 'उद्या'],
+      [/(\d+:\d+\s*(?:AM|PM))\s*\((?:ETA|ईटीए|अपेक्षित)\)/gi, '$1 (अपेक्षित वेळ)'],
+      [/\bCall\s+Driver\b/gi, 'चालकाला कॉल करा'],
+      [/\bRefresh\s+GPS\s+Ping\b/gi, 'जीपीएस पिंग रिफ्रेश करा'],
+
+      // Driver Fleet Telemetry Modal Elements (Highest Priority)
+      [/\bDriver\s*&\s*Vehicle\s*Telemetry\s*Details\b/gi, 'चालक व वाहन टेलिमेट्री तपशील'],
+      [/\bDriver\s*&\s*Fleet\s*Telemetry\s*Details\b/gi, 'चालक व वाहन टेलिमेट्री तपशील'],
+      [/(?:चालक\s*व\s*वाहन\s*)?(?:टेलीमेट्री|टेलिमेट्री|Telemetry)\s+Details\b/gi, 'चालक व वाहन टेलिमेट्री तपशील'],
+      [/\bDRIVER\s+&\s+FLEET\s+TELEMETRY\b/gi, 'चालक व वाहन टेलिमेट्री'],
+      [/\bDriver\s+&\s+Fleet\s+Telemetry\b/gi, 'चालक व वाहन टेलिमेट्री'],
+      [/\bDriver\s*&\s*Vehicle\s+Telemetry\b/gi, 'चालक व वाहन टेलिमेट्री'],
+      [/\bConsignment\s*#([A-Z0-9-]+)/gi, 'खेप #$1'],
+      [/\bGate\s*Pass:\s*([A-Z0-9-]+)/gi, 'गेट पास: $1'],
+      [/\bVerified Commercial Driver\b/gi, 'प्रमाणित व्यावसायिक चालक'],
+      [/\bLogistics Partner:?/gi, 'लॉजिस्टिक्स पार्टनर:'],
+      [/\bSahyadri Agro Logistics Lines\b/gi, 'सह्याद्री ॲग्रो लॉजिस्टिक्स लाइन्स'],
+      [/\bSahyadri Agro Logistics\b/gi, 'सह्याद्री ॲग्रो लॉजिस्टिक्स'],
+      [/\bSahyadri Kisan Logistics\b/gi, 'सह्याद्री किसान लॉजिस्टिक्स'],
+      [/\bRating:?/gi, 'रेटिंग:'],
+      [/\bVehicle & Number Plate\b/gi, 'वाहन आणि नंबर प्लेट'],
+      [/\bVEHICLE & NUMBER PLATE\b/gi, 'वाहन आणि नंबर प्लेट'],
+      [/\bCommercial Driving License\b/gi, 'व्यावसायिक ड्रायव्हिंग परवाना'],
+      [/\bCOMMERCIAL DRIVING LICENSE\b/gi, 'व्यावसायिक ड्रायव्हिंग परवाना'],
+      [/\bVehicle Payload Capacity\b/gi, 'वाहन पेलोड क्षमता'],
+      [/\bVEHICLE PAYLOAD CAPACITY\b/gi, 'वाहन पेलोड क्षमता'],
+      [/\bFASTag & Toll Clearance\b/gi, 'फास्टॅग आणि टोल क्लिअरन्स'],
+      [/\bFASTAG & TOLL CLEARANCE\b/gi, 'फास्टॅग आणि टोल क्लिअरन्स'],
+      [/\bWeighbridge Gate Seal\b/gi, 'वेब्रिज सुरक्षा सील'],
+      [/\bWEIGHBRIDGE GATE SEAL\b/gi, 'वेब्रिज सुरक्षा सील'],
+      [/\bReefer Cargo Temperature\b/gi, 'रीफर तापमान'],
+      [/\bREEFER CARGO TEMPERATURE\b/gi, 'रीफर तापमान'],
+      [/\bActive\s*\(₹\s*([0-9,]+)\s*Balance\)/gi, 'सक्रिय (₹ $1 शिल्लक)'],
+      [/(\d+(?:\.\d+)?°C)\s*\(Controlled\)/gi, '$1 (नियंत्रित)'],
+      [/(\d+(?:\.\d+)?°C)\s*\(Optimal(?: Curing)?\)/gi, '$1 (योग्य)'],
+      [/\bCurrent Position:?/gi, 'सद्य स्थिती:'],
+      [/\bGPS Telemetry Beacon:?/gi, 'जीपीएस टेलिमेट्री बीकन:'],
+      [/\bSatellite Speed:\s*(\d+)\s*(?:km\/h|किमी\/तास|किमी\/घंटा)/gi, 'उपग्रह गती: $1 किमी/तास'],
+      [/\bSatellite Speed:?/gi, 'उपग्रह गती:'],
+      [/(\d+)\s*Qt\s*Reefer/gi, '$1 क्विंटल रीफर'],
+      [/(\d+)\s*Qt\s*\((\d[\d,]*)\s*kg\s*Payload\)/gi, '$1 क्विंटल ($2 किलो पेलोड)'],
+      [/\bLive GPS Telemetry\b/gi, 'लाईव्ह जीपीएस ट्रॅकिंग'],
+      [/\bLive GPS Tracking\b/gi, 'लाईव्ह जीपीएस ट्रॅकिंग'],
+
+      // Orders & Consignments View Elements
+      [/(\d+)\s+Ready/gi, '$1 तयार'],
+      [/(\d+)\s+On\s+Road/gi, '$1 रस्त्यावर'],
+      [/\bPRODUCE\s+&\s+FARMER\b/gi, 'उत्पादन व शेतकरी'],
+      [/\bProduce\s+&\s+Farmer\b/gi, 'उत्पादन व शेतकरी'],
+      [/\bDELIVERY\s+DESTINATION\s+&\s+ETA\b/gi, 'वितरण ठिकाण व अपेक्षित वेळ'],
+      [/\bDelivery\s+Destination\s+&\s+ETA\b/gi, 'वितरण ठिकाण व अपेक्षित वेळ'],
+      [/\+?\s*Book\s+Transport\s+Fleet\b/gi, '+ मालवाहतूक बुक करा'],
+      [/BigBasket\s+Distribution\s+Terminal,\s*Vashi\s*\/\s*Navi\s+Mumbai/gi, 'बिगबास्केट वितरण केंद्र, वाशी / नवी मुंबई'],
+      [/Central\s+DC\s*\(Dispatched\)/gi, 'मध्यवर्ती वितरण केंद्र (मार्गस्थ)'],
+      [/Central\s+DC\s*\(Express\s+Salvage\s+Dispatched\)/gi, 'मध्यवर्ती वितरण केंद्र (तातडीने मार्गस्थ)'],
+      [/➔\s*Central\s+DC/gi, '➔ मध्यवर्ती वितरण केंद्र'],
+      [/\bCentral\s+DC\b/gi, 'मध्यवर्ती वितरण केंद्र'],
+      [/\bDispatched\b/gi, 'मार्गस्थ'],
+      [/⏱️\s*ETA:\s*Today\s+(\d+:\d+\s*(?:AM|PM))\s*\((?:Speed|गती|गति):\s*(\d+)\s*(?:km\/h|किमी\/तास|किमी\/घंटा)\)/gi, '⏱️ अपेक्षित वेळ: आज $1 (गती: $2 किमी/तास)'],
+      [/ETA:\s*Today\s+(\d+:\d+\s*(?:AM|PM))\s*\((?:Speed|गती|गति):\s*(\d+)\s*(?:km\/h|किमी\/तास|किमी\/घंटा)\)/gi, 'अपेक्षित वेळ: आज $1 (गती: $2 किमी/तास)'],
+      [/Today\s+(\d+:\d+\s*(?:AM|PM))\s*\((?:Speed|गती|गति):\s*(\d+)\s*(?:km\/h|किमी\/तास|किमी\/घंटा)\)/gi, 'आज $1 (गती: $2 किमी/तास)'],
+      [/Speed:\s*(\d+)\s*km\/h/gi, 'गती: $1 किमी/तास'],
+      
+      // Full AI Recommendations Sentences & Structured Recommendations (All 31 Commodities)
+      [/High\s+institutional\s+procurement\s+velocity\.\s*Lock\s+(\d+(?:\.\d+)?%)\s+advance\s+escrow\s+on\s+([A-Za-z\s]+?)\s+Grade\s+A\s+lots\s+before\s+post-monsoon\s+export\s+quota\s+surge\./gi, 'उच्च संस्थागत खरेदी वेग. पावसाळ्यानंतरच्या निर्यात कोटा वाढीपूर्वी $2 ग्रेड अ लॉट्ससाठी $1 आगाऊ एस्क्रो सुरक्षित करा.'],
+      [/High\s+institutional\s+procurement\s+velocity\.\s*Lock\s+35%\s+advance\s+escrow\s+on\s+Lasalgaon\s+Grade\s+A\s+lots\s+before\s+post-monsoon\s+export\s+quota\s+surge\./gi, 'उच्च संस्थागत खरेदी वेग. पावसाळ्यानंतरच्या निर्यात कोटा वाढीपूर्वी लासलगाव ग्रेड अ लॉट्ससाठी ३५% आगाऊ एस्क्रो सुरक्षित करा.'],
+      [/Peak\s+harvest\s+arrivals\s+from\s+Junnar\s+and\s+Otur\s+clusters\.\s*High\s+bargaining\s+power\s+for\s+bulk\s+processing\s+and\s+retail\s+packing\.\s*Counter-bid\s+at\s+₹\s*11\.50-11\.80\/kg\./gi, 'जुन्नर व ओतूर भागातून कमाल हंगामी आवक. प्रक्रियादार व किरकोळ पॅकिंगसाठी उत्तम वाटाघाटी संधी. ₹ ११.५०-११.८०/किलोवर प्रति-बोली द्या.'],
+      [/Export\s+and\s+supermarket\s+grade\s+bunches\s+available\s+with\s+calibrated\s+ripening\s+reefer\s+fleet\.\s*Fast\s+haulage\s+to\s+Mumbai\/Pune\s+recommended\./gi, 'वातानुकूलित रीफर वाहनांसह निर्यात व सुपरमार्केट दर्जाचे घड उपलब्ध. मुंबई/पुणेसाठी जलद मालवाहतूक शिफारस.'],
+      [/High\s+solvent\s+extraction\s+demand\.\s*Procure\s+moisture-certified\s+Grade\s+A\s+lots\s+directly\s+from\s+Latur\s+and\s+Nanded\s+silos\s+with\s+quality\s+lab\s+reports\./gi, 'उच्च सॉल्व्हेंट तेल निष्कर्षण मागणी. प्रयोगशाळा अहवालासह लातूर व नांदेड सायलोमधून प्रमाणित ग्रेड अ लॉट्स थेट खरेदी करा.'],
+      [/Ambika\s+and\s+Nagpur\s+mandarin\s+harvest\s+at\s+peak\s+Brix\s+sweetness\.\s*Ideal\s+for\s+beverage\s+manufacturers\s+and\s+retail\s+chains\./gi, 'अंबिका व नागपूर संत्रा काढणी कमाल ब्रिक्स गोडीवर. शीतपेय उत्पादक व सुपरमार्केट्ससाठी सर्वोत्तम.'],
+      [/Curcumin\s*>4\.5%\s+premium\s+quality\s+in\s+Sangli\s+and\s+Hingoli\.\s*High\s+global\s+export\s+demand;\s*lock\s+long-term\s+supply\s+contracts\s+immediately\./gi, 'सांगली व हिंगोलीमध्ये करक्युमिन >४.५% उच्च प्रत. मोठी जागतिक निर्यात मागणी; दीर्घकालीन पुरवठा करार त्वरित निश्चित करा.'],
+      [/Deep\s+red\s+aril\s+fruit\s+size\s+250g\+\s+available\s+in\s+Solapur\s+&\s+Sangola\s+clusters\.\s*Premium\s+price\s+realized\s+in\s+EU\s+and\s+Gulf\s+markets\./gi, 'सोलापूर व सांगोला भागात २५० ग्रॅम+ आकाराचे गडद लाल डाळिंब उपलब्ध. युरोप व आखाती देशांतून उत्कृष्ट दर.'],
+      [/Staple\s+length\s+29\.5mm\+\s+Shankar-6\s+equivalent\s+available\s+across\s+Yavatmal\s+spinning\s+ginning\s+hubs\./gi, 'यवतमाळ जिनिंग केंद्रांमध्ये २९.५ मिमी+ लांबीचा शंकर-६ समतुल्य दर्जेदार कापूस उपलब्ध.'],
+      [/High\s+moisture-controlled\s+feed\s+grade\s+maize\s+available\s+across\s+Nashik\s+and\s+Khandesh\s+hubs\./gi, 'नाशिक व खानदेश केंद्रांमध्ये नियंत्रित ओलावा असलेला फीड ग्रेड मका उपलब्ध.'],
+      [/High\s+linoleic\s+oil\s+content\s+seeds\s+available\s+in\s+Solapur\s+&\s+Dharashiv\s+APMCs\./gi, 'सोलापूर व धाराशिव बाजार समित्यांमध्ये उच्च लिनोलिक तेल प्रमाण असलेले करडई बियाणे उपलब्ध.'],
+      [/Natural\s+white\s+99\.5%\s+purity\s+sesame\s+available\s+in\s+Dhule\s+&\s+Jalgaon\s+hubs\s+for\s+confectionery\s+&\s+oil\s+extraction\./gi, 'धुळे व जळगाव केंद्रांमध्ये प्रक्रिया व तेल उत्पादनासाठी नैसर्गिक पांढरे ९९.५% शुद्ध तीळ उपलब्ध.'],
+      [/High\s+SHU\s+capsaicin\s+Teja\s+and\s+Guntur\s+varieties\s+in\s+Nandurbar\s+market\s+yard\./gi, 'नंदुरबार बाजार समितीत उच्च तिखटपणा असलेल्या तेजा व गुंतूर मिरची वाणांची आवक.'],
+      [/Fresh\s+Sardar\s+L-49\s+table\s+guava\s+harvested\s+daily\s+in\s+Ahmednagar\s+belt\./gi, 'अहमदनगर पट्ट्यातून दररोज ताजी सरदार एल-४९ पेरू काढणी.'],
+      [/High\s+protein,\s*lustrous\s+Lokwan\s+wheat\s+grains\s+for\s+flour\s+mills\s+and\s+retail\s+brand\s+packing\./gi, 'पिठाच्या गिरण्या व पॅकिंग ब्रँड्ससाठी उच्च प्रथिनयुक्त चमकदार लोकवन गहू उपलब्ध.'],
+      [/Aromatic\s+non-basmati\s+Wada\s+Kolam\s+paddy\s+available\s+directly\s+from\s+coastal\s+Maharashtra\s+farmers\./gi, 'कोकणातील शेतकऱ्यांकडून थेट उपलब्ध सुगंधी गैर-बासमती वाडा कोलम भात.'],
+      [/Maldandi\s+M35-1\s+white\s+lustrous\s+grain\s+high\s+in\s+fiber,\s*ideal\s+for\s+FMCG\s+superfood\s+brands\./gi, 'फायबरयुक्त मालदांडी एम३५-१ पांढरी चमकदार ज्वारी, सुपरफूड ब्रँड्ससाठी अत्यंत उपयुक्त.'],
+      [/Cleaned\s+hybrid\s+bajra\s+grain\s+available\s+across\s+North\s+Maharashtra\s+hubs\./gi, 'उत्तर महाराष्ट्र केंद्रांमध्ये स्वच्छ संकरित बाजरी उपलब्ध.'],
+      [/Marathwada\s+bold\s+red\s+tur\s+with\s+high\s+milling\s+recovery\s+rate;\s*lock\s+advance\s+escrow\s+for\s+mills\./gi, 'दाल मिलसाठी उच्च उतारा असलेली मराठवाडा जाड लाल तूर; त्वरित आगाऊ एस्क्रो सुरक्षित करा.'],
+      [/High\s+protein\s+Vijay\s+and\s+Digvijay\s+varieties\s+in\s+Vidarbha\s+pulses\s+market\s+yards\./gi, 'विदर्भ कडधान्य बाजार समित्यांमध्ये उच्च प्रथिनयुक्त विजय व दिग्विजय हरभरा उपलब्ध.'],
+      [/Bold\s+shiny\s+green\s+mung\s+beans\s+harvested\s+across\s+Khandesh\s+and\s+Marathwada\./gi, 'खानदेश व मराठवाड्यातून काढणी झालेले टपोरे चमकदार हिरवे मूग.'],
+      [/High\s+gluten\s+index\s+black\s+urad\s+suitable\s+for\s+papad\s+manufacturers\s+and\s+dal\s+processors\./gi, 'पापड उत्पादक व डाळ प्रक्रियादारांसाठी उपयुक्त उच्च दर्जाची काळी उडीद.'],
+      [/48%\+\s+oil\s+content\s+bold\s+groundnuts\s+harvested\s+in\s+South\s+Maharashtra\s+river\s+belts\./gi, 'दक्षिण महाराष्ट्र पट्ट्यातून ४८%+ तेल प्रमाण असलेली टपोरी भुईमूग शेंग उपलब्ध.'],
+      [/High\s+oil\s+yield\s+sunflower\s+seed\s+lots\s+available\s+in\s+Marathwada\s+APMC\s+yards\./gi, 'मराठवाडा बाजार समित्यांमध्ये उच्च तेल प्रमाण असलेले सूर्यफूल बियाणे लॉट्स उपलब्ध.'],
+      [/High\s+sucrose\s+recovery\s+sugarcane\s+for\s+jaggery\s+\(gur\)\s+units\s+and\s+ethanol\s+distilleries\./gi, 'गूळ उद्योग व इथेनॉल प्रकल्पांसाठी उच्च साखर उतारा असलेला दर्जेदार ऊस.'],
+      [/18mm\+\s+berry\s+size\s+MRL\s+compliant\s+grapes\s+with\s+cold\s+chain\s+reefer\s+access\./gi, 'शीतगृह वाहतूक सुविधेसह १८ मिमी+ आकाराचे निर्यातक्षम सुरक्षित द्राक्ष उपलब्ध.'],
+      [/High\s+juice\s+yield\s+sweet\s+limes\s+from\s+Marathwada\s+citrus\s+orchards\./gi, 'मराठवाड्यातील बागांमधून भरपूर रस असलेली ताजी दर्जेदार मोसंबी.'],
+      [/Balanagar\s+extra\s+sweet\s+custard\s+apples\s+harvested\s+daily\s+for\s+dairy\s+&\s+dessert\s+processors\./gi, 'दुग्ध व मिठाई उद्योगासाठी दररोज काढणी होणारे बालनगर अतिगोड सीताफळ.'],
+      [/100%\s+authentic\s+Konkan\s+GI\s+tagged\s+Alphonso\s+mangoes\s+with\s+QR\s+traceability\s+tags\./gi, 'क्युआर ट्रेसिबिलिटीसह १००% अस्सल कोकण जीआय मानांकित हापूस आंबा.'],
+      [/High\s+dry\s+matter\s+Jyoti\s+potatoes\s+from\s+Khed\s+and\s+Manchar\s+cold\s+stores\.\s*Ideal\s+for\s+chip\s+processors\s+and\s+wholesale\s+markets\./gi, 'खेड व मंचर शीतगृहातून उच्च घनता असलेले ज्योती बटाटे. वेफर्स प्रक्रियादार व घाऊक बाजारासाठी उत्तम.'],
+      [/Freshly\s+harvested\s+shiny\s+purple\s+long\s+brinjals\s+in\s+Ahmednagar\s+and\s+Pune\s+belts\.\s*High\s+demand\s+for\s+urban\s+retail\s+supply\s+chains\./gi, 'अहमदनगर व पुणे भागातून ताजी काढणी झालेली चमकदार लांब वांगी. शहरांमधील भाजी बाजारासाठी मोठी मागणी.'],
+      [/G4\s+variety\s+fresh\s+green\s+chillies\s+with\s+deep\s+green\s+skin\s+and\s+high\s+capsaicin\s+content\s+harvested\s+in\s+Nandurbar\s+and\s+Solapur\./gi, 'नंदुरबार व सोलापूरमधून काढणी झालेली गडद हिरवी व तिखट जी-४ ताजी हिरवी मिरची.'],
+
+      // AI Action Plan & Sourcing Recommendations
+      [/AI\s+Procurement\s+Action\s+Plan:?/gi, 'एआय खरेदी कृती आराखडा:'],
+      [/Procurement\s+Action\s+Plan:?/gi, 'खरेदी कृती आराखडा:'],
+      [/Action\s+Plan:?/gi, 'कृती आराखडा:'],
+      [/High\s+institutional\s+procurement\s+velocity/gi, 'उच्च संस्थागत खरेदी वेग'],
+      [/institutional\s+procurement\s+velocity/gi, 'संस्थागत खरेदी वेग'],
+      [/procurement\s+velocity/gi, 'खरेदी वेग'],
+      [/\bvelocity\b/gi, 'वेग'],
+      [/Lock\s+(\d+(?:\.\d+)?%)\s+advance\s+allocation\s+on\s+escrow\s+for/gi, 'साठी एस्क्रोवर $1 आगाऊ रक्कम लॉक करा'],
+      [/Lock\s+(\d+(?:\.\d+)?%)\s+advance\s+escrow\s+on\s+([A-Za-z\s]+?)\s+lots/gi, '$2 लॉट्ससाठी $1 आगाऊ एस्क्रो सुरक्षित करा'],
+      [/Lock\s+(\d+(?:\.\d+)?%)\s+advance\s+escrow\s+on/gi, 'वर $1 आगाऊ एस्क्रो लॉक करा'],
+      [/Lock\s+(\d+(?:\.\d+)?%)\s+advance\s+escrow/gi, '$1 आगाऊ एस्क्रो सुरक्षित करा'],
+      [/advance\s+allocation\s+on\s+escrow/gi, 'एस्क्रोवर आगाऊ रक्कम वाटप'],
+      [/advance\s+allocation/gi, 'आगाऊ रक्कम वाटप'],
+      [/advance\s+escrow/gi, 'आगाऊ एस्क्रो'],
+      [/before\s+post-monsoon\s+export\s+quota\s+surge/gi, 'पावसाळ्यानंतरच्या निर्यात कोटा वाढीपूर्वी'],
+      [/before\s+post-monsoon/gi, 'पावसाळ्यानंतरच्या आधी'],
+      [/post-monsoon\s+export\s+quota\s+surge/gi, 'पावसाळ्यानंतरचा निर्यात कोटा वाढ'],
+      [/export\s+quota\s+surge/gi, 'निर्यात कोटा वाढ'],
+      [/export\s+quota/gi, 'निर्यात कोटा'],
+      [/post-monsoon/gi, 'पावसाळ्यानंतर'],
+      [/\bsurge\b/gi, 'वाढ'],
+
+      // Producing Belts & Corridors
+      [/Nashik\s+Onion\s+&\s+Grape\s+Belt/gi, 'नाशिक कांदा व द्राक्ष पट्टा'],
+      [/Pune\s+Junnar\s+Tomato\s+Corridor/gi, 'पुणे जुन्नर टोमॅटो पट्टा'],
+      [/Khandesh\s+Banana\s+Belt/gi, 'खानदेश केळी पट्टा'],
+      [/Marathwada\s+Oilseed\s+Cluster/gi, 'मराठवाडा गळीतधान्य संकुल'],
+      [/Vidarbha\s+Citrus\s+&\s+Cotton/gi, 'विदर्भ संत्री व कापूस पट्टा'],
+      [/Grape\s+Belt/gi, 'द्राक्ष पट्टा'],
+      [/Banana\s+Belt/gi, 'केळी पट्टा'],
+      [/Tomato\s+Corridor/gi, 'टोमॅटो पट्टा'],
+      [/Oilseed\s+Cluster/gi, 'गळीतधान्य संकुल'],
+      [/Citrus\s+&\s+Cotton/gi, 'संत्री व कापूस'],
+      [/\bCitrus\b/gi, 'संत्री / लिंबूवर्गीय फळे'],
+      [/\bBelt\b/gi, 'पट्टा'],
+      [/\bCorridor\b/gi, 'पट्टा'],
+      [/\bCluster\b/gi, 'संकुल'],
+
+      // Bulk Demands & Procurement Quota Spec Grid
+      [/\bTARGET QUOTA VOLUME\b/gi, 'एकूण उद्दिष्ट कोटा प्रमाण'],
+      [/\bTARGET QUOTA\b/gi, 'उद्दिष्ट कोटा'],
+      [/\bCEILING TARGET PRICE\b/gi, 'कमाल खरेदी मर्यादा दर'],
+      [/\bMANDI BENCHMARK RATE\b/gi, 'बाजार समिती संदर्भ दर'],
+      [/\bQUALITY & LOGISTICS SPEC\b/gi, 'गुणवत्ता व वाहतूक तपशील'],
+      [/\bSourced Volume:/gi, 'प्राप्त झालेले प्रमाण:'],
+      [/\b(\d+(?:\.\d+)?%)\s*Sourced\b/gi, '$1 खरेदी पूर्ण'],
+      [/\bReview Farmer Bids\b/gi, 'शेतकरी बोल्यांची तपासणी करा'],
+      [/\bReview Farmer Proposals\b/gi, 'शेतकरी प्रस्तावांची तपासणी करा'],
+      [/\bReview Proposals\b/gi, 'प्रस्तावांची तपासणी करा'],
+      [/\bReview Bids\b/gi, 'बोल्यांची तपासणी करा'],
+      [/\bFarm-Gate Pickup \(AgriNex Transit\)\b/gi, 'शेत-शिवार पिकअप (AgriNex थेट वाहतूक)'],
+      [/\bSourcing Deadline:/gi, 'शेवटची मुदत:'],
+      [/\bDestination:/gi, 'गंतव्य:'],
+
+      // Bulk Demand Specifications, Packaging & Crop Moisture Conditions
+      [/Green\s+Mature\s+75-80%\s*RH\s+Packed/gi, 'हिरवे परिपक्व ७५-८०% आर्द्रता पॅक केलेले'],
+      [/Green\s+Mature\s+75-80%\s*RH/gi, 'हिरवे परिपक्व ७५-८०% आर्द्रता'],
+      [/Green\s+Mature/gi, 'हिरवे परिपक्व'],
+      [/Mature\s+Green/gi, 'परिपक्व हिरवे'],
+      [/75-80%\s*RH\s+Packed/gi, '७५-८०% आर्द्रता पॅकिंग'],
+      [/75-80%\s*RH/gi, '७५-८०% सापेक्ष आर्द्रता'],
+      [/RH\s+Packed/gi, 'सापेक्ष आर्द्रता पॅकिंग'],
+      [/Grade\s+A\s+Export\s+Calibrated\s*\(7-8\s*hands\)/gi, 'ग्रेड अ (निर्यात प्रत) (७–८ घड)'],
+      [/\(7-8\s*hands\)/gi, '(७–८ घड)'],
+      [/7-8\s*hands/gi, '७–८ घड'],
+      [/Chilled\s+Temperature\s+Truck/gi, 'शीतकरण नियंत्रित तापमान ट्रक'],
+      [/Machine\s+Cleaned\s+Single\s+Origin/gi, 'यंत्राने स्वच्छ केलेले (सिंगल ओरिजिन)'],
+      [/Single\s+Origin/gi, 'सिंगल ओरिजिन (एकाच शेतातील)'],
+      [/Machine\s+Cleaned/gi, 'यंत्राने स्वच्छ केलेले'],
+      [/Bulk\s+Jute\s+Gunny\s+Bags\s*50\s*kg/gi, '५० किलो जूट बारदान पोती (थोक)'],
+      [/Bulk\s+Jute\s+Gunny\s+Bags/gi, 'जूट बारदान पोती (थोक)'],
+      [/Jute\s+Gunny\s+Bags\s*50\s*kg/gi, '५० किलो जूट बारदान पोती'],
+      [/Jute\s+Gunny\s+Bags/gi, 'जूट बारदान पोती'],
+      [/Gunny\s+Bags\s*50\s*kg/gi, '५० किलो बारदान पोती'],
+      [/Gunny\s+Bags/gi, 'बारदान पोती'],
+      [/Max\s+10(?:\.0)?%\s+Moisture\s*[•·]\s*Oil\s*>\s*18\.5%/gi, 'कमाल १०.०% ओलावा • तेल > १८.५%'],
+      [/Oil\s*>\s*(\d+(?:\.\d+)?%?)/gi, 'तेल > $1'],
+      [/Max\s+13(?:\.5)?%\s+Moisture\s*[•·]\s*Sun\s+Cured\s+Skin/gi, 'कमाल १३.५% ओलावा • उन्हात सुकवलेली साल'],
+      [/Sun\s+Cured\s+Skin/gi, 'उन्हात सुकवलेली साल'],
+      [/Max\s+82%\s+Moisture\s*[•·]\s*Brix\s*>\s*4\.8%/gi, 'कमाल ८२% ओलावा • ब्रिक्स > ४.८%'],
+      [/Crates\s+in\s+Reefer\s+Truck/gi, 'वातानुकूलित (रीफर) वाहनात क्रेट्स'],
+      [/Grade\s+A\s+Nagpur\s+Mandarin\s*\(GI\s*Tagged\)/gi, 'ग्रेड अ नागपूर संत्री (GI मानांकन)'],
+      [/Nagpur\s+Mandarin\s*\(GI\s*Tagged\)/gi, 'नागपूर संत्री (GI मानांकन)'],
+      [/Nagpur\s+Mandarin/gi, 'नागपूर संत्री'],
+      [/\(?GI\s*Tagged\)?/gi, '(GI मानांकन)'],
+      [/Fresh\s+Harvest\s+Brix\s*>\s*(\d+(?:\.\d+)?%?)/gi, 'ताजी काढणी ब्रिक्स > $1'],
+      [/Brix\s*>\s*(\d+(?:\.\d+)?%?)/gi, 'ब्रिक्स > $1'],
+      [/Brix\s*>\s*10%/gi, 'ब्रिक्स > १०%'],
+      [/Ventilated\s+Plastic\s+Crates/gi, 'हवेशीर प्लास्टिक क्रेट्स'],
+      [/Plastic\s+Crates/gi, 'प्लास्टिक क्रेट्स'],
+      [/Ventilated/gi, 'हवेशीर'],
+      [/Double\s+Polished\s+High\s+Curcumin\s*>\s*4\.8%/gi, 'डबल पॉलिश उच्च करक्युमिन > ४.८%'],
+      [/High\s+Curcumin/gi, 'उच्च करक्युमिन'],
+      [/Double\s+Polished/gi, 'डबल पॉलिश'],
+      [/Max\s+9(?:\.5)?%\s+Moisture\s*[•·]\s*Grade\s+1\s+Bulbs/gi, 'कमाल ९.५% ओलावा • ग्रेड १ हळद गाठी'],
+      [/Grade\s+1\s+Bulbs/gi, 'ग्रेड १ हळद गाठी'],
+      [/Clean\s+Lined\s+HDPE\s+Bags/gi, 'स्वच्छ अस्तरयुक्त HDPE पोती'],
+      [/Grade\s+A\s+Firm\s+Salad\s*\/\s*Export/gi, 'ग्रेड अ टणक सॅलड / निर्यात प्रत'],
+      [/Firm\s+Salad\s*\/\s*Export/gi, 'टणक सॅलड / निर्यात प्रत'],
+      [/Grade\s+A\s*\(45-55mm\s*Export\s*Calibrated\)/gi, 'ग्रेड अ (४५-५५ मिमी निर्यात प्रत)'],
+      [/✓?\s*100%\s*Contracted\s*&\s*Fulfilled/gi, '✓ १००% खरेदी करारबद्ध व पूर्ण'],
+      [/100%\s*Contracted\s*&\s*Fulfilled/gi, '१००% खरेदी करारबद्ध व पूर्ण'],
+      [/Contracted\s*&\s*Fulfilled/gi, 'करारबद्ध व पूर्ण'],
+      [/Contracted/gi, 'करारबद्ध'],
+
       // Orders, Shipments & Stepper Milestones (Highest Priority)
       [/\b1\.\s*Confirmed\b/gi, '१. निश्चित'],
       [/\b2\.\s*35%\s*Advance\s*Paid\b/gi, '२. ३५% आगाऊ रक्कम जमा'],
@@ -1446,13 +1855,17 @@
       [/\bConfirm Booking & Dispatch Driver\b/gi, 'वाहन आरक्षण निश्चित करा व चालक पाठवा'],
       [/\bConfirm Chamber Booking & Issue Gate Pass\b/gi, 'शीतगृह कक्ष आरक्षित करा व गेट पास जारी करा'],
       [/\bMark Lien & Disburse ₹ Loan\b/gi, 'तारण नोंद करा व कर्ज रक्कम मिळवा'],
-      [/\bRatify QC & Release Escrow\b/gi, '✓ प्रतवारी मंजूर करा व एस्क्रो सुपूर्द करा'],
+      [/(?:✓\s*)?Ratify QC & Release Escrow\b/gi, '✓ गुणवत्ता मंजूर करा आणि एस्क्रो जमा करा'],
       [/\bLive GPS Telemetry\b/gi, 'थेट GPS स्थान पहा'],
 
       // Statuses & Badges
       [/\bVerified Available\b/gi, 'प्रमाणित उपलब्ध'],
       [/\bOn The Road\b/gi, 'मार्गावर आहे'],
       [/\bPickup Scheduled\b/gi, 'पिकअप नियोजित'],
+      [/\bScheduled\b/gi, 'नियोजित'],
+      [/\bscheduled\b/gi, 'नियोजित'],
+      [/\bSchedule\b/gi, 'नियोजन'],
+      [/\bschedule\b/gi, 'नियोजन'],
       [/\bDelivered & QC Passed\b/gi, 'वितरित व गुणवत्ता मंजूर'],
       [/\bDelivered & Settled\b/gi, 'वितरित आणि हिशोब पूर्ण'],
       [/\bDelivered & Released\b/gi, 'वितरित आणि रक्कम सुपूर्द'],
@@ -1501,27 +1914,27 @@
       [/\bTarget Price\b/gi, 'अपेक्षित किंमत'],
       [/\bDestination Warehouse Location\b/gi, 'वितरण गोदामाचा पत्ता'],
       [/\bQuality Grade Expectation\b/gi, 'अपेक्षित प्रतवारी दर्जा'],
-      [/\bCeiling Target Price:\b/gi, 'कमाल खरेदी किंमत मर्यादा:'],
-      [/\bDestination Hub:\b/gi, 'गंतव्य केंद्र:'],
-      [/\bRemaining to Source:\b/gi, 'खरेदीसाठी शिल्लक:'],
+      [/\bCeiling Target Price:/gi, 'कमाल खरेदी किंमत मर्यादा:'],
+      [/\bDestination Hub:/gi, 'गंतव्य केंद्र:'],
+      [/\bRemaining to Source:/gi, 'खरेदीसाठी शिल्लक:'],
       [/\bAll bids backed by AgriNex Quality Assay & 35% Escrow Guarantee\b/gi, 'सर्व बोली AgriNex गुणवत्ता तपासणी व ३५% एस्क्रो हमीने सुरक्षित'],
       [/\bProcure Entire Harvest \(100% Volume\)\b/gi, 'संपूर्ण काढणी खरेदी करा (१००% प्रमाण)'],
       [/\bBuys all available crop. Lot status will be marked SOLD OUT for all other buyers.\b/gi, 'सर्व उपलब्ध शेतीमाल खरेदी करतो. लॉट इतर सर्व खरेदीदारांसाठी "विकले गेले" असा चिन्हांकित होईल.'],
       [/\bProcure Partial Harvest Volume \(kg\)\b/gi, 'काढणीतील अंशतः प्रमाण खरेदी करा (kg)'],
       [/\bEnter quantity in kg\b/gi, 'किलोमध्ये प्रमाण प्रविष्ट करा'],
-      [/\bTotal Contract Value:\b/gi, 'एकूण करार मूल्य:'],
-      [/\b35% Advance Escrow to Lock:\b/gi, '🔒 ३५% आगाऊ एस्क्रो सुरक्षित करा:'],
-      [/\bRemaining for Other Buyers:\b/gi, 'इतर खरेदीदारांसाठी शिल्लक:'],
+      [/\bTotal Contract Value:/gi, 'एकूण करार मूल्य:'],
+      [/\b35% Advance Escrow to Lock:/gi, '🔒 ३५% आगाऊ एस्क्रो सुरक्षित करा:'],
+      [/\bRemaining for Other Buyers:/gi, 'इतर खरेदीदारांसाठी शिल्लक:'],
       [/\bEmergency Salvage Buyout\b/gi, 'तातडीची संकटकालीन खरेदी'],
       [/\bBreakeven Procurement • Immediate Reefer Transit Dispatch\b/gi, 'किमान पडताळणी खरेदी • तात्काळ वातानुकूलित वाहतूक रवानगी'],
       [/\bCertified Quantity\b/gi, 'प्रमाणित वजन/प्रमाण'],
       [/\bBreakeven Buyout Rate\b/gi, 'किमान बचाव खरेदी दर'],
-      [/\b35% Immediate Advance Escrow:\b/gi, '३५% तात्काळ आगाऊ एस्क्रो:'],
-      [/\b65% Balance on Delivery & QC Pass:\b/gi, '६५% डिलिव्हरी व गुणवत्ता मंजुरीनंतर शिल्लक:'],
-      [/\bExpress Reefer Logistics Assigned:\b/gi, 'द्रुतगती वातानुकूलित वाहन नियुक्त:'],
+      [/\b35% Immediate Advance Escrow:/gi, '३५% तात्काळ आगाऊ एस्क्रो:'],
+      [/\b65% Balance on Delivery & QC Pass:/gi, '६५% डिलिव्हरी व गुणवत्ता मंजुरीनंतर शिल्लक:'],
+      [/\bExpress Reefer Logistics Assigned:/gi, 'द्रुतगती वातानुकूलित वाहन नियुक्त:'],
       [/\bSubmit Counter-Offer Bid\b/gi, 'प्रति-बोली सादर करा'],
       [/\bFarmer Ask Price\b/gi, 'शेतकऱ्याची अपेक्षित किंमत'],
-      [/\bFarmer Ask Price:\b/gi, 'शेतकऱ्याची अपेक्षित किंमत:'],
+      [/\bFarmer Ask Price:/gi, 'शेतकऱ्याची अपेक्षित किंमत:'],
       [/\bYour Bid Price \(₹ per kg\)\b/gi, 'तुमची बोली किंमत (₹ प्रति किलो)'],
       [/\bRequested Delivery Date\b/gi, 'अपेक्षित वितरण तारीख'],
       [/\bInstitutional Buyer Profile\b/gi, 'संस्थात्मक खरेदीदार प्रोफाइल'],
@@ -1532,18 +1945,18 @@
       [/\bContact Mobile\b/gi, 'संपर्क मोबाईल'],
       [/\bCentral Receiving Hub Location\b/gi, 'मध्यवर्ती स्वीकृती केंद्र पत्ता'],
       [/\bEscrow Treasury & Credit Line\b/gi, 'एस्क्रो कोषागार व क्रेडिट मर्यादा'],
-      [/\bCredit Active:\b/gi, 'क्रेडिट सक्रिय:'],
-      [/\bEscrow Deposit:\b/gi, 'एस्क्रो ठेव:'],
-      [/\bAuto-Disburse:\b/gi, 'स्वयं-वितरण:'],
+      [/\bCredit Active:/gi, 'क्रेडिट सक्रिय:'],
+      [/\bEscrow Deposit:/gi, 'एस्क्रो ठेव:'],
+      [/\bAuto-Disburse:/gi, 'स्वयं-वितरण:'],
       [/\bWeighbridge Pass\b/gi, 'वजनकाटा पावती मंजुरी'],
       [/\bDirect Farmer Bid Dispatch\b/gi, 'शेतकरी थेट बोली संदेश'],
       [/\bEnd-to-end encrypted\b/gi, 'सुरक्षित एन्क्रिप्टेड संभाषण'],
-      [/\bAgreed Price:\b/gi, 'मान्य किंमत:'],
-      [/\bRequired 35% Advance Escrow:\b/gi, 'आवश्यक ३५% आगाऊ एस्क्रो:'],
-      [/\bEstimated Dispatch:\b/gi, 'अपेक्षित रवानगी:'],
+      [/\bAgreed Price:/gi, 'मान्य किंमत:'],
+      [/\bRequired 35% Advance Escrow:/gi, 'आवश्यक ३५% आगाऊ एस्क्रो:'],
+      [/\bEstimated Dispatch:/gi, 'अपेक्षित रवानगी:'],
       [/\bFile Quality \/ Delivery Claim\b/gi, 'गुणवत्ता / वितरण तक्रार दाखल करा'],
       [/\bAgriNex Escrow Redressal Cell\b/gi, 'AgriNex एस्क्रो निवारण कक्ष'],
-      [/\bAutomated Escrow Freeze:\b/gi, 'स्वयंचलित एस्क्रो स्थगिती:'],
+      [/\bAutomated Escrow Freeze:/gi, 'स्वयंचलित एस्क्रो स्थगिती:'],
       [/\bSelect Disputed Order \/ Lot\b/gi, 'विवादित ऑर्डर / लॉट निवडा'],
       [/\bGrievance Category\b/gi, 'तक्रार वर्ग'],
       [/\bQuality Assay Deviation \(Grade \/ Moisture\)\b/gi, 'गुणवत्ता तपासणी तफावत (प्रत / आर्द्रता)'],
@@ -1555,40 +1968,47 @@
       [/\bDiscrepancy Details \/ Evidence Summary\b/gi, 'तफावत तपशील / पुरावा सारांश'],
       [/\bAttach Supporting Evidence \(Weighbridge Slip, Assay Report or Photo\)\b/gi, 'पुरावे जोडा (वजनकाटा पावती, तपासणी अहवाल किंवा फोटो)'],
       [/\bClick to upload Digital Assay Slip \/ Weight Receipt \/ Photo Proof\b/gi, 'डिजिटल प्रतवारी पावती / वजन पावती / फोटो अपलोड करण्यासाठी येथे क्लिक करा'],
-      [/\bDigital Lorry Receipt \(LR\) & Gate Pass\b/gi, 'डिजिटल लॉरी पावती (LR) व गेट पास'],
+      [/\bDigital Lorry Receipt \(LR\) & Gate Pass\b/gi, 'डिजिटल लॉरी पावती (LR)'],
+      [/\bDigital Lorry Receipt \(LR\)\b/gi, 'डिजिटल लॉरी पावती (LR)'],
+      [/\bDigital Lorry Receipt\b/gi, 'डिजिटल लॉरी पावती'],
+      [/\bLorry Receipt\b/gi, 'लॉरी पावती'],
+      [/\bVerified Orders\b/gi, 'प्रमाणित ऑर्डर्स'],
       [/\bVerified Transit Consignment\b/gi, 'प्रमाणित वाहतूक शेतीमाल'],
-      [/\bConsignor:\b/gi, 'पाठविणारा:'],
-      [/\bConsignee:\b/gi, 'स्वीकारणारा:'],
-      [/\bSecurity Gate Seal:\b/gi, 'सुरक्षा गेट सील:'],
-      [/\bVehicle:\b/gi, 'वाहन:'],
-      [/\bDriver:\b/gi, 'चालक:'],
-      [/\bGross Weight:\b/gi, 'एकूण वजन:'],
-      [/\bTare Weight:\b/gi, 'रिकाम्या वाहनाचे वजन:'],
-      [/\bCertified Net Cargo:\b/gi, 'प्रमाणित निव्वळ माल:'],
-      [/\bAssay Moisture:\b/gi, 'तपासणी आर्द्रता:'],
+      [/\bConsignor:/gi, 'पाठविणारा:'],
+      [/\bConsignee:/gi, 'स्वीकारणारा:'],
+      [/\bSecurity Gate Seal:/gi, 'सुरक्षा गेट सील:'],
+      [/\bVehicle:/gi, 'वाहन:'],
+      [/\bDriver:/gi, 'चालक:'],
+      [/\bGross Weight:/gi, 'एकूण वजन:'],
+      [/\bTare Weight:/gi, 'रिकाम्या वाहनाचे वजन:'],
+      [/\bCertified Net Cargo:/gi, 'प्रमाणित निव्वळ माल:'],
+      [/\bAssay Moisture:/gi, 'तपासणी आर्द्रता:'],
       [/\bDigitally Signed by AgriNex Weighbridge Terminal\b/gi, 'AgriNex वजनकाटा टर्मिनलद्वारे डिजिटल स्वाक्षरीत'],
       [/\bArrival QC & Escrow Release\b/gi, 'आगमन गुणवत्ता तपासणी व एस्क्रो वितरण'],
-      [/\bPhysical Receiving Checklist:\b/gi, 'प्रत्यक्ष माल स्वीकृती यादी:'],
-      [/\bDigital Weighbridge Net Weight Verified\b/gi, 'डिजिटल वजनकाटा निव्वळ वजन तपासले'],
-      [/\bMoisture Index within acceptable tolerance\b/gi, 'आर्द्रता प्रमाण मान्य मर्यादेत'],
-      [/\bQuality Grade A Certification Ratified by Receiving Officer\b/gi, 'स्वीकृती अधिकाऱ्याने ग्रेड अ गुणवत्ता प्रमाणित केली'],
-      [/\bTotal Trade Contract:\b/gi, 'एकूण खरेदी करार:'],
-      [/\b35% Advance Escrow \(Already Deposited\):\b/gi, '३५% आगाऊ एस्क्रो (आधीच जमा केलेले):'],
-      [/\bFinal 65% Settlement to Disburse:\b/gi, 'वितरित करावयाची अंतिम ६५% शिल्लक:'],
+      [/\bPhysical Receiving Checklist\s*:?/gi, 'भौतिक तपासणी चेकलिस्ट:'],
+      [/\bDigital Weighbridge Net Weight Verified\b/gi, 'डिजिटल वजनकाटा निव्वळ वजन प्रमाणित'],
+      [/\bMoisture Index within acceptable tolerance\b/gi, 'आर्द्रता प्रमाण स्वीकार्य मर्यादेत'],
+      [/\bQuality Grade A Certification Ratified by Receiving Officer\b/gi, 'स्वीकृती अधिकाऱ्याद्वारे प्रतवारी ग्रेड ए प्रमाणित'],
+      [/\bTotal Trade Contract\s*:?/gi, 'एकूण व्यापार करार:'],
+      [/\b35% Advance Escrow \(Already Deposited\)\s*:?/gi, '३५% अग्रिम एस्क्रो (आधीच जमा):'],
+      [/\b35% आगाऊ एस्क्रो \(आधीच जमा केलेले\)\s*:?/gi, '३५% अग्रिम एस्क्रो (आधीच जमा):'],
+      [/\b35% आगाऊ एस्क्रो \(आधीच जमा केले\)\s*:?/gi, '३५% अग्रिम एस्क्रो (आधीच जमा):'],
+      [/\b35% अग्रिम एस्क्रो \(आधीच जमा\)\s*:?/gi, '३५% अग्रिम एस्क्रो (आधीच जमा):'],
+      [/\bFinal 65% Settlement to Disburse\s*:?/gi, 'अंतिम ६५% वितरण रक्कम:'],
       [/\bLive Satellite GPS Telemetry\b/gi, 'थेट उपग्रह GPS वाहन स्थान'],
       [/\bVehicle & Transporter\b/gi, 'वाहन आणि वाहतूकदार'],
       [/\bDistance Remaining\b/gi, 'शिल्लक अंतर'],
       [/\bLive ETA\b/gi, 'अपेक्षित पोहोच वेळ'],
-      [/\bCurrent Corridor:\b/gi, 'सध्याचा महामार्ग:'],
-      [/\bCorridor Route & Checkpoints Telemetry:\b/gi, 'मार्ग व तपासणी नाके तपशील:'],
+      [/\bCurrent Corridor:/gi, 'सध्याचा महामार्ग:'],
+      [/\bCorridor Route & Checkpoints Telemetry:/gi, 'मार्ग व तपासणी नाके तपशील:'],
       [/\bDriver & Vehicle Telemetry Details\b/gi, 'चालक व वाहन तपशील'],
-      [/\bLogistics Partner:\b/gi, 'वाहतूक भागीदार:'],
+      [/\bLogistics Partner:/gi, 'वाहतूक भागीदार:'],
       [/\bCommercial Driving License\b/gi, 'व्यावसायिक चालक परवाना'],
       [/\bVehicle Payload Capacity\b/gi, 'वाहन मालवाहू क्षमता'],
       [/\bFASTag & Toll Clearance\b/gi, 'फास्टॅग व टोल मंजुरी'],
       [/\bWeighbridge Gate Seal\b/gi, 'वजनकाटा सुरक्षा सील'],
       [/\bReefer Cargo Temperature\b/gi, 'शीतगृह तापमान'],
-      [/\bCurrent Position:\b/gi, 'सध्याचे स्थान:'],
+      [/\bCurrent Position:/gi, 'सध्याचे स्थान:'],
       [/\bBook Farm-Gate Transport Fleet\b/gi, 'शेत-शिवारातून वाहतूक वाहन बुक करा'],
       [/\bAgriNex Verified Cold-Chain & Haulage Network\b/gi, 'AgriNex प्रमाणित शीतगृह व मालवाहतूक नेटवर्क'],
       [/\bSelect Purchased Lot to Transport\b/gi, 'वाहतुकीसाठी खरेदी केलेला लॉट निवडा'],
@@ -1599,9 +2019,9 @@
       [/\bEicher Reefer\b/gi, 'आयशर वातानुकूलित (रीफर)'],
       [/\bTata 1613 Multi-Axle\b/gi, 'टाटा १६१३ मल्टि-ॲक्सल'],
       [/\bCertified Logistics Partner\b/gi, 'प्रमाणित वाहतूक भागीदार'],
-      [/\bHaulage Base Freight:\b/gi, 'मूळ वाहतूक भाडे:'],
+      [/\bHaulage Base Freight:/gi, 'मूळ वाहतूक भाडे:'],
       [/\bTolls & Digital LR Insurance\b/gi, 'टोल आणि विमा'],
-      [/\bEstimated Total Haulage \(Escrow Paid\):\b/gi, 'एकूण अंदाजे वाहतूक भाडे (एस्क्रो):'],
+      [/\bEstimated Total Haulage \(Escrow Paid\):/gi, 'एकूण अंदाजे वाहतूक भाडे (एस्क्रो):'],
       [/\bEscrow Liquidity Top-Up Gateway\b/gi, 'एस्क्रो निधी जमा गेटवे'],
       [/\bENTER DEPOSIT AMOUNT \(₹ INR\)\b/gi, 'जमा करावयाची रक्कम प्रविष्ट करा (₹ INR)'],
       [/\bZero Processing Fee\b/gi, 'शून्य प्रक्रिया शुल्क'],
@@ -1617,15 +2037,15 @@
       [/\bBANK UTR NUMBER\b/gi, 'बँक UTR क्रमांक'],
       [/\bPAYMENT RAIL\b/gi, 'पेमेंट पद्धत'],
       [/\bUPDATED ESCROW BALANCE\b/gi, 'अद्ययावत एस्क्रो शिल्लक'],
-      [/\bEscrow Trustee:\b/gi, 'एस्क्रो विश्वस्त:'],
-      [/\bClient ID:\b/gi, 'ग्राहक आयडी:'],
+      [/\bEscrow Trustee:/gi, 'एस्क्रो विश्वस्त:'],
+      [/\bClient ID:/gi, 'ग्राहक आयडी:'],
       [/\bTri-Party Smart Escrow Deed\b/gi, 'त्रिपक्षीय स्मार्ट एस्क्रो करारनामा'],
       [/\bAGRINEX DIGITAL ESCROW & ARBITRATION DEED\b/gi, 'AGRINEX डिजिटल एस्क्रो आणि लवाद करार'],
       [/\bExecuted digitally under Indian Information Technology Act \(2000\)\b/gi, 'माहिती तंत्रज्ञान कायदा (२०००) अंतर्गत डिजिटल स्वाक्षरीत'],
-      [/\bBuyer:\b/gi, 'खरेदीदार:'],
-      [/\bSeller Farmer:\b/gi, 'विक्रेता शेतकरी:'],
-      [/\bProduce Lot:\b/gi, 'शेतीमाल लॉट:'],
-      [/\bTotal Valuation:\b/gi, 'एकूण मूल्य:'],
+      [/\bBuyer:/gi, 'खरेदीदार:'],
+      [/\bSeller Farmer:/gi, 'विक्रेता शेतकरी:'],
+      [/\bProduce Lot:/gi, 'शेतीमाल लॉट:'],
+      [/\bTotal Valuation:/gi, 'एकूण मूल्य:'],
       [/\bBook Cold Storage \/ Silo Space\b/gi, 'शीतगृह / सायलो जागा बुक करा'],
       [/\bTemperature Control\b/gi, 'तापमान नियंत्रण'],
       [/\bHumidity Index\b/gi, 'आर्द्रता निर्देशांक'],
@@ -1633,17 +2053,17 @@
       [/\bSelect Commodity \/ Lot to Store\b/gi, 'साठवणुकीसाठी शेतीमाल / लॉट निवडा'],
       [/\bStorage Quantity\b/gi, 'साठवणूक प्रमाण'],
       [/\bStorage Tenure\b/gi, 'साठवणूक कालावधी'],
-      [/\bChamber Tariff Rate:\b/gi, 'कक्ष भाडे दर:'],
-      [/\bEstimated Total Storage Fee:\b/gi, 'एकूण अंदाजे साठवणूक शुल्क:'],
+      [/\bChamber Tariff Rate:/gi, 'कक्ष भाडे दर:'],
+      [/\bEstimated Total Storage Fee:/gi, 'एकूण अंदाजे साठवणूक शुल्क:'],
       [/\be-NWR Warehouse Pledge Loan\b/gi, 'e-NWR गोदामातील शेतीमाल तारण कर्ज'],
-      [/\bStored Collateral:\b/gi, 'तारण शेतीमाल:'],
-      [/\bAgriNex Mandi Benchmark Value:\b/gi, 'AgriNex बाजार समिती संदर्भ मूल्य:'],
-      [/\bMaximum 70% Loan-to-Value \(LTV\):\b/gi, 'कमाल ७०% तारण कर्ज मर्यादा (LTV):'],
+      [/\bStored Collateral:/gi, 'तारण शेतीमाल:'],
+      [/\bAgriNex Mandi Benchmark Value:/gi, 'AgriNex बाजार समिती संदर्भ मूल्य:'],
+      [/\bMaximum 70% Loan-to-Value \(LTV\):/gi, 'कमाल ७०% तारण कर्ज मर्यादा (LTV):'],
       [/\bSelect Partner Financing Bank\b/gi, 'कर्ज देणारी भागीदार बँक निवडा'],
       [/\bRequested Loan Amount \(₹\)\b/gi, 'मागणी केलेली कर्ज रक्कम (₹)'],
       [/\bAgriNex AI Sourcing Copilot\b/gi, 'AgriNex AI खरेदी सहाय्यक'],
       [/\bInstant Maharashtra Mandi Arbitrage & Direct Sourcing Hunter\b/gi, 'महाराष्ट्र बाजार समित्यांचे थेट दर फरक व खरेदी शोधक'],
-      [/\bEnterprise Digital Purchase Order & Tax Invoice\b/gi, 'कॉर्पोरेट खरेदी आदेश (PO) आणि कर इनव्हॉइस'],
+      [/\bEnterprise Digital Purchase Order & Tax Invoice\b/gi, 'कॉर्पोरेट खरेदी आदेश आणि कर इनव्हॉइस'],
       [/\bDirect Farm-to-Enterprise Agricultural Trading Exchange\b/gi, 'थेट शेतकरी ते कॉर्पोरेट शेतीमाल खरेदी मंच'],
       [/\bSide-by-Side Multi-Lot Comparative Matrix\b/gi, 'अनेक शेतीमाल लॉट्सची तुलनात्मक तालिका'],
       [/\bBenchmarking price, landed logistics freight, farmer reliability & escrow requirements\b/gi, 'किंमत, वाहतूक खर्च, शेतकरी विश्वसनीयता व एस्क्रो अटींची तुलना'],
@@ -1674,12 +2094,12 @@
       [/\bNext 3–5 Days\b/gi, 'पुढील ३–५ दिवस'],
       [/\bBefore festive demand uptick\b/gi, 'सणासुदीच्या मागणीपूर्वी'],
       [/\bDirect Sourcing Spread\b/gi, 'थेट खरेदीतील नफा/बचत'],
-      [/\bAI Procurement Action Plan:\b/gi, 'AI खरेदी कृती आराखडा:'],
+      [/\bAI Procurement Action Plan:/gi, 'AI खरेदी कृती आराखडा:'],
       [/\bBrowse Verified\b/gi, 'प्रमाणित शेतीमाल पहा'],
       [/\bAll District Rates for\b/gi, 'सर्व जिल्ह्यांमधील दर -'],
-      [/\bPrimary Hub:\b/gi, 'मुख्य केंद्र:'],
-      [/\b24h Modal:\b/gi, '२४ तास सरासरी:'],
-      [/\bIndex:\b/gi, 'निर्देशांक:'],
+      [/\bPrimary Hub:/gi, 'मुख्य केंद्र:'],
+      [/\b24h Modal:/gi, '२४ तास सरासरी:'],
+      [/\bIndex:/gi, 'निर्देशांक:'],
       [/\bExport Peak\b/gi, 'निर्यात उच्चांक'],
       [/\bActive Quota Volume\b/gi, 'सक्रिय कोटा प्रमाण'],
       [/\bFulfilled \/ Sourced Volume\b/gi, 'पूर्ण झालेली खरेदी'],
@@ -1688,7 +2108,7 @@
       [/\bAcross 4 Strategic Commodities\b/gi, '४ प्रमुख शेतमालांमध्ये'],
       [/\b100% Quality Assay Passed\b/gi, '१००% गुणवत्ता तपासणी मंजूर'],
       [/\bZero Middlemen Spread\b/gi, 'शून्य मध्यस्थ नफा'],
-      [/\bAvg Response Time:\b/gi, 'सरासरी प्रतिसाद वेळ:'],
+      [/\bAvg Response Time:/gi, 'सरासरी प्रतिसाद वेळ:'],
       [/\bActive Fleet\b/gi, 'सक्रिय वाहने'],
       [/\bVolume in Transit\b/gi, 'मार्गावरील शेतीमाल'],
       [/\bGate Passes\b/gi, 'गेट पासेस'],
@@ -1699,11 +2119,254 @@
       [/\b65% Delivery Balances\b/gi, '६५% उर्वरित रक्कम'],
       [/\bDisbursed After QC Pass\b/gi, 'गुणवत्ता तपासणीनंतर वितरण'],
       [/\bActive Milestone Tracks\b/gi, 'सक्रिय टप्पे ट्रॅक'],
-      [/\bAvailable Qty:\b/gi, 'उपलब्ध प्रमाण:'],
-      [/\bUnits:\b/gi, 'एकक:'],
-      [/\bFarmer:\b/gi, 'शेतकरी:']
+      [/\bAvailable Qty:/gi, 'उपलब्ध प्रमाण:'],
+      [/\bUnits:/gi, 'एकक:'],
+      [/\bFarmer:/gi, 'शेतकरी:']
     ],
     hi: [
+      // Modal 8: Confirm Arrival & Escrow Release (Highest Priority)
+      [/\bPhysical Receiving Checklist\s*:?/gi, 'भौतिक प्राप्ति चेकलिस्ट:'],
+      [/\bTotal Trade Contract\s*:?/gi, 'कुल व्यापार अनुबंध:'],
+      [/35%\s*Advance\s*Escrow\s*\(Already Deposited\)\s*:?/gi, '35% अग्रिम एस्क्रो (पहले से जमा):'],
+      [/35%\s*अग्रिम\s*एस्क्रो\s*\(पहले से जमा किया\)\s*:?/gi, '35% अग्रिम एस्क्रो (पहले से जमा):'],
+      [/\bFinal 65% Settlement to Disburse\s*:?/gi, 'अंतिम 65% संवितरण राशि:'],
+      [/(?:✓\s*)?Ratify QC & Release Escrow\b/gi, '✓ गुणवत्ता पास करें और एस्क्रो जारी करें'],
+      [/\bDigital Weighbridge Net Weight Verified\b/gi, 'डिजिटल वेब्रिज शुद्ध वजन सत्यापित'],
+      [/\bMoisture Index within acceptable tolerance\b/gi, 'नमी सूचकांक स्वीकार्य सीमा में'],
+      [/\bQuality Grade A Certification Ratified by Receiving Officer\b/gi, 'प्राप्ति अधिकारी द्वारा ग्रेड ए गुणवत्ता सत्यापित'],
+      [/\bArrival QC & Escrow Release\b/gi, 'आगमन गुणवत्ता जांच एवं एस्क्रो भुगतान'],
+
+      // Live GPS Fleet & Reefer Telemetry Route Visualizer Elements (Highest Priority)
+      [/\bLive\s+Satellite\s+GPS\s+Telemetry\b/gi, 'लाइव सैटेलाइट जीपीएस ट्रैकिंग'],
+      [/\bVehicle\s*&\s*Transporter\b/gi, 'वाहन और ट्रांसपोर्टर'],
+      [/\bOnline\s*\(\s*(\d+)\s*(?:km\/h|किमी\/घंटा|किमी\/तास)\s*\)/gi, 'सक्रिय ($1 किमी/घंटा)'],
+      [/\bDistance\s+Remaining\b/gi, 'शेष दूरी'],
+      [/\bLive\s+ETA\b/gi, 'पहुंचने का अनुमानित समय'],
+      [/\bCurrent\s+Corridor:?/gi, 'वर्तमान गलियारा:'],
+      [/\bCurrent\s+गलियारा:?/gi, 'वर्तमान गलियारा:'],
+      [/\bCorridor\s+Route\s*&\s*Checkpoints\s*Telemetry:?/gi, 'गलियारा मार्ग एवं चेकपॉइंट टेलीमेट्री:'],
+      [/\bRoute\s*&\s*Checkpoints\s*Telemetry:?/gi, 'मार्ग एवं चेकपॉइंट टेलीमेट्री:'],
+      [/(?:गलियारा\s*)?Route\s*&\s*Checkpoints\s*Telemetry:?/gi, 'गलियारा मार्ग एवं चेकपॉइंट टेलीमेट्री:'],
+      [/\bSatellite\s+Fix:?/gi, 'सैटेलाइट स्थिति:'],
+      [/\bReefer\s+Temp:?/gi, 'रीफर तापमान:'],
+      [/\(Optimal(?:\s+Curing)?\)/gi, '(इष्टतम तापमान)'],
+      [/\bFarm\s+Gate\s+Loading\s+Point\b/gi, 'फार्म गेट लोडिंग पॉइंट'],
+      [/\bLasalgaon\s+Mandi\s+Yard,\s*Nashik\b/gi, 'लासलगांव मंडी, नासिक'],
+      [/\bQC\s+Passed\s*&\s*Weighed\b/gi, '✓ गुणवत्ता जांच उत्तीर्ण एवं वजन संपन्न'],
+      [/\bSamriddhi\s+Expressway\s+Toll\s*#?(\d+)\b/gi, 'समृद्धि एक्सप्रेसवे टोल #$1'],
+      [/\bIgatpuri\s+(?:Corridor|गलियारा|मार्ग)\s+Checkpoint\b/gi, 'इगतपुरी गलियारा चेकपॉइंट'],
+      [/\bIgatpuri\s+Corridor\b/gi, 'इगतपुरी गलियारा'],
+      [/\bFastag\s+Automated\s+Weigh-In-Motion\b/gi, 'फास्टैग स्वचालित वे-इन-मोशन'],
+      [/\bBhiwandi\s+Agro\s+Logistics\s+(?:Hub|Center|केंद्र)\b/gi, 'भिवंडी ॲग्रो लॉजिस्टिक्स केंद्र'],
+      [/\bMumbai\s+Inward\s+Entry\s+(?:Corridor|गलियारा|मार्ग)\b/gi, 'मुंबई प्रवेश गलियारा'],
+      [/\bLive\s+GPS\s+Speed:\s*(\d+)\s*(?:km\/h|किमी\/घंटा|किमी\/तास)\s*•\s*Temp:\s*([0-9.]+°C)/gi, 'लाइव जीपीएस गति: $1 किमी/घंटा • तापमान: $2'],
+      [/\bDestination\s+Delivery\s+(?:Hub|Center|केंद्र)\b/gi, 'गंतव्य वितरण केंद्र'],
+      [/\bVashi\s+APMC\s+Central\s+Terminal,\s*Navi\s+Mumbai\b/gi, 'वाशी मंडी सेंट्रल टर्मिनल, नवी मुंबई'],
+      [/\bDock\s*#(\d+)\s*Bay\s*Assigned\b/gi, 'डॉक #$1 बे आवंटित'],
+      [/\bTomorrow\s+(\d+:\d+\s*(?:AM|PM)?)/gi, 'कल सुबह $1'],
+      [/\bTomorrow\b/gi, 'कल'],
+      [/(\d+:\d+\s*(?:AM|PM))\s*\((?:ETA|ईटीए|अपेक्षित)\)/gi, '$1 (ईटीए)'],
+      [/\bCall\s+Driver\b/gi, 'चालक को कॉल करें'],
+      [/\bRefresh\s+GPS\s+Ping\b/gi, 'जीपीएस पिंग रीफ्रेश करें'],
+
+      // Driver Fleet Telemetry Modal Elements (Highest Priority)
+      [/\bDriver\s*&\s*Vehicle\s*Telemetry\s*Details\b/gi, 'चालक व वाहन टेलीमेट्री विवरण'],
+      [/\bDriver\s*&\s*Fleet\s*Telemetry\s*Details\b/gi, 'चालक व वाहन टेलीमेट्री विवरण'],
+      [/(?:चालक\s*व\s*वाहन\s*)?(?:टेलीमेट्री|टेलिमेट्री|Telemetry)\s+Details\b/gi, 'चालक व वाहन टेलीमेट्री विवरण'],
+      [/\bDRIVER\s+&\s+FLEET\s+TELEMETRY\b/gi, 'चालक व वाहन टेलीमेट्री'],
+      [/\bDriver\s+&\s+Fleet\s+Telemetry\b/gi, 'चालक व वाहन टेलीमेट्री'],
+      [/\bDriver\s*&\s*Vehicle\s+Telemetry\b/gi, 'चालक व वाहन टेलीमेट्री'],
+      [/\bConsignment\s*#([A-Z0-9-]+)/gi, 'खेप #$1'],
+      [/\bGate\s*Pass:\s*([A-Z0-9-]+)/gi, 'गेट पास: $1'],
+      [/\bVerified Commercial Driver\b/gi, 'प्रमाणित वाणिज्यिक ड्राइवर'],
+      [/\bLogistics Partner:?/gi, 'लॉजिस्टिक्स पार्टनर:'],
+      [/\bSahyadri Agro Logistics Lines\b/gi, 'सह्याद्री ॲग्रो लॉजिस्टिक्स लाइन्स'],
+      [/\bSahyadri Agro Logistics\b/gi, 'सह्याद्री ॲग्रो लॉजिस्टिक्स'],
+      [/\bSahyadri Kisan Logistics\b/gi, 'सह्याद्री किसान लॉजिस्टिक्स'],
+      [/\bRating:?/gi, 'रेटिंग:'],
+      [/\bVehicle & Number Plate\b/gi, 'वाहन एवं नंबर प्लेट'],
+      [/\bVEHICLE & NUMBER PLATE\b/gi, 'वाहन एवं नंबर प्लेट'],
+      [/\bCommercial Driving License\b/gi, 'वाणिज्यिक ड्राइविंग लाइसेंस'],
+      [/\bCOMMERCIAL DRIVING LICENSE\b/gi, 'वाणिज्यिक ड्राइविंग लाइसेंस'],
+      [/\bVehicle Payload Capacity\b/gi, 'वाहन पेलोड क्षमता'],
+      [/\bVEHICLE PAYLOAD CAPACITY\b/gi, 'वाहन पेलोड क्षमता'],
+      [/\bFASTag & Toll Clearance\b/gi, 'फास्टैग एवं टोल क्लीयरेंस'],
+      [/\bFASTAG & TOLL CLEARANCE\b/gi, 'फास्टैग एवं टोल क्लीयरेंस'],
+      [/\bWeighbridge Gate Seal\b/gi, 'वेब्रिज सुरक्षा सील'],
+      [/\bWEIGHBRIDGE GATE SEAL\b/gi, 'वेब्रिज सुरक्षा सील'],
+      [/\bReefer Cargo Temperature\b/gi, 'रीफर तापमान'],
+      [/\bREEFER CARGO TEMPERATURE\b/gi, 'रीफर तापमान'],
+      [/\bActive\s*\(₹\s*([0-9,]+)\s*Balance\)/gi, 'सक्रिय (₹ $1 शेष)'],
+      [/(\d+(?:\.\d+)?°C)\s*\(Controlled\)/gi, '$1 (नियंत्रित)'],
+      [/(\d+(?:\.\d+)?°C)\s*\(Optimal(?: Curing)?\)/gi, '$1 (इष्टतम)'],
+      [/\bCurrent Position:?/gi, 'वर्तमान स्थिति:'],
+      [/\bGPS Telemetry Beacon:?/gi, 'जीपीएस टेलीमेट्री बीकन:'],
+      [/\bSatellite Speed:\s*(\d+)\s*(?:km\/h|किमी\/घंटा)/gi, 'सैटेलाइट गति: $1 किमी/घंटा'],
+      [/\bSatellite Speed:?/gi, 'सैटेलाइट गति:'],
+      [/(\d+)\s*Qt\s*Reefer/gi, '$1 क्विंटल रीफर'],
+      [/(\d+)\s*Qt\s*\((\d[\d,]*)\s*kg\s*Payload\)/gi, '$1 क्विंटल ($2 किग्रा पेलोड)'],
+      [/\bLive GPS Telemetry\b/gi, 'लाइव जीपीएस ट्रैकिंग'],
+      [/\bLive GPS Tracking\b/gi, 'लाइव जीपीएस ट्रैकिंग'],
+
+      // Orders & Consignments View Elements
+      [/(\d+)\s+Ready/gi, '$1 तैयार'],
+      [/(\d+)\s+On\s+Road/gi, '$1 मार्गस्थ'],
+      [/\bPRODUCE\s+&\s+FARMER\b/gi, 'उपज व किसान'],
+      [/\bProduce\s+&\s+Farmer\b/gi, 'उपज व किसान'],
+      [/\bDELIVERY\s+DESTINATION\s+&\s+ETA\b/gi, 'वितरण गंतव्य व ईटीए'],
+      [/\bDelivery\s+Destination\s+&\s+ETA\b/gi, 'वितरण गंतव्य व ईटीए'],
+      [/\+?\s*Book\s+Transport\s+Fleet\b/gi, '+ मालवाहन बुक करें'],
+      [/BigBasket\s+Distribution\s+Terminal,\s*Vashi\s*\/\s*Navi\s+Mumbai/gi, 'बिगबास्केट वितरण टर्मिनल, वाशी / नवी मुंबई'],
+      [/Central\s+DC\s*\(Dispatched\)/gi, 'केंद्रीय वितरण केंद्र (रवाना)'],
+      [/Central\s+DC\s*\(Express\s+Salvage\s+Dispatched\)/gi, 'केंद्रीय वितरण केंद्र (द्रुतगती बचाव रवाना)'],
+      [/➔\s*Central\s+DC/gi, '➔ केंद्रीय वितरण केंद्र'],
+      [/\bCentral\s+DC\b/gi, 'केंद्रीय वितरण केंद्र'],
+      [/\bDispatched\b/gi, 'रवाना'],
+      [/⏱️\s*ETA:\s*Today\s+(\d+:\d+\s*(?:AM|PM))\s*\((?:Speed|गति):\s*(\d+)\s*(?:km\/h|किमी\/घंटा)\)/gi, '⏱️ ईटीए: आज $1 (गति: $2 किमी/घंटा)'],
+      [/ETA:\s*Today\s+(\d+:\d+\s*(?:AM|PM))\s*\((?:Speed|गति):\s*(\d+)\s*(?:km\/h|किमी\/घंटा)\)/gi, 'ईटीए: आज $1 (गति: $2 किमी/घंटा)'],
+      [/Today\s+(\d+:\d+\s*(?:AM|PM))\s*\((?:Speed|गति):\s*(\d+)\s*(?:km\/h|किमी\/घंटा)\)/gi, 'आज $1 (गति: $2 किमी/घंटा)'],
+      [/Speed:\s*(\d+)\s*km\/h/gi, 'गति: $1 किमी/घंटा'],
+
+      // Full AI Recommendations Sentences & Structured Recommendations (All 31 Commodities)
+      [/High\s+institutional\s+procurement\s+velocity\.\s*Lock\s+(\d+(?:\.\d+)?%)\s+advance\s+escrow\s+on\s+([A-Za-z\s]+?)\s+Grade\s+A\s+lots\s+before\s+post-monsoon\s+export\s+quota\s+surge\./gi, 'उच्च संस्थागत खरीद गति। मानसून बाद निर्यात कोटा उछाल से पहले $2 ग्रेड ए लॉट्स के लिए $1 अग्रिम एस्क्रो लॉक करें।'],
+      [/High\s+institutional\s+procurement\s+velocity\.\s*Lock\s+35%\s+advance\s+escrow\s+on\s+Lasalgaon\s+Grade\s+A\s+lots\s+before\s+post-monsoon\s+export\s+quota\s+surge\./gi, 'उच्च संस्थागत खरीद गति। मानसून बाद निर्यात कोटा उछाल से पहले लासलगांव ग्रेड ए लॉट्स के लिए 35% अग्रिम एस्क्रो लॉक करें।'],
+      [/Peak\s+harvest\s+arrivals\s+from\s+Junnar\s+and\s+Otur\s+clusters\.\s*High\s+bargaining\s+power\s+for\s+bulk\s+processing\s+and\s+retail\s+packing\.\s*Counter-bid\s+at\s+₹\s*11\.50-11\.80\/kg\./gi, 'जुन्नर और ओतुर क्लस्टर से चरम आवक। थोक प्रसंस्करण और खुदरा पैकिंग के लिए मजबूत मोलभाव क्षमता। ₹ 11.50-11.80/किग्रा पर काउंटर-बोली लगाएं।'],
+      [/Export\s+and\s+supermarket\s+grade\s+bunches\s+available\s+with\s+calibrated\s+ripening\s+reefer\s+fleet\.\s*Fast\s+haulage\s+to\s+Mumbai\/Pune\s+recommended\./gi, 'नियंत्रित रिपनिंग रीफर फ्लीट के साथ निर्यात व सुपरमार्केट ग्रेड घड़े उपलब्ध। मुंबई/पुणे के लिए त्वरित परिवहन अनुशंसित।'],
+      [/High\s+solvent\s+extraction\s+demand\.\s*Procure\s+moisture-certified\s+Grade\s+A\s+lots\s+directly\s+from\s+Latur\s+and\s+Nanded\s+silos\s+with\s+quality\s+lab\s+reports\./gi, 'उच्च सॉल्वेंट निष्कर्षण मांग। गुणवत्ता लैब रिपोर्ट के साथ लातूर और नांदेड़ साइलो से नमी-प्रमाणित ग्रेड ए लॉट्स सीधे खरीदें।'],
+      [/Ambika\s+and\s+Nagpur\s+mandarin\s+harvest\s+at\s+peak\s+Brix\s+sweetness\.\s*Ideal\s+for\s+beverage\s+manufacturers\s+and\s+retail\s+chains\./gi, 'अंबिका और नागपुर संतरे की कटाई चरम ब्रिक्स मिठास पर। पेय निर्माताओं और रिटेल चेन के लिए आदर्श।'],
+      [/Curcumin\s*>4\.5%\s+premium\s+quality\s+in\s+Sangli\s+and\s+Hingoli\.\s*High\s+global\s+export\s+demand;\s*lock\s+long-term\s+supply\s+contracts\s+immediately\./gi, 'सांगली और हिंगोली में करक्यूमिन >4.5% प्रीमियम गुणवत्ता। उच्च वैश्विक निर्यात मांग; तुरंत दीर्घकालिक आपूर्ति अनुबंध सुरक्षित करें।'],
+      [/Deep\s+red\s+aril\s+fruit\s+size\s+250g\+\s+available\s+in\s+Solapur\s+&\s+Sangola\s+clusters\.\s*Premium\s+price\s+realized\s+in\s+EU\s+and\s+Gulf\s+markets\./gi, 'सोलापुर और सांगोला क्लस्टर में गहरे लाल दानों वाले 250 ग्राम+ फल उपलब्ध। यूरोपीय संघ और खाड़ी बाजारों में प्रीमियम मूल्य प्राप्त।'],
+      [/Staple\s+length\s+29\.5mm\+\s+Shankar-6\s+equivalent\s+available\s+across\s+Yavatmal\s+spinning\s+ginning\s+hubs\./gi, 'यवतमाल स्पिनिंग व जिनिंग हब में स्टेपल लंबाई 29.5 मिमी+ शंकर-6 समतुल्य उपलब्ध।'],
+      [/High\s+moisture-controlled\s+feed\s+grade\s+maize\s+available\s+across\s+Nashik\s+and\s+Khandesh\s+hubs\./gi, 'नासिक और खानदेश केंद्रों में नमी-नियंत्रित फीड ग्रेड मक्का उपलब्ध।'],
+      [/High\s+linoleic\s+oil\s+content\s+seeds\s+available\s+in\s+Solapur\s+&\s+Dharashiv\s+APMCs\./gi, 'सोलापुर और धाराशिव मंडियों में उच्च लिनोलिक तेल युक्त करडी बीज उपलब्ध।'],
+      [/Natural\s+white\s+99\.5%\s+purity\s+sesame\s+available\s+in\s+Dhule\s+&\s+Jalgaon\s+hubs\s+for\s+confectionery\s+&\s+oil\s+extraction\./gi, 'कन्फेक्शनरी और तेल निष्कर्षण के लिए धुले व जलगांव केंद्रों में प्राकृतिक सफेद 99.5% शुद्धता वाला तिल उपलब्ध।'],
+      [/High\s+SHU\s+capsaicin\s+Teja\s+and\s+Guntur\s+varieties\s+in\s+Nandurbar\s+market\s+yard\./gi, 'नंदुरबार मंडी यार्ड में उच्च एसएचयू कैप्साइसिन तेजा और गुंटूर किस्में उपलब्ध।'],
+      [/Fresh\s+Sardar\s+L-49\s+table\s+guava\s+harvested\s+daily\s+in\s+Ahmednagar\s+belt\./gi, 'अहमदनगर क्षेत्र में प्रतिदिन ताजा सरदार L-49 अमरूद की कटाई।'],
+      [/High\s+protein,\s*lustrous\s+Lokwan\s+wheat\s+grains\s+for\s+flour\s+mills\s+and\s+retail\s+brand\s+packing\./gi, 'आटा मिलों और खुदरा ब्रांड पैकिंग के लिए उच्च प्रोटीन, चमकदार लोकवन गेहूं के दाने।'],
+      [/Aromatic\s+non-basmati\s+Wada\s+Kolam\s+paddy\s+available\s+directly\s+from\s+coastal\s+Maharashtra\s+farmers\./gi, 'तटीय महाराष्ट्र के किसानों से सीधे उपलब्ध सुगंधित गैर-बासमती वाडा कोलम धान।'],
+      [/Maldandi\s+M35-1\s+white\s+lustrous\s+grain\s+high\s+in\s+fiber,\s*ideal\s+for\s+FMCG\s+superfood\s+brands\./gi, 'फाइबर से भरपूर मालदांडी M35-1 सफेद चमकदार ज्वार, एफएमसीजी सुपरफूड ब्रांडों के लिए आदर्श।'],
+      [/Cleaned\s+hybrid\s+bajra\s+grain\s+available\s+across\s+North\s+Maharashtra\s+hubs\./gi, 'उत्तर महाराष्ट्र केंद्रों में साफ किया गया हाइब्रिड बाजरा उपलब्ध।'],
+      [/Marathwada\s+bold\s+red\s+tur\s+with\s+high\s+milling\s+recovery\s+rate;\s*lock\s+advance\s+escrow\s+for\s+mills\./gi, 'उच्च दाल मिलिंग रिकवरी दर वाली मराठवाड़ा बोल्ड लाल तुअर; दाल मिलों के लिए अग्रिम एस्क्रो लॉक करें।'],
+      [/High\s+protein\s+Vijay\s+and\s+Digvijay\s+varieties\s+in\s+Vidarbha\s+pulses\s+market\s+yards\./gi, 'विदर्भ दलहन मंडी यार्डों में उच्च प्रोटीन विजय और दिग्विजय किस्में उपलब्ध।'],
+      [/Bold\s+shiny\s+green\s+mung\s+beans\s+harvested\s+across\s+Khandesh\s+and\s+Marathwada\./gi, 'खानदेश और मराठवाड़ा में कटाई किए गए बड़े चमकदार हरे मूंग।'],
+      [/High\s+gluten\s+index\s+black\s+urad\s+suitable\s+for\s+papad\s+manufacturers\s+and\s+dal\s+processors\./gi, 'पापड़ निर्माताओं और दाल प्रोसेसर के लिए उपयुक्त उच्च लस सूचकांक वाला काला उड़द।'],
+      [/48%\+\s+oil\s+content\s+bold\s+groundnuts\s+harvested\s+in\s+South\s+Maharashtra\s+river\s+belts\./gi, 'दक्षिण महाराष्ट्र नदी क्षेत्रों में 48%+ तेल सामग्री वाली बड़ी मूंगफली की कटाई।'],
+      [/High\s+oil\s+yield\s+sunflower\s+seed\s+lots\s+available\s+in\s+Marathwada\s+APMC\s+yards\./gi, 'मराठवाड़ा एपीएमसी यार्डों में उच्च तेल उपज वाले सूरजमुखी बीज लॉट्स उपलब्ध।'],
+      [/High\s+sucrose\s+recovery\s+sugarcane\s+for\s+jaggery\s+\(gur\)\s+units\s+and\s+ethanol\s+distilleries\./gi, 'गुड़ इकाइयों और इथेनॉल डिस्टिलरीज के लिए उच्च सुक्रोज रिकवरी वाला गन्ना।'],
+      [/18mm\+\s+berry\s+size\s+MRL\s+compliant\s+grapes\s+with\s+cold\s+chain\s+reefer\s+access\./gi, 'कोल्ड चेन रीफर पहुंच के साथ 18 मिमी+ बेरी आकार वाले एमआरएल अनुपालन अंगूर।'],
+      [/High\s+juice\s+yield\s+sweet\s+limes\s+from\s+Marathwada\s+citrus\s+orchards\./gi, 'मराठवाड़ा के फल बगीचों से उच्च रस उपज वाली मौसंबी।'],
+      [/Balanagar\s+extra\s+sweet\s+custard\s+apples\s+harvested\s+daily\s+for\s+dairy\s+&\s+dessert\s+processors\./gi, 'डेयरी और मिठाई निर्माताओं के लिए प्रतिदिन कटाई किए जाने वाले बालनगर अतिरिक्त मीठे सीताफल।'],
+      [/100%\s+authentic\s+Konkan\s+GI\s+tagged\s+Alphonso\s+mangoes\s+with\s+QR\s+traceability\s+tags\./gi, 'क्यूआर ट्रेसिबिलिटी टैग के साथ 100% प्रामाणिक कोंकण जीआई टैग वाले हापुस आम।'],
+      [/High\s+dry\s+matter\s+Jyoti\s+potatoes\s+from\s+Khed\s+and\s+Manchar\s+cold\s+stores\.\s*Ideal\s+for\s+chip\s+processors\s+and\s+wholesale\s+markets\./gi, 'खेड और मंचर कोल्ड स्टोर से उच्च शुष्क पदार्थ ज्योति आलू। चिप्स निर्माताओं और थोक बाजारों के लिए आदर्श।'],
+      [/Freshly\s+harvested\s+shiny\s+purple\s+long\s+brinjals\s+in\s+Ahmednagar\s+and\s+Pune\s+belts\.\s*High\s+demand\s+for\s+urban\s+retail\s+supply\s+chains\./gi, 'अहमदनगर और पुणे क्षेत्रों में ताजी कटाई वाले चमकदार बैंगनी लंबे बैंगन। शहरी खुदरा आपूर्ति श्रृंखलाओं के लिए उच्च मांग।'],
+      [/G4\s+variety\s+fresh\s+green\s+chillies\s+with\s+deep\s+green\s+skin\s+and\s+high\s+capsaicin\s+content\s+harvested\s+in\s+Nandurbar\s+and\s+Solapur\./gi, 'नंदुरबार और सोलापुर में कटाई की गई गहरे हरे रंग और उच्च तीखेपन वाली G4 किस्म की ताजा हरी मिर्च।'],
+
+      // AI Action Plan & Sourcing Recommendations
+      [/AI\s+Procurement\s+Action\s+Plan:?/gi, 'एआई खरीद कार्य योजना:'],
+      [/Procurement\s+Action\s+Plan:?/gi, 'खरीद कार्य योजना:'],
+      [/Action\s+Plan:?/gi, 'कार्य योजना:'],
+      [/High\s+institutional\s+procurement\s+velocity/gi, 'उच्च संस्थागत खरीद गति'],
+      [/institutional\s+procurement\s+velocity/gi, 'संस्थागत खरीद गति'],
+      [/procurement\s+velocity/gi, 'खरीद गति'],
+      [/\bvelocity\b/gi, 'गति'],
+      [/Lock\s+(\d+(?:\.\d+)?%)\s+advance\s+allocation\s+on\s+escrow\s+for/gi, 'के लिए एस्क्रो पर $1 अग्रिम राशि लॉक करें'],
+      [/Lock\s+(\d+(?:\.\d+)?%)\s+advance\s+escrow\s+on\s+([A-Za-z\s]+?)\s+lots/gi, '$2 लॉट्स के लिए $1 अग्रिम एस्क्रो लॉक करें'],
+      [/Lock\s+(\d+(?:\.\d+)?%)\s+advance\s+escrow\s+on/gi, 'पर $1 अग्रिम एस्क्रो लॉक करें'],
+      [/Lock\s+(\d+(?:\.\d+)?%)\s+advance\s+escrow/gi, '$1 अग्रिम एस्क्रो लॉक करें'],
+      [/advance\s+allocation\s+on\s+escrow/gi, 'एस्क्रो पर अग्रिम आवंटन'],
+      [/advance\s+allocation/gi, 'अग्रिम आवंटन'],
+      [/advance\s+escrow/gi, 'अग्रिम एस्क्रो'],
+      [/before\s+post-monsoon\s+export\s+quota\s+surge/gi, 'मानसून बाद निर्यात कोटा उछाल से पहले'],
+      [/before\s+post-monsoon/gi, 'मानसून बाद से पहले'],
+      [/post-monsoon\s+export\s+quota\s+surge/gi, 'मानसून बाद निर्यात कोटा उछाल'],
+      [/export\s+quota\s+surge/gi, 'निर्यात कोटा उछाल'],
+      [/export\s+quota/gi, 'निर्यात कोटा'],
+      [/post-monsoon/gi, 'मानसून बाद'],
+      [/\bsurge\b/gi, 'उछाल'],
+
+      // Producing Belts & Corridors
+      [/Nashik\s+Onion\s+&\s+Grape\s+Belt/gi, 'नासिक प्याज व अंगूर क्षेत्र'],
+      [/Pune\s+Junnar\s+Tomato\s+Corridor/gi, 'पुणे जुन्नर टमाटर गलियारा'],
+      [/Khandesh\s+Banana\s+Belt/gi, 'खानदेश केला क्षेत्र'],
+      [/Marathwada\s+Oilseed\s+Cluster/gi, 'मराठवाड़ा तिलहन संकुल'],
+      [/Vidarbha\s+Citrus\s+&\s+Cotton/gi, 'विदर्भ संतरा व कपास क्षेत्र'],
+      [/Grape\s+Belt/gi, 'अंगूर क्षेत्र'],
+      [/Banana\s+Belt/gi, 'केला क्षेत्र'],
+      [/Tomato\s+Corridor/gi, 'टमाटर गलियारा'],
+      [/Oilseed\s+Cluster/gi, 'तिलहन संकुल'],
+      [/Citrus\s+&\s+Cotton/gi, 'संतरा व कपास'],
+      [/\bCitrus\b/gi, 'संतरा / नींबू वर्गीय'],
+      [/\bBelt\b/gi, 'क्षेत्र'],
+      [/\bCorridor\b/gi, 'गलियारा'],
+      [/\bCluster\b/gi, 'संकुल'],
+
+      // Bulk Demands & Procurement Quota Spec Grid
+      [/\bTARGET QUOTA VOLUME\b/gi, 'कुल लक्षित कोटा मात्रा'],
+      [/\bTARGET QUOTA\b/gi, 'लक्षित कोटा'],
+      [/\bCEILING TARGET PRICE\b/gi, 'अधिकतम खरीद मूल्य (सीमा)'],
+      [/\bMANDI BENCHMARK RATE\b/gi, 'मंडी बेंचमार्क संदर्भ दर'],
+      [/\bQUALITY & LOGISTICS SPEC\b/gi, 'गुणवत्ता व लॉजिस्टिक्स विवरण'],
+      [/\bSourced Volume:/gi, 'प्राप्त की गई मात्रा:'],
+      [/\b(\d+(?:\.\d+)?%)\s*Sourced\b/gi, '$1 प्राप्त'],
+      [/\bReview Farmer Bids\b/gi, 'किसान बोलियों की समीक्षा करें'],
+      [/\bReview Farmer Proposals\b/gi, 'किसान प्रस्तावों की समीक्षा करें'],
+      [/\bReview Proposals\b/gi, 'प्रस्तावों की समीक्षा करें'],
+      [/\bReview Bids\b/gi, 'बोलियों की समीक्षा करें'],
+      [/\bFarm-Gate Pickup \(AgriNex Transit\)\b/gi, 'खेत-द्वार पिकअप (AgriNex सुरक्षित परिवहन)'],
+      [/\bSourcing Deadline:/gi, 'अंतिम समयसीमा:'],
+      [/\bDestination:/gi, 'गंतव्य:'],
+
+      // Bulk Demand Specifications, Packaging & Crop Moisture Conditions
+      [/Green\s+Mature\s+75-80%\s*RH\s+Packed/gi, 'हरा परिपक्व 75-80% आर्द्रता पैक'],
+      [/Green\s+Mature\s+75-80%\s*RH/gi, 'हरा परिपक्व 75-80% आर्द्रता'],
+      [/Green\s+Mature/gi, 'हरा परिपक्व'],
+      [/Mature\s+Green/gi, 'परिपक्व हरा'],
+      [/75-80%\s*RH\s+Packed/gi, '75-80% आर्द्रता पैकिंग'],
+      [/75-80%\s*RH/gi, '75-80% सापेक्ष आर्द्रता'],
+      [/RH\s+Packed/gi, 'सापेक्ष आर्द्रता पैकिंग'],
+      [/Grade\s+A\s+Export\s+Calibrated\s*\(7-8\s*hands\)/gi, 'ग्रेड ए (निर्यात स्तर) (7–8 पंजे)'],
+      [/\(7-8\s*hands\)/gi, '(7–8 पंजे)'],
+      [/7-8\s*hands/gi, '7–8 पंजे'],
+      [/Chilled\s+Temperature\s+Truck/gi, 'वातानुकूलित (चिल्ड) तापमान ट्रक'],
+      [/Machine\s+Cleaned\s+Single\s+Origin/gi, 'मशीन से साफ (सिंगल ओरिजिन)'],
+      [/Single\s+Origin/gi, 'एकल मूल स्रोत'],
+      [/Machine\s+Cleaned/gi, 'मशीन से साफ किया गया'],
+      [/Bulk\s+Jute\s+Gunny\s+Bags\s*50\s*kg/gi, '50 किग्रा जूट बोरी (थोक)'],
+      [/Bulk\s+Jute\s+Gunny\s+Bags/gi, 'जूट की बोरियां (थोक)'],
+      [/Jute\s+Gunny\s+Bags\s*50\s*kg/gi, '50 किग्रा जूट बोरी'],
+      [/Jute\s+Gunny\s+Bags/gi, 'जूट की बोरियां'],
+      [/Gunny\s+Bags\s*50\s*kg/gi, '50 किग्रा बोरियां'],
+      [/Gunny\s+Bags/gi, 'बोरियां'],
+      [/Max\s+10(?:\.0)?%\s+Moisture\s*[•·]\s*Oil\s*>\s*18\.5%/gi, 'अधिकतम 10.0% नमी • तेल > 18.5%'],
+      [/Oil\s*>\s*(\d+(?:\.\d+)?%?)/gi, 'तेल > $1'],
+      [/Max\s+13(?:\.5)?%\s+Moisture\s*[•·]\s*Sun\s+Cured\s+Skin/gi, 'अधिकतम 13.5% नमी • धूप में सुखाई गई परत'],
+      [/Sun\s+Cured\s+Skin/gi, 'धूप में सुखाई गई परत'],
+      [/Max\s+82%\s+Moisture\s*[•·]\s*Brix\s*>\s*4\.8%/gi, 'अधिकतम 82% नमी • ब्रिक्स > 4.8%'],
+      [/Crates\s+in\s+Reefer\s+Truck/gi, 'रीफर ट्रक में क्रेट्स'],
+      [/Grade\s+A\s+Nagpur\s+Mandarin\s*\(GI\s*Tagged\)/gi, 'ग्रेड ए नागपुर संतरा (GI टैग)'],
+      [/Nagpur\s+Mandarin\s*\(GI\s*Tagged\)/gi, 'नागपुर संतरा (GI टैग)'],
+      [/Nagpur\s+Mandarin/gi, 'नागपुर संतरा'],
+      [/\(?GI\s*Tagged\)?/gi, '(GI टैग)'],
+      [/Fresh\s+Harvest\s+Brix\s*>\s*(\d+(?:\.\d+)?%?)/gi, 'ताजा फसल ब्रिक्स > $1'],
+      [/Brix\s*>\s*(\d+(?:\.\d+)?%?)/gi, 'ब्रिक्स > $1'],
+      [/Brix\s*>\s*10%/gi, 'ब्रिक्स > 10%'],
+      [/Ventilated\s+Plastic\s+Crates/gi, 'हवादार प्लास्टिक क्रेट्स'],
+      [/Plastic\s+Crates/gi, 'प्लास्टिक क्रेट्स'],
+      [/Ventilated/gi, 'हवादार'],
+      [/Double\s+Polished\s+High\s+Curcumin\s*>\s*4\.8%/gi, 'डबल पॉलिश उच्च करक्यूमिन > 4.8%'],
+      [/High\s+Curcumin/gi, 'उच्च करक्यूमिन'],
+      [/Double\s+Polished/gi, 'डबल पॉलिश'],
+      [/Max\s+9(?:\.5)?%\s+Moisture\s*[•·]\s*Grade\s+1\s+Bulbs/gi, 'अधिकतम 9.5% नमी • ग्रेड 1 हल्दी गांठ'],
+      [/Grade\s+1\s+Bulbs/gi, 'ग्रेड 1 हल्दी गांठ'],
+      [/Clean\s+Lined\s+HDPE\s+Bags/gi, 'साफ एचडीपीई बैग'],
+      [/Grade\s+A\s+Firm\s+Salad\s*\/\s*Export/gi, 'ग्रेड ए ठोस सलाद / निर्यात स्तर'],
+      [/Firm\s+Salad\s*\/\s*Export/gi, 'ठोस सलाद / निर्यात स्तर'],
+      [/Grade\s+A\s*\(45-55mm\s*Export\s*Calibrated\)/gi, 'ग्रेड ए (45-55 मिमी निर्यात स्तर)'],
+      [/✓?\s*100%\s*Contracted\s*&\s*Fulfilled/gi, '✓ 100% अनुबंधित एवं पूर्ण'],
+      [/100%\s*Contracted\s*&\s*Fulfilled/gi, '100% अनुबंधित एवं पूर्ण'],
+      [/Contracted\s*&\s*Fulfilled/gi, 'अनुबंधित एवं पूर्ण'],
+      [/Contracted/gi, 'अनुबंधित'],
+
       // Orders, Shipments & Stepper Milestones (Highest Priority)
       [/\b1\.\s*Confirmed\b/gi, '१. पुष्ट'],
       [/\b2\.\s*35%\s*Advance\s*Paid\b/gi, '२. ३५% अग्रिम भुगतान'],
@@ -1775,13 +2438,17 @@
       [/\bConfirm Booking & Dispatch Driver\b/gi, 'बुकिंग की पुष्टि करें और ड्राइवर भेजें'],
       [/\bConfirm Chamber Booking & Issue Gate Pass\b/gi, 'शीतगृह कक्ष आरक्षित करें और गेट पास जारी करें'],
       [/\bMark Lien & Disburse ₹ Loan\b/gi, 'लियन चिह्नित करें और ऋण राशि प्राप्त करें'],
-      [/\bRatify QC & Release Escrow\b/gi, '✓ गुणवत्ता पास करें और एस्क्रो जारी करें'],
+      [/(?:✓\s*)?Ratify QC & Release Escrow\b/gi, '✓ गुणवत्ता पास करें और एस्क्रो जारी करें'],
       [/\bLive GPS Telemetry\b/gi, 'लाइव जीपीएस ट्रैकिंग'],
 
       // Statuses & Badges
       [/\bVerified Available\b/gi, 'सत्यापित उपलब्ध'],
       [/\bOn The Road\b/gi, 'मार्गस्थ'],
       [/\bPickup Scheduled\b/gi, 'पिकअप निर्धारित'],
+      [/\bScheduled\b/gi, 'निर्धारित'],
+      [/\bscheduled\b/gi, 'निर्धारित'],
+      [/\bSchedule\b/gi, 'समय सारणी'],
+      [/\bschedule\b/gi, 'समय सारणी'],
       [/\bDelivered & QC Passed\b/gi, 'सुपुर्द व गुणवत्ता पास'],
       [/\bDelivered & Settled\b/gi, 'वितरित एवं निपटान पूर्ण'],
       [/\bDelivered & Released\b/gi, 'वितरित एवं जारी'],
@@ -1830,27 +2497,27 @@
       [/\bTarget Price\b/gi, 'लक्षित मूल्य'],
       [/\bDestination Warehouse Location\b/gi, 'गंतव्य गोदाम पता'],
       [/\bQuality Grade Expectation\b/gi, 'अपेक्षित गुणवत्ता ग्रेड'],
-      [/\bCeiling Target Price:\b/gi, 'अधिकतम लक्षित मूल्य:'],
-      [/\bDestination Hub:\b/gi, 'गंतव्य केंद्र:'],
-      [/\bRemaining to Source:\b/gi, 'खरीद हेतु शेष:'],
+      [/\bCeiling Target Price:/gi, 'अधिकतम लक्षित मूल्य:'],
+      [/\bDestination Hub:/gi, 'गंतव्य केंद्र:'],
+      [/\bRemaining to Source:/gi, 'खरीद हेतु शेष:'],
       [/\bAll bids backed by AgriNex Quality Assay & 35% Escrow Guarantee\b/gi, 'सभी बोलियां AgriNex गुणवत्ता परख और 35% एस्क्रो गारंटी से सुरक्षित'],
       [/\bProcure Entire Harvest \(100% Volume\)\b/gi, 'पूरी फसल खरीदें (100% मात्रा)'],
       [/\bBuys all available crop. Lot status will be marked SOLD OUT for all other buyers.\b/gi, 'उपलब्ध सभी फसल खरीदता है। लॉट अन्य सभी खरीदारों के लिए "बिक गया" चिह्नित होगा।'],
       [/\bProcure Partial Harvest Volume \(kg\)\b/gi, 'आंशिक फसल मात्रा खरीदें (kg)'],
       [/\bEnter quantity in kg\b/gi, 'किलो में मात्रा दर्ज करें'],
-      [/\bTotal Contract Value:\b/gi, 'कुल अनुबंध मूल्य:'],
-      [/\b35% Advance Escrow to Lock:\b/gi, '🔒 35% अग्रिम एस्क्रो सुरक्षित करें:'],
-      [/\bRemaining for Other Buyers:\b/gi, 'अन्य खरीदारों के लिए शेष:'],
+      [/\bTotal Contract Value:/gi, 'कुल अनुबंध मूल्य:'],
+      [/\b35% Advance Escrow to Lock:/gi, '🔒 35% अग्रिम एस्क्रो सुरक्षित करें:'],
+      [/\bRemaining for Other Buyers:/gi, 'अन्य खरीदारों के लिए शेष:'],
       [/\bEmergency Salvage Buyout\b/gi, 'आपातकालीन बचाव खरीद'],
       [/\bBreakeven Procurement • Immediate Reefer Transit Dispatch\b/gi, 'लागत वसूली खरीद • तत्काल रीफर वाहन रवानगी'],
       [/\bCertified Quantity\b/gi, 'प्रमाणित मात्रा'],
       [/\bBreakeven Buyout Rate\b/gi, 'लागत वसूली खरीद दर'],
-      [/\b35% Immediate Advance Escrow:\b/gi, '35% तत्काल अग्रिम एस्क्रो:'],
-      [/\b65% Balance on Delivery & QC Pass:\b/gi, '65% डिलीवरी एवं गुणवत्ता पास पर शेष:'],
-      [/\bExpress Reefer Logistics Assigned:\b/gi, 'एक्सप्रेस रीफर वाहन आवंटित:'],
+      [/\b35% Immediate Advance Escrow:/gi, '35% तत्काल अग्रिम एस्क्रो:'],
+      [/\b65% Balance on Delivery & QC Pass:/gi, '65% डिलीवरी एवं गुणवत्ता पास पर शेष:'],
+      [/\bExpress Reefer Logistics Assigned:/gi, 'एक्सप्रेस रीफर वाहन आवंटित:'],
       [/\bSubmit Counter-Offer Bid\b/gi, 'प्रति-प्रस्ताव बोली जमा करें'],
       [/\bFarmer Ask Price\b/gi, 'किसान की मांग कीमत'],
-      [/\bFarmer Ask Price:\b/gi, 'किसान की मांग कीमत:'],
+      [/\bFarmer Ask Price:/gi, 'किसान की मांग कीमत:'],
       [/\bYour Bid Price \(₹ per kg\)\b/gi, 'आपकी बोली कीमत (₹ प्रति किलो)'],
       [/\bRequested Delivery Date\b/gi, 'अपेक्षित डिलीवरी तिथि'],
       [/\bInstitutional Buyer Profile\b/gi, 'संस्थागत खरीदार प्रोफ़ाइल'],
@@ -1861,18 +2528,18 @@
       [/\bContact Mobile\b/gi, 'संपर्क मोबाइल'],
       [/\bCentral Receiving Hub Location\b/gi, 'केंद्रीय प्राप्ति केंद्र पता'],
       [/\bEscrow Treasury & Credit Line\b/gi, 'एस्क्रो ट्रेजरी एवं क्रेडिट लाइन'],
-      [/\bCredit Active:\b/gi, 'क्रेडिट सक्रिय:'],
-      [/\bEscrow Deposit:\b/gi, 'एस्क्रो जमा:'],
-      [/\bAuto-Disburse:\b/gi, 'स्वतः-भुगतान:'],
+      [/\bCredit Active:/gi, 'क्रेडिट सक्रिय:'],
+      [/\bEscrow Deposit:/gi, 'एस्क्रो जमा:'],
+      [/\bAuto-Disburse:/gi, 'स्वतः-भुगतान:'],
       [/\bWeighbridge Pass\b/gi, 'वेब्रिज पास'],
       [/\bDirect Farmer Bid Dispatch\b/gi, 'सीधा किसान बोली संदेश'],
       [/\bEnd-to-end encrypted\b/gi, 'सुरक्षित एन्क्रिप्टेड बातचीत'],
-      [/\bAgreed Price:\b/gi, 'सहमति मूल्य:'],
-      [/\bRequired 35% Advance Escrow:\b/gi, 'आवश्यक 35% अग्रिम एस्क्रो:'],
-      [/\bEstimated Dispatch:\b/gi, 'अनुमानित रवानगी:'],
+      [/\bAgreed Price:/gi, 'सहमति मूल्य:'],
+      [/\bRequired 35% Advance Escrow:/gi, 'आवश्यक 35% अग्रिम एस्क्रो:'],
+      [/\bEstimated Dispatch:/gi, 'अनुमानित रवानगी:'],
       [/\bFile Quality \/ Delivery Claim\b/gi, 'गुणवत्ता / डिलीवरी शिकायत दर्ज करें'],
       [/\bAgriNex Escrow Redressal Cell\b/gi, 'AgriNex एस्क्रो निवारण प्रकोष्ठ'],
-      [/\bAutomated Escrow Freeze:\b/gi, 'स्वचालित एस्क्रो रोक:'],
+      [/\bAutomated Escrow Freeze:/gi, 'स्वचालित एस्क्रो रोक:'],
       [/\bSelect Disputed Order \/ Lot\b/gi, 'विवादित ऑर्डर / लॉट चुनें'],
       [/\bGrievance Category\b/gi, 'शिकायत श्रेणी'],
       [/\bQuality Assay Deviation \(Grade \/ Moisture\)\b/gi, 'गुणवत्ता विचलन (ग्रेड / नमी)'],
@@ -1884,40 +2551,46 @@
       [/\bDiscrepancy Details \/ Evidence Summary\b/gi, 'विसंगति विवरण / साक्ष्य सारांश'],
       [/\bAttach Supporting Evidence \(Weighbridge Slip, Assay Report or Photo\)\b/gi, 'साक्ष्य संलग्न करें (वेब्रिज पर्ची, रिपोर्ट या फोटो)'],
       [/\bClick to upload Digital Assay Slip \/ Weight Receipt \/ Photo Proof\b/gi, 'डिजिटल जांच पर्ची / वजन रसीद / फोटो अपलोड करने के लिए क्लिक करें'],
-      [/\bDigital Lorry Receipt \(LR\) & Gate Pass\b/gi, 'डिजिटल लॉरी रसीद (LR) और गेट पास'],
+      [/\bDigital Lorry Receipt \(LR\) & Gate Pass\b/gi, 'डिजिटल लॉरी रसीद (LR)'],
+      [/\bDigital Lorry Receipt \(LR\)\b/gi, 'डिजिटल लॉरी रसीद (LR)'],
+      [/\bDigital Lorry Receipt\b/gi, 'डिजिटल लॉरी रसीद'],
+      [/\bLorry Receipt\b/gi, 'लॉरी रसीद'],
+      [/\bVerified Orders\b/gi, 'प्रमाणित ऑर्डर'],
       [/\bVerified Transit Consignment\b/gi, 'सत्यापित पारगमन माल'],
-      [/\bConsignor:\b/gi, 'प्रेषक:'],
-      [/\bConsignee:\b/gi, 'प्राप्तकर्ता:'],
-      [/\bSecurity Gate Seal:\b/gi, 'सुरक्षा गेट सील:'],
-      [/\bVehicle:\b/gi, 'वाहन:'],
-      [/\bDriver:\b/gi, 'चालक:'],
-      [/\bGross Weight:\b/gi, 'सकल वजन:'],
-      [/\bTare Weight:\b/gi, 'खाली वाहन वजन:'],
-      [/\bCertified Net Cargo:\b/gi, 'प्रमाणित शुद्ध माल:'],
-      [/\bAssay Moisture:\b/gi, 'जांच नमी:'],
+      [/\bConsignor:/gi, 'प्रेषक:'],
+      [/\bConsignee:/gi, 'प्राप्तकर्ता:'],
+      [/\bSecurity Gate Seal:/gi, 'सुरक्षा गेट सील:'],
+      [/\bVehicle:/gi, 'वाहन:'],
+      [/\bDriver:/gi, 'चालक:'],
+      [/\bGross Weight:/gi, 'सकल वजन:'],
+      [/\bTare Weight:/gi, 'खाली वाहन वजन:'],
+      [/\bCertified Net Cargo:/gi, 'प्रमाणित शुद्ध माल:'],
+      [/\bAssay Moisture:/gi, 'जांच नमी:'],
       [/\bDigitally Signed by AgriNex Weighbridge Terminal\b/gi, 'AgriNex वेब्रिज टर्मिनल द्वारा डिजिटल हस्ताक्षरित'],
       [/\bArrival QC & Escrow Release\b/gi, 'आगमन गुणवत्ता जांच एवं एस्क्रो भुगतान'],
-      [/\bPhysical Receiving Checklist:\b/gi, 'प्राप्ति चेकलिस्ट:'],
+      [/\bPhysical Receiving Checklist\s*:?/gi, 'भौतिक प्राप्ति चेकलिस्ट:'],
       [/\bDigital Weighbridge Net Weight Verified\b/gi, 'डिजिटल वेब्रिज शुद्ध वजन सत्यापित'],
       [/\bMoisture Index within acceptable tolerance\b/gi, 'नमी सूचकांक स्वीकार्य सीमा में'],
       [/\bQuality Grade A Certification Ratified by Receiving Officer\b/gi, 'प्राप्ति अधिकारी द्वारा ग्रेड ए गुणवत्ता सत्यापित'],
-      [/\bTotal Trade Contract:\b/gi, 'कुल व्यापार अनुबंध:'],
-      [/\b35% Advance Escrow \(Already Deposited\):\b/gi, '35% अग्रिम एस्क्रो (पहले से जमा):'],
-      [/\bFinal 65% Settlement to Disburse:\b/gi, 'अंतिम 65% भुगतान राशि:'],
+      [/\bTotal Trade Contract\s*:?/gi, 'कुल व्यापार अनुबंध:'],
+      [/\b35% Advance Escrow \(Already Deposited\)\s*:?/gi, '35% अग्रिम एस्क्रो (पहले से जमा):'],
+      [/\b35% अग्रिम एस्क्रो \(पहले से जमा किया\)\s*:?/gi, '35% अग्रिम एस्क्रो (पहले से जमा):'],
+      [/\b35% अग्रिम एस्क्रो \(पहले से जमा\)\s*:?/gi, '35% अग्रिम एस्क्रो (पहले से जमा):'],
+      [/\bFinal 65% Settlement to Disburse\s*:?/gi, 'अंतिम 65% संवितरण राशि:'],
       [/\bLive Satellite GPS Telemetry\b/gi, 'लाइव सैटेलाइट जीपीएस ट्रैकिंग'],
       [/\bVehicle & Transporter\b/gi, 'वाहन और ट्रांसपोर्टर'],
       [/\bDistance Remaining\b/gi, 'शेष दूरी'],
       [/\bLive ETA\b/gi, 'पहुंचने का अनुमानित समय'],
-      [/\bCurrent Corridor:\b/gi, 'वर्तमान मार्ग:'],
-      [/\bCorridor Route & Checkpoints Telemetry:\b/gi, 'मार्ग और चेकपॉइंट विवरण:'],
+      [/\bCurrent Corridor:/gi, 'वर्तमान मार्ग:'],
+      [/\bCorridor Route & Checkpoints Telemetry:/gi, 'मार्ग और चेकपॉइंट विवरण:'],
       [/\bDriver & Vehicle Telemetry Details\b/gi, 'चालक और वाहन विवरण'],
-      [/\bLogistics Partner:\b/gi, 'लॉजिस्टिक्स पार्टनर:'],
+      [/\bLogistics Partner:/gi, 'लॉजिस्टिक्स पार्टनर:'],
       [/\bCommercial Driving License\b/gi, 'वाणिज्यिक ड्राइविंग लाइसेंस'],
       [/\bVehicle Payload Capacity\b/gi, 'वाहन पेलोड क्षमता'],
       [/\bFASTag & Toll Clearance\b/gi, 'फास्टैग एवं टोल क्लीयरेंस'],
       [/\bWeighbridge Gate Seal\b/gi, 'वेब्रिज सुरक्षा सील'],
       [/\bReefer Cargo Temperature\b/gi, 'रीफर तापमान'],
-      [/\bCurrent Position:\b/gi, 'वर्तमान स्थिति:'],
+      [/\bCurrent Position:/gi, 'वर्तमान स्थिति:'],
       [/\bBook Farm-Gate Transport Fleet\b/gi, 'खेत से परिवहन वाहन बुक करें'],
       [/\bAgriNex Verified Cold-Chain & Haulage Network\b/gi, 'AgriNex प्रमाणित कोल्ड-चेन नेटवर्क'],
       [/\bSelect Purchased Lot to Transport\b/gi, 'परिवहन के लिए खरीदा गया लॉट चुनें'],
@@ -1928,9 +2601,9 @@
       [/\bEicher Reefer\b/gi, 'आयशर रीफर'],
       [/\bTata 1613 Multi-Axle\b/gi, 'टाटा 1613 मल्टी-एक्सल'],
       [/\bCertified Logistics Partner\b/gi, 'प्रमाणित लॉजिस्टिक्स पार्टनर'],
-      [/\bHaulage Base Freight:\b/gi, 'मूल भाड़ा:'],
+      [/\bHaulage Base Freight:/gi, 'मूल भाड़ा:'],
       [/\bTolls & Digital LR Insurance\b/gi, 'टोल एवं बीमा'],
-      [/\bEstimated Total Haulage \(Escrow Paid\):\b/gi, 'अनुमानित कुल भाड़ा (एस्क्रो):'],
+      [/\bEstimated Total Haulage \(Escrow Paid\):/gi, 'अनुमानित कुल भाड़ा (एस्क्रो):'],
       [/\bEscrow Liquidity Top-Up Gateway\b/gi, 'एस्क्रो राशि जमा गेटवे'],
       [/\bENTER DEPOSIT AMOUNT \(₹ INR\)\b/gi, 'जमा करने हेतु राशि दर्ज करें (₹ INR)'],
       [/\bZero Processing Fee\b/gi, 'शून्य प्रोसेसिंग शुल्क'],
@@ -1946,15 +2619,15 @@
       [/\bBANK UTR NUMBER\b/gi, 'बैंक यूटीआर संख्या'],
       [/\bPAYMENT RAIL\b/gi, 'भुगतान माध्यम'],
       [/\bUPDATED ESCROW BALANCE\b/gi, 'अद्यतन एस्क्रो शेष'],
-      [/\bEscrow Trustee:\b/gi, 'एस्क्रो ट्रस्टी:'],
-      [/\bClient ID:\b/gi, 'ग्राहक आईडी:'],
+      [/\bEscrow Trustee:/gi, 'एस्क्रो ट्रस्टी:'],
+      [/\bClient ID:/gi, 'ग्राहक आईडी:'],
       [/\bTri-Party Smart Escrow Deed\b/gi, 'त्रिपक्षीय स्मार्ट एस्क्रो अनुबंध'],
       [/\bAGRINEX DIGITAL ESCROW & ARBITRATION DEED\b/gi, 'AGRINEX डिजिटल एस्क्रो एवं मध्यस्थता अनुबंध'],
       [/\bExecuted digitally under Indian Information Technology Act \(2000\)\b/gi, 'सूचना प्रौद्योगिकी अधिनियम (2000) के तहत डिजिटल रूप से निष्पादित'],
-      [/\bBuyer:\b/gi, 'खरीदार:'],
-      [/\bSeller Farmer:\b/gi, 'विक्रेता किसान:'],
-      [/\bProduce Lot:\b/gi, 'फसल लॉट:'],
-      [/\bTotal Valuation:\b/gi, 'कुल मूल्यांकन:'],
+      [/\bBuyer:/gi, 'खरीदार:'],
+      [/\bSeller Farmer:/gi, 'विक्रेता किसान:'],
+      [/\bProduce Lot:/gi, 'फसल लॉट:'],
+      [/\bTotal Valuation:/gi, 'कुल मूल्यांकन:'],
       [/\bBook Cold Storage \/ Silo Space\b/gi, 'शीतगृह / सायलो स्थान बुक करें'],
       [/\bTemperature Control\b/gi, 'तापमान नियंत्रण'],
       [/\bHumidity Index\b/gi, 'नमी सूचकांक'],
@@ -1962,17 +2635,17 @@
       [/\bSelect Commodity \/ Lot to Store\b/gi, 'भंडारण हेतु फसल / लॉट चुनें'],
       [/\bStorage Quantity\b/gi, 'भंडारण मात्रा'],
       [/\bStorage Tenure\b/gi, 'भंडारण अवधि'],
-      [/\bChamber Tariff Rate:\b/gi, 'कक्ष किराया दर:'],
-      [/\bEstimated Total Storage Fee:\b/gi, 'अनुमानित कुल भंडारण शुल्क:'],
+      [/\bChamber Tariff Rate:/gi, 'कक्ष किराया दर:'],
+      [/\bEstimated Total Storage Fee:/gi, 'अनुमानित कुल भंडारण शुल्क:'],
       [/\be-NWR Warehouse Pledge Loan\b/gi, 'e-NWR गोदाम रसीद गिरवी ऋण'],
-      [/\bStored Collateral:\b/gi, 'गिरवी फसल:'],
-      [/\bAgriNex Mandi Benchmark Value:\b/gi, 'AgriNex मंडी संदर्भ मूल्य:'],
-      [/\bMaximum 70% Loan-to-Value \(LTV\):\b/gi, 'अधिकतम 70% ऋण सीमा (LTV):'],
+      [/\bStored Collateral:/gi, 'गिरवी फसल:'],
+      [/\bAgriNex Mandi Benchmark Value:/gi, 'AgriNex मंडी संदर्भ मूल्य:'],
+      [/\bMaximum 70% Loan-to-Value \(LTV\):/gi, 'अधिकतम 70% ऋण सीमा (LTV):'],
       [/\bSelect Partner Financing Bank\b/gi, 'ऋणदाता भागीदार बैंक चुनें'],
       [/\bRequested Loan Amount \(₹\)\b/gi, 'अनुरोधित ऋण राशि (₹)'],
       [/\bAgriNex AI Sourcing Copilot\b/gi, 'AgriNex एआई खरीद सहायक'],
       [/\bInstant Maharashtra Mandi Arbitrage & Direct Sourcing Hunter\b/gi, 'महाराष्ट्र मंडी आर्बिट्रेज एवं सीधी खरीद खोजक'],
-      [/\bEnterprise Digital Purchase Order & Tax Invoice\b/gi, 'कॉर्पोरेट खरीद आदेश (PO) और टैक्स इनवॉइस'],
+      [/\bEnterprise Digital Purchase Order & Tax Invoice\b/gi, 'कॉर्पोरेट खरीद आदेश और टैक्स इनवॉइस'],
       [/\bDirect Farm-to-Enterprise Agricultural Trading Exchange\b/gi, 'सीधा किसान-टू-कॉर्पोरेट कृषि व्यापार एक्सचेंज'],
       [/\bSide-by-Side Multi-Lot Comparative Matrix\b/gi, 'कई लॉट्स की तुलनात्मक तालिका'],
       [/\bBenchmarking price, landed logistics freight, farmer reliability & escrow requirements\b/gi, 'कीमत, परिवहन भाड़ा, किसान विश्वसनीयता और एस्क्रो शर्तों की तुलना'],
@@ -2003,13 +2676,38 @@
       [/\bNext 3–5 Days\b/gi, 'अगले 3–5 दिन'],
       [/\bBefore festive demand uptick\b/gi, 'त्योहारी मांग से पहले'],
       [/\bDirect Sourcing Spread\b/gi, 'सीधी खरीद बचत'],
-      [/\bAI Procurement Action Plan:\b/gi, 'एआई खरीद कार्य योजना:'],
+      [/\bAI Procurement Action Plan:/gi, 'एआई खरीद कार्य योजना:'],
       [/\bBrowse Verified\b/gi, 'सत्यापित फसलें देखें'],
       [/\bAll District Rates for\b/gi, 'सभी जिलों के भाव -'],
-      [/\bPrimary Hub:\b/gi, 'प्रमुख मंडी:'],
-      [/\b24h Modal:\b/gi, '24 घंटे मॉडल:'],
-      [/\bIndex:\b/gi, 'इंडेक्स:'],
+      [/\bPrimary Hub:/gi, 'प्रमुख मंडी:'],
+      [/\b24h Modal:/gi, '24 घंटे मॉडल:'],
+      [/\bIndex:/gi, 'इंडेक्स:'],
       [/\bExport Peak\b/gi, 'निर्यात पीक'],
+      [/\bMumbai\s*•/gi, 'मुंबई •'],
+      [/\bNavi\s+Mumbai\b/gi, 'नवी मुंबई'],
+      [/\bMumbai\b/gi, 'मुंबई'],
+      [/\bMarathwada\b/gi, 'मराठवाड़ा'],
+      [/\bBKC\s+Nodal\s+Escrow,\s*Mumbai\b/gi, 'बीकेसी नोडल एस्क्रो, मुंबई'],
+      [/\bLatur\s+Industrial\s+Growth\s+Centre,\s*Marathwada\b/gi, 'लातूर औद्योगिक विकास केंद्र, मराठवाड़ा'],
+      [/\bLatur\s+Mega\s+Yard,\s*Marathwada\b/gi, 'लातूर मुख्य मंडी, मराठवाड़ा'],
+      [/\bMarathwada\s+Freight\s+Fleet\b/gi, 'मराठवाड़ा फ्रेट फ्लीट'],
+      [/•\s*([0-9,]+(?:\s*kg|\s*किग्रा|\s*किलो)?(?:\s*\([0-9,]+\s*(?:Qt|क्विंटल)\))?)\s+offered/gi, '• $1 प्रस्तावित'],
+      [/(\d+(?:,\d+)?\s*(?:kg|किग्रा|किलो|Qt|क्विंटल)?(?:\s*\([^)]+\))?)\s+offered/gi, '$1 प्रस्तावित'],
+      [/\boffered\b/gi, 'प्रस्तावित'],
+      [/\bOffered\b/gi, 'प्रस्तावित'],
+      [/\bPrice Advantage:/gi, 'मूल्य लाभ:'],
+      [/\bPrice Advantage\b/gi, 'मूल्य लाभ'],
+      [/\bAt\/Below Target Ceiling\b/gi, 'लक्षित अधिकतम मूल्य के बराबर/कम'],
+      [/\bAt\/Below\b/gi, 'के बराबर/कम'],
+      [/\bBelow\b/gi, 'कम'],
+      [/\bAdvantage:/gi, 'लाभ:'],
+      [/\bAdvantage\b/gi, 'लाभ'],
+      [/(\d+)\s+Quotas\s+Displayed/gi, '$1 कोटा प्रदर्शित'],
+      [/(\d+)\s+Active\s+Quotas/gi, '$1 सक्रिय कोटा'],
+      [/(\d+)\s+कोटा\s+Displayed/gi, '$1 कोटा प्रदर्शित'],
+      [/\bQuotas\s+Displayed\b/gi, 'कोटा प्रदर्शित'],
+      [/\bActive\s+Quotas\b/gi, 'सक्रिय कोटा'],
+      [/\bDisplayed\b/gi, 'प्रदर्शित'],
       [/\bActive Quota Volume\b/gi, 'सक्रिय कोटा मात्रा'],
       [/\bFulfilled \/ Sourced Volume\b/gi, 'प्राप्त / पूर्ण मात्रा'],
       [/\bNet Sourcing Savings\b/gi, 'शुद्ध खरीद बचत'],
@@ -2017,7 +2715,7 @@
       [/\bAcross 4 Strategic Commodities\b/gi, '4 रणनीतिक फसलों में'],
       [/\b100% Quality Assay Passed\b/gi, '100% गुणवत्ता पास'],
       [/\bZero Middlemen Spread\b/gi, 'शून्य बिचौलिया स्प्रेड'],
-      [/\bAvg Response Time:\b/gi, 'औसत प्रतिक्रिया समय:'],
+      [/\bAvg Response Time:/gi, 'औसत प्रतिक्रिया समय:'],
       [/\bActive Fleet\b/gi, 'सक्रिय फ्लीट'],
       [/\bVolume in Transit\b/gi, 'रास्ते में मात्रा'],
       [/\bGate Passes\b/gi, 'गेट पास'],
@@ -2028,17 +2726,27 @@
       [/\b65% Delivery Balances\b/gi, '65% डिलीवरी शेष'],
       [/\bDisbursed After QC Pass\b/gi, 'गुणवत्ता पास के बाद जारी'],
       [/\bActive Milestone Tracks\b/gi, 'सक्रिय माइलस्टोन ट्रैक'],
-      [/\bAvailable Qty:\b/gi, 'उपलब्ध मात्रा:'],
-      [/\bUnits:\b/gi, 'इकाई:'],
-      [/\bFarmer:\b/gi, 'किसान:']
+      [/\bAvailable Qty:/gi, 'उपलब्ध मात्रा:'],
+      [/\bUnits:/gi, 'इकाई:'],
+      [/\bFarmer:/gi, 'किसान:']
     ]
   };
 
   // 100% Comprehensive Word Vocabulary Map (Length-Sorted)
   const WORD_REPLACEMENTS = {
     mr: [
-      ["insights_search_mandi_ph", "बाजार समिती, पीक किंवा जिल्हा शोधा..."],
+      ["insights_search_mandi_ph", "बाजार समिती, जिल्हा किंवा पीक शोधा..."],
       ["ph_search_dist_mandi", "जिल्हा किंवा बाजार समिती प्रांगण शोधा..."],
+      ["Quotas Displayed", "कोटा प्रदर्शित"],
+      ["Active Quotas", "सक्रिय कोटा"],
+      ["Displayed", "प्रदर्शित"],
+      ["displayed", "प्रदर्शित"],
+      ["Navi Mumbai", "नवी मुंबई"],
+      ["navi mumbai", "नवी मुंबई"],
+      ["Marathwada", "मराठवाडा"],
+      ["marathwada", "मराठवाडा"],
+      ["Mumbai", "मुंबई"],
+      ["mumbai", "मुंबई"],
       ["Recommendation", "खरेदी शिफारस"],
       ["recommendation", "शिफारस"],
       ["Specifications", "तांत्रिक तपशील"],
@@ -2351,6 +3059,16 @@
       ["Procured", "खरेदी केलेले"],
       ["PROCURED", "खरेदी केलेले"],
       ["procured", "खरेदी केलेले"],
+      ["Sourced", "खरेदी पूर्ण"],
+      ["sourced", "खरेदी पूर्ण"],
+      ["Review", "तपासणी करा"],
+      ["review", "तपासणी"],
+      ["BENCHMARK", "संदर्भ दर"],
+      ["benchmark", "संदर्भ दर"],
+      ["CEILING", "कमाल मर्यादा"],
+      ["ceiling", "कमाल मर्यादा"],
+      ["QUOTA", "कोटा"],
+      ["quota", "कोटा"],
       ["Purchase", "खरेदी"],
       ["purchase", "खरेदी"],
       ["Contract", "खरेदी करार"],
@@ -2497,7 +3215,54 @@
       ["Quantity", "प्रमाण वजन"],
       ["quantity", "प्रमाण"],
       ["Reliance", "रिलायन्स"],
+      ["Scheduled", "नियोजित"],
+      ["scheduled", "नियोजित"],
+      ["SCHEDULED", "नियोजित"],
       ["Schedule", "वेळापत्रक"],
+      ["schedule", "वेळापत्रक"],
+      ["SCHEDULE", "वेळापत्रक"],
+      ["Mature", "परिपक्व"],
+      ["mature", "परिपक्व"],
+      ["MATURE", "परिपक्व"],
+      ["Packed", "पॅक केलेले"],
+      ["packed", "पॅक केलेले"],
+      ["PACKED", "पॅक केलेले"],
+      ["Packing", "पॅकिंग"],
+      ["packing", "पॅकिंग"],
+      ["RH", "सापेक्ष आर्द्रता"],
+      ["Chilled", "शीतकरण"],
+      ["chilled", "शीतकरण"],
+      ["Cleaned", "स्वच्छ केलेले"],
+      ["cleaned", "स्वच्छ केलेले"],
+      ["Brix", "ब्रिक्स"],
+      ["brix", "ब्रिक्स"],
+      ["HDPE", "HDPE"],
+      ["Plastic", "प्लास्टिक"],
+      ["plastic", "प्लास्टिक"],
+      ["Crates", "क्रेट्स"],
+      ["crates", "क्रेट्स"],
+      ["Gunny", "बारदान पोती"],
+      ["gunny", "बारदान"],
+      ["Jute", "जूट"],
+      ["jute", "जूट"],
+      ["Bags", "पोती"],
+      ["bags", "पोती"],
+      ["Origin", "उगम"],
+      ["origin", "उगम"],
+      ["Hands", "घड"],
+      ["hands", "घड"],
+      ["Skin", "साल"],
+      ["skin", "साल"],
+      ["Bulbs", "गाठी"],
+      ["bulbs", "गाठी"],
+      ["Polished", "पॉलिश केलेले"],
+      ["polished", "पॉलिश केलेले"],
+      ["Curcumin", "करक्युमिन"],
+      ["curcumin", "करक्युमिन"],
+      ["Ventilated", "हवेशीर"],
+      ["ventilated", "हवेशीर"],
+      ["Lined", "अस्तरयुक्त"],
+      ["lined", "अस्तरयुक्त"],
       ["Services", "सेवा"],
       ["Simulate", "सिम्युलेट करा"],
       ["Sourcing", "थेट खरेदी प्रक्रिया"],
@@ -3394,7 +4159,7 @@
       ["Dost", "दोस्त पिकअप"],
       ["Dual", "दुहेरी"],
       ["dual", "दुहेरी"],
-      ["FPOs", "शेतकरी उत्पादक कंपन्या (FPO)"],
+      ["FPOs", "शेतकरी उत्पादक कंपन्या"],
       ["Farm", "शेत शिवार"],
       ["farm", "शेत"],
       ["Fuel", "इंधन डिझेल"],
@@ -3420,7 +4185,7 @@
       ["crop", "पीक"],
       ["data", "डेटा माहिती"],
       ["dist", "जिल्हा"],
-      ["eNWR", "ई-एनडब्ल्यूआर (e-NWR)"],
+      ["eNWR", "ई-एनडब्ल्यूआर"],
       ["held", "राखून ठेवलेले"],
       ["info", "माहिती"],
       ["into", "मध्ये"],
@@ -3515,7 +4280,7 @@
       ["BAN", "प्रतिबंध"],
       ["BUY", "खरेदी करा"],
       ["ERP", "ईआरपी प्रणाली"],
-      ["FPO", "शेतकरी कंपनी (FPO)"],
+      ["FPO", "शेतकरी कंपनी"],
       ["Fix", "निश्चित करा"],
       ["IoT", "आयओटी सेन्सर"],
       ["Lic", "परवाना लायसन्स"],
@@ -3565,11 +4330,11 @@
       ["as", "प्रमाणे"],
       ["If", "जर"],
       ["if", "जर"],
-      ["AI", "एआय"],
+      ["AI", "कृत्रिम बुद्धिमत्ता"],
       ["BB", "बीबी"],
       ["BY", "द्वारे"],
-      ["EV", "ईव्ही"],
-      ["PM", "दुपारी"],
+      ["EV", "इलेक्ट्रिक वाहन"],
+      ["PM", "दुपारी/रात्री"],
       ["AM", "सकाळी"],
       ["PO", "खरेदी आदेश"],
       ["QA", "गुणवत्ता तपासणी"],
@@ -3855,6 +4620,16 @@
       ["Completed", "पूर्ण हुआ"],
       ["Dedicated", "समर्पित"],
       ["Estimated", "अनुमानित"],
+      ["Quotas Displayed", "कोटा प्रदर्शित"],
+      ["Active Quotas", "सक्रिय कोटा"],
+      ["Displayed", "प्रदर्शित"],
+      ["displayed", "प्रदर्शित"],
+      ["Navi Mumbai", "नवी मुंबई"],
+      ["navi mumbai", "नवी मुंबई"],
+      ["Marathwada", "मराठवाड़ा"],
+      ["marathwada", "मराठवाड़ा"],
+      ["Mumbai", "मुंबई"],
+      ["mumbai", "मुंबई"],
       ["Immediate", "तत्काल"],
       ["immediate", "तत्काल"],
       ["Insurance", "बीमा"],
@@ -4047,11 +4822,65 @@
       ["Quantity", "मात्रा"],
       ["quantity", "मात्रा"],
       ["Reliance", "रिलायंस"],
+      ["Scheduled", "निर्धारित"],
+      ["scheduled", "निर्धारित"],
+      ["SCHEDULED", "निर्धारित"],
       ["Schedule", "समय सारणी"],
+      ["schedule", "समय सारणी"],
+      ["SCHEDULE", "समय सारणी"],
+      ["Mature", "परिपक्व"],
+      ["mature", "परिपक्व"],
+      ["MATURE", "परिपक्व"],
+      ["Packed", "पैक"],
+      ["packed", "पैक"],
+      ["PACKED", "पैक"],
+      ["Packing", "पैकिंग"],
+      ["packing", "पैकिंग"],
+      ["RH", "सापेक्ष आर्द्रता"],
+      ["Chilled", "चिल्ड"],
+      ["chilled", "चिल्ड"],
+      ["Cleaned", "साफ किया गया"],
+      ["cleaned", "साफ किया गया"],
+      ["Brix", "ब्रिक्स"],
+      ["brix", "ब्रिक्स"],
+      ["Crates", "क्रेट्स"],
+      ["crates", "क्रेट्स"],
+      ["Gunny", "बोरी"],
+      ["gunny", "बोरी"],
+      ["Jute", "जूट"],
+      ["jute", "जूट"],
+      ["Bags", "बोरियां"],
+      ["bags", "बोरियां"],
+      ["Origin", "मूल स्रोत"],
+      ["origin", "स्रोत"],
+      ["Hands", "पंजे"],
+      ["hands", "पंजे"],
+      ["Skin", "छिलका"],
+      ["skin", "छिलका"],
+      ["Bulbs", "गांठ"],
+      ["bulbs", "गांठ"],
+      ["Polished", "पॉलिश"],
+      ["polished", "पॉलिश"],
+      ["Curcumin", "करक्यूमिन"],
+      ["curcumin", "करक्यूमिन"],
+      ["Ventilated", "हवादार"],
+      ["ventilated", "हवादार"],
+      ["Lined", "अस्तरयुक्त"],
+      ["lined", "अस्तरयुक्त"],
       ["Services", "सेवाएं"],
       ["Simulate", "सिम्युलेट करें"],
       ["Sourcing", "सोर्सिंग खरीद"],
       ["sourcing", "सोर्सिंग"],
+      ["Sourced", "प्राप्त"],
+      ["sourced", "प्राप्त"],
+      ["Review", "समीक्षा करें"],
+      ["review", "समीक्षा"],
+      ["BENCHMARK", "संदर्भ दर"],
+      ["benchmark", "संदर्भ दर"],
+      ["CEILING", "अधिकतम सीमा"],
+      ["ceiling", "अधिकतम सीमा"],
+      ["QUOTA", "कोटा"],
+      ["quota", "कोटा"],
       ["Transfer", "स्थानांतरण"],
       ["capacity", "क्षमता"],
       ["disabled", "अक्षम"],
@@ -4970,7 +5799,7 @@
       ["crop", "फसल"],
       ["data", "डेटा"],
       ["dist", "जिला"],
-      ["eNWR", "ई-एनडब्ल्यूआर (e-NWR)"],
+      ["eNWR", "ई-एनडब्ल्यूआर"],
       ["held", "रोका गया"],
       ["info", "जानकारी"],
       ["into", "में"],
@@ -5149,12 +5978,14 @@
 
   // Pre-compile word dictionaries and master regexes once on module load
   ['mr', 'hi'].forEach(lang => {
-    const list = WORD_REPLACEMENTS[lang] || [];
+    const list = (typeof WORD_REPLACEMENTS !== 'undefined' && WORD_REPLACEMENTS[lang]) || [];
     const keys = [];
     for (let i = 0; i < list.length; i++) {
       const [w, r] = list[i];
-      WORD_MAP[lang][w] = r;
-      keys.push(escapeRegex(w));
+      if (typeof w === 'string') {
+        WORD_MAP[lang][w] = r;
+        keys.push(escapeRegex(w));
+      }
     }
     if (keys.length > 0) {
       WORD_REGEX[lang] = new RegExp('\\b(' + keys.join('|') + ')\\b', 'g');
@@ -5165,7 +5996,7 @@
   function tText(text) {
     if (!text || currentLang === 'en') return text;
     const str = String(text);
-    if (!str || str.trim().length < 2) return text;
+    if (!str || str.trim().length < 2 || !/[a-zA-Z]/.test(str)) return text;
 
     const cache = TRANSLATION_CACHE[currentLang];
     if (cache && cache.has(str)) {
@@ -5177,20 +6008,25 @@
     // Unescape HTML entities
     res = res.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ');
 
-    // 1. Check direct person map
-    res = tPerson(res);
-
-    // 2. Check direct crop map
-    res = tCrop(res);
-
-    // 3. Check direct location map
-    res = tLocation(res);
-
-    // 4. Apply comprehensive phrase replacements (Tier 1: Multi-word phrases)
+    // 1. Apply comprehensive phrase replacements (Tier 1: Multi-word phrases & Regex rules) FIRST
     const rules = PHRASE_REPLACEMENTS[currentLang] || [];
     for (let i = 0; i < rules.length; i++) {
-      res = res.replace(rules[i][0], rules[i][1]);
+      const [pattern, replacement] = rules[i];
+      if (pattern instanceof RegExp) {
+        res = res.replace(pattern, replacement);
+      } else if (typeof pattern === 'string' && res.includes(pattern)) {
+        res = res.replaceAll(pattern, replacement);
+      }
     }
+
+    // 2. Check direct person map
+    res = tPerson(res);
+
+    // 3. Check direct crop map
+    res = tCrop(res);
+
+    // 4. Check direct location map
+    res = tLocation(res);
 
     // 5. Apply vocabulary word replacements (Tier 2: Single-pass pre-compiled Regex)
     const reg = WORD_REGEX[currentLang];
@@ -5229,12 +6065,114 @@
   let isTranslating = false;
   let observerTimer = null;
 
-  const nodeOriginalMap = new WeakMap();
-  const attrOriginalMap = new WeakMap();
+  // Function to cleanly revert all DOM elements and text nodes back to original English
+  function restoreEnglishDOM(root) {
+    if (!root) root = document.body;
+    isTranslating = true;
+    try {
+      const dict = TRANSLATIONS.en;
+      if (root.querySelectorAll) {
+        root.querySelectorAll('[data-i18n]').forEach(el => {
+          const k = el.getAttribute('data-i18n');
+          if (k && dict[k]) {
+            el.textContent = dict[k];
+          }
+        });
+        root.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+          const k = el.getAttribute('data-i18n-placeholder');
+          if (k && dict[k]) {
+            el.placeholder = dict[k];
+          }
+        });
+        root.querySelectorAll('[data-i18n-title]').forEach(el => {
+          const k = el.getAttribute('data-i18n-title');
+          if (k && dict[k]) {
+            el.title = dict[k];
+          }
+        });
+        root.querySelectorAll('input[data-orig-placeholder], textarea[data-orig-placeholder]').forEach(el => {
+          const orig = el.getAttribute('data-orig-placeholder');
+          if (orig && !/[\u0900-\u097F]/.test(orig)) {
+            el.placeholder = orig;
+          }
+        });
+        root.querySelectorAll('[data-orig-title]').forEach(el => {
+          const orig = el.getAttribute('data-orig-title');
+          if (orig && !/[\u0900-\u097F]/.test(orig)) {
+            el.setAttribute('title', orig);
+          }
+        });
+        root.querySelectorAll('select option[data-orig-option]').forEach(opt => {
+          const orig = opt.getAttribute('data-orig-option');
+          if (orig && !/[\u0900-\u097F]/.test(orig)) {
+            opt.textContent = orig;
+          }
+        });
+      }
+
+      // Explicitly restore known search inputs to English
+      const globalSearch = document.getElementById('buyer-global-search');
+      if (globalSearch) {
+        globalSearch.placeholder = dict.search_placeholder || 'Search crops, farmers, mandis...';
+      }
+      const marketSearch = document.getElementById('marketplace-search-input');
+      if (marketSearch) {
+        marketSearch.placeholder = dict.search_produce_placeholder || 'Search crops, varieties, farmers, or keywords (e.g. Tomato, Onion, Potato, 500kg)...';
+      }
+      const mandiSearch = document.getElementById('mandis-table-search');
+      if (mandiSearch) {
+        mandiSearch.placeholder = dict.insights_search_mandi_ph || 'Search mandi, district, or crop...';
+      }
+      const shipmentSearch = document.getElementById('buyer-shipment-search-input');
+      if (shipmentSearch) {
+        shipmentSearch.placeholder = 'Search tracking ID, truck plate, driver name, or crop (e.g. TRK-EXP, Tomato, Selvam)...';
+      }
+
+      SELECTOR_MAP.forEach(({ sel, key }) => {
+        try {
+          const el = document.querySelector(sel);
+          if (el && dict[key]) {
+            el.textContent = dict[key];
+          }
+        } catch (e) {}
+      });
+
+      const ignoreTags = new Set(['SCRIPT', 'STYLE', 'CODE', 'PRE', 'NOSCRIPT', 'TEXTAREA', 'INPUT']);
+      const walker = document.createTreeWalker(
+        root,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: function (node) {
+            if (!node || !node.nodeValue) return NodeFilter.FILTER_REJECT;
+            const parent = node.parentElement;
+            if (!parent || ignoreTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+            if (parent.closest && (parent.closest('#language-dropdown-menu') || parent.closest('.lang-selector-widget'))) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        },
+        false
+      );
+
+      let textNode;
+      while ((textNode = walker.nextNode())) {
+        if (textNode.__origValue) {
+          textNode.nodeValue = textNode.__origValue;
+        }
+      }
+    } finally {
+      isTranslating = false;
+    }
+  }
 
   // Universal DOM Tree Walker: Scans any DOM subtree and applies language localization
   function walkAndTranslateDOM(root) {
     if (!root) return;
+    if (currentLang === 'en') {
+      restoreEnglishDOM(root);
+      return;
+    }
 
     isTranslating = true;
     try {
@@ -5261,55 +6199,49 @@
         });
         // Translate input / textarea placeholders
         root.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
-          let origPh = attrOriginalMap.get(el);
-          if (origPh === undefined) {
-            origPh = el.getAttribute('placeholder') || '';
-            attrOriginalMap.set(el, origPh);
+          if (!el.hasAttribute('data-orig-placeholder')) {
+            const curr = el.getAttribute('placeholder') || '';
+            if (!/[\u0900-\u097F]/.test(curr)) {
+              el.setAttribute('data-orig-placeholder', curr);
+            }
           }
-          if (origPh && !el.hasAttribute('data-i18n-placeholder')) {
-            if (currentLang === 'en') {
-              el.placeholder = origPh;
-            } else {
-              const transPh = tText(origPh);
-              if (el.placeholder !== transPh) {
-                el.placeholder = transPh;
-              }
+          const orig = el.getAttribute('data-orig-placeholder');
+          if (orig && !el.hasAttribute('data-i18n-placeholder')) {
+            const transPh = tText(orig);
+            if (transPh !== el.placeholder) {
+              el.placeholder = transPh;
             }
           }
         });
         // Translate title tooltips
         root.querySelectorAll('[title]').forEach(el => {
-          let origTitle = attrOriginalMap.get(el);
-          if (origTitle === undefined) {
-            origTitle = el.getAttribute('title') || '';
-            attrOriginalMap.set(el, origTitle);
+          if (!el.hasAttribute('data-orig-title')) {
+            const curr = el.getAttribute('title') || '';
+            if (!/[\u0900-\u097F]/.test(curr)) {
+              el.setAttribute('data-orig-title', curr);
+            }
           }
-          if (origTitle && !el.hasAttribute('data-i18n-title')) {
-            if (currentLang === 'en') {
-              el.setAttribute('title', origTitle);
-            } else {
-              const transTitle = tText(origTitle);
-              if (el.getAttribute('title') !== transTitle) {
-                el.setAttribute('title', transTitle);
-              }
+          const orig = el.getAttribute('data-orig-title');
+          if (orig && !el.hasAttribute('data-i18n-title')) {
+            const transTitle = tText(orig);
+            if (transTitle !== el.getAttribute('title')) {
+              el.setAttribute('title', transTitle);
             }
           }
         });
         // Translate select options
         root.querySelectorAll('select option').forEach(opt => {
-          let origOpt = attrOriginalMap.get(opt);
-          if (origOpt === undefined) {
-            origOpt = opt.textContent || '';
-            attrOriginalMap.set(opt, origOpt);
+          if (!opt.hasAttribute('data-orig-option')) {
+            const curr = opt.textContent || '';
+            if (!/[\u0900-\u097F]/.test(curr)) {
+              opt.setAttribute('data-orig-option', curr);
+            }
           }
-          if (origOpt && /[a-zA-Z]{2,}/.test(origOpt)) {
-            if (currentLang === 'en') {
-              opt.textContent = origOpt;
-            } else {
-              const transOpt = tText(origOpt);
-              if (opt.textContent !== transOpt) {
-                opt.textContent = transOpt;
-              }
+          const orig = opt.getAttribute('data-orig-option');
+          if (orig && /[a-zA-Z]{2,}/.test(orig)) {
+            const transOpt = tText(orig);
+            if (transOpt !== opt.textContent) {
+              opt.textContent = transOpt;
             }
           }
         });
@@ -5337,24 +6269,16 @@
 
       let textNode;
       while ((textNode = walker.nextNode())) {
-        let baseEnglishText = nodeOriginalMap.get(textNode);
-        if (baseEnglishText === undefined) {
-          baseEnglishText = textNode.nodeValue || '';
-          if (baseEnglishText.trim().length > 1) {
-            nodeOriginalMap.set(textNode, baseEnglishText);
+        if (!textNode.__origValue) {
+          if (/[a-zA-Z]/.test(textNode.nodeValue)) {
+            textNode.__origValue = textNode.nodeValue;
           }
         }
-
-        if (baseEnglishText && baseEnglishText.trim().length > 1) {
-          if (currentLang === 'en') {
-            if (textNode.nodeValue !== baseEnglishText) {
-              textNode.nodeValue = baseEnglishText;
-            }
-          } else {
-            const translated = tText(baseEnglishText);
-            if (textNode.nodeValue !== translated) {
-              textNode.nodeValue = translated;
-            }
+        const sourceText = textNode.__origValue || textNode.nodeValue;
+        if (sourceText && sourceText.trim().length > 1 && /[a-zA-Z]/.test(sourceText)) {
+          const translated = tText(sourceText);
+          if (translated !== textNode.nodeValue) {
+            textNode.nodeValue = translated;
           }
         }
       }
@@ -5363,13 +6287,48 @@
     }
   }
 
-  // Clean DOM translation on demand (No continuous background polling or CPU lock)
+  // MutationObserver with 50ms Debounce and Loop Prevention
+  let domObserver = null;
   function startDOMObserver() {
-    // Disabled to guarantee 60fps instant UI responsiveness and 0ms click latency
+    if (domObserver) domObserver.disconnect();
+    if (currentLang === 'en') return;
+
+    domObserver = new MutationObserver((mutations) => {
+      if (isTranslating) return; // Prevent mutation storms
+
+      let hasNewElements = false;
+      for (let i = 0; i < mutations.length; i++) {
+        const m = mutations[i];
+        if (m.type === 'childList' && m.addedNodes.length > 0) {
+          hasNewElements = true;
+          break;
+        } else if (m.type === 'attributes' && m.attributeName === 'class') {
+          const target = m.target;
+          if (target && target.classList && (target.classList.contains('active') || target.classList.contains('active-view'))) {
+            hasNewElements = true;
+            break;
+          }
+        }
+      }
+
+      if (hasNewElements) {
+        if (observerTimer) clearTimeout(observerTimer);
+        observerTimer = setTimeout(() => {
+          walkAndTranslateDOM(document.body);
+        }, 50);
+      }
+    });
+
+    domObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class', 'style']
+    });
   }
 
   // Master Language Switcher: Sets language and updates DOM everywhere in buyer module
-  function setBuyerLanguage(lang, showToastNotification = true) {
+  function setBuyerLanguage(lang) {
     if (!TRANSLATIONS[lang]) {
       lang = 'en';
     }
@@ -5592,29 +6551,60 @@
     if (typeof window.renderMaharashtraMandisTable === 'function') {
       window.renderMaharashtraMandisTable();
     }
+    if (typeof window.updateDistrictTriggerLabel === 'function') {
+      const distSelect = document.getElementById('mandis-table-district');
+      window.updateDistrictTriggerLabel(distSelect ? distSelect.value : 'all');
+    }
     if (typeof window.recalculateBuyerCosts === 'function') {
       window.recalculateBuyerCosts();
     }
 
     // 6. Universal DOM Walk: Translates any remaining text nodes across the whole document
     walkAndTranslateDOM(document.body);
+    startDOMObserver();
 
     // Dispatch global custom event for other listeners
     window.dispatchEvent(new CustomEvent('agrinex_language_changed', { detail: { lang: lang } }));
 
     // 7. User Feedback Notification Toast
-    if (showToastNotification && typeof window.showToast === 'function') {
+    if (typeof window.showToast === 'function') {
       window.showToast(dict.toast_lang_updated, 'success');
     }
   }
 
   // Initialize Language on Startup
   function initBuyerI18n() {
+    try {
+      document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+        if (!el.hasAttribute('data-orig-placeholder')) {
+          const ph = el.getAttribute('placeholder') || '';
+          if (ph && !/[\u0900-\u097F]/.test(ph)) {
+            el.setAttribute('data-orig-placeholder', ph);
+          }
+        }
+      });
+      const gs = document.getElementById('buyer-global-search');
+      if (gs) {
+        gs.setAttribute('data-orig-placeholder', 'Search crops, farmers, mandis...');
+        gs.setAttribute('data-i18n-placeholder', 'search_placeholder');
+      }
+      const ms = document.getElementById('marketplace-search-input');
+      if (ms) {
+        ms.setAttribute('data-orig-placeholder', 'Search produce, farmer name, APMC mandi, or lot ID (e.g., Lasalgaon, Onion, LOT-)...');
+        ms.setAttribute('data-i18n-placeholder', 'search_produce_placeholder');
+      }
+      const mds = document.getElementById('mandis-table-search');
+      if (mds) {
+        mds.setAttribute('data-orig-placeholder', 'Search mandi, district, or crop...');
+        mds.setAttribute('data-i18n-placeholder', 'insights_search_mandi_ph');
+      }
+    } catch (e) {}
+
     let saved = 'en';
     try {
       saved = localStorage.getItem(STORAGE_KEY) || 'en';
     } catch (e) {}
-    setBuyerLanguage(saved, false);
+    setBuyerLanguage(saved);
   }
 
   // Export to Global Scope for Buyer Module

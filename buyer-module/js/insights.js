@@ -15589,17 +15589,14 @@
     renderMaharashtraMandisTable();
   }
 
-  let chartLoadRetries = 0;
   // Render High-DPI Chart.js Interactive Graph
   function renderInsightChart() {
     const canvas = document.getElementById('buyer-insight-chart');
     if (!canvas) return;
 
     if (typeof Chart === 'undefined') {
-      if (chartLoadRetries < 20) {
-        chartLoadRetries++;
-        setTimeout(renderInsightChart, 200);
-      }
+      console.warn('Chart.js not loaded yet. Waiting...');
+      setTimeout(renderInsightChart, 200);
       return;
     }
 
@@ -15854,16 +15851,17 @@
     const isMr = window.getBuyerLanguage && window.getBuyerLanguage() === 'mr';
     const isHi = window.getBuyerLanguage && window.getBuyerLanguage() === 'hi';
 
-    const transPlanTitle = isMr ? 'AI खरेदी कृती आराखडा:' : isHi ? 'AI खरीद कार्य योजना:' : 'AI Procurement Action Plan:';
-    const transBrowseBtn = isMr ? `प्रमाणित ${cleanShortCrop} लॉट्स पहा →` : isHi ? `प्रमाणित ${cleanShortCrop} लॉट्स देखें →` : `Browse Verified ${cleanShortCrop} Lots &rarr;`;
-    const transMatrixBtn = isMr ? `🗺️ ${cleanShortCrop} साठी सर्व जिल्ह्यांमधील दर` : isHi ? `🗺️ ${cleanShortCrop} के लिए सभी जिलों के भाव` : `🗺️ All District Rates for ${cleanShortCrop}`;
+    const transPlanTitle = isMr ? 'एआय खरेदी कृती आराखडा:' : isHi ? 'एआई खरीद कार्य योजना:' : 'AI Procurement Action Plan:';
+    const transBrowseBtn = isMr ? `प्रमाणित ${cleanShortCrop} लॉट्स पहा →` : isHi ? `सत्यापित ${cleanShortCrop} लॉट्स देखें →` : `Browse Verified ${cleanShortCrop} Lots &rarr;`;
+    const transMatrixBtn = isMr ? `🗺️ ${cleanShortCrop} साठी सर्व जिल्हा दर` : isHi ? `🗺️ ${cleanShortCrop} के लिए सभी जिलों के भाव` : `🗺️ All District Rates for ${cleanShortCrop}`;
     const transSpreadTitle = isMr ? 'थेट खरेदीतील नफा/बचत' : isHi ? 'सीधी खरीद बचत' : 'Direct Sourcing Spread';
-    const transSpreadSub = isMr ? 'वाशी बाजार समिती दलालांच्या दरापेक्षा' : isHi ? 'वाशी मंडी दलालों के भाव से' : 'vs Vashi APMC middleman rate';
-    const transWindow = isMr ? 'खरेदीसाठी सर्वोत्तम कालावधी' : isHi ? 'खरीद का सही समय' : 'Optimal Sourcing Window';
+    const transSpreadSub = isMr ? 'वाशी बाजार समिती दलालांच्या दरापेक्षा' : isHi ? 'बनाम वाशी मंडी बिचौलिया दर' : 'vs Vashi APMC middleman rate';
+    const transWindow = isMr ? 'खरेदीसाठी योग्य वेळ' : isHi ? 'खरीद का सही समय' : 'Optimal Sourcing Window';
     const transWindowVal = isMr ? 'पुढील ३–५ दिवस' : isHi ? 'अगले 3–5 दिन' : 'Next 3–5 Days';
     const transWindowSub = isMr ? 'सणासुदीच्या मागणीपूर्वी' : isHi ? 'त्योहारी मांग से पहले' : 'Before festive demand uptick';
 
     const savingsVal = ((commodity.terminalVashiQt - commodity.farmGateQt) / 100).toFixed(2);
+    const transRecommendation = window.tText ? window.tText(commodity.recommendation) : commodity.recommendation;
 
     container.innerHTML = `
       <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 14px;">
@@ -15872,7 +15870,7 @@
           <strong style="color: #065f46; font-size: 0.95rem;">${transPlanTitle} ${transCropName}</strong>
         </div>
         <p style="font-size: 0.82rem; color: #166534; line-height: 1.5; margin: 0 0 12px 0;">
-          ${commodity.recommendation}
+          ${transRecommendation}
         </p>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="btn btn-primary btn-sm" onclick="switchView('view-verified-produce')" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700;">
@@ -16136,6 +16134,394 @@
     return `₹ ${priceQt.toLocaleString('en-IN')} /Qt`;
   }
 
+  // All 36 Maharashtra Districts Metadata & APMC Hubs for Search & Alphabet Prioritization
+  const MAHARASHTRA_DISTRICTS_DATA = [
+    { key: 'all', name: 'All Districts (Maharashtra APMCs)', mr: 'सर्व जिल्हे (महाराष्ट्र बाजार समित्या)', hi: 'सभी जिले (महाराष्ट्र मंडियां)', hubs: 'All 36 Regulated APMCs', emoji: '📍' },
+    { key: 'Ahmednagar', name: 'Ahmednagar', mr: 'अहमदनगर', hi: 'अहमदनगर', hubs: 'Rahata / Rahuri / Sangamner', emoji: '🧅' },
+    { key: 'Akola', name: 'Akola', mr: 'अकोला', hi: 'अकोला', hubs: 'Grain & Pulses Hub / Murtizapur', emoji: '🫘' },
+    { key: 'Amravati', name: 'Amravati', mr: 'अमरावती', hi: 'अमरावती', hubs: 'Warud / Dhamangaon / Morshi', emoji: '🍊' },
+    { key: 'Beed', name: 'Beed', mr: 'बीड', hi: 'बीड', hubs: 'Kaij / Dharur / Majalgaon', emoji: '🌾' },
+    { key: 'Bhandara', name: 'Bhandara', mr: 'भंडारा', hi: 'भंडारा', hubs: 'Tumsar / Sakoli Rice APMC', emoji: '🌾' },
+    { key: 'Buldhana', name: 'Buldhana', mr: 'बुलढाणा', hi: 'बुलढाणा', hubs: 'Malkapur / Khamgaon / Mehkar', emoji: '🫘' },
+    { key: 'Chandrapur', name: 'Chandrapur', mr: 'चंद्रपूर', hi: 'चंद्रपुर', hubs: 'Warora / Nagbhid Paddy Hub', emoji: '🌾' },
+    { key: 'Chhatrapati Sambhajinagar', name: 'Chhatrapati Sambhajinagar', mr: 'छत्रपती संभाजीनगर', hi: 'छत्रपति संभाजीनगर', hubs: 'Paithan / Kannad / Gangapur', emoji: '🌽' },
+    { key: 'Dharashiv', name: 'Dharashiv', mr: 'धाराशिव', hi: 'धाराशिव', hubs: 'Omerga / Kalamb / Tuljapur', emoji: '🫘' },
+    { key: 'Dhule', name: 'Dhule', mr: 'धुळे', hi: 'धुले', hubs: 'Shirpur / Sakri / Dondaicha', emoji: '🌶️' },
+    { key: 'Gadchiroli', name: 'Gadchiroli', mr: 'गडचिरोली', hi: 'गड़चिरोली', hubs: 'Chamorshi / Armori APMC', emoji: '🌾' },
+    { key: 'Gondia', name: 'Gondia', mr: 'गोंदिया', hi: 'गोंदिया', hubs: 'Tirora / Goregaon Rice Hub', emoji: '🌾' },
+    { key: 'Hingoli', name: 'Hingoli', mr: 'हिंगोली', hi: 'हिंगोली', hubs: 'Basmat Turmeric Hub / Kalamnuri', emoji: '🌿' },
+    { key: 'Jalgaon', name: 'Jalgaon', mr: 'जळगाव', hi: 'जलगांव', hubs: 'Raver / Pachora / Chopda / Jamner', emoji: '🍌' },
+    { key: 'Jalna', name: 'Jalna', mr: 'जालना', hi: 'जालना', hubs: 'Ambad / Partur / Bhokardan', emoji: '🫘' },
+    { key: 'Kolhapur', name: 'Kolhapur', mr: 'कोल्हापूर', hi: 'कोल्हापुर', hubs: 'Vadgaon / Shirol / Gadhinglaj', emoji: '🌾' },
+    { key: 'Latur', name: 'Latur', mr: 'लातूर', hi: 'लातूर', hubs: 'Mega Silos / Pulses Yard / Udgir', emoji: '🫘' },
+    { key: 'Mumbai City', name: 'Mumbai City', mr: 'मुंबई शहर', hi: 'मुंबई शहर', hubs: 'Vashi Terminal Hub', emoji: '🏢' },
+    { key: 'Mumbai Suburban', name: 'Mumbai Suburban', mr: 'मुंबई उपनगर', hi: 'मुंबई उपनगर', hubs: 'Distribution Hub', emoji: '🏢' },
+    { key: 'Nagpur', name: 'Nagpur', mr: 'नागपूर', hi: 'नागपुर', hubs: 'Kalamna / Bhiwapur / Katol', emoji: '🍊' },
+    { key: 'Nanded', name: 'Nanded', mr: 'नांदेड', hi: 'नांदेड़', hubs: 'Ardhapur / Degloor / Loha', emoji: '🍌' },
+    { key: 'Nandurbar', name: 'Nandurbar', mr: 'नंदुरबार', hi: 'नंदुरबार', hubs: 'Chilli Yard / Shahada / Navapur', emoji: '🌶️' },
+    { key: 'Nashik', name: 'Nashik', mr: 'नाशिक', hi: 'नासिक', hubs: 'Lasalgaon / Pimpalgaon / Malegaon', emoji: '🧅' },
+    { key: 'Palghar', name: 'Palghar', mr: 'पालघर', hi: 'पालघर', hubs: 'Wada Paddy Hub / Dahanu', emoji: '🌾' },
+    { key: 'Parbhani', name: 'Parbhani', mr: 'परभणी', hi: 'परभणी', hubs: 'Jintur / Gangakhed / Selu', emoji: '🫘' },
+    { key: 'Pune', name: 'Pune', mr: 'पुणे', hi: 'पुणे', hubs: 'Narayangaon / Manchar / Indapur / Junnar', emoji: '🍅' },
+    { key: 'Raigad', name: 'Raigad', mr: 'रायगड', hi: 'रायगढ़', hubs: 'Alibaug / Panvel / Pen APMC', emoji: '🌾' },
+    { key: 'Ratnagiri', name: 'Ratnagiri', mr: 'रत्नागिरी', hi: 'रत्नागिरी', hubs: 'Alphonso Mango Hub / Chiplun', emoji: '🥭' },
+    { key: 'Sangli', name: 'Sangli', mr: 'सांगली', hi: 'सांगली', hubs: 'Spices APMC / Tasgaon / Islampur', emoji: '🌶️' },
+    { key: 'Satara', name: 'Satara', mr: 'सातारा', hi: 'सतारा', hubs: 'Karad / Phaltan / Wai APMC', emoji: '🍓' },
+    { key: 'Sindhudurg', name: 'Sindhudurg', mr: 'सिंधुदुर्ग', hi: 'सिंधुदुर्ग', hubs: 'Devgad Hapus Yard / Kudal', emoji: '🥭' },
+    { key: 'Solapur', name: 'Solapur', mr: 'सोलापूर', hi: 'सोलापुर', hubs: 'Sangola / Barshi / Pandharpur', emoji: '🧅' },
+    { key: 'Thane', name: 'Thane', mr: 'ठाणे', hi: 'ठाणे', hubs: 'Kalyan / Shahapur APMC', emoji: '🏢' },
+    { key: 'Wardha', name: 'Wardha', mr: 'वर्धा', hi: 'वर्धा', hubs: 'Hinganghat Cotton APMC / Arvi', emoji: '🌾' },
+    { key: 'Washim', name: 'Washim', mr: 'वाशीम', hi: 'वाशिम', hubs: 'Washim & Karanja APMC / Risod', emoji: '🫘' },
+    { key: 'Yavatmal', name: 'Yavatmal', mr: 'यवतमाळ', hi: 'यवतमाल', hubs: 'Wani / Pusad / Darwha Cotton Hub', emoji: '🌾' }
+  ];
+
+  let districtActiveIndex = 0;
+  let currentFilteredDistricts = [];
+
+  function isDistrictDropdownOpen() {
+    const menu = document.getElementById('district-dropdown-menu');
+    return menu && menu.style.display === 'block';
+  }
+
+  function toggleDistrictDropdown(e, forceOpen) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const menu = document.getElementById('district-dropdown-menu');
+    const btn = document.getElementById('district-dropdown-btn');
+    const arrow = document.getElementById('district-dropdown-arrow');
+    const input = document.getElementById('district-search-input');
+    if (!menu) return;
+
+    const willOpen = (typeof forceOpen === 'boolean') ? forceOpen : (menu.style.display !== 'block');
+
+    if (willOpen) {
+      menu.style.display = 'block';
+      if (btn) {
+        btn.setAttribute('aria-expanded', 'true');
+        btn.style.borderColor = '#0c5a36';
+        btn.style.boxShadow = '0 0 0 3px rgba(12,90,54,0.12)';
+      }
+      if (arrow) arrow.style.transform = 'rotate(180deg)';
+      
+      const currentVal = (input && input.value) ? input.value : '';
+      renderDistrictDropdownOptions(currentVal);
+      
+      if (input) {
+        setTimeout(() => {
+          input.focus();
+          if (input.value) input.select();
+        }, 30);
+      }
+    } else {
+      menu.style.display = 'none';
+      if (btn) {
+        btn.setAttribute('aria-expanded', 'false');
+        btn.style.borderColor = '#cbd5e1';
+        btn.style.boxShadow = '0 1px 2px rgba(0,0,0,0.04)';
+      }
+      if (arrow) arrow.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  function closeDistrictDropdown() {
+    const menu = document.getElementById('district-dropdown-menu');
+    const btn = document.getElementById('district-dropdown-btn');
+    const arrow = document.getElementById('district-dropdown-arrow');
+    if (menu) menu.style.display = 'none';
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.style.borderColor = '#cbd5e1';
+      btn.style.boxShadow = '0 1px 2px rgba(0,0,0,0.04)';
+    }
+    if (arrow) arrow.style.transform = 'rotate(0deg)';
+  }
+
+  function handleDistrictSearchInput(val) {
+    const clearBtn = document.getElementById('district-search-clear-btn');
+    if (clearBtn) {
+      clearBtn.style.display = (val && val.trim()) ? 'block' : 'none';
+    }
+    districtActiveIndex = 0;
+    renderDistrictDropdownOptions(val);
+  }
+
+  function clearDistrictSearch() {
+    const input = document.getElementById('district-search-input');
+    const clearBtn = document.getElementById('district-search-clear-btn');
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
+    if (clearBtn) clearBtn.style.display = 'none';
+    districtActiveIndex = 0;
+    renderDistrictDropdownOptions('');
+  }
+
+  function selectDistrictAlphabet(letter) {
+    const input = document.getElementById('district-search-input');
+    if (input) {
+      input.value = (letter === 'ALL' || letter === 'all') ? '' : letter;
+    }
+    handleDistrictSearchInput(input ? input.value : '');
+    if (input) input.focus();
+  }
+
+  function renderDistrictAlphabetBar(activeLetter) {
+    const bar = document.getElementById('district-alphabet-bar');
+    if (!bar) return;
+
+    const letters = ['ALL', 'A', 'B', 'C', 'D', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'W', 'Y'];
+    const currentQ = (activeLetter || '').toUpperCase();
+
+    bar.innerHTML = letters.map(l => {
+      const isActive = (l === 'ALL' && !currentQ) || (l !== 'ALL' && currentQ === l);
+      return `
+        <button type="button" onclick="selectDistrictAlphabet('${l}')" 
+          style="padding: 2px 7px; font-size: 0.68rem; font-weight: 800; border-radius: 6px; border: 1px solid ${isActive ? '#0c5a36' : '#e2e8f0'}; background: ${isActive ? '#0c5a36' : '#ffffff'}; color: ${isActive ? '#ffffff' : '#475569'}; cursor: pointer; transition: all 0.15s; flex-shrink: 0;"
+          title="Jump to ${l}">
+          ${l}
+        </button>
+      `;
+    }).join('');
+  }
+
+  function highlightMatches(text, query) {
+    if (!text) return '';
+    if (!query || !query.trim()) return text;
+    const escaped = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'gi');
+    return text.replace(regex, `<mark style="background: #fef08a; color: #0f172a; font-weight: 800; border-radius: 2px; padding: 0 1px;">$1</mark>`);
+  }
+
+  function renderDistrictDropdownOptions(searchQuery) {
+    const listContainer = document.getElementById('district-options-list');
+    const countEl = document.getElementById('district-search-results-count');
+    if (!listContainer) return;
+
+    const q = (searchQuery || '').trim().toLowerCase();
+    const lang = (window.getBuyerLanguage && window.getBuyerLanguage()) || 'en';
+    renderDistrictAlphabetBar(q.length === 1 ? q : '');
+
+    // Alphabet Prioritization & Multi-tier Search Sorting
+    let items = MAHARASHTRA_DISTRICTS_DATA.slice();
+
+    if (q) {
+      items = items.filter(d => {
+        if (d.key === 'all') return false; // Hide "all" when searching for specific letters/districts
+        const enName = d.name.toLowerCase();
+        const mrName = (d.mr || '').toLowerCase();
+        const hiName = (d.hi || '').toLowerCase();
+        const hubs = (d.hubs || '').toLowerCase();
+        return enName.includes(q) || mrName.includes(q) || hiName.includes(q) || hubs.includes(q);
+      });
+
+      // Sort by ALPHABET PREFIX FIRST (Exact start comes to the very top!)
+      items.sort((a, b) => {
+        const aName = a.name.toLowerCase();
+        const bName = b.name.toLowerCase();
+        const aStarts = aName.startsWith(q) || (a[lang] && a[lang].toLowerCase().startsWith(q));
+        const bStarts = bName.startsWith(q) || (b[lang] && b[lang].toLowerCase().startsWith(q));
+
+        if (aStarts && !bStarts) return -1;
+        if (!aStarts && bStarts) return 1;
+
+        // Word-initial match priority
+        const aWordStarts = aName.split(/\s+/).some(w => w.startsWith(q));
+        const bWordStarts = bName.split(/\s+/).some(w => w.startsWith(q));
+        if (aWordStarts && !bWordStarts) return -1;
+        if (!aWordStarts && bWordStarts) return 1;
+
+        return aName.localeCompare(bName);
+      });
+    }
+
+    currentFilteredDistricts = items;
+
+    if (countEl) {
+      const transCount = (lang === 'mr') ? `${items.length} जिल्हे उपलब्ध` : (lang === 'hi') ? `${items.length} जिले उपलब्ध` : `${items.length} districts found`;
+      countEl.textContent = transCount;
+    }
+
+    if (items.length === 0) {
+      const emptyMsg = (lang === 'mr') ? `"${searchQuery}" या अक्षराने सुरू होणारा जिल्हा आढळला नाही.` : (lang === 'hi') ? `"${searchQuery}" से कोई जिला नहीं मिला।` : `No districts match "${searchQuery}".`;
+      listContainer.innerHTML = `
+        <div style="padding: 20px 16px; text-align: center; color: #64748b; font-size: 0.8rem;">
+          <div style="font-size: 1.4rem; margin-bottom: 4px;">🔍</div>
+          <div>${emptyMsg}</div>
+          <button type="button" onclick="clearDistrictSearch()" style="margin-top: 8px; background: #e8f5ed; border: 1px solid #bbf7d0; color: #0c5a36; font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 6px; cursor: pointer;">
+            View All Districts
+          </button>
+        </div>
+      `;
+      return;
+    }
+
+    listContainer.innerHTML = items.map((d, index) => {
+      const isSelected = tableDistrictFilter.toLowerCase() === d.key.toLowerCase();
+      const isActiveHighlight = index === districtActiveIndex;
+      
+      let displayName = d.name;
+      if (lang === 'mr' && d.mr) displayName = d.mr;
+      else if (lang === 'hi' && d.hi) displayName = d.hi;
+
+      const highlightedName = highlightMatches(displayName, q);
+      const highlightedHubs = highlightMatches(d.hubs, q);
+
+      // Prefix badge if this district starts with typed alphabet
+      const startsWithLetter = q && d.name.toLowerCase().startsWith(q);
+
+      return `
+        <div class="district-option-item" data-index="${index}" data-key="${d.key}" onclick="selectDistrictOption('${d.key}')"
+          style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; cursor: pointer; transition: all 0.12s; background: ${isSelected ? '#e8f5ed' : isActiveHighlight ? '#f1f5f9' : 'transparent'}; border-left: 3px solid ${isSelected ? '#0c5a36' : isActiveHighlight ? '#94a3b8' : 'transparent'};"
+          onmouseenter="setDistrictOptionActive(${index})">
+          <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+            <span style="font-size: 1.1rem; flex-shrink: 0;">${d.emoji}</span>
+            <div style="overflow: hidden;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 0.84rem; font-weight: 700; color: ${isSelected ? '#0c5a36' : '#0f172a'};">${highlightedName}</span>
+                ${startsWithLetter ? `<span style="font-size: 0.64rem; font-weight: 800; background: #dcfce7; color: #15803d; padding: 1px 5px; border-radius: 4px;">Top Match</span>` : ''}
+              </div>
+              <div style="font-size: 0.7rem; color: #64748b; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${highlightedHubs}</div>
+            </div>
+          </div>
+          <div style="flex-shrink: 0; margin-left: 8px;">
+            ${isSelected ? `<span style="color: #0c5a36; font-weight: 800; font-size: 0.85rem;">✓</span>` : `<span style="font-size: 0.68rem; color: #94a3b8; font-weight: 700;">${d.key === 'all' ? 'All' : d.name.substring(0, 3).toUpperCase()}</span>`}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function setDistrictOptionActive(index) {
+    districtActiveIndex = index;
+    document.querySelectorAll('.district-option-item').forEach((el, idx) => {
+      if (idx === index) {
+        if (!el.style.background.includes('e8f5ed')) {
+          el.style.background = '#f1f5f9';
+          el.style.borderLeftColor = '#94a3b8';
+        }
+      } else {
+        if (!el.style.background.includes('e8f5ed')) {
+          el.style.background = 'transparent';
+          el.style.borderLeftColor = 'transparent';
+        }
+      }
+    });
+  }
+
+  function selectDistrictOption(distKey) {
+    filterMandiDistrict(distKey);
+    closeDistrictDropdown();
+  }
+
+  function updateDistrictTriggerLabel(distKey) {
+    const labelEl = document.getElementById('district-dropdown-selected-label');
+    const iconEl = document.getElementById('district-dropdown-selected-icon');
+    const selectEl = document.getElementById('mandis-table-district');
+    if (selectEl) selectEl.value = distKey;
+
+    const d = MAHARASHTRA_DISTRICTS_DATA.find(item => item.key.toLowerCase() === distKey.toLowerCase()) || MAHARASHTRA_DISTRICTS_DATA[0];
+    const lang = (window.getBuyerLanguage && window.getBuyerLanguage()) || 'en';
+    
+    let displayName = d.name;
+    if (lang === 'mr' && d.mr) displayName = d.mr;
+    else if (lang === 'hi' && d.hi) displayName = d.hi;
+
+    if (labelEl) {
+      if (d.key === 'all') {
+        labelEl.textContent = (lang === 'mr') ? 'सर्व जिल्हे (महाराष्ट्र बाजार समित्या)' : (lang === 'hi') ? 'सभी जिले (महाराष्ट्र मंडियां)' : 'All Districts (Maharashtra APMCs)';
+      } else {
+        labelEl.textContent = `${displayName} (${d.hubs.split('/')[0].trim()})`;
+      }
+    }
+    if (iconEl) iconEl.textContent = d.emoji;
+
+    // Sync Quick Districts pill buttons styling
+    const quickButtons = document.querySelectorAll('[data-i18n^="quick_dist_"], [data-i18n="insights_all_apmcs"]');
+    quickButtons.forEach(btn => {
+      const onclickAttr = btn.getAttribute('onclick') || '';
+      if (onclickAttr.toLowerCase().includes(`'${distKey.toLowerCase()}'`)) {
+        btn.classList.add('active');
+        btn.style.background = '#0c5a36';
+        btn.style.color = '#ffffff';
+        btn.style.borderColor = '#0c5a36';
+      } else {
+        btn.classList.remove('active');
+        btn.style.background = 'transparent';
+        btn.style.color = '#0c5a36';
+        btn.style.borderColor = '#0c5a36';
+      }
+    });
+  }
+
+  function handleDistrictKeydown(e) {
+    if (!isDistrictDropdownOpen()) {
+      if (e.key === 'ArrowDown' || e.key === 'Enter') {
+        toggleDistrictDropdown(e, true);
+      }
+      return;
+    }
+
+    const items = currentFilteredDistricts;
+    if (items.length === 0) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      districtActiveIndex = (districtActiveIndex + 1) % items.length;
+      setDistrictOptionActive(districtActiveIndex);
+      scrollActiveDistrictOptionIntoView();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      districtActiveIndex = (districtActiveIndex - 1 + items.length) % items.length;
+      setDistrictOptionActive(districtActiveIndex);
+      scrollActiveDistrictOptionIntoView();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (items[districtActiveIndex]) {
+        selectDistrictOption(items[districtActiveIndex].key);
+      }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      closeDistrictDropdown();
+      const btn = document.getElementById('district-dropdown-btn');
+      if (btn) btn.focus();
+    }
+  }
+
+  function scrollActiveDistrictOptionIntoView() {
+    const list = document.getElementById('district-options-list');
+    const activeEl = list ? list.querySelector(`[data-index="${districtActiveIndex}"]`) : null;
+    if (activeEl && list) {
+      activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }
+
+  function handleDistrictButtonKeydown(e) {
+    // If typing any regular alphanumeric character (e.g. 'P', 'N', 'A')
+    if (e.key && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      toggleDistrictDropdown(e, true);
+      const input = document.getElementById('district-search-input');
+      if (input) {
+        input.value = e.key;
+        handleDistrictSearchInput(e.key);
+      }
+    } else if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleDistrictDropdown(e, true);
+    }
+  }
+
+  // Global document click-outside handler to close district dropdown
+  document.addEventListener('click', function (e) {
+    const container = document.getElementById('district-searchable-dropdown');
+    if (container && !container.contains(e.target)) {
+      closeDistrictDropdown();
+    }
+  });
+
   function handleMandiTableSearch(val) {
     tableSearchQuery = (val || '').trim().toLowerCase();
     tableVisibleCount = 5;
@@ -16143,8 +16529,9 @@
   }
 
   function filterMandiDistrict(dist) {
-    tableDistrictFilter = dist;
+    tableDistrictFilter = dist || 'all';
     tableVisibleCount = 5;
+    updateDistrictTriggerLabel(tableDistrictFilter);
     renderMaharashtraMandisTable();
   }
 
@@ -16181,6 +16568,7 @@
       }
     }
   }
+
   // Export to window
   window.initBuyerMarketInsights = initBuyerMarketInsights;
   window.selectInsightCommodity = selectInsightCommodity;
@@ -16189,6 +16577,17 @@
   window.setInsightPriceUnit = setInsightPriceUnit;
   window.handleMandiTableSearch = handleMandiTableSearch;
   window.filterMandiDistrict = filterMandiDistrict;
+  window.toggleDistrictDropdown = toggleDistrictDropdown;
+  window.closeDistrictDropdown = closeDistrictDropdown;
+  window.handleDistrictSearchInput = handleDistrictSearchInput;
+  window.clearDistrictSearch = clearDistrictSearch;
+  window.selectDistrictAlphabet = selectDistrictAlphabet;
+  window.selectDistrictOption = selectDistrictOption;
+  window.setDistrictOptionActive = setDistrictOptionActive;
+  window.handleDistrictKeydown = handleDistrictKeydown;
+  window.handleDistrictButtonKeydown = handleDistrictButtonKeydown;
+  window.isDistrictDropdownOpen = isDistrictDropdownOpen;
+  window.updateDistrictTriggerLabel = updateDistrictTriggerLabel;
   window.showMoreMandis = showMoreMandis;
   window.showLessMandis = showLessMandis;
   window.resetMandisTableCount = resetMandisTableCount;
@@ -16199,4 +16598,6 @@
   window.openCurrentDistrictMatrixModal = openCurrentDistrictMatrixModal;
   window.closeDistrictMatrixModal = closeDistrictMatrixModal;
   window.filterDistrictMatrixSearch = filterDistrictMatrixSearch;
+  window.MAHARASHTRA_DISTRICTS_DATA = MAHARASHTRA_DISTRICTS_DATA;
 })();
+

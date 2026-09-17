@@ -845,7 +845,7 @@
       "mandi": "Rahuri APMC Market",
       "grade": "Grade A Fresh Picked",
       "gradeBadgeClass": "badge-grade-a",
-      "image": "assets/images/brinjal.jpg",
+      "image": "assets/images/brinjal.jpg?v=2",
       "status": "Active (Bids Open)",
       "statusBadgeClass": "badge-status-open",
       "created_at": "2026-09-15T15:24:04.500Z"
@@ -873,7 +873,7 @@
       "mandi": "Nandurbar APMC Yard",
       "grade": "Grade A Export Calibrated",
       "gradeBadgeClass": "badge-grade-a",
-      "image": "assets/images/green_chilli.jpg",
+      "image": "assets/images/green_chilli.jpg?v=2",
       "status": "Active (Bids Open)",
       "statusBadgeClass": "badge-status-open",
       "created_at": "2026-09-15T15:24:04.500Z"

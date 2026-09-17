@@ -3,3 +3,4 @@ node_modules/
 *.log
 ~$*.docx
 .env
+scratch/

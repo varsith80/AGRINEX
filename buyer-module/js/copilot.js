@@ -11,8 +11,6 @@
 (function () {
   'use strict';
 
-  const showToast = (msg, type) => (typeof window !== 'undefined' && typeof window.showToast === 'function') ? window.showToast(msg, type) : console.log('[Toast]', msg);
-
   // State Management
   const selectedCompareLots = new Set();
 
@@ -276,6 +274,145 @@
     window.print();
   }
 
+  function downloadDigitalPOPdf() {
+    const elPoNum = document.getElementById('po-doc-number');
+    const poNumber = elPoNum ? elPoNum.textContent.trim() : 'PO-AGRI-88219-MH';
+    const elFarmer = document.getElementById('po-farmer-name');
+    const elCrop = document.getElementById('po-item-crop');
+    const elTotal = document.getElementById('po-total-amount');
+    const elDate = document.getElementById('po-doc-date');
+    const elQty = document.getElementById('po-item-qty');
+    const elEscrowAdv = document.getElementById('po-escrow-adv');
+    const elEscrowBal = document.getElementById('po-escrow-bal');
+
+    const farmer = elFarmer ? elFarmer.textContent.trim() : 'Patil Rameshwar';
+    const crop = elCrop ? elCrop.textContent.trim() : 'Red Onion (Lasalgaon Garwa Export Grade A)';
+    const total = elTotal ? elTotal.textContent.trim() : '₹ 90,000';
+    const dateStr = elDate ? elDate.textContent.trim() : new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    const qty = elQty ? elQty.textContent.trim() : '50 Qt (5,000 kg)';
+    const escrowAdv = elEscrowAdv ? elEscrowAdv.textContent.trim() : '₹ 31,500 (35% Locked)';
+    const escrowBal = elEscrowBal ? elEscrowBal.textContent.trim() : '₹ 58,500 (65% on Delivery)';
+
+    const isMr = window.getBuyerLanguage && window.getBuyerLanguage() === 'mr';
+    const isHi = window.getBuyerLanguage && window.getBuyerLanguage() === 'hi';
+
+    const poHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${poNumber} - AgriNex Enterprise Digital Purchase Order & Tax Invoice</title>
+  <style>
+    body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif; padding: 40px; color: #0f172a; background: #ffffff; margin: 0; }
+    .invoice-box { max-width: 820px; margin: auto; border: 2.5px solid #0c5a36; border-radius: 12px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0c5a36; padding-bottom: 16px; margin-bottom: 20px; }
+    .company-title { font-size: 24px; font-weight: 800; color: #0c5a36; letter-spacing: -0.5px; }
+    .sub-text { font-size: 12px; color: #64748b; margin-top: 2px; }
+    .po-badge { background: #e8f5ed; color: #0c5a36; padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: 11px; border: 1px solid #bbf7d0; display: inline-block; margin-top: 6px; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; font-size: 13px; }
+    .info-title { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 4px; }
+    .info-name { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 2px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
+    th { background: #0c5a36; color: #ffffff; padding: 10px 12px; text-align: left; font-weight: 700; }
+    td { padding: 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+    .escrow-box { background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; padding: 14px; margin-bottom: 20px; font-size: 12px; }
+    .escrow-title { font-weight: 800; color: #166534; font-size: 13px; margin-bottom: 4px; }
+    .footer { border-top: 1px solid #e2e8f0; padding-top: 14px; display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
+    @media print { body { padding: 0; } .invoice-box { border: none; box-shadow: none; padding: 0; } }
+  </style>
+</head>
+<body>
+  <div class="invoice-box">
+    <div class="header">
+      <div>
+        <div class="company-title">AGRINEX ENTERPRISE</div>
+        <div class="sub-text">Direct Farm-to-Enterprise Agricultural Trading Exchange</div>
+        <div class="sub-text">GSTIN: 27AABCA1234F1Z5 • FSSAI Lic: 10022022001920</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 18px; font-weight: 800; color: #0f172a;">${poNumber}</div>
+        <div class="sub-text">Date: <strong style="color: #0f172a;">${dateStr}</strong></div>
+        <span class="po-badge">✓ Escrow Secured PO & Tax Invoice</span>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div>
+        <div class="info-title">BUYER (ISSUED BY):</div>
+        <div class="info-name">BigBasket Wholesale Ltd.</div>
+        <div style="color: #475569;">Procurement Lead: Karthik Sundaram</div>
+        <div style="color: #475569;">GSTIN: 33AAACI1234F1Z8</div>
+        <div style="color: #475569;">Delivery Hub: Vashi APMC Central Terminal, Navi Mumbai</div>
+      </div>
+      <div>
+        <div class="info-title">SELLER (FARMER / FPO):</div>
+        <div class="info-name">${farmer}</div>
+        <div style="color: #475569;">Origin: Maharashtra Regulated APMC Belts</div>
+        <div style="color: #475569;">AgriNex Farmer ID: MH-AGRI-99214</div>
+        <div style="color: #475569;">Settlement Bank: SBI Escrow Direct Pay</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 30px;">#</th>
+          <th>Commodity Description & Quality Assay</th>
+          <th style="text-align: right; width: 140px;">Quantity</th>
+          <th style="text-align: right; width: 150px;">Total Valuation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>
+            <strong>${crop}</strong>
+            <div style="font-size: 11px; color: #64748b; margin-top: 2px;">Assayed 96% Export / Grade A Quality • Max 12% Moisture Tolerance</div>
+          </td>
+          <td style="text-align: right; font-weight: 700;">${qty}</td>
+          <td style="text-align: right; font-weight: 800; color: #0c5a36; font-size: 15px;">${total}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="escrow-box">
+      <div class="escrow-title">🔒 RBI-COMPLIANT DUAL-KEY NODAL ESCROW AUDIT TRAIL</div>
+      <div style="color: #15803d; line-height: 1.6;">
+        • <strong>Advance Nodal Deposit:</strong> ${escrowAdv} locked at transaction ratification.<br>
+        • <strong>Delivery Settlement:</strong> ${escrowBal} automated release upon weighbridge assay certification.
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Generated via AgriNex Enterprise Digital Sourcing System • Authenticated PO Deed</div>
+      <div>Statutory MSAMB & e-NAM Harmonized</div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+    const blob = new Blob([poHtml], { type: 'application/pdf;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${poNumber}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 200);
+
+    const toastMsg = isMr
+      ? `✓ अधिकृत खरेदी आदेश आणि कर इनव्हॉइस (${poNumber}.pdf) डाऊनलोड झाले!`
+      : isHi
+      ? `✓ आधिकारिक खरीद आदेश और टैक्स इनवॉइस (${poNumber}.pdf) डाउनलोड हो गया!`
+      : `✓ Official Purchase Order & Tax Invoice (${poNumber}.pdf) downloaded successfully!`;
+
+    if (typeof showToast === 'function') {
+      showToast(toastMsg, 'success');
+    }
+  }
+
   // =========================================================================
   // 3. SIDE-BY-SIDE MULTI-LOT COMPARISON MATRIX
   // =========================================================================
@@ -472,6 +609,11 @@
       const bgCard = isActive ? '#eff6ff' : (isDone ? '#f8fafc' : '#ffffff');
       const borderCard = isActive ? '#bfdbfe' : '#e2e8f0';
 
+      const localizedName = typeof window.tText === 'function' ? window.tText(cp.name) : cp.name;
+      const localizedLoc = typeof window.tLocation === 'function' ? window.tLocation(cp.loc) : (typeof window.tText === 'function' ? window.tText(cp.loc) : cp.loc);
+      const localizedTime = typeof window.tText === 'function' ? window.tText(cp.time) : cp.time;
+      const localizedTag = typeof window.tText === 'function' ? window.tText(cp.tag) : cp.tag;
+
       return `
         <div style="display: flex; gap: 14px; margin-bottom: 12px; position: relative;">
           <!-- Left Timeline Line & Dot -->
@@ -485,17 +627,21 @@
           <!-- Right Checkpoint Details -->
           <div style="flex: 1; background: ${bgCard}; border: 1px solid ${borderCard}; border-radius: 10px; padding: 10px 14px; margin-bottom: 4px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
-              <strong style="font-size: 0.88rem; color: #0f172a;">${cp.name}</strong>
-              <span style="font-size: 0.74rem; font-weight: 700; color: ${isActive ? '#1d4ed8' : '#64748b'};">${cp.time}</span>
+              <strong style="font-size: 0.88rem; color: #0f172a;">${localizedName}</strong>
+              <span style="font-size: 0.74rem; font-weight: 700; color: ${isActive ? '#1d4ed8' : '#64748b'};">${localizedTime}</span>
             </div>
-            <div style="font-size: 0.75rem; color: #64748b;">${cp.loc}</div>
+            <div style="font-size: 0.75rem; color: #64748b;">${localizedLoc}</div>
             <div style="margin-top: 4px; font-size: 0.72rem; color: ${isActive ? '#1e40af' : '#166534'}; font-weight: 600;">
-              ${cp.tag}
+              ${localizedTag}
             </div>
           </div>
         </div>
       `;
     }).join('');
+
+    if (typeof window.walkAndTranslateDOM === 'function') {
+      window.walkAndTranslateDOM(container);
+    }
   }
 
   // =========================================================================
@@ -583,10 +729,10 @@
   window.closeCopilotModal = closeCopilotModal;
   window.askCopilot = askCopilot;
   window.handleCopilotSubmit = handleCopilotSubmit;
-  window.openDigitalPOModal = generateAndOpenPO;
   window.generateAndOpenPO = generateAndOpenPO;
   window.closeDigitalPOModal = closeDigitalPOModal;
   window.printDigitalPO = printDigitalPO;
+  window.downloadDigitalPOPdf = downloadDigitalPOPdf;
   window.toggleLotComparison = toggleLotComparison;
   window.clearLotComparison = clearLotComparison;
   window.openLotComparisonModal = openLotComparisonModal;
