@@ -4,7 +4,7 @@
  *  - en: English (Default)
  *  - hi: हिन्दी (Hindi)
  *  - mr: मराठी (Marathi)
- * Translates 100% of all UI text, person names, crop names, varieties, mandis, quality grades, and agricultural trading terms.
+ * Translates 100% of all UI text, stat cards, tabs, banners, person names, crop names, varieties, mandis, quality grades, and agricultural trading terms.
  */
 
 (function () {
@@ -17,6 +17,7 @@
     'Patil Rameshwar': { hi: 'पाटिल रामेश्वर', mr: 'पाटील रामेश्वर' },
     'Rameshwar Patil': { hi: 'पाटिल रामेश्वर', mr: 'पाटील रामेश्वर' },
     'Ramesh Patel': { hi: 'रमेश पटेल', mr: 'रमेश पटेल' },
+    'Ramesh Kumar': { hi: 'रमेश कुमार', mr: 'रमेश कुमार' },
     'Karthik Sundaram': { hi: 'कार्तिक सुंदरम', mr: 'कार्तिक सुंदरम' },
     'Sanjay Deshmukh': { hi: 'संजय देशमुख', mr: 'संजय देशमुख' },
     'Rajesh Shinde': { hi: 'राजेश शिंदे', mr: 'राजेश शिंदे' },
@@ -36,10 +37,11 @@
     'Babasaheb Kale': { hi: 'बाबासाहेब काले', mr: 'बाबासाहेब काळे' },
     'Kishore Shinde': { hi: 'किशोर शिंदे', mr: 'किशोर शिंदे' },
     'Ganesh Chaudhari': { hi: 'गणेश चौधरी', mr: 'गणेश चौधरी' },
+    'Dinesh Yadav': { hi: 'दिनेश यादव', mr: 'दिनेश यादव' },
     'Selvam': { hi: 'सेल्वम', mr: 'सेल्वम' }
   };
 
-  // 2. COMPLETE CROP & COMMODITY & VARIETY FULL PHRASES
+  // 2. COMPLETE CROP & COMMODITY & VARIETY FULL PHRASES (Plurals and Singles)
   const CROP_MAP = {
     // Exact Full Titles
     'Red Onion (Nashik Garwa Quality)': { hi: 'लाल प्याज (नासिक गरवा क्वालिटी)', mr: 'लाल कांदा (नाशिक गरवा प्रत)' },
@@ -51,8 +53,8 @@
     'Red Onion': { hi: 'लाल प्याज', mr: 'लाल कांदा' },
     'Garwa Red Onion': { hi: 'गरवा लाल प्याज', mr: 'गरवा लाल कांदा' },
     'Garwa Onion': { hi: 'गरवा प्याज', mr: 'गरवा कांदा' },
-    'Onion': { hi: 'प्याज', mr: 'कांदा' },
     'Onions': { hi: 'प्याज', mr: 'कांदा' },
+    'Onion': { hi: 'प्याज', mr: 'कांदा' },
 
     'Tomato (Shivam / Abhinav Hybrid)': { hi: 'टमाटर (शिवम / अभिनव हाइब्रिड)', mr: 'टोमॅटो (शिवम / अभिनव संकरित)' },
     'Hybrid Tomato (Narayangaon / Junnar)': { hi: 'हाइब्रिड टमाटर (नारायणगांव / जुन्नर)', mr: 'संकरित टोमॅटो (नारायणगाव / जुन्नर)' },
@@ -60,19 +62,21 @@
     'Tomato (Hybrid Red)': { hi: 'टमाटर (हाइब्रिड लाल)', mr: 'टोमॅटो (संकरित लाल)' },
     'Hybrid Tomato': { hi: 'हाइब्रिड टमाटर', mr: 'संकरित टोमॅटो' },
     'Salvage Tomatoes': { hi: 'बचाव टमाटर (इमर्जेंसी)', mr: 'त्वरित विक्री टोमॅटो' },
-    'Tomato': { hi: 'टमाटर', mr: 'टोमॅटो' },
     'Tomatoes': { hi: 'टमाटर', mr: 'टोमॅटो' },
+    'Tomato': { hi: 'टमाटर', mr: 'टोमॅटो' },
 
     'Grand Naine Banana (GI Khandesh Export)': { hi: 'ग्रैंड नैन केला (जीआई खानदेश निर्यात)', mr: 'ग्रँड नैन केळी (GI खान्देश निर्यात)' },
     'Grand Naine Banana (Jalgaon G9)': { hi: 'ग्रैंड नैन केला (जलगांव जी9)', mr: 'ग्रँड नैन केळी (जळगाव जी९)' },
     'Grand Naine Banana (Jalgaon)': { hi: 'ग्रैंड नैन केला (जलगांव)', mr: 'ग्रँड नैन केळी (जळगाव)' },
     'Grand Naine Banana': { hi: 'ग्रैंड नैन केला', mr: 'ग्रँड नैन केळी' },
     'Grand Naine Tissue Culture': { hi: 'ग्रैंड नैन टिशू कल्चर', mr: 'ग्रँड नैन उती संवर्धन' },
+    'Bananas': { hi: 'केले', mr: 'केळी' },
     'Banana': { hi: 'केला', mr: 'केळी' },
 
     'Yellow Soybean (JS 335 / High Protein)': { hi: 'पीला सोयाबीन (जेएस 335 / उच्च प्रोटीन)', mr: 'पिवळी सोयाबीन (जेएस ३३५ / उच्च प्रथिने)' },
     'Yellow Soybean (Latur JS 335)': { hi: 'पीला सोयाबीन (लातूर जेएस 335)', mr: 'पिवळी सोयाबीन (लातूर जेएस ३३५)' },
     'Yellow Soybean': { hi: 'पीला सोयाबीन', mr: 'पिवळी सोयाबीन' },
+    'Soybeans': { hi: 'सोयाबीन', mr: 'सोयाबीन' },
     'Soybean': { hi: 'सोयाबीन', mr: 'सोयाबीन' },
     'Soyabean': { hi: 'सोयाबीन', mr: 'सोयाबीन' },
 
@@ -81,6 +85,7 @@
     'Nagpur Orange': { hi: 'नागपुर संतरा', mr: 'नागपूर संत्री' },
     'Nagpur Santra': { hi: 'नागपुर संतरा', mr: 'नागपूर संत्री' },
     'Nagpur Santra Juicy Grade A': { hi: 'नागपुर संतरा रसीला ग्रेड ए', mr: 'नागपूर संत्री रसाळ प्रत ग्रेड अ' },
+    'Oranges': { hi: 'संतरे', mr: 'संत्री' },
     'Orange': { hi: 'संतरा', mr: 'संत्री' },
     'Santra': { hi: 'संतरा', mr: 'संत्री' },
 
@@ -110,6 +115,7 @@
     'Bhagwa Pomegranate (Solapur)': { hi: 'भगवा अनार (सोलापुर)', mr: 'भगवा डाळिंब (सोलापूर)' },
     'Bhagwa Ruby Red': { hi: 'भगवा रूबी लाल', mr: 'भगवा रक्तवर्णी डाळिंब' },
     'Bhagwa Pomegranate': { hi: 'भगवा अनार', mr: 'भगवा डाळिंब' },
+    'Pomegranates': { hi: 'अनार', mr: 'डाळिंब' },
     'Pomegranate': { hi: 'अनार', mr: 'डाळिंब' },
 
     'Devgad Alphonso Mango (GI Tagged Export)': { hi: 'देवगड हापुस आम (जीआई टैग)', mr: 'देवगड हापूस आंबा (GI प्रमाणित)' },
@@ -117,15 +123,20 @@
     'Ratnagiri Alphonso (GI Tagged)': { hi: 'रत्नागिरी हापुस (जीआई टैग)', mr: 'रत्नागिरी हापूस (GI प्रमाणित)' },
     'Ratnagiri Alphonso Mango': { hi: 'रत्नागिरी हापुस आम', mr: 'रत्नागिरी हापूस आंबा' },
     'Alphonso Mango': { hi: 'हापुस आम', mr: 'हापूस आंबा' },
+    'Mangoes': { hi: 'आम', mr: 'आंबे' },
+    'Mangos': { hi: 'आम', mr: 'आंबे' },
     'Mango': { hi: 'आम', mr: 'आंबा' },
 
     'Green Chilli (G4 Spicy Dark Green)': { hi: 'हरी मिर्च (जी4 तीखी गहरी हरी)', mr: 'हिरवी मिरची (जी४ तिखट गडद हिरवी)' },
     'Green Chilli (G4 Spicy)': { hi: 'हरी मिर्च (जी4 तीखी)', mr: 'हिरवी मिरची (जी४ तिखट)' },
     'G4 Spicy Dark Green': { hi: 'जी4 तीखी गहरी हरी', mr: 'जी४ तिखट गडद हिरवी' },
+    'Green Chillies': { hi: 'हरी मिर्च', mr: 'हिरवी मिरची' },
     'Green Chilli': { hi: 'हरी मिर्च', mr: 'हिरवी मिरची' },
     'Chilli (Nandurbar Dry Red Chilli)': { hi: 'नंदुरबार सूखी लाल मिर्च', mr: 'नंदुरबार सुकी लाल मिरची' },
     'Dry Red Chilli': { hi: 'सूखी लाल मिर्च', mr: 'सुकी लाल मिरची' },
     'Red Chilli': { hi: 'लाल मिर्च', mr: 'लाल मिरची' },
+    'Chillies': { hi: 'मिर्च', mr: 'मिरची' },
+    'Chilis': { hi: 'मिर्च', mr: 'मिरची' },
     'Chilli': { hi: 'मिर्च', mr: 'मिरची' },
 
     'Akola Desi Chana (Bengal Gram)': { hi: 'अकोला देसी चना', mr: 'अकोला देशी हरभरा' },
@@ -212,8 +223,9 @@
     'Sweet Guava': { hi: 'मीठा अमरूद', mr: 'गोड पेरू' },
     'Guava': { hi: 'अमरूद', mr: 'पेरू' },
 
-    'Potato': { hi: 'आलू', mr: 'बटाटा' },
     'Potatoes': { hi: 'आलू', mr: 'बटाटा' },
+    'Potato': { hi: 'आलू', mr: 'बटाटा' },
+    'Bottle Gourd': { hi: 'लौकी', mr: 'दुधी भोपळा' },
     'Okra': { hi: 'भिंडी', mr: 'भेंडी' },
     'Bhindi': { hi: 'भिंडी', mr: 'भेंडी' },
     'Ladies Finger': { hi: 'भिंडी', mr: 'भेंडी' },
@@ -381,6 +393,9 @@
     'Natural White Bold Export Calibrated': { hi: 'प्राकृतिक सफेद मोटा निर्यात कैलिब्रेटेड', mr: 'नैसर्गिक पांढरा टपोरा निर्यात प्रत' },
     'Teja High-Pungency Sun-Dried': { hi: 'तेजा उच्च तीखा धूप में सुखाया', mr: 'तेजा अति-तिखट उन्हात वाळवलेली' },
     'Table Grade Extra Sweet': { hi: 'टेबल ग्रेड अतिरिक्त मीठा', mr: 'टेबल प्रत अति गोड' },
+    'Grade A (Premium Export / Retail)': { hi: 'ग्रेड ए (प्रीमियम निर्यात / खुदरा)', mr: 'ग्रेड अ (प्रीमियम निर्यात / किरकोळ)' },
+    'Grade B (Standard Market)': { hi: 'ग्रेड बी (मानक बाजार)', mr: 'ग्रेड ब (सर्वसाधारण बाजार)' },
+    'Grade C (Processing Grade)': { hi: 'ग्रेड सी (प्रसंस्करण ग्रेड)', mr: 'ग्रेड क (प्रक्रिया दर्जा)' },
     'Grade A': { hi: 'ग्रेड ए (सर्वोत्तम)', mr: 'ग्रेड अ (उत्कृष्ट)' },
     'Grade B': { hi: 'ग्रेड बी (मध्यम)', mr: 'ग्रेड ब (मध्यम)' },
     'Grade C': { hi: 'ग्रेड सी (साधारण)', mr: 'ग्रेड क (साधारण)' }
@@ -401,30 +416,69 @@
     'Full': { hi: 'पूर्ण (फुल)', mr: 'पूर्ण' }
   };
 
-  // 8. UI PHRASE REPLACEMENTS (High Precision Ordering)
-  const PHRASE_MAP = [
-    // Direct UI Strings
+  // 8. UI PHRASE REPLACEMENTS (High Precision Ordering - Longest Strings First)
+  const RAW_PHRASES = [
+    // Long Sentences & Paragraphs
+    ['Got perishable produce nearing shelf life (Tomatoes, Chillies)? Click 🚨 Emergency Sale on any lot to broadcast to verified food processing plants & institutional caterers for instant payout.', 'क्या आपके पास जल्दी खराब होने वाली फसलें (टमाटर, मिर्च) हैं? किसी भी लॉट पर 🚨 संकटकालीन त्वरित बिक्री पर क्लिक करें और तत्काल भुगतान के लिए खाद्य प्रसंस्करण व कैटरर्स को भेजें।', 'तुमच्याकडे नाशवंत शेतमाल (टोमॅटो, मिरची) शिल्लक आहे का? तात्काळ रकमेसाठी कोणत्याही लॉटवर 🚨 तातडीची संकट विक्री वर क्लिक करा व फूड प्रोसेसिंग प्लांट्सना पाठवा.'],
+    ['Got perishable produce nearing shelf life (Tomatoes, Chillies)? Click', 'क्या आपके पास जल्दी खराब होने वाली फसलें (टमाटर, मिर्च) हैं? क्लिक करें', 'तुमच्याकडे नाशवंत शेतमाल (टोमॅटो, मिरची) शिल्लक आहे का? क्लिक करा'],
+    ['on any lot to broadcast to verified food processing plants & institutional caterers for instant payout.', 'किसी भी लॉट पर क्लिक करें और तत्काल भुगतान के लिए खाद्य प्रसंस्करण व कैटरर्स को भेजें।', 'वर क्लिक करा व फूड प्रोसेसिंग प्लांट्सना पाठवा.'],
+    ['Got perishable produce nearing shelf life', 'क्या आपके पास जल्दी खराब होने वाली फसलें हैं', 'तुमच्याकडे नाशवंत शेतमाल शिल्लक आहे का'],
+    ['Instant Breakeven Salvage: Guaranteed ~75% floor recovery via Food Processors & Caterers', 'त्वरित न्यूनतम मूल्य बचाव: खाद्य प्रसंस्करण और कैटरर्स के माध्यम से ~75% मूल्य वसूली', 'तातडीची संकट विक्री: फूड प्रोसेसर्स व केटरर्सद्वारे ~७५% हमीभाव प्राप्ती'],
+    ['Guaranteed ~75% floor recovery via Food Processors & Caterers', 'खाद्य प्रसंस्करण और कैटरर्स के माध्यम से ~75% मूल्य वसूली', 'फूड प्रोसेसर्स व केटरर्सद्वारे ~७५% हमीभाव प्राप्ती'],
     ['Direct price offers from verified buyers for your produce', 'आपकी उपज के लिए सत्यापित खरीदारों से सीधे मूल्य प्रस्ताव', 'तुमच्या शेतमालासाठी प्रमाणित खरेदीदारांकडून थेट दर ऑफर्स'],
-    ['Live Agmarknet (data.gov.in) API Feed', 'लाइव एगमार्कनेट (data.gov.in) सरकारी डेटा', 'थेट अ‍ॅगमार्कनेट (data.gov.in) सरकारी दर'],
-    ['Daily Mandi Price Updates', 'दैनिक मंडी भाव अपडेट', 'दैनिक बाजार समिती भाव'],
-    ['Market Price Trend & 7-Day Forecast', 'मंडी भाव रुझान और 7-दिवसीय पूर्वानुमान', 'बाजार भाव कल आणि ७ दिवसांचा अंदाज'],
-    ['Clear daily prices in', 'स्पष्ट दैनिक मूल्य', 'स्पष्ट दैनिक दर'],
-    ['with simple 7-day forward Expected price trends.', 'सरल 7-दिवसीय अपेक्षित मूल्य रुझान के साथ।', 'सरल ७ दिवसांच्या अंदाजित भावासह.'],
-    ['Solid Green: Past 7 Days Actual Price', 'ठोस हरा: पिछले 7 दिनों का वास्तविक मूल्य', 'हिरवी रेषा: मागील ७ दिवसांचे प्रत्यक्ष भाव'],
-    ['Dashed Blue: Next 7 Days Forecast', 'नीली बिंदीदार: अगले 7 दिनों का पूर्वानुमान', 'निळी डॅश रेषा: पुढील ७ दिवसांचा अंदाज'],
-    ['Official APMC Mandi Data (data.gov.in)', 'आधिकारिक एपीएमसी मंडी डेटा (data.gov.in)', 'अधिकृत कृषी उत्पन्न बाजार समिती डेटा'],
-    ['Live APMC Mandi Rates & Arbitrage Signals', 'लाइव मंडी दर और अंतर-मंडी मुनाफा (आर्बिट्रेज)', 'थेट बाजार भाव आणि आंतर-बाजार नफा संधी'],
-    ['Verified feeds from Agmarknet API (data.gov.in) & e-NAM Mandis', 'एगमार्कनेट और ई-नाम सत्यापित सरकारी मंडी डेटा', 'अ‍ॅगमार्कनेट आणि ई-नाम प्रमाणित अधिकृत डेटा'],
+    ['Market trend is positive. Wholesale arrivals down 14%, prices are expected to rise steadily in the next 7 days.', 'बाजार का रुख सकारात्मक है। थोक आवक 14% घटी है, अगले 7 दिनों में भाव बढ़ने की संभावना है।', 'बाजार कल तेजीचा आहे. घाऊक आवक १४% कमी झाली असून पुढील ७ दिवसांत भाव वाढण्याची शक्यता आहे.'],
     ['Across Maharashtra APMC terminals over next 3–5 days', 'अगले 3-5 दिनों में महाराष्ट्र की प्रमुख मंडियों में', 'पुढील ३-५ दिवसांत महाराष्ट्रातील प्रमुख बाजारांत'],
-    ['7-Day Forward Price Projections (In ₹ per kg)', '7-दिवसीय अग्रिम मूल्य अनुमान (₹ प्रति किलो में)', '७ दिवसांचे अंदाजित भाव (₹ प्रति किलोमध्ये)'],
-    ['Best Mandis to Sell (After Transport Cost)', 'माल बेचने के लिए सर्वश्रेष्ठ मंडियां (भाड़ा खर्च काटकर)', 'माल विकण्यासाठी सर्वोत्तम बाजार (वाहतूक खर्च वजा जाता)'],
     ['Local Mandi is optimal; no regional arbitrage spread exceeds transit costs.', 'स्थानीय मंडी सर्वोत्तम है; किसी बाहरी मंडी में भाड़ा निकालकर अतिरिक्त लाभ नहीं है।', 'स्थानिक बाजार समिती सर्वोत्तम आहे; इतर बाजारातील भाववाढ वाहतूक खर्चापेक्षा कमी आहे.'],
     ['Prices projected to gain +13.7% over 7 days due to tightening arrivals.', 'आवक कम होने के कारण 7 दिनों में भाव में +13.7% की बढ़त की संभावना है।', 'आवक घटल्याने पुढील ७ दिवसांत भावात +१३.७% वाढ अपेक्षित आहे.'],
-    ['Market trend is positive. Wholesale arrivals down 14%, prices are expected to rise steadily in the next 7 days.', 'बाजार का रुख सकारात्मक है। थोक आवक 14% घटी है, अगले 7 दिनों में भाव बढ़ने की संभावना है।', 'बाजार कल तेजीचा आहे. घाऊक आवक १४% कमी झाली असून पुढील ७ दिवसांत भाव वाढण्याची शक्यता आहे.'],
+    ['Direct pickup arranged by AgriNex Logistics from your nearest mandi.', 'आपकी निकटतम मंडी से एग्रीनेक्स लॉजिस्टिक्स द्वारा सीधा पिकअप।', 'तुमच्या जवळच्या बाजार समितीमधून अ‍ॅग्रीनेक्सद्वारे थेट वाहतूक.'],
+    ['35% Advance Escrow locked immediately upon pool completion.', 'पूल पूरा होते ही 35% अग्रिम राशि तुरंत एस्क्रो में लॉक की जाती है।', 'संकलन पूर्ण होताच ३५% अ‍ॅडव्हान्स रक्कम लगेच एस्क्रोमध्ये सुरक्षित होते.'],
+    ['No intermediary middleman cuts — 100% contract rate paid to your bank account.', 'कोई बिचौलिया या दलाल नहीं — पूरा 100% अनुबंध मूल्य सीधे आपके बैंक खाते में।', 'कोणतीही दलाली नाही — १००% संपूर्ण करार भाव थेट तुमच्या बँक खात्यात.'],
+    ['An individual farmer cannot supply', 'एक अकेला किसान आपूर्ति नहीं कर सकता', 'एकटा शेतकरी पुरवठा करू शकत नाही'],
+    ['alone. By contributing your crop into this collective FPO batch, your volume gets aggregated with other farmers and sold at institutional premium rates.', 'अकेले। अपनी फसल को इस सामूहिक एफपीओ बैच में शामिल करके, आपकी मात्रा अन्य किसानों के साथ जुड़ जाती है और प्रीमियम दरों पर बेची जाती है।', 'एकटे. या सामूहिक एफपीओ गटामध्ये शेतमाल देऊन, तुमचा माल इतर शेतकऱ्यांसोबत एकत्र केला जातो आणि चांगल्या भावात विकला जातो.'],
     ['Synced APMC yards across Nashik, Lasalgaon, Pune, Solapur & Latur.', 'नासिक, लासलगांव, पुणे, सोलापुर और लातूर मंडियों से सिंक किया गया।', 'नाशिक, लासलगाव, पुणे, सोलापूर आणि लातूर बाजार समित्यांचे भाव जुळवले.'],
     ['Live Maharashtra Mandi Rates Updated!', 'लाइव महाराष्ट्र मंडी दर अपडेट हो गए!', 'महाराष्ट्रातील थेट बाजार भाव अपडेट झाले!'],
+    ['7-Day Forward Price Projections (In ₹ per kg)', '7-दिवसीय अग्रिम मूल्य अनुमान (₹ प्रति किलो में)', '७ दिवसांचे अंदाजित भाव (₹ प्रति किलोमध्ये)'],
+    ['Best Mandis to Sell (After Transport Cost)', 'माल बेचने के लिए सर्वश्रेष्ठ मंडियां (भाड़ा खर्च काटकर)', 'माल विकण्यासाठी सर्वोत्तम बाजार (वाहतूक खर्च वजा जाता)'],
+    ['Live Agmarknet (data.gov.in) API Feed', 'लाइव एगमार्कनेट (data.gov.in) सरकारी डेटा', 'थेट अ‍ॅगमार्कनेट (data.gov.in) सरकारी दर'],
+    ['Verified feeds from Agmarknet API (data.gov.in) & e-NAM Mandis', 'एगमार्कनेट और ई-नाम सत्यापित सरकारी मंडी डेटा', 'अ‍ॅगमार्कनेट आणि ई-नाम प्रमाणित अधिकृत डेटा'],
+    ['Official APMC Mandi Data (data.gov.in)', 'आधिकारिक एपीएमसी मंडी डेटा (data.gov.in)', 'अधिकृत कृषी उत्पन्न बाजार समिती डेटा'],
+    ['Solid Green: Past 7 Days Actual Price', 'ठोस हरा: पिछले 7 दिनों का वास्तविक मूल्य', 'हिरवी रेषा: मागील ७ दिवसांचे प्रत्यक्ष भाव'],
+    ['Dashed Blue: Next 7 Days Forecast', 'नीली बिंदीदार: अगले 7 दिनों का पूर्वानुमान', 'निळी डॅश रेषा: पुढील ७ दिवसांचा अंदाज'],
+    ['Clear daily prices in', 'स्पष्ट दैनिक मूल्य', 'स्पष्ट दैनिक दर'],
+    ['with simple 7-day forward Expected price trends.', 'सरल 7-दिवसीय अपेक्षित मूल्य रुझान के साथ।', 'सरल ७ दिवसांच्या अंदाजित भावासह.'],
 
-    // Sidebar Navigation
+    // Stat Cards & Headers
+    ['Total Crop Lots', 'कुल फसल लॉट', 'एकूण पीक लॉट्स'],
+    ['Active listings', 'सक्रिय लिस्टिंग', 'सक्रिय लॉट्स'],
+    ['Active Bids', 'सक्रिय बोलियां', 'सक्रिय बोली'],
+    ['Buyers interested', 'इच्छुक खरीदार', 'उत्सुक खरेदीदार'],
+    ['Pending Shipments', 'लंबित शिपमेंट', 'प्रलंबित वाहतूक'],
+    ['In transit', 'मार्ग में (ट्रांजिट)', 'वाहतुकीत (मार्गावर)'],
+    ['Estimated Profit', 'अनुमानित लाभ', 'अंदाजित नफा'],
+    ['(After transport & charges)', '(परिवहन और शुल्क काटकर)', '(वाहतूक व खर्च वजा जाता)'],
+    ['After transport & charges', 'परिवहन और शुल्क काटकर', 'वाहतूक व खर्च वजा जाता'],
+
+    // Sections, Tabs & Banners
+    ['My Crop Listings (Produce)', 'मेरी फसल लिस्टिंग (उपज)', 'माझी पीक नोंदणी (शेतमाल)'],
+    ['My Crop Listings', 'मेरी फसल लिस्टिंग', 'माझी पीक नोंदणी'],
+    ['Crop Listings', 'फसल लिस्टिंग', 'पीक नोंदणी'],
+    ['+ Add New Lot', '+ नया लॉट जोड़ें', '+ नवीन लॉट जोडा'],
+    ['Add New Lot', 'नया लॉट जोड़ें', 'नवीन लॉट जोडा'],
+    ['View All', 'सभी देखें', 'सर्व पहा'],
+    ['All Crops', 'सभी फसलें', 'सर्व पिके'],
+    ['Emergency Salvage Protocol Ready', 'संकटकालीन त्वरित बिक्री प्रोटोकॉल तैयार', 'तातडीची संकट विक्री यंत्रणा सज्ज'],
+    ['Emergency Salvage Active', 'संकटकालीन त्वरित बिक्री सक्रिय', 'तातडीची संकट विक्री सुरू'],
+    ['Emergency Salvage', 'संकटकालीन त्वरित बिक्री', 'तातडीची संकट विक्री'],
+    ['Instant Breakeven Salvage:', 'त्वरित न्यूनतम मूल्य बचाव:', 'तातडीची संकट विक्री:'],
+    ['Instant Breakeven Salvage', 'त्वरित न्यूनतम मूल्य बचाव', 'तातडीची संकट विक्री'],
+    ['Salvage Tomatoes (50 Qt)', 'बचाव टमाटर (50 क्विंटल)', 'त्वरित विक्री टोमॅटो (५० क्विंटल)'],
+    ['Salvage Tomatoes', 'बचाव टमाटर', 'त्वरित विक्री टोमॅटो'],
+    ['Emergency Distress Sale', 'आपातकालीन संकट बिक्री', 'तातडीची संकट विक्री'],
+    ['Emergency Sale', 'संकटकालीन त्वरित बिक्री', 'तातडीची संकट विक्री'],
+    ['⚡ Emergency Eligible', '⚡ संकटकालीन पात्र', '⚡ तातडीच्या विक्रीस पात्र'],
+    ['⚡ Active Salvage Bids', '⚡ सक्रिय बचाव बोलियां', '⚡ सक्रिय मदत बोली'],
+
+    // Navigation & Portals
     ['FARMER PORTAL', 'किसान पोर्टल', 'शेतकरी पोर्टल'],
     ['Dashboard', 'डैशबोर्ड', 'डॅशबोर्ड'],
     ['My Crops & Lots', 'मेरी फसलें और लॉट', 'माझी पिके आणि लॉट्स'],
@@ -438,18 +492,27 @@
     ['Grievance Desk', 'शिकायत डेस्क', 'तक्रार निवारण'],
     ['Verified Farmer', 'सत्यापित किसान', 'प्रमाणित शेतकरी'],
 
-    // Actions & Headers
+    // Top Bar & Controls
+    ['List New Crop Lot', '+ नया फसल लॉट जोड़ें', '+ नवीन पीक लॉट जोडा'],
     ['List New Crop', '+ नई फसल जोड़ें', '+ नवीन पीक जोडा'],
     ['Update Rates', 'दर अपडेट करें', 'दर अपडेट करा'],
     ['Change Language', 'भाषा बदलें', 'भाषा बदला'],
     ['Support', 'मदद', 'मदत'],
+    ['Search crop lots, mandi rates, buyer bids, orders...', 'फसल लॉट, मंडी भाव, खरीदार बोली, ऑर्डर खोजें...', 'पीक लॉट्स, बाजार भाव, खरेदीदार बोली शोधा...'],
     ['Search vegetable, commodity, APMC mandi, state...', 'सब्जी, फसल, एपीएमसी मंडी, राज्य खोजें...', 'भाजीपाला, पीक, बाजार समिती, जिल्हा शोधा...'],
     ['Search crops, lots, buyers...', 'फसल, लॉट, खरीदार खोजें...', 'पिके, लॉट्स, खरेदीदार शोधा...'],
     ['Maharashtra Hubs', 'महाराष्ट्र मंडी हब', 'महाराष्ट्र केंद्रे'],
     ['National Benchmark', 'राष्ट्रीय बेंचमार्क', 'राष्ट्रीय बाजार'],
     ['All Mandis', 'सभी मंडियां', 'सर्व बाजार समित्या'],
 
-    // Table Headers
+    // Forecast & Table Headers
+    ['Price Forecast & Insights', 'मूल्य पूर्वानुमान और अंतर्दृष्टि', 'भाव अंदाज आणि विश्लेषण'],
+    ['Next 7 days forecast', 'अगले 7 दिनों का पूर्वानुमान', 'पुढील ७ दिवसांचा अंदाज'],
+    ['View Detailed Forecast', 'विस्तृत पूर्वानुमान देखें', 'सविस्तर अंदाज पहा'],
+    ['Live Mandi Prices', 'लाइव मंडी भाव', 'थेट बाजार भाव'],
+    ['Current Price (₹/kg & ₹/Qt)', 'वर्तमान दर (₹/किलो और ₹/क्विंटल)', 'सध्याचा दर (₹/किलो आणि ₹/क्विंटल)'],
+    ['Current Price', 'वर्तमान दर', 'सध्याचा दर'],
+    ['7 Day Trend', '7-दिवसीय रुझान', '७ दिवसांचा भाव कल'],
     ['PRODUCE', 'फसल / उपज', 'पीक / शेतमाल'],
     ['GRADE', 'ग्रेड / गुणवत्ता', 'प्रत / दर्जा'],
     ['MANDI / LOCATION', 'मंडी / स्थान', 'बाजार समिती / ठिकाण'],
@@ -465,6 +528,8 @@
     ['FREIGHT COST', 'परिवहन भाड़ा', 'वाहतूक खर्च'],
     ['NET SPREAD / GAIN', 'शुद्ध अतिरिक्त लाभ', 'निव्वळ नफा'],
     ['ACTION', 'कार्रवाई', 'कृती'],
+    ['Actions', 'कार्रवाई', 'कृती'],
+    ['Action', 'कार्रवाई', 'कृती'],
     ['Book Freight', 'भाड़ा बुक करें', 'वाहतूक बुक करा'],
     ['Monitor', 'निगरानी करें', 'निरीक्षण करा'],
     ['No net gain', 'कोई अतिरिक्त लाभ नहीं', 'अतिरिक्त नफा नाही'],
@@ -473,8 +538,9 @@
     ['SELL NOW / DISPATCH TODAY', 'तुरंत बेचें / आज ही भेजें', 'लगेच विका / आजच पाठवा'],
     ['MODERATE HARVEST', 'संतुलित बिक्री करें', 'हप्त्या-हप्त्याने विक्री करा'],
     ['Confidence', 'विश्वसनीयता', 'विश्वासार्हता'],
+    ['ML Confidence', 'मशीन लर्निंग विश्वसनीयता', 'ML विश्वासार्हता'],
 
-    // KPI Cards
+    // KPI Summary Details
     ['Average Price', 'औसत मूल्य', 'सरासरी भाव'],
     ['Total Stock', 'कुल आवक / स्टॉक', 'एकूण आवक / साठा'],
     ['Top Rising Crop', 'सर्वाधिक बढ़त वाली फसल', 'सर्वाधिक तेजी असलेले पीक'],
@@ -493,34 +559,70 @@
     ['7-Day Price Forecasts', '7-दिवसीय मूल्य पूर्वानुमान', '७ दिवसांचा भाव अंदाज'],
     ['Prices likely to increase', 'भाव बढ़ने की पूरी संभावना', 'भाव वाढण्याची दाट शक्यता'],
 
-    // Crop Forms & Details
+    // Forms & Fields
+    ['Farmer Profile & KYC Identity', 'किसान प्रोफ़ाइल और केवाईसी पहचान', 'शेतकरी प्रोफाईल आणि केवायसी ओळख'],
+    ['KYC Verified', 'केवाईसी सत्यापित', 'केवायसी प्रमाणित'],
+    ['Save Profile Changes', 'प्रोफ़ाइल परिवर्तन सहेजें', 'प्रोफाईल बदल जतन करा'],
+    ['Publish Crop Listing', 'फसल लिस्टिंग प्रकाशित करें', 'पीक नोंदणी प्रसिद्ध करा'],
+    ['Date of Harvest *', 'कटाई की तिथि *', 'कापणीची तारीख *'],
     ['Date of Harvest', 'कटाई की तिथि', 'कापणीची तारीख'],
     ['Harvest Date', 'कटाई की तिथि', 'कापणीची तारीख'],
     ['Posting Date', 'पोस्टिंग तिथि', 'नोंदणी तारीख'],
+    ['Expected Price (₹/kg & ₹/Qt)', 'अपेक्षित मूल्य (₹/किलो और ₹/क्विंटल)', 'अपेक्षित हमीभाव (₹/किलो आणि ₹/क्विंटल)'],
+    ['Best Bid (₹/kg & ₹/Qt)', 'सर्वोत्तम बोली (₹/किलो और ₹/क्विंटल)', 'सर्वोत्तम बोली (₹/किलो आणि ₹/क्विंटल)'],
     ['Expected Price', 'अपेक्षित मूल्य', 'अपेक्षित भाव'],
+    ['Expected Floor Price (₹ / Quintal)', 'अपेक्षित न्यूनतम मूल्य (₹ / क्विंटल)', 'अपेक्षित हमीभाव (₹ / क्विंटल)'],
+    ['Expected Floor Price (₹ / Qt)', 'अपेक्षित न्यूनतम मूल्य (₹ / क्विंटल)', 'अपेक्षित हमीभाव (₹ / क्विंटल)'],
+    ['Expected Floor Price:', 'अपेक्षित न्यूनतम मूल्य:', 'अपेक्षित हमीभाव:'],
     ['Expected Floor Price', 'अपेक्षित न्यूनतम मूल्य', 'अपेक्षित हमीभाव'],
+    ['Original Floor Price:', 'मूल न्यूनतम मूल्य:', 'मूळ हमीभाव:'],
     ['Original Floor Price', 'मूल न्यूनतम मूल्य', 'मूळ हमीभाव'],
-    ['Current Best Buyer Bid', 'वर्तमान सर्वोत्तम खरीदार बोली', 'सध्याची सर्वोत्तम खरेदीदार बोली'],
+    ['Current Best Buyer Bid:', 'वर्तमान सर्वोत्तम खरीदार बोली:', 'सध्याची सर्वोत्तम खरेदीदार बोली:'],
+    ['Current Best Buyer Bid', 'वर्तमान सर्वोत्तम खरीदार बोली', 'सध्याची सर्वोत्तम खरेदीदार बोली:'],
     ['Listed Volume', 'सूचीबद्ध मात्रा', 'नोंदवलेले प्रमाण'],
     ['Best Bid', 'सर्वोत्तम बोली', 'सर्वोत्तम बोली'],
+    ['Quantity (Quintals / Qt)', 'मात्रा (क्विंटल / Qt)', 'प्रमाण (क्विंटल / Qt)'],
     ['Quantity', 'मात्रा', 'प्रमाण'],
     ['Shelf Life', 'भंडारण अवधि', 'टिकवण क्षमता'],
     ['Category', 'श्रेणी', 'प्रवर्ग'],
-    ['Variety', 'किस्म / वेरायटी', 'वाण / जात'],
+    ['Quality Grade', 'गुणवत्ता ग्रेड', 'दर्जा प्रत'],
+    ['Grade', 'ग्रेड', 'प्रत'],
+    ['Crop Name / Variety', 'फसल का नाम / किस्म', 'पिकाचे नाव / जात'],
+    ['Crop Name & Variety', 'फसल का नाम और किस्म', 'पिकाचे नाव आणि जात'],
+    ['Crop & Lot Details', 'फसल और लॉट विवरण', 'पीक आणि लॉट तपशील'],
+    ['Enter Crop Details', 'फसल विवरण दर्ज करें', 'पिकाचा तपशील प्रविष्ट करा'],
+    ['Harvest Mandi / Pickup Location', 'कटाई मंडी / पिकअप स्थान', 'कापणी बाजार समिती / पिकअप ठिकाण'],
     ['Location', 'स्थान', 'ठिकाण'],
     ['Farmer Name', 'किसान का नाम', 'शेतकऱ्याचे नाव'],
-    ['Emergency Sale', 'संकटकालीन त्वरित बिक्री', 'तातडीची संकट विक्री'],
-    ['Emergency Distress Sale', 'आपातकालीन संकट बिक्री', 'तातडीची संकट विक्री'],
+    ['Farmer', 'किसान', 'शेतकरी'],
+    ['Buyer', 'खरीदार', 'खरेदीदार'],
+    ['Price', 'मूल्य', 'दर'],
+    ['Status', 'स्थिति', 'स्थिती'],
     ['Active Offer', 'सक्रिय प्रस्ताव', 'सक्रिय ऑफर'],
+    ['Active Offers', 'सक्रिय प्रस्ताव', 'सक्रिय ऑफर्स'],
+    ['Contract Rate:', 'अनुबंध दर:', 'करार दर:'],
     ['Contract Rate', 'अनुबंध दर', 'करार दर'],
+    ['Contract Price:', 'अनुबंध मूल्य:', 'करार किंमत:'],
     ['Contract Price', 'अनुबंध मूल्य', 'करार किंमत'],
     ['Enter Your Price (₹ / kg):', 'अपना मूल्य दर्ज करें (₹ / किलो):', 'तुमचा भाव प्रविष्ट करा (₹ / किलो):'],
     ['OFFERED PRICE', 'प्रस्तावित मूल्य', 'ऑफर केलेला दर'],
     ['Available', 'उपलब्ध', 'उपलब्ध'],
     ['Harvested', 'काटा गया', 'कापणी झालेली'],
     ['Days', 'दिन', 'दिवस'],
-    ['Target:', 'लक्ष्य:', 'लक्ष्य:']
+    ['Target:', 'लक्ष्य:', 'लक्ष्य:'],
+    ['Spot Rate:', 'स्पॉट रेट:', 'थेट दर:'],
+    ['Unit:', 'इकाई:', 'एकक:'],
+    ["Today's Rate:", 'आज का दर:', 'आजचा दर:'],
+    ['7-Day Target:', '7-दिवसीय लक्ष्य:', '७ दिवसांचे लक्ष्य:'],
+    ['View Lot', 'लॉट देखें', 'लॉट पहा'],
+    ['View', 'देखें', 'पहा'],
+    ['Offers', 'प्रस्ताव / बोलियां', 'ऑफर्स'],
+    ['Cancel', 'रद्द करें', 'रद्द करा'],
+    ['Close', 'बंद करें', 'बंद करा']
   ];
+
+  // Sort phrases strictly by descending character length to ensure maximum greediness
+  const PHRASE_MAP = RAW_PHRASES.sort((a, b) => b[0].length - a[0].length);
 
   const TRANSLATIONS = {
     en: {
@@ -553,34 +655,26 @@
     const l = lang || getFarmerLanguage();
     if (l === 'en') return cropName;
 
-    // 1. Direct exact match in CROP_MAP
     if (CROP_MAP[cropName] && CROP_MAP[cropName][l]) {
       return CROP_MAP[cropName][l];
     }
 
     let res = cropName;
-
-    // 2. Sub-phrase replacements in CROP_MAP
     for (const [k, v] of Object.entries(CROP_MAP)) {
       if (res.includes(k) && v[l]) {
         res = res.replaceAll(k, v[l]);
       }
     }
-
-    // 3. Sub-phrase replacements in VARIETY_MAP
     for (const [k, v] of Object.entries(VARIETY_MAP)) {
       if (res.includes(k) && v[l]) {
         res = res.replaceAll(k, v[l]);
       }
     }
-
-    // 4. Mandi & District replacements in crop string
     for (const [k, v] of Object.entries(DISTRICT_MAP)) {
       if (res.includes(k) && v[l]) {
         res = res.replaceAll(k, v[l]);
       }
     }
-
     return res;
   }
 
@@ -666,7 +760,7 @@
     let res = str;
     for (let i = 0; i < PHRASE_MAP.length; i++) {
       const row = PHRASE_MAP[i];
-      if (row[0].length > 3 && res.includes(row[0])) {
+      if (row[0].length > 2 && res.includes(row[0])) {
         res = res.replaceAll(row[0], row[colIdx]);
       }
     }
@@ -681,19 +775,21 @@
   }
 
   // Close dropdown on outside click
-  document.addEventListener('click', function (e) {
-    const widget = document.querySelector('.lang-selector-widget');
-    const menu = document.getElementById('language-dropdown-menu');
-    if (menu && menu.style.display === 'block') {
-      if (widget && !widget.contains(e.target)) {
-        menu.style.display = 'none';
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', function (e) {
+      const widget = document.querySelector('.lang-selector-widget');
+      const menu = document.getElementById('language-dropdown-menu');
+      if (menu && menu.style.display === 'block') {
+        if (widget && !widget.contains(e.target)) {
+          menu.style.display = 'none';
+        }
       }
-    }
-  });
+    });
+  }
 
   // Universal DOM Translation Walker
   function walkAndTranslateDOM(rootNode, lang) {
-    if (!rootNode) return;
+    if (!rootNode || typeof document === 'undefined') return;
     const l = lang || getFarmerLanguage();
     const colIdx = l === 'hi' ? 1 : (l === 'mr' ? 2 : 0);
 
@@ -741,67 +837,67 @@
 
       let translated = orig;
 
-      // 1. Direct Crop map lookup (Longest keys first for greediness)
+      // STEP 1: Process full phrases and sentence blocks FIRST
+      for (let i = 0; i < PHRASE_MAP.length; i++) {
+        const row = PHRASE_MAP[i];
+        if (translated.includes(row[0])) {
+          translated = translated.replaceAll(row[0], row[colIdx]);
+        }
+      }
+
+      // STEP 2: Crop map lookup
       for (const [k, v] of Object.entries(CROP_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 2. Direct Variety map lookup
+      // STEP 3: Variety map lookup
       for (const [k, v] of Object.entries(VARIETY_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 3. Category map lookup
+      // STEP 4: Category map lookup
       for (const [k, v] of Object.entries(CATEGORY_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 4. Direct Mandi map lookup
+      // STEP 5: Mandi map lookup
       for (const [k, v] of Object.entries(MANDI_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 5. Person map lookup
+      // STEP 6: Person map lookup
       for (const [k, v] of Object.entries(PERSON_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 6. District map lookup
+      // STEP 7: District map lookup
       for (const [k, v] of Object.entries(DISTRICT_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 7. Grade map lookup
+      // STEP 8: Grade map lookup
       for (const [k, v] of Object.entries(GRADE_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
         }
       }
 
-      // 8. Status map lookup
+      // STEP 9: Status map lookup
       for (const [k, v] of Object.entries(STATUS_MAP)) {
         if (translated.includes(k) && v[l]) {
           translated = translated.replaceAll(k, v[l]);
-        }
-      }
-
-      // 9. General Phrase Maps
-      for (let i = 0; i < PHRASE_MAP.length; i++) {
-        const row = PHRASE_MAP[i];
-        if (translated.includes(row[0])) {
-          translated = translated.replaceAll(row[0], row[colIdx]);
         }
       }
 
@@ -830,7 +926,7 @@
 
   let domObserver = null;
   function startDOMObserver() {
-    if (domObserver) return;
+    if (domObserver || typeof MutationObserver === 'undefined' || typeof document === 'undefined') return;
     domObserver = new MutationObserver(mutations => {
       const lang = getFarmerLanguage();
       if (lang === 'en') return;
@@ -842,7 +938,9 @@
         });
       });
     });
-    domObserver.observe(document.body, { childList: true, subtree: true });
+    if (document.body) {
+      domObserver.observe(document.body, { childList: true, subtree: true });
+    }
   }
 
   function setFarmerLanguage(lang) {
@@ -854,33 +952,43 @@
     } catch (e) {}
 
     // Update Dropdown UI & Checkmarks
-    const labelEl = document.getElementById('current-language-label');
-    if (labelEl) {
-      if (lang === 'en') labelEl.innerHTML = '🇬🇧 English';
-      else if (lang === 'hi') labelEl.innerHTML = '🇮🇳 हिन्दी';
-      else if (lang === 'mr') labelEl.innerHTML = '🚩 मराठी';
-    }
-
-    ['en', 'hi', 'mr'].forEach(l => {
-      const optBtn = document.getElementById(`lang-opt-${l}`);
-      if (optBtn) {
-        const check = optBtn.querySelector('.lang-check');
-        if (check) check.style.display = l === lang ? 'inline' : 'none';
-        optBtn.style.background = l === lang ? '#e8f5ed' : 'transparent';
-        optBtn.style.color = l === lang ? '#0c5a36' : '#0f172a';
+    if (typeof document !== 'undefined') {
+      const labelEl = document.getElementById('current-language-label');
+      if (labelEl) {
+        if (lang === 'en') labelEl.innerHTML = '🇬🇧 English';
+        else if (lang === 'hi') labelEl.innerHTML = '🇮🇳 हिन्दी';
+        else if (lang === 'mr') labelEl.innerHTML = '🚩 मराठी';
       }
-    });
 
-    const menu = document.getElementById('language-dropdown-menu');
-    if (menu) menu.style.display = 'none';
+      ['en', 'hi', 'mr'].forEach(l => {
+        const optBtn = document.getElementById(`lang-opt-${l}`);
+        if (optBtn) {
+          const check = optBtn.querySelector('.lang-check');
+          if (check) check.style.display = l === lang ? 'inline' : 'none';
+          optBtn.style.background = l === lang ? '#e8f5ed' : 'transparent';
+          optBtn.style.color = l === lang ? '#0c5a36' : '#0f172a';
+        }
+      });
 
-    // Translate DOM
-    walkAndTranslateDOM(document.body, lang);
-    startDOMObserver();
+      const menu = document.getElementById('language-dropdown-menu');
+      if (menu) menu.style.display = 'none';
+
+      // Translate DOM
+      if (document.body) {
+        walkAndTranslateDOM(document.body, lang);
+        startDOMObserver();
+      }
+    }
 
     // Re-render charts or dynamic templates if functions exist
     if (typeof window.renderDashboard === 'function') {
       window.renderDashboard();
+    }
+    if (typeof window.renderListings === 'function') {
+      window.renderListings();
+    }
+    if (typeof window.renderFPOHub === 'function') {
+      window.renderFPOHub();
     }
     if (typeof window.renderCropsTable === 'function') {
       window.renderCropsTable();
@@ -907,36 +1015,40 @@
   }
 
   // Export to global window object
-  window.AgriNexFarmerI18n = {
-    tCrop,
-    tVariety,
-    tCategory,
-    tPerson,
-    tLocation,
-    tGrade,
-    tStatus,
-    tText,
-    setFarmerLanguage,
-    getFarmerLanguage,
-    toggleLanguageMenu,
-    walkAndTranslateDOM
-  };
+  if (typeof window !== 'undefined') {
+    window.AgriNexFarmerI18n = {
+      tCrop,
+      tVariety,
+      tCategory,
+      tPerson,
+      tLocation,
+      tGrade,
+      tStatus,
+      tText,
+      setFarmerLanguage,
+      getFarmerLanguage,
+      toggleLanguageMenu,
+      walkAndTranslateDOM
+    };
 
-  window.tCrop = tCrop;
-  window.tVariety = tVariety;
-  window.tCategory = tCategory;
-  window.tPerson = tPerson;
-  window.tLocation = tLocation;
-  window.tGrade = tGrade;
-  window.tStatus = tStatus;
-  window.tText = tText;
-  window.setFarmerLanguage = setFarmerLanguage;
-  window.getFarmerLanguage = getFarmerLanguage;
-  window.toggleLanguageMenu = toggleLanguageMenu;
+    window.tCrop = tCrop;
+    window.tVariety = tVariety;
+    window.tCategory = tCategory;
+    window.tPerson = tPerson;
+    window.tLocation = tLocation;
+    window.tGrade = tGrade;
+    window.tStatus = tStatus;
+    window.tText = tText;
+    window.setFarmerLanguage = setFarmerLanguage;
+    window.getFarmerLanguage = getFarmerLanguage;
+    window.toggleLanguageMenu = toggleLanguageMenu;
+  }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFarmerI18n);
-  } else {
-    initFarmerI18n();
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFarmerI18n);
+    } else {
+      initFarmerI18n();
+    }
   }
 })();
