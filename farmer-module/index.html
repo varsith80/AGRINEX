@@ -214,6 +214,64 @@
 
       <!-- Full-Width Dashboard Content -->
       <div class="dashboard-content">
+
+        <!-- eCommerce Seller Trust & Guarantee Ribbon -->
+        <div class="seller-trust-bar">
+          <div class="seller-trust-item">
+            <div class="seller-trust-icon">🛡️</div>
+            <div class="seller-trust-text">
+              <h4>0% Middlemen Cut</h4>
+              <p>Direct farm-to-buyer sales</p>
+            </div>
+          </div>
+          <div class="seller-trust-item">
+            <div class="seller-trust-icon">🔒</div>
+            <div class="seller-trust-text">
+              <h4>100% Escrow Protected</h4>
+              <p>Advance locked before dispatch</p>
+            </div>
+          </div>
+          <div class="seller-trust-item">
+            <div class="seller-trust-icon">📈</div>
+            <div class="seller-trust-text">
+              <h4>APMC Mandi Premium</h4>
+              <p>Real-time wholesale benchmark</p>
+            </div>
+          </div>
+          <div class="seller-trust-item">
+            <div class="seller-trust-icon">⚡</div>
+            <div class="seller-trust-text">
+              <h4>Instant UPI / NEFT Payout</h4>
+              <p>Direct to your bank account</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Seller Actions Toolbar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1.5px solid var(--border-default); border-radius: var(--radius-lg); padding: 12px 18px; box-shadow: var(--shadow-xs); flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 0.85rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 6px;">
+              <span>🌾</span> Seller Commerce Actions:
+            </span>
+          </div>
+          <div class="seller-actions-strip">
+            <button class="seller-action-pill primary" onclick="document.getElementById('modal-create-listing').classList.add('active')">
+              <span>+</span> List Fresh Harvest Lot
+            </button>
+            <a href="market-insights.html" class="seller-action-pill">
+              <span>📊</span> Live Mandi Benchmark
+            </a>
+            <a href="orders-shipments.html" class="seller-action-pill">
+              <span>🚚</span> Book GPS Farm Pickup
+            </a>
+            <a href="fpo-hub.html" class="seller-action-pill">
+              <span>🤝</span> FPO Bulk Pool
+            </a>
+            <button class="seller-action-pill danger" onclick="openEmergencyModal('LOT-TOM-01')">
+              <span>🚨</span> Instant Salvage Liquidation
+            </button>
+          </div>
+        </div>
         
         <!-- 4 Stat Cards Grid (Spans Full Width) -->
         <section class="stat-cards-grid">

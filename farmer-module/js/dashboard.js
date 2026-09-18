@@ -272,11 +272,14 @@ function renderListings() {
           <div class="crop-cell">
             <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
             <div>
-              <div class="crop-name">${dispCrop}</div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="crop-name">${dispCrop}</span>
+                <span style="font-size: 0.68rem; font-weight: 700; color: #64748b; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: monospace;">${item.id}</span>
+              </div>
               ${isEmergency && !isSold ? `
-                <span class="badge badge-status-emergency" style="font-size: 0.68rem; padding: 2px 6px; margin-top: 2px;">⚡ ${window.tText ? window.tText('Emergency Salvage Active') : 'Emergency Salvage Active'}</span>
+                <span class="badge badge-status-emergency" style="font-size: 0.68rem; padding: 2px 6px; margin-top: 3px;">⚡ ${window.tText ? window.tText('Emergency Salvage Active') : 'Emergency Salvage Active'}</span>
               ` : (isPerishable && !isSold ? `
-                <span style="font-size: 0.68rem; color: #dc2626; font-weight: 700;">⏳ ${item.shelfLife}</span>
+                <span style="font-size: 0.7rem; color: #dc2626; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; margin-top: 2px;">⏳ ${item.shelfLife}</span>
               ` : '')}
             </div>
           </div>
@@ -285,15 +288,17 @@ function renderListings() {
           <span class="badge ${item.gradeBadgeClass}">${dispGrade}</span>
         </td>
         <td>
-          <strong style="color: #0f172a; font-weight: 700;">${item.quantity}</strong>
+          <strong style="color: #0f172a; font-weight: 800; font-size: 0.94rem;">${item.quantity}</strong>
         </td>
         <td>
           <span class="price-main">${item.expectedPrice}</span>
         </td>
         <td>
           <div class="crop-details">
-            <span class="price-main" style="${isEmergency ? 'color: #dc2626; font-weight: 800;' : ''}">${item.bestBid}</span>
-            <span class="price-subtext">(${dispBuyer})</span>
+            <span class="price-main" style="${isEmergency ? 'color: #dc2626; font-weight: 800;' : 'color: #166534;'}">${item.bestBid}</span>
+            <span class="price-subtext" style="display: flex; align-items: center; gap: 4px;">
+              <span style="color: #15803d; font-weight: 800;">✓</span> ${dispBuyer}
+            </span>
           </div>
         </td>
         <td>
@@ -301,7 +306,7 @@ function renderListings() {
         </td>
         <td>
           <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-            <button class="btn btn-outline btn-view-lot" style="padding: 5px 10px; font-size: 0.78rem;" onclick="openLotDetail('${item.id}')">${window.tText ? window.tText('View') : 'View'}</button>
+            <button class="btn btn-outline btn-view-lot" style="padding: 6px 12px; font-size: 0.8rem; font-weight: 700;" onclick="openLotDetail('${item.id}')">${window.tText ? window.tText('View') : 'View'}</button>
             ${!isSold && !isEmergency ? `
               <button class="btn-emergency-action" onclick="openEmergencyModal('${item.id}')" title="No buyers? Activate instant breakeven sale with food processors, composters & caterers">
                 <span>🚨</span> ${window.tText ? window.tText('Emergency Sale') : 'Emergency Sale'}

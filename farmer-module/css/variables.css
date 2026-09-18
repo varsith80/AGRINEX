@@ -1,33 +1,41 @@
-﻿:root {
-  /* Brand Green Palette */
-  --primary-dark: #064e3b;
+:root {
+  /* Brand Green Palette (Enterprise Agri-Commerce) */
+  --primary-dark: #043d22;
   --primary: #0c5a36;
-  --primary-hover: #084c2d;
+  --primary-hover: #09472b;
   --primary-light: #15803d;
-  --primary-subtle: #e8f5ed;
+  --primary-subtle: #ecfdf5;
   --primary-tint: #f0fdf4;
-  --primary-border: #bbf7d0;
+  --primary-border: #a7f3d0;
+  --primary-glow: rgba(12, 90, 54, 0.15);
 
   /* Accent & Status Colors */
   --accent-gold: #d97706;
   --accent-gold-light: #fef3c7;
+  --accent-gold-border: #fde68a;
   --accent-blue: #2563eb;
   --accent-blue-light: #eff6ff;
+  --accent-blue-border: #bfdbfe;
   --accent-purple: #7c3aed;
   --accent-purple-light: #f5f3ff;
+  --accent-purple-border: #ddd6fe;
   --accent-sky: #0284c7;
   --accent-sky-light: #f0f9ff;
-  --accent-red: #ef4444;
-  --accent-red-light: #fee2e2;
-  --accent-emerald: #10b981;
+  --accent-sky-border: #bae6fd;
+  --accent-red: #dc2626;
+  --accent-red-light: #fef2f2;
+  --accent-red-border: #fecaca;
+  --accent-emerald: #059669;
   --accent-emerald-light: #ecfdf5;
+  --accent-emerald-border: #a7f3d0;
 
-  /* Neutrals & Backgrounds */
+  /* Neutrals & Clean Backgrounds */
   --bg-page: #f8fafc;
   --bg-card: #ffffff;
-  --bg-sidebar: #ffffff;
+  --bg-sidebar: #063c22;
   --bg-input: #ffffff;
-  --bg-input-border: #e2e8f0;
+  --bg-input-border: #cbd5e1;
+  --bg-input-focus: #ffffff;
 
   /* Typography Colors */
   --text-main: #0f172a;
@@ -40,15 +48,18 @@
   --border-subtle: #f1f5f9;
   --border-default: #e2e8f0;
   --border-strong: #cbd5e1;
+  --border-accent: rgba(12, 90, 54, 0.2);
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
-  --shadow-lg: 0 12px 28px -4px rgba(15, 23, 42, 0.09), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
-  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  /* Elevation Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 2px 4px 0 rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 16px 36px -4px rgba(15, 23, 42, 0.1), 0 6px 14px -2px rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  --shadow-glow-green: 0 0 0 3px rgba(12, 90, 54, 0.16);
 
   /* Radius */
-  --radius-xs: 4px;
+  --radius-xs: 6px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
@@ -58,4 +69,6 @@
 
   /* Typography */
   --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }

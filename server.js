@@ -2490,5 +2490,18 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, async () => {
   console.log(`AgriNex Platform & REST API server running at http://localhost:${PORT}/`);
   console.log(`REST API Available at http://localhost:${PORT}/api/`);
-  await dbService.initDatabase();
+  try {
+    await dbService.initDatabase();
+  } catch (err) {
+    console.error('Database initialization warning:', err.message);
+  }
 });
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
