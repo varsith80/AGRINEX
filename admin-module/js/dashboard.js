@@ -77,6 +77,8 @@ function switchSection(sectionId, subFilter = null, updateHash = true) {
       filterUsers("Farmer");
     } else if (subFilter === "buyers") {
       filterUsers("Buyer");
+    } else if (subFilter === "logistics") {
+      filterUsers("Logistics");
     }
   }
 }
@@ -88,7 +90,7 @@ function renderOverviewStats() {
   const stats = AgriNexAdminGovernance.getStats();
   if (!stats) return;
 
-  // Card 1: 👨🌾 Farmers / FPOs
+  // Card 1: 👨🌾 Farmers
   const farmersVerifiedEl = document.getElementById("stat-farmers-verified");
   const farmersPendingEl = document.getElementById("stat-farmers-pending");
   if (farmersVerifiedEl) farmersVerifiedEl.textContent = stats.verifiedFarmers || "14,280";
@@ -104,7 +106,7 @@ function renderOverviewStats() {
   const activeDealsEl = document.getElementById("stat-active-deals");
   if (activeDealsEl) activeDealsEl.textContent = stats.activeDeals || "1,420";
 
-  // Card 4: 🚚 Active Deliveries
+  // Card 4: 🚚 Active Deliveries / Logistics
   const activeDeliveriesEl = document.getElementById("stat-active-deliveries");
   if (activeDeliveriesEl) activeDeliveriesEl.textContent = stats.activeDeliveries || "312";
 
@@ -128,35 +130,43 @@ function renderDashboardQueue() {
 }
 
 function renderDashboardWarehouses() {
-  const container = document.getElementById("dashboard-warehouse-summary");
-  if (!container) return;
+  const list = document.getElementById("dashboard-warehouses-list");
+  if (!list) return;
 
-  const warehouses = AgriNexAdminGovernance.getWarehouses().slice(0, 2);
-  container.innerHTML = warehouses.map(w => `
-    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <strong style="font-size: 0.88rem; color: #0f172a;">${w.name}</strong>
-        <span class="badge" style="background: #e0f2fe; color: #0369a1; font-size: 0.68rem; font-weight: 800;">${w.tempRange}</span>
+  const whs = AgriNexAdminGovernance.getWarehouses().slice(0, 4);
+  list.innerHTML = whs.map(w => {
+    const pct = Math.round((w.occupiedMT / w.totalCapacityMT) * 100);
+    const color = pct >= 85 ? '#ef4444' : pct >= 65 ? '#f59e0b' : '#10b981';
+    return `
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <strong style="color: #0f172a; font-size: 0.85rem;">${w.name}</strong>
+          <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">${w.district}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #334155; margin-bottom: 4px;">
+          <span>Capacity (${pct}%)</span>
+          <strong>${w.occupiedMT.toLocaleString()} / ${w.totalCapacityMT.toLocaleString()} MT</strong>
+        </div>
+        <div style="width: 100%; height: 6px; background: #e2e8f0; border-radius: 999px; overflow: hidden;">
+          <div style="width: ${pct}%; height: 100%; background: ${color}; border-radius: 999px;"></div>
+        </div>
       </div>
-      <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: #64748b; margin-top: 4px;">
-        <span>📍 ${w.location}</span>
-        <strong style="color: ${w.occupiedPct >= 80 ? '#dc2626' : '#059669'};">${w.occupiedPct}% Occupied (${w.occupiedCapacity.toLocaleString()} MT)</strong>
-      </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 }
 
 function renderDashboardDeliveries() {
-  const container = document.getElementById("dashboard-delivery-summary");
-  if (!container) return;
+  const list = document.getElementById("dashboard-deliveries-list");
+  if (!list) return;
 
-  const deliveries = AgriNexAdminGovernance.getActiveDeliveries().slice(0, 2);
-  container.innerHTML = deliveries.map(d => `
-    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <strong style="font-size: 0.88rem; color: #0f172a;">${d.vehicleNo} (${d.vehicleType})</strong>
-        <span class="badge" style="background: #fef3c7; color: #b45309; font-size: 0.68rem; font-weight: 800;">ETA: ${d.eta}</span>
+  const dels = AgriNexAdminGovernance.getDeliveries().slice(0, 3);
+  list.innerHTML = dels.map(d => `
+    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <span style="font-weight: 800; font-size: 0.8rem; color: #0284c7;">${d.id} • ${d.transporter}</span>
+        <span class="badge" style="background: #e0f2fe; color: #0369a1; font-size: 0.68rem; font-weight: 800;">${d.status}</span>
       </div>
+      <div style="font-size: 0.82rem; font-weight: 700; color: #0f172a;">${d.route}</div>
       <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: #64748b; margin-top: 4px;">
         <span>📦 ${d.cargo}</span>
         <strong style="color: #0284c7;">🌡️ ${d.tempStatus}</strong>
@@ -166,7 +176,7 @@ function renderDashboardDeliveries() {
 }
 
 /* =========================================================================
-   4. USERS MANAGEMENT (FARMERS, FPOS, BUYERS)
+   4. USERS MANAGEMENT (FARMERS, BUYERS, LOGISTICS)
    ========================================================================= */
 function renderUsersTable(filterCategory = "all") {
   const tbody = document.getElementById("users-table-tbody");
@@ -193,10 +203,16 @@ function renderUsersTable(filterCategory = "all") {
 
   tbody.innerHTML = users.map(u => {
     const isPending = u.status.includes("Pending");
-    const isFarmer = u.category === "Farmer" || u.category === "FPO";
-    const categoryBadge = isFarmer 
-      ? `<span class="badge" style="background: #dcfce7; color: #166534; font-size: 0.72rem; font-weight: 800;">${u.category}</span>`
-      : `<span class="badge" style="background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800;">🏢 ${u.category}</span>`;
+    let categoryBadge = "";
+    if (u.category === "Farmer") {
+      categoryBadge = `<span class="badge" style="background: #dcfce7; color: #166534; font-size: 0.72rem; font-weight: 800;">👨🌾 Farmer</span>`;
+    } else if (u.category === "Buyer") {
+      categoryBadge = `<span class="badge" style="background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800;">🏢 Buyer</span>`;
+    } else if (u.category === "Logistics") {
+      categoryBadge = `<span class="badge" style="background: #fef3c7; color: #92400e; font-size: 0.72rem; font-weight: 800;">🚚 Logistics</span>`;
+    } else {
+      categoryBadge = `<span class="badge" style="background: #f1f5f9; color: #334155; font-size: 0.72rem; font-weight: 800;">${u.category}</span>`;
+    }
 
     const statusBadge = isPending
       ? `<span class="badge-gov-pending">⚠️ ${u.status}</span>`
@@ -253,6 +269,19 @@ function filterUsers(category, el = null) {
   if (el) {
     document.querySelectorAll(".filter-pills-bar .filter-pill").forEach(p => p.classList.remove("active"));
     el.classList.add("active");
+  } else {
+    document.querySelectorAll(".filter-pills-bar .filter-pill").forEach(p => {
+      const text = p.textContent.toLowerCase();
+      if ((category === "all" && text.includes("all")) ||
+          (category === "Farmer" && text.includes("farmer")) ||
+          (category === "Buyer" && text.includes("buyer")) ||
+          (category === "Logistics" && text.includes("logistic")) ||
+          (category === "Pending" && text.includes("pending"))) {
+        p.classList.add("active");
+      } else {
+        p.classList.remove("active");
+      }
+    });
   }
   renderUsersTable(category);
 }

@@ -19,14 +19,27 @@
       </div>
       <span class="auth-brand-title">Agri<span class="auth-brand-accent">Nex</span></span>
     </a>
-    <a href="../index.html" class="auth-back-link">
-      ← Back to Gateway Hub
-    </a>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a href="index.html" class="auth-back-link" title="Select Stakeholder Role">
+        🔀 All Portals
+      </a>
+      <a href="../index.html" class="auth-back-link" title="Return to Main Website">
+        🏠 Home
+      </a>
+    </div>
   </header>
 
   <!-- Login Main -->
   <main class="auth-wrapper">
     <div class="auth-card">
+      <!-- Quick Role Switcher -->
+      <div class="auth-role-switch-tabs">
+        <a href="farmer_login.html" class="role-switch-tab active tab-farmer">🌾 Farmer</a>
+        <a href="buyer_login.html" class="role-switch-tab">🏢 Buyer</a>
+        <a href="logistics_login.html" class="role-switch-tab">🚚 Logistics</a>
+        <a href="admin_login.html" class="role-switch-tab">🛡️ Admin</a>
+      </div>
+
       <span class="auth-role-badge role-badge-farmer">🌾 Farmer Portal</span>
       <h2 class="auth-title">Welcome, Farmer</h2>
       <p class="auth-subtitle">Access your crop listings, buyer bids, and escrow payments directly.</p>
@@ -71,6 +84,9 @@
 
       <div class="auth-footer">
         New Farmer on AgriNex? <a href="register.html?role=farmer">Create Farmer Account</a>
+        <div style="margin-top: 8px; font-size: 0.78rem; color: #94a3b8;">
+          Looking for other portals? <a href="index.html" style="color: #0c5a36; font-weight: 700;">Stakeholder Gateway Hub</a>
+        </div>
       </div>
     </div>
   </main>

@@ -169,7 +169,10 @@
         </div>
 
         <div class="navbar-right">
-          <a href="../login_details/index.html" class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 12px;">Switch Role</a>
+          <a href="../login_details/admin_login.html" onclick="localStorage.removeItem('agrinex_active_session');" class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 12px; display: inline-flex; align-items: center; gap: 5px; color: #dc2626; border-color: #fca5a5; text-decoration: none;" title="Sign out and clear session">
+            <span>🚪</span> Sign Out
+          </a>
+          <a href="../login_details/index.html" class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 12px; text-decoration: none;" title="Switch to another stakeholder portal">🔀 Switch Portal</a>
           
           <button class="notif-btn" title="Pending Actions Requiring Attention" onclick="openPendingActionsModal()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -246,11 +249,11 @@
             </div>
           </div>
 
-          <!-- 5 OVERVIEW CARDS: Farmers/FPOs, Buyers, Active Deals, Active Deliveries, Pending Actions -->
+          <!-- 5 OVERVIEW CARDS: Farmers, Buyers, Active Deals, Active Deliveries, Pending Actions -->
           <div class="overview-kpi-grid">
             
-            <!-- Card 1: 👨🌾 Farmers / FPOs -->
-            <div class="overview-card card-kpi-farmers" onclick="switchSection('users', 'farmers')" title="Click to view Farmers and FPOs">
+            <!-- Card 1: 👨🌾 Farmers -->
+            <div class="overview-card card-kpi-farmers" onclick="switchSection('users', 'farmers')" title="Click to view Farmers">
               <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <div style="font-size: 1.6rem;">👨🌾</div>
                 <span class="badge" style="background: #dcfce7; color: #15803d; font-weight: 800; font-size: 0.68rem; border: 1px solid #bbf7d0;">
@@ -258,9 +261,9 @@
                 </span>
               </div>
               <div style="margin: 10px 0 6px;">
-                <div style="font-size: 0.78rem; color: #166534; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">👨🌾 Farmers / FPOs</div>
+                <div style="font-size: 0.78rem; color: #166534; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">👨🌾 Farmers</div>
                 <div style="font-size: 1.7rem; font-weight: 900; color: #0c5a36; line-height: 1.1; margin: 4px 0 2px;" id="stat-farmers-verified">14,280</div>
-                <div style="font-size: 0.76rem; color: #15803d; font-weight: 700;">Verified Users (98.6%)</div>
+                <div style="font-size: 0.76rem; color: #15803d; font-weight: 700;">Verified Producers (98.6%)</div>
               </div>
               <div style="border-top: 1px solid rgba(22, 101, 52, 0.15); padding-top: 8px; margin-top: 4px; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
                 <span style="color: #854d0e; font-weight: 800; background: #fef9c3; padding: 2px 7px; border-radius: 4px; border: 1px solid #fef08a;" id="stat-farmers-pending">⚠️ 48 Pending</span>
@@ -481,19 +484,19 @@
         </section>
 
         <!-- ============================================================= -->
-        <!-- SECTION 2: USERS (FARMERS, FPOS, BUYERS DIRECTORY)            -->
+        <!-- SECTION 2: USERS (FARMERS, BUYERS, LOGISTICS DIRECTORY)       -->
         <!-- ============================================================= -->
         <section id="section-users" class="gov-section">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
             <div>
-              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin: 0;">👥 User Directory & Verification Center</h2>
-              <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Manage verified & pending Farmers, FPOs, and Enterprise Corporate Buyers</span>
+              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin: 0;">👥 User Directory & Management System</h2>
+              <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Manage verified & pending Farmers, Enterprise Buyers, and Logistics Fleet Partners</span>
             </div>
             <div class="filter-pills-bar" style="margin-bottom: 0;">
               <button class="filter-pill active" onclick="filterUsers('all', this)">All Users</button>
               <button class="filter-pill" onclick="filterUsers('Farmer', this)">👨🌾 Farmers</button>
-              <button class="filter-pill" onclick="filterUsers('FPO', this)">🌾 FPOs</button>
               <button class="filter-pill" onclick="filterUsers('Buyer', this)">🏢 Buyers</button>
+              <button class="filter-pill" onclick="filterUsers('Logistics', this)">🚚 Logistics</button>
               <button class="filter-pill" onclick="filterUsers('Pending', this)" style="background: #fffbeb; color: #b45309; border-color: #fef08a;">⚠️ Pending Verification</button>
             </div>
           </div>
@@ -505,9 +508,9 @@
                   <tr>
                     <th>User & ID</th>
                     <th>Category</th>
-                    <th>Location / Scale</th>
-                    <th>Commodity Focus / Credit</th>
-                    <th>KYC Verification Proof</th>
+                    <th>Location / Hub</th>
+                    <th>Commodity / Operations / Credit</th>
+                    <th>KYC & Compliance Proof</th>
                     <th>Status & Risk</th>
                     <th>Admin Action</th>
                   </tr>

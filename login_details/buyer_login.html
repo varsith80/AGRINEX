@@ -19,14 +19,27 @@
       </div>
       <span class="auth-brand-title">Agri<span style="color: #60a5fa;">Nex</span></span>
     </a>
-    <a href="../index.html" class="auth-back-link">
-      ← Back to Gateway Hub
-    </a>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a href="index.html" class="auth-back-link" title="Select Stakeholder Role">
+        🔀 All Portals
+      </a>
+      <a href="../index.html" class="auth-back-link" title="Return to Main Website">
+        🏠 Home
+      </a>
+    </div>
   </header>
 
   <!-- Login Main -->
   <main class="auth-wrapper">
     <div class="auth-card">
+      <!-- Quick Role Switcher -->
+      <div class="auth-role-switch-tabs">
+        <a href="farmer_login.html" class="role-switch-tab">🌾 Farmer</a>
+        <a href="buyer_login.html" class="role-switch-tab active tab-buyer">🏢 Buyer</a>
+        <a href="logistics_login.html" class="role-switch-tab">🚚 Logistics</a>
+        <a href="admin_login.html" class="role-switch-tab">🛡️ Admin</a>
+      </div>
+
       <span class="auth-role-badge role-badge-buyer">🏢 Buyer & Mill Portal</span>
       <h2 class="auth-title">Welcome, Enterprise Buyer</h2>
       <p class="auth-subtitle">Source farm-direct produce, place bulk bids, and manage escrow contracts.</p>
@@ -71,6 +84,9 @@
 
       <div class="auth-footer">
         Looking for bulk procurement? <a href="register.html?role=buyer" style="color: #1d4ed8;">Create Buyer Account</a>
+        <div style="margin-top: 8px; font-size: 0.78rem; color: #94a3b8;">
+          Looking for other portals? <a href="index.html" style="color: #1d4ed8; font-weight: 700;">Stakeholder Gateway Hub</a>
+        </div>
       </div>
     </div>
   </main>

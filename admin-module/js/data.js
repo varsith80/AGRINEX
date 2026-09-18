@@ -513,7 +513,7 @@ const ADMIN_GOVERNANCE_DATA = {
     maxMoisturePct: 10.0
   },
 
-  // Users Directory (Farmers, FPOs, Buyers)
+  // Users Directory (Farmers, Buyers, Logistics)
   users: [
     {
       id: "USR-FRM-01",
@@ -529,17 +529,17 @@ const ADMIN_GOVERNANCE_DATA = {
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80"
     },
     {
-      id: "USR-FPO-01",
-      name: "Sahyadri Farmers Producer Co. (SFPC)",
-      category: "FPO",
+      id: "USR-LOG-01",
+      name: "MahaKisan Cold-Chain Logistics Ltd.",
+      category: "Logistics",
       phone: "+91 98230 55120",
-      location: "Dindori, Nashik (1,250 Farmers)",
-      crops: "Grapes, Tomato, Pomegranate",
-      kycDoc: "SFAC Registration & APMC Mandi License #SFAC-MH-99",
+      location: "Nashik - Mumbai Expressway Hub",
+      crops: "45 Reefer Cold Trucks (IoT GPS & Temp)",
+      kycDoc: "National Transport Permit & VAHAN Commercial Fleet RC #MH-15-TC-8890",
       status: "Verified",
       riskScore: "Verified (100/100)",
       joinedDate: "05-Nov-2025",
-      avatar: "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=80&auto=format&fit=crop&q=80"
+      avatar: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=80&auto=format&fit=crop&q=80"
     },
     {
       id: "USR-FRM-02",
@@ -581,17 +581,30 @@ const ADMIN_GOVERNANCE_DATA = {
       avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&auto=format&fit=crop&q=80"
     },
     {
-      id: "USR-FPO-02",
-      name: "Balaji Agri Farmer Producer Hub",
-      category: "FPO",
+      id: "USR-LOG-02",
+      name: "Sahyadri Agro Transporters & Express",
+      category: "Logistics",
       phone: "+91 94211 44890",
-      location: "Ahmednagar (420 Farmers)",
-      crops: "Maize, Bajra, Onion",
-      kycDoc: "Board Resolution & APMC Wholesale License",
+      location: "Pune - Latur Transit Yard",
+      crops: "28 Heavy Multi-Axle Freight Carriers",
+      kycDoc: "All-India Goods Permit & Fastag Fleet KYC",
       status: "Pending Verification",
       riskScore: "Review Required",
       joinedDate: "Today, 09:15 AM",
-      avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=80&auto=format&fit=crop&q=80"
+      avatar: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-LOG-03",
+      name: "Vashi Express Agro Carriers",
+      category: "Logistics",
+      phone: "+91 98220 99411",
+      location: "Navi Mumbai APMC Terminal",
+      crops: "16 Temperature-Controlled Reefer Vans",
+      kycDoc: "APMC Transporter License & Commercial Insurance",
+      status: "Verified",
+      riskScore: "Verified (99/100)",
+      joinedDate: "14-Jan-2026",
+      avatar: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=80&auto=format&fit=crop&q=80"
     },
     {
       id: "USR-BYR-01",
@@ -933,14 +946,14 @@ const ADMIN_GOVERNANCE_DATA = {
     },
     {
       id: "ACT-09",
-      category: "User KYC",
+      category: "Logistics KYC",
       badgeClass: "badge-gov-pending",
-      title: "FPO Registration Clearance: Balaji Agri Hub",
-      entity: "Ahmednagar FPO (420 Farmers, Board Res. Signed)",
-      amount: "Maize, Bajra",
-      urgency: "Mandatory SFAC Check",
+      title: "Logistics Fleet Clearance: Sahyadri Agro Transporters",
+      entity: "Pune Transit Yard (28 Multi-Axle Fleet, VAHAN Verified)",
+      amount: "Heavy Freight Fleet",
+      urgency: "All-India Goods Permit Verification",
       targetAction: "approve-user",
-      targetId: "USR-FPO-02"
+      targetId: "USR-LOG-02"
     },
     {
       id: "ACT-10",

@@ -3,91 +3,174 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgriNex - Authentication & Role Access Gateway</title>
+  <title>AgriNex — Stakeholder Portal Login Gateway</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/auth.css" />
   <style>
+    :root {
+      --primary-forest: #0d4a2b;
+      --bg-warm: #fbfbf9;
+      --border-warm: #e6e9e2;
+    }
+
+    body {
+      background-color: var(--bg-warm);
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .auth-navbar {
+      background: #0d4a2b;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0 32px;
+      height: 70px;
+    }
+
+    .auth-logo-box {
+      background: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .auth-brand-title {
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 1.45rem;
+    }
+
+    .auth-brand-accent {
+      color: #86efac;
+    }
+
+    .auth-back-link {
+      color: #f1f5f9;
+      font-weight: 700;
+      font-size: 0.88rem;
+      transition: color 0.15s;
+    }
+
+    .auth-back-link:hover {
+      color: #fef08a;
+    }
+
+    .auth-tabs {
+      background: #e2e8f0;
+      border-radius: 12px;
+      padding: 4px;
+    }
+
+    .auth-tab-btn {
+      color: #475569;
+      border-radius: 8px;
+      font-weight: 700;
+      transition: all 0.15s;
+    }
+
+    .auth-tab-btn.active {
+      background: #ffffff;
+      color: var(--primary-forest);
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
     .gateway-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      max-width: 900px;
+      gap: 24px;
+      max-width: 960px;
       width: 100%;
     }
+
     .module-card {
       background: #ffffff;
-      border: 1px solid var(--border-default);
-      border-radius: 16px;
-      padding: 24px;
+      border: 1.5px solid var(--border-warm);
+      border-radius: 18px;
+      padding: 26px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 16px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+      gap: 18px;
+      box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
       transition: all 0.2s ease;
       text-decoration: none;
       color: inherit;
     }
+
     .module-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
+      box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.1);
       border-color: #cbd5e1;
     }
+
     .module-top {
       display: flex;
       align-items: flex-start;
-      gap: 14px;
+      gap: 16px;
     }
+
     .module-icon {
-      width: 48px;
-      height: 48px;
+      width: 50px;
+      height: 50px;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       flex-shrink: 0;
     }
+
     .module-info h3 {
-      font-size: 1.15rem;
+      font-size: 1.25rem;
       font-weight: 800;
-      color: var(--text-main);
+      color: #0f172a;
+      margin-top: 4px;
       margin-bottom: 4px;
     }
+
     .module-info p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      line-height: 1.45;
+      font-size: 0.86rem;
+      color: #64748b;
+      line-height: 1.5;
     }
+
     .module-btn {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.84rem;
-      font-weight: 700;
-      padding: 10px 14px;
-      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      padding: 12px 16px;
+      border-radius: 10px;
       background: #f8fafc;
-      border: 1px solid var(--border-default);
-      transition: all 0.15s;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      transition: all 0.15s ease;
     }
+
     .module-card:hover .module-btn {
-      background: var(--primary);
+      background: var(--primary-forest);
       color: #ffffff;
-      border-color: var(--primary);
+      border-color: var(--primary-forest);
     }
+
     @media (max-width: 768px) {
       .gateway-grid {
         grid-template-columns: 1fr;
+      }
+      .auth-navbar {
+        padding: 0 16px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Navbar -->
+  <!-- Master Brand Header -->
   <header class="auth-navbar">
     <a href="../index.html" class="auth-brand">
       <div class="auth-logo-box">
@@ -96,14 +179,15 @@
       <span class="auth-brand-title">Agri<span class="auth-brand-accent">Nex</span></span>
     </a>
     <a href="../index.html" class="auth-back-link">
-      ← Back to Master Hub
+      ← Return to Main Portal
     </a>
   </header>
 
   <!-- Main Gateway Hub -->
-  <main class="auth-wrapper" style="flex-direction: column; gap: 24px;">
+  <main class="auth-wrapper" style="flex-direction: column; gap: 24px; padding: 48px 20px;">
+    
     <!-- Tab Navigation Switcher -->
-    <div class="auth-tabs" style="max-width: 420px; width: 100%; margin-bottom: 0;">
+    <div class="auth-tabs" style="max-width: 420px; width: 100%; margin-bottom: 8px;">
       <a href="index.html" class="auth-tab-btn active">
         <span>🔑 Role Login</span>
       </a>
@@ -112,9 +196,13 @@
       </a>
     </div>
 
-    <div style="text-align: center; max-width: 600px;">
-      <h2 style="font-size: 2rem; font-weight: 800; color: #064e3b; margin-bottom: 8px; letter-spacing: -0.02em;">Choose Your Role & Portal</h2>
-      <p style="font-size: 0.95rem; color: #64748b;">Select your access level to enter the secure AgriNex Agricultural Ecosystem, or <a href="register.html" style="color: #0c5a36; font-weight: 700;">Create a new account</a>.</p>
+    <div style="text-align: center; max-width: 620px;">
+      <h2 style="font-size: 2.2rem; font-weight: 900; color: #072a18; margin-bottom: 8px; letter-spacing: -0.02em;">
+        Select Stakeholder Portal
+      </h2>
+      <p style="font-size: 0.95rem; color: #64748b; line-height: 1.6;">
+        Log in to your verified agricultural role or <a href="register.html" style="color: #0d4a2b; font-weight: 700;">register a new entity</a>.
+      </p>
     </div>
 
     <div class="gateway-grid">
@@ -122,7 +210,7 @@
       <!-- 1. Farmer Portal -->
       <a href="farmer_login.html" class="module-card">
         <div class="module-top">
-          <div class="module-icon" style="background: #dcfce7; color: #15803d;">🌾</div>
+          <div class="module-icon" style="background: #e8f5ed; color: #15803d;">🌾</div>
           <div class="module-info">
             <span class="auth-role-badge role-badge-farmer">Farmer Module</span>
             <h3>Farmer Portal</h3>
@@ -138,7 +226,7 @@
       <!-- 2. Buyer Portal -->
       <a href="buyer_login.html" class="module-card">
         <div class="module-top">
-          <div class="module-icon" style="background: #dbeafe; color: #1d4ed8;">🏢</div>
+          <div class="module-icon" style="background: #eff6ff; color: #1d4ed8;">🏢</div>
           <div class="module-info">
             <span class="auth-role-badge role-badge-buyer">Buyer & Mill Module</span>
             <h3>Buyer & Mill Portal</h3>
@@ -154,7 +242,7 @@
       <!-- 3. Logistics Portal -->
       <a href="logistics_login.html" class="module-card">
         <div class="module-top">
-          <div class="module-icon" style="background: #f3e8ff; color: #7e22ce;">🚚</div>
+          <div class="module-icon" style="background: #faf5ff; color: #7e22ce;">🚚</div>
           <div class="module-info">
             <span class="auth-role-badge role-badge-logistics">Logistics Module</span>
             <h3>Logistics & Transit Portal</h3>
@@ -170,7 +258,7 @@
       <!-- 4. Admin Portal -->
       <a href="admin_login.html" class="module-card">
         <div class="module-top">
-          <div class="module-icon" style="background: #fee2e2; color: #b91c1c;">🛡️</div>
+          <div class="module-icon" style="background: #fef2f2; color: #b91c1c;">🛡️</div>
           <div class="module-info">
             <span class="auth-role-badge role-badge-admin">Admin Module</span>
             <h3>Platform Governance</h3>
@@ -178,7 +266,7 @@
           </div>
         </div>
         <div class="module-btn">
-          <span>Login to Admin Center</span>
+          <span>Login to Governance Bench</span>
           <span>→</span>
         </div>
       </a>
@@ -186,6 +274,7 @@
     </div>
   </main>
 
+  <!-- Global Authentication Database & Session Engine -->
   <script src="js/auth_db.js"></script>
 </body>
 </html>

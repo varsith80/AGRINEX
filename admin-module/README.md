@@ -7,7 +7,7 @@ Centralized marketplace administration, Mandi board rate monitoring, escrow clea
 
 ### Main Menu Architecture
 1. **Dashboard:** Primary operational control center with **TODAY'S OVERVIEW**
-2. **Users:** Farmer, FPO, and Corporate Buyer verification (Satbara 7/12 & GSTIN)
+2. **Users:** User Directory & Management System (Farmers, Corporate Buyers, and Logistics Providers)
 3. **Market Data:** 28 Maharashtra commodity modal prices, MSP floor prices, and anti-hoarding ceiling caps
 4. **Deals & Payments:** Dual-key escrow release authorizations and RTGS milestone payouts
 5. **Logistics & Storage:** Live order transport tracking, IoT temperature telemetry, and MSWC cold-storage capacity
@@ -16,8 +16,8 @@ Centralized marketplace administration, Mandi board rate monitoring, escrow clea
 8. **Reports:** Immutable cryptographic governance audit trail with transaction hashes
 
 ### Today's Overview (Dashboard)
-- 👨🌾 **Farmers / FPOs:** Verified and pending users
-- 🏢 **Buyers:** Verified and pending buyers
+- 👨🌾 **Farmers:** Verified and pending producers
+- 🏢 **Buyers:** Verified and pending enterprise buyers
 - 📦 **Active Deals:** Current transactions & escrow pool
-- 🚚 **Active Deliveries:** Orders in transport & cold-chain status
+- 🚚 **Active Deliveries / Logistics:** Fleet transport & cold-chain status
 - ⚠️ **Pending Actions:** Items requiring admin attention
