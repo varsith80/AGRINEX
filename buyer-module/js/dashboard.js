@@ -2219,6 +2219,21 @@ function selectChatContact(contactKey) {
   }
 }
 
+function acceptFarmerCounter(lotId, counterRate) {
+  const lot = (buyerData && buyerData.verifiedLots && buyerData.verifiedLots.find(l => l.id === lotId)) || null;
+  if (lot && counterRate) {
+    lot.pricePerKg = parseFloat(counterRate);
+    lot.askPrice = `₹ ${(counterRate * 100).toLocaleString('en-IN')}/qtl (₹${counterRate}/kg)`;
+  }
+  if (typeof showToast === 'function') {
+    showToast(`✓ Farmer counter offer of ₹${counterRate}/kg accepted & locked!`, 'success');
+  }
+  if (typeof openDirectBuyModal === 'function') {
+    openDirectBuyModal(lotId);
+  }
+}
+window.acceptFarmerCounter = acceptFarmerCounter;
+
 // Open Chat directly with any Farmer from Marketplace Lot Card
 function openFarmerChat(lotId) {
   let matchedKey = 'patil';

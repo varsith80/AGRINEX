@@ -363,10 +363,10 @@ function setupModals() {
   if (formCreate) {
     formCreate.addEventListener("submit", (e) => {
       e.preventDefault();
-      const cropName = document.getElementById("new-crop-name").value;
-      const grade = document.getElementById("new-crop-grade").value;
-      const quantity = document.getElementById("new-crop-qty").value;
-      const price = document.getElementById("new-crop-price").value;
+      const cropName = document.getElementById("new-crop-name") ? document.getElementById("new-crop-name").value : "Tomato";
+      const grade = document.getElementById("new-crop-grade") ? document.getElementById("new-crop-grade").value : "Grade A";
+      const quantity = document.getElementById("new-crop-qty") ? document.getElementById("new-crop-qty").value : "50";
+      const price = document.getElementById("new-crop-price") ? document.getElementById("new-crop-price").value : "2000";
       const rawHarvestDate = document.getElementById("new-crop-harvest-date") ? document.getElementById("new-crop-harvest-date").value : "";
 
       let formattedDate = "";
@@ -405,7 +405,7 @@ function setupModals() {
       if (totalLotsEl) totalLotsEl.textContent = farmerData.stats.totalLots;
 
       renderListings();
-      modalCreate.classList.remove("active");
+      if (modalCreate) modalCreate.classList.remove("active");
       formCreate.reset();
 
       showToast(`Crop listing for "${cropName}" (Harvested: ${formattedDate}) published successfully!`);
@@ -416,9 +416,9 @@ function setupModals() {
   if (formEditProfile) {
     formEditProfile.addEventListener("submit", (e) => {
       e.preventDefault();
-      const newName = document.getElementById("profile-input-name").value;
-      const newPhone = document.getElementById("profile-input-phone").value;
-      const newLocation = document.getElementById("profile-input-location").value;
+      const newName = document.getElementById("profile-input-name") ? document.getElementById("profile-input-name").value : "";
+      const newPhone = document.getElementById("profile-input-phone") ? document.getElementById("profile-input-phone").value : "";
+      const newLocation = document.getElementById("profile-input-location") ? document.getElementById("profile-input-location").value : "";
 
       if (farmerData && farmerData.profile) {
         farmerData.profile.name = newName;
