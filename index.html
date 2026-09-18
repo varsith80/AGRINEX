@@ -238,13 +238,26 @@
     .mandi-ticker-strip {
       background: #ffffff;
       border-bottom: 1px solid var(--border-warm);
-      padding: 9px 0;
-      overflow: hidden;
+      height: 44px;
       display: flex;
       align-items: center;
       font-size: 0.82rem;
       white-space: nowrap;
+      position: relative;
+      overflow: hidden;
       box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    }
+
+    .ticker-badge-wrap {
+      position: relative;
+      z-index: 10;
+      background: #ffffff;
+      padding: 0 16px 0 24px;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      box-shadow: 14px 0 18px -4px #ffffff;
+      flex-shrink: 0;
     }
 
     .ticker-tag {
@@ -253,9 +266,8 @@
       border: 1px solid #bbf7d0;
       font-weight: 800;
       font-size: 0.72rem;
-      padding: 4px 12px;
+      padding: 5px 12px;
       border-radius: 6px;
-      margin: 0 20px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -268,12 +280,28 @@
       height: 7px;
       border-radius: 50%;
       background: #16a34a;
+      box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+    }
+
+    .ticker-track {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 24px), transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 24px), transparent);
     }
 
     .ticker-marquee {
       display: inline-flex;
+      align-items: center;
       animation: tickerRun 44s linear infinite;
       gap: 36px;
+      white-space: nowrap;
+      will-change: transform;
+      padding-left: 12px;
     }
 
     .ticker-marquee:hover {
@@ -1273,25 +1301,29 @@
 
   <!-- Real-Time APMC Mandi Ticker -->
   <div class="mandi-ticker-strip">
-    <div class="ticker-tag">
-      <span class="dot"></span> 305 APMC LIVE BENCHMARKS
+    <div class="ticker-badge-wrap">
+      <div class="ticker-tag">
+        <span class="dot"></span> 305 APMC LIVE BENCHMARKS
+      </div>
     </div>
-    <div class="ticker-marquee">
-      <div class="ticker-item">🍅 <strong>Tomato (Nashik):</strong> ₹1,300/Qtl <span class="price-gain">▲ +4.2%</span></div>
-      <div class="ticker-item">🧅 <strong>Red Onion (Lasalgaon):</strong> ₹1,850/Qtl <span class="price-drop">▼ -1.1%</span></div>
-      <div class="ticker-item">🌾 <strong>Yellow Soybean (Latur):</strong> ₹4,650/Qtl <span class="price-gain">▲ +0.8%</span></div>
-      <div class="ticker-item">🍇 <strong>Grapes (Dindori):</strong> ₹6,200/Qtl <span class="price-gain">▲ +6.5%</span></div>
-      <div class="ticker-item">🌽 <strong>Maize (Ahmednagar):</strong> ₹2,100/Qtl <span class="price-gain">▲ +1.4%</span></div>
-      <div class="ticker-item">🫘 <strong>Chana (Solapur):</strong> ₹5,800/Qtl <span class="price-gain">▲ +2.0%</span></div>
-      <div class="ticker-item">🥔 <strong>Potato (Pune):</strong> ₹1,450/Qtl <span class="price-drop">▼ -0.5%</span></div>
-      <div class="ticker-item">🌾 <strong>Wheat Lokwan (Akola):</strong> ₹2,620/Qtl <span class="price-gain">▲ +1.2%</span></div>
+    <div class="ticker-track">
+      <div class="ticker-marquee">
+        <div class="ticker-item">🍅 <strong>Tomato (Nashik):</strong> ₹1,300/Qtl <span class="price-gain">▲ +4.2%</span></div>
+        <div class="ticker-item">🧅 <strong>Red Onion (Lasalgaon):</strong> ₹1,850/Qtl <span class="price-drop">▼ -1.1%</span></div>
+        <div class="ticker-item">🌾 <strong>Yellow Soybean (Latur):</strong> ₹4,650/Qtl <span class="price-gain">▲ +0.8%</span></div>
+        <div class="ticker-item">🍇 <strong>Grapes (Dindori):</strong> ₹6,200/Qtl <span class="price-gain">▲ +6.5%</span></div>
+        <div class="ticker-item">🌽 <strong>Maize (Ahmednagar):</strong> ₹2,100/Qtl <span class="price-gain">▲ +1.4%</span></div>
+        <div class="ticker-item">🫘 <strong>Chana (Solapur):</strong> ₹5,800/Qtl <span class="price-gain">▲ +2.0%</span></div>
+        <div class="ticker-item">🥔 <strong>Potato (Pune):</strong> ₹1,450/Qtl <span class="price-drop">▼ -0.5%</span></div>
+        <div class="ticker-item">🌾 <strong>Wheat Lokwan (Akola):</strong> ₹2,620/Qtl <span class="price-gain">▲ +1.2%</span></div>
 
-      <!-- Loop Duplicate -->
-      <div class="ticker-item">🍅 <strong>Tomato (Nashik):</strong> ₹1,300/Qtl <span class="price-gain">▲ +4.2%</span></div>
-      <div class="ticker-item">🧅 <strong>Red Onion (Lasalgaon):</strong> ₹1,850/Qtl <span class="price-drop">▼ -1.1%</span></div>
-      <div class="ticker-item">🌾 <strong>Yellow Soybean (Latur):</strong> ₹4,650/Qtl <span class="price-gain">▲ +0.8%</span></div>
-      <div class="ticker-item">🍇 <strong>Grapes (Dindori):</strong> ₹6,200/Qtl <span class="price-gain">▲ +6.5%</span></div>
-      <div class="ticker-item">🌽 <strong>Maize (Ahmednagar):</strong> ₹2,100/Qtl <span class="price-gain">▲ +1.4%</span></div>
+        <!-- Loop Duplicate -->
+        <div class="ticker-item">🍅 <strong>Tomato (Nashik):</strong> ₹1,300/Qtl <span class="price-gain">▲ +4.2%</span></div>
+        <div class="ticker-item">🧅 <strong>Red Onion (Lasalgaon):</strong> ₹1,850/Qtl <span class="price-drop">▼ -1.1%</span></div>
+        <div class="ticker-item">🌾 <strong>Yellow Soybean (Latur):</strong> ₹4,650/Qtl <span class="price-gain">▲ +0.8%</span></div>
+        <div class="ticker-item">🍇 <strong>Grapes (Dindori):</strong> ₹6,200/Qtl <span class="price-gain">▲ +6.5%</span></div>
+        <div class="ticker-item">🌽 <strong>Maize (Ahmednagar):</strong> ₹2,100/Qtl <span class="price-gain">▲ +1.4%</span></div>
+      </div>
     </div>
   </div>
 
