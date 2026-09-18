@@ -1,6 +1,7 @@
 /**
  * AgriNex Buyer Module - Simple & Audio-First Lite Mode (सरल मोड / सुलभ मोड)
  * Designed specifically for elderly, low-vision, or non-literate traders and buyers.
+ * Supports All 31+ Verified Farm Produce Crops & All Agricultural Categories.
  */
 
 (function () {
@@ -24,8 +25,8 @@
       tabOrders: '🚚 My Orders & Trucks',
       tabEscrow: '🛡️ Safe Escrow Vault',
       tabInsights: '📊 Market Insights',
-      insightsTitle: '📊 Simple Market Insights & Buy Signals',
-      insightsSubtitle: 'Compare current Mandi rates with direct farm prices, view 7-day price trends, and listen to voice buy/wait signals.',
+      insightsTitle: '📊 All-Crop Market Insights & Mandi Arbitrage',
+      insightsSubtitle: 'Compare current Mandi rates with direct farm prices for all crops, view 7-day price trends, and listen to voice buy/wait signals.',
       insightsBadge: 'Live Maharashtra Mandis',
       listenInsights: 'Listen Market Advisory',
       mandiBenchmarkLabel: 'MANDI BENCHMARK',
@@ -38,17 +39,18 @@
       statAvgSavings: 'Direct Mandi Savings',
       statTopGainer: 'Top Rising Crop',
       statTopOpportunity: 'Best Price Advantage',
-      heroBadge: '🟢 Direct Farmer Procurement • 100% Quality Verified',
+      heroBadge: '🟢 Direct Farmer Procurement • 31+ Verified Produce Crops',
       heroTitle: '🌾 Direct Farmer Produce Market',
       heroDesc: 'Tap any large crop photo, listen to voice details in English, and buy directly from farmers in 1-click.',
       voiceBtnTitle: 'Voice Search',
       voiceBtnDesc: '"Show Tomatoes" / "Onion"',
       emergencyBtnTitle: 'Emergency Sales',
       emergencyBtnDesc: 'Discounted direct lots',
-      catAll: 'All Produce',
+      catAll: 'All Crops (31+)',
       catVeg: 'Vegetables',
       catFruit: 'Fruits',
       catGrain: 'Grains & Pulses',
+      catOilseed: 'Oilseeds & Spices',
       catEmergency: 'Emergency Sale',
       listen: 'Listen',
       priceLabel: 'PRICE / RATE',
@@ -123,8 +125,8 @@
       tabOrders: '🚚 मेरी गाड़ियां व ऑर्डर्स',
       tabEscrow: '🛡️ सुरक्षित एस्क्रो खाता',
       tabInsights: '📊 बाज़ार भाव व अंदाज',
-      insightsTitle: '📊 सरल बाज़ार भाव व खरीद सलाह',
-      insightsSubtitle: 'मंडी भाव और सीधे किसान भाव की तुलना करें, 7 दिनों का रुझान देखें और आवाज़ में सलाह सुनें।',
+      insightsTitle: '📊 सभी फसलों के बाज़ार भाव व खरीद सलाह',
+      insightsSubtitle: 'सभी 31+ फसलों के मंडी भाव और सीधे किसान भाव की तुलना करें, 7 दिनों का रुझान देखें और आवाज़ में सलाह सुनें।',
       insightsBadge: 'महाराष्ट्र लाइव मंडियां',
       listenInsights: 'बाज़ार सलाह सुनें',
       mandiBenchmarkLabel: 'मंडी यार्ड भाव',
@@ -137,17 +139,18 @@
       statAvgSavings: 'औसत मंडी बचत',
       statTopGainer: 'सर्वाधिक तेजी वाली फसल',
       statTopOpportunity: 'सर्वश्रेष्ठ खरीद अवसर',
-      heroBadge: '🟢 सीधा किसान खरीद केंद्र • 100% गुणवत्ता सत्यापित',
+      heroBadge: '🟢 सीधा किसान खरीद केंद्र • 31+ सत्यापित फसलें',
       heroTitle: '🌾 किसान सीधा खरीद बाज़ार (सरल बाज़ार)',
       heroDesc: 'बड़ी तस्वीरों पर क्लिक करें, आवाज़ में जानकारी सुनें और 1-क्लिक में सीधे किसान से खात्रीशीर माल खरीदें।',
       voiceBtnTitle: 'बोलकर खोजें',
       voiceBtnDesc: '"टमाटर दिखाओ" / "प्याज"',
       emergencyBtnTitle: 'आपातकालीन बिक्री',
       emergencyBtnDesc: 'सस्ती दरों पर ताजा माल',
-      catAll: 'सभी फसलें',
+      catAll: 'सभी फसलें (31+)',
       catVeg: 'सब्जियां',
       catFruit: 'फल',
       catGrain: 'अनाज व दालें',
+      catOilseed: 'तिलहन व मसाले',
       catEmergency: 'छूट बिक्री',
       listen: 'सुनें',
       priceLabel: 'दर / भाव',
@@ -222,8 +225,8 @@
       tabOrders: '🚚 माझ्या गाड्या व ऑर्डर्स',
       tabEscrow: '🛡️ सुरक्षित एस्क्रो खाते',
       tabInsights: '📊 बाज़ार भाव व अंदाज',
-      insightsTitle: '📊 बाजार भाव विश्लेषण व खरेदी सल्ला',
-      insightsSubtitle: 'बाजार समिती भाव आणि थेट शेतकरी भावाची तुलना, ७ दिवसांचा कल आणि आवाजात खरेदी सल्ला ऐका.',
+      insightsTitle: '📊 सर्व शेतीमाल बाजार भाव व खरेदी सल्ला',
+      insightsSubtitle: 'सर्व ३१+ शेतीमालांचे बाजार समिती भाव आणि थेट शेतकरी भावाची तुलना, ७ दिवसांचा कल आणि आवाजात खरेदी सल्ला ऐका.',
       insightsBadge: 'महाराष्ट्र थेट बाजार समित्या',
       listenInsights: 'बाजार सल्ला ऐका',
       mandiBenchmarkLabel: 'बाजार समिती भाव',
@@ -236,17 +239,18 @@
       statAvgSavings: 'थेट बाजार समिती बचत',
       statTopGainer: 'सर्वाधिक वाढणारे पीक',
       statTopOpportunity: 'उत्तम खरेदी संधी',
-      heroBadge: '🟢 थेट शेतकरी खरेदी केंद्र • १००% खात्रीशीर प्रत',
+      heroBadge: '🟢 थेट शेतकरी खरेदी केंद्र • ३१+ खात्रीशीर पिके',
       heroTitle: '🌾 शेतकरी थेट शेतीमाल बाजार (सुलभ पद्धत)',
       heroDesc: 'मोठ्या फोटोवर क्लिक करा, मराठीत सविस्तर माहिती ऐका आणि १-क्लिकमध्ये थेट शेतकऱ्याकडून माल खरेदी करा.',
       voiceBtnTitle: 'बोलून शोधा',
       voiceBtnDesc: '"टोमॅटो दाखवा" / "कांदा"',
       emergencyBtnTitle: 'सवलत विक्री',
       emergencyBtnDesc: 'कमी दरात थेट शेतीमाल',
-      catAll: 'सर्व शेतीमाल',
+      catAll: 'सर्व शेतीमाल (31+)',
       catVeg: 'भाज्या',
       catFruit: 'फळे',
       catGrain: 'धान्य व कडधान्ये',
+      catOilseed: 'तेलबिया व मसाले',
       catEmergency: 'सवलत विक्री',
       listen: 'ऐका',
       priceLabel: 'दर / भाव',
@@ -316,33 +320,57 @@
     }
   };
 
-  // Regional Crop Names Dictionary for Simple Mode
+  // Complete Regional Crop Names Dictionary for All 31+ Crops
   const CROP_TRANSLATIONS = {
-    'Tomato': { en: '🍅 Tomato (Hybrid)', hi: '🍅 टमाटर (हाइब्रिड)', mr: '🍅 टोमॅटो (संकरित)', icon: '🍅' },
-    'Onion': { en: '🧅 Red Onion (Export)', hi: '🧅 लाल प्याज (निर्यात)', mr: '🧅 लाल कांदा (निर्यात)', icon: '🧅' },
-    'Potato': { en: '🥔 Potato (Fresh Harvest)', hi: '🥔 आलू / बटाटा', mr: '🥔 बटाटा (ताजा)', icon: '🥔' },
-    'Banana': { en: '🍌 Banana (Grand Naine)', hi: '🍌 ग्रैंड नैन केला', mr: '🍌 ग्रँड नैन केळी', icon: '🍌' },
-    'Orange': { en: '🍊 Orange (Nagpur Sweet)', hi: '🍊 नागपुर संतरा', mr: '🍊 नागपूर संत्रा', icon: '🍊' },
-    'Soybean': { en: '🌱 Soybean (JS 335)', hi: '🌱 पीला सोयाबीन', mr: '🌱 पिवळी सोयाबीन', icon: '🌱' },
-    'Wheat': { en: '🌾 Sharbati Wheat', hi: '🌾 शरबती गेहूं', mr: '🌾 शरबती गहू', icon: '🌾' },
-    'Rice': { en: '🌾 Rice (Indrayani)', hi: '🌾 इंद्रायणी चावल', mr: '🌾 इंद्रायणी भात', icon: '🌾' },
-    'Paddy': { en: '🌾 Rice / Paddy', hi: '🌾 धान / चावल', mr: '🌾 भात / तांदूळ', icon: '🌾' },
-    'Pomegranate': { en: '🍇 Pomegranate (Bhagwa)', hi: '🍇 भगवा अनार', mr: '🍇 भगवा डाळिंब', icon: '🍇' },
-    'Cotton': { en: '☁️ Raw Cotton', hi: '☁️ कपास / रुई', mr: '☁️ कापूस / सरकी', icon: '☁️' },
-    'Turmeric': { en: '🌿 Turmeric (Salem/Waigaon)', hi: '🌿 हल्दी', mr: '🌿 हळद (वायगाव)', icon: '🌿' },
-    'Jowar': { en: '🌾 Sorghum / Jowar', hi: '🌾 ज्वार (मालदांडी)', mr: '🌾 मालदांडी ज्वारी', icon: '🌾' },
-    'Bajra': { en: '🌾 Pearl Millet / Bajra', hi: '🌾 संकरित बाजरा', mr: '🌾 संकरित बाजरी', icon: '🌾' },
-    'Gram': { en: '🌱 Chana / Chickpea', hi: '🌱 चना (विशाल)', mr: '🌱 हरभरा (विशाल)', icon: '🌱' },
+    'Onion': { en: '🧅 Red Onion (Nashik Garwa)', hi: '🧅 लाल प्याज (नासिक गरवा)', mr: '🧅 लाल कांदा (नाशिक गरवा)', icon: '🧅' },
+    'Tomato': { en: '🍅 Tomato (Shivam Hybrid)', hi: '🍅 टमाटर (शिवम हाइब्रिड)', mr: '🍅 टोमॅटो (शिवम संकरित)', icon: '🍅' },
+    'Banana': { en: '🍌 Grand Naine Banana (GI)', hi: '🍌 ग्रँड नैन केला (जीआई)', mr: '🍌 ग्रँड नैन केळी (खानदेश जीआय)', icon: '🍌' },
+    'Soybean': { en: '🌱 Yellow Soybean (JS 335)', hi: '🌱 पीला सोयाबीन (जेएस 335)', mr: '🌱 पिवळी सोयाबीन (जेएस ३३५)', icon: '🌱' },
+    'Orange': { en: '🍊 Nagpur Sweet Orange (Santra)', hi: '🍊 नागपुर संतरा (जीआई)', mr: '🍊 नागपूर संत्रा (विदर्भ जीआय)', icon: '🍊' },
+    'Turmeric': { en: '🌿 Sangli Rajapuri Turmeric', hi: '🌿 सांगली राजापुरी हल्दी', mr: '🌿 सांगली राजापुरी हळद', icon: '🌿' },
+    'Pomegranate': { en: '🍇 Bhagwa Pomegranate (Export)', hi: '🍇 भगवा अनार (निर्यात ग्रेड)', mr: '🍇 भगवा डाळिंब (सोलापूर निर्यात)', icon: '🍇' },
+    'Cotton': { en: '☁️ Raw Cotton (Long Staple)', hi: '☁️ कपास / रुई (विदर्भ लांग स्टेपल)', mr: '☁️ कापूस / सरकी (विदर्भ लांब धागा)', icon: '☁️' },
+    'Rice': { en: '🌾 Wada Kolam Rice (Palghar GI)', hi: '🌾 वाडा कोलम चावल (पालघर जीआई)', mr: '🌾 वाडा कोलम भात (पालघर जीआय)', icon: '🌾' },
+    'Kolam': { en: '🌾 Wada Kolam Rice (Palghar GI)', hi: '🌾 वाडा कोलम चावल (पालघर जीआई)', mr: '🌾 वाडा कोलम भात (पालघर जीआय)', icon: '🌾' },
+    'Jowar': { en: '🌾 Solapur Maldandi Jowar', hi: '🌾 सोलापुर मालदांडी ज्वार', mr: '🌾 सोलापूर मालदांडी ज्वारी', icon: '🌾' },
+    'Bajra': { en: '🌾 Dhule Hybrid Pearl Millet (Bajra)', hi: '🌾 धुले संकरित बाजरा', mr: '🌾 धुळे संकरित बाजरी', icon: '🌾' },
+    'Wheat': { en: '🌾 Sharbati Lokwan Golden Wheat', hi: '🌾 शरबती लोकवान गेहूं', mr: '🌾 शरबती लोकवान गहू', icon: '🌾' },
+    'Tur': { en: '🌱 Latur Red Tur (Pigeon Pea)', hi: '🌱 लातूर लाल अरहर / तूर', mr: '🌱 लातूर लाल तूर डाळ', icon: '🌱' },
+    'Arhar': { en: '🌱 Latur Red Tur (Pigeon Pea)', hi: '🌱 लातूर लाल अरहर / तूर', mr: '🌱 लातूर लाल तूर डाळ', icon: '🌱' },
+    'Chana': { en: '🌱 Akola Desi Chana (Bengal Gram)', hi: '🌱 अकोला देशी चना', mr: '🌱 अकोला देशी हरभरा', icon: '🌱' },
+    'Mung': { en: '🌱 Jalgaon Green Mung Bean', hi: '🌱 जलगांव हरा मूंग', mr: '🌱 जळगाव हिरवा मूग', icon: '🌱' },
+    'Moong': { en: '🌱 Jalgaon Green Mung Bean', hi: '🌱 जलगांव हरा मूंग', mr: '🌱 जळगाव हिरवा मूग', icon: '🌱' },
+    'Urad': { en: '🌱 Nanded Black Urad Dal', hi: '🌱 नांदेड़ काला उड़द', mr: '🌱 नांदेड काळी उडीद', icon: '🌱' },
+    'Groundnut': { en: '🥜 Kolhapur Bold Groundnut', hi: '🥜 कोल्हापुर बोल्ड मूंगफली', mr: '🥜 कोल्हापूर भुईमूग शेंगदाणा', icon: '🥜' },
+    'Peanut': { en: '🥜 Kolhapur Bold Groundnut', hi: '🥜 कोल्हापुर बोल्ड मूंगफली', mr: '🥜 कोल्हापूर भुईमूग शेंगदाणा', icon: '🥜' },
+    'Sunflower': { en: '🌻 Beed High-Oil Sunflower Seeds', hi: '🌻 बीड सूरजमुखी बीज', mr: '🌻 बीड सूर्यफूल बियाणे', icon: '🌻' },
+    'Sugarcane': { en: '🎋 Kolhapur Co 86032 Sugarcane', hi: '🎋 कोल्हापुर गन्ना', mr: '🎋 कोल्हापूर ८६०३२ ऊस', icon: '🎋' },
+    'Mango': { en: '🥭 Ratnagiri Alphonso (Hapus)', hi: '🥭 रत्नागिरी हापुस आम', mr: '🥭 रत्नागिरी हापूस आंबा', icon: '🥭' },
+    'Alphonso': { en: '🥭 Ratnagiri Alphonso (Hapus)', hi: '🥭 रत्नागिरी हापुस आम', mr: '🥭 रत्नागिरी हापूस आंबा', icon: '🥭' },
+    'Grapes': { en: '🍇 Nashik Thompson Grapes', hi: '🍇 नासिक थॉम्पसन अंगूर', mr: '🍇 नाशिक थॉम्पसन द्राक्षे', icon: '🍇' },
+    'Mosambi': { en: '🍈 Jalna Sweet Lime (Mosambi)', hi: '🍈 जालना मौसमी', mr: '🍈 जालना मोसंबी', icon: '🍈' },
+    'Custard Apple': { en: '🍏 Beed Balanagar Sitaphal', hi: '🍏 बीड बालनगर सीताफल', mr: '🍏 बीड बालनगर सीताफळ', icon: '🍏' },
+    'Sitaphal': { en: '🍏 Beed Balanagar Sitaphal', hi: '🍏 बीड बालनगर सीताफल', mr: '🍏 बीड बालनगर सीताफळ', icon: '🍏' },
     'Maize': { en: '🌽 Yellow Corn / Maize', hi: '🌽 पीला मक्का', mr: '🌽 पिवळा मका', icon: '🌽' },
-    'Safflower': { en: '🌼 Safflower (Kardi)', hi: '🌼 कुसुम / करडी', mr: '🌼 करडई', icon: '🌼' },
-    'Sesame': { en: '⚪ Sesame (Til)', hi: '⚪ सफेद तिल', mr: '⚪ पांढरा तीळ', icon: '⚪' }
+    'Corn': { en: '🌽 Yellow Corn / Maize', hi: '🌽 पीला मक्का', mr: '🌽 पिवळा मका', icon: '🌽' },
+    'Safflower': { en: '🌼 Safflower (Kardi)', hi: '🌼 कुसुम / करडी', mr: '🌼 करडई तेलबिया', icon: '🌼' },
+    'Kardi': { en: '🌼 Safflower (Kardi)', hi: '🌼 कुसुम / करडी', mr: '🌼 करडई तेलबिया', icon: '🌼' },
+    'Sesame': { en: '⚪ White Sesame (Til)', hi: '⚪ सफेद तिल', mr: '⚪ पांढरा तीळ', icon: '⚪' },
+    'Til': { en: '⚪ White Sesame (Til)', hi: '⚪ सफेद तिल', mr: '⚪ पांढरा तीळ', icon: '⚪' },
+    'Chilli': { en: '🌶️ Nandurbar Dry Red Chilli', hi: '🌶️ नंदुरबार सूखी लाल मिर्च', mr: '🌶️ नंदुरबार कोरडी लाल मिरची', icon: '🌶️' },
+    'Guava': { en: '🍈 Sardar L-49 Sweet Guava', hi: '🍈 सरदार एल-49 अमरूद', mr: '🍈 सरदार एल-४९ गोड पेरू', icon: '🍈' },
+    'Peru': { en: '🍈 Sardar L-49 Sweet Guava', hi: '🍈 सरदार एल-49 अमरूद', mr: '🍈 सरदार एल-४९ गोड पेरू', icon: '🍈' },
+    'Potato': { en: '🥔 Potato (Jyoti Grade A)', hi: '🥔 आलू (ज्योति ग्रेड ए)', mr: '🥔 बटाटा (ज्योती प्रत अ)', icon: '🥔' },
+    'Brinjal': { en: '🍆 Manchar Purple Brinjal', hi: '🍆 मंचर बैंगन', mr: '🍆 मंचर जांभळी वांगी', icon: '🍆' },
+    'Green Chilli': { en: '🌶️ G4 High-Pungency Green Chilli', hi: '🌶️ जी4 तीखी हरी मिर्च', mr: '🌶️ जी४ तिखट हिरवी मिरची', icon: '🌶️' }
   };
 
+  // Comprehensive Market Insights for All Major Crops
   const LITE_MARKET_INSIGHTS_DATA = [
     {
       id: 'ins-onion',
       cropKey: 'Onion',
-      cropName: 'Red Onion (Export Quality)',
+      cropName: 'Red Onion (Garwa Export)',
       mandi: 'Lasalgaon APMC, Nashik',
       image: 'assets/images/onion.jpg',
       mandiRate: 32.5,
@@ -358,7 +386,7 @@
     {
       id: 'ins-tomato',
       cropKey: 'Tomato',
-      cropName: 'Tomato (Grade-A Hybrid)',
+      cropName: 'Tomato (Shivam Hybrid)',
       mandi: 'Narayangaon APMC, Pune',
       image: 'assets/images/tomato.jpg',
       mandiRate: 22.0,
@@ -370,6 +398,22 @@
       reasonEn: 'Heavy flush arriving from Junnar belt. Prices softening slightly over the next 48 hours. Buy selectively.',
       reasonHi: 'जुन्नर बेल्ट से भारी आवक शुरू। अगले 48 घंटों में भाव थोड़े नरम हो सकते हैं। आवश्यकतानुसार ही खरीदें।',
       reasonMr: 'जुन्नर भागातून टोमॅटोची मोठी आवक सुरू आहे. पुढील २ दिवसांत भाव थोडे कमी होण्याची शक्यता आहे.'
+    },
+    {
+      id: 'ins-banana',
+      cropKey: 'Banana',
+      cropName: 'Grand Naine Banana (GI)',
+      mandi: 'Raver APMC, Jalgaon',
+      image: 'assets/images/banana.jpg',
+      mandiRate: 18.5,
+      farmRate: 14.0,
+      savingsKg: 4.5,
+      savingsPct: '24.3%',
+      trendPct: '+5.0%',
+      signal: 'buy',
+      reasonEn: 'High demand from North Indian wholesale markets. 100% calibrated bunches ready for direct reefer loading.',
+      reasonHi: 'उत्तर भारतीय मंडियों से भारी मांग। रीफर लोडिंग के लिए एक्सपोर्ट क्वालिटी गुच्छे उपलब्ध।',
+      reasonMr: 'उत्तर भारतातून मोठी मागणी. उत्तम प्रतवारी केलेले घड थेट वाहतुकीसाठी तयार आहेत.'
     },
     {
       id: 'ins-soybean',
@@ -388,6 +432,38 @@
       reasonMr: 'ऑइल मिलकडून मोठी मागणी. थेट शेतकऱ्यांकडे उत्तम वाळलेला शेतीमाल उपलब्ध असून आजच खरेदी फायदेशीर आहे.'
     },
     {
+      id: 'ins-orange',
+      cropKey: 'Orange',
+      cropName: 'Nagpur Sweet Orange (Santra)',
+      mandi: 'Katol APMC, Nagpur',
+      image: 'assets/images/orange.jpg',
+      mandiRate: 52.0,
+      farmRate: 42.0,
+      savingsKg: 10.0,
+      savingsPct: '19.2%',
+      trendPct: '+7.4%',
+      signal: 'buy',
+      reasonEn: 'Mruga bahar crop harvesting in full swing. High juice content and excellent shelf life for retail chains.',
+      reasonHi: 'मृग बहार की तुड़ाई जोरों पर। रसदार और लंबी शेल्फ लाइफ वाला माल उपलब्ध।',
+      reasonMr: 'मृग बहाराची संत्री बाजारात दाखल. भरपूर रस आणि आकर्षक रंग असलेला दर्जेदार शेतीमाल उपलब्ध.'
+    },
+    {
+      id: 'ins-turmeric',
+      cropKey: 'Turmeric',
+      cropName: 'Sangli Rajapuri Turmeric',
+      mandi: 'Sangli APMC Market',
+      image: 'assets/images/turmeric.jpg',
+      mandiRate: 145.0,
+      farmRate: 128.0,
+      savingsKg: 17.0,
+      savingsPct: '11.7%',
+      trendPct: '+4.5%',
+      signal: 'buy',
+      reasonEn: 'Pharma and spice processors securing high-curcumin lots (>3.8%). Farm gate moisture verified at 8%.',
+      reasonHi: 'मसाला व फार्मा कंपनियों की तेज मांग। 3.8% से अधिक करक्यूमिन वाले उच्च गुणवत्ता वाले लॉट उपलब्ध।',
+      reasonMr: 'औषध व मसाला कंपन्यांकडून उच्च करक्युमिन मालाची मोठी खरेदी. उत्तम वाळलेली हळद उपलब्ध.'
+    },
+    {
       id: 'ins-pomegranate',
       cropKey: 'Pomegranate',
       cropName: 'Bhagwa Pomegranate (A-Grade)',
@@ -404,20 +480,84 @@
       reasonMr: 'उत्सवी हंगामामुळे डाळिंबाला मोठी मागणी. १५+ ब्रिक्स गोडी असलेला उत्कृष्ट माल वेगाने विकला जात आहे.'
     },
     {
-      id: 'ins-turmeric',
-      cropKey: 'Turmeric',
-      cropName: 'Salem Turmeric (High Curcumin)',
-      mandi: 'Sangli APMC Market',
-      image: 'assets/images/turmeric.jpg',
-      mandiRate: 145.0,
-      farmRate: 128.0,
-      savingsKg: 17.0,
-      savingsPct: '11.7%',
-      trendPct: '+4.5%',
+      id: 'ins-cotton',
+      cropKey: 'Cotton',
+      cropName: 'Raw Cotton (Long Staple)',
+      mandi: 'Amravati Cotton Yard',
+      image: 'assets/images/cotton.jpg',
+      mandiRate: 72.0,
+      farmRate: 64.0,
+      savingsKg: 8.0,
+      savingsPct: '11.1%',
+      trendPct: '+2.1%',
       signal: 'buy',
-      reasonEn: 'Pharma and spice processors securing high-curcumin lots (>3.8%). Farm gate moisture verified at 8%.',
-      reasonHi: 'मसाला व फार्मा कंपनियों की तेज मांग। 3.8% से अधिक करक्यूमिन वाले उच्च गुणवत्ता वाले लॉट उपलब्ध।',
-      reasonMr: 'औषध व मसाला कंपन्यांकडून उच्च करक्युमिन मालाची मोठी खरेदी. उत्तम वाळलेली हळद उपलब्ध.'
+      reasonEn: 'Spinning mills securing 29mm+ staple fiber with low trash content (<3%). Direct procurement avoids mandi cess.',
+      reasonHi: 'कताई मिलों की मजबूत मांग। 29 मिमी लंबा रेशा और कम कचरे वाला उच्च क्वालिटी कपास उपलब्ध।',
+      reasonMr: 'कापड गिरण्यांकडून मोठी मागणी. २९ मिमी लांब धागा असलेला स्वच्छ कापूस थेट उपलब्ध.'
+    },
+    {
+      id: 'ins-rice',
+      cropKey: 'Rice',
+      cropName: 'Wada Kolam Rice (Palghar GI)',
+      mandi: 'Palghar APMC Yard',
+      image: 'assets/images/rice.jpg',
+      mandiRate: 62.0,
+      farmRate: 52.0,
+      savingsKg: 10.0,
+      savingsPct: '16.1%',
+      trendPct: '+3.5%',
+      signal: 'buy',
+      reasonEn: 'GI certified aromatic Kolam rice. Excellent cooking quality and high head rice recovery.',
+      reasonHi: 'जीआई प्रमाणित सुगंधित वाडा कोलम चावल। उत्कृष्ट पकाने की गुणवत्ता।',
+      reasonMr: 'जीआय मानांकन प्राप्त सुवासिक वाडा कोलम तांदूळ. उत्कृष्ट चव आणि आकर्षक दाणा.'
+    },
+    {
+      id: 'ins-wheat',
+      cropKey: 'Wheat',
+      cropName: 'Sharbati Lokwan Wheat',
+      mandi: 'Kalyan Grain Mandi',
+      image: 'assets/images/wheat.jpg',
+      mandiRate: 36.0,
+      farmRate: 30.0,
+      savingsKg: 6.0,
+      savingsPct: '16.7%',
+      trendPct: '+1.8%',
+      signal: 'buy',
+      reasonEn: 'Heavy lustrous grains with high gluten strength. Direct farm bags free from dust and stones.',
+      reasonHi: 'चमकदार दानेदार शरबती गेहूं। मिलिंग और पैकेजिंग के लिए सर्वोत्तम गुणवत्ता।',
+      reasonMr: 'सोनेरी चकाकी असलेला शरबती गहू. थेट शेतकऱ्यांकडून स्वच्छ व प्रतवारी केलेली पोती उपलब्ध.'
+    },
+    {
+      id: 'ins-grapes',
+      cropKey: 'Grapes',
+      cropName: 'Thompson Seedless Grapes',
+      mandi: 'Nashik Grape Yard, Pimpalgaon',
+      image: 'assets/images/grapes.jpg',
+      mandiRate: 95.0,
+      farmRate: 75.0,
+      savingsKg: 20.0,
+      savingsPct: '21.1%',
+      trendPct: '+9.2%',
+      signal: 'buy',
+      reasonEn: 'Export quality berries (18mm+ diameter) with high sugar content. Excellent demand across metro supermarkets.',
+      reasonHi: '18 मिमी से बड़े दाने और उच्च मिठास वाले एक्सपोर्ट अंगूर। सुपरमार्केट के लिए सर्वोत्तम।',
+      reasonMr: '१८ मिमी पेक्षा मोठे मणी आणि १८+ ब्रिक्स गोडी. सुपरमार्केट आणि निर्यातीसाठी उत्तम द्राक्षे.'
+    },
+    {
+      id: 'ins-mango',
+      cropKey: 'Mango',
+      cropName: 'Ratnagiri Alphonso (Hapus)',
+      mandi: 'APMC Vashi Fruit Terminal',
+      image: 'assets/images/mango.jpg',
+      mandiRate: 380.0,
+      farmRate: 310.0,
+      savingsKg: 70.0,
+      savingsPct: '18.4%',
+      trendPct: '+12.5%',
+      signal: 'buy',
+      reasonEn: 'Authentic GI tagged Konkan orchards. Naturally tree-ripened without carbide. Unmatched aroma.',
+      reasonHi: 'प्राकृतिक रूप से पके जीआई टैग अल्फांसो आम। प्रीमियम रिटेल के लिए भारी मुनाफा।',
+      reasonMr: 'अस्सल कोकणातील जीआय टॅग हापूस आंबा. नैसर्गिकरीत्या पिकवलेला अत्यंत सुवासिक शेतीमाल.'
     },
     {
       id: 'ins-potato',
@@ -434,6 +574,54 @@
       reasonEn: 'Cold storage dispatches steady. Adequate supply in Pune/Mumbai. Stable price window expected.',
       reasonHi: 'कोल्ड स्टोरेज से पर्याप्त आवक। पुणे-मुंबई में आपूर्ति सामान्य। भाव स्थिर रहने का अनुमान।',
       reasonMr: 'कोल्ड स्टोरेजमधून नियमित पुरवठा सुरू. पुणे-मुंबई बाजारात भरपूर आवक असल्याने दर स्थिर राहतील.'
+    },
+    {
+      id: 'ins-groundnut',
+      cropKey: 'Groundnut',
+      cropName: 'Kolhapur Bold Peanut',
+      mandi: 'Kolhapur APMC Yard',
+      image: 'assets/images/groundnut.jpg',
+      mandiRate: 78.0,
+      farmRate: 68.0,
+      savingsKg: 10.0,
+      savingsPct: '12.8%',
+      trendPct: '+4.0%',
+      signal: 'buy',
+      reasonEn: 'High oil recovery (48%) and sweet taste. Clean dry pods ready for oil expellers and roasting units.',
+      reasonHi: '48% तेल रिकवरी वाली मीठी मूंगफली। तेल मिलों और नमकीन निर्माताओं के लिए सर्वोत्तम।',
+      reasonMr: '४८% तेलाचे प्रमाण असलेला गोड भुईमूग. तेल घाणी आणि भाजण्यासाठी उत्तम शेतीमाल.'
+    },
+    {
+      id: 'ins-chilli',
+      cropKey: 'Chilli',
+      cropName: 'Nandurbar Dry Red Chilli',
+      mandi: 'Nandurbar Chilli Market',
+      image: 'assets/images/red-chilli.jpg',
+      mandiRate: 210.0,
+      farmRate: 180.0,
+      savingsKg: 30.0,
+      savingsPct: '14.3%',
+      trendPct: '+6.5%',
+      signal: 'buy',
+      reasonEn: 'Deep red color and high ASTA color value. Clean sun-dried whole pods for spice brands.',
+      reasonHi: 'गहरे लाल रंग और तीखे स्वाद वाली नंदुरबार मिर्च। मसाला उद्योग के लिए भारी मांग।',
+      reasonMr: 'गडद लाल रंग आणि उत्तम तिखटपणा असलेली नंदुरबार मिरची. मसाला कंपन्यांसाठी फायदेशीर.'
+    },
+    {
+      id: 'ins-maize',
+      cropKey: 'Maize',
+      cropName: 'Yellow Corn / Maize',
+      mandi: 'Dhule APMC Yard',
+      image: 'assets/images/maize.jpg',
+      mandiRate: 24.5,
+      farmRate: 20.5,
+      savingsKg: 4.0,
+      savingsPct: '16.3%',
+      trendPct: '+2.8%',
+      signal: 'buy',
+      reasonEn: 'Starch industry and poultry feed manufacturers lifting bulk lots. Moisture strictly below 12%.',
+      reasonHi: 'स्टार्च और पोल्ट्री फीड उद्योग से मजबूत मांग। 12% से कम नमी वाला सूखा मक्का उपलब्ध।',
+      reasonMr: 'स्टार्च आणि कुक्कुटपालन खाद्य उत्पादकांकडून मोठी मागणी. उत्तम वाळलेला पिवळा मका उपलब्ध.'
     }
   ];
 
@@ -823,7 +1011,7 @@
   }
 
   // =========================================================================
-  // 1. RENDER PRODUCE LOTS
+  // 1. RENDER PRODUCE LOTS (ALL 31+ VERIFIED FARM PRODUCE LOTS)
   // =========================================================================
 
   function renderLiteProduceCards() {
@@ -837,9 +1025,13 @@
     let filtered = lots;
     if (activeLiteFilter === 'emergency') {
       filtered = lots.filter(l => (l.isEmergency || (l.pricePerKg && Number(l.pricePerKg) < 25)));
-    } else if (activeLiteFilter !== 'all') {
+    } else if (activeLiteFilter && activeLiteFilter !== 'all') {
       const f = activeLiteFilter.toLowerCase();
-      filtered = lots.filter(l => (l.category || '').toLowerCase().includes(f) || (l.crop || '').toLowerCase().includes(f));
+      filtered = lots.filter(l => {
+        const cat = (l.category || '').toLowerCase();
+        const crop = (l.crop || '').toLowerCase();
+        return cat.includes(f) || crop.includes(f);
+      });
     }
 
     if (filtered.length === 0) {
@@ -848,8 +1040,10 @@
 
     grid.innerHTML = filtered.map(lot => {
       const kgPrice = lot.pricePerKg || (lot.priceNum ? (lot.priceNum / 100).toFixed(0) : '20');
-      const cropKey = Object.keys(CROP_TRANSLATIONS).find(k => lot.crop.toLowerCase().includes(k.toLowerCase())) || 'Tomato';
-      const trans = CROP_TRANSLATIONS[cropKey] || { en: lot.crop, hi: lot.crop, mr: lot.crop, icon: '🌾' };
+      
+      // Find matching localized crop entry
+      const cropEntry = Object.entries(CROP_TRANSLATIONS).find(([k]) => lot.crop.toLowerCase().includes(k.toLowerCase()));
+      const trans = cropEntry ? cropEntry[1] : { en: lot.crop, hi: lot.crop, mr: lot.crop, icon: '🌾' };
       const displayCropName = (currentLang === 'en') ? (lot.crop || trans.en) : (trans[currentLang] || trans.en || lot.crop);
       const bagsCount = Math.round((lot.availableQtyKg || lot.quantityKg || 5000) / 50);
 
@@ -924,7 +1118,7 @@
   }
 
   // =========================================================================
-  // 1.5 RENDER MARKET INSIGHTS SECTION
+  // 1.5 RENDER MARKET INSIGHTS SECTION (ALL CROPS)
   // =========================================================================
 
   function renderLiteInsights() {
@@ -944,8 +1138,8 @@
           </div>
           <div>
             <div style="font-size: 0.8rem; font-weight: 700; color: #166534; text-transform: uppercase;">${dict.statAvgSavings || 'Direct Mandi Savings'}</div>
-            <div style="font-size: 1.45rem; font-weight: 800; color: #0c5a36;">~14.5% Lower</div>
-            <div style="font-size: 0.75rem; color: #64748b;">vs APMC Terminal Yards</div>
+            <div style="font-size: 1.45rem; font-weight: 800; color: #0c5a36;">~17.8% Lower</div>
+            <div style="font-size: 0.75rem; color: #64748b;">vs APMC Terminal Yards across 31+ crops</div>
           </div>
         </div>
 
@@ -955,8 +1149,8 @@
           </div>
           <div>
             <div style="font-size: 0.8rem; font-weight: 700; color: #9a3412; text-transform: uppercase;">${dict.statTopGainer || 'Top Rising Crop'}</div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: #c2410c;">🧅 Onion (+8.5%)</div>
-            <div style="font-size: 0.75rem; color: #64748b;">Strong Lasalgaon Export Demand</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: #c2410c;">🥭 Hapus Mango (+12.5%)</div>
+            <div style="font-size: 0.75rem; color: #64748b;">Konkan Export Procurement Peak</div>
           </div>
         </div>
 
@@ -966,8 +1160,8 @@
           </div>
           <div>
             <div style="font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase;">${dict.statTopOpportunity || 'Best Price Advantage'}</div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">🍅 Tomato (Save 27%)</div>
-            <div style="font-size: 0.75rem; color: #64748b;">Direct Narayangaon Farm Rate</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">🍇 Pomegranate (Save ₹25/kg)</div>
+            <div style="font-size: 0.75rem; color: #64748b;">Direct Sangola Farm Gate</div>
           </div>
         </div>
       `;
@@ -1074,11 +1268,11 @@
     let text = '';
 
     if (currentLang === 'mr') {
-      text = 'महाराष्ट्र बाजारभाव अंदाज. थेट शेतकरी खरेदीमुळे सरासरी १४.५ टक्के बचत होत आहे. कांदा निर्यात मागणीमुळे तेजीत असून आज खरेदी करणे फायदेशीर आहे. टोमॅटोची आवक वाढल्याने भाव थोडे मवाळ राहतील. सविस्तर माहितीसाठी कोणत्याही पिकाचे स्पीकर बटण दाबा.';
+      text = 'महाराष्ट्र सर्व शेतीमाल बाजारभाव अंदाज. थेट शेतकरी खरेदीमुळे सर्व ३१ पिकांमध्ये सरासरी १७.८ टक्के बचत होत आहे. कांदा आणि हापूस आंब्यामध्ये मोठी तेजी असून आज खरेदी फायदेशीर आहे. डाळिंबामध्ये प्रति किलो २५ रुपयांची मोठी बचत उपलब्ध आहे.';
     } else if (currentLang === 'hi') {
-      text = 'महाराष्ट्र मंडी भाव और खरीद सलाह। सीधे किसान से खरीद पर औसतन 14.5% की बचत हो रही है। प्याज में निर्यात मांग तेज है और आज ही खरीद करना लाभकारी है। टमाटर की आवक बढ़ने से भाव नरम रहेंगे। अधिक विवरण के लिए स्पीकर बटन दबाएं।';
+      text = 'महाराष्ट्र सभी फसलों का मंडी भाव और खरीद सलाह। सीधे किसान से खरीद पर सभी 31+ फसलों में औसतन 17.8% की बचत हो रही है। प्याज और हापुस आम में तेजी है और आज खरीदना लाभकारी है। अनार में ₹25 प्रति किलो की सीधी बचत है।';
     } else {
-      text = 'AgriNex Market Intelligence briefing. Direct farmer procurement is delivering an average 14.5% price savings over APMC Mandis. Red Onion has strong export demand and is recommended to buy today. Tomato arrivals are surging with softer prices expected.';
+      text = 'AgriNex All-Crop Market Intelligence briefing. Direct farmer procurement across all 31 crops is delivering an average 17.8% price savings over APMC Mandis. Red Onion and Alphonso Mango show strong upward price momentum. Pomegranate delivers the highest arbitrage savings of ₹25 per kg.';
     }
 
     speakText(text, currentLang);
@@ -1227,7 +1421,7 @@
     if (!container) return;
 
     const dict = getDict();
-    const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots.slice(0, 3) : [];
+    const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots.slice(0, 4) : [];
 
     container.innerHTML = lots.map((lot, idx) => {
       const crop = lot.crop || 'Produce Lot';
@@ -1304,8 +1498,8 @@
     if (!lot) return;
 
     const currentLang = getCurrentLang();
-    const cropKey = Object.keys(CROP_TRANSLATIONS).find(k => lot.crop.toLowerCase().includes(k.toLowerCase())) || 'Tomato';
-    const trans = CROP_TRANSLATIONS[cropKey] || { en: lot.crop, hi: lot.crop, mr: lot.crop };
+    const cropEntry = Object.entries(CROP_TRANSLATIONS).find(([k]) => lot.crop.toLowerCase().includes(k.toLowerCase()));
+    const trans = cropEntry ? cropEntry[1] : { en: lot.crop, hi: lot.crop, mr: lot.crop };
     const displayCrop = (currentLang === 'en') ? lot.crop : (trans[currentLang] || lot.crop);
     const kgPrice = lot.pricePerKg || 20;
     const bags = Math.round((lot.availableQtyKg || 5000) / 50);
@@ -1378,8 +1572,8 @@
     if (modal) modal.style.display = 'flex';
 
     const currentLang = getCurrentLang();
-    const cropKey = Object.keys(CROP_TRANSLATIONS).find(k => activeBuyLot.crop.toLowerCase().includes(k.toLowerCase())) || 'Tomato';
-    const trans = CROP_TRANSLATIONS[cropKey] || { en: activeBuyLot.crop, hi: activeBuyLot.crop, mr: activeBuyLot.crop };
+    const cropEntry = Object.entries(CROP_TRANSLATIONS).find(([k]) => activeBuyLot.crop.toLowerCase().includes(k.toLowerCase()));
+    const trans = cropEntry ? cropEntry[1] : { en: activeBuyLot.crop, hi: activeBuyLot.crop, mr: activeBuyLot.crop };
     const displayCrop = trans[currentLang] || activeBuyLot.crop;
 
     const titleEl = document.getElementById('lite-modal-crop-title');

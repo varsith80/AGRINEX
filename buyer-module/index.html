@@ -549,10 +549,10 @@
           </div>
 
           <!-- Big Category Filter Tabs -->
-          <div class="lite-category-pills">
+          <div class="lite-category-pills" style="margin-bottom: 14px;">
             <button type="button" class="lite-cat-pill active" onclick="filterLiteProduce('all', this)">
               <span class="cat-icon">🌾</span>
-              <span id="lite-cat-all">All Produce</span>
+              <span id="lite-cat-all">All Crops (31+)</span>
             </button>
             <button type="button" class="lite-cat-pill" onclick="filterLiteProduce('Vegetable', this)">
               <span class="cat-icon">🍅</span>
@@ -566,10 +566,34 @@
               <span class="cat-icon">🌾</span>
               <span id="lite-cat-grain">Grains & Pulses</span>
             </button>
+            <button type="button" class="lite-cat-pill" onclick="filterLiteProduce('Oilseed', this)">
+              <span class="cat-icon">🌻</span>
+              <span id="lite-cat-oilseed">Oilseeds & Spices</span>
+            </button>
             <button type="button" class="lite-cat-pill" onclick="filterLiteProduce('emergency', this)">
               <span class="cat-icon">🚨</span>
               <span id="lite-cat-emerg">Emergency Sale</span>
             </button>
+          </div>
+
+          <!-- Quick 1-Tap Crop Pills Bar (All Crops) -->
+          <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 18px; -webkit-overflow-scrolling: touch;" class="no-scrollbar">
+            <button type="button" onclick="filterLiteProduce('Onion')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🧅 Onion (कांदा)</button>
+            <button type="button" onclick="filterLiteProduce('Tomato')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍅 Tomato (टोमॅटो)</button>
+            <button type="button" onclick="filterLiteProduce('Potato')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🥔 Potato (बटाटा)</button>
+            <button type="button" onclick="filterLiteProduce('Soybean')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌱 Soybean (सोयाबीन)</button>
+            <button type="button" onclick="filterLiteProduce('Banana')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍌 Banana (केळी)</button>
+            <button type="button" onclick="filterLiteProduce('Pomegranate')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍇 Pomegranate (डाळिंब)</button>
+            <button type="button" onclick="filterLiteProduce('Orange')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍊 Orange (संत्रा)</button>
+            <button type="button" onclick="filterLiteProduce('Mango')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🥭 Alphonso (हापूस)</button>
+            <button type="button" onclick="filterLiteProduce('Grapes')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍇 Grapes (द्राक्षे)</button>
+            <button type="button" onclick="filterLiteProduce('Turmeric')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌿 Turmeric (हळद)</button>
+            <button type="button" onclick="filterLiteProduce('Cotton')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">☁️ Cotton (कापूस)</button>
+            <button type="button" onclick="filterLiteProduce('Wheat')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌾 Wheat (गहू)</button>
+            <button type="button" onclick="filterLiteProduce('Rice')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌾 Rice (तांदूळ)</button>
+            <button type="button" onclick="filterLiteProduce('Chana')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌱 Chana (हरभरा)</button>
+            <button type="button" onclick="filterLiteProduce('Groundnut')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🥜 Peanut (शेंगदाणा)</button>
+            <button type="button" onclick="filterLiteProduce('Chilli')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌶️ Chilli (मिरची)</button>
           </div>
 
           <!-- Big Visual Produce Grid -->
