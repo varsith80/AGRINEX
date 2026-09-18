@@ -1061,10 +1061,6 @@
 
       return `
         <div class="lite-produce-card" style="position: relative; background: #ffffff; border-radius: 20px; border: 2px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease, box-shadow 0.2s ease;">
-          <button type="button" class="lite-audio-btn" style="position: absolute; top: 12px; right: 12px; z-index: 10;" onclick="speakLotDetails('${lot.id}')" title="Listen / ऐका / सुनें">
-            🔊 <span>${dict.listen}</span>
-          </button>
-
           <div>
             <div style="position: relative; height: 190px; width: 100%; overflow: hidden; background: #f1f5f9;">
               <img src="${imgSrc}" alt="${displayCropName}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
