@@ -280,75 +280,133 @@ function cleanLocationString(addr) {
 }
 
 /**
- * Download Gate Pass as an offline HTML / printable document
+ * Download / Print Gate Pass as an official PDF document
  */
 function downloadGatePass(orderCode) {
   const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode);
   if (!order) return;
 
   const htmlContent = `<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>AgriNex Official Transit Pass - ${order.orderCode}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriNex Official Transit Gate Pass - ${order.orderCode}</title>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 30px; background: #f8fafc; color: #0f172a; }
-    .pass-container { max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; border: 2px solid #0c5a36; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-    .header { background: #0c5a36; color: white; padding: 24px; text-align: center; }
-    .header h2 { margin: 0; font-size: 1.4rem; }
-    .badge { display: inline-block; background: #10b981; color: white; padding: 4px 12px; border-radius: 999px; font-weight: bold; font-size: 0.75rem; margin-top: 6px; }
-    .content { padding: 24px; }
-    .box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; }
-    .row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 24px; background: #f8fafc; color: #0f172a; line-height: 1.5; }
+    .toolbar { max-width: 650px; margin: 0 auto 16px auto; display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 12px 18px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.88rem; cursor: pointer; border: none; }
+    .btn-primary { background: #0c5a36; color: #ffffff; }
+    .btn-outline { background: #f1f5f9; color: #334155; }
+    .pass-container { max-width: 650px; margin: 0 auto; background: white; border-radius: 16px; border: 2px solid #0c5a36; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .header { background: linear-gradient(135deg, #064e3b 0%, #0c5a36 100%); color: white; padding: 24px 28px; text-align: center; position: relative; }
+    .header h1 { margin: 0; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.01em; }
+    .header .sub { font-size: 0.88rem; color: #bbf7d0; margin-top: 4px; }
+    .badge { display: inline-block; background: #10b981; color: white; padding: 4px 14px; border-radius: 999px; font-weight: 800; font-size: 0.72rem; letter-spacing: 0.5px; margin-top: 8px; }
+    .content { padding: 24px 28px; }
+    .box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.9rem; }
+    .row:last-child { margin-bottom: 0; }
     .label { color: #64748b; font-weight: 600; }
-    .val { font-weight: bold; color: #0f172a; }
+    .val { font-weight: 700; color: #0f172a; text-align: right; }
     .highlight { color: #0c5a36; font-weight: 800; font-size: 1.1rem; }
-    .footer { text-align: center; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 14px; margin-top: 20px; }
+    .barcode-box { text-align: center; border: 2px dashed #cbd5e1; background: #ffffff; padding: 14px; border-radius: 10px; margin-bottom: 16px; }
+    .barcode-text { font-size: 0.8rem; color: #475569; margin-top: 6px; font-family: monospace; font-weight: 700; }
+    .footer { text-align: center; font-size: 0.76rem; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 20px; line-height: 1.4; }
+    @media print {
+      body { padding: 0; background: #ffffff; }
+      .toolbar { display: none !important; }
+      .pass-container { border: 1.5px solid #000000; box-shadow: none; max-width: 100%; border-radius: 0; }
+      .header { background: #0c5a36 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
   </style>
 </head>
 <body>
+  <div class="toolbar">
+    <div style="font-weight: 800; font-size: 0.95rem; color: #0c5a36;">📑 Official e-Transit Permit Pass</div>
+    <div style="display: flex; gap: 8px;">
+      <button class="btn btn-outline" onclick="window.close()">✕ Close</button>
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    </div>
+  </div>
+
   <div class="pass-container">
     <div class="header">
-      <h2>AGRINEX OFFICIAL e-TRANSIT PERMIT</h2>
-      <div>Transit Code: <strong>${order.orderCode}</strong></div>
-      <span class="badge">VERIFIED & ESCROW GUARANTEED</span>
+      <h1>AGRINEX APMC OFFICIAL e-TRANSIT PERMIT</h1>
+      <div class="sub">Valid at all Maharashtra & National Highway Mandi Checkposts</div>
+      <span class="badge">✓ 100% ESCROW GUARANTEED &amp; VERIFIED</span>
     </div>
+
     <div class="content">
-      <div class="box" style="text-align: center; border: 2px dashed #cbd5e1;">
-        <div style="font-size: 1.2rem; font-weight: 900; letter-spacing: 4px; font-family: monospace;">|||| | ||||| ||| ||||||| ||</div>
-        <div style="font-size: 0.8rem; color: #475569; margin-top: 6px; font-family: monospace;">AUTH: AGX-GP-${order.orderCode}-2026</div>
+      <div class="barcode-box">
+        <svg width="220" height="46" viewBox="0 0 200 48" fill="#0f172a" style="display: block; margin: 0 auto;">
+          <rect x="0" y="0" width="4" height="48"/>
+          <rect x="8" y="0" width="8" height="48"/>
+          <rect x="20" y="0" width="4" height="48"/>
+          <rect x="28" y="0" width="12" height="48"/>
+          <rect x="44" y="0" width="4" height="48"/>
+          <rect x="52" y="0" width="6" height="48"/>
+          <rect x="62" y="0" width="10" height="48"/>
+          <rect x="76" y="0" width="4" height="48"/>
+          <rect x="84" y="0" width="8" height="48"/>
+          <rect x="96" y="0" width="14" height="48"/>
+          <rect x="114" y="0" width="4" height="48"/>
+          <rect x="122" y="0" width="8" height="48"/>
+          <rect x="134" y="0" width="6" height="48"/>
+          <rect x="144" y="0" width="10" height="48"/>
+          <rect x="158" y="0" width="6" height="48"/>
+          <rect x="168" y="0" width="8" height="48"/>
+          <rect x="180" y="0" width="4" height="48"/>
+          <rect x="188" y="0" width="10" height="48"/>
+        </svg>
+        <div class="barcode-text">AUTH PASS CODE: AGX-GP-${order.orderCode}-2026</div>
       </div>
+
       <div class="box" style="background: #f0fdf4; border-color: #86efac;">
         <div class="row"><span class="label">🕒 Permissible Pickup Window:</span><span class="val">${order.pickupWindow || '06:00 AM – 12:00 PM'}</span></div>
-        <div class="row"><span class="label">🚚 Driver Confirmed Slot:</span><span class="val" style="color: #0c5a36;">${order.driverScheduledSlot || '08:30 AM (Confirmed)'}</span></div>
-        <div class="row"><span class="label">🎯 Deliver Between:</span><span class="val" style="color: #047857;">${order.deliveryWindow || '01:00 PM – 05:30 PM (Today)'}</span></div>
+        <div class="row" style="border-top: 1px dashed #bbf7d0; padding-top: 6px; margin-top: 6px;"><span class="label">🚚 Driver Confirmed Slot:</span><span class="val" style="color: #0c5a36;">${order.driverScheduledSlot || '08:30 AM (Confirmed)'}</span></div>
+        <div class="row" style="border-top: 1px dashed #bbf7d0; padding-top: 6px; margin-top: 6px;"><span class="label">🎯 Deliver Between:</span><span class="val" style="color: #047857;">${order.deliveryWindow || '01:00 PM – 05:30 PM (Today)'}</span></div>
       </div>
+
       <div class="box">
-        <div class="row"><span class="label">Produce & Lot:</span><span class="val">${order.cropName} (${order.quantityQt} Qt / ${order.quantityKg} kg)</span></div>
+        <div class="row"><span class="label">Consignment / Produce:</span><span class="val">${order.cropName} (${order.quantityQt} Qt / ${(order.quantityKg).toLocaleString()} kg)</span></div>
         <div class="row"><span class="label">Assigned Vehicle:</span><span class="val">${order.vehicleNo || 'MH-15-AQ-9011 (Tata 407 Reefer)'}</span></div>
-        <div class="row"><span class="label">Origin / Mandi Gate:</span><span class="val">${order.pickupAddress}</span></div>
+        <div class="row"><span class="label">Origin Mandi Gate:</span><span class="val">${order.pickupAddress}</span></div>
         <div class="row"><span class="label">Destination Unloading Bay:</span><span class="val">${order.deliveryAddress}</span></div>
-        <div class="row"><span class="label">Exact Distance & Travel Time:</span><span class="val">${order.distanceKm} km (${order.etaTime})</span></div>
+        <div class="row"><span class="label">Route Distance &amp; ETA:</span><span class="val">${order.distanceKm} km (${order.etaTime})</span></div>
         <div class="row" style="border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 8px;"><span class="label">Guaranteed Freight Escrow:</span><span class="highlight">${order.freightFormatted}</span></div>
       </div>
+
       <div class="footer">
-        Issued by Maharashtra APMC Agricultural Nodal Authority • AgriNex Smart Contract Escrow
+        Issued by Maharashtra State Agricultural Marketing Board (MSAMB) &bull; APMC Market Committee &bull; AgriNex National Logistics Network
       </div>
     </div>
   </div>
+
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        window.print();
+      }, 400);
+    });
+  <\/script>
 </body>
 </html>`;
 
-  const blob = new Blob([htmlContent], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `AgriNex_GatePass_${order.orderCode}.html`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast(`📥 e-Gate Pass for ${order.orderCode} downloaded successfully!`);
+  const printWindow = window.open('', '_blank', 'width=780,height=920,menubar=no,toolbar=no,location=no,status=no');
+  if (printWindow) {
+    printWindow.document.open();
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+    showToast(`🖨️ Opening print/PDF dialog for Gate Pass ${order.orderCode}...`);
+  } else {
+    // Fallback if popup blocked
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    showToast(`📑 Gate Pass opened for ${order.orderCode}. Use Ctrl+P to save as PDF.`);
+  }
 }
 
 /**
@@ -477,15 +535,15 @@ function openGatePassModal(orderCode) {
         <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #ffffff; border: 1.5px solid #0284c7; color: #0284c7; padding: 9px 12px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: background 0.15s;" onmouseover="this.style.background='#f0f9ff'" onmouseout="this.style.background='#ffffff'">
           <span>🗺️</span> View in Google Maps
         </a>
-        <button type="button" onclick="downloadGatePass('${order.orderCode}')" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #ffffff; border: 1.5px solid #cbd5e1; color: #1e293b; padding: 9px 12px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
-          <span>📥</span> Download Pass
+        <button type="button" onclick="downloadGatePass('${order.orderCode}')" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #ffffff; border: 1.5px solid #0c5a36; color: #0c5a36; padding: 9px 12px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: background 0.15s;" onmouseover="this.style.background='#f0fdf4'" onmouseout="this.style.background='#ffffff'">
+          <span>🖨️</span> Print / Save PDF
         </button>
       </div>
 
       <!-- Main Action Bar -->
       <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 14px; position: sticky; bottom: 0; background: #ffffff;">
-        <button class="btn btn-outline" onclick="window.print()" style="font-size: 0.8rem; padding: 8px 14px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #475569; font-weight: 700; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-          <span>🖨️</span> Print
+        <button class="btn btn-outline" onclick="downloadGatePass('${order.orderCode}')" style="font-size: 0.8rem; padding: 8px 14px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #475569; font-weight: 700; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+          <span>🖨️</span> Print Pass
         </button>
         <button class="btn btn-primary" onclick="confirmOrderAndNavigate('${order.orderCode}')" style="font-size: 0.85rem; padding: 9px 20px; background: #0c5a36; color: #ffffff; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 3px 10px rgba(12,90,54,0.35);">
           <span>🚚</span> Confirm & View Delivery Map &rarr;

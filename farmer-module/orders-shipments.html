@@ -423,7 +423,7 @@
         </div>
         <div style="display:flex; justify-content:flex-end; gap:8px;">
           <button class="btn btn-outline btn-sm" onclick="closeModal('gatePassModal')">Close</button>
-          <button class="btn btn-primary btn-sm" onclick="alert('Gate Pass saved to downloads.')">Download PDF</button>
+          <button class="btn btn-primary btn-sm" onclick="printCurrentGatePass()">🖨️ Print / Save as PDF</button>
         </div>
       </div>
     </div>
@@ -577,6 +577,41 @@
       document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderOrders();
+    }
+
+    
+    function printCurrentGatePass() {
+      const gpId = document.getElementById('gp-id').innerText;
+      const gpDrv = document.getElementById('gp-drv').innerText;
+      const gpVeh = document.getElementById('gp-veh').innerText;
+      const gpCrop = document.getElementById('gp-crop').innerText;
+      const gpWt = document.getElementById('gp-wt').innerText;
+      const gpDst = document.getElementById('gp-dst').innerText;
+
+      const html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gate Pass ' + gpId + '</title>' +
+        '<style>body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:30px;color:#0f172a;background:#f8fafc;}' +
+        '.box{border:2px solid #064e3b;border-radius:12px;padding:24px;max-width:600px;margin:0 auto;background:#fff;box-shadow:0 8px 24px rgba(0,0,0,0.06);}' +
+        '.hdr{background:#064e3b;color:#fff;padding:16px;border-radius:8px;text-align:center;margin-bottom:20px;}' +
+        '.row{display:flex;justify-content:space-between;margin-bottom:10px;font-size:15px;}' +
+        '@media print{.no-print{display:none !important;}.box{box-shadow:none;border-color:#000;}}</style></head><body>' +
+        '<div class="no-print" style="text-align:center;margin-bottom:16px;"><button onclick="window.print()" style="padding:8px 18px;font-weight:bold;background:#064e3b;color:#fff;border:none;border-radius:6px;cursor:pointer;">🖨️ Print / Save as PDF</button></div>' +
+        '<div class="box"><div class="hdr"><h2 style="margin:0;">AGRINEX DIGITAL MANDI GATE PASS</h2><p style="margin:4px 0 0 0;font-size:13px;color:#a7f3d0;">Official APMC E-Transit Permit</p></div>' +
+        '<div class="row"><span>Gate Pass No:</span><strong>' + gpId + '</strong></div>' +
+        '<div class="row"><span>Farmer Name:</span><strong>Ramesh Patel</strong></div>' +
+        '<div class="row"><span>Driver Name:</span><strong>' + gpDrv + '</strong></div>' +
+        '<div class="row"><span>Vehicle No:</span><strong>' + gpVeh + '</strong></div>' +
+        '<div class="row"><span>Produce:</span><strong>' + gpCrop + '</strong></div>' +
+        '<div class="row"><span>Net Weight:</span><strong>' + gpWt + '</strong></div>' +
+        '<div class="row"><span>Destination:</span><strong>' + gpDst + '</strong></div>' +
+        '<div style="text-align:center;margin-top:24px;color:#64748b;font-size:12px;border-top:1px solid #e2e8f0;padding-top:12px;">100% Escrow Protected &bull; Verified APMC Clearance</div></div>' +
+        '<script>window.onload=function(){setTimeout(function(){window.print();},350);};<\/script></body></html>';
+
+      const win = window.open('', '_blank', 'width=720,height=850');
+      if (win) {
+        win.document.open();
+        win.document.write(html);
+        win.document.close();
+      }
     }
 
     function openGatePass(id) {
