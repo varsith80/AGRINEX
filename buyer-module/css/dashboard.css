@@ -3519,4 +3519,29 @@ body.lite-sunlight-mode .lite-btn-call {
   }
 }
 
+/* =========================================================================
+   INSTANT ZERO-DELAY SIMPLE MODE DEFAULT STYLES
+   ========================================================================= */
+html.lite-mode-active body .sidebar,
+body.lite-mode-active .sidebar,
+html.lite-mode-active body .navbar-search,
+body.lite-mode-active .navbar-search,
+html.lite-mode-active body #btn-floating-copilot,
+body.lite-mode-active #btn-floating-copilot,
+html.lite-mode-active body .portal-view,
+body.lite-mode-active .portal-view {
+  display: none !important;
+}
+
+html.lite-mode-active body #lite-mode-container,
+body.lite-mode-active #lite-mode-container {
+  display: block !important;
+}
+
+html.lite-mode-active body #lite-floating-voice-mic,
+body.lite-mode-active #lite-floating-voice-mic {
+  display: flex !important;
+}
+
+
 

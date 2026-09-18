@@ -1729,8 +1729,26 @@
     speakText(dict.voicePrompt, currentLang);
   }
 
-  // Initialize on Load
-  document.addEventListener('DOMContentLoaded', initLiteMode);
+  function initLiteMode() {
+    isLiteMode = localStorage.getItem('agrinex_buyer_lite_mode') !== 'false';
+    
+    const toggleBtn = document.getElementById('btn-toggle-lite-mode');
+    if (toggleBtn) updateToggleBtnState(toggleBtn);
+
+    applyLiteModeUI(isLiteMode);
+
+    if (isLiteMode) {
+      updateLiteModeLanguage(getCurrentLang());
+      switchLiteSection(activeLiteSection || 'produce');
+    }
+  }
+
+  // Initialize on Load (or immediately if DOM is already ready)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLiteMode);
+  } else {
+    initLiteMode();
+  }
 
   // Global window bindings
   window.initLiteMode = initLiteMode;
