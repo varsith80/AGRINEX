@@ -14,8 +14,20 @@
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
+
+  <!-- Instant Zero-Delay Direct Landing in Simple Mode -->
+  <script>
+    (function() {
+      try {
+        var isEnterprise = localStorage.getItem('agrinex_farmer_lite_mode') === 'false';
+        if (!isEnterprise) {
+          document.documentElement.classList.add('lite-mode-active');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
-<body>
+<body class="lite-mode-active">
 
   <div class="app-container">
     
@@ -70,6 +82,13 @@
               <span>Bids & Offers</span>
             </div>
             
+          </li>
+          <li class="nav-item" onclick="window.location.href='messages.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              <span>Messages & Chat</span>
+            </div>
+            <span class="badge" style="background: #22c55e; color: #ffffff; font-size: 0.65rem; font-weight: 900; padding: 1px 7px; border-radius: 999px;">3</span>
           </li>
           <li class="nav-item" onclick="window.location.href='orders-shipments.html'">
             <div class="nav-item-left">
@@ -146,6 +165,12 @@
         </div>
 
         <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
+          <!-- Simple Mode / Enterprise Mode Toggle Button -->
+          <button type="button" id="btn-toggle-lite-mode" class="btn-toggle-lite-mode" onclick="toggleFarmerLiteMode()" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #15803d 0%, #0c5a36 100%); color: #ffffff; font-weight: 800; font-size: 0.85rem; padding: 8px 16px; border-radius: 999px; border: 2px solid #86efac; box-shadow: 0 4px 12px rgba(12, 90, 54, 0.25); cursor: pointer; transition: all 0.2s ease;">
+            <span>👴</span>
+            <span id="btn-toggle-lite-text">सरल शेतकरी मोड</span>
+          </button>
+
           <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
           <div class="lang-selector-widget" style="position: relative;">
             <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
@@ -211,6 +236,9 @@
           </div>
         </div>
       </header>
+
+      <!-- Simple & Audio-First Mode Container -->
+      <div id="lite-mode-container" class="lite-mode-wrapper"></div>
 
       <!-- Full-Width Dashboard Content -->
       <div class="dashboard-content">
@@ -596,13 +624,27 @@
     </div>
   </div>
 
+  <!-- Persistent Floating Voice Mic for Simple Mode -->
+  <button id="lite-floating-voice-mic" class="lite-floating-mic" onclick="startFarmerFloatingVoiceCommand()" title="Speak Voice Command">
+    <span style="font-size: 1.4rem;">🎙️</span>
+    <span id="lite-floating-mic-label">बोलून सांगा</span>
+  </button>
+
+  <!-- Floating AGRIFLEX AI Trigger Button -->
+  <button id="btn-floating-copilot" class="btn-floating-copilot" onclick="openCopilotModal()" title="Open AGRIFLEX Krishi AI">
+    <span>🤖</span>
+    <span>AGRIFLEX AI</span>
+  </button>
+
   <!-- Scripts -->
   <script src="js/api.js?v=3"></script>
   <script src="js/data.js?v=3"></script>
   <script src="js/emergency_sale.js?v=3"></script>
   <script src="js/fpo_hub.js?v=3"></script>
   <script src="js/charts.js?v=3"></script>
-  <script src="js/dashboard.js?v=3"></script>
   <script src="js/i18n.js"></script>
+  <script src="js/copilot.js"></script>
+  <script src="js/lite_mode.js"></script>
+  <script src="js/dashboard.js?v=3"></script>
 </body>
 </html>

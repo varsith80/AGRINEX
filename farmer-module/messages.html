@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <title>AgriNex - Buyer Chat & Negotiation Room</title>
+  <style>
+    .msg-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 1024px) {
+      .msg-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .stat-card-compact {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .stat-icon-sq {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .btn-green {
+      background: #059669;
+      color: #ffffff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .btn-green:hover { background: #047857; }
+    .btn-outline-sm {
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .btn-outline-sm:hover { background: #f1f5f9; }
+
+    /* Action Modal Backdrop */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #ffffff;
+      border-radius: 14px;
+      max-width: 500px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: modalFadeIn 0.2s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- LEFT SIDEBAR NAVIGATION (Full-Height Sticky) -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header (Golden Wheat Logo) -->
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <img src="assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" />
+          </div>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+            <span class="brand-tagline">KRISHI SEVA KENDRA</span>
+          </div>
+        </div>
+
+        <!-- Sidebar Navigation Menu -->
+        <ul class="sidebar-nav">
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span>Farmer Dashboard</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='my-crops.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
+              <span>My Crops & Lots</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='market-insights.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              <span>Market Insights</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='fpo-hub.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              <span>FPO Hub</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='bids-offers.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m14 12 6-6"></path><path d="M9 17 3 23"></path><path d="m15.5 10.5 2 2"></path><path d="m7.5 18.5 2 2"></path><path d="M10 6 6 10l5 5 4-4-5-5z"></path><path d="m14 16 4 4 4-4-4-4-4 4z"></path></svg>
+              <span>Bids & Offers</span>
+            </div>
+          </li>
+
+          <!-- ACTIVE: MESSAGES & BUYER CHAT -->
+          <li class="nav-item active" onclick="window.location.href='messages.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span style="font-weight: 800;">Messages & Chat</span>
+            </div>
+            <span class="badge" style="background: #22c55e; color: #ffffff; font-size: 0.65rem; font-weight: 900; padding: 1px 7px; border-radius: 999px;">3</span>
+          </li>
+
+          <li class="nav-item" onclick="window.location.href='orders-shipments.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+              <span>Orders & Shipments</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='escrow-tracking.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+              <span>Escrow Tracking</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='profit-calculator.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+              <span>Profit Calculator</span>
+            </div>
+          </li>
+
+          <!-- RED GRIEVANCE MODULE LINK -->
+          <li class="nav-item nav-item-grievance" onclick="window.location.href='grievance.html'" title="File complaints, payment delays & dispute redressal">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span style="font-weight: 800;">Grievance Desk</span>
+            </div>
+            <span class="grv-badge-red">Support</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- User Profile at bottom -->
+      <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
+        <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
+          <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+          <div style="min-width:0; flex:1;">
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Patil Rameshwar</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Nashik</div>
+          </div>
+          <a href="../login_details/farmer_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT AREA -->
+    <main class="main-wrapper">
+      <!-- TOP NAVBAR -->
+      <header class="navbar">
+        <div class="navbar-left">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="page-search-input" placeholder="Search buyer name, crop, or offer..." oninput="filterChatContacts(this.value)" />
+          </div>
+          <div class="navbar-location-pill" title="Change Mandi Location">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Lasalgaon APMC Mandi, Nashik</span>
+          </div>
+        </div>
+
+        <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
+          <!-- Language Selector Widget -->
+          <div class="lang-selector-widget" style="position: relative;">
+            <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
+              <span id="current-language-label">🇬🇧 English</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div id="language-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 12px 28px -4px rgba(0,0,0,0.15), 0 8px 12px -6px rgba(0,0,0,0.08); width: 185px; z-index: 1100; overflow: hidden; font-size: 0.82rem;">
+              <div style="padding: 8px 12px; font-size: 0.7rem; font-weight: 800; color: #64748b; background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; justify-content: space-between;">
+                <span>🌐 Select Language</span>
+              </div>
+              <button type="button" id="lang-opt-en" onclick="setFarmerLanguage('en')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: #e8f5ed; color: #0c5a36; cursor: pointer; text-align: left; font-weight: 700; transition: background 0.15s ease;">
+                <span style="display: flex; align-items: center; gap: 8px;">🇬🇧 English</span>
+                <span class="lang-check" style="font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+              <button type="button" id="lang-opt-hi" onclick="setFarmerLanguage('hi')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;">
+                <span style="display: flex; align-items: center; gap: 8px;">🇮🇳 हिन्दी</span>
+                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+              <button type="button" id="lang-opt-mr" onclick="setFarmerLanguage('mr')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;">
+                <span style="display: flex; align-items: center; gap: 8px;">🚩 मराठी</span>
+                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Red Grievance Desk Top Quick Action -->
+          <a href="grievance.html" class="navbar-btn-grievance" title="Direct Redressal Desk">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>Grievance Desk</span>
+          </a>
+
+          <button class="btn btn-outline btn-sm" onclick="window.location.href='index.html'" style="font-weight: 700;">
+            &larr; Dashboard
+          </button>
+
+          <button class="notif-btn" title="Notifications" onclick="alert('Notification: Reliance Fresh Procurement sent you a new message regarding 45 Qt Tomato lot.')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            </svg>
+          </button>
+
+          <div class="profile-widget" style="cursor: pointer;" onclick="window.location.href='my-crops.html'">
+            <img src="assets/images/farmer-avatar.png" alt="Patil Rameshwar" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+            <div>
+              <div class="profile-name">Patil Rameshwar</div>
+              <div class="profile-role">ID: FARM-88210</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <div class="dashboard-content" style="padding: 20px 24px;">
+
+        <!-- HERO HEADER -->
+        <div class="chat-hero-header">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
+              <span class="badge" style="background: rgba(12, 90, 54, 0.1); color: #0c5a36; font-weight: 800; font-size: 0.74rem;">💬 DIRECT BUYER NEGOTIATION ROOM</span>
+              <span class="badge" style="background: rgba(37, 99, 235, 0.1); color: #2563eb; font-weight: 800; font-size: 0.74rem;">🔒 35% ADVANCE ESCROW PROTECTED</span>
+              <span class="badge" style="background: rgba(234, 88, 12, 0.1); color: #ea580c; font-weight: 800; font-size: 0.74rem;">⚡ ZERO BROKERAGE DIRECT APMC</span>
+            </div>
+            <h1 class="dash-title" style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">Institutional Buyer Messaging & Smart Contract Negotiation</h1>
+            <p class="dash-subtitle" style="font-size: 0.82rem; color: #64748b; margin: 0; max-width: 860px;">
+              Chat directly with verified retail chains and processing buyers (Reliance Fresh, DMart, BigBasket, ITC, Balaji Wafers, LuLu Export). Counter-offer farmgate rates, share digital weighbridge slips, and lock 35% advance bank escrow instantly.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button class="btn btn-outline" onclick="alert('Signal Status: Encrypted WebSocket channel active. All price agreements recorded on AgriNex Smart Ledger.')" style="border-color: #0c5a36; color: #0c5a36; font-weight: 700; background: #ffffff; padding: 7px 14px; font-size: 0.82rem;">
+              <span class="pulse-live-dot"></span> Signal Encrypted
+            </button>
+            <button class="btn-green" onclick="window.location.href='bids-offers.html'" style="font-weight: 700;">
+              View All Bids &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 QUICK STATS SUMMARY -->
+        <div class="msg-stats-grid">
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background: #e8f5ed; color: #0c5a36;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <div>
+              <div style="font-size: 0.72rem; font-weight: 600; color: #64748b;">Active Buyer Threads</div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a;">7 Verified Buyers</div>
+            </div>
+          </div>
+
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background: #f0fdf4; color: #16a34a;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <div>
+              <div style="font-size: 0.72rem; font-weight: 600; color: #64748b;">Highest Rate Offered</div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: #0c5a36;">₹ 145.00 /kg <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">(Export)</span></div>
+            </div>
+          </div>
+
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background: #e0f2fe; color: #0284c7;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <div>
+              <div style="font-size: 0.72rem; font-weight: 600; color: #64748b;">35% Escrow Advance Ready</div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: #0284c7;">₹ 3,74,287 Locked</div>
+            </div>
+          </div>
+
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background: #ffedd5; color: #f97316;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+            </div>
+            <div>
+              <div style="font-size: 0.72rem; font-weight: 600; color: #64748b;">Over APMC Mandi Benchmark</div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">+8.8% Premium</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN 2-COLUMN CHAT & NEGOTIATION SUITE -->
+        <div class="chat-layout">
+          
+          <!-- LEFT RAIL: BUYER CONTACTS -->
+          <div class="chat-sidebar">
+            <div class="chat-sidebar-header">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                <span style="font-size: 0.9rem; font-weight: 800; color: #0c5a36;">Verified Buyers</span>
+                <span class="badge" style="background: #e8f5ed; color: #0c5a36; font-size: 0.72rem; font-weight: 800;">7 Online</span>
+              </div>
+              <input type="text" class="chat-search-input" placeholder="Search company, crop or manager..." onkeyup="filterChatContacts(this.value)" />
+            </div>
+            <div id="chat-contacts-container" class="chat-contacts-list">
+              <!-- Dynamically populated via FarmerChat.renderChatSidebar() -->
+            </div>
+          </div>
+
+          <!-- RIGHT MAIN: ACTIVE CHAT WINDOW -->
+          <div class="chat-main">
+            <!-- Header -->
+            <div class="chat-header">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="avatar-wrapper">
+                  <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=120" id="chat-header-avatar" alt="Buyer Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.1);" />
+                  <span class="avatar-online-dot"></span>
+                </div>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <strong style="font-size: 0.98rem; color: #0f172a;" id="chat-header-name">Reliance Fresh Procurement</strong>
+                    <span class="badge" id="chat-header-badge" style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; font-size: 0.65rem; font-weight: 800; padding: 1px 6px; border-radius: 4px;">Tier-1 Institutional Buyer</span>
+                  </div>
+                  <div style="font-size: 0.74rem; color: #166534; font-weight: 700; margin-top: 2px;" id="chat-header-status">
+                    ● Online • Mumbai & Pune Direct Fulfilment • Karthik Ramachandran
+                  </div>
+                </div>
+              </div>
+              <div id="chat-header-actions" style="display: flex; gap: 8px; align-items: center;">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Active Negotiation Notification Banner -->
+            <div class="chat-offer-banner" id="chat-offer-banner">
+              <!-- Dynamically populated via selectChatContact() -->
+            </div>
+
+            <!-- Messages Scroll Stream -->
+            <div class="chat-messages" id="chat-messages-container">
+              <!-- Dynamically rendered via selectChatContact() -->
+            </div>
+
+            <!-- Quick Suggestion Reply Chips Bar -->
+            <div class="chat-quick-chips-bar">
+              <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; margin-right: 4px; white-space: nowrap;">⚡ Quick Replies:</span>
+              <button class="chat-quick-chip" onclick="insertQuickChatMsg('Electronic weighbridge slip and moisture report are ready at farm gate.')">📋 Weighbridge & Moisture Slip</button>
+              <button class="chat-quick-chip" onclick="insertQuickChatMsg('Refrigerated 5-ton container truck can be loaded tomorrow morning 8:00 AM.')">🚛 Dispatch Tomorrow Morning</button>
+              <button class="chat-quick-chip" onclick="insertQuickChatMsg('Can you offer ₹ 1.00/kg premium for 100% Grade A+ sorted crates?')">⚡ Counter Rate Request</button>
+              <button class="chat-quick-chip" onclick="insertQuickChatMsg('35% Escrow advance verified in AgriNex Vault. Generating gate dispatch pass.')">🔒 Confirm Escrow & Gate Pass</button>
+              <button class="chat-quick-chip" onclick="insertQuickChatMsg('Please share driver mobile number and truck registration details.')">📞 Transport & Driver Details</button>
+            </div>
+
+            <!-- Message Input Bar -->
+            <div class="chat-input-bar">
+              <button class="chat-icon-btn" onclick="attachFileModal()" title="Attach Electronic Weigh Slip or Quality Assay Photo">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+              </button>
+              <button class="chat-icon-btn" id="btn-chat-mic" onclick="toggleVoiceInput()" title="Voice Dictation (Speak in Marathi / Hindi / English)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+              </button>
+              <input type="text" id="chat-input-field" class="chat-input-field-pill" placeholder="Type message or rate counter to buyer (Press Enter to send)..." onkeypress="if(event.key === 'Enter') sendChatMessage()" />
+              <button class="chat-send-btn-circle" onclick="sendChatMessage()" title="Send Message">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ACCEPT OFFER & LOCK ESCROW MODAL -->
+  <div class="modal-overlay" id="acceptOfferModal">
+    <div class="modal-box">
+      <div style="padding: 16px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-weight: 800; font-size: 1.05rem; color: #0f172a;">Accept Buyer Offer & Lock Escrow</div>
+        <button onclick="closeChatModal('acceptOfferModal')" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #64748b;">&times;</button>
+      </div>
+      <div style="padding: 18px 20px;">
+        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 0.8rem; color: #065f46; line-height: 1.45;">
+          ✓ <strong>35% Advance Payment</strong> is verified in AgriNex Escrow Vault and will be automatically credited to your linked SBI account upon truck gate check-in at your farm.
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.82rem; margin-bottom: 14px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <div><span style="color: #64748b;">Produce:</span> <strong id="m-accept-crop" style="color: #0f172a; display: block;">Tomato (Hybrid Red)</strong></div>
+          <div><span style="color: #64748b;">Buyer:</span> <strong id="m-accept-buyer" style="color: #0f172a; display: block;">Reliance Fresh</strong></div>
+          <div><span style="color: #64748b;">Quantity:</span> <strong id="m-accept-qty" style="color: #0f172a; display: block;">45 Qt (4,500 kg)</strong></div>
+          <div><span style="color: #64748b;">Accepted Rate:</span> <strong id="m-accept-rate" style="color: #0c5a36; display: block;">₹ 24.50 /kg</strong></div>
+          <div style="grid-column: span 2; border-top: 1px dashed #cbd5e1; padding-top: 6px; margin-top: 2px;">
+            <span style="color: #64748b;">Total Trade Value:</span> <strong id="m-accept-total" style="color: #0f172a; font-size: 1.05rem;">₹ 1,10,250</strong>
+          </div>
+        </div>
+        <div style="background: #ffffff; border: 1.5px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 0.82rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="font-weight: 700; color: #166534;">35% Advance (At Farm Gate Pickup):</span>
+            <strong style="color: #059669; font-size: 0.95rem;" id="m-accept-adv">₹ 38,587</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: #64748b;">65% Balance (On Mandi/Hub Delivery):</span>
+            <strong style="color: #0284c7;" id="m-accept-bal">₹ 71,663</strong>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+          <button class="btn-outline-sm" onclick="closeChatModal('acceptOfferModal')">Cancel</button>
+          <button class="btn-green" onclick="confirmAcceptOffer()">✓ Confirm & Generate Gate Pass</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COUNTER OFFER MODAL -->
+  <div class="modal-overlay" id="counterOfferModal">
+    <div class="modal-box">
+      <div style="padding: 16px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-weight: 800; font-size: 1.05rem; color: #0f172a;">Send Price Counter Offer</div>
+        <button onclick="closeChatModal('counterOfferModal')" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #64748b;">&times;</button>
+      </div>
+      <div style="padding: 18px 20px;">
+        <div style="margin-bottom: 12px; font-size: 0.82rem; background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <div><span style="color: #64748b;">Crop & Buyer:</span> <strong id="m-counter-crop" style="color: #0f172a;">Tomato</strong> • <strong id="m-counter-buyer" style="color: #0f172a;">Reliance Fresh</strong></div>
+          <div style="margin-top: 3px;"><span style="color: #64748b;">Buyer Current Offer:</span> <strong id="m-counter-orig" style="color: #475569;">₹ 24.50 /kg (₹ 2,450 /Qt)</strong></div>
+        </div>
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 5px;">
+            Enter Your Counter Rate (₹ / kg):
+          </label>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="number" step="0.5" id="m-counter-input-kg" style="flex: 1; padding: 8px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-weight: 800; font-size: 1.1rem; color: #0c5a36;" oninput="syncCounterEquivalent(this.value)" />
+            <div style="padding: 8px 14px; background: #e8f5ed; border: 1px solid #bbf7d0; border-radius: 8px; font-weight: 800; font-size: 0.95rem; color: #047857;" id="m-counter-equiv-qt">
+              ₹ 2,550 /Qt
+            </div>
+          </div>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 4px;">
+            Optional Message for Buyer:
+          </label>
+          <input type="text" id="m-counter-note" placeholder="e.g. 100% Grade A sorted in crates, ready for 8:00 AM loading" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; box-sizing: border-box;" />
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+          <button class="btn-outline-sm" onclick="closeChatModal('counterOfferModal')">Cancel</button>
+          <button class="btn-green" onclick="submitCounterOffer()">⚡ Send Counter Proposal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/messages.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/copilot.js"></script>
+</body>
+</html>
