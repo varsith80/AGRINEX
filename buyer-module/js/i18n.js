@@ -795,8 +795,8 @@
       units_kg: 'kg',
       units_qt: 'Qt',
       
-      // AI Floating Copilot
-      ai_sourcing_copilot: 'AI Sourcing Copilot',
+      // AI Floating AGRIFLEX AI Trigger
+      ai_sourcing_copilot: 'AGRIFLEX AI',
       
       // Calculator View
       calc_header_title: 'Agricultural Landed Cost, Mandi Arbitrage & Freight Intelligence Engine',
@@ -1063,8 +1063,8 @@
       units_kg: 'किग्रा',
       units_qt: 'क्विंटल',
       
-      // AI Floating Copilot
-      ai_sourcing_copilot: 'एआई खरीद सहायक',
+      // AI Floating AGRIFLEX AI Trigger
+      ai_sourcing_copilot: 'AGRIFLEX AI (एआई खरीद सहायक)',
       
       // Calculator View
       calc_header_title: 'कृषि लैंडेड लागत, मंडी मध्यस्थता एवं माल ढुलाई खुफिया इंजन',
@@ -1331,8 +1331,8 @@
       units_kg: 'किलो',
       units_qt: 'क्विंटल',
       
-      // AI Floating Copilot
-      ai_sourcing_copilot: 'एआय खरेदी सहाय्यक',
+      // AI Floating AGRIFLEX AI Trigger
+      ai_sourcing_copilot: 'AGRIFLEX AI (एआय खरेदी सहाय्यक)',
       
       // Calculator View
       calc_header_title: 'शेतीमालाचा पोहोच खर्च, बाजार फरक व वाहतूक विश्लेषण प्रणाली',
@@ -2408,7 +2408,8 @@
       [/\bMaximum 70% Loan-to-Value \(LTV\):/gi, 'कमाल ७०% तारण कर्ज मर्यादा (LTV):'],
       [/\bSelect Partner Financing Bank\b/gi, 'कर्ज देणारी भागीदार बँक निवडा'],
       [/\bRequested Loan Amount \(₹\)\b/gi, 'मागणी केलेली कर्ज रक्कम (₹)'],
-      [/\bAgriNex AI Sourcing Copilot\b/gi, 'AgriNex AI खरेदी सहाय्यक'],
+      [/\b(?:AgriNex\s+)?AI Sourcing Copilot\b/gi, 'AGRIFLEX AI (खरेदी सहाय्यक)'],
+      [/\bAGRIFLEX AI\b/gi, 'AGRIFLEX AI'],
       [/\bInstant Maharashtra Mandi Arbitrage & Direct Sourcing Hunter\b/gi, 'महाराष्ट्र बाजार समित्यांचे थेट दर फरक व खरेदी शोधक'],
       [/\bEnterprise Digital Purchase Order & Tax Invoice\b/gi, 'कॉर्पोरेट खरेदी आदेश आणि कर इनव्हॉइस'],
       [/\bDirect Farm-to-Enterprise Agricultural Trading Exchange\b/gi, 'थेट शेतकरी ते कॉर्पोरेट शेतीमाल खरेदी मंच'],
@@ -3024,7 +3025,8 @@
       [/\bMaximum 70% Loan-to-Value \(LTV\):/gi, 'अधिकतम 70% ऋण सीमा (LTV):'],
       [/\bSelect Partner Financing Bank\b/gi, 'ऋणदाता भागीदार बैंक चुनें'],
       [/\bRequested Loan Amount \(₹\)\b/gi, 'अनुरोधित ऋण राशि (₹)'],
-      [/\bAgriNex AI Sourcing Copilot\b/gi, 'AgriNex एआई खरीद सहायक'],
+      [/\b(?:AgriNex\s+)?AI Sourcing Copilot\b/gi, 'AGRIFLEX AI (एआई खरीद सहायक)'],
+      [/\bAGRIFLEX AI\b/gi, 'AGRIFLEX AI'],
       [/\bInstant Maharashtra Mandi Arbitrage & Direct Sourcing Hunter\b/gi, 'महाराष्ट्र मंडी आर्बिट्रेज एवं सीधी खरीद खोजक'],
       [/\bEnterprise Digital Purchase Order & Tax Invoice\b/gi, 'कॉर्पोरेट खरीद आदेश और टैक्स इनवॉइस'],
       [/\bDirect Farm-to-Enterprise Agricultural Trading Exchange\b/gi, 'सीधा किसान-टू-कॉर्पोरेट कृषि व्यापार एक्सचेंज'],

@@ -415,10 +415,10 @@
         </div>
 
         <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
-          <!-- Simple / Elderly Mode (सरल मोड) Toggle Button -->
-          <button type="button" id="btn-toggle-lite-mode" onclick="toggleLiteMode()" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 800; color: #92400e; background: #fef3c7; padding: 7px 16px; border-radius: 999px; border: 2px solid #f59e0b; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(180, 83, 9, 0.15); transition: all 0.2s ease;" title="Switch to Simple Audio-First Mode / सरल मोड (सुलभ पद्धत)">
-            <span style="font-size: 1.1rem;">👴</span>
-            <span id="lite-mode-toggle-text">सरल मोड (Simple Mode)</span>
+          <!-- Simple Mode / Enterprise Mode Toggle Button -->
+          <button type="button" id="btn-toggle-lite-mode" onclick="toggleLiteMode()" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 800; color: #f8fafc; background: #0f172a; padding: 7px 16px; border-radius: 999px; border: 2px solid #475569; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25); transition: all 0.2s ease;" title="Switch to Enterprise Dashboard Mode / एंटरप्राइज मोड">
+            <span style="font-size: 1.1rem;">⚡</span>
+            <span id="lite-mode-toggle-text">Enterprise Mode (एंटरप्राइज मोड)</span>
           </button>
 
           <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
@@ -476,6 +476,10 @@
             <button type="button" class="lite-nav-tab active" id="lite-tab-produce" onclick="switchLiteSection('produce')">
               <span style="font-size: 1.4rem;">🌾</span>
               <span id="lite-tab-produce-text">Buy Produce (शेतीमाल खरेदी)</span>
+            </button>
+            <button type="button" class="lite-nav-tab" id="lite-tab-insights" onclick="switchLiteSection('insights')">
+              <span style="font-size: 1.4rem;">📊</span>
+              <span id="lite-tab-insights-text">Market Insights (बाज़ार भाव व अंदाज)</span>
             </button>
             <button type="button" class="lite-nav-tab" id="lite-tab-orders" onclick="switchLiteSection('orders')">
               <span style="font-size: 1.4rem;">🚚</span>
@@ -571,6 +575,53 @@
           <!-- Big Visual Produce Grid -->
           <div id="lite-produce-grid" class="lite-produce-grid">
             <!-- Rendered dynamically by lite_mode.js -->
+          </div>
+        </div>
+
+        <!-- SECTION 1.5: SIMPLE MARKET INSIGHTS & MANDI ARBITRAGE -->
+        <div id="lite-section-insights" style="display: none;">
+          <!-- Top Hero Card with Voice Advisory -->
+          <div style="background: linear-gradient(135deg, #063c22 0%, #0c5a36 100%); border-radius: 20px; padding: 22px 24px; color: #ffffff; margin-bottom: 22px; box-shadow: 0 4px 16px rgba(6,60,34,0.18);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+              <div>
+                <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(74, 222, 128, 0.18); border: 1px solid #4ade80; color: #86efac; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 800; margin-bottom: 8px;">
+                  <span>⚡ AI Mandi Intelligence</span>
+                  <span>•</span>
+                  <span id="lite-insights-badge">Live Maharashtra Mandis</span>
+                </div>
+                <h2 style="font-size: 1.55rem; font-weight: 800; margin: 0 0 6px 0; letter-spacing: -0.01em;" id="lite-insights-title">📊 Simple Market Insights & Buy Signals</h2>
+                <p style="font-size: 0.92rem; color: #d1fae5; margin: 0; max-width: 680px;" id="lite-insights-desc">Compare current Mandi rates with direct farm prices, view 7-day price trends, and listen to voice buy/wait signals.</p>
+              </div>
+              <button type="button" class="lite-audio-btn" style="position: static; background: #ffffff; color: #064e3b; border: 2px solid #86efac; font-weight: 800; padding: 10px 18px; font-size: 0.92rem; border-radius: 999px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onclick="speakMarketInsightsSummary()">
+                🔊 <span id="lite-insights-audio-btn">Listen Market Advisory</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Summary Stat Cards -->
+          <div id="lite-insights-stats-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 22px;">
+            <!-- Populated dynamically by lite_mode.js -->
+          </div>
+
+          <!-- Mandi Rates & 7-Day Forecast Grid -->
+          <div style="background: #ffffff; border-radius: 20px; border: 1.5px solid #e2e8f0; padding: 22px 24px; margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;" id="lite-insights-table-title">📈 Today's Mandi vs Farm-Gate Comparison</h3>
+                <span style="font-size: 0.85rem; color: #64748b;" id="lite-insights-table-subtitle">Tap any crop to view direct lots or listen to price forecast</span>
+              </div>
+              <!-- Simple Filter -->
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="lite-insights-filters">
+                <button type="button" class="lite-insights-filter-btn active" onclick="filterLiteInsights('all', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #0c5a36; background: #0c5a36; color: #ffffff; font-weight: 800; font-size: 0.82rem; cursor: pointer;">All (सर्व)</button>
+                <button type="button" class="lite-insights-filter-btn" onclick="filterLiteInsights('buy', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; background: #f0fdf4; color: #166534; font-weight: 800; font-size: 0.82rem; cursor: pointer;">🟢 Buy Today (आज खरेदी)</button>
+                <button type="button" class="lite-insights-filter-btn" onclick="filterLiteInsights('wait', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #fed7aa; background: #fff7ed; color: #9a3412; font-weight: 800; font-size: 0.82rem; cursor: pointer;">⏳ Wait / Hold (थांबा)</button>
+              </div>
+            </div>
+
+            <!-- Insights Cards Grid -->
+            <div id="lite-insights-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px;">
+              <!-- Populated dynamically by lite_mode.js -->
+            </div>
           </div>
         </div>
 
@@ -4056,7 +4107,7 @@
           </div>
           <div>
             <div style="display: flex; align-items: center; gap: 6px;">
-              <h3 style="font-size: 1rem; font-weight: 800; color: #0c5a36; margin: 0;">AI Sourcing Copilot</h3>
+              <h3 style="font-size: 1rem; font-weight: 800; color: #0c5a36; margin: 0;">AGRIFLEX AI</h3>
               <span class="badge" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.62rem; font-weight: 800; padding: 1px 5px;">v2.0</span>
             </div>
             <span style="font-size: 0.68rem; color: #64748b;">Mandi Arbitrage & Voice Procurement</span>
@@ -4931,10 +4982,10 @@
     </div>
   </div>
 
-  <!-- Floating AI Sourcing Copilot Trigger Button -->
+  <!-- Floating AGRIFLEX AI Trigger Button -->
   <button id="btn-floating-copilot" class="btn-floating-copilot" onclick="openCopilotModal()">
     <span>🤖</span>
-    <span>AI Sourcing Copilot</span>
+    <span>AGRIFLEX AI</span>
   </button>
 
   <!-- Scripts -->

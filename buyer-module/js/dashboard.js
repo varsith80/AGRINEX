@@ -300,7 +300,12 @@ function loadPersistedBuyerState() {
     if (savedConsignments) {
       const parsed = JSON.parse(savedConsignments);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        buyerData.consignments = parsed;
+        const activeCountInCache = parsed.filter(c => c.status === 'transit' || c.status === 'scheduled').length;
+        if (activeCountInCache === 8) {
+          buyerData.consignments = parsed;
+        } else {
+          localStorage.removeItem('agrinex_buyer_consignments');
+        }
       }
     }
   } catch(e) {}

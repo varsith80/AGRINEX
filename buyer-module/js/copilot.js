@@ -105,7 +105,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <div style="display: flex; align-items: center; gap: 6px;">
               <span style="font-size: 1.1rem;">🧠</span>
-              <strong style="color: #064e3b; font-size: 0.88rem;">AgriNex AI Assistant</strong>
+              <strong style="color: #064e3b; font-size: 0.88rem;">AGRIFLEX AI</strong>
             </div>
             <button class="btn btn-outline btn-sm" onclick="playCopilotTTS('${encodeURIComponent(langInfo.welcome)}', '${copilotLang}', 'welcome-msg-block')" style="font-size: 0.68rem; padding: 2px 7px; color: #0c5a36; border-color: #86efac; background: #ffffff;">
               🔊 Listen

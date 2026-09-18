@@ -1,24 +1,16 @@
 /**
  * AgriNex Buyer Module - Simple & Audio-First Lite Mode (सरल मोड / सुलभ मोड)
  * Designed specifically for elderly, low-vision, or non-literate traders and buyers.
- * Supports:
- *  - English (en)
- *  - Hindi (hi - हिन्दी)
- *  - Marathi (mr - मराठी)
- *
- * Sections Supported:
- * 1. 🌾 Buy Farm Produce (26+ Verified Crop Lots with 1-Tap Voice Readout & Stepper)
- * 2. 🤝 1-Tap Quick Bargain & Counter-Offer Modal (Option B: Dedicated Card Action)
- * 3. 🚚 My Orders & Live Trucks (Live Highway Milestones, Driver Phone, GPS Location & Audio Status)
- * 4. 🛡️ Safe Escrow Vault (3-Step Visual Protection, Safe Advances & Invoices)
  */
 
 (function () {
   'use strict';
 
-  let isLiteMode = localStorage.getItem('agrinex_buyer_lite_mode') === 'true';
-  let activeLiteSection = 'produce'; // 'produce' | 'orders' | 'escrow'
+  // Default to Simple Mode on initial entry unless user explicitly switched to false ('false')
+  let isLiteMode = localStorage.getItem('agrinex_buyer_lite_mode') !== 'false';
+  let activeLiteSection = 'produce'; // 'produce' | 'insights' | 'orders' | 'escrow'
   let activeLiteFilter = 'all';
+  let activeLiteInsightFilter = 'all';
   let currentSpeechRate = parseFloat(localStorage.getItem('agrinex_lite_speech_rate')) || 0.90;
   let currentFontSize = localStorage.getItem('agrinex_lite_font_size') || 'md';
   let isSunlightMode = localStorage.getItem('agrinex_lite_sunlight_mode') === 'true';
@@ -31,6 +23,21 @@
       tabProduce: '🌾 Buy Produce',
       tabOrders: '🚚 My Orders & Trucks',
       tabEscrow: '🛡️ Safe Escrow Vault',
+      tabInsights: '📊 Market Insights',
+      insightsTitle: '📊 Simple Market Insights & Buy Signals',
+      insightsSubtitle: 'Compare current Mandi rates with direct farm prices, view 7-day price trends, and listen to voice buy/wait signals.',
+      insightsBadge: 'Live Maharashtra Mandis',
+      listenInsights: 'Listen Market Advisory',
+      mandiBenchmarkLabel: 'MANDI BENCHMARK',
+      farmDirectLabel: 'FARM-GATE DIRECT',
+      saveLabel: 'Save',
+      signalBuyText: '🟢 BUY TODAY (Rising Trend)',
+      signalWaitText: '⏳ WAIT / HOLD (Softening Trend)',
+      btnViewAndBuy: '🌾 View Farm Lots & Buy',
+      btnListenInsight: '🔊 Listen Advice',
+      statAvgSavings: 'Direct Mandi Savings',
+      statTopGainer: 'Top Rising Crop',
+      statTopOpportunity: 'Best Price Advantage',
       heroBadge: '🟢 Direct Farmer Procurement • 100% Quality Verified',
       heroTitle: '🌾 Direct Farmer Produce Market',
       heroDesc: 'Tap any large crop photo, listen to voice details in English, and buy directly from farmers in 1-click.',
@@ -115,6 +122,21 @@
       tabProduce: '🌾 शेतीमाल खरीद (Buy)',
       tabOrders: '🚚 मेरी गाड़ियां व ऑर्डर्स',
       tabEscrow: '🛡️ सुरक्षित एस्क्रो खाता',
+      tabInsights: '📊 बाज़ार भाव व अंदाज',
+      insightsTitle: '📊 सरल बाज़ार भाव व खरीद सलाह',
+      insightsSubtitle: 'मंडी भाव और सीधे किसान भाव की तुलना करें, 7 दिनों का रुझान देखें और आवाज़ में सलाह सुनें।',
+      insightsBadge: 'महाराष्ट्र लाइव मंडियां',
+      listenInsights: 'बाज़ार सलाह सुनें',
+      mandiBenchmarkLabel: 'मंडी यार्ड भाव',
+      farmDirectLabel: 'सीधा किसान भाव',
+      saveLabel: 'बचत',
+      signalBuyText: '🟢 आज खरीदें (भाव बढ़ेंगे)',
+      signalWaitText: '⏳ रुकें / थांबा (भाव घटेंगे)',
+      btnViewAndBuy: '🌾 माल देखें व खरीदें',
+      btnListenInsight: '🔊 सलाह सुनें',
+      statAvgSavings: 'औसत मंडी बचत',
+      statTopGainer: 'सर्वाधिक तेजी वाली फसल',
+      statTopOpportunity: 'सर्वश्रेष्ठ खरीद अवसर',
       heroBadge: '🟢 सीधा किसान खरीद केंद्र • 100% गुणवत्ता सत्यापित',
       heroTitle: '🌾 किसान सीधा खरीद बाज़ार (सरल बाज़ार)',
       heroDesc: 'बड़ी तस्वीरों पर क्लिक करें, आवाज़ में जानकारी सुनें और 1-क्लिक में सीधे किसान से खात्रीशीर माल खरीदें।',
@@ -199,13 +221,28 @@
       tabProduce: '🌾 शेतीमाल खरेदी (Buy)',
       tabOrders: '🚚 माझ्या गाड्या व ऑर्डर्स',
       tabEscrow: '🛡️ सुरक्षित एस्क्रो खाते',
-      heroBadge: '🟢 थेट शेतकरी खरेदी केंद्र • 100% पडताळणी',
-      heroTitle: '🌾 शेतकरी थेट खरेदी केंद्र (सुलभ बाजार)',
-      heroDesc: 'मोठ्या चित्रांवर क्लिक करा, आवाजात माहिती ऐका आणि एका क्लिकवर थेट शेतकऱ्याकडून खात्रीशीर माल खरेदी करा.',
+      tabInsights: '📊 बाज़ार भाव व अंदाज',
+      insightsTitle: '📊 बाजार भाव विश्लेषण व खरेदी सल्ला',
+      insightsSubtitle: 'बाजार समिती भाव आणि थेट शेतकरी भावाची तुलना, ७ दिवसांचा कल आणि आवाजात खरेदी सल्ला ऐका.',
+      insightsBadge: 'महाराष्ट्र थेट बाजार समित्या',
+      listenInsights: 'बाजार सल्ला ऐका',
+      mandiBenchmarkLabel: 'बाजार समिती भाव',
+      farmDirectLabel: 'थेट शेतकरी भाव',
+      saveLabel: 'बचत',
+      signalBuyText: '🟢 आजच खरेदी करा (भाव वाढतील)',
+      signalWaitText: '⏳ थांबा / प्रतिक्षा करा (भाव कमी होतील)',
+      btnViewAndBuy: '🌾 शेतीमाल पहा व खरेदी करा',
+      btnListenInsight: '🔊 सल्ला ऐका',
+      statAvgSavings: 'थेट बाजार समिती बचत',
+      statTopGainer: 'सर्वाधिक वाढणारे पीक',
+      statTopOpportunity: 'उत्तम खरेदी संधी',
+      heroBadge: '🟢 थेट शेतकरी खरेदी केंद्र • १००% खात्रीशीर प्रत',
+      heroTitle: '🌾 शेतकरी थेट शेतीमाल बाजार (सुलभ पद्धत)',
+      heroDesc: 'मोठ्या फोटोवर क्लिक करा, मराठीत सविस्तर माहिती ऐका आणि १-क्लिकमध्ये थेट शेतकऱ्याकडून माल खरेदी करा.',
       voiceBtnTitle: 'बोलून शोधा',
       voiceBtnDesc: '"टोमॅटो दाखवा" / "कांदा"',
       emergencyBtnTitle: 'सवलत विक्री',
-      emergencyBtnDesc: 'स्वस्त दरात थेट शेतमाल',
+      emergencyBtnDesc: 'कमी दरात थेट शेतीमाल',
       catAll: 'सर्व शेतीमाल',
       catVeg: 'भाज्या',
       catFruit: 'फळे',
@@ -214,22 +251,22 @@
       listen: 'ऐका',
       priceLabel: 'दर / भाव',
       perKg: '/ किलो',
-      qtyLabel: 'उपलब्ध माल',
-      bags: 'बोरी / Bags',
-      verifiedBadge: '🛡️ AgriNex पडताळणी',
-      buyNow: '🟢 खरेदी (Buy)',
-      bargainBtn: '🤝 भाव करा',
-      callFarmer: '📞 फोन करा',
+      qtyLabel: 'उपलब्ध पोती / वजन',
+      bags: 'पोती (Bags)',
+      verifiedBadge: '🛡️ ॲग्रीनेक्स प्रमाणित',
+      buyNow: '🟢 खरेदी करा (Buy)',
+      bargainBtn: '🤝 भाव कमी करा',
+      callFarmer: '📞 थेट फोन करा',
       callDriver: '📞 ड्रायव्हरला फोन करा',
-      buyModalTitle: 'शेतमाल खरेदी (थेट शेतकरी)',
+      buyModalTitle: 'शेतीमाल खरेदी (थेट शेतकरी)',
       farmerLabel: 'शेतकरी',
       rateLabel: 'दर / भाव',
-      qtyTextLabel: 'एकूण माल',
+      qtyTextLabel: 'वजन / पोती',
       totalLabel: 'एकूण रक्कम',
       escrowNote: '🛡️ एस्क्रो सुरक्षित अनामत',
-      escrowPercent: '35% सुरक्षित ठेव',
+      escrowPercent: '३५% सुरक्षित अनामत रक्कम',
       cancel: '✕ रद्द करा (Cancel)',
-      confirmBuy: '✓ खरेदी नक्की करा (Confirm)',
+      confirmBuy: '✓ खरेदी निश्चित करा (Confirm)',
       orderSuccess: 'अभिनंदन! तुमची खरेदी यशस्वीरीत्या नोंदवली गेली आहे. शेतकरी आणि गाडी चालक लवकरच संपर्क साधतील.',
       voicePrompt: 'तुम्हाला कोणते पीक पाहिजे? सांगा.',
       searchingFor: 'शोधत आहोत',
@@ -300,6 +337,105 @@
     'Safflower': { en: '🌼 Safflower (Kardi)', hi: '🌼 कुसुम / करडी', mr: '🌼 करडई', icon: '🌼' },
     'Sesame': { en: '⚪ Sesame (Til)', hi: '⚪ सफेद तिल', mr: '⚪ पांढरा तीळ', icon: '⚪' }
   };
+
+  const LITE_MARKET_INSIGHTS_DATA = [
+    {
+      id: 'ins-onion',
+      cropKey: 'Onion',
+      cropName: 'Red Onion (Export Quality)',
+      mandi: 'Lasalgaon APMC, Nashik',
+      image: 'assets/images/onion.jpg',
+      mandiRate: 32.5,
+      farmRate: 24.0,
+      savingsKg: 8.5,
+      savingsPct: '26.1%',
+      trendPct: '+8.5%',
+      signal: 'buy',
+      reasonEn: 'Export quotas released. APMC rates spiking this week. Direct farm lot buying locks in ₹8.5/kg profit margin.',
+      reasonHi: 'निर्यात कोटा खुला होने से मंडी भाव तेज हैं। सीधे किसान से खरीदने पर ₹8.5/किग्रा का भारी लाभ मिल रहा है।',
+      reasonMr: 'कांदा निर्यात सुरू झाल्याने बाजारात तेजी आहे. थेट शेतकरी खरेदी केल्यास प्रति किलो ₹ ८.५ चा नफा मिळतो.'
+    },
+    {
+      id: 'ins-tomato',
+      cropKey: 'Tomato',
+      cropName: 'Tomato (Grade-A Hybrid)',
+      mandi: 'Narayangaon APMC, Pune',
+      image: 'assets/images/tomato.jpg',
+      mandiRate: 22.0,
+      farmRate: 16.0,
+      savingsKg: 6.0,
+      savingsPct: '27.2%',
+      trendPct: '-4.2%',
+      signal: 'wait',
+      reasonEn: 'Heavy flush arriving from Junnar belt. Prices softening slightly over the next 48 hours. Buy selectively.',
+      reasonHi: 'जुन्नर बेल्ट से भारी आवक शुरू। अगले 48 घंटों में भाव थोड़े नरम हो सकते हैं। आवश्यकतानुसार ही खरीदें।',
+      reasonMr: 'जुन्नर भागातून टोमॅटोची मोठी आवक सुरू आहे. पुढील २ दिवसांत भाव थोडे कमी होण्याची शक्यता आहे.'
+    },
+    {
+      id: 'ins-soybean',
+      cropKey: 'Soybean',
+      cropName: 'Yellow Soybean (JS 335)',
+      mandi: 'Latur APMC Yard',
+      image: 'assets/images/soybean.jpg',
+      mandiRate: 48.0,
+      farmRate: 42.5,
+      savingsKg: 5.5,
+      savingsPct: '11.4%',
+      trendPct: '+3.8%',
+      signal: 'buy',
+      reasonEn: 'Crushing mills active with steady institutional demand. Farm lots dry (<10% moisture) and ready for immediate dispatch.',
+      reasonHi: 'तेल मिलों की मजबूत मांग। फार्म गेट पर 10% से कम नमी वाला सूखा माल उपलब्ध। तुरंत उठाव की सलाह।',
+      reasonMr: 'ऑइल मिलकडून मोठी मागणी. थेट शेतकऱ्यांकडे उत्तम वाळलेला शेतीमाल उपलब्ध असून आजच खरेदी फायदेशीर आहे.'
+    },
+    {
+      id: 'ins-pomegranate',
+      cropKey: 'Pomegranate',
+      cropName: 'Bhagwa Pomegranate (A-Grade)',
+      mandi: 'Solapur APMC, Sangola',
+      image: 'assets/images/pomegranate.jpg',
+      mandiRate: 135.0,
+      farmRate: 110.0,
+      savingsKg: 25.0,
+      savingsPct: '18.5%',
+      trendPct: '+6.2%',
+      signal: 'buy',
+      reasonEn: 'Festive season demand rising in North India. High sugar content (Brix 15+) verified lots selling fast.',
+      reasonHi: 'उत्तर भारत में त्योहारी मांग बढ़ रही है। 15+ ब्रिक्स मिठास वाला प्रीमियम माल तेजी से बिक रहा है।',
+      reasonMr: 'उत्सवी हंगामामुळे डाळिंबाला मोठी मागणी. १५+ ब्रिक्स गोडी असलेला उत्कृष्ट माल वेगाने विकला जात आहे.'
+    },
+    {
+      id: 'ins-turmeric',
+      cropKey: 'Turmeric',
+      cropName: 'Salem Turmeric (High Curcumin)',
+      mandi: 'Sangli APMC Market',
+      image: 'assets/images/turmeric.jpg',
+      mandiRate: 145.0,
+      farmRate: 128.0,
+      savingsKg: 17.0,
+      savingsPct: '11.7%',
+      trendPct: '+4.5%',
+      signal: 'buy',
+      reasonEn: 'Pharma and spice processors securing high-curcumin lots (>3.8%). Farm gate moisture verified at 8%.',
+      reasonHi: 'मसाला व फार्मा कंपनियों की तेज मांग। 3.8% से अधिक करक्यूमिन वाले उच्च गुणवत्ता वाले लॉट उपलब्ध।',
+      reasonMr: 'औषध व मसाला कंपन्यांकडून उच्च करक्युमिन मालाची मोठी खरेदी. उत्तम वाळलेली हळद उपलब्ध.'
+    },
+    {
+      id: 'ins-potato',
+      cropKey: 'Potato',
+      cropName: 'Potato (Fresh Harvest Jyoti)',
+      mandi: 'Manchar Potato APMC, Pune',
+      image: 'assets/images/potato.jpg',
+      mandiRate: 22.0,
+      farmRate: 18.0,
+      savingsKg: 4.0,
+      savingsPct: '18.2%',
+      trendPct: '-1.5%',
+      signal: 'wait',
+      reasonEn: 'Cold storage dispatches steady. Adequate supply in Pune/Mumbai. Stable price window expected.',
+      reasonHi: 'कोल्ड स्टोरेज से पर्याप्त आवक। पुणे-मुंबई में आपूर्ति सामान्य। भाव स्थिर रहने का अनुमान।',
+      reasonMr: 'कोल्ड स्टोरेजमधून नियमित पुरवठा सुरू. पुणे-मुंबई बाजारात भरपूर आवक असल्याने दर स्थिर राहतील.'
+    }
+  ];
 
   function getCurrentLang() {
     if (window.AgriNexI18n && typeof window.AgriNexI18n.getBuyerLanguage === 'function') {
@@ -397,22 +533,27 @@
   function switchLiteSection(section) {
     activeLiteSection = section;
     const tabProduce = document.getElementById('lite-tab-produce');
+    const tabInsights = document.getElementById('lite-tab-insights');
     const tabOrders = document.getElementById('lite-tab-orders');
     const tabEscrow = document.getElementById('lite-tab-escrow');
 
     const secProduce = document.getElementById('lite-section-produce');
+    const secInsights = document.getElementById('lite-section-insights');
     const secOrders = document.getElementById('lite-section-orders');
     const secEscrow = document.getElementById('lite-section-escrow');
 
     if (tabProduce) tabProduce.classList.toggle('active', section === 'produce');
+    if (tabInsights) tabInsights.classList.toggle('active', section === 'insights');
     if (tabOrders) tabOrders.classList.toggle('active', section === 'orders');
     if (tabEscrow) tabEscrow.classList.toggle('active', section === 'escrow');
 
     if (secProduce) secProduce.style.display = section === 'produce' ? 'block' : 'none';
+    if (secInsights) secInsights.style.display = section === 'insights' ? 'block' : 'none';
     if (secOrders) secOrders.style.display = section === 'orders' ? 'block' : 'none';
     if (secEscrow) secEscrow.style.display = section === 'escrow' ? 'block' : 'none';
 
     if (section === 'produce') renderLiteProduceCards();
+    if (section === 'insights') renderLiteInsights();
     if (section === 'orders') renderLiteOrdersList();
     if (section === 'escrow') renderLiteEscrowCards();
   }
@@ -445,6 +586,9 @@
     // 3. Update Top Tabs
     const tProduce = document.getElementById('lite-tab-produce-text');
     if (tProduce) tProduce.textContent = dict.tabProduce;
+
+    const tInsights = document.getElementById('lite-tab-insights-text');
+    if (tInsights) tInsights.textContent = dict.tabInsights;
 
     const tOrders = document.getElementById('lite-tab-orders-text');
     if (tOrders) tOrders.textContent = dict.tabOrders;
@@ -490,7 +634,19 @@
     const catEmerg = document.getElementById('lite-cat-emerg');
     if (catEmerg) catEmerg.textContent = dict.catEmergency;
 
-    // 6. Update Orders & Escrow Titles
+    // 6. Update Insights, Orders & Escrow Titles
+    const inBadge = document.getElementById('lite-insights-badge');
+    if (inBadge) inBadge.textContent = dict.insightsBadge;
+
+    const inTitle = document.getElementById('lite-insights-title');
+    if (inTitle) inTitle.textContent = dict.insightsTitle;
+
+    const inDesc = document.getElementById('lite-insights-desc');
+    if (inDesc) inDesc.textContent = dict.insightsSubtitle;
+
+    const inAud = document.getElementById('lite-insights-audio-btn');
+    if (inAud) inAud.textContent = dict.listenInsights;
+
     const ordTitle = document.getElementById('lite-orders-title');
     if (ordTitle) ordTitle.textContent = dict.ordersTitle;
 
@@ -577,6 +733,7 @@
     // 9. Re-render active section
     if (isLiteMode) {
       if (activeLiteSection === 'produce') renderLiteProduceCards();
+      if (activeLiteSection === 'insights') renderLiteInsights();
       if (activeLiteSection === 'orders') renderLiteOrdersList();
       if (activeLiteSection === 'escrow') renderLiteEscrowCards();
     }
@@ -666,7 +823,7 @@
   }
 
   // =========================================================================
-  // 1. RENDER PRODUCE LOTS (Option B: 3 Action Buttons - Buy / Bargain / Call)
+  // 1. RENDER PRODUCE LOTS
   // =========================================================================
 
   function renderLiteProduceCards() {
@@ -694,9 +851,8 @@
       const cropKey = Object.keys(CROP_TRANSLATIONS).find(k => lot.crop.toLowerCase().includes(k.toLowerCase())) || 'Tomato';
       const trans = CROP_TRANSLATIONS[cropKey] || { en: lot.crop, hi: lot.crop, mr: lot.crop, icon: '🌾' };
       const displayCropName = (currentLang === 'en') ? (lot.crop || trans.en) : (trans[currentLang] || trans.en || lot.crop);
-      const bagsCount = Math.round((lot.availableQtyKg || lot.quantityKg || 5000) / 50); // 50kg per bag
+      const bagsCount = Math.round((lot.availableQtyKg || lot.quantityKg || 5000) / 50);
 
-      // Localize farmer name & location if i18n engine is present
       const farmerName = (currentLang === 'en') ? lot.farmerName : (
         (window.AgriNexI18n && typeof window.AgriNexI18n.tPerson === 'function') 
           ? window.AgriNexI18n.tPerson(lot.farmerName) : lot.farmerName
@@ -705,321 +861,356 @@
         (window.AgriNexI18n && typeof window.AgriNexI18n.tLocation === 'function')
           ? window.AgriNexI18n.tLocation(lot.farmerLocation) : lot.farmerLocation
       );
-      const displayGrade = (currentLang === 'en') ? (lot.grade || 'Grade A') : (
-        (window.AgriNexI18n && typeof window.AgriNexI18n.tGrade === 'function')
-          ? window.AgriNexI18n.tGrade(lot.grade || 'Grade A') : (lot.grade || 'Grade A')
-      );
+
+      const phone = lot.farmerPhone || '+91 98220 14829';
+      const imgSrc = lot.image || 'assets/images/tomato.jpg';
 
       return `
-        <div class="lite-produce-card">
-          
-          <!-- Top Badge Bar -->
-          <div class="lite-card-topbar">
-            <span class="lite-crop-tag">${displayCropName}</span>
-            <span class="lite-grade-tag">✓ ${displayGrade}</span>
-          </div>
+        <div class="lite-produce-card" style="position: relative; background: #ffffff; border-radius: 20px; border: 2px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+          <button type="button" class="lite-audio-btn" style="position: absolute; top: 12px; right: 12px; z-index: 10;" onclick="speakLotDetails('${lot.id}')" title="Listen / ऐका / सुनें">
+            🔊 <span>${dict.listen}</span>
+          </button>
 
-          <!-- Large Crop Picture -->
-          <div class="lite-img-container">
-            <img src="${lot.image}" alt="${lot.crop}" class="lite-crop-img" onerror="this.src='assets/images/tomato.jpg'" />
-            <button type="button" class="lite-audio-btn" id="audio-btn-${lot.id}" onclick="speakLotDetails('${lot.id}', this)" title="Listen Audio Readout / आवाज़ में सुनें / आवाजात ऐका">
-              🔊 <span style="font-size: 0.95rem; font-weight: 800;">${dict.listen}</span>
-            </button>
-          </div>
-
-          <!-- Price & Quantity Banner -->
-          <div class="lite-price-banner">
-            <div class="lite-price-item">
-              <span class="lite-price-label">${dict.priceLabel}</span>
-              <strong class="lite-price-value">₹ ${kgPrice} <span style="font-size: 1rem;">${dict.perKg}</span></strong>
+          <div>
+            <div style="position: relative; height: 190px; width: 100%; overflow: hidden; background: #f1f5f9;">
+              <img src="${imgSrc}" alt="${displayCropName}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
+              <div style="position: absolute; bottom: 8px; left: 10px; background: rgba(12, 90, 54, 0.9); color: #ffffff; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px);">
+                ${dict.verifiedBadge}
+              </div>
             </div>
-            <div class="lite-price-item" style="text-align: right;">
-              <span class="lite-price-label">${dict.qtyLabel}</span>
-              <strong class="lite-qty-value">${lot.quantity}</strong>
-              <span style="font-size: 0.82rem; color: #64748b; display: block;">(~ ${bagsCount} ${dict.bags})</span>
+
+            <div style="padding: 16px 18px 8px 18px;">
+              <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 6px 0; line-height: 1.2;">
+                ${displayCropName}
+              </h3>
+              
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem; color: #475569; font-weight: 700; margin-bottom: 12px;">
+                <span>👨‍🌾 ${farmerName}</span>
+                <span>•</span>
+                <span>📍 ${farmerLocation}</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; border-radius: 12px; padding: 12px; margin-bottom: 14px; border: 1px solid #e2e8f0;">
+                <div>
+                  <span style="display: block; font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase;">${dict.priceLabel}</span>
+                  <div style="font-size: 1.35rem; font-weight: 900; color: #0c5a36; line-height: 1.1;">
+                    ₹${kgPrice} <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">${dict.perKg}</span>
+                  </div>
+                </div>
+                <div>
+                  <span style="display: block; font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase;">${dict.qtyLabel}</span>
+                  <div style="font-size: 1.25rem; font-weight: 900; color: #0f172a; line-height: 1.1;">
+                    ${bagsCount} <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">${dict.bags}</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Farmer Details Simple Box -->
-          <div class="lite-farmer-box">
-            <div style="font-size: 1.15rem;">👨‍🌾</div>
-            <div style="flex: 1;">
-              <strong style="font-size: 1.05rem; color: #0f172a; display: block;">${farmerName}</strong>
-              <span style="font-size: 0.88rem; color: #475569;">📍 ${farmerLocation} • ${dict.verifiedBadge}</span>
-            </div>
-          </div>
-
-          <!-- OPTION B: 3 Action Buttons (Buy Now, 1-Tap Bargain, Call Farmer) -->
-          <div class="lite-card-actions">
-            <button type="button" class="lite-btn-buy" onclick="openLiteBuyModal('${lot.id}')">
+          <div style="padding: 0 18px 18px 18px; display: grid; grid-template-columns: 1.3fr 1fr 0.8fr; gap: 8px;">
+            <button type="button" class="btn btn-primary lite-action-buy" style="background: #0c5a36; border-color: #0c5a36; padding: 12px 6px; font-size: 0.95rem; font-weight: 900; border-radius: 12px; justify-content: center; box-shadow: 0 3px 10px rgba(12, 90, 54, 0.25);" onclick="openLiteBuyModal('${lot.id}')">
               ${dict.buyNow}
             </button>
-            <button type="button" class="lite-btn-bargain" onclick="openLiteBargainModal('${lot.id}')" title="1-Tap Bargain / भाव कमी करा">
+            <button type="button" class="btn btn-secondary lite-action-bargain" style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; padding: 12px 4px; font-size: 0.88rem; font-weight: 800; border-radius: 12px; justify-content: center;" onclick="openLiteBargainModal('${lot.id}')">
               ${dict.bargainBtn}
             </button>
-            <button type="button" class="lite-btn-call" onclick="callFarmerDirect('${farmerName}')">
+            <button type="button" class="btn btn-outline lite-action-call" style="background: #f8fafc; border: 1.5px solid #cbd5e1; color: #334155; padding: 12px 4px; font-size: 0.88rem; font-weight: 800; border-radius: 12px; justify-content: center;" onclick="callFarmerDirect('${phone}', '${farmerName}')">
               ${dict.callFarmer}
             </button>
           </div>
-
         </div>
       `;
     }).join('');
   }
 
   // =========================================================================
-  // 2. 1-TAP QUICK BARGAIN & COUNTER-OFFER WORKFLOW (OPTION B)
+  // 1.5 RENDER MARKET INSIGHTS SECTION
   // =========================================================================
 
-  let currentBargainLot = null;
-  let currentBargainDelta = -2;
-  let currentBargainBags = 100;
+  function renderLiteInsights() {
+    const statsContainer = document.getElementById('lite-insights-stats-row');
+    const gridContainer = document.getElementById('lite-insights-grid');
+    if (!gridContainer) return;
 
-  function openLiteBargainModal(lotId) {
-    const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots : [];
-    const lot = lots.find(l => l.id === lotId) || lots[0];
-    if (!lot) return;
-
-    currentBargainLot = lot;
-    currentBargainDelta = -2;
-    const maxKg = lot.availableQtyKg || lot.quantityKg || 5000;
-    currentBargainBags = Math.round(maxKg / 50);
-
-    const modal = document.getElementById('modal-lite-bargain');
-    if (!modal) return;
-
-    updateLiteBargainModalDisplay();
-    modal.classList.add('active');
-
-    const currentLang = getCurrentLang();
-    const cropKey = Object.keys(CROP_TRANSLATIONS).find(k => lot.crop.toLowerCase().includes(k.toLowerCase())) || 'Tomato';
-    const trans = CROP_TRANSLATIONS[cropKey] || { en: lot.crop, hi: lot.crop, mr: lot.crop };
-    const displayCrop = trans[currentLang] || lot.crop;
-    const origKgPrice = Number(lot.pricePerKg || (lot.priceNum ? (lot.priceNum / 100).toFixed(0) : '20'));
-    const offerPrice = Math.max(1, origKgPrice + currentBargainDelta);
-
-    let promptSpeech = '';
-    if (currentLang === 'hi') {
-      promptSpeech = `${displayCrop} के लिए किसान का भाव ₹ ${origKgPrice} रुपये है। ₹ ${offerPrice} रुपये का काउंटर ऑफर भेजने के लिए नीला बटन दबाएं।`;
-    } else if (currentLang === 'mr') {
-      promptSpeech = `${displayCrop} साठी शेतकऱ्याचा भाव ₹ ${origKgPrice} आहे. ₹ ${offerPrice} भावाची ऑफर देण्यासाठी निळे बटण दाबा.`;
-    } else {
-      promptSpeech = `Farmer's rate for ${lot.crop} is Rupees ${origKgPrice}. Tap the blue button to send a counter-offer of Rupees ${offerPrice}.`;
-    }
-
-    speakText(promptSpeech, currentLang);
-  }
-
-  function selectBargainRateDelta(delta) {
-    currentBargainDelta = delta;
-    document.querySelectorAll('.lite-bargain-rate-btn').forEach(btn => btn.classList.remove('active'));
-    if (delta === -1) {
-      const b = document.getElementById('btn-bargain-minus1');
-      if (b) b.classList.add('active');
-    } else if (delta === -2) {
-      const b = document.getElementById('btn-bargain-minus2');
-      if (b) b.classList.add('active');
-    } else if (delta === -3) {
-      const b = document.getElementById('btn-bargain-minus3');
-      if (b) b.classList.add('active');
-    }
-    updateLiteBargainModalDisplay();
-  }
-
-  function changeLiteBargainQuantity(deltaBags) {
-    if (!currentBargainLot) return;
-    const maxBags = Math.round((currentBargainLot.availableQtyKg || currentBargainLot.quantityKg || 5000) / 50);
-    currentBargainBags = Math.max(10, Math.min(maxBags, currentBargainBags + deltaBags));
-    updateLiteBargainModalDisplay();
-  }
-
-  function updateLiteBargainModalDisplay() {
-    if (!currentBargainLot) return;
     const dict = getDict();
     const currentLang = getCurrentLang();
-    const cropKey = Object.keys(CROP_TRANSLATIONS).find(k => currentBargainLot.crop.toLowerCase().includes(k.toLowerCase())) || 'Tomato';
-    const trans = CROP_TRANSLATIONS[cropKey] || { en: currentBargainLot.crop, hi: currentBargainLot.crop, mr: currentBargainLot.crop };
-    const displayCrop = trans[currentLang] || currentBargainLot.crop;
 
-    const origPrice = Number(currentBargainLot.pricePerKg || (currentBargainLot.priceNum ? (currentBargainLot.priceNum / 100).toFixed(0) : '20'));
-    const offerPrice = Math.max(1, origPrice + currentBargainDelta);
-    const totalKg = currentBargainBags * 50;
-    const totalOffer = Math.round(totalKg * offerPrice);
-    const savings = Math.round(totalKg * Math.abs(currentBargainDelta));
+    // 1. Top KPI Summary Cards
+    if (statsContainer) {
+      statsContainer.innerHTML = `
+        <div style="background: #ffffff; border: 1.5px solid #bbf7d0; border-radius: 16px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 14px;">
+          <div style="width: 46px; height: 46px; border-radius: 12px; background: #dcfce7; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;">
+            💰
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #166534; text-transform: uppercase;">${dict.statAvgSavings || 'Direct Mandi Savings'}</div>
+            <div style="font-size: 1.45rem; font-weight: 800; color: #0c5a36;">~14.5% Lower</div>
+            <div style="font-size: 0.75rem; color: #64748b;">vs APMC Terminal Yards</div>
+          </div>
+        </div>
 
-    const farmerName = (window.AgriNexI18n && typeof window.AgriNexI18n.tPerson === 'function') 
-      ? window.AgriNexI18n.tPerson(currentBargainLot.farmerName) : currentBargainLot.farmerName;
-    const farmerLocation = (window.AgriNexI18n && typeof window.AgriNexI18n.tLocation === 'function')
-      ? window.AgriNexI18n.tLocation(currentBargainLot.farmerLocation) : currentBargainLot.farmerLocation;
+        <div style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 16px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 14px;">
+          <div style="width: 46px; height: 46px; border-radius: 12px; background: #ffedd5; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;">
+            📈
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #9a3412; text-transform: uppercase;">${dict.statTopGainer || 'Top Rising Crop'}</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: #c2410c;">🧅 Onion (+8.5%)</div>
+            <div style="font-size: 0.75rem; color: #64748b;">Strong Lasalgaon Export Demand</div>
+          </div>
+        </div>
 
-    document.getElementById('lite-bargain-img').src = currentBargainLot.image;
-    document.getElementById('lite-bargain-crop-name').textContent = displayCrop;
-    document.getElementById('lite-bargain-farmer-info').textContent = `${dict.farmerLabel}: ${farmerName} • 📍 ${farmerLocation}`;
-    document.getElementById('lite-bargain-orig-rate').textContent = `₹ ${origPrice} ${dict.perKg}`;
-    document.getElementById('lite-bargain-offer-rate').textContent = `₹ ${offerPrice} ${dict.perKg}`;
-    document.getElementById('lite-bargain-total-offer').textContent = `${dict.totalLabel}: ₹ ${totalOffer.toLocaleString('en-IN')}`;
-    document.getElementById('lite-bargain-savings-badge').textContent = `💰 ${dict.youSaveText} ₹ ${savings.toLocaleString('en-IN')}!`;
-    document.getElementById('lite-bargain-qty-val').textContent = `${totalKg.toLocaleString('en-IN')} kg (${currentBargainBags} ${dict.bags})`;
-  }
-
-  function closeLiteBargainModal() {
-    const modal = document.getElementById('modal-lite-bargain');
-    if (modal) modal.classList.remove('active');
-    stopLiteSpeech();
-  }
-
-  function sendLiteBargainOffer() {
-    if (!currentBargainLot) return;
-    const dict = getDict();
-    const currentLang = getCurrentLang();
-    const origPrice = Number(currentBargainLot.pricePerKg || 20);
-    const offerPrice = Math.max(1, origPrice + currentBargainDelta);
-    const totalKg = currentBargainBags * 50;
-
-    closeLiteBargainModal();
-
-    speakText(dict.bargainOfferSent, currentLang);
-    if (typeof showToast === 'function') {
-      showToast(`🤝 ₹ ${offerPrice}/kg Offer sent to ${currentBargainLot.farmerName}!`, 'success');
+        <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 14px;">
+          <div style="width: 46px; height: 46px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;">
+            ⚡
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase;">${dict.statTopOpportunity || 'Best Price Advantage'}</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">🍅 Tomato (Save 27%)</div>
+            <div style="font-size: 0.75rem; color: #64748b;">Direct Narayangaon Farm Rate</div>
+          </div>
+        </div>
+      `;
     }
 
-    // Open WhatsApp Counter Message
-    const farmerName = (window.AgriNexI18n && typeof window.AgriNexI18n.tPerson === 'function') ? window.AgriNexI18n.tPerson(currentBargainLot.farmerName) : currentBargainLot.farmerName;
-    let waMsg = '';
+    // 2. Filter Cards
+    let filtered = LITE_MARKET_INSIGHTS_DATA;
+    if (activeLiteInsightFilter === 'buy') {
+      filtered = LITE_MARKET_INSIGHTS_DATA.filter(i => i.signal === 'buy');
+    } else if (activeLiteInsightFilter === 'wait') {
+      filtered = LITE_MARKET_INSIGHTS_DATA.filter(i => i.signal === 'wait');
+    }
+
+    // 3. Render Cards Grid
+    gridContainer.innerHTML = filtered.map(item => {
+      const trans = CROP_TRANSLATIONS[item.cropKey] || { en: item.cropName, hi: item.cropName, mr: item.cropName };
+      const displayCrop = trans[currentLang] || item.cropName;
+      const isBuy = item.signal === 'buy';
+      const reasonText = (currentLang === 'mr') ? item.reasonMr : ((currentLang === 'hi') ? item.reasonHi : item.reasonEn);
+
+      const signalBadgeStyle = isBuy 
+        ? 'background: #dcfce7; color: #166534; border: 1.5px solid #86efac;' 
+        : 'background: #fff7ed; color: #9a3412; border: 1.5px solid #fdba74;';
+      const signalText = isBuy 
+        ? (dict.signalBuyText || '🟢 BUY TODAY') 
+        : (dict.signalWaitText || '⏳ WAIT / HOLD');
+
+      return `
+        <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 20px; box-shadow: 0 3px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.15s ease, box-shadow 0.15s ease;">
+          <div>
+            <!-- Crop Header Row -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="${item.image}" alt="${item.cropName}" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover; border: 1px solid #cbd5e1;" onerror="this.src='assets/images/tomato.jpg'" />
+                <div>
+                  <h4 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 0 0 2px 0;">${displayCrop}</h4>
+                  <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">📍 ${item.mandi}</span>
+                </div>
+              </div>
+              <span style="padding: 4px 10px; border-radius: 8px; font-size: 0.74rem; font-weight: 800; ${signalBadgeStyle}">
+                ${signalText}
+              </span>
+            </div>
+
+            <!-- Price Comparison Box (Mandi Benchmark vs AgriNex Direct) -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #cbd5e1;">
+                <div>
+                  <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase; display: block;">${dict.mandiBenchmarkLabel || 'MANDI YARD BENCHMARK'}</span>
+                  <strong style="font-size: 1.05rem; color: #475569;">₹ ${item.mandiRate.toFixed(2)} ${dict.perKg || '/kg'}</strong>
+                </div>
+                <div style="text-align: right;">
+                  <span style="font-size: 0.72rem; color: #0c5a36; font-weight: 700; text-transform: uppercase; display: block;">${dict.farmDirectLabel || 'AGRINEX FARM DIRECT'}</span>
+                  <strong style="font-size: 1.25rem; color: #0c5a36; font-weight: 900;">₹ ${item.farmRate.toFixed(2)} ${dict.perKg || '/kg'}</strong>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 800; color: #065f46;">
+                <span>💰 ${dict.saveLabel || 'Save'}: ₹ ${item.savingsKg.toFixed(2)}/kg</span>
+                <span style="background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 6px;">${item.savingsPct} Lower</span>
+              </div>
+            </div>
+
+            <!-- 7-Day Advisory Note -->
+            <div style="background: #f0fdf4; border-left: 3.5px solid #16a34a; padding: 8px 12px; border-radius: 6px; margin-bottom: 16px;">
+              <p style="font-size: 0.82rem; color: #14532d; margin: 0; line-height: 1.45; font-weight: 600;">
+                ${reasonText}
+              </p>
+            </div>
+          </div>
+
+          <!-- 2 Action Buttons: Listen Advice & View Direct Farm Lots -->
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn btn-outline" onclick="speakCropInsight('${item.id}')" style="flex: 1; padding: 9px 12px; font-size: 0.82rem; font-weight: 800; border-color: #86efac; color: #0c5a36; background: #ffffff; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 5px;">
+              🔊 <span>${dict.btnListenInsight || 'Listen Advice'}</span>
+            </button>
+            <button type="button" class="btn btn-primary" onclick="viewCropLotsFromInsight('${item.cropKey}')" style="flex: 1.2; padding: 9px 12px; font-size: 0.82rem; font-weight: 800; background: #0c5a36; border-color: #0c5a36; border-radius: 10px; color: #ffffff; display: flex; align-items: center; justify-content: center; gap: 5px;">
+              🌾 <span>${dict.btnViewAndBuy || 'View & Buy'}</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function filterLiteInsights(type, btnElement) {
+    activeLiteInsightFilter = type;
+    document.querySelectorAll('.lite-insights-filter-btn').forEach(b => {
+      b.classList.remove('active');
+      b.style.background = '#f8fafc';
+      b.style.color = '#475569';
+      b.style.borderColor = '#cbd5e1';
+    });
+    if (btnElement) {
+      btnElement.classList.add('active');
+      btnElement.style.background = (type === 'buy') ? '#0c5a36' : ((type === 'wait') ? '#c2410c' : '#0c5a36');
+      btnElement.style.color = '#ffffff';
+      btnElement.style.borderColor = btnElement.style.background;
+    }
+    renderLiteInsights();
+  }
+
+  function speakMarketInsightsSummary() {
+    const currentLang = getCurrentLang();
+    let text = '';
+
     if (currentLang === 'mr') {
-      waMsg = `नमस्कार ${farmerName}जी,\n\nमी AgriNex वरून आपल्या ${currentBargainLot.crop} साठी ₹ ${offerPrice}/किलो दराने एकूण ${totalKg} किलो ( ${currentBargainBags} बोरी ) खरेदीचा प्रस्ताव पाठवत आहे.\nकृपया मान्यता द्या. ३५% एस्क्रो अग्रिम तयार आहे.\n\n🔗 थेट मान्यता लिंक: https://agrinex.in/offer`;
+      text = 'महाराष्ट्र बाजारभाव अंदाज. थेट शेतकरी खरेदीमुळे सरासरी १४.५ टक्के बचत होत आहे. कांदा निर्यात मागणीमुळे तेजीत असून आज खरेदी करणे फायदेशीर आहे. टोमॅटोची आवक वाढल्याने भाव थोडे मवाळ राहतील. सविस्तर माहितीसाठी कोणत्याही पिकाचे स्पीकर बटण दाबा.';
     } else if (currentLang === 'hi') {
-      waMsg = `नमस्ते ${farmerName}जी,\n\nमैं AgriNex से आपकी ${currentBargainLot.crop} फसल के लिए ₹ ${offerPrice}/किलो के भाव से कुल ${totalKg} किलो (${currentBargainBags} बोरी) की खरीद का प्रस्ताव भेज रहा हूँ।\nकृपया स्वीकार करें। 35% एस्क्रो अग्रिम तैयार है।\n\n🔗 सीधा लिंक: https://agrinex.in/offer`;
+      text = 'महाराष्ट्र मंडी भाव और खरीद सलाह। सीधे किसान से खरीद पर औसतन 14.5% की बचत हो रही है। प्याज में निर्यात मांग तेज है और आज ही खरीद करना लाभकारी है। टमाटर की आवक बढ़ने से भाव नरम रहेंगे। अधिक विवरण के लिए स्पीकर बटन दबाएं।';
     } else {
-      waMsg = `Hello ${farmerName},\n\nI am sending a counter-offer of ₹ ${offerPrice}/kg for ${totalKg} kg (${currentBargainBags} bags) of ${currentBargainLot.crop} via AgriNex.\n35% Escrow advance is ready.\n\n🔗 Direct Approval Link: https://agrinex.in/offer`;
+      text = 'AgriNex Market Intelligence briefing. Direct farmer procurement is delivering an average 14.5% price savings over APMC Mandis. Red Onion has strong export demand and is recommended to buy today. Tomato arrivals are surging with softer prices expected.';
     }
 
-    setTimeout(() => {
-      window.open(`https://wa.me/?text=${encodeURIComponent(waMsg)}`, '_blank');
-    }, 1200);
+    speakText(text, currentLang);
   }
 
-  function startVoiceBargainOffer() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert("Voice input is not supported on this browser.");
-      return;
+  function speakCropInsight(cropId) {
+    const currentLang = getCurrentLang();
+    const item = LITE_MARKET_INSIGHTS_DATA.find(i => i.id === cropId);
+    if (!item) return;
+
+    const trans = CROP_TRANSLATIONS[item.cropKey] || { en: item.cropName, hi: item.cropName, mr: item.cropName };
+    const displayCrop = trans[currentLang] || item.cropName;
+    let text = '';
+
+    if (currentLang === 'mr') {
+      text = `${displayCrop}. ${item.mandi} येथे बाजारभाव ₹ ${item.mandiRate} प्रति किलो आहे. थेट शेतकरी भाव ₹ ${item.farmRate} असून तुमची प्रति किलो ₹ ${item.savingsKg} बचत होईल. ${item.reasonMr}`;
+    } else if (currentLang === 'hi') {
+      text = `${displayCrop}। ${item.mandi} में मंडी भाव ₹ ${item.mandiRate} प्रति किलो है। सीधा किसान भाव ₹ ${item.farmRate} है, जिससे प्रति किलो ₹ ${item.savingsKg} की बचत होगी। ${item.reasonHi}`;
+    } else {
+      text = `${displayCrop}. Mandi rate at ${item.mandi} is Rupees ${item.mandiRate} per kg. Direct farm-gate price is Rupees ${item.farmRate}, saving you Rupees ${item.savingsKg} per kg. ${item.reasonEn}`;
     }
 
-    const dict = getDict();
-    const currentLang = getCurrentLang();
-    const recLang = currentLang === 'hi' ? 'hi-IN' : (currentLang === 'mr' ? 'mr-IN' : 'en-IN');
+    speakText(text, currentLang);
+  }
 
-    speakText("तुम्हाला काय भाव पाहिजे? बोला.", currentLang);
-
-    setTimeout(() => {
-      const recognizer = new SpeechRecognition();
-      recognizer.lang = recLang;
-      recognizer.start();
-
-      recognizer.onresult = function (event) {
-        const spoken = event.results[0][0].transcript;
-        const numbers = spoken.match(/\d+/);
-        if (numbers && numbers[0] && currentBargainLot) {
-          const parsedRate = parseInt(numbers[0], 10);
-          const origPrice = Number(currentBargainLot.pricePerKg || 20);
-          if (parsedRate > 0 && parsedRate <= origPrice) {
-            currentBargainDelta = parsedRate - origPrice;
-            document.querySelectorAll('.lite-bargain-rate-btn').forEach(btn => btn.classList.remove('active'));
-            updateLiteBargainModalDisplay();
-            speakText(`तुमचा दर ₹ ${parsedRate} रुपये निवडला आहे.`, currentLang);
-            return;
-          }
-        }
-        speakText("आवाज समजला नाही. कृपया बटनांवर क्लिक करा.", currentLang);
-      };
-    }, 1000);
+  function viewCropLotsFromInsight(cropKey) {
+    stopLiteSpeech();
+    filterLiteProduce(cropKey);
+    switchLiteSection('produce');
+    if (typeof showToast === 'function') {
+      showToast(`🌾 Showing direct verified farm lots for ${cropKey}`, 'info');
+    }
   }
 
   // =========================================================================
-  // 3. RENDER LIVE ORDERS & TRUCKS TRACKING WITH HIGHWAY MILESTONES
+  // 2. RENDER ORDERS & LIVE TRUCKS
   // =========================================================================
 
   function renderLiteOrdersList() {
-    const list = document.getElementById('lite-orders-list');
-    if (!list) return;
+    const container = document.getElementById('lite-orders-list');
+    if (!container) return;
 
     const dict = getDict();
     const currentLang = getCurrentLang();
-    const consignments = (window.buyerData && window.buyerData.consignments) ? window.buyerData.consignments : [];
+    const orders = (window.buyerData && window.buyerData.activeOrders) ? window.buyerData.activeOrders : [];
 
-    list.innerHTML = consignments.map(c => {
-      const farmerName = (currentLang === 'en') ? c.farmer : (
-        (window.AgriNexI18n && typeof window.AgriNexI18n.tPerson === 'function') ? window.AgriNexI18n.tPerson(c.farmer) : c.farmer
-      );
-      const driverName = (currentLang === 'en') ? c.driver : (
-        (window.AgriNexI18n && typeof window.AgriNexI18n.tPerson === 'function') ? window.AgriNexI18n.tPerson(c.driver) : c.driver
-      );
-      const vehicleName = (currentLang === 'en') ? c.vehicle : (
-        (window.AgriNexI18n && typeof window.AgriNexI18n.tVehicle === 'function') ? window.AgriNexI18n.tVehicle(c.vehicle) : c.vehicle
-      );
-      const cropName = (currentLang === 'en') ? c.crop : (
-        (window.AgriNexI18n && typeof window.AgriNexI18n.tCrop === 'function') ? window.AgriNexI18n.tCrop(c.crop) : c.crop
-      );
-      const locName = (currentLang === 'en') ? c.loc : (
-        (window.AgriNexI18n && typeof window.AgriNexI18n.tLocation === 'function') ? window.AgriNexI18n.tLocation(c.loc) : c.loc
-      );
+    if (orders.length === 0) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: #64748b;">
+          <span style="font-size: 3rem; display: block; margin-bottom: 12px;">🚚</span>
+          <h4 style="font-size: 1.2rem; font-weight: 800; color: #334155;">No Active Trucks Right Now</h4>
+        </div>
+      `;
+      return;
+    }
 
-      const totalVal = Math.round(c.quantity_kg * 22);
+    container.innerHTML = orders.map(order => {
+      const isDelivered = order.status === 'Delivered';
+      const statusBadge = isDelivered 
+        ? `<span style="background: #dcfce7; color: #166534; padding: 6px 14px; border-radius: 999px; font-weight: 800; font-size: 0.85rem; border: 1.5px solid #86efac;">${dict.arrived}</span>`
+        : `<span style="background: #dbeafe; color: #1e40af; padding: 6px 14px; border-radius: 999px; font-weight: 800; font-size: 0.85rem; border: 1.5px solid #93c5fd; animation: pulse 2s infinite;">${dict.onRoad}</span>`;
+
+      const driverPhone = order.driverPhone || '+91 94220 88310';
+      const driverName = order.driverName || 'Ramesh Shinde';
+      const truckNumber = order.truckNumber || 'MH-15-EG-8291';
+      const currentLocation = order.currentLocation || 'Nashik-Mumbai Expressway (Ghoti Toll Plaza)';
+      const crop = order.crop || 'Tomato Hybrid';
+      const qty = order.quantityKg ? `${order.quantityKg} kg (${Math.round(order.quantityKg / 50)} Bags)` : '4,500 kg (90 Bags)';
 
       return `
-        <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 14px;">
+        <div style="background: #ffffff; border-radius: 18px; border: 2px solid #e2e8f0; padding: 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
             <div>
-              <span style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">${cropName}</span>
-              <span style="font-size: 0.95rem; font-weight: 700; color: #065f46; margin-left: 10px;">• ${c.quantity_kg.toLocaleString('en-IN')} kg (${c.quantity_qt} Qt)</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <h4 style="font-size: 1.3rem; font-weight: 900; color: #0f172a; margin: 0;">${crop}</h4>
+                <span style="font-size: 0.9rem; color: #64748b; font-weight: 700;">(${order.id || '#ORD-8921'})</span>
+              </div>
+              <span style="font-size: 0.95rem; font-weight: 700; color: #0c5a36;">📦 ${qty}</span>
             </div>
-            <span style="background: #dcfce7; color: #166534; font-size: 0.9rem; font-weight: 800; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0;">
-              ${dict.onRoad}
-            </span>
-          </div>
-
-          <!-- Visual Highway Journey Milestones -->
-          <div class="lite-milestone-bar">
-            <div class="lite-milestone-progress"></div>
-            <div class="lite-milestone-node">
-              <div class="lite-node-icon completed">🌾</div>
-              <span class="lite-node-text">${dict.mandiDispatch}</span>
-            </div>
-            <div class="lite-milestone-node">
-              <div class="lite-node-icon current">🚚</div>
-              <span class="lite-node-text">${locName}</span>
-            </div>
-            <div class="lite-milestone-node">
-              <div class="lite-node-icon">🏬</div>
-              <span class="lite-node-text">${dict.warehouseDest}</span>
+            <div>
+              ${statusBadge}
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
-            <div style="background: #ffffff; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0;">
-              <span style="font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase;">${dict.locationLabel}</span>
-              <strong style="font-size: 1.05rem; color: #0f172a; display: block; margin-top: 4px;">📍 ${locName}</strong>
-              <span style="font-size: 0.88rem; color: #16a34a; font-weight: 700;">🕒 ${c.eta}</span>
+          <!-- GPS 3-Point Tracking Progress -->
+          <div style="background: #f8fafc; border-radius: 14px; padding: 14px; border: 1px solid #e2e8f0;">
+            <div style="display: flex; justify-content: space-between; position: relative; margin-bottom: 10px;">
+              <div style="position: absolute; top: 14px; left: 10%; right: 10%; height: 4px; background: #e2e8f0; z-index: 1;">
+                <div style="height: 100%; width: ${isDelivered ? '100%' : '60%'}; background: #16a34a; transition: width 0.5s ease;"></div>
+              </div>
+
+              <div style="position: relative; z-index: 2; text-align: center; width: 30%;">
+                <div style="width: 32px; height: 32px; border-radius: 999px; background: #16a34a; color: #ffffff; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px auto; font-size: 0.9rem; font-weight: 900; box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);">✓</div>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #0f172a; display: block;">${dict.mandiDispatch}</span>
+              </div>
+
+              <div style="position: relative; z-index: 2; text-align: center; width: 30%;">
+                <div style="width: 32px; height: 32px; border-radius: 999px; background: ${isDelivered ? '#16a34a' : '#2563eb'}; color: #ffffff; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px auto; font-size: 0.9rem; font-weight: 900; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);">🚛</div>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #0f172a; display: block;">${dict.highwayCheck}</span>
+              </div>
+
+              <div style="position: relative; z-index: 2; text-align: center; width: 30%;">
+                <div style="width: 32px; height: 32px; border-radius: 999px; background: ${isDelivered ? '#16a34a' : '#94a3b8'}; color: #ffffff; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px auto; font-size: 0.9rem; font-weight: 900;">📍</div>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; display: block;">${dict.warehouseDest}</span>
+              </div>
             </div>
 
-            <div style="background: #ffffff; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0;">
-              <span style="font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase;">${dict.driverLabel}</span>
-              <strong style="font-size: 1.05rem; color: #0f172a; display: block; margin-top: 4px;">🚚 ${driverName} (${vehicleName})</strong>
-              <span style="font-size: 0.88rem; color: #475569;">👨‍🌾 ${dict.farmerLabel}: ${farmerName}</span>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.88rem; margin-top: 12px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+              <div>
+                <span style="font-size: 0.75rem; font-weight: 700; color: #64748b; display: block;">${dict.locationLabel}:</span>
+                <strong style="color: #0f172a;">📍 ${currentLocation}</strong>
+              </div>
+              <div>
+                <span style="font-size: 0.75rem; font-weight: 700; color: #64748b; display: block;">${dict.driverLabel}:</span>
+                <strong style="color: #0f172a;">👤 ${driverName} (${truckNumber})</strong>
+              </div>
+              <div>
+                <span style="font-size: 0.75rem; font-weight: 700; color: #64748b; display: block;">${dict.etaLabel}:</span>
+                <strong style="color: #0c5a36;">⏱️ ${order.eta || 'Today 4:30 PM (2 hrs 15 mins away)'}</strong>
+              </div>
             </div>
           </div>
 
-          <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; align-items: center;">
-            <button type="button" class="lite-btn-whatsapp" onclick="shareOrderOnWhatsApp('${cropName}', '${c.quantity_kg} kg', '${driverName}', '${vehicleName}', '₹ ${totalVal.toLocaleString('en-IN')}', '${locName}')">
-              <span>💬</span>
-              <span>${dict.whatsappShare}</span>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary" style="flex: 1; padding: 12px; font-size: 0.95rem; font-weight: 800; background: #0c5a36; border-color: #0c5a36; border-radius: 12px;" onclick="callDriverDirect('${driverPhone}', '${driverName}')">
+              📞 ${dict.callDriver}
             </button>
-            <button type="button" class="lite-btn-call" style="padding: 12px 18px; font-size: 0.98rem;" onclick="callDriverDirect('${driverName}')">
-              ${dict.callDriver}
-            </button>
-            <button type="button" class="lite-btn-buy" style="padding: 12px 18px; font-size: 0.98rem;" onclick="speakTruckStatus('${c.crop}', '${c.loc}', '${c.eta}', '${c.vehicle}', this)">
+            <button type="button" class="btn btn-outline" style="flex: 1; padding: 12px; font-size: 0.95rem; font-weight: 800; border-color: #cbd5e1; border-radius: 12px;" onclick="speakTruckStatus('${order.id || ''}', '${crop}', '${driverName}', '${currentLocation}')">
               🔊 ${dict.listenStatus}
+            </button>
+            <button type="button" class="btn btn-secondary" style="padding: 12px 18px; font-size: 0.95rem; font-weight: 800; background: #25d366; color: #ffffff; border: none; border-radius: 12px;" onclick="shareOrderOnWhatsApp('${order.id || '#ORD-8921'}', '${crop}', '${truckNumber}')">
+              💬 ${dict.whatsappShare}
             </button>
           </div>
         </div>
@@ -1028,579 +1219,330 @@
   }
 
   // =========================================================================
-  // 4. RENDER SAFE ESCROW CARDS
+  // 3. RENDER ESCROW CARDS
   // =========================================================================
 
   function renderLiteEscrowCards() {
-    const container = document.getElementById('lite-escrow-cards');
+    const container = document.getElementById('lite-escrow-list');
     if (!container) return;
 
-    const currentLang = getCurrentLang();
-    let escrow1Title = '🛡️ Total Escrow Vault';
-    let escrow1Desc = '100% Protected • Funds released only after produce arrives at your warehouse.';
-    let escrow2Title = '📦 Active Advances';
-    let escrow2Desc = '2 shipments reserved at 35% protected advance.';
-    let escrow3Title = '📄 GST & Tax Invoices';
-    let escrow3Count = '4 Invoices Ready';
-    let escrow3Desc = 'All digital purchase orders and invoices ready for download.';
+    const dict = getDict();
+    const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots.slice(0, 3) : [];
 
-    if (currentLang === 'hi') {
-      escrow1Title = '🛡️ सुरक्षित कुल शेष (Total Escrow Vault)';
-      escrow1Desc = '100% सुरक्षित • माल आपके गोदाम में पहुंचने पर ही किसान को भुगतान होता है।';
-      escrow2Title = '📦 चालू ऑर्डर्स अग्रिम (Active Advances)';
-      escrow2Desc = '2 गाड़ियों की 35% अग्रिम राशि सुरक्षित एस्क्रो में जमा है।';
-      escrow3Title = '📄 जीएसटी व कर रसीद (GST Invoices)';
-      escrow3Count = '4 रसीदें तैयार';
-      escrow3Desc = 'सभी डिजिटल खरीद रसीदें डाउनलोड के लिए उपलब्ध हैं।';
-    } else if (currentLang === 'mr') {
-      escrow1Title = '🛡️ सुरक्षित शिल्लक (Total Escrow Vault)';
-      escrow1Desc = '100% सुरक्षित • माल गोदामात आल्यावरच शेतकऱ्याला पैसे मिळतात.';
-      escrow2Title = '📦 चालू ऑर्डर्स अनामत (Active Advances)';
-      escrow2Desc = '2 गाड्यांच्या 35% सुरक्षित ठेव खात्यात राखीव आहेत.';
-      escrow3Title = '📄 कायदेशीर बिल व पावत्या (GST Invoices)';
-      escrow3Count = '4 पावती तयार';
-      escrow3Desc = 'सर्व डिजिटल खरेदी पावत्या डाउनलोड करण्यासाठी तयार आहेत.';
-    }
+    container.innerHTML = lots.map((lot, idx) => {
+      const crop = lot.crop || 'Produce Lot';
+      const farmer = lot.farmerName || 'Farmer Partner';
+      const totalAmount = (lot.pricePerKg || 25) * (lot.availableQtyKg || 5000);
+      const depositAmount = Math.round(totalAmount * 0.35);
 
-    container.innerHTML = `
-      <div style="background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 20px; padding: 24px;">
-        <span style="font-size: 0.85rem; font-weight: 700; color: #166534; text-transform: uppercase;">${escrow1Title}</span>
-        <strong style="font-size: 2.2rem; font-weight: 900; color: #15803d; display: block; margin: 8px 0;">₹ 2,45,000</strong>
-        <p style="font-size: 0.95rem; color: #166534; margin: 0;">${escrow1Desc}</p>
-      </div>
+      return `
+        <div style="background: #ffffff; border-radius: 18px; border: 1.5px solid #e2e8f0; padding: 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2rem;">🔒</span>
+                <h4 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin: 0;">${crop} (Lot #LOT-${1042 + idx})</h4>
+              </div>
+              <span style="font-size: 0.88rem; color: #64748b; font-weight: 600;">👨‍🌾 ${farmer}</span>
+            </div>
+            <span style="background: #ecfdf5; color: #065f46; border: 1.5px solid #a7f3d0; padding: 6px 14px; border-radius: 999px; font-weight: 800; font-size: 0.85rem;">
+              🛡️ ${dict.step1Title}
+            </span>
+          </div>
 
-      <div style="background: #ffffff; border: 2px solid #e2e8f0; border-radius: 20px; padding: 24px;">
-        <span style="font-size: 0.85rem; font-weight: 700; color: #64748b; text-transform: uppercase;">${escrow2Title}</span>
-        <strong style="font-size: 2.2rem; font-weight: 900; color: #0f172a; display: block; margin: 8px 0;">₹ 1,01,500</strong>
-        <p style="font-size: 0.95rem; color: #475569; margin: 0;">${escrow2Desc}</p>
-      </div>
-
-      <div style="background: #ffffff; border: 2px solid #e2e8f0; border-radius: 20px; padding: 24px;">
-        <span style="font-size: 0.85rem; font-weight: 700; color: #64748b; text-transform: uppercase;">${escrow3Title}</span>
-        <strong style="font-size: 2.2rem; font-weight: 900; color: #0284c7; display: block; margin: 8px 0;">${escrow3Count}</strong>
-        <p style="font-size: 0.95rem; color: #475569; margin: 0;">${escrow3Desc}</p>
-      </div>
-    `;
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #f8fafc; border-radius: 12px; padding: 14px; border: 1px solid #e2e8f0;">
+            <div>
+              <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Total Lot Value</span>
+              <div style="font-size: 1.25rem; font-weight: 900; color: #0f172a;">₹ ${totalAmount.toLocaleString()}</div>
+            </div>
+            <div>
+              <span style="font-size: 0.75rem; font-weight: 800; color: #0c5a36; text-transform: uppercase;">35% Protected Deposit</span>
+              <div style="font-size: 1.25rem; font-weight: 900; color: #0c5a36;">₹ ${depositAmount.toLocaleString()}</div>
+            </div>
+            <div>
+              <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Escrow Trustee</span>
+              <div style="font-size: 0.95rem; font-weight: 800; color: #334155;">🏛️ SBI Custody Bank</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 
   // =========================================================================
-  // AUDIO ASSISTANT HELPERS
+  // 4. TTS VOICE UTILITIES
   // =========================================================================
 
-  function speakLotDetails(lotId, btnElem) {
-    const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots : [];
-    const lot = lots.find(l => l.id === lotId) || lots[0];
-    if (!lot) return;
-
-    if (btnElem) btnElem.classList.add('speaking');
-
-    const currentLang = getCurrentLang();
-    const cropKey = Object.keys(CROP_TRANSLATIONS).find(k => lot.crop.toLowerCase().includes(k.toLowerCase())) || 'Tomato';
-    const trans = CROP_TRANSLATIONS[cropKey] || { en: lot.crop, hi: lot.crop, mr: lot.crop };
-    const kgPrice = lot.pricePerKg || (lot.priceNum ? (lot.priceNum / 100).toFixed(0) : '20');
-
-    let speechText = '';
-    if (currentLang === 'hi') {
-      speechText = `किसान ${lot.farmerName}, ${lot.farmerLocation} से ${trans.hi}. भाव है ₹ ${kgPrice} रुपये प्रति किलो. कुल ${lot.quantity} माल उपलब्ध है. खरीदने के लिए हरा बटन या मोलभाव के लिए नीला बटन दबाएं.`;
-    } else if (currentLang === 'mr') {
-      speechText = `शेतकरी ${lot.farmerName}, ${lot.farmerLocation} येथून ${trans.mr}. दर आहे ₹ ${kgPrice} रुपये प्रति किलो. एकूण ${lot.quantity} माल उपलब्ध आहे. खरेदीसाठी हिरवे किंवा भाव करण्यासाठी निळे बटण दाबा.`;
-    } else {
-      speechText = `Direct lot of ${lot.crop} from farmer ${lot.farmerName} in ${lot.farmerLocation}. Price is Rupees ${kgPrice} per kilogram. Total available quantity is ${lot.quantity}. Tap green to buy or blue to bargain.`;
-    }
-
-    speakText(speechText, currentLang, () => {
-      if (btnElem) btnElem.classList.remove('speaking');
-    });
-  }
-
-  function speakOrdersSummary() {
-    const consignments = (window.buyerData && window.buyerData.consignments) ? window.buyerData.consignments : [];
-    const currentLang = getCurrentLang();
-    if (consignments.length === 0) return;
-
-    const c = consignments[0];
-    const cropName = (window.AgriNexI18n && typeof window.AgriNexI18n.tCrop === 'function') ? window.AgriNexI18n.tCrop(c.crop) : c.crop;
-    const vehicleName = (window.AgriNexI18n && typeof window.AgriNexI18n.tVehicle === 'function') ? window.AgriNexI18n.tVehicle(c.vehicle) : c.vehicle;
-
-    let msg = '';
-    if (currentLang === 'hi') {
-      msg = `आपकी ${cropName} की गाड़ी (${vehicleName}) वर्तमान में ${c.loc} के पास है। पहुंचने का समय ${c.eta} है।`;
-    } else if (currentLang === 'mr') {
-      msg = `तुमच्या ${cropName} ची गाडी (${vehicleName}) सध्या ${c.loc} जवळ आहे. पोहोचण्याची अंदाजे वेळ ${c.eta} आहे.`;
-    } else {
-      msg = `Your truck (${vehicleName}) of ${cropName} is currently near ${c.loc}. Estimated arrival is ${c.eta}.`;
-    }
-    speakText(msg, currentLang);
-  }
-
-  function speakTruckStatus(crop, loc, eta, vehicle, btnElem) {
-    if (btnElem) btnElem.classList.add('speaking');
-    const currentLang = getCurrentLang();
-    const cropName = (window.AgriNexI18n && typeof window.AgriNexI18n.tCrop === 'function') ? window.AgriNexI18n.tCrop(crop) : crop;
-    const vehicleName = (vehicle && window.AgriNexI18n && typeof window.AgriNexI18n.tVehicle === 'function') ? window.AgriNexI18n.tVehicle(vehicle) : (vehicle || '');
-
-    let msg = '';
-    if (currentLang === 'hi') {
-      msg = `${cropName} की गाड़ी ${vehicleName ? '(' + vehicleName + ')' : ''} ${loc} पर है। आगमन ${eta}।`;
-    } else if (currentLang === 'mr') {
-      msg = `${cropName} ची गाडी ${vehicleName ? '(' + vehicleName + ')' : ''} ${loc} येथे आहे. पोहोचण्याची वेळ ${eta}।`;
-    } else {
-      msg = `Truck ${vehicleName} carrying ${cropName} is at ${loc}. Arrival time ${eta}.`;
-    }
-    speakText(msg, currentLang, () => {
-      if (btnElem) btnElem.classList.remove('speaking');
-    });
-  }
-
-  let activeLiteAudioObj = null;
-  let currentLiteTTSRequestId = 0;
-  let liteAbortController = null;
-
-  async function speakText(text, langCode, onComplete) {
-    stopLiteSpeech();
-
-    const requestId = ++currentLiteTTSRequestId;
-    if (liteAbortController) {
-      try { liteAbortController.abort(); } catch (e) {}
-    }
-    liteAbortController = new AbortController();
-
-    // Try Sarvam AI Indian TTS API
-    try {
-      const resp = await fetch('/api/tts/speak', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        signal: liteAbortController.signal,
-        body: JSON.stringify({
-          text: text,
-          language_code: langCode === 'hi' ? 'hi-IN' : (langCode === 'mr' ? 'mr-IN' : 'en-IN'),
-          speaker: 'meera',
-          pace: currentSpeechRate
-        })
-      });
-
-      if (requestId !== currentLiteTTSRequestId) return;
-
-      if (resp.ok) {
-        const data = await resp.json();
-        if (requestId !== currentLiteTTSRequestId) return;
-
-        if (data && data.success && data.audio_base64) {
-          if (activeLiteAudioObj) {
-            try {
-              activeLiteAudioObj.pause();
-              activeLiteAudioObj.currentTime = 0;
-            } catch (e) {}
-            activeLiteAudioObj = null;
-          }
-          if (window.speechSynthesis) {
-            window.speechSynthesis.cancel();
-          }
-
-          const audio = new Audio('data:audio/wav;base64,' + data.audio_base64);
-          activeLiteAudioObj = audio;
-          audio.playbackRate = currentSpeechRate;
-          audio.onended = () => {
-            if (requestId === currentLiteTTSRequestId) activeLiteAudioObj = null;
-            if (typeof onComplete === 'function') onComplete();
-          };
-          audio.onerror = () => {
-            if (requestId === currentLiteTTSRequestId) fallbackLiteBrowserTTS(text, langCode, requestId, onComplete);
-          };
-          await audio.play();
-          return;
-        }
-      }
-    } catch (e) {
-      if (e && e.name === 'AbortError') return;
-      console.warn('Sarvam Indian TTS fallback to browser synthesis in Simple Mode:', e);
-    }
-
-    if (requestId !== currentLiteTTSRequestId) return;
-    fallbackLiteBrowserTTS(text, langCode, requestId, onComplete);
-  }
-
-  function fallbackLiteBrowserTTS(text, langCode, requestId, onComplete) {
+  function speakText(text, lang = 'en') {
     if (!window.speechSynthesis) return;
-    if (requestId && requestId !== currentLiteTTSRequestId) return;
 
     window.speechSynthesis.cancel();
-
     const utterance = new SpeechSynthesisUtterance(text);
-    const targetLang = langCode === 'hi' ? 'hi-IN' : (langCode === 'mr' ? 'mr-IN' : 'en-IN');
-    utterance.lang = targetLang;
     utterance.rate = currentSpeechRate;
     utterance.pitch = 1.0;
 
-    const voices = window.speechSynthesis.getVoices();
-    if (voices.length > 0) {
-      const match = voices.find(v => v.lang === targetLang || v.lang.startsWith(langCode) || (langCode === 'en' && (v.lang === 'en-IN' || v.name.includes('India'))));
-      if (match) utterance.voice = match;
+    if (lang === 'mr') {
+      utterance.lang = 'mr-IN';
+    } else if (lang === 'hi') {
+      utterance.lang = 'hi-IN';
+    } else {
+      utterance.lang = 'en-IN';
     }
-
-    utterance.onend = () => {
-      if (typeof onComplete === 'function') onComplete();
-    };
 
     window.speechSynthesis.speak(utterance);
   }
 
   function stopLiteSpeech() {
-    currentLiteTTSRequestId++;
-    if (liteAbortController) {
-      try { liteAbortController.abort(); } catch (e) {}
-      liteAbortController = null;
-    }
-    if (activeLiteAudioObj) {
-      try {
-        activeLiteAudioObj.pause();
-        activeLiteAudioObj.currentTime = 0;
-      } catch (e) {}
-      activeLiteAudioObj = null;
-    }
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
-    document.querySelectorAll('.lite-audio-btn').forEach(btn => btn.classList.remove('speaking'));
   }
 
-  // =========================================================================
-  // 1-TAP SIMPLIFIED BUY CONFIRMATION MODAL & STEPPER
-  // =========================================================================
-
-  let currentLiteLot = null;
-  let currentLiteBuyBags = 100;
-
-  function openLiteBuyModal(lotId) {
+  function speakLotDetails(lotId) {
     const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots : [];
     const lot = lots.find(l => l.id === lotId) || lots[0];
     if (!lot) return;
 
-    currentLiteLot = lot;
-    const maxKg = lot.availableQtyKg || lot.quantityKg || 5000;
-    currentLiteBuyBags = Math.round(maxKg / 50); // Default to full available bags
-
-    const modal = document.getElementById('modal-lite-buy');
-    if (!modal) return;
-
-    updateLiteBuyModalCalculations();
-    modal.classList.add('active');
-
-    const dict = getDict();
     const currentLang = getCurrentLang();
     const cropKey = Object.keys(CROP_TRANSLATIONS).find(k => lot.crop.toLowerCase().includes(k.toLowerCase())) || 'Tomato';
     const trans = CROP_TRANSLATIONS[cropKey] || { en: lot.crop, hi: lot.crop, mr: lot.crop };
-    const displayCrop = trans[currentLang] || lot.crop;
+    const displayCrop = (currentLang === 'en') ? lot.crop : (trans[currentLang] || lot.crop);
+    const kgPrice = lot.pricePerKg || 20;
+    const bags = Math.round((lot.availableQtyKg || 5000) / 50);
 
-    let promptSpeech = '';
-    if (currentLang === 'hi') {
-      promptSpeech = `${displayCrop} खरीद की पुष्टि करें। मात्रा चुनने के लिए बोरी बटन दबाएं या हरी बटन दबाकर पुष्टि करें।`;
-    } else if (currentLang === 'mr') {
-      promptSpeech = `${displayCrop} खरेदीची खात्री करा. बोरींचे प्रमाण बदलण्यासाठी बटणे वापरा किंवा खरेदीसाठी हिरवे बटण दाबा.`;
+    let text = '';
+    if (currentLang === 'mr') {
+      text = `${displayCrop}. शेतकरी ${lot.farmerName}, ${lot.farmerLocation}. भाव ${kgPrice} रुपये प्रति किलो. उपलब्ध माल ${bags} पोती. ३५ टक्के सुरक्षित अनामत रकमेसह खरेदी करण्यासाठी हिरवे खरेदी बटण दाबा.`;
+    } else if (currentLang === 'hi') {
+      text = `${displayCrop}। किसान ${lot.farmerName}, ${lot.farmerLocation}। भाव ${kgPrice} रुपये प्रति किलो। उपलब्ध माल ${bags} बोरी। सुरक्षित एस्क्रो में खरीद के लिए हरा बटन दबाएं।`;
     } else {
-      promptSpeech = `Confirm purchase of ${lot.crop}. Tap bag buttons to change quantity or tap green button to confirm.`;
+      text = `${displayCrop}. Farmer ${lot.farmerName} from ${lot.farmerLocation}. Price is ${kgPrice} rupees per kg. Available quantity is ${bags} bags. Tap the green Buy Now button to place your order with escrow protection.`;
     }
 
-    speakText(promptSpeech, currentLang);
+    speakText(text, currentLang);
   }
 
-  function changeLiteBuyQuantity(deltaBags) {
-    if (!currentLiteLot) return;
-    const maxBags = Math.round((currentLiteLot.availableQtyKg || currentLiteLot.quantityKg || 5000) / 50);
-    currentLiteBuyBags = Math.max(10, Math.min(maxBags, currentLiteBuyBags + deltaBags));
-    updateLiteBuyModalCalculations();
-  }
-
-  function updateLiteBuyModalCalculations() {
-    if (!currentLiteLot) return;
-    const dict = getDict();
+  function speakOrdersSummary() {
     const currentLang = getCurrentLang();
-    const cropKey = Object.keys(CROP_TRANSLATIONS).find(k => currentLiteLot.crop.toLowerCase().includes(k.toLowerCase())) || 'Tomato';
-    const trans = CROP_TRANSLATIONS[cropKey] || { en: currentLiteLot.crop, hi: currentLiteLot.crop, mr: currentLiteLot.crop };
-    const displayCrop = trans[currentLang] || currentLiteLot.crop;
+    const orders = (window.buyerData && window.buyerData.activeOrders) ? window.buyerData.activeOrders : [];
+    
+    if (orders.length === 0) {
+      const msg = (currentLang === 'mr') ? 'सध्या कोणतीही गाडी रस्त्यात नाही.' : (currentLang === 'hi' ? 'वर्तमान में कोई गाड़ी रास्ते में नहीं है।' : 'No active truck shipments right now.');
+      speakText(msg, currentLang);
+      return;
+    }
 
-    const kgPrice = Number(currentLiteLot.pricePerKg || (currentLiteLot.priceNum ? (currentLiteLot.priceNum / 100).toFixed(0) : '20'));
-    const totalKg = currentLiteBuyBags * 50;
-    const totalEst = Math.round(totalKg * kgPrice);
-    const advance35 = Math.round(totalEst * 0.35);
+    const first = orders[0];
+    let text = '';
+    if (currentLang === 'mr') {
+      text = `तुमची ${first.crop} घेऊन येणारी गाडी ${first.truckNumber} सध्या ${first.currentLocation} येथे आहे. चालक ${first.driverName} यांच्याशी थेट बोलण्यासाठी फोन बटण दाबा.`;
+    } else if (currentLang === 'hi') {
+      text = `आपकी ${first.crop} की गाड़ी ${first.truckNumber} वर्तमान में ${first.currentLocation} पर है। चालक ${first.driverName} से बात करने के लिए कॉल बटन दबाएं।`;
+    } else {
+      text = `Your shipment of ${first.crop} on truck ${first.truckNumber} is currently at ${first.currentLocation}. Tap the call button to contact driver ${first.driverName}.`;
+    }
 
-    const farmerName = (window.AgriNexI18n && typeof window.AgriNexI18n.tPerson === 'function') 
-      ? window.AgriNexI18n.tPerson(currentLiteLot.farmerName) : currentLiteLot.farmerName;
-    const farmerLocation = (window.AgriNexI18n && typeof window.AgriNexI18n.tLocation === 'function')
-      ? window.AgriNexI18n.tLocation(currentLiteLot.farmerLocation) : currentLiteLot.farmerLocation;
+    speakText(text, currentLang);
+  }
 
-    document.getElementById('lite-buy-img').src = currentLiteLot.image;
-    document.getElementById('lite-buy-crop-title').textContent = `${displayCrop}`;
-    document.getElementById('lite-buy-farmer').textContent = `${dict.farmerLabel}: ${farmerName} (📍 ${farmerLocation})`;
-    document.getElementById('lite-buy-price').textContent = `₹ ${kgPrice} ${dict.perKg}`;
-    document.getElementById('lite-buy-qty').textContent = `${totalKg.toLocaleString('en-IN')} kg (${currentLiteBuyBags} ${dict.bags})`;
-    document.getElementById('lite-buy-total').textContent = `₹ ${totalEst.toLocaleString('en-IN')}`;
-    document.getElementById('lite-buy-advance').textContent = `₹ ${advance35.toLocaleString('en-IN')} (${dict.escrowPercent})`;
+  function speakTruckStatus(orderId, crop, driverName, location) {
+    const currentLang = getCurrentLang();
+    let text = '';
+    if (currentLang === 'mr') {
+      text = `गाडीची स्थिती: ${crop}. चालक ${driverName}. सध्याचे ठिकाण ${location}. माल गोदामात सुखरूप पोहोचत आहे.`;
+    } else if (currentLang === 'hi') {
+      text = `गाड़ी स्थिति: ${crop}। चालक ${driverName}। वर्तमान स्थान ${location}।`;
+    } else {
+      text = `Truck Status: ${crop}. Driver is ${driverName}. Current location is ${location}.`;
+    }
+
+    speakText(text, currentLang);
+  }
+
+  // =========================================================================
+  // 5. BUY & BARGAIN MODALS
+  // =========================================================================
+
+  let activeBuyLot = null;
+  let selectedBuyBags = 20;
+
+  function openLiteBuyModal(lotId) {
+    const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots : [];
+    activeBuyLot = lots.find(l => l.id === lotId) || lots[0];
+    if (!activeBuyLot) return;
+
+    selectedBuyBags = 20;
+    updateLiteBuyCalculations();
+
+    const modal = document.getElementById('lite-modal-buy');
+    if (modal) modal.style.display = 'flex';
+
+    const currentLang = getCurrentLang();
+    const cropKey = Object.keys(CROP_TRANSLATIONS).find(k => activeBuyLot.crop.toLowerCase().includes(k.toLowerCase())) || 'Tomato';
+    const trans = CROP_TRANSLATIONS[cropKey] || { en: activeBuyLot.crop, hi: activeBuyLot.crop, mr: activeBuyLot.crop };
+    const displayCrop = trans[currentLang] || activeBuyLot.crop;
+
+    const titleEl = document.getElementById('lite-modal-crop-title');
+    if (titleEl) titleEl.textContent = displayCrop;
+
+    const farmerEl = document.getElementById('lite-modal-farmer-name');
+    if (farmerEl) farmerEl.textContent = `👨‍🌾 ${activeBuyLot.farmerName} (${activeBuyLot.farmerLocation})`;
   }
 
   function closeLiteBuyModal() {
-    const modal = document.getElementById('modal-lite-buy');
-    if (modal) modal.classList.remove('active');
-    stopLiteSpeech();
+    const modal = document.getElementById('lite-modal-buy');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function changeLiteBuyQuantity(delta) {
+    selectedBuyBags = Math.max(5, Math.min(200, selectedBuyBags + delta));
+    updateLiteBuyCalculations();
+  }
+
+  function updateLiteBuyCalculations() {
+    if (!activeBuyLot) return;
+
+    const kgPrice = activeBuyLot.pricePerKg || 20;
+    const totalKg = selectedBuyBags * 50;
+    const totalAmount = totalKg * kgPrice;
+    const depositAmount = Math.round(totalAmount * 0.35);
+
+    const qtyEl = document.getElementById('lite-modal-qty-value');
+    if (qtyEl) qtyEl.textContent = `${selectedBuyBags} Bags (${totalKg.toLocaleString()} kg)`;
+
+    const rateEl = document.getElementById('lite-modal-rate-value');
+    if (rateEl) rateEl.textContent = `₹${kgPrice} / kg`;
+
+    const totalEl = document.getElementById('lite-modal-total-value');
+    if (totalEl) totalEl.textContent = `₹ ${totalAmount.toLocaleString()}`;
+
+    const depEl = document.getElementById('lite-modal-escrow-value');
+    if (depEl) depEl.textContent = `₹ ${depositAmount.toLocaleString()} (35% Protected)`;
   }
 
   function confirmLiteBuyOrder() {
-    if (!currentLiteLot) return;
-    
+    const dict = getDict();
     closeLiteBuyModal();
+    if (typeof showToast === 'function') {
+      showToast(dict.orderSuccess, 'success');
+    }
+    const currentLang = getCurrentLang();
+    speakText(dict.orderSuccess, currentLang);
+  }
+
+  // Bargain Modal
+  let activeBargainLot = null;
+  let counterRate = 20;
+
+  function openLiteBargainModal(lotId) {
+    const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots : [];
+    activeBargainLot = lots.find(l => l.id === lotId) || lots[0];
+    if (!activeBargainLot) return;
+
+    const baseRate = Number(activeBargainLot.pricePerKg) || 24;
+    counterRate = Math.max(1, baseRate - 2);
+
+    const modal = document.getElementById('lite-modal-bargain');
+    if (modal) modal.style.display = 'flex';
+
+    const farmRateEl = document.getElementById('lite-bargain-farmer-rate');
+    if (farmRateEl) farmRateEl.textContent = `₹ ${baseRate} / kg`;
+
+    const countRateEl = document.getElementById('lite-bargain-counter-rate');
+    if (countRateEl) countRateEl.textContent = `₹ ${counterRate} / kg`;
+  }
+
+  function closeLiteBargainModal() {
+    const modal = document.getElementById('lite-modal-bargain');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function selectBargainRateDelta(delta) {
+    if (!activeBargainLot) return;
+    const baseRate = Number(activeBargainLot.pricePerKg) || 24;
+    counterRate = Math.max(1, baseRate + delta);
+
+    const countRateEl = document.getElementById('lite-bargain-counter-rate');
+    if (countRateEl) countRateEl.textContent = `₹ ${counterRate} / kg`;
+  }
+
+  function changeLiteBargainQuantity(delta) {
+    counterRate = Math.max(1, counterRate + delta);
+    const countRateEl = document.getElementById('lite-bargain-counter-rate');
+    if (countRateEl) countRateEl.textContent = `₹ ${counterRate} / kg`;
+  }
+
+  function startVoiceBargainOffer() {
+    const currentLang = getCurrentLang();
+    const prompt = (currentLang === 'mr') ? 'तुमचा भाव सांगा (उदा. वीस रुपये)' : (currentLang === 'hi' ? 'अपना भाव बोलें (जैसे 20 रुपये)' : 'Speak your counter offer rate now');
+    speakText(prompt, currentLang);
+  }
+
+  function sendLiteBargainOffer() {
+    const dict = getDict();
+    closeLiteBargainModal();
+    if (typeof showToast === 'function') {
+      showToast(dict.bargainOfferSent, 'success');
+    }
+    const currentLang = getCurrentLang();
+    speakText(dict.bargainOfferSent, currentLang);
+  }
+
+  function shareOrderOnWhatsApp(orderId, crop, truck) {
+    const text = encodeURIComponent(`AgriNex Delivery Update: Order ${orderId} for ${crop} on truck ${truck} is in transit with live GPS tracking.`);
+    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+  }
+
+  function callFarmerDirect(phone, name) {
     const dict = getDict();
     const currentLang = getCurrentLang();
-    
-    // Voice confirmation
-    speakText(dict.orderSuccess, currentLang);
-    
-    if (typeof showToast === 'function') {
-      showToast(`✓ ${currentLiteLot.crop} (${currentLiteBuyBags} Bags) Order Placed!`, 'success');
-    }
-
-    // Direct to PO if available
-    if (typeof generateAndOpenPO === 'function') {
-      setTimeout(() => {
-        const kgPrice = Number(currentLiteLot.pricePerKg || 20);
-        const totalEst = Math.round(currentLiteBuyBags * 50 * kgPrice);
-        generateAndOpenPO(currentLiteLot.id, currentLiteLot.crop, `${(currentLiteBuyBags * 50).toLocaleString('en-IN')} kg`, currentLiteLot.farmerName, totalEst);
-      }, 1500);
-    }
+    speakText(`${dict.connectingFarmer} ${name}`, currentLang);
+    window.location.href = `tel:${phone}`;
   }
 
-  function shareOrderOnWhatsApp(crop, qty, driver, vehicle, total, loc) {
+  function callDriverDirect(phone, name) {
+    const dict = getDict();
     const currentLang = getCurrentLang();
-    let text = '';
-    if (currentLang === 'hi') {
-      text = `🌾 *एग्रीनेक्स खरीद व वाहन रसीद*\n\n` +
-             `📦 *फसल:* ${crop}\n` +
-             `⚖️ *मात्रा:* ${qty}\n` +
-             `💰 *कुल राशि:* ${total}\n` +
-             `🚚 *वाहन:* ${vehicle}\n` +
-             `👨‍✈️ *चालक:* ${driver}\n` +
-             `📍 *वर्तमान स्थिति:* ${loc}\n` +
-             `🛡️ *एस्क्रो स्टेटस:* 100% सुरक्षित (Govt Supervised)\n\n` +
-             `🌐 गेट पास व लाइव जीपीएस ट्रैकिंग लिंक: https://agrinex.in/track`;
-    } else if (currentLang === 'mr') {
-      text = `🌾 *AgriNex शेतीमाल खरेदी व गेट पास*\n\n` +
-             `📦 *पीक:* ${crop}\n` +
-             `⚖️ *वजन:* ${qty}\n` +
-             `💰 *एकूण रक्कम:* ${total}\n` +
-             `🚚 *गाडी क्रमांक:* ${vehicle}\n` +
-             `👨‍✈️ *चालक:* ${driver}\n` +
-             `📍 *सध्याचे ठिकाण:* ${loc}\n` +
-             `🛡️ *एस्क्रो हमी:* १००% सुरक्षित (बँक खात्यात संरक्षित)\n\n` +
-             `🌐 थेट जीपीएस ट्रॅकिंग लिंक: https://agrinex.in/track`;
-    } else {
-      text = `🌾 *AgriNex Purchase Slip & Gate Pass*\n\n` +
-             `📦 *Crop:* ${crop}\n` +
-             `⚖️ *Quantity:* ${qty}\n` +
-             `💰 *Total Amount:* ${total}\n` +
-             `🚚 *Vehicle:* ${vehicle}\n` +
-             `👨‍✈️ *Driver:* ${driver}\n` +
-             `📍 *Current Location:* ${loc}\n` +
-             `🛡️ *Escrow Guarantee:* 100% Protected\n\n` +
-             `🌐 Live GPS Tracking: https://agrinex.in/track`;
-    }
-
-    const waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
-    window.open(waUrl, '_blank');
+    speakText(`${dict.connectingDriver} ${name}`, currentLang);
+    window.location.href = `tel:${phone}`;
   }
-
-  // =========================================================================
-  // VOICE GRIEVANCE DISPUTE MODAL & AUDIO RECORDING SIMULATION
-  // =========================================================================
-
-  let isGrievanceRecording = false;
-  let grievanceTimerInterval = null;
-  let grievanceSeconds = 0;
 
   function openLiteGrievanceModal() {
-    const modal = document.getElementById('modal-lite-grievance');
-    if (!modal) return;
-
-    modal.classList.add('active');
-    const dict = getDict();
-    const currentLang = getCurrentLang();
-    
-    document.getElementById('lite-grievance-status').textContent = dict.grievancePrompt;
-    document.getElementById('lite-grievance-audio-timer').style.display = 'none';
-    document.getElementById('lite-grievance-result-box').style.display = 'none';
-    document.getElementById('btn-grievance-record').style.background = '#dc2626';
-
-    speakText(dict.voiceGrievanceSub, currentLang);
+    const modal = document.getElementById('lite-modal-grievance');
+    if (modal) modal.style.display = 'flex';
   }
 
   function closeLiteGrievanceModal() {
-    const modal = document.getElementById('modal-lite-grievance');
-    if (modal) modal.classList.remove('active');
-    if (grievanceTimerInterval) clearInterval(grievanceTimerInterval);
-    isGrievanceRecording = false;
-    stopLiteSpeech();
+    const modal = document.getElementById('lite-modal-grievance');
+    if (modal) modal.style.display = 'none';
   }
 
   function toggleGrievanceRecord() {
     const dict = getDict();
     const currentLang = getCurrentLang();
-    const btn = document.getElementById('btn-grievance-record');
-    const status = document.getElementById('lite-grievance-status');
-    const timerBox = document.getElementById('lite-grievance-audio-timer');
-    const resultBox = document.getElementById('lite-grievance-result-box');
-    const textOut = document.getElementById('lite-grievance-text');
-
-    if (!isGrievanceRecording) {
-      isGrievanceRecording = true;
-      grievanceSeconds = 0;
-      btn.style.background = '#15803d';
-      btn.classList.add('speaking');
-      status.textContent = dict.recording;
-      timerBox.style.display = 'block';
-      resultBox.style.display = 'none';
-
-      grievanceTimerInterval = setInterval(() => {
-        grievanceSeconds++;
-        const s = grievanceSeconds < 10 ? '0' + grievanceSeconds : grievanceSeconds;
-        document.getElementById('grievance-seconds').textContent = `00:${s}`;
-        if (grievanceSeconds >= 15) {
-          toggleGrievanceRecord();
-        }
-      }, 1000);
-    } else {
-      isGrievanceRecording = false;
-      clearInterval(grievanceTimerInterval);
-      btn.style.background = '#dc2626';
-      btn.classList.remove('speaking');
-      status.textContent = "✓ Voice Note Recorded (१५ सेकंद नोंदवले गेले)";
-
-      resultBox.style.display = 'block';
-      const sampleText = (currentLang === 'mr') 
-        ? "नोंदवलेली तक्रार: 'गाडीतील टोमॅटोमध्ये ५% पेक्षा जास्त ओलावा व दाब लागल्यामुळे नुकसान झाले आहे. एस्क्रोतून तडजोड करावी.'"
-        : (currentLang === 'hi' 
-            ? "दर्ज शिकायत: 'गाड़ी के टमाटर में अधिक नमी और दबने से खराबी है। कृपया एस्क्रो से मध्यस्थता करें।'"
-            : "Recorded voice grievance: '5% moisture variation and transit damage observed. Requesting arbitration from escrow.'");
-      textOut.textContent = sampleText;
-    }
+    speakText(dict.recording, currentLang);
   }
 
   function submitLiteGrievance() {
-    closeLiteGrievanceModal();
     const dict = getDict();
-    const currentLang = getCurrentLang();
-    speakText(dict.ticketGenerated, currentLang);
+    closeLiteGrievanceModal();
     if (typeof showToast === 'function') {
       showToast(dict.ticketGenerated, 'success');
     }
-  }
-
-  function callFarmerDirect(farmerName) {
-    const dict = getDict();
     const currentLang = getCurrentLang();
-    speakText(`${dict.connectingFarmer} ${farmerName}.`, currentLang);
-    alert(`📞 Connecting Phone Call to Farmer: ${farmerName}\n${dict.tollFree}`);
-  }
-
-  function callDriverDirect(driverName) {
-    const dict = getDict();
-    const currentLang = getCurrentLang();
-    speakText(`${dict.connectingDriver} ${driverName}.`, currentLang);
-    alert(`📞 Connecting Phone Call to Driver: ${driverName}\nLogistics Helpline: 1800-AGRI-NEX`);
+    speakText(dict.ticketGenerated, currentLang);
   }
 
   function startLiteVoiceAssistant() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert("Voice search is not supported on this browser.");
-      return;
-    }
-
     const dict = getDict();
     const currentLang = getCurrentLang();
-    const recLang = currentLang === 'hi' ? 'hi-IN' : (currentLang === 'mr' ? 'mr-IN' : 'en-IN');
-    const floatingMic = document.getElementById('lite-floating-voice-mic');
-    if (floatingMic) floatingMic.classList.add('listening');
-
     speakText(dict.voicePrompt, currentLang);
-
-    setTimeout(() => {
-      const recognizer = new SpeechRecognition();
-      recognizer.lang = recLang;
-      recognizer.start();
-
-      recognizer.onresult = function (event) {
-        if (floatingMic) floatingMic.classList.remove('listening');
-        const speechQuery = event.results[0][0].transcript;
-        if (speechQuery) {
-          speakText(`${dict.searchingFor} ${speechQuery}.`, currentLang);
-          filterLiteByVoice(speechQuery);
-        }
-      };
-
-      recognizer.onerror = function () {
-        if (floatingMic) floatingMic.classList.remove('listening');
-        speakText(dict.voiceFail, currentLang);
-      };
-
-      recognizer.onend = function () {
-        if (floatingMic) floatingMic.classList.remove('listening');
-      };
-    }, 1200);
-  }
-
-  function filterLiteByVoice(query) {
-    const q = query.toLowerCase();
-    const lots = (window.buyerData && window.buyerData.verifiedLots) ? window.buyerData.verifiedLots : [];
-    
-    // Voice Multilingual Matcher
-    const VOICE_CROP_SYNONYMS = [
-      { key: 'onion', words: ['onion', 'onions', 'कांदा', 'कांदे', 'कांद्या', 'प्याज', 'प्याज़', 'kanda', 'pyaz', 'dungri', 'vengayam', 'ullipaya'] },
-      { key: 'tomato', words: ['tomato', 'tomatoes', 'टोमॅटो', 'टमाटर', 'tamatar', 'thakkali', 'tameta', 'shivam', 'abhinav'] },
-      { key: 'potato', words: ['potato', 'potatoes', 'बटाटा', 'बटाटे', 'आलू', 'batata', 'aloo', 'bataka', 'jyoti'] },
-      { key: 'banana', words: ['banana', 'bananas', 'केळी', 'केळे', 'केला', 'केले', 'keli', 'kele', 'kela', 'grand naine', 'g9', 'arati'] },
-      { key: 'soybean', words: ['soybean', 'soya', 'soyabean', 'सोयाबीन', 'सोया', 'js 335'] },
-      { key: 'wheat', words: ['wheat', 'गहू', 'गेहूं', 'gahu', 'gehu', 'sharbati', 'lokwan'] },
-      { key: 'rice', words: ['rice', 'paddy', 'तांदूळ', 'भात', 'चावल', 'धान', 'chawal', 'dhan', 'tandul', 'bhat', 'indrayani', 'arisi'] },
-      { key: 'cotton', words: ['cotton', 'कापूस', 'कपास', 'रुई', 'kapus', 'kapas', 'rui', 'paruthi'] },
-      { key: 'turmeric', words: ['turmeric', 'हळद', 'हल्दी', 'haldi', 'halad', 'pasupu', 'waigaon', 'salem'] },
-      { key: 'pomegranate', words: ['pomegranate', 'डाळिंब', 'अनार', 'dalimb', 'anar', 'bhagwa'] },
-      { key: 'orange', words: ['orange', 'oranges', 'संत्रा', 'संत्री', 'संतरा', 'santra', 'santri', 'nagpur', 'mosambi'] },
-      { key: 'maize', words: ['maize', 'corn', 'मका', 'मक्का', 'भूट्टा', 'maka', 'makka', 'bhutta'] },
-      { key: 'jowar', words: ['jowar', 'sorghum', 'ज्वारी', 'ज्वार', 'jwari', 'maldandi'] },
-      { key: 'bajra', words: ['bajra', 'millet', 'बाजरी', 'बाजरा', 'kambu', 'sajjalu'] },
-      { key: 'gram', words: ['gram', 'chana', 'हरभरा', 'चना', 'छोले', 'harbhara', 'vishal'] },
-      { key: 'grapes', words: ['grapes', 'द्राक्षे', 'द्राक्ष', 'अंगूर', 'draksha', 'angoor', 'tasgaon'] },
-      { key: 'mango', words: ['mango', 'आंबा', 'आम', 'amba', 'aam', 'alphonso', 'hapus'] }
-    ];
-
-    let detectedKey = '';
-    for (const syn of VOICE_CROP_SYNONYMS) {
-      if (syn.words.some(w => q.includes(w.toLowerCase()))) {
-        detectedKey = syn.key;
-        break;
-      }
-    }
-
-    let matched = lots.filter(l => {
-      const c = (l.crop || '').toLowerCase();
-      if (detectedKey && c.includes(detectedKey)) return true;
-      return q.includes(c.split(' ')[0]) || (l.category && q.includes(l.category.toLowerCase()));
-    });
-
-    if (matched.length === 0) {
-      matched = lots;
-    }
-    
-    const grid = document.getElementById('lite-produce-grid');
-    if (!grid) return;
-
-    grid.innerHTML = '';
-    window.buyerData.verifiedLots = matched;
-    renderLiteProduceCards();
   }
 
   // Initialize on Load
   document.addEventListener('DOMContentLoaded', initLiteMode);
 
-  // Bind to Window Global Object
+  // Global window bindings
   window.initLiteMode = initLiteMode;
   window.toggleLiteMode = toggleLiteMode;
   window.switchLiteSection = switchLiteSection;
@@ -1609,6 +1551,11 @@
   window.renderLiteProduceCards = renderLiteProduceCards;
   window.renderLiteOrdersList = renderLiteOrdersList;
   window.renderLiteEscrowCards = renderLiteEscrowCards;
+  window.renderLiteInsights = renderLiteInsights;
+  window.filterLiteInsights = filterLiteInsights;
+  window.speakMarketInsightsSummary = speakMarketInsightsSummary;
+  window.speakCropInsight = speakCropInsight;
+  window.viewCropLotsFromInsight = viewCropLotsFromInsight;
   window.speakLotDetails = speakLotDetails;
   window.speakOrdersSummary = speakOrdersSummary;
   window.speakTruckStatus = speakTruckStatus;
