@@ -1218,7 +1218,9 @@
 
   function selectChamberSlot(chamberName, chamberType, availableQty) {
     showToast(`✓ Selected ${chamberName} (${chamberType}) with ${availableQty} space!`);
-    openBookStorageModal('WH-NSK-01');
+    if (typeof openBookStorageModal === 'function') {
+      openBookStorageModal('WH-NSK-01');
+    }
   }
 
   // Bind to Window Global Object

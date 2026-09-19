@@ -9,12 +9,11 @@ const assert = require('assert');
 
 console.log('=== AGRINEX BUYER MODULE DEEP AUDIT & VERIFICATION ===\n');
 
-// 1. Verify all 9 Views exist
+// 1. Verify all 8 Views exist
 const expectedViews = [
   'verified-produce.html',
   'bulk-demands.html',
   'consignments.html',
-  'storage.html',
   'escrow-vault.html',
   'insights.html',
   'calculator.html',
@@ -31,11 +30,11 @@ expectedViews.forEach(v => {
   console.log(`  ✓ ${v} exists (${content.length} bytes)`);
 });
 
-// 2. Verify all 25 Modals exist
+// 2. Verify all 23 Modals exist
 console.log('\n2. Checking Modals:');
 const modalDir = path.join(__dirname, '../buyer-module/modals');
 const modalFiles = fs.readdirSync(modalDir).filter(f => f.endsWith('.html'));
-assert(modalFiles.length >= 24, `Expected at least 24 modals, found ${modalFiles.length}`);
+assert(modalFiles.length >= 22, `Expected at least 22 modals, found ${modalFiles.length}`);
 modalFiles.forEach(m => {
   const p = path.join(modalDir, m);
   const content = fs.readFileSync(p, 'utf8');
@@ -125,12 +124,6 @@ console.log('  ✓ Bids & Spot Procurement module loaded.');
 require('../buyer-module/js/modules/logistics.js');
 assert(typeof window.submitBookTransport === 'function', 'submitBookTransport must be exported');
 console.log('  ✓ Logistics module loaded.');
-
-// Load Storage
-require('../buyer-module/js/modules/storage.js');
-assert(typeof window.handleBookStorageSubmit === 'function', 'handleBookStorageSubmit must be exported');
-assert(typeof window.handleEnwrPledgeSubmit === 'function', 'handleEnwrPledgeSubmit must be exported');
-console.log('  ✓ Storage & Silos module loaded.');
 
 // Load Grievance
 require('../buyer-module/js/modules/chat_grievance.js');
@@ -231,32 +224,8 @@ assert(createdConsignment.grievance_status === 'grievance_hold', 'Consignment mu
 assert(storageMap.has('agrinex_buyer_grievances'), 'Grievances must be saved to localStorage');
 console.log(`    ✓ Dispute filed: ${window.buyerData.activeGrievances[0].id}. Escrow remaining 65% balance frozen.`);
 
-// Test F: Book Cold Storage & Draw e-NWR Loan
-console.log('\n  Test F: Book Cold Storage Chamber & Draw e-NWR Loan');
-const preStorageBookings = (window.buyerData.activeStorageBookings || []).length;
-createMockElement('storage-facility-id').value = 'WH-NSK-01';
-createMockElement('storage-lot-select').value = 'LOT-ONI-01|Red Onion (Garwa Export)|80 Qt (8,000 kg)';
-createMockElement('storage-book-qty').value = '50';
-createMockElement('storage-book-unit').value = 'Qt';
-createMockElement('storage-book-tenure').value = '30';
-
-window.handleBookStorageSubmit({ preventDefault: () => {} });
-assert((window.buyerData.activeStorageBookings || []).length === preStorageBookings + 1, 'Storage bookings must increment by 1');
-const createdStorage = window.buyerData.activeStorageBookings[0];
-assert(storageMap.has('agrinex_buyer_storage_bookings'), 'Storage bookings must be saved to localStorage');
-console.log(`    ✓ Storage chamber booked: ${createdStorage.id} (${createdStorage.chamberNo}). e-NWR Receipt: ${createdStorage.eNwrReceiptNo}`);
-
-// Draw e-NWR Loan
-const preLoanLiquidity = window.buyerEscrowState.availableLiquidity;
-createMockElement('enwr-draw-amount').value = '50000';
-createMockElement('enwr-bank-partner').value = 'State Bank of India (SBI) Agri Credit';
-
-window.handleEnwrPledgeSubmit({ preventDefault: () => {} });
-assert(window.buyerEscrowState.availableLiquidity === preLoanLiquidity + 50000, 'Escrow available liquidity should increase by loan amount');
-console.log(`    ✓ e-NWR pledge loan of ₹ 50,000 credited to escrow. New liquidity: ₹ ${window.buyerEscrowState.availableLiquidity.toLocaleString('en-IN')}`);
-
-// Test G: Buyer Profile Update
-console.log('\n  Test G: Buyer Profile Update & Persistence');
+// Test F: Buyer Profile Update
+console.log('\n  Test F: Buyer Profile Update & Persistence');
 createMockElement('buyer-profile-company').value = 'Reliance Fresh Agri Sourcing Ltd';
 createMockElement('buyer-profile-contact').value = 'Vikram Singhania';
 createMockElement('buyer-profile-phone').value = '+91 98200 12345';
@@ -271,4 +240,4 @@ const savedProfile = JSON.parse(storageMap.get('agrinex_buyer_profile'));
 assert(savedProfile.companyName === 'Reliance Fresh Agri Sourcing Ltd', 'Saved company name must match');
 console.log(`    ✓ Profile updated and saved to localStorage: ${savedProfile.companyName} (GSTIN: ${savedProfile.gstin})`);
 
-console.log('\n=== ALL 7 END-TO-END BUYER MODULE FLOWS VERIFIED 100% WORKING ===\n');
+console.log('\n=== ALL 6 END-TO-END BUYER MODULE FLOWS VERIFIED 100% WORKING ===\n');

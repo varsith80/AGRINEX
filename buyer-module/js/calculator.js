@@ -761,14 +761,9 @@ function recalculateBuyerCosts() {
   const rawQty = parseFloat(quantityInput.value) || 50;
   const rawFarmPrice = parseFloat(farmPriceInput.value) || 1200;
   const distanceKm = parseFloat(distanceInput.value) || 80;
-  const vehicleKey = vehicleSelect.value;
-  const packagingKey = (packagingSelect && packagingSelect.value) || 'crates';
-  const hamaliRatePerQt = parseFloat((hamaliInput && hamaliInput.value) || 15);
 
   const productKey = comprehensiveCalcState.selectedProductKey || 'tomato';
   const prodData = COMMODITY_CATALOG[productKey] || COMMODITY_CATALOG.tomato;
-  const fleetData = FLEET_TYPES[vehicleKey] || FLEET_TYPES.tata;
-  const packData = PACKAGING_MODES[packagingKey] || PACKAGING_MODES.crates;
 
   // 1. Normalize Quantity into Quintals (Qt), kg, and MT
   let qtyInQt = rawQty;
@@ -783,6 +778,34 @@ function recalculateBuyerCosts() {
     qtyInKg = rawQty * 1000;
     qtyInQt = rawQty * 10;
   }
+
+  // Smart Auto-Fleet Recommendation if not manually overridden
+  if (!comprehensiveCalcState.manualFleetOverride && vehicleSelect) {
+    let recommendedVehicle = 'tata';
+    if (prodData.isPerishable && qtyInKg >= 3000 && FLEET_TYPES.reefer) {
+      recommendedVehicle = 'reefer';
+    } else if (qtyInKg > 7500) {
+      recommendedVehicle = 'bharatbenz';
+    } else if (qtyInKg > 3000) {
+      recommendedVehicle = 'eicher';
+    } else if (qtyInKg > 2000) {
+      recommendedVehicle = 'bolero';
+    } else if (qtyInKg > 1200) {
+      recommendedVehicle = 'dost';
+    } else {
+      recommendedVehicle = 'tata';
+    }
+    if (vehicleSelect.value !== recommendedVehicle) {
+      vehicleSelect.value = recommendedVehicle;
+    }
+  }
+
+  const vehicleKey = vehicleSelect.value;
+  const packagingKey = (packagingSelect && packagingSelect.value) || 'crates';
+  const hamaliRatePerQt = parseFloat((hamaliInput && hamaliInput.value) || 15);
+
+  const fleetData = FLEET_TYPES[vehicleKey] || FLEET_TYPES.tata;
+  const packData = PACKAGING_MODES[packagingKey] || PACKAGING_MODES.crates;
 
   // 2. Normalize Direct Farm Gate Price (₹/Qt & ₹/kg)
   let farmPricePerQt = rawFarmPrice;
@@ -812,18 +835,19 @@ function recalculateBuyerCosts() {
     discountTag.textContent = `${discPct.toFixed(1)}% Direct Farm Discount`;
   }
 
+  const numVehicles = Math.max(Math.ceil(qtyInKg / fleetData.capacityKg), 1);
+
   // Fleet Capacity Warning
   const fleetWarning = document.getElementById('calc-fleet-capacity-warning');
   if (fleetWarning) {
     if (qtyInKg > fleetData.capacityKg * 1.05) {
       const vehName = (window.AgriNexI18n && typeof window.AgriNexI18n.tVehicle === 'function') ? window.AgriNexI18n.tVehicle(fleetData.name) : (window.tVehicle ? window.tVehicle(fleetData.name) : fleetData.name);
-      fleetWarning.innerHTML = `⚠️ Total volume (<strong>${qtyInKg.toLocaleString('en-IN')} kg</strong>) exceeds single ${vehName} capacity (<strong>${fleetData.capacityKg.toLocaleString('en-IN')} kg</strong>). Requires <strong>${neededTrucks} vehicles</strong> or larger fleet.`;
+      fleetWarning.style.display = 'block';
+      fleetWarning.innerHTML = `⚠️ Total volume (<strong>${qtyInKg.toLocaleString('en-IN')} kg</strong>) exceeds single ${vehName} capacity (<strong>${fleetData.capacityKg.toLocaleString('en-IN')} kg</strong>). Requires <strong>${numVehicles} vehicles</strong> or larger fleet.`;
     } else {
       fleetWarning.style.display = 'none';
     }
   }
-
-  const numVehicles = Math.max(Math.ceil(qtyInKg / fleetData.capacityKg), 1);
 
   // -------------------------------------------------------------------------
   // CALCULATION 1: DIRECT FARM-GATE PROCUREMENT (AgriNex Ecosystem)
@@ -961,6 +985,32 @@ function recalculateBuyerCosts() {
   if (barPack) { barPack.style.width = `${packPct}%`; barPack.title = `Packaging & Crates: ${packPct}%`; }
   if (barService) { barService.style.width = `${servicePct}%`; barService.title = `Escrow, QC & Hamali: ${servicePct}%`; }
 
+  // Update 3 Simplified Cost Buckets
+  const handlingTotal = directPackagingCost + directHamaliCost + directEscrowFee + directQcFee + directTransitLoss;
+  const freightTotal = directFreightCost + directTollsCost;
+  const producePctStr = directTotalLandedCost > 0 ? ((directProduceCost / directTotalLandedCost) * 100).toFixed(1) : '85.5';
+  const freightPctStr = directTotalLandedCost > 0 ? ((freightTotal / directTotalLandedCost) * 100).toFixed(1) : '7.5';
+  const handlingPctStr = directTotalLandedCost > 0 ? ((handlingTotal / directTotalLandedCost) * 100).toFixed(1) : '7.0';
+
+  setText('calc-bucket-produce', `₹ ${directProduceCost.toLocaleString('en-IN')} (${producePctStr}%)`);
+  setText('calc-bucket-freight', `₹ ${freightTotal.toLocaleString('en-IN')} (${freightPctStr}%)`);
+  setText('calc-bucket-handling', `₹ ${handlingTotal.toLocaleString('en-IN')} (${handlingPctStr}%)`);
+
+  // Update Route Distance Badge
+  const routeKmBadge = document.getElementById('calc-route-km-badge');
+  if (routeKmBadge) {
+    routeKmBadge.textContent = `${distanceKm} km`;
+  }
+
+  // Update Smart Auto-Logistics Summary Pill
+  const autoSummaryEl = document.getElementById('calc-auto-logistics-summary');
+  if (autoSummaryEl) {
+    const packLabel = packData && packData.name ? packData.name.split('(')[0].trim() : 'Returnable Crates';
+    const fleetShort = fleetData && fleetData.name ? fleetData.name.split('(')[0].trim() : 'Eicher Pro';
+    const capStr = fleetData && fleetData.capacityKg ? `${Math.round(fleetData.capacityKg / 1000)} MT` : '7.5 MT';
+    autoSummaryEl.textContent = `Auto-Configured: ${fleetShort} (${capStr}) • ${packLabel} • ₹${hamaliRatePerQt}/Qt Hamali`;
+  }
+
   // Action Button Context
   const btnPostDemand = document.getElementById('btn-calc-post-demand');
   if (btnPostDemand) {
@@ -1087,7 +1137,12 @@ function initComprehensiveCalculator() {
       recalculateBuyerCosts();
     });
   }
-  if (vehicleSelect) vehicleSelect.addEventListener('change', recalculateBuyerCosts);
+  if (vehicleSelect) {
+    vehicleSelect.addEventListener('change', () => {
+      comprehensiveCalcState.manualFleetOverride = true;
+      recalculateBuyerCosts();
+    });
+  }
   if (hamaliInput) hamaliInput.addEventListener('input', recalculateBuyerCosts);
 
   // Initial calculation trigger
@@ -1095,8 +1150,95 @@ function initComprehensiveCalculator() {
   recalculateBuyerCosts();
 }
 
+// 1-Click Popular Procurement Preset Loader
+function applyCalcPreset(crop, qty, unit, origin, dest, vehicle, packaging) {
+  const prodSelect = document.getElementById('calc-buyer-produce');
+  const qtyInput = document.getElementById('calc-buyer-qty');
+  const originSelect = document.getElementById('calc-buyer-origin');
+  const destSelect = document.getElementById('calc-buyer-destination');
+  const vehSelect = document.getElementById('calc-buyer-vehicle');
+  const packSelect = document.getElementById('calc-packaging-mode');
+
+  if (prodSelect) {
+    prodSelect.value = crop;
+    comprehensiveCalcState.selectedProductKey = crop;
+  }
+  if (qtyInput) qtyInput.value = qty;
+  setCalcUnit(unit || 'mt');
+
+  if (originSelect) originSelect.value = origin;
+  if (destSelect) destSelect.value = dest;
+  onMandiOrHubChange();
+
+  if (vehicle && vehSelect) {
+    vehSelect.value = vehicle;
+    comprehensiveCalcState.manualFleetOverride = true;
+  }
+  if (packaging && packSelect) {
+    packSelect.value = packaging;
+    comprehensiveCalcState.manualPackagingOverride = true;
+  }
+
+  // Update preset chip styling
+  const chips = document.querySelectorAll('.btn-calc-preset, .calc-preset-chip');
+  chips.forEach(c => {
+    c.classList.remove('active');
+    c.style.background = '#f8fafc';
+    c.style.borderColor = '#cbd5e1';
+    c.style.color = '#334155';
+  });
+
+  if (typeof window !== 'undefined' && window.event && window.event.currentTarget) {
+    const chip = window.event.currentTarget;
+    chip.classList.add('active');
+    chip.style.background = '#e8f5ed';
+    chip.style.borderColor = '#10b981';
+    chip.style.color = '#0c5a36';
+  }
+
+  recalculateBuyerCosts();
+
+  if (typeof showToast === 'function') {
+    showToast(`✓ Loaded ${qty} ${unit.toUpperCase()} ${crop.toUpperCase()} Procurement Preset!`);
+  }
+}
+
+// Alias for quick scenario preset
+function applyQuickCalcScenario(crop, qty, unit, origin, dest, vehicle, packaging) {
+  applyCalcPreset(crop, qty, unit, origin, dest, vehicle, packaging);
+}
+
+// Toggle or scroll to advanced logistics drawer
+function toggleAdvancedCalcDrivers() {
+  const details = document.getElementById('calc-audit-details');
+  if (details) {
+    details.open = !details.open;
+    const chevron = document.getElementById('advanced-calc-chevron');
+    if (chevron) {
+      chevron.textContent = details.open ? 'Click to Collapse' : 'Click to Expand & Customize';
+    }
+    if (details.open) {
+      details.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+}
+
+// Bind to window global scope
+window.setCalcUnit = setCalcUnit;
+window.setCalcPriceUnit = setCalcPriceUnit;
+window.onMandiOrHubChange = onMandiOrHubChange;
+window.onProductOrGradeChange = onProductOrGradeChange;
+window.recalculateBuyerCosts = recalculateBuyerCosts;
+window.prefillDemandFromCalculator = prefillDemandFromCalculator;
+window.filterMarketplaceFromCalculator = filterMarketplaceFromCalculator;
+window.printProcurementCostSheet = printProcurementCostSheet;
+window.applyCalcPreset = applyCalcPreset;
+window.applyQuickCalcScenario = applyQuickCalcScenario;
+window.toggleAdvancedCalcDrivers = toggleAdvancedCalcDrivers;
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initComprehensiveCalculator);
 } else {
   initComprehensiveCalculator();
 }
+document.addEventListener('agrinex:partials-ready', initComprehensiveCalculator);

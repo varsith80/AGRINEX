@@ -12,7 +12,6 @@
     'views/calculator.html',
     'views/messages.html',
     'views/grievance.html',
-    'views/storage.html',
     'views/insights.html'
   ];
 
@@ -33,8 +32,6 @@
     'modals/modal-deposit-escrow.html',
     'modals/modal-deposit-receipt.html',
     'modals/modal-escrow-deed.html',
-    'modals/modal-book-storage.html',
-    'modals/modal-enwr-pledge.html',
     'modals/modal-ai-copilot.html',
     'modals/modal-digital-po.html',
     'modals/modal-lot-comparison.html',

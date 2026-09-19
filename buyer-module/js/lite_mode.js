@@ -19,8 +19,8 @@
   // Multilingual UI Dictionary for Simple Mode
   const LITE_I18N = {
     en: {
-      toggleSimple: '👴 Simple Mode',
-      toggleEnterprise: '⚡ Enterprise Mode',
+      toggleSimple: 'Simple Mode',
+      toggleEnterprise: 'Enterprise Mode',
       tabProduce: '🌾 Buy Produce',
       tabOrders: '🚚 My Orders & Trucks',
       tabEscrow: '🛡️ Safe Escrow Vault',
@@ -119,8 +119,8 @@
       youSaveText: 'You Save'
     },
     hi: {
-      toggleSimple: '👴 सरल मोड',
-      toggleEnterprise: '⚡ एंटरप्राइज मोड',
+      toggleSimple: 'सरल मोड',
+      toggleEnterprise: 'एंटरप्राइज मोड',
       tabProduce: '🌾 शेतीमाल खरीद (Buy)',
       tabOrders: '🚚 मेरी गाड़ियां व ऑर्डर्स',
       tabEscrow: '🛡️ सुरक्षित एस्क्रो खाता',
@@ -219,8 +219,8 @@
       youSaveText: 'बचत'
     },
     mr: {
-      toggleSimple: '👴 सरल मोड',
-      toggleEnterprise: '⚡ एंटरप्राइज मोड',
+      toggleSimple: 'सुलभ मोड',
+      toggleEnterprise: 'एंटरप्राइज मोड',
       tabProduce: '🌾 शेतीमाल खरेदी (Buy)',
       tabOrders: '🚚 माझ्या गाड्या व ऑर्डर्स',
       tabEscrow: '🛡️ सुरक्षित एस्क्रो खाते',
@@ -951,17 +951,17 @@
   function updateToggleBtnState(btn) {
     const dict = getDict();
     if (isLiteMode) {
-      btn.innerHTML = `<span style="font-size: 1.1rem;">⚡</span><span>${dict.toggleEnterprise}</span>`;
+      btn.innerHTML = `<span style="font-size: 0.9rem;">⚡</span><span>${dict.toggleEnterprise || 'Enterprise Mode'}</span>`;
       btn.classList.add('active-lite');
       btn.style.background = '#0f172a';
       btn.style.color = '#f8fafc';
-      btn.style.borderColor = '#475569';
+      btn.style.borderColor = '#334155';
     } else {
-      btn.innerHTML = `<span style="font-size: 1.1rem;">👴</span><span>${dict.toggleSimple}</span>`;
+      btn.innerHTML = `<span style="font-size: 0.9rem;">🌱</span><span>${dict.toggleSimple || 'Simple Mode'}</span>`;
       btn.classList.remove('active-lite');
-      btn.style.background = '#fef3c7';
-      btn.style.color = '#92400e';
-      btn.style.borderColor = '#f59e0b';
+      btn.style.background = '#f8fafc';
+      btn.style.color = '#334155';
+      btn.style.borderColor = '#cbd5e1';
     }
   }
 

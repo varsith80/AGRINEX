@@ -206,13 +206,21 @@ function initLocationSwitcher() {
   const locText = document.getElementById('buyer-location-text');
   if (!locBtn || !locText) return;
 
-  const locations = ["Vashi Terminal, Navi Mumbai (MH)", "Pune APMC Central Hub, MH", "Nashik-Lasalgaon Yard, MH", "Nagpur Multi-Modal Terminal, MH", "Kolhapur Shahu Market Yard, MH", "Latur Mega Yard, MH"];
+  const locations = [
+    { short: "Vashi Hub (MH)", full: "Vashi Terminal, Navi Mumbai (MH)" },
+    { short: "Pune Hub (MH)", full: "Pune APMC Central Hub, MH" },
+    { short: "Nashik Yard (MH)", full: "Nashik-Lasalgaon Yard, MH" },
+    { short: "Nagpur Hub (MH)", full: "Nagpur Multi-Modal Terminal, MH" },
+    { short: "Kolhapur Yard (MH)", full: "Kolhapur Shahu Market Yard, MH" },
+    { short: "Latur Yard (MH)", full: "Latur Mega Yard, MH" }
+  ];
   let currIdx = 0;
 
   locBtn.addEventListener('click', () => {
     currIdx = (currIdx + 1) % locations.length;
-    locText.textContent = locations[currIdx];
-    showToast(`Active procurement hub updated to ${locations[currIdx]}`);
+    locText.textContent = locations[currIdx].short;
+    locBtn.title = `Procurement Hub: ${locations[currIdx].full} — Click to switch`;
+    showToast(`Active procurement hub updated to ${locations[currIdx].full}`);
   });
 }
 
@@ -577,11 +585,21 @@ function updateCorporateAuthBadge(officerName, companyName, gstin) {
 
   const badgeText = document.getElementById('buyer-auth-badge-text');
   if (badgeText) {
-    badgeText.textContent = `GSTIN: ${gst.slice(0, 7)}...✓`;
+    badgeText.textContent = 'Verified ✓';
+  }
+  const badgeBtn = document.getElementById('btn-buyer-auth-badge');
+  if (badgeBtn) {
+    badgeBtn.title = `Corporate Buyer Verified • GSTIN: ${gst} • FSSAI Approved`;
   }
 
   const profileName = document.querySelector('.profile-name');
-  if (profileName) profileName.textContent = name;
+  if (profileName) {
+    const parts = name.split(' ');
+    profileName.textContent = parts.length > 1 ? `${parts[0]} ${parts[1][0]}.` : name;
+  }
+
+  const profileRole = document.querySelector('.profile-role');
+  if (profileRole) profileRole.textContent = company;
 
   const sidebarName = document.getElementById('buyer-sidebar-name');
   if (sidebarName) sidebarName.textContent = name;
