@@ -12,8 +12,9 @@
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/admin-shell.css" />
 </head>
-<body>
+<body data-admin-page="market-data">
 
   <div class="app-container">
     
@@ -28,6 +29,11 @@
             <h1 class="brand-title">AGRINEX <span class="brand-accent">ADMIN</span></h1>
             <span class="brand-tagline">Marketplace Control Center</span>
           </div>
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" title="Toggle Sidebar Collapse (Ctrl + B)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
         </div>
 
         <div style="font-size: 0.68rem; font-weight: 800; text-transform: uppercase; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; margin: 4px 0 8px 6px;">Main Menu</div>
@@ -248,6 +254,8 @@
   </div>
 
   <script src="js/data.js"></script>
+  <script src="js/admin-shell.js"></script>
+  <script src="js/crossmodule-bridge.js"></script>
   <script src="js/dashboard.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -320,7 +328,14 @@
         const res = AgriNexAdminGovernance.updateMandiPrice(cropId, val);
         if (res.success) {
           renderMandiTable(document.getElementById('mandi-search')?.value || '');
-          alert(`🎉 ${res.message}`);
+          if (window.AgriNexBus) {
+            window.AgriNexBus.emit('mandi:price_calibrated', {
+              cropId,
+              cropName,
+              newPrice: val,
+              timestamp: Date.now()
+            });
+          }
         }
       }
     }

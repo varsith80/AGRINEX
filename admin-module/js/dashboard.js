@@ -4,9 +4,19 @@
  * Cold-Chain Logistics, Emergency Liquidation, and Dispute Tribunal Resolution
  */
 
+// Active view state variables
+let currentUsersFilter = "all";
+let currentUsersQuery = "";
+let currentDealsTab = "all";
+let currentDealsQuery = "";
+let currentEmergencyQuery = "";
+
 document.addEventListener("DOMContentLoaded", () => {
   initNavigation();
   renderOverviewStats();
+  renderPriorityActionQueue();
+  renderPulseFleets();
+  renderPulseStorage();
   renderDashboardQueue();
   renderDashboardWarehouses();
   renderDashboardDeliveries();
@@ -23,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================================================================
-   1. NAVIGATION & ROUTING
+   1. NAVIGATION & ROUTING ENGINE
    ========================================================================= */
 function initNavigation() {
   const navItems = document.querySelectorAll(".sidebar-nav .nav-item");
@@ -31,9 +41,25 @@ function initNavigation() {
     item.addEventListener("click", (e) => {
       const section = item.getAttribute("data-section");
       if (section) {
+        e.preventDefault();
+        e.stopPropagation();
         switchSection(section);
       }
     });
+
+    const link = item.querySelector("a");
+    if (link) {
+      link.addEventListener("click", (e) => {
+        const href = link.getAttribute("href") || "";
+        const section = item.getAttribute("data-section");
+        if (section || href.startsWith("#")) {
+          e.preventDefault();
+          e.stopPropagation();
+          const targetSection = section || href.replace("#", "").split("?")[0];
+          switchSection(targetSection);
+        }
+      });
+    }
   });
 
   // Handle URL Hash navigation (e.g. index.html#users)
@@ -42,23 +68,34 @@ function initNavigation() {
 }
 
 function handleHashChange() {
-  const hash = window.location.hash.replace("#", "");
-  if (hash) {
-    switchSection(hash, null, false);
+  const rawHash = window.location.hash.replace("#", "").trim();
+  if (!rawHash) return;
+  const sectionId = rawHash.split("?")[0];
+  if (sectionId) {
+    switchSection(sectionId, null, false);
   }
 }
 
 function switchSection(sectionId, subFilter = null, updateHash = true) {
-  const targetSec = document.getElementById(`section-${sectionId}`);
+  if (!sectionId) return;
+
+  // Normalize aliases
+  let cleanId = sectionId.replace("#", "").split("?")[0].trim().toLowerCase();
+  if (cleanId === "escrow" || cleanId === "escrow-clearances" || cleanId === "escrow-governance") cleanId = "deals-payments";
+  if (cleanId === "mandi" || cleanId === "mandi-desk" || cleanId === "mandi-governance") cleanId = "market-data";
+  if (cleanId === "tribunal" || cleanId === "tribunal-bench" || cleanId === "grievance-arbitration") cleanId = "grievances";
+
+  const targetSec = document.getElementById(`section-${cleanId}`);
   if (!targetSec) return;
 
   // Deactivate all sections
   document.querySelectorAll(".gov-section").forEach(sec => sec.classList.remove("active"));
   targetSec.classList.add("active");
 
-  // Deactivate all sidebar items
+  // Deactivate all sidebar items and activate the matching one
   document.querySelectorAll(".sidebar-nav .nav-item").forEach(item => {
-    if (item.getAttribute("data-section") === sectionId) {
+    const itemSec = item.getAttribute("data-section");
+    if (itemSec === cleanId) {
       item.classList.add("active");
     } else {
       item.classList.remove("active");
@@ -66,14 +103,22 @@ function switchSection(sectionId, subFilter = null, updateHash = true) {
   });
 
   if (updateHash) {
-    window.location.hash = sectionId;
+    try {
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, "", `#${cleanId}`);
+      } else {
+        window.location.hash = cleanId;
+      }
+    } catch(e) {
+      window.location.hash = cleanId;
+    }
   }
 
-  // Scroll to top of content smoothly
+  // Smooth scroll to top of viewport
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   // Handle sub-filters if provided
-  if (sectionId === "users" && subFilter) {
+  if (cleanId === "users" && subFilter) {
     if (subFilter === "farmers") {
       filterUsers("Farmer");
     } else if (subFilter === "buyers") {
@@ -82,46 +127,321 @@ function switchSection(sectionId, subFilter = null, updateHash = true) {
       filterUsers("Logistics");
     }
   }
+
+  // Ensure target section data is live & fresh
+  renderActiveSectionData(cleanId);
+}
+
+function renderActiveSectionData(sectionId) {
+  switch (sectionId) {
+    case "dashboard":
+      renderOverviewStats();
+      renderPriorityActionQueue();
+      renderPulseFleets();
+      renderPulseStorage();
+      renderDashboardQueue();
+      break;
+    case "users":
+      renderUsersTable(currentUsersFilter, currentUsersQuery);
+      break;
+    case "market-data":
+      renderMarketDataTable();
+      renderAntiHoardingAlerts();
+      break;
+    case "deals-payments":
+      renderDealsPaymentsTable(currentDealsTab, currentDealsQuery);
+      break;
+    case "logistics-storage":
+      renderLogisticsFleetsTable();
+      renderWarehouseCapacityGrid();
+      break;
+    case "emergency-sell":
+      renderEmergencySellGrid(currentEmergencyQuery);
+      break;
+    case "grievances":
+      renderGrievancesSection();
+      break;
+    case "reports":
+      renderReportsSection();
+      renderAuditLogs();
+      break;
+  }
 }
 
 /* =========================================================================
-   2. TODAY'S OVERVIEW STATS (THE 5 KEY CARDS)
+   2. TODAY'S OVERVIEW STATS (EXECUTIVE 4-CARD METRICS & STATUS BAR)
    ========================================================================= */
 function renderOverviewStats() {
   const stats = AgriNexAdminGovernance.getStats();
   if (!stats) return;
 
-  // Card 1: 👨🌾 Farmers
+  const pendingCount = stats.pendingActions !== undefined ? stats.pendingActions : 14;
+
+  // Streamlined 4-Card Executive KPI Metrics
+  const counterpartiesEl = document.getElementById("stat-counterparties");
+  const escrowAmountEl = document.getElementById("stat-escrow-amount");
+  const activeFleetsEl = document.getElementById("stat-active-fleets");
+  const actionItemsEl = document.getElementById("stat-action-items");
+
+  if (counterpartiesEl) counterpartiesEl.textContent = "15,130";
+  if (escrowAmountEl) escrowAmountEl.textContent = "₹ 18.45 Cr";
+  if (activeFleetsEl) activeFleetsEl.textContent = stats.activeDeliveries ? String(stats.activeDeliveries) : "312";
+  if (actionItemsEl) actionItemsEl.textContent = String(pendingCount);
+
+  // Status Bar Pills & Action Center Badges
+  const pillPendingCount = document.getElementById("pill-pending-count");
+  if (pillPendingCount) pillPendingCount.textContent = `${pendingCount} Action Items`;
+
+  const queueBadgeCount = document.getElementById("queue-badge-count");
+  if (queueBadgeCount) queueBadgeCount.textContent = `Top ${Math.min(3, pendingCount)} Requiring Today's Sign-Off`;
+
+  const queueTriageCount = document.getElementById("queue-triage-count");
+  if (queueTriageCount) queueTriageCount.textContent = String(pendingCount);
+
+  const footerActionsLabel = document.getElementById("footer-actions-label");
+  if (footerActionsLabel) footerActionsLabel.textContent = `View All ${pendingCount} Action Items in Full Triage Desk`;
+
+  const headerPendingBadge = document.getElementById("header-pending-badge");
+  if (headerPendingBadge) headerPendingBadge.textContent = String(pendingCount);
+
+  // Legacy Card Elements (Protected with null checks)
   const farmersVerifiedEl = document.getElementById("stat-farmers-verified");
   const farmersPendingEl = document.getElementById("stat-farmers-pending");
   if (farmersVerifiedEl) farmersVerifiedEl.textContent = stats.verifiedFarmers || "14,280";
   if (farmersPendingEl) farmersPendingEl.textContent = `⚠️ ${stats.pendingFarmers || 48} Pending`;
 
-  // Card 2: 🏢 Buyers
   const buyersVerifiedEl = document.getElementById("stat-buyers-verified");
   const buyersPendingEl = document.getElementById("stat-buyers-pending");
   if (buyersVerifiedEl) buyersVerifiedEl.textContent = stats.enterpriseBuyers || stats.verifiedBuyers || "850";
   if (buyersPendingEl) buyersPendingEl.textContent = `⚠️ ${stats.pendingBuyers || 23} Pending`;
 
-  // Card 3: 📦 Active Deals
   const activeDealsEl = document.getElementById("stat-active-deals");
   if (activeDealsEl) activeDealsEl.textContent = stats.activeDeals || "1,420";
 
-  // Card 4: 🚚 Active Deliveries / Logistics
   const activeDeliveriesEl = document.getElementById("stat-active-deliveries");
   if (activeDeliveriesEl) activeDeliveriesEl.textContent = stats.activeDeliveries || "312";
 
-  // Card 5: ⚠️ Pending Actions
   const pendingActionsEl = document.getElementById("stat-pending-actions");
-  const headerPendingBadge = document.getElementById("header-pending-badge");
-  const pendingCount = stats.pendingActions || 14;
-  if (pendingActionsEl) pendingActionsEl.textContent = pendingCount;
-  if (headerPendingBadge) headerPendingBadge.textContent = pendingCount;
+  if (pendingActionsEl) pendingActionsEl.textContent = String(pendingCount);
 }
 
 /* =========================================================================
-   3. DASHBOARD HIGHLIGHTS & QUEUES
+   3. PRIORITY ACTION QUEUE & OPERATIONAL PULSE
    ========================================================================= */
+function renderPriorityActionQueue() {
+  const container = document.getElementById("priority-action-queue-list");
+  if (!container) return;
+
+  const actions = AgriNexAdminGovernance.getPendingActions();
+  const topActions = actions.slice(0, 3);
+
+  if (topActions.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 26px 16px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; color: #166534;">
+        <div style="font-size: 1.6rem; margin-bottom: 6px;">🎉</div>
+        <strong style="font-size: 0.92rem;">Priority Action Queue Cleared!</strong>
+        <div style="font-size: 0.76rem; color: #15803d; margin-top: 4px;">All urgent dual-key releases, tribunal bench hearings, and KYC authorizations are complete.</div>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = topActions.map(item => {
+    let avatarIcon = '🔒';
+    let avatarClass = 'avatar-escrow';
+    let proofTag = '✓ e-PoD Verified';
+    let approveBtnText = '✓ Release';
+
+    if (item.category.includes('Dispute') || item.category.includes('Tribunal')) {
+      avatarIcon = '⚖️';
+      avatarClass = 'avatar-dispute';
+      proofTag = '✓ Lab Assay Passed (98.4%)';
+      approveBtnText = '✓ Enforce';
+    } else if (item.category.includes('KYC') || item.category.includes('User')) {
+      avatarIcon = '🏢';
+      avatarClass = 'avatar-kyc';
+      proofTag = '✓ GSTIN & Satbara Validated';
+      approveBtnText = '✓ Approve';
+    } else if (item.category.includes('Emergency')) {
+      avatarIcon = '⚡';
+      avatarClass = 'avatar-emergency';
+      proofTag = '✓ Flash Distress Floor Set';
+      approveBtnText = '✓ Broadcast';
+    }
+
+    return `
+      <div class="action-queue-card" id="priority-card-${item.id}">
+        <div class="action-queue-left">
+          <div class="action-queue-avatar ${avatarClass}">
+            ${avatarIcon}
+          </div>
+          <div class="action-queue-content">
+            <div class="action-queue-top">
+              <span class="queue-tag ${item.badgeClass || 'badge-gov-pending'}">${item.category}</span>
+              <span class="queue-urgency">${item.urgency}</span>
+              <span style="font-size: 0.7rem; color: #94a3b8; font-family: monospace;">${item.id}</span>
+            </div>
+            <div class="action-queue-title" title="${item.title}">${item.title}</div>
+            <div class="action-queue-meta">
+              <span>${item.entity}</span>
+              <span class="dot-sep">•</span>
+              <span class="proof-verified">${proofTag}</span>
+            </div>
+          </div>
+        </div>
+        <div class="action-queue-right">
+          <div class="action-queue-amount">${item.amount}</div>
+          <div class="action-queue-btns">
+            <button class="btn-action-approve" onclick="handleResolvePriorityAction('${item.id}', event)" title="Authorize immediately">
+              ${approveBtnText}
+            </button>
+            <button class="btn-action-inspect" onclick="handleInspectPriorityAction('${item.id}', '${item.targetAction}', '${item.targetId}', event)" title="Inspect documentation">
+              Inspect
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function handleResolvePriorityAction(actionId, event) {
+  if (event) event.stopPropagation();
+  const res = AgriNexAdminGovernance.resolvePendingAction(actionId);
+  if (res.success) {
+    if (typeof AgriNexToast !== 'undefined') {
+      AgriNexToast.show({ icon: '✓', title: 'Action Authorized', message: res.message });
+    }
+    renderPriorityActionQueue();
+    renderOverviewStats();
+    renderDashboardQueue();
+    renderUsersTable();
+    renderDealsPaymentsTable();
+    renderGrievancesSection();
+    renderEmergencySellGrid();
+  }
+}
+
+function handleInspectPriorityAction(actionId, targetAction, targetId, event) {
+  if (event) event.stopPropagation();
+  if (targetAction === 'approve-escrow') {
+    openEscrowInspectModal(targetId);
+  } else if (targetAction === 'resolve-dispute') {
+    switchSection('grievances');
+  } else if (targetAction === 'approve-user') {
+    openUserKycModal(targetId);
+  } else {
+    openPendingActionsModal();
+  }
+}
+
+/* Operational Pulse Telemetry Switcher */
+function switchPulseTab(tabName) {
+  document.querySelectorAll(".pulse-tab-btn").forEach(btn => btn.classList.remove("active"));
+  const activeBtn = document.getElementById(`pulse-tab-${tabName}`);
+  if (activeBtn) activeBtn.classList.add("active");
+
+  document.querySelectorAll(".pulse-tab-pane").forEach(pane => pane.classList.remove("active"));
+  const activePane = document.getElementById(`pulse-pane-${tabName}`);
+  if (activePane) activePane.classList.add("active");
+
+  if (tabName === 'fleets') {
+    renderPulseFleets();
+  } else if (tabName === 'storage') {
+    renderPulseStorage();
+  }
+}
+
+function renderPulseFleets() {
+  const container = document.getElementById("pulse-fleet-list");
+  if (!container) return;
+
+  const routes = (AgriNexAdminGovernance.getGisMapData && AgriNexAdminGovernance.getGisMapData().routes) || [];
+  const deliveries = AgriNexAdminGovernance.getActiveDeliveries ? AgriNexAdminGovernance.getActiveDeliveries().slice(0, 3) : [];
+
+  if (routes.length > 0) {
+    container.innerHTML = routes.map(r => `
+      <div class="fleet-row-card">
+        <div class="fleet-row-top">
+          <span class="fleet-truck-id">${r.truckId} • ${r.driver}</span>
+          <span class="fleet-temp-badge">🌡️ ${r.temp}</span>
+        </div>
+        <div class="fleet-route-title">${r.name}</div>
+        <div class="fleet-meta-row">
+          <span>📦 ${r.cargo}</span>
+          <span style="color: #0284c7; font-weight: 700;">📍 ${r.status}</span>
+        </div>
+      </div>
+    `).join("");
+  } else if (deliveries.length > 0) {
+    container.innerHTML = deliveries.map(d => `
+      <div class="fleet-row-card">
+        <div class="fleet-row-top">
+          <span class="fleet-truck-id">${d.id} • ${d.transporter}</span>
+          <span class="fleet-temp-badge">🌡️ ${d.tempStatus}</span>
+        </div>
+        <div class="fleet-route-title">${d.route}</div>
+        <div class="fleet-meta-row">
+          <span>📦 ${d.cargo}</span>
+          <span style="color: #059669; font-weight: 700;">✓ On Schedule</span>
+        </div>
+      </div>
+    `).join("");
+  }
+}
+
+function renderPulseStorage() {
+  const container = document.getElementById("pulse-storage-list");
+  if (!container) return;
+
+  const whs = AgriNexAdminGovernance.getWarehouses().slice(0, 4);
+  container.innerHTML = whs.map(w => {
+    const pct = Math.round((w.occupiedMT / w.totalCapacityMT) * 100);
+    const color = pct >= 85 ? '#ef4444' : pct >= 75 ? '#f59e0b' : '#10b981';
+    return `
+      <div class="storage-row-card">
+        <div class="storage-row-top">
+          <span class="storage-hub-name">${w.name}</span>
+          <span class="storage-hub-district">${w.district}</span>
+        </div>
+        <div class="storage-meter-row">
+          <span>Occupancy (${pct}%)</span>
+          <strong>${w.occupiedMT.toLocaleString()} / ${w.totalCapacityMT.toLocaleString()} MT</strong>
+        </div>
+        <div class="storage-progress-track">
+          <div class="storage-progress-fill" style="width: ${pct}%; background: ${color};"></div>
+        </div>
+        <div class="storage-telemetry-meta">
+          <span>🌡️ Temp: <strong>${w.temp || '2.8°C'}</strong></span>
+          <span>💧 Humidity: <strong>${w.humidity || '91%'}</strong></span>
+          <span style="color: ${color}; font-weight: 700;">${pct >= 85 ? 'Critical (Near Peak)' : 'Optimal'}</span>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+/* Full State GIS Command Map Modal Triggers */
+function openGisMapModal() {
+  const modal = document.getElementById("modal-gis-command-map");
+  if (!modal) return;
+  modal.classList.add("active");
+
+  if (!apmcMapInstance) {
+    setTimeout(initApmcGisMap, 150);
+  } else {
+    setTimeout(() => {
+      apmcMapInstance.invalidateSize();
+    }, 150);
+  }
+}
+
+function closeGisMapModal() {
+  const modal = document.getElementById("modal-gis-command-map");
+  if (modal) modal.classList.remove("active");
+}
+
+/* Fallback / Sub-View Handlers */
 function renderDashboardQueue() {
   const tbody = document.getElementById("dashboard-queue-tbody");
   if (!tbody) return;
@@ -179,10 +499,76 @@ function renderDashboardDeliveries() {
 /* =========================================================================
    4. USERS DIRECTORY & FPO FEDERATIONS MANAGEMENT
    ========================================================================= */
-function renderUsersTable(filterCategory = "all") {
+function renderUserRowHtml(u) {
+  const isPending = u.status.includes("Pending");
+  let categoryBadge = "";
+  if (u.category === "Farmer") {
+    categoryBadge = `<span class="badge" style="background: #dcfce7; color: #166534; font-size: 0.72rem; font-weight: 800;">👨🌾 Farmer</span>`;
+  } else if (u.category === "Buyer") {
+    categoryBadge = `<span class="badge" style="background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800;">🏢 Buyer</span>`;
+  } else if (u.category === "Logistics") {
+    categoryBadge = `<span class="badge" style="background: #fef3c7; color: #92400e; font-size: 0.72rem; font-weight: 800;">🚚 Logistics</span>`;
+  } else {
+    categoryBadge = `<span class="badge" style="background: #f1f5f9; color: #334155; font-size: 0.72rem; font-weight: 800;">${u.category}</span>`;
+  }
+
+  const statusBadge = isPending
+    ? `<span class="badge-gov-pending">⚠️ ${u.status}</span>`
+    : `<span class="badge-gov-clear">✓ Verified</span>`;
+
+  return `
+    <tr>
+      <td>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="${u.avatar}" alt="${u.name}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1;" onerror="this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80'" />
+          <div>
+            <strong style="color: #0f172a; font-size: 0.9rem;">${u.name}</strong>
+            <div style="font-size: 0.72rem; color: #64748b;">${u.id} • ${u.phone}</div>
+          </div>
+        </div>
+      </td>
+      <td>${categoryBadge}</td>
+      <td>
+        <div style="font-size: 0.82rem; font-weight: 700; color: #334155;">${u.location}</div>
+        <div style="font-size: 0.72rem; color: #64748b;">Joined: ${u.joinedDate}</div>
+      </td>
+      <td>
+        <div style="font-size: 0.82rem; color: #0f172a; font-weight: 600;">${u.crops || u.businessType || 'General Produce'}</div>
+        ${u.creditLimit ? `<div style="font-size: 0.72rem; color: #059669; font-weight: 700;">Credit: ${u.creditLimit}</div>` : ''}
+      </td>
+      <td>
+        <div style="font-size: 0.78rem; font-weight: 700; color: #334155;">${u.kycDoc}</div>
+        ${u.gstin ? `<div style="font-size: 0.7rem; color: #64748b; font-family: monospace;">GSTIN: ${u.gstin}</div>` : ''}
+      </td>
+      <td>
+        ${statusBadge}
+        <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">Risk: <strong>${u.riskScore}</strong></div>
+      </td>
+      <td>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          ${isPending ? `
+            <button class="btn-gov-approve" onclick="handleApproveUser('${u.id}')" title="Approve KYC Authentication">
+              ✓ Approve
+            </button>
+          ` : `
+            <span style="font-size: 0.74rem; color: #059669; font-weight: 800;">✓ Active</span>
+          `}
+          <button class="btn-gov-inspect" onclick="openUserKycModal('${u.id}')">
+            🔍 Inspect
+          </button>
+        </div>
+      </td>
+    </tr>
+  `;
+}
+
+function renderUsersTable(filterCategory = currentUsersFilter, searchQuery = currentUsersQuery) {
   const thead = document.getElementById("users-table-thead");
   const tbody = document.getElementById("users-table-tbody");
   if (!tbody) return;
+
+  currentUsersFilter = filterCategory;
+  currentUsersQuery = searchQuery;
 
   // If FPO category is selected, render specialized FPO table
   if (filterCategory === "FPO") {
@@ -200,7 +586,23 @@ function renderUsersTable(filterCategory = "all") {
       `;
     }
 
-    const fpos = AgriNexAdminGovernance.getFpoFederations();
+    let fpos = AgriNexAdminGovernance.getFpoFederations();
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase().trim();
+      fpos = fpos.filter(f => f.name.toLowerCase().includes(q) || f.headquarters.toLowerCase().includes(q) || f.regNo.toLowerCase().includes(q));
+    }
+
+    if (fpos.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 28px; color: #64748b;">
+            No FPO Federations matching your query.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
     tbody.innerHTML = fpos.map(f => `
       <tr>
         <td>
@@ -268,82 +670,34 @@ function renderUsersTable(filterCategory = "all") {
     users = users.filter(u => u.category === filterCategory);
   }
 
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase().trim();
+    users = users.filter(u => 
+      u.name.toLowerCase().includes(q) || 
+      u.location.toLowerCase().includes(q) || 
+      (u.phone && u.phone.includes(q)) ||
+      (u.id && u.id.toLowerCase().includes(q)) ||
+      (u.crops && u.crops.toLowerCase().includes(q)) ||
+      (u.gstin && u.gstin.toLowerCase().includes(q))
+    );
+  }
+
   if (users.length === 0) {
     tbody.innerHTML = `
       <tr>
         <td colspan="7" style="text-align: center; padding: 28px; color: #64748b;">
-          No users found in this category.
+          No users found matching current filters.
         </td>
       </tr>
     `;
     return;
   }
 
-  tbody.innerHTML = users.map(u => {
-    const isPending = u.status.includes("Pending");
-    let categoryBadge = "";
-    if (u.category === "Farmer") {
-      categoryBadge = `<span class="badge" style="background: #dcfce7; color: #166534; font-size: 0.72rem; font-weight: 800;">👨🌾 Farmer</span>`;
-    } else if (u.category === "Buyer") {
-      categoryBadge = `<span class="badge" style="background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800;">🏢 Buyer</span>`;
-    } else if (u.category === "Logistics") {
-      categoryBadge = `<span class="badge" style="background: #fef3c7; color: #92400e; font-size: 0.72rem; font-weight: 800;">🚚 Logistics</span>`;
-    } else {
-      categoryBadge = `<span class="badge" style="background: #f1f5f9; color: #334155; font-size: 0.72rem; font-weight: 800;">${u.category}</span>`;
-    }
-
-    const statusBadge = isPending
-      ? `<span class="badge-gov-pending">⚠️ ${u.status}</span>`
-      : `<span class="badge-gov-clear">✓ Verified</span>`;
-
-    return `
-      <tr>
-        <td>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="${u.avatar}" alt="${u.name}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1;" />
-            <div>
-              <strong style="color: #0f172a; font-size: 0.9rem;">${u.name}</strong>
-              <div style="font-size: 0.72rem; color: #64748b;">${u.id} • ${u.phone}</div>
-            </div>
-          </div>
-        </td>
-        <td>${categoryBadge}</td>
-        <td>
-          <div style="font-size: 0.82rem; font-weight: 700; color: #334155;">${u.location}</div>
-          <div style="font-size: 0.72rem; color: #64748b;">Joined: ${u.joinedDate}</div>
-        </td>
-        <td>
-          <div style="font-size: 0.82rem; color: #0f172a; font-weight: 600;">${u.crops || u.businessType || 'General Produce'}</div>
-          ${u.creditLimit ? `<div style="font-size: 0.72rem; color: #059669; font-weight: 700;">Credit: ${u.creditLimit}</div>` : ''}
-        </td>
-        <td>
-          <div style="font-size: 0.78rem; font-weight: 700; color: #334155;">${u.kycDoc}</div>
-          ${u.gstin ? `<div style="font-size: 0.7rem; color: #64748b; font-family: monospace;">GSTIN: ${u.gstin}</div>` : ''}
-        </td>
-        <td>
-          ${statusBadge}
-          <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">Risk: <strong>${u.riskScore}</strong></div>
-        </td>
-        <td>
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            ${isPending ? `
-              <button class="btn-gov-approve" onclick="handleApproveUser('${u.id}')" title="Approve KYC Authentication">
-                ✓ Approve
-              </button>
-            ` : `
-              <span style="font-size: 0.74rem; color: #059669; font-weight: 800;">✓ Active</span>
-            `}
-            <button class="btn-gov-inspect" onclick="openUserKycModal('${u.id}')">
-              🔍 Inspect
-            </button>
-          </div>
-        </td>
-      </tr>
-    `;
-  }).join("");
+  tbody.innerHTML = users.map(u => renderUserRowHtml(u)).join("");
 }
 
 function filterUsers(category, el = null) {
+  currentUsersFilter = category;
   if (el) {
     document.querySelectorAll(".filter-pills-bar .filter-pill").forEach(p => p.classList.remove("active"));
     el.classList.add("active");
@@ -362,7 +716,13 @@ function filterUsers(category, el = null) {
       }
     });
   }
-  renderUsersTable(category);
+  const searchInput = document.getElementById("search-users-input");
+  renderUsersTable(category, searchInput ? searchInput.value : "");
+}
+
+function filterUsersBySearch(query) {
+  currentUsersQuery = query;
+  renderUsersTable(currentUsersFilter, query);
 }
 
 function handleApproveUser(userId) {
@@ -372,7 +732,14 @@ function handleApproveUser(userId) {
       renderUsersTable();
       renderOverviewStats();
       renderAuditLogs();
-      alert(`🎉 ${res.message}`);
+
+      if (window.AgriNexBus) {
+        window.AgriNexBus.emit('kyc:approved', {
+          userId: userId,
+          userName: res.user ? res.user.name : userId,
+          timestamp: Date.now()
+        });
+      }
     } else {
       alert(res.message);
     }
@@ -488,12 +855,25 @@ function filterMarketData(query) {
 
 function promptPriceEdit(cropId, cropName, currentPrice) {
   const newPrice = prompt(`Enter updated APMC modal benchmark price for ${cropName} (current: ₹${currentPrice}/kg):`, currentPrice);
-  if (newPrice) {
+  if (newPrice !== null && newPrice.trim() !== "") {
     const res = AgriNexAdminGovernance.updateMandiPrice(cropId, newPrice);
     if (res.success) {
       renderMarketDataTable();
       renderAuditLogs();
-      alert(`🎉 ${res.message}`);
+      if (typeof renderMandiTable === 'function') {
+        renderMandiTable();
+      }
+      if (typeof AgriNexToast !== 'undefined') {
+        AgriNexToast.show({ icon: '📈', title: 'Modal Price Calibrated', message: res.message });
+      }
+      if (window.AgriNexBus) {
+        window.AgriNexBus.emit('mandi:price_calibrated', {
+          cropId,
+          cropName,
+          newPrice,
+          timestamp: Date.now()
+        });
+      }
     } else {
       alert(res.message);
     }
@@ -503,12 +883,61 @@ function promptPriceEdit(cropId, cropName, currentPrice) {
 /* =========================================================================
    6. DEALS & PAYMENTS (DUAL-KEY ESCROW LEDGER)
    ========================================================================= */
-function renderDealsPaymentsTable() {
+function renderDealsPaymentsTable(tab = currentDealsTab, filterQuery = currentDealsQuery) {
   const tbody = document.getElementById("deals-payments-tbody");
   if (!tbody) return;
 
-  const cases = AgriNexAdminGovernance.getEscrowCases();
+  currentDealsTab = tab;
+  currentDealsQuery = filterQuery;
+
+  let cases = AgriNexAdminGovernance.getEscrowCases();
+
+  if (tab === 'advance') {
+    cases = cases.filter(c => c.type.includes('35%'));
+  } else if (tab === 'final') {
+    cases = cases.filter(c => c.type.includes('65%'));
+  } else if (tab === 'hold') {
+    cases = cases.filter(c => c.status.includes('Quarantined') || c.status.includes('Hold'));
+  }
+
+  if (filterQuery) {
+    const q = filterQuery.toLowerCase().trim();
+    cases = cases.filter(c => 
+      c.id.toLowerCase().includes(q) || 
+      c.crop.toLowerCase().includes(q) || 
+      c.farmerName.toLowerCase().includes(q) || 
+      c.buyerName.toLowerCase().includes(q) ||
+      c.mandi.toLowerCase().includes(q)
+    );
+  }
+
+  if (cases.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 28px; color: #64748b;">
+          No escrow clearances matching your current filter.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
   tbody.innerHTML = cases.map(c => renderEscrowRow(c)).join("");
+}
+
+function filterDealsTab(tab, btn = null) {
+  currentDealsTab = tab;
+  if (btn) {
+    document.querySelectorAll(".deals-tab-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+  }
+  const searchInput = document.getElementById("deals-search-input");
+  renderDealsPaymentsTable(tab, searchInput ? searchInput.value : "");
+}
+
+function filterDealsSearch(query) {
+  currentDealsQuery = query;
+  renderDealsPaymentsTable(currentDealsTab, query);
 }
 
 function renderEscrowRow(c) {
@@ -520,11 +949,19 @@ function renderEscrowRow(c) {
   if (isHold) badgeClass = "badge-gov-hold";
 
   return `
-    <tr>
+    <tr id="row-escrow-${c.id}">
       <td>
         <strong style="color: #0c5a36; font-size: 0.92rem;">${c.id}</strong>
         <div style="font-size: 0.74rem; color: #64748b; margin-top: 2px;">
           <span class="badge badge-fpo" style="font-size: 0.68rem; padding: 2px 6px;">${c.type}</span>
+        </div>
+        <div style="margin-top: 4px; display: flex; gap: 4px; flex-wrap: wrap;">
+          <a href="escrow-governance.html?caseId=${encodeURIComponent(c.id)}" class="deep-jump-btn" style="text-decoration: none;" title="Inspect on Escrow Governance Desk">
+            <span>🔒</span> Desk &rarr;
+          </a>
+          <button class="deep-jump-btn" style="color: #0284c7; background: #e0f2fe; border-color: #bae6fd;" onclick="AgriNexDeepLink.jumpTo('logistics', '${c.id}')" title="Inspect in Fleet Logistics">
+            <span>🚚</span> Fleet &rarr;
+          </button>
         </div>
       </td>
       <td>
@@ -574,7 +1011,24 @@ function handleApproveEscrow(caseId) {
       renderDashboardQueue();
       renderDealsPaymentsTable();
       renderAuditLogs();
-      alert(`🎉 ${res.message}`);
+      renderOverviewStats();
+
+      if (typeof renderEscrowTable === 'function') {
+        renderEscrowTable();
+      }
+
+      if (typeof AgriNexToast !== 'undefined') {
+        AgriNexToast.show({ icon: '💰', title: 'Escrow Released', message: res.message });
+      }
+
+      // Emit event across entire platform via AgriNexBus
+      if (window.AgriNexBus) {
+        window.AgriNexBus.emit('escrow:released', {
+          caseId: caseId,
+          amount: res.case ? res.case.payoutFormatted : '12.4 Lakh',
+          timestamp: Date.now()
+        });
+      }
     } else {
       alert(res.message);
     }
@@ -589,7 +1043,22 @@ function handleHoldEscrow(caseId) {
       renderDashboardQueue();
       renderDealsPaymentsTable();
       renderAuditLogs();
-      alert(`⚠️ ${res.message}`);
+
+      if (typeof renderEscrowTable === 'function') {
+        renderEscrowTable();
+      }
+
+      if (typeof AgriNexToast !== 'undefined') {
+        AgriNexToast.show({ icon: '⚠️', title: 'Escrow Quarantined', message: `Case ${caseId} placed on hold.` });
+      }
+
+      if (window.AgriNexBus) {
+        window.AgriNexBus.emit('escrow:hold', {
+          caseId: caseId,
+          reason: reason,
+          timestamp: Date.now()
+        });
+      }
     }
   }
 }
@@ -715,11 +1184,16 @@ function renderLogisticsFleetsTable() {
 
   const deliveries = AgriNexAdminGovernance.getActiveDeliveries();
   tbody.innerHTML = deliveries.map(d => `
-    <tr>
+    <tr id="row-fleet-${d.id}">
       <td>
         <strong style="color: #0f172a; font-size: 0.9rem;">${d.id}</strong>
         <div style="font-size: 0.74rem; color: #64748b;">${d.vehicleNo}</div>
         <span class="badge" style="background: #f1f5f9; color: #334155; font-size: 0.68rem; margin-top: 3px;">${d.vehicleType}</span>
+        <div style="margin-top: 4px;">
+          <button class="deep-jump-btn" onclick="AgriNexDeepLink.jumpTo('logistics', '${d.id}')" title="Open in Logistics Hub Terminal">
+            <span>🚚</span> Fleet Hub &rarr;
+          </button>
+        </div>
       </td>
       <td>
         <div style="font-weight: 700; color: #0f172a; font-size: 0.84rem;">${d.driver}</div>
@@ -794,11 +1268,32 @@ function renderWarehouseCapacityGrid() {
 /* =========================================================================
    8. EMERGENCY SELL GRID
    ========================================================================= */
-function renderEmergencySellGrid() {
+function renderEmergencySellGrid(query = currentEmergencyQuery) {
   const container = document.getElementById("emergency-sell-grid");
   if (!container) return;
 
-  const lots = AgriNexAdminGovernance.getEmergencySellLots();
+  currentEmergencyQuery = query;
+  let lots = AgriNexAdminGovernance.getEmergencySellLots();
+
+  if (query) {
+    const q = query.toLowerCase().trim();
+    lots = lots.filter(l => 
+      l.crop.toLowerCase().includes(q) || 
+      l.mandi.toLowerCase().includes(q) || 
+      l.farmer.toLowerCase().includes(q) ||
+      l.id.toLowerCase().includes(q)
+    );
+  }
+
+  if (lots.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 36px; background: #fff; border-radius: 12px; border: 1px dashed #cbd5e1; color: #64748b;">
+        No emergency clearance lots matching your search criteria.
+      </div>
+    `;
+    return;
+  }
+
   container.innerHTML = lots.map(l => `
     <div class="emergency-card">
       <div>
@@ -829,7 +1324,7 @@ function renderEmergencySellGrid() {
         </div>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 12px; gap: 8px;">
         <span style="font-size: 0.74rem; color: #059669; font-weight: 700;">Status: ${l.status}</span>
         <button class="btn btn-primary btn-sm" onclick="handleBroadcastEmergency('${l.id}')" style="background: #dc2626; border-color: #dc2626; font-size: 0.78rem; padding: 6px 12px;">
           ⚡ Broadcast to 850 Buyers
@@ -839,12 +1334,26 @@ function renderEmergencySellGrid() {
   `).join("");
 }
 
+function filterEmergencyLots(query) {
+  renderEmergencySellGrid(query);
+}
+
 function handleBroadcastEmergency(lotId) {
   const res = AgriNexAdminGovernance.broadcastEmergencyLot(lotId);
   if (res.success) {
     renderEmergencySellGrid();
     renderAuditLogs();
-    alert(`📢 ${res.message}`);
+    if (typeof AgriNexToast !== 'undefined') {
+      AgriNexToast.show({ icon: '⚡', title: 'Flash Auction Broadcasted', message: res.message });
+    }
+    if (window.AgriNexBus) {
+      window.AgriNexBus.emit('advisory:broadcast', {
+        lotId: lotId,
+        message: res.message,
+        reach: '850 Enterprise Buyers',
+        timestamp: Date.now()
+      });
+    }
   }
 }
 
@@ -884,7 +1393,13 @@ function renderGrievancesSection() {
           <strong>⚖️ Proposed Tribunal Award:</strong> ${g.proposedResolution}
         </div>
 
-        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <button class="btn btn-outline btn-sm" onclick="openGrievanceEvidenceModal('${g.ticketId}')" style="font-size: 0.78rem; padding: 6px 12px;">
+            🔍 Inspect Evidence
+          </button>
+          <a href="grievance-arbitration.html?caseId=${encodeURIComponent(g.ticketId)}" class="btn btn-outline btn-sm" style="font-size: 0.78rem; padding: 6px 12px; text-decoration: none; color: #881337; border-color: #fbcfe8;">
+            ⚖️ Dedicated Bench &rarr;
+          </a>
           ${!isSettled ? `
             <button class="btn btn-primary btn-sm" onclick="handleFastTrackArbitration('${g.ticketId}')" style="background: #059669; border-color: #059669; font-size: 0.78rem; padding: 6px 14px;">
               ⚡ Fast-Track Auto-Arbitrate & Award
@@ -905,11 +1420,114 @@ function handleFastTrackArbitration(ticketId) {
       renderGrievancesSection();
       renderOverviewStats();
       renderAuditLogs();
-      alert(`⚖️ ${res.message}`);
+
+      if (typeof renderTribunalCards === 'function') {
+        renderTribunalCards();
+      }
+
+      if (typeof AgriNexToast !== 'undefined') {
+        AgriNexToast.show({ icon: '⚖️', title: 'Tribunal Award Enforced', message: res.message });
+      }
+
+      if (window.AgriNexBus) {
+        window.AgriNexBus.emit('dispute:tribunal_order', {
+          caseId: ticketId,
+          timestamp: Date.now()
+        });
+      }
     } else {
       alert(res.message);
     }
   }
+}
+
+function openGrievanceEvidenceModal(ticketId) {
+  const cases = AgriNexAdminGovernance.getGrievances();
+  const c = cases.find(g => g.ticketId === ticketId);
+  if (!c) return;
+
+  const modal = document.getElementById("modal-grievance-inspect");
+  const content = document.getElementById("modal-grievance-content");
+  if (!modal || !content) return;
+
+  const isSettled = c.status.includes("Settled");
+
+  content.innerHTML = `
+    <div style="padding: 18px 24px; background: linear-gradient(135deg, #881337 0%, #4c0519 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
+      <div>
+        <span style="background: rgba(255,255,255,0.2); color: #ffffff; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">
+          Statutory Mandi Tribunal Evidence Dossier
+        </span>
+        <h3 style="font-size: 1.2rem; font-weight: 800; margin-top: 4px; color: #ffffff;">${c.ticketId}: ${c.title}</h3>
+      </div>
+      <button onclick="closeGrievanceEvidenceModal()" style="font-size: 1.5rem; color: #ffffff; background: none; border: none; cursor: pointer;">&times;</button>
+    </div>
+
+    <div style="padding: 22px; max-height: 75vh; overflow-y: auto;">
+      <!-- Counterparties & Amount -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
+          <div style="font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Claimant Farmer</div>
+          <strong style="font-size: 0.95rem; color: #0f172a;">${c.farmer}</strong>
+          <div style="font-size: 0.78rem; color: #334155; margin-top: 4px;">Claim: ${c.farmerClaim}</div>
+        </div>
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
+          <div style="font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Respondent Buyer</div>
+          <strong style="font-size: 0.95rem; color: #0f172a;">${c.buyer}</strong>
+          <div style="font-size: 0.78rem; color: #334155; margin-top: 4px;">Claim: ${c.buyerClaim}</div>
+        </div>
+      </div>
+
+      <!-- Disputed Pool -->
+      <div style="background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 10px; padding: 12px 16px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span style="font-size: 0.76rem; color: #9f1239; font-weight: 700;">Quarantined Disputed Escrow Pool:</span>
+          <div style="font-size: 1.3rem; font-weight: 900; color: #be123c;">${c.disputedFormatted}</div>
+        </div>
+        <span class="badge ${isSettled ? 'badge-gov-clear' : 'badge-gov-hold'}">${c.status}</span>
+      </div>
+
+      <!-- NABL Lab Assay & Weigh Slip -->
+      ${c.labAssay ? `
+        <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 10px; padding: 14px; margin-bottom: 18px;">
+          <div style="font-size: 0.8rem; font-weight: 800; color: #166534; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <span>🔬 Certified NABL Lab Quality Assay</span>
+            <span class="badge" style="background: #dcfce7; color: #15803d; font-size: 0.68rem;">${c.labAssay.labStatus}</span>
+          </div>
+          <div style="font-size: 0.78rem; color: #334155;">
+            <div><strong>Testing Lab:</strong> ${c.labAssay.labName} (Cert #${c.labAssay.certNo})</div>
+            <div><strong>Parameter Measured:</strong> ${c.labAssay.parameter} = <strong>${c.labAssay.measuredValue}</strong> (Benchmark: ${c.labAssay.standardLimit})</div>
+            <div style="color: #166534; font-weight: 700; margin-top: 4px;">✓ Statutory Verdict: ${c.labAssay.verdict}</div>
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- Proposed Award & Split Action -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 18px;">
+        <div style="font-weight: 800; font-size: 0.82rem; color: #0f172a; margin-bottom: 4px;">Proposed Tribunal Order:</div>
+        <div style="font-size: 0.8rem; color: #475569; line-height: 1.4;">${c.proposedResolution}</div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeGrievanceEvidenceModal()">Close</button>
+        ${!isSettled ? `
+          <button class="btn btn-primary" onclick="handleFastTrackArbitration('${c.ticketId}'); closeGrievanceEvidenceModal();" style="background: #059669; border-color: #059669;">
+            ⚡ Auto-Arbitrate & Enforce Award
+          </button>
+          <a href="grievance-arbitration.html?caseId=${encodeURIComponent(c.ticketId)}" class="btn btn-primary" style="background: #881337; border-color: #881337; text-decoration: none;">
+            ⚖️ Open Full Tribunal Bench &rarr;
+          </a>
+        ` : ''}
+      </div>
+    </div>
+  `;
+
+  modal.classList.add("active");
+}
+
+function closeGrievanceEvidenceModal() {
+  const modal = document.getElementById("modal-grievance-inspect");
+  if (modal) modal.classList.remove("active");
 }
 
 /* =========================================================================
@@ -1018,12 +1636,15 @@ function handleResolveAction(actionId) {
   if (res.success) {
     openPendingActionsModal();
     renderOverviewStats();
+    renderPriorityActionQueue();
     renderDashboardQueue();
     renderUsersTable();
     renderGrievancesSection();
     renderEmergencySellGrid();
     renderAuditLogs();
-    alert(`🎉 ${res.message}`);
+    if (typeof AgriNexToast !== 'undefined') {
+      AgriNexToast.show({ icon: '✓', title: 'Action Resolved', message: res.message });
+    }
   }
 }
 
@@ -1035,36 +1656,57 @@ function handleGlobalSearch(query) {
     renderDashboardQueue();
     renderUsersTable();
     renderMarketDataTable();
+    renderDealsPaymentsTable();
+    renderEmergencySellGrid();
+    renderGrievancesSection();
     return;
   }
 
   const q = query.toLowerCase().trim();
 
-  // If user searched a commodity, filter market data
+  // 1. Filter market data
   renderMarketDataTable(q);
 
-  // Filter users table
+  // 2. Filter users table
   const users = AgriNexAdminGovernance.getUsers().filter(u => 
     u.name.toLowerCase().includes(q) || 
     u.location.toLowerCase().includes(q) || 
-    (u.crops && u.crops.toLowerCase().includes(q))
+    (u.crops && u.crops.toLowerCase().includes(q)) ||
+    (u.id && u.id.toLowerCase().includes(q)) ||
+    (u.phone && u.phone.includes(q))
   );
   const userTbody = document.getElementById("users-table-tbody");
-  if (userTbody && users.length > 0) {
-    userTbody.innerHTML = users.map(u => renderUserRowHtml(u)).join("");
+  if (userTbody) {
+    if (users.length > 0) {
+      userTbody.innerHTML = users.map(u => renderUserRowHtml(u)).join("");
+    } else {
+      userTbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 24px; color: #64748b;">No users matching "${query}".</td></tr>`;
+    }
   }
 
-  // Filter escrow cases
+  // 3. Filter escrow cases
   const cases = AgriNexAdminGovernance.getEscrowCases().filter(c =>
     c.id.toLowerCase().includes(q) ||
     c.crop.toLowerCase().includes(q) ||
     c.farmerName.toLowerCase().includes(q) ||
-    c.buyerName.toLowerCase().includes(q)
+    c.buyerName.toLowerCase().includes(q) ||
+    c.mandi.toLowerCase().includes(q)
   );
   const queueTbody = document.getElementById("dashboard-queue-tbody");
   if (queueTbody) {
     queueTbody.innerHTML = cases.map(c => renderEscrowRow(c)).join("");
   }
+  const dealsTbody = document.getElementById("deals-payments-tbody");
+  if (dealsTbody) {
+    if (cases.length > 0) {
+      dealsTbody.innerHTML = cases.map(c => renderEscrowRow(c)).join("");
+    } else {
+      dealsTbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 24px; color: #64748b;">No escrow cases matching "${query}".</td></tr>`;
+    }
+  }
+
+  // 4. Filter emergency lots
+  renderEmergencySellGrid(q);
 }
 
 /* =========================================================================
@@ -1569,14 +2211,18 @@ function exportAuditLedgerCSV() {
   const logs = AgriNexAdminGovernance.getAuditLogs();
 
   let csvContent = "data:text/csv;charset=utf-8,";
-  csvContent += "Event ID,Timestamp,Action Category,Counterparties / Entity,Jurisdiction / Volume,Financial Value,SHA-256 Hash,Authorized By\n";
+  csvContent += "Event ID,Timestamp,Governance Action,Target Entity / Counterparty,Jurisdiction / Volume,Financial Value,SHA-256 Hash,Authorized Officer,Status\n";
 
   logs.forEach(log => {
+    const cleanId = `"${(log.id || log.targetId || '').replace(/"/g, '""')}"`;
+    const cleanTime = `"${(log.timestamp || '').replace(/"/g, '""')}"`;
     const cleanAction = `"${(log.action || '').replace(/"/g, '""')}"`;
-    const cleanEntity = `"${(log.entity || '').replace(/"/g, '""')}"`;
-    const cleanAmount = `"${(log.amount || '').replace(/"/g, '""')}"`;
-    const cleanOfficer = `"${(log.officer || '').replace(/"/g, '""')}"`;
-    csvContent += `${log.id},${log.timestamp},${cleanAction},${cleanEntity},Maharashtra Mandi Board,${cleanAmount},${log.hash},${cleanOfficer}\n`;
+    const cleanTarget = `"${(log.targetId || log.entity || '').replace(/"/g, '""')}"`;
+    const cleanAmount = `"${(log.amount || 'N/A').replace(/"/g, '""')}"`;
+    const cleanHash = `"${(log.txHash || log.hash || '').replace(/"/g, '""')}"`;
+    const cleanOfficer = `"${(log.actor || log.officer || 'Dr. R. K. Shinde (IAS)').replace(/"/g, '""')}"`;
+    const cleanStatus = `"${(log.status || 'Success').replace(/"/g, '""')}"`;
+    csvContent += `${cleanId},${cleanTime},${cleanAction},${cleanTarget},Maharashtra Mandi Board,${cleanAmount},${cleanHash},${cleanOfficer},${cleanStatus}\n`;
   });
 
   const encodedUri = encodeURI(csvContent);
@@ -1587,11 +2233,15 @@ function exportAuditLedgerCSV() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+
+  if (typeof AgriNexToast !== 'undefined') {
+    AgriNexToast.show({ icon: '📥', title: 'Audit Ledger Exported', message: `Downloaded CSV with ${logs.length} cryptographic records.` });
+  }
 }
 
 function downloadOfficialAuditPDF() {
   const stats = AgriNexAdminGovernance.getStats();
-  const logs = AgriNexAdminGovernance.getAuditLogs().slice(0, 10);
+  const logs = AgriNexAdminGovernance.getAuditLogs().slice(0, 12);
   const dateStr = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
 
   const printWindow = window.open('', '_blank');
@@ -1606,26 +2256,26 @@ function downloadOfficialAuditPDF() {
     <head>
       <title>MSAMB Regulatory Compliance & Audit Report - AgriNex</title>
       <style>
-        body { font-family: 'Plus Jakarta Sans', Arial, sans-serif; margin: 40px; color: #0f172a; line-height: 1.5; font-size: 13px; }
-        .header { border-bottom: 3px double #0c5a36; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+        body { font-family: 'Plus Jakarta Sans', Arial, sans-serif; margin: 30px; color: #0f172a; line-height: 1.5; font-size: 12px; }
+        .header { border-bottom: 3px double #0c5a36; padding-bottom: 14px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
         .header-title { color: #0c5a36; font-size: 20px; font-weight: 900; margin: 0; }
-        .header-sub { color: #475569; font-size: 12px; margin-top: 4px; }
-        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
-        .kpi-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; }
-        .kpi-val { font-size: 18px; font-weight: 800; color: #0c5a36; }
-        .kpi-lbl { font-size: 11px; color: #64748b; font-weight: 700; text-transform: uppercase; }
-        table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 12px; }
-        th, td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; }
-        th { background: #0c5a36; color: #ffffff; font-weight: 800; }
+        .header-sub { color: #475569; font-size: 11px; margin-top: 3px; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .kpi-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; }
+        .kpi-val { font-size: 16px; font-weight: 800; color: #0c5a36; }
+        .kpi-lbl { font-size: 10px; color: #64748b; font-weight: 700; text-transform: uppercase; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 11px; }
+        th, td { border: 1px solid #cbd5e1; padding: 7px 9px; text-align: left; }
+        th { background: #0c5a36; color: #ffffff; font-weight: 800; font-size: 11px; }
         tr:nth-child(even) { background: #f8fafc; }
-        .hash { font-family: monospace; font-size: 10px; color: #6b21a8; }
-        .stamp-box { margin-top: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .seal { border: 2px solid #059669; color: #059669; padding: 10px 18px; border-radius: 8px; font-weight: 900; font-size: 12px; text-transform: uppercase; text-align: center; }
+        .hash { font-family: monospace; font-size: 9px; color: #6b21a8; }
+        .stamp-box { margin-top: 24px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .seal { border: 2px solid #059669; color: #059669; padding: 8px 14px; border-radius: 8px; font-weight: 900; font-size: 11px; text-transform: uppercase; text-align: center; }
         @media print { .no-print { display: none; } }
       </style>
     </head>
     <body>
-      <div class="no-print" style="margin-bottom: 16px;">
+      <div class="no-print" style="margin-bottom: 14px;">
         <button onclick="window.print()" style="background: #0c5a36; color: #fff; padding: 8px 16px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">🖨️ Print / Save as PDF</button>
         <span style="color: #64748b; margin-left: 10px; font-size: 12px;">Click above or press Ctrl+P to save as official PDF</span>
       </div>
@@ -1643,43 +2293,43 @@ function downloadOfficialAuditPDF() {
       <div class="kpi-grid">
         <div class="kpi-box">
           <div class="kpi-lbl">Verified Producers</div>
-          <div class="kpi-val">${stats.verifiedFarmers}</div>
+          <div class="kpi-val">${stats.verifiedFarmers || '14,280'}</div>
         </div>
         <div class="kpi-box">
           <div class="kpi-lbl">Licensed Buyers</div>
-          <div class="kpi-val">${stats.enterpriseBuyers}</div>
+          <div class="kpi-val">${stats.enterpriseBuyers || '850'}</div>
         </div>
         <div class="kpi-box">
           <div class="kpi-lbl">Dual-Key Escrow Pool</div>
-          <div class="kpi-val">${stats.totalEscrowLocked}</div>
+          <div class="kpi-val">${stats.totalEscrowLocked || '₹ 18.45 Cr'}</div>
         </div>
         <div class="kpi-box">
           <div class="kpi-lbl">Dispute Resolution SLA</div>
-          <div class="kpi-val">${stats.disputeSLA}</div>
+          <div class="kpi-val">${stats.disputeSLA || '2.1 Hours'}</div>
         </div>
       </div>
 
-      <h3 style="color: #0c5a36; margin-bottom: 6px; font-size: 14px;">Cryptographic Governance Audit Trail (Immutable SHA-256 Hashes)</h3>
+      <h3 style="color: #0c5a36; margin-bottom: 4px; font-size: 13px;">Cryptographic Governance Audit Trail (Immutable SHA-256 Hashes)</h3>
       <table>
         <thead>
           <tr>
             <th>Event ID</th>
             <th>Timestamp</th>
             <th>Governance Action</th>
-            <th>Entity / Counterparty</th>
-            <th>Value</th>
-            <th>SHA-256 Hash</th>
+            <th>Target Entity / Counterparty</th>
+            <th>Financial Value</th>
+            <th>Cryptographic Hash</th>
           </tr>
         </thead>
         <tbody>
           ${logs.map(l => `
             <tr>
-              <td><strong>${l.id}</strong></td>
+              <td><strong>${l.id || l.targetId}</strong></td>
               <td>${l.timestamp}</td>
               <td>${l.action}</td>
-              <td>${l.entity}</td>
+              <td>${l.targetId || l.entity}</td>
               <td><strong>${l.amount}</strong></td>
-              <td class="hash">${l.hash}</td>
+              <td class="hash">${l.txHash || l.hash}</td>
             </tr>
           `).join("")}
         </tbody>
@@ -1687,16 +2337,15 @@ function downloadOfficialAuditPDF() {
 
       <div class="stamp-box">
         <div>
-          <p style="font-size: 11px; color: #64748b; margin: 0;">
-            This audit report is cryptographically sealed under the statutory authority of the Maharashtra Agricultural Produce Marketing (Development and Regulation) Act.
+          <p style="font-size: 10px; color: #64748b; margin: 0; max-width: 500px;">
+            This audit report is cryptographically sealed under statutory authority of the Maharashtra Agricultural Produce Marketing (Development and Regulation) Act.
           </p>
         </div>
         <div style="text-align: right;">
           <div style="font-weight: 900; color: #0f172a;">Dr. R. K. Shinde, IAS</div>
           <div style="font-size: 11px; color: #64748b;">Chief Mandi Commissioner & Escrow Regulator</div>
-          <div style="font-size: 10px; color: #059669; font-weight: 700;">Digital Signature: 0x7f2a99...msamb</div>
+          <div style="font-size: 9px; color: #059669; font-weight: 700;">Digital Signature: 0x7f2a99...msamb</div>
         </div>
-      </div>
     </body>
     </html>
   `;
@@ -1704,4 +2353,51 @@ function downloadOfficialAuditPDF() {
   printWindow.document.write(html);
   printWindow.document.close();
 }
+
+// Expose functions globally for inline HTML events and cross-module scripts
+if (typeof window !== "undefined") {
+  window.switchSection = switchSection;
+  window.renderActiveSectionData = renderActiveSectionData;
+  window.filterUsers = filterUsers;
+  window.filterUsersBySearch = filterUsersBySearch;
+  window.filterMarketData = filterMarketData;
+  window.promptPriceEdit = promptPriceEdit;
+  window.filterDealsTab = filterDealsTab;
+  window.filterDealsSearch = filterDealsSearch;
+  window.handleApproveEscrow = handleApproveEscrow;
+  window.handleHoldEscrow = handleHoldEscrow;
+  window.openEscrowModal = openEscrowModal;
+  window.closeEscrowModal = closeEscrowModal;
+  window.filterEmergencyLots = filterEmergencyLots;
+  window.handleBroadcastEmergency = handleBroadcastEmergency;
+  window.handleFastTrackArbitration = handleFastTrackArbitration;
+  window.openGrievanceEvidenceModal = openGrievanceEvidenceModal;
+  window.closeGrievanceEvidenceModal = closeGrievanceEvidenceModal;
+  window.exportAuditLedgerCSV = exportAuditLedgerCSV;
+  window.downloadOfficialAuditPDF = downloadOfficialAuditPDF;
+  window.handleGlobalSearch = handleGlobalSearch;
+  window.openPendingActionsModal = openPendingActionsModal;
+  window.closePendingActionsModal = closePendingActionsModal;
+  window.handleResolveAction = handleResolveAction;
+  window.handleResolvePriorityAction = handleResolvePriorityAction;
+  window.handleInspectPriorityAction = handleInspectPriorityAction;
+  window.handleResolvePendingAction = handleResolveAction;
+  window.openBroadcastModal = openBroadcastModal;
+  window.closeBroadcastModal = closeBroadcastModal;
+  window.previewVoiceAdvisory = previewVoiceAdvisory;
+  window.previewBulbulAudio = previewVoiceAdvisory;
+  window.executeBroadcastDispatch = executeBroadcastDispatch;
+  window.broadcastAdvisoryMessage = executeBroadcastDispatch;
+  window.openUserKycModal = openUserKycModal;
+  window.closeUserKycModal = closeUserKycModal;
+  window.handleApproveUser = handleApproveUser;
+  window.renderUsersTable = renderUsersTable;
+  window.renderMarketDataTable = renderMarketDataTable;
+  window.renderDealsPaymentsTable = renderDealsPaymentsTable;
+  window.renderEmergencySellGrid = renderEmergencySellGrid;
+  window.renderGrievancesSection = renderGrievancesSection;
+  window.renderReportsSection = renderReportsSection;
+  window.renderAuditLogs = renderAuditLogs;
+}
+
 

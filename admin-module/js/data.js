@@ -1276,13 +1276,18 @@ class AgriNexAdminGovernance {
   }
 
   static getGrievances() {
+    let cases = ADMIN_GOVERNANCE_DATA.tribunalCases;
     try {
       if (typeof localStorage !== "undefined") {
         const stored = localStorage.getItem("agrinex_admin_tribunal");
-        if (stored) return JSON.parse(stored);
+        if (stored) cases = JSON.parse(stored);
       }
     } catch(e) {}
-    return ADMIN_GOVERNANCE_DATA.tribunalCases;
+    return cases.map(g => ({
+      ...g,
+      id: g.id || g.ticketId,
+      ticketId: g.ticketId || g.id
+    }));
   }
 
   static saveGrievances(cases) {
@@ -1299,7 +1304,7 @@ class AgriNexAdminGovernance {
 
   static resolveGrievanceWithSplit(ticketId, splitData = null, awardText = null) {
     const cases = this.getGrievances();
-    const item = cases.find(g => g.ticketId === ticketId);
+    const item = cases.find(g => g.ticketId === ticketId || g.id === ticketId);
     if (!item) return { success: false, message: "Tribunal ticket not found" };
 
     item.status = "Settled & Enforced by Tribunal ✓";
@@ -1314,18 +1319,33 @@ class AgriNexAdminGovernance {
     this.saveGrievances(cases);
 
     const logAmt = splitData ? `Farmer: ₹${splitData.farmerPayout.toLocaleString('en-IN')}` : item.disputedFormatted;
-    this.addAuditLog(`Tribunal Binding Award Issued (${item.ticketId})`, item.lotId, logAmt, "Dr. R. K. Shinde (IAS)");
-    return { success: true, message: `Legally binding MSAMB Tribunal award enforced for ${item.ticketId}!` };
+    this.addAuditLog(`Tribunal Binding Award Issued (${item.ticketId || item.id})`, item.lotId, logAmt, "Dr. R. K. Shinde (IAS)");
+    return { success: true, message: `Legally binding MSAMB Tribunal award enforced for ${item.ticketId || item.id}!` };
   }
 
   static getAuditLogs() {
+    let logs = ADMIN_GOVERNANCE_DATA.auditTrail;
     try {
       if (typeof localStorage !== "undefined") {
         const stored = localStorage.getItem("agrinex_admin_audit");
-        if (stored) return JSON.parse(stored);
+        if (stored) logs = JSON.parse(stored);
       }
     } catch(e) {}
-    return ADMIN_GOVERNANCE_DATA.auditTrail;
+
+    // Ensure backwards and cross-attribute compatibility
+    return logs.map((l, index) => ({
+      id: l.id || `EVT-${9000 - index}`,
+      timestamp: l.timestamp || "Just now",
+      action: l.action || "Governance Event",
+      targetId: l.targetId || l.entity || "Platform Core",
+      entity: l.entity || l.targetId || "Platform Core",
+      amount: l.amount || "N/A",
+      actor: l.actor || l.officer || "Dr. R. K. Shinde (IAS)",
+      officer: l.officer || l.actor || "Dr. R. K. Shinde (IAS)",
+      txHash: l.txHash || l.hash || ("0x" + Math.random().toString(16).substring(2, 8)),
+      hash: l.hash || l.txHash || ("0x" + Math.random().toString(16).substring(2, 8)),
+      status: l.status || "Success"
+    }));
   }
 
   static addAuditLog(action, targetId, amount, actor) {
@@ -1333,16 +1353,23 @@ class AgriNexAdminGovernance {
     const now = new Date();
     const dateStr = `${now.getDate()} Sep 2026 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
     const hash = '0x' + Math.random().toString(16).substring(2, 7) + '...' + Math.random().toString(16).substring(2, 6);
+    const newId = `EVT-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    logs.unshift({
+    const newLog = {
+      id: newId,
       timestamp: dateStr,
       action: action,
       targetId: targetId,
+      entity: targetId,
       amount: amount || "N/A",
       actor: actor || "Dr. R. K. Shinde (IAS)",
+      officer: actor || "Dr. R. K. Shinde (IAS)",
       txHash: hash,
+      hash: hash,
       status: "Success"
-    });
+    };
+
+    logs.unshift(newLog);
 
     try {
       if (typeof localStorage !== "undefined") {
@@ -1378,7 +1405,7 @@ class AgriNexAdminGovernance {
 
   static evaluateFastTrackAutoArbitration(ticketId) {
     const cases = this.getGrievances();
-    const item = cases.find(g => g.ticketId === ticketId);
+    const item = cases.find(g => g.ticketId === ticketId || g.id === ticketId);
     if (!item) return { success: false, message: "Dispute ticket not found" };
 
     if (item.status.includes("Settled")) {
@@ -1412,6 +1439,10 @@ class AgriNexAdminGovernance {
     return this.resolveGrievanceWithSplit(ticketId, splitData, awardText);
   }
 
+  static evaluateFastTrackArbitration(ticketId) {
+    return this.evaluateFastTrackAutoArbitration(ticketId);
+  }
+
   static getUsers() {
     try {
       if (typeof localStorage !== "undefined") {
@@ -1440,7 +1471,7 @@ class AgriNexAdminGovernance {
     this.saveUsers(users);
 
     this.addAuditLog(`KYC Verification Approved`, `${u.name} (${u.id})`, u.category, "Dr. R. K. Shinde (IAS)");
-    return { success: true, message: `Successfully verified and approved ${u.name}!` };
+    return { success: true, message: `Successfully verified and approved ${u.name}!`, user: u };
   }
 
   static getActiveDeals() {
@@ -1479,6 +1510,10 @@ class AgriNexAdminGovernance {
 
     this.addAuditLog(`Emergency Flash Auction Broadcasted`, item.id, item.distressPrice, "Marketplace Admin");
     return { success: true, message: `Emergency sale broadcast sent for ${item.crop} (${item.volume}) at ${item.distressPrice}!` };
+  }
+
+  static broadcastEmergency(lotId) {
+    return this.broadcastEmergencyLot(lotId);
   }
 
   static getPendingActions() {
