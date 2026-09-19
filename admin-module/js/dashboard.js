@@ -30,6 +30,35 @@ document.addEventListener("DOMContentLoaded", () => {
   renderReportsSection();
   renderAuditLogs();
   renderAntiHoardingAlerts();
+
+  if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+    const saved = window.getAdminLanguage ? window.getAdminLanguage() : "en";
+    window.AgriNexAdminI18n.walkAndTranslateDOM(document.body, saved);
+  }
+});
+
+// Real-time language switcher event listener
+window.addEventListener("agrinex:languageChanged", (e) => {
+  const lang = e.detail && e.detail.language ? e.detail.language : (window.getAdminLanguage ? window.getAdminLanguage() : "en");
+  renderOverviewStats();
+  renderPriorityActionQueue();
+  renderPulseFleets();
+  renderPulseStorage();
+  renderDashboardQueue();
+  renderUsersTable();
+  renderMarketDataTable();
+  renderDealsPaymentsTable();
+  renderLogisticsFleetsTable();
+  renderWarehouseCapacityGrid();
+  renderEmergencySellGrid();
+  renderGrievancesSection();
+  renderReportsSection();
+  renderAuditLogs();
+  renderAntiHoardingAlerts();
+
+  if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+    window.AgriNexAdminI18n.walkAndTranslateDOM(document.body, lang);
+  }
 });
 
 /* =========================================================================
@@ -166,6 +195,13 @@ function renderActiveSectionData(sectionId) {
       renderAuditLogs();
       break;
   }
+
+  if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+    const activeSec = document.getElementById(`section-${sectionId}`);
+    if (activeSec) {
+      window.AgriNexAdminI18n.walkAndTranslateDOM(activeSec);
+    }
+  }
 }
 
 /* =========================================================================
@@ -189,17 +225,24 @@ function renderOverviewStats() {
   if (actionItemsEl) actionItemsEl.textContent = String(pendingCount);
 
   // Status Bar Pills & Action Center Badges
+  const lang = window.getAdminLanguage ? window.getAdminLanguage() : "en";
   const pillPendingCount = document.getElementById("pill-pending-count");
-  if (pillPendingCount) pillPendingCount.textContent = `${pendingCount} Action Items`;
+  if (pillPendingCount) {
+    pillPendingCount.textContent = lang === "hi" ? `${pendingCount} लंबित कार्य` : (lang === "mr" ? `${pendingCount} प्रलंबित कृती` : `${pendingCount} Action Items`);
+  }
 
   const queueBadgeCount = document.getElementById("queue-badge-count");
-  if (queueBadgeCount) queueBadgeCount.textContent = `Top ${Math.min(3, pendingCount)} Requiring Today's Sign-Off`;
+  if (queueBadgeCount) {
+    queueBadgeCount.textContent = lang === "hi" ? `शीर्ष ${Math.min(3, pendingCount)} कार्य तत्काल हस्ताक्षर हेतु` : (lang === "mr" ? `प्रमुख ${Math.min(3, pendingCount)} कृती तात्काळ स्वाक्षरीसाठी` : `Top ${Math.min(3, pendingCount)} Requiring Today's Sign-Off`);
+  }
 
   const queueTriageCount = document.getElementById("queue-triage-count");
   if (queueTriageCount) queueTriageCount.textContent = String(pendingCount);
 
   const footerActionsLabel = document.getElementById("footer-actions-label");
-  if (footerActionsLabel) footerActionsLabel.textContent = `View All ${pendingCount} Action Items in Full Triage Desk`;
+  if (footerActionsLabel) {
+    footerActionsLabel.textContent = lang === "hi" ? `सभी ${pendingCount} लंबित कार्य देखें →` : (lang === "mr" ? `सर्व ${pendingCount} प्रलंबित कृती पहा →` : `View All ${pendingCount} Action Items in Full Triage Desk`);
+  }
 
   const headerPendingBadge = document.getElementById("header-pending-badge");
   if (headerPendingBadge) headerPendingBadge.textContent = String(pendingCount);
