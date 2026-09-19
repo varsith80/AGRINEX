@@ -92,11 +92,20 @@ function renderBuyerConsignments() {
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <div style="background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 40px 20px; text-align: center; color: #64748b;">
-        <div style="font-size: 2.2rem; margin-bottom: 8px;">🚚</div>
-        <div style="font-weight: 700; font-size: 1rem; color: #0f172a;">${trTab('No Shipments Found in this Tab')}</div>
-        <div style="font-size: 0.8rem; margin-top: 4px;">${trTab('Book dedicated transport fleet or source from marketplace lots to create shipments.')}</div>
-        <button class="btn btn-primary btn-sm" onclick="openBookTransportModal()" style="margin-top: 14px; background: #0c5a36; border-color: #0c5a36; font-weight: 700;">${trTab('+ Book Transport Fleet')}</button>
+      <div class="empty-state-card">
+        <div class="empty-state-icon">🚚</div>
+        <div class="empty-state-title">${trTab('No Shipments Found in this View')}</div>
+        <div class="empty-state-text">${trTab('Book a dedicated transport fleet or source farm-direct produce to initiate live telemetry shipments.')}</div>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="empty-state-btn" onclick="openBookTransportModal()">
+            <span>🚚</span>
+            <span>${trTab('+ Book Transport Fleet')}</span>
+          </button>
+          <button type="button" class="empty-state-btn" style="border-color: #cbd5e1; color: #475569;" onclick="filterBuyerShipmentsTab('all', document.getElementById('tab-shipments-all'))">
+            <span>🔄</span>
+            <span>${trTab('Show All Orders')}</span>
+          </button>
+        </div>
       </div>
     `;
     return;

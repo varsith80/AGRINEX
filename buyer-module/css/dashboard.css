@@ -926,12 +926,12 @@
 /* Sticky Glassmorphic Filter Header */
 .market-sticky-filter-wrapper {
   position: sticky;
-  top: 68px;
+  top: 64px;
   z-index: 80;
-  background: rgba(248, 250, 252, 0.92);
+  background: rgba(248, 250, 252, 0.94);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 12px 0 14px 0;
+  padding: 10px 0 12px 0;
   margin-bottom: 20px;
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   transition: all 0.2s ease;

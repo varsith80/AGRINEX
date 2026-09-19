@@ -307,7 +307,7 @@ function bootBuyerDashboard() {
       activeModals.forEach(m => m.classList.remove('active'));
     } else if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
-      const searchBox = document.getElementById('marketplace-search-input') || document.getElementById('buyer-global-search');
+      const searchBox = document.getElementById('buyer-global-search') || document.getElementById('marketplace-search-input');
       if (searchBox) {
         searchBox.focus();
         searchBox.select();

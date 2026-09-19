@@ -294,11 +294,16 @@ function renderVerifiedLots(lotsToRender = null) {
   if (grid) {
     if (lots.length === 0) {
       grid.innerHTML = `
-        <div style="grid-column: 1 / -1; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 48px 24px; text-align: center; color: #64748b;">
-          <div style="font-size: 2.5rem; margin-bottom: 10px;">🌾</div>
-          <strong style="font-size: 1.1rem; color: #0f172a; display: block; margin-bottom: 6px;">No farm-direct lots found matching your filter</strong>
-          <p style="font-size: 0.85rem; margin-bottom: 16px;">Try adjusting your keyword search or selecting a different crop category.</p>
-          <button class="btn btn-outline btn-sm" onclick="resetBuyerFilters()">Reset All Filters</button>
+        <div style="grid-column: 1 / -1; width: 100%;">
+          <div class="empty-state-card">
+            <div class="empty-state-icon">🌾</div>
+            <div class="empty-state-title">No farm-direct lots found</div>
+            <div class="empty-state-text">No lots match your current search query or category filter. Try clearing filters or exploring other commodities.</div>
+            <button type="button" class="empty-state-btn" onclick="resetBuyerFilters()">
+              <span>🔄</span>
+              <span>Reset All Filters</span>
+            </button>
+          </div>
         </div>
       `;
     } else {
@@ -462,11 +467,16 @@ function renderVerifiedLots(lotsToRender = null) {
     if (lots.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="7" style="text-align: center; padding: 40px 20px; color: #64748b;">
-            <div style="font-size: 2rem; margin-bottom: 8px;">🌾</div>
-            <strong style="font-size: 1rem; color: #0f172a; display: block; margin-bottom: 4px;">No matching farmer lots found</strong>
-            <p style="font-size: 0.82rem; margin-bottom: 12px;">Try adjusting your search query or category filter.</p>
-            <button class="btn btn-outline btn-sm" onclick="resetBuyerFilters()">Reset All Filters</button>
+          <td colspan="7" style="padding: 24px; border: none; background: transparent;">
+            <div class="empty-state-card" style="margin: 12px auto;">
+              <div class="empty-state-icon">🌾</div>
+              <div class="empty-state-title">No matching farmer lots found</div>
+              <div class="empty-state-text">No lots match your current search query or category filter. Try clearing filters or exploring other commodities.</div>
+              <button type="button" class="empty-state-btn" onclick="resetBuyerFilters()">
+                <span>🔄</span>
+                <span>Reset All Filters</span>
+              </button>
+            </div>
           </td>
         </tr>
       `;

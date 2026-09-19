@@ -90,11 +90,14 @@ function renderBuyerDemands() {
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <div style="text-align: center; padding: 48px 20px; background: #f8fafc; border-radius: 12px; border: 1.5px dashed #cbd5e1;">
-        <div style="font-size: 2.2rem; margin-bottom: 8px;">🔍</div>
-        <strong style="font-size: 1.05rem; color: #0f172a; display: block;">No matching procurement quotas found</strong>
-        <p style="font-size: 0.8rem; color: #64748b; margin-top: 4px; margin-bottom: 14px;">Try adjusting your search keywords, status tabs, or hub filters.</p>
-        <button class="btn btn-outline btn-sm" onclick="clearDemandFilters()">Reset All Filters</button>
+      <div class="empty-state-card">
+        <div class="empty-state-icon" style="background: #eff6ff; color: #1e40af; border-color: #bfdbfe;">📋</div>
+        <div class="empty-state-title">No matching procurement quotas found</div>
+        <div class="empty-state-text">Try adjusting your search keywords, status tabs, or selected receiving hub.</div>
+        <button type="button" class="empty-state-btn" style="border-color: #93c5fd; color: #1e40af;" onclick="clearDemandFilters()">
+          <span>🔄</span>
+          <span>Reset Quota Filters</span>
+        </button>
       </div>
     `;
     return;
