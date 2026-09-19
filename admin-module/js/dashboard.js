@@ -11,6 +11,13 @@ let currentDealsTab = "all";
 let currentDealsQuery = "";
 let currentEmergencyQuery = "";
 
+function translateElement(el) {
+  if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function" && el) {
+    const lang = window.getAdminLanguage ? window.getAdminLanguage() : "en";
+    window.AgriNexAdminI18n.walkAndTranslateDOM(el, lang);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initNavigation();
   renderOverviewStats();
@@ -346,6 +353,7 @@ function renderPriorityActionQueue() {
       </div>
     `;
   }).join("");
+  translateElement(container);
 }
 
 function handleResolvePriorityAction(actionId, event) {
@@ -430,6 +438,7 @@ function renderPulseFleets() {
         </div>
       </div>
     `).join("");
+    translateElement(container);
   }
 }
 
@@ -462,6 +471,7 @@ function renderPulseStorage() {
       </div>
     `;
   }).join("");
+  translateElement(container);
 }
 
 /* Full State GIS Command Map Modal Triggers */
@@ -469,6 +479,7 @@ function openGisMapModal() {
   const modal = document.getElementById("modal-gis-command-map");
   if (!modal) return;
   modal.classList.add("active");
+  translateElement(modal);
 
   if (!apmcMapInstance) {
     setTimeout(initApmcGisMap, 150);
@@ -687,6 +698,8 @@ function renderUsersTable(filterCategory = currentUsersFilter, searchQuery = cur
         </td>
       </tr>
     `).join("");
+    translateElement(thead);
+    translateElement(tbody);
     return;
   }
 
@@ -733,10 +746,14 @@ function renderUsersTable(filterCategory = currentUsersFilter, searchQuery = cur
         </td>
       </tr>
     `;
+    translateElement(thead);
+    translateElement(tbody);
     return;
   }
 
   tbody.innerHTML = users.map(u => renderUserRowHtml(u)).join("");
+  translateElement(thead);
+  translateElement(tbody);
 }
 
 function filterUsers(category, el = null) {
@@ -838,6 +855,7 @@ function openUserKycModal(userId) {
   `;
 
   modal.classList.add("active");
+  translateElement(modal);
 }
 
 function closeUserKycModal() {
@@ -890,6 +908,7 @@ function renderMarketDataTable(filterQuery = "") {
       </td>
     </tr>
   `).join("");
+  translateElement(tbody);
 }
 
 function filterMarketData(query) {
@@ -962,10 +981,12 @@ function renderDealsPaymentsTable(tab = currentDealsTab, filterQuery = currentDe
         </td>
       </tr>
     `;
+    translateElement(tbody);
     return;
   }
 
   tbody.innerHTML = cases.map(c => renderEscrowRow(c)).join("");
+  translateElement(tbody);
 }
 
 function filterDealsTab(tab, btn = null) {
@@ -1210,6 +1231,7 @@ function openEscrowModal(caseId) {
       </div>
     `;
     modal.classList.add("active");
+    translateElement(modal);
   }
 }
 
@@ -1263,6 +1285,7 @@ function renderLogisticsFleetsTable() {
       </td>
     </tr>
   `).join("");
+  translateElement(tbody);
 }
 
 function renderWarehouseCapacityGrid() {
@@ -1306,6 +1329,7 @@ function renderWarehouseCapacityGrid() {
       </div>
     `;
   }).join("");
+  translateElement(container);
 }
 
 /* =========================================================================
@@ -1375,6 +1399,7 @@ function renderEmergencySellGrid(query = currentEmergencyQuery) {
       </div>
     </div>
   `).join("");
+  translateElement(container);
 }
 
 function filterEmergencyLots(query) {
@@ -1454,6 +1479,7 @@ function renderGrievancesSection() {
       </div>
     `;
   }).join("");
+  translateElement(container);
 }
 
 function handleFastTrackArbitration(ticketId) {
@@ -1566,6 +1592,7 @@ function openGrievanceEvidenceModal(ticketId) {
   `;
 
   modal.classList.add("active");
+  translateElement(modal);
 }
 
 function closeGrievanceEvidenceModal() {
@@ -1612,6 +1639,7 @@ function renderReportsSection() {
       </table>
     </div>
   `;
+  translateElement(container);
 }
 
 function renderAuditLogs() {
@@ -1631,6 +1659,7 @@ function renderAuditLogs() {
       </div>
     </div>
   `).join("");
+  translateElement(container);
 }
 
 /* =========================================================================
@@ -1667,6 +1696,7 @@ function openPendingActionsModal() {
   }
 
   modal.classList.add("active");
+  translateElement(modal);
 }
 
 function closePendingActionsModal() {
@@ -2003,6 +2033,7 @@ function openBroadcastModal(templateId = 'ADV-01') {
   if (!modal) return;
   modal.classList.add("active");
   selectAdvisoryTemplate(templateId);
+  translateElement(modal);
 }
 
 function closeBroadcastModal() {
@@ -2219,7 +2250,10 @@ function openFpoCreditModal(fpoId) {
     `;
   }
 
-  if (modal) modal.classList.add("active");
+  if (modal) {
+    modal.classList.add("active");
+    translateElement(modal);
+  }
 }
 
 function closeFpoModal() {

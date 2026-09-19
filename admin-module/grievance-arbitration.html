@@ -651,6 +651,17 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       renderTribunalCards();
+      if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+        window.AgriNexAdminI18n.walkAndTranslateDOM(document.body);
+      }
+    });
+
+    window.addEventListener("agrinex:languageChanged", (e) => {
+      const lang = e.detail && e.detail.language ? e.detail.language : (window.getAdminLanguage ? window.getAdminLanguage() : 'en');
+      renderTribunalCards();
+      if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+        window.AgriNexAdminI18n.walkAndTranslateDOM(document.body, lang);
+      }
     });
 
     function renderTribunalCards(filterQuery = '') {
@@ -771,6 +782,10 @@
           </div>
         `;
       }).join('');
+
+      if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+        window.AgriNexAdminI18n.walkAndTranslateDOM(container);
+      }
     }
 
     function handleFastTrackAutoArbitrate(ticketId) {
@@ -847,7 +862,12 @@
       switchTribunalTab(initialTab);
 
       const modal = document.getElementById('modal-tribunal-inspector');
-      if (modal) modal.classList.add('active');
+      if (modal) {
+        modal.classList.add('active');
+        if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+          window.AgriNexAdminI18n.walkAndTranslateDOM(modal);
+        }
+      }
     }
 
     function closeTribunalModal() {

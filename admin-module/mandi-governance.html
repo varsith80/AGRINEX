@@ -287,6 +287,17 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       renderMandiTable();
+      if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+        window.AgriNexAdminI18n.walkAndTranslateDOM(document.body);
+      }
+    });
+
+    window.addEventListener("agrinex:languageChanged", (e) => {
+      const lang = e.detail && e.detail.language ? e.detail.language : (window.getAdminLanguage ? window.getAdminLanguage() : 'en');
+      renderMandiTable();
+      if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+        window.AgriNexAdminI18n.walkAndTranslateDOM(document.body, lang);
+      }
     });
 
     function renderMandiTable(filterQuery = '') {
@@ -347,6 +358,10 @@
           </tr>
         `;
       }).join('');
+
+      if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+        window.AgriNexAdminI18n.walkAndTranslateDOM(tbody);
+      }
     }
 
     function handlePriceAdjustment(cropId, cropName, currentPrice) {

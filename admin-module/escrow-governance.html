@@ -314,6 +314,17 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       renderEscrowTable();
+      if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+        window.AgriNexAdminI18n.walkAndTranslateDOM(document.body);
+      }
+    });
+
+    window.addEventListener("agrinex:languageChanged", (e) => {
+      const lang = e.detail && e.detail.language ? e.detail.language : (window.getAdminLanguage ? window.getAdminLanguage() : 'en');
+      renderEscrowTable();
+      if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+        window.AgriNexAdminI18n.walkAndTranslateDOM(document.body, lang);
+      }
     });
 
     function filterEscrowTab(tab, btn) {
@@ -412,6 +423,10 @@
           </tr>
         `;
       }).join('');
+
+      if (window.AgriNexAdminI18n && typeof window.AgriNexAdminI18n.walkAndTranslateDOM === "function") {
+        window.AgriNexAdminI18n.walkAndTranslateDOM(tbody);
+      }
     }
   </script>
 </body>
