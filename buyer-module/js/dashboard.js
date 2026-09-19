@@ -47,15 +47,6 @@ function loadPersistedBuyerState() {
     }
   } catch(e) {}
 
-  try {
-    const savedBookings = localStorage.getItem('agrinex_buyer_storage_bookings');
-    if (savedBookings) {
-      const parsed = JSON.parse(savedBookings);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        buyerData.activeStorageBookings = parsed;
-      }
-    }
-  } catch(e) {}
 
   try {
     const savedProfile = localStorage.getItem('agrinex_buyer_profile');
@@ -307,8 +298,7 @@ function bootBuyerDashboard() {
   try { if (typeof renderGrievances === 'function') renderGrievances(); } catch(e) { console.error('Grievances error:', e); }
   try { if (typeof renderChatSidebar === 'function') renderChatSidebar(); } catch(e) { console.error('Chat sidebar error:', e); }
   try { initLocationSwitcher(); } catch(e) { console.error('Location switcher error:', e); }
-  try { if (typeof renderStorageFacilities === 'function') renderStorageFacilities(); } catch(e) { console.error('Storage facilities error:', e); }
-  try { if (typeof renderStorageBookings === 'function') renderStorageBookings(); } catch(e) { console.error('Storage bookings error:', e); }
+
 
   // Global keyboard shortcuts (Esc to close any active modal, Ctrl+K to search)
   document.addEventListener('keydown', (e) => {

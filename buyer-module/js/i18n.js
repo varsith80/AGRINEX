@@ -1510,8 +1510,7 @@
     { sel: 'li[data-view="view-bulk-demands"] .nav-label', key: 'nav_demands' },
     { sel: 'li[data-view="view-consignments"] .nav-item-left span', key: 'nav_consignments' },
     { sel: 'li[data-view="view-consignments"] .nav-label', key: 'nav_consignments' },
-    { sel: 'li[data-view="view-storage"] .nav-item-left span', key: 'nav_storage' },
-    { sel: 'li[data-view="view-storage"] .nav-label', key: 'nav_storage' },
+
     { sel: 'li[data-view="view-calculator"] .nav-item-left span', key: 'nav_calculator' },
     { sel: 'li[data-view="view-calculator"] .nav-label', key: 'nav_calculator' },
     { sel: 'li[data-view="view-messages"] .nav-item-left span', key: 'nav_messages' },
@@ -1622,8 +1621,7 @@
     { sel: '#view-grievance .dash-subtitle', key: 'grv_header_subtitle' },
     
     // Storage & Logistics Views
-    { sel: '#view-storage .dash-title', key: 'storage_header_title' },
-    { sel: '#view-storage .dash-subtitle', key: 'storage_header_subtitle' },
+
     { sel: '#view-logistics .dash-title', key: 'logistics_header_title' },
     { sel: '#view-logistics .dash-subtitle', key: 'logistics_header_subtitle' }
   ];
@@ -7036,8 +7034,7 @@
     if (typeof window.renderBuyerEscrowVault === 'function') window.renderBuyerEscrowVault();
     if (typeof window.renderGrievances === 'function') window.renderGrievances();
     if (typeof window.recalculateBuyerCosts === 'function') window.recalculateBuyerCosts();
-    if (typeof window.renderStorageFacilities === 'function') window.renderStorageFacilities();
-    if (typeof window.renderStorageBookings === 'function') window.renderStorageBookings();
+
     if (typeof window.renderChatSidebar === 'function') window.renderChatSidebar();
     if (typeof window.selectChatContact === 'function') {
       const currentKey = typeof window.getActiveChatKey === 'function' ? window.getActiveChatKey() : 'patil';

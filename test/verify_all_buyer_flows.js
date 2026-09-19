@@ -1,6 +1,6 @@
 /**
  * AgriNex Buyer Module - Comprehensive Automated Flow & Logic Verification
- * Tests all 9 views, 25 modals, interactive handlers, and state persistence.
+ * Tests all 8 views, 23 modals, interactive handlers, and state persistence.
  */
 
 const fs = require('fs');
