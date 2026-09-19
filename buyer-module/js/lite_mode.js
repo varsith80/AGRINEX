@@ -7,8 +7,11 @@
 (function () {
   'use strict';
 
-  // Default to Simple Mode on initial entry unless user explicitly switched to false ('false')
-  let isLiteMode = localStorage.getItem('agrinex_buyer_lite_mode') !== 'false';
+  // Default to Enterprise Mode on desktop unless user explicitly chosen simple mode or is on mobile
+  const savedLitePref = localStorage.getItem('agrinex_buyer_lite_mode');
+  let isLiteMode = savedLitePref !== null 
+    ? (savedLitePref === 'true') 
+    : (typeof window !== 'undefined' && window.innerWidth < 1024);
   let activeLiteSection = 'produce'; // 'produce' | 'insights' | 'orders' | 'escrow'
   let activeLiteFilter = 'all';
   let activeLiteInsightFilter = 'all';
@@ -643,9 +646,7 @@
       updateToggleBtnState(toggleBtn);
     }
 
-    if (isLiteMode) {
-      applyLiteModeUI(true);
-    }
+    applyLiteModeUI(isLiteMode);
 
     // Apply saved accessibility preferences
     setLiteSpeechRate(currentSpeechRate, false);

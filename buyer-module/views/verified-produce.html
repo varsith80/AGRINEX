@@ -64,35 +64,49 @@
         </div>
 
         <!-- Emergency Salvage Exchange (Breakeven Procurement) -->
-        <section class="card" id="marketplace-emergency-salvage-section" style="border: 1.5px solid #fca5a5; background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%); margin-bottom: 20px; border-radius: 14px; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.07);">
-          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #fee2e2; flex-wrap: wrap; gap: 10px;">
+        <section class="card" id="marketplace-emergency-salvage-section" style="border: 1.5px solid #fca5a5; background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%); margin-bottom: 20px; border-radius: 14px; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.07); overflow: hidden;">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-bottom: 1px solid #fee2e2; flex-wrap: wrap; gap: 10px;">
             <div style="display: flex; align-items: center; gap: 12px;">
-              <div style="width: 40px; height: 40px; border-radius: 10px; background: #fee2e2; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);">
+              <div style="width: 36px; height: 36px; border-radius: 9px; background: #fee2e2; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);">
                 🚨
               </div>
               <div>
                 <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                  <h3 class="card-title" style="color: #b91c1c; font-size: 1.05rem; font-weight: 800; margin: 0;">
+                  <h3 class="card-title" style="color: #b91c1c; font-size: 0.98rem; font-weight: 800; margin: 0;">
                     Emergency Salvage Exchange (Breakeven Procurement)
                   </h3>
-                  <span class="badge badge-status-emergency" style="font-size: 0.72rem; padding: 2px 8px; border-radius: 6px;">⚡ Instant Escrow Match</span>
+                  <span class="badge badge-status-emergency" style="font-size: 0.7rem; padding: 2px 7px; border-radius: 6px;">⚡ Instant Escrow Match</span>
                 </div>
-                <p style="font-size: 0.78rem; color: #78350f; margin: 3px 0 0 0;">
-                  Direct sourcing stream for <strong>Food Processors</strong>, <strong>Commercial Caterers</strong> &amp; <strong>Bio-Compost Manufacturers</strong> to purchase low shelf-life harvests immediately.
+                <p style="font-size: 0.75rem; color: #78350f; margin: 2px 0 0 0;">
+                  Direct sourcing for food processors, caterers &amp; bulk buyers • 65%–75% farmer cost recovery.
                 </p>
               </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <span style="font-size: 0.75rem; color: #991b1b; font-weight: 700; background: #fff1f2; padding: 4px 10px; border-radius: 6px; border: 1px solid #fecdd3;">
-                🛡️ Guaranteed 65%–75% Farmer Recovery
-              </span>
-              <button type="button" class="btn btn-sm btn-outline" onclick="toggleEmergencySection(this)" style="font-size: 0.74rem; font-weight: 700; border-color: #fca5a5; color: #991b1b; background: #ffffff; padding: 4px 10px; border-radius: 6px; cursor: pointer;">
-                Hide / Show ▾
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" class="btn btn-sm btn-outline" onclick="toggleEmergencySection(this)" style="font-size: 0.74rem; font-weight: 700; border-color: #fca5a5; color: #991b1b; background: #ffffff; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;">
+                View Lots Breakdown ▾
               </button>
             </div>
           </div>
 
-          <div class="data-table-container" id="marketplace-emergency-table-container" style="overflow-x: auto; padding: 0;">
+          <!-- Compact Quick Salvage Chips -->
+          <div style="display: flex; align-items: center; gap: 8px; padding: 8px 18px; flex-wrap: wrap; background: rgba(254, 242, 242, 0.6); border-bottom: 1px solid #fee2e2;">
+            <span style="font-size: 0.72rem; font-weight: 800; color: #991b1b; text-transform: uppercase; letter-spacing: 0.04em;">⚡ 2 Lots Available:</span>
+            <div style="display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 3px 8px 3px 10px; border-radius: 999px; border: 1px solid #fecdd3; font-size: 0.74rem;">
+              <span>🍅 Narayangaon Tomato (45 Qt)</span>
+              <strong style="color: #15803d; font-weight: 800;">₹ 8.90/kg</strong>
+              <span style="color: #94a3b8; text-decoration: line-through; font-size: 0.68rem;">₹ 12</span>
+              <button type="button" onclick="openEmergencyBuyoutModal('EMG-LOT-TOM-99')" style="padding: 2px 8px; font-size: 0.68rem; font-weight: 800; background: #dc2626; color: #ffffff; border: none; border-radius: 999px; cursor: pointer; margin-left: 2px;">Buyout</button>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 3px 8px 3px 10px; border-radius: 999px; border: 1px solid #fecdd3; font-size: 0.74rem;">
+              <span>🧅 Nashik Garwa Onion (60 Qt)</span>
+              <strong style="color: #15803d; font-weight: 800;">₹ 13.50/kg</strong>
+              <span style="color: #94a3b8; text-decoration: line-through; font-size: 0.68rem;">₹ 18</span>
+              <button type="button" onclick="openEmergencyBuyoutModal('EMG-LOT-ONI-88')" style="padding: 2px 8px; font-size: 0.68rem; font-weight: 800; background: #dc2626; color: #ffffff; border: none; border-radius: 999px; cursor: pointer; margin-left: 2px;">Buyout</button>
+            </div>
+          </div>
+
+          <div class="data-table-container" id="marketplace-emergency-table-container" style="overflow-x: auto; padding: 0; display: none;">
             <table class="data-table" style="margin: 0; width: 100%;">
               <thead>
                 <tr style="background: #fef2f2; border-bottom: 1.5px solid #fecdd3;">
@@ -225,17 +239,6 @@
           </div>
 
           <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <!-- Buyer Perspective Simulator: You vs Other Buyer -->
-            <div style="display: flex; align-items: center; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 9px; padding: 2px 4px; gap: 4px;" title="Switch perspective to see how sold-out lots appear to other buyers">
-              <span style="font-size: 0.72rem; font-weight: 800; color: #475569; padding-left: 4px;">👤 View as:</span>
-              <button id="btn-persona-self" class="unit-toggle-btn active" onclick="setBuyerPersona('my-account', this)" style="background: #0c5a36; color: #ffffff; border: none; padding: 4px 9px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">
-                🏢 You (BigBasket)
-              </button>
-              <button id="btn-persona-other" class="unit-toggle-btn" onclick="setBuyerPersona('other-buyer', this)" style="background: transparent; color: #475569; border: none; padding: 4px 9px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">
-                👥 Other Buyer (Simulate)
-              </button>
-            </div>
-
             <!-- View Mode Switcher: Grid vs Table -->
             <div style="display: flex; align-items: center; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 2px;">
               <button id="btn-view-grid" class="unit-toggle-btn active" onclick="setMarketViewMode('grid', this)" style="background: #0c5a36; color: #ffffff; border: none; padding: 5px 9px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer;" title="Grid View">
