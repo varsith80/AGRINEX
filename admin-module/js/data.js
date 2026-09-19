@@ -1010,6 +1010,190 @@ const ADMIN_GOVERNANCE_DATA = {
       targetAction: "market-check",
       targetId: "CROP-SUN"
     }
+  ],
+
+  // Maharashtra APMC GIS Map Data (Cluster Mandis, MSWC Hubs, and Live Transit Corridors)
+  gisMapData: {
+    mandis: [
+      { id: "APMC-01", name: "Lasalgaon APMC", district: "Nashik", lat: 20.1472, lng: 74.2259, primaryCrop: "Red Onion & Garlic", modalRate: "₹ 19.50/kg", arrivals: "6,850 Qt", status: "Alert (Hoarding Risk)", badgeClass: "badge-gov-hold", statusColor: "#e11d48" },
+      { id: "APMC-02", name: "Vashi Terminal Yard", district: "Navi Mumbai", lat: 19.0771, lng: 73.0039, primaryCrop: "Wholesale Consolidated & Veg", modalRate: "₹ 22.00/kg", arrivals: "14,200 Qt", status: "Optimal (Active Intake)", badgeClass: "badge-gov-clear", statusColor: "#059669" },
+      { id: "APMC-03", name: "Narayangaon APMC Hub", district: "Pune", lat: 19.1227, lng: 73.9781, primaryCrop: "Tomato & Exotic Greens", modalRate: "₹ 22.00/kg", arrivals: "8,400 Qt", status: "MSP Breach Watch", badgeClass: "badge-gov-pending", statusColor: "#d97706" },
+      { id: "APMC-04", name: "Nagpur Central Yard", district: "Nagpur", lat: 21.1458, lng: 79.0882, primaryCrop: "Nagpur Orange & Cotton", modalRate: "₹ 44.50/kg", arrivals: "5,100 Qt", status: "Optimal", badgeClass: "badge-gov-clear", statusColor: "#059669" },
+      { id: "APMC-05", name: "Latur Pulse & Oilseed APMC", district: "Latur", lat: 18.4088, lng: 76.5604, primaryCrop: "Soybean & Toor Dal", modalRate: "₹ 48.00/kg", arrivals: "7,350 Qt", status: "Optimal", badgeClass: "badge-gov-clear", statusColor: "#059669" },
+      { id: "APMC-06", name: "Solapur Pomegranate & Onion APMC", district: "Solapur", lat: 17.6599, lng: 75.9064, primaryCrop: "Bhagwa Pomegranate & Onion", modalRate: "₹ 82.00/kg", arrivals: "3,800 Qt", status: "Optimal", badgeClass: "badge-gov-clear", statusColor: "#059669" },
+      { id: "APMC-07", name: "Kolhapur Jaggery & Cane APMC", district: "Kolhapur", lat: 16.7050, lng: 74.2433, primaryCrop: "GI Kolhapuri Jaggery & Rice", modalRate: "₹ 46.00/kg", arrivals: "4,200 Qt", status: "Optimal", badgeClass: "badge-gov-clear", statusColor: "#059669" }
+    ],
+    coldStorages: [
+      { id: "MSWC-01", name: "MSWC Narayangaon Hub", district: "Pune", lat: 19.1250, lng: 73.9800, capacity: "12,000 MT", occupancy: "79%", temp: "2.8°C", humidity: "91%", status: "Near Peak", statusColor: "#0284c7" },
+      { id: "MSWC-02", name: "MSWC Nashik Cold Chain", district: "Nashik", lat: 19.9975, lng: 73.7898, capacity: "18,000 MT", occupancy: "86%", temp: "1.4°C", humidity: "94%", status: "Critical (86%)", statusColor: "#d97706" },
+      { id: "MSWC-03", name: "MSWC Latur Dry & Cold Hub", district: "Latur", lat: 18.4120, lng: 76.5650, capacity: "25,000 MT", occupancy: "60%", temp: "8.5°C", humidity: "65%", status: "Available", statusColor: "#059669" },
+      { id: "MSWC-04", name: "MSWC Nagpur Citrus Complex", district: "Nagpur", lat: 21.1500, lng: 79.0920, capacity: "20,000 MT", occupancy: "73%", temp: "4.2°C", humidity: "88%", status: "Normal", statusColor: "#059669" }
+    ],
+    routes: [
+      {
+        id: "ROUTE-01",
+        name: "Nashik to Vashi Corridor via Kasara Ghat",
+        truckId: "MH-15-EG-4412",
+        driver: "Sachin Kadam",
+        cargo: "Tomato (Shivam Hybrid) - 14 MT",
+        temp: "+4.1°C (Nominal)",
+        status: "Navigating Kasara Ghat Elevation",
+        waypoints: [
+          [20.0000, 73.7800],
+          [19.7120, 73.4860],
+          [19.2403, 73.1305],
+          [19.0771, 73.0039]
+        ]
+      },
+      {
+        id: "ROUTE-02",
+        name: "Pune to Vashi Express Haul",
+        truckId: "MH-12-RN-8831",
+        driver: "Ganesh More",
+        cargo: "Pomegranate (Bhagwa) - 10 MT",
+        temp: "+3.8°C (Nominal)",
+        status: "Expressway Km 42 (Lonavala Pass)",
+        waypoints: [
+          [18.5204, 73.8567],
+          [18.7546, 73.4062],
+          [19.0771, 73.0039]
+        ]
+      }
+    ]
+  },
+
+  // AI Market Price Anomaly & Anti-Hoarding Surveillance Engine
+  marketAnomalies: [
+    {
+      id: "ANOMALY-01",
+      mandi: "Lasalgaon APMC, Nashik",
+      crop: "Red Onion (Nashik Garwa)",
+      cropId: "CROP-ONION",
+      anomalyType: "Suspected Cartel Hoarding",
+      severity: "CRITICAL",
+      badgeClass: "badge-gov-hold",
+      metrics: "Arrivals dropped -46% in 48h, while wholesale modal price spiked +38% (₹ 27.50 vs 14-day avg ₹ 19.90)",
+      description: "Traders syndicate holding warehouse stocks off-market to create artificial regional supply constriction before festive demand cycle.",
+      recommendedAction: "Issue Statutory Form-IV Inspection & Release 5,000 MT MSWC Buffer",
+      status: "Active Alert",
+      timestamp: "28 mins ago"
+    },
+    {
+      id: "ANOMALY-02",
+      mandi: "Narayangaon Hub, Pune",
+      crop: "Tomato (Abhinav / Shivam)",
+      cropId: "CROP-TOM",
+      anomalyType: "Distress Price Crash (< MSP)",
+      severity: "HIGH",
+      badgeClass: "badge-gov-pending",
+      metrics: "Unregulated non-APMC arrivals surge (+62%), spot price collapsed to ₹ 9.50/kg (-24% below statutory MSP floor)",
+      description: "Predatory off-market broker discounts triggering panic farmer selloffs at local gate.",
+      recommendedAction: "Activate MSP Price Deficiency Support & Route to Processing Hubs",
+      status: "Active Alert",
+      timestamp: "1 hour ago"
+    }
+  ],
+
+  // Multilingual Public Crisis Advisory Broadcast Templates
+  advisoryTemplates: [
+    {
+      id: "ADV-01",
+      title: "Unseasonal Rain & Hailstorm Warning",
+      category: "Weather Disaster",
+      textMarathi: "महत्त्वाची सूचना: नाशिक, पुणे आणि अहमदनगर जिल्ह्यांत पुढील ४८ तासांत अवकाळी पाऊस आणि गारपिटीचा इशारा देण्यात आला आहे. सर्व शेतकऱ्यांनी काढणी केलेला शेतमाल सुरक्षित शेड किंवा जवळच्या MSWC शीतगृहात हलवावा.",
+      textHindi: "महत्वपूर्ण सूचना: नाशिक, पुणे और अहमदनगर जिलों में अगले 48 घंटों में बेमौसम बारिश और ओलावृष्टि की चेतावनी दी गई है। सभी किसान अपनी कटी हुई फसल सुरक्षित गोदाम या नजदीकी MSWC कोल्ड स्टोरेज में स्थानांतरित करें।",
+      textEnglish: "URGENT ADVISORY: IMD alerts severe unseasonal rains & hailstorms across Nashik, Pune & Ahmednagar districts within next 48 hours. Farmers are advised to immediately move harvested lots into sheltered MSWC storage hubs.",
+      targetDistricts: "Nashik, Pune, Ahmednagar (68 APMC Mandis)",
+      estimatedReach: "18,450 Verified Farmers"
+    },
+    {
+      id: "ADV-02",
+      title: "MSP Emergency Procurement Drive",
+      category: "Price Support",
+      textMarathi: "शासकीय हमीभाव खरेदी सूचना: सोलापूर आणि लातूर एपीएमसी मध्ये सोयाबीन आणि हरभरा हमीभाव (MSP) खरेदी केंद्र सुरू करण्यात आले आहेत. शेतकर्‍यांनी थेट शासकीय केंद्रावर नोंदणी करावी.",
+      textHindi: "सरकारी एमएसपी खरीद सूचना: सोलापुर और लातुर एपीएमसी में सोयाबीन और चना की सरकारी न्यूनतम समर्थन मूल्य (MSP) खरीद केंद्र तत्काल प्रभाव से सक्रिय कर दिए गए हैं।",
+      textEnglish: "GOVERNMENT MSP NOTICE: Direct Minimum Support Price (MSP) procurement counters for Soybean and Chana are now operational across Latur and Solapur APMCs. Direct DBT bank payouts guaranteed.",
+      targetDistricts: "Latur, Solapur, Osmanabad (42 APMC Mandis)",
+      estimatedReach: "12,200 Verified Farmers"
+    },
+    {
+      id: "ADV-03",
+      title: "Pest Infestation (Fall Armyworm) Containment",
+      category: "Crop Health",
+      textMarathi: "कृषी सल्ला: मका व ज्वारी पिकांवर लष्करी अळीचा प्रादुर्भाव आढळून आला आहे. कृषी विद्यापीठाने शिफारस केलेल्या जैविक कीटकनाशकांची फवारणी तातडीने करा.",
+      textHindi: "कृषि परामर्श: मक्का और ज्वार की फसलों में फॉल आर्मीवर्म कीट के प्रकोप की सूचना मिली है। किसान तुरंत कृषि विभाग द्वारा अनुशंसित जैविक कीटनाशक का छिड़काव करें।",
+      textEnglish: "CROP HEALTH ALERT: Fall Armyworm infestation reported in Maize clusters of Aurangabad and Jalna. Follow MPKV Rahuri biological spray protocols to contain spread.",
+      targetDistricts: "Chhatrapati Sambhajinagar, Jalna (31 APMC Mandis)",
+      estimatedReach: "9,800 Verified Farmers"
+    }
+  ],
+
+  // FPO Federation Oversight & Bulk Credit Desk
+  fpoFederations: [
+    {
+      id: "FPO-MH-01",
+      name: "Sahyadri Farmers Producer Co. Ltd",
+      regNo: "CIN-U01403MH2011PTC212345",
+      headquarters: "Mohadi, Nashik",
+      leadCommodity: "Grapes, Tomato & Export Veg",
+      memberCount: 2240,
+      totalAcreage: "8,500 Acres",
+      nabardRating: "AAA (Apex Tier)",
+      ratingClass: "badge-gov-clear",
+      sanctionedWorkingCapital: "₹ 5,00,00,000",
+      utilizedCapital: "₹ 3,40,00,000",
+      freightSubsidyApproved: "₹ 24,50,000",
+      subsidyStatus: "Cleared (State 40% Share)",
+      status: "Fully Compliant & Active"
+    },
+    {
+      id: "FPO-MH-02",
+      name: "MahaFPO Apex Agricultural Federation",
+      regNo: "CIN-U01111MH2014PTC256789",
+      headquarters: "Shivajinagar, Pune",
+      leadCommodity: "Soybean, Pulses & Onion",
+      memberCount: 5120,
+      totalAcreage: "19,200 Acres",
+      nabardRating: "AA+ (High Security)",
+      ratingClass: "badge-gov-clear",
+      sanctionedWorkingCapital: "₹ 8,50,00,000",
+      utilizedCapital: "₹ 5,80,00,000",
+      freightSubsidyApproved: "₹ 48,00,000",
+      subsidyStatus: "Pending Nodal Approval",
+      status: "Pending Subsidy Disbursement"
+    },
+    {
+      id: "FPO-MH-03",
+      name: "Godavari Bio-Organic Producers Co.",
+      regNo: "CIN-U01400MH2018PTC304561",
+      headquarters: "Nanded, Marathwada",
+      leadCommodity: "Turmeric, Cotton & Jowar",
+      memberCount: 1650,
+      totalAcreage: "5,800 Acres",
+      nabardRating: "AA (Standard Tier)",
+      ratingClass: "badge-gov-pending",
+      sanctionedWorkingCapital: "₹ 3,00,00,000",
+      utilizedCapital: "₹ 1,90,00,000",
+      freightSubsidyApproved: "₹ 15,20,000",
+      subsidyStatus: "Under Verification",
+      status: "Active Working Line"
+    },
+    {
+      id: "FPO-MH-04",
+      name: "Vidarbha Cotton & Orange Growers FPO",
+      regNo: "CIN-U01200MH2020PTC345112",
+      headquarters: "Kalmeshwar, Nagpur",
+      leadCommodity: "Bt Cotton & Nagpur Orange",
+      memberCount: 1980,
+      totalAcreage: "7,400 Acres",
+      nabardRating: "AA+ (High Security)",
+      ratingClass: "badge-gov-clear",
+      sanctionedWorkingCapital: "₹ 4,20,00,000",
+      utilizedCapital: "₹ 2,80,00,000",
+      freightSubsidyApproved: "₹ 22,00,000",
+      subsidyStatus: "Cleared (State 40% Share)",
+      status: "Fully Compliant & Active"
+    }
   ]
 };
 
@@ -1340,6 +1524,103 @@ class AgriNexAdminGovernance {
     }
 
     return { success: true, message: `Action resolved: ${item.title}` };
+  }
+
+  // --- GIS Map Data ---
+  static getGisMapData() {
+    return ADMIN_GOVERNANCE_DATA.gisMapData;
+  }
+
+  // --- Market Price Anomalies & Anti-Hoarding ---
+  static getMarketAnomalies() {
+    try {
+      if (typeof localStorage !== "undefined") {
+        const stored = localStorage.getItem("agrinex_admin_anomalies");
+        if (stored) return JSON.parse(stored);
+      }
+    } catch(e) {}
+    return ADMIN_GOVERNANCE_DATA.marketAnomalies;
+  }
+
+  static saveMarketAnomalies(anomalies) {
+    try {
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("agrinex_admin_anomalies", JSON.stringify(anomalies));
+      }
+    } catch(e) {}
+  }
+
+  static resolveMarketAnomaly(anomalyId, actionType) {
+    const list = this.getMarketAnomalies();
+    const item = list.find(a => a.id === anomalyId);
+    if (!item) return { success: false, message: "Anomaly alert not found" };
+
+    if (actionType === "form-iv-notice") {
+      item.status = "Form-IV Notice Issued";
+      item.badgeClass = "badge-gov-clear";
+      this.addAuditLog("Statutory Anti-Hoarding Notice Issued", `${item.mandi} (${item.crop})`, "Form-IV Summons Dispatched", "Market Surveillance Admin");
+    } else if (actionType === "buffer-release") {
+      item.status = "Buffer Stock Liquidation Activated";
+      item.badgeClass = "badge-gov-clear";
+      this.addAuditLog("MSWC Buffer Stock Released", `${item.crop} - 5,000 MT`, "Stabilization Price ₹ 21/kg", "Chief Mandi Commissioner");
+    } else if (actionType === "flying-squad") {
+      item.status = "Flying Squad Deployed";
+      item.badgeClass = "badge-gov-clear";
+      this.addAuditLog("Mandi Flying Squad Deployed", item.mandi, "Emergency Stock & Weighbridge Audit", "State Vigilance Officer");
+    } else {
+      item.status = "Resolved";
+      item.badgeClass = "badge-gov-clear";
+    }
+
+    this.saveMarketAnomalies(list);
+    return { success: true, message: `Intervention executed: ${item.status}` };
+  }
+
+  // --- Advisory Broadcast Templates ---
+  static getAdvisoryTemplates() {
+    return ADMIN_GOVERNANCE_DATA.advisoryTemplates;
+  }
+
+  // --- FPO Federation Governance ---
+  static getFpoFederations() {
+    try {
+      if (typeof localStorage !== "undefined") {
+        const stored = localStorage.getItem("agrinex_admin_fpos");
+        if (stored) return JSON.parse(stored);
+      }
+    } catch(e) {}
+    return ADMIN_GOVERNANCE_DATA.fpoFederations;
+  }
+
+  static saveFpoFederations(fpos) {
+    try {
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("agrinex_admin_fpos", JSON.stringify(fpos));
+      }
+    } catch(e) {}
+  }
+
+  static sanctionFpoWorkingCapital(fpoId, addAmountCr = 1.0) {
+    const fpos = this.getFpoFederations();
+    const item = fpos.find(f => f.id === fpoId);
+    if (!item) return { success: false, message: "FPO not found" };
+
+    item.sanctionedWorkingCapital = `₹ ${(parseFloat(item.sanctionedWorkingCapital.replace(/[^0-9.]/g, '')) + addAmountCr * 10000000).toLocaleString('en-IN')}`;
+    this.saveFpoFederations(fpos);
+    this.addAuditLog("FPO Credit Line Enhanced", item.name, `+₹ ${addAmountCr} Cr Working Capital`, "State Agricultural Credit Board");
+    return { success: true, message: `Sanctioned additional credit line for ${item.name}` };
+  }
+
+  static disburseFpoSubsidy(fpoId) {
+    const fpos = this.getFpoFederations();
+    const item = fpos.find(f => f.id === fpoId);
+    if (!item) return { success: false, message: "FPO not found" };
+
+    item.subsidyStatus = "Disbursed via Direct DBT";
+    item.status = "Fully Compliant & Active";
+    this.saveFpoFederations(fpos);
+    this.addAuditLog("Bulk Transport Subsidy Disbursed", item.name, item.freightSubsidyApproved, "MahaGov Nodal DBT Cell");
+    return { success: true, message: `Disbursed 40% Freight Subsidy (${item.freightSubsidyApproved}) to ${item.name}` };
   }
 }
 

@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGrievancesSection();
   renderReportsSection();
   renderAuditLogs();
+  renderAntiHoardingAlerts();
 });
 
 /* =========================================================================
@@ -176,11 +177,88 @@ function renderDashboardDeliveries() {
 }
 
 /* =========================================================================
-   4. USERS MANAGEMENT (FARMERS, BUYERS, LOGISTICS)
+   4. USERS DIRECTORY & FPO FEDERATIONS MANAGEMENT
    ========================================================================= */
 function renderUsersTable(filterCategory = "all") {
+  const thead = document.getElementById("users-table-thead");
   const tbody = document.getElementById("users-table-tbody");
   if (!tbody) return;
+
+  // If FPO category is selected, render specialized FPO table
+  if (filterCategory === "FPO") {
+    if (thead) {
+      thead.innerHTML = `
+        <tr>
+          <th>FPO Federation & Reg CIN</th>
+          <th>Lead District & HQ</th>
+          <th>Member Base & Land</th>
+          <th>Core Commodities</th>
+          <th>NABARD Rating</th>
+          <th>Working Capital & Subsidy</th>
+          <th>Governance Action</th>
+        </tr>
+      `;
+    }
+
+    const fpos = AgriNexAdminGovernance.getFpoFederations();
+    tbody.innerHTML = fpos.map(f => `
+      <tr>
+        <td>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 36px; height: 36px; border-radius: 8px; background: #ecfdf5; border: 1px solid #a7f3d0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+              🌾
+            </div>
+            <div>
+              <strong style="color: #0f172a; font-size: 0.9rem;">${f.name}</strong>
+              <div style="font-size: 0.72rem; color: #64748b; font-family: monospace;">${f.regNo}</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div style="font-size: 0.82rem; font-weight: 700; color: #334155;">${f.headquarters}</div>
+          <div style="font-size: 0.72rem; color: #059669; font-weight: 700;">Cluster Hub</div>
+        </td>
+        <td>
+          <div style="font-size: 0.82rem; color: #0f172a; font-weight: 800;">${f.memberCount.toLocaleString()} Farmers</div>
+          <div style="font-size: 0.72rem; color: #64748b;">${f.totalAcreage}</div>
+        </td>
+        <td>
+          <div style="font-size: 0.82rem; color: #0f172a; font-weight: 600;">${f.leadCommodity}</div>
+        </td>
+        <td>
+          <span class="badge ${f.ratingClass}" style="font-size: 0.74rem;">${f.nabardRating}</span>
+        </td>
+        <td>
+          <div style="font-size: 0.82rem; font-weight: 800; color: #059669;">Line: ${f.sanctionedWorkingCapital}</div>
+          <div style="font-size: 0.72rem; color: #64748b;">Utilized: ${f.utilizedCapital}</div>
+          <div style="font-size: 0.7rem; color: #0284c7; font-weight: 700; margin-top: 2px;">Freight Sub: ${f.subsidyStatus}</div>
+        </td>
+        <td>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-sm" onclick="openFpoCreditModal('${f.id}')" style="background: #059669; border-color: #059669; font-size: 0.72rem; font-weight: 800; padding: 4px 10px; cursor: pointer;">
+              ⚡ Credit Desk
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join("");
+    return;
+  }
+
+  // Restore default thead for standard users
+  if (thead) {
+    thead.innerHTML = `
+      <tr>
+        <th>User & ID</th>
+        <th>Category</th>
+        <th>Location / Hub</th>
+        <th>Commodity / Operations / Credit</th>
+        <th>KYC & Compliance Proof</th>
+        <th>Status & Risk</th>
+        <th>Admin Action</th>
+      </tr>
+    `;
+  }
 
   let users = AgriNexAdminGovernance.getUsers();
 
@@ -276,6 +354,7 @@ function filterUsers(category, el = null) {
           (category === "Farmer" && text.includes("farmer")) ||
           (category === "Buyer" && text.includes("buyer")) ||
           (category === "Logistics" && text.includes("logistic")) ||
+          (category === "FPO" && text.includes("fpo")) ||
           (category === "Pending" && text.includes("pending"))) {
         p.classList.add("active");
       } else {
@@ -987,3 +1066,642 @@ function handleGlobalSearch(query) {
     queueTbody.innerHTML = cases.map(c => renderEscrowRow(c)).join("");
   }
 }
+
+/* =========================================================================
+   13. GIS APMC COMMAND MAP ENGINE (LEAFLET.JS)
+   ========================================================================= */
+let apmcMapInstance = null;
+let apmcMapMarkers = [];
+let apmcRouteLines = [];
+
+function toggleApmcView(viewMode) {
+  const cardsContainer = document.getElementById("apmc-cards-container");
+  const mapWrapper = document.getElementById("apmc-gis-map-wrapper");
+  const btnCards = document.getElementById("view-toggle-cards");
+  const btnMap = document.getElementById("view-toggle-map");
+
+  if (viewMode === 'map') {
+    if (cardsContainer) cardsContainer.style.display = "none";
+    if (mapWrapper) mapWrapper.style.display = "block";
+    if (btnCards) btnCards.classList.remove("active");
+    if (btnMap) btnMap.classList.add("active");
+
+    if (!apmcMapInstance) {
+      setTimeout(initApmcGisMap, 100);
+    } else {
+      setTimeout(() => apmcMapInstance.invalidateSize(), 150);
+    }
+  } else {
+    if (cardsContainer) cardsContainer.style.display = "grid";
+    if (mapWrapper) mapWrapper.style.display = "none";
+    if (btnCards) btnCards.classList.add("active");
+    if (btnMap) btnMap.classList.remove("active");
+  }
+}
+
+function initApmcGisMap() {
+  const mapContainer = document.getElementById("apmc-gis-map");
+  if (!mapContainer || typeof L === "undefined") return;
+
+  // Initialize map centered on Maharashtra
+  apmcMapInstance = L.map('apmc-gis-map').setView([19.25, 75.25], 7);
+
+  // OpenStreetMap Tile Layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '© OpenStreetMap contributors | AgriNex State APMC GIS'
+  }).addTo(apmcMapInstance);
+
+  renderMapMarkers('all');
+}
+
+function renderMapMarkers(filterType = 'all') {
+  if (!apmcMapInstance || typeof L === "undefined") return;
+
+  // Clear existing markers & polylines
+  apmcMapMarkers.forEach(m => apmcMapInstance.removeLayer(m));
+  apmcMapMarkers = [];
+  apmcRouteLines.forEach(l => apmcMapInstance.removeLayer(l));
+  apmcRouteLines = [];
+
+  const data = AgriNexAdminGovernance.getGisMapData();
+  if (!data) return;
+
+  // 1. Mandi Markers
+  if (filterType === 'all' || filterType === 'mandis') {
+    data.mandis.forEach(m => {
+      const isAlert = m.status.toLowerCase().includes("alert");
+      const icon = L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div class="custom-map-pin pin-mandi ${isAlert ? 'pin-alert' : ''}" title="${m.name}">🌾</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+
+      const marker = L.marker([m.lat, m.lng], { icon: icon }).addTo(apmcMapInstance);
+      marker.bindPopup(`
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; min-width: 220px;">
+          <div style="font-weight: 800; color: #0c5a36; font-size: 0.95rem; margin-bottom: 2px;">${m.name}</div>
+          <div style="color: #64748b; font-size: 0.72rem; margin-bottom: 6px;">District: ${m.district} • APMC Mandi</div>
+          <div style="background: #f8fafc; padding: 6px 8px; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 6px;">
+            <div><strong>Crops:</strong> ${m.primaryCrop}</div>
+            <div><strong>Modal Rate:</strong> <span style="color: #059669; font-weight: 800;">${m.modalRate}</span></div>
+            <div><strong>Arrivals Today:</strong> ${m.arrivals}</div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="badge ${m.badgeClass}" style="font-size: 0.68rem; padding: 2px 6px;">${m.status}</span>
+            <button onclick="switchSection('market-data')" style="font-size: 0.7rem; color: #0284c7; background: none; border: none; font-weight: 700; cursor: pointer;">Mandi Desk &rarr;</button>
+          </div>
+        </div>
+      `);
+      apmcMapMarkers.push(marker);
+    });
+  }
+
+  // 2. Cold Storage Markers
+  if (filterType === 'all' || filterType === 'coldStorages') {
+    data.coldStorages.forEach(c => {
+      const icon = L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div class="custom-map-pin pin-cold" title="${c.name}">🏭</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+
+      const marker = L.marker([c.lat, c.lng], { icon: icon }).addTo(apmcMapInstance);
+      marker.bindPopup(`
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; min-width: 210px;">
+          <div style="font-weight: 800; color: #0284c7; font-size: 0.92rem; margin-bottom: 2px;">${c.name}</div>
+          <div style="color: #64748b; font-size: 0.72rem; margin-bottom: 6px;">District: ${c.district} • MSWC Cold Chain</div>
+          <div style="background: #f0f9ff; padding: 6px 8px; border-radius: 6px; border: 1px solid #bae6fd; margin-bottom: 6px;">
+            <div><strong>Capacity:</strong> ${c.capacity}</div>
+            <div><strong>Occupancy:</strong> <strong style="color: #0369a1;">${c.occupancy}</strong></div>
+            <div><strong>Temp / Humidity:</strong> ${c.temp} | ${c.humidity}</div>
+          </div>
+          <span class="badge" style="background: #e0f2fe; color: #0369a1; font-weight: 800; font-size: 0.68rem;">Status: ${c.status}</span>
+        </div>
+      `);
+      apmcMapMarkers.push(marker);
+    });
+  }
+
+  // 3. Logistics Fleets & Transit Corridors
+  if (filterType === 'all' || filterType === 'fleets') {
+    data.routes.forEach(r => {
+      const polyline = L.polyline(r.waypoints, {
+        color: '#d97706',
+        weight: 4,
+        opacity: 0.85,
+        dashArray: '8, 8'
+      }).addTo(apmcMapInstance);
+      apmcRouteLines.push(polyline);
+
+      // Add moving truck icon at midpoint or active location (e.g. Kasara Ghat)
+      const truckPos = r.waypoints[1] || r.waypoints[0];
+      const truckIcon = L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div class="custom-map-pin pin-fleet" title="${r.truckId}">🚚</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+
+      const truckMarker = L.marker(truckPos, { icon: truckIcon }).addTo(apmcMapInstance);
+      truckMarker.bindPopup(`
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; min-width: 220px;">
+          <div style="font-weight: 800; color: #92400e; font-size: 0.92rem; margin-bottom: 2px;">${r.truckId} • ${r.name}</div>
+          <div style="color: #64748b; font-size: 0.72rem; margin-bottom: 6px;">Driver: ${r.driver}</div>
+          <div style="background: #fefce8; padding: 6px 8px; border-radius: 6px; border: 1px solid #fef08a; margin-bottom: 6px;">
+            <div><strong>Cargo:</strong> ${r.cargo}</div>
+            <div><strong>Reefer Temp:</strong> <strong style="color: #059669;">${r.temp}</strong></div>
+            <div><strong>Checkpoint:</strong> ${r.status}</div>
+          </div>
+          <button onclick="switchSection('logistics-storage')" style="font-size: 0.72rem; color: #d97706; font-weight: 800; background: none; border: none; cursor: pointer;">View Logistics Hub &rarr;</button>
+        </div>
+      `);
+      apmcMapMarkers.push(truckMarker);
+    });
+  }
+}
+
+function filterMapMarkers(type, buttonEl = null) {
+  if (buttonEl) {
+    document.querySelectorAll(".map-layer-pill").forEach(p => p.classList.remove("active"));
+    buttonEl.classList.add("active");
+  }
+  renderMapMarkers(type);
+}
+
+/* =========================================================================
+   14. AI ANTI-HOARDING ANOMALY SURVEILLANCE ENGINE
+   ========================================================================= */
+function renderAntiHoardingAlerts() {
+  const container = document.getElementById("anti-hoarding-alerts-grid");
+  if (!container) return;
+
+  const anomalies = AgriNexAdminGovernance.getMarketAnomalies();
+  const countBadge = document.getElementById("anomaly-badge-count");
+  if (countBadge) countBadge.textContent = `${anomalies.filter(a => a.status.includes("Active")).length} Active Triggers`;
+
+  container.innerHTML = anomalies.map(a => {
+    const isCritical = a.severity === "CRITICAL";
+    const isActive = a.status.includes("Active");
+    return `
+      <div class="anomaly-card ${isCritical ? 'critical' : ''}">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+            <div>
+              <span class="${isCritical ? 'badge-cartel-alert' : 'badge-msp-breach'}">${a.severity}: ${a.anomalyType}</span>
+              <h4 style="font-size: 0.96rem; font-weight: 800; color: #0f172a; margin: 4px 0 0 0;">${a.crop}</h4>
+              <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">📍 ${a.mandi} • ${a.timestamp}</div>
+            </div>
+            <span class="badge ${a.badgeClass}">${a.status}</span>
+          </div>
+
+          <div style="background: rgba(254, 243, 199, 0.4); border-left: 3px solid #f59e0b; padding: 8px 10px; border-radius: 4px; font-size: 0.78rem; color: #78350f; line-height: 1.4; margin-bottom: 8px;">
+            <strong>Surveillance Signal:</strong> ${a.metrics}
+          </div>
+
+          <p style="font-size: 0.76rem; color: #475569; margin: 0 0 10px 0; line-height: 1.4;">
+            ${a.description}
+          </p>
+        </div>
+
+        <div style="border-top: 1px solid #fed7aa; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <div style="font-size: 0.72rem; color: #9a3412; font-weight: 700;">
+            ⚖️ ${a.recommendedAction}
+          </div>
+          <div style="display: flex; gap: 6px;">
+            ${isActive ? `
+              <button class="btn btn-primary btn-sm" onclick="handleIssueAntiHoardingNotice('${a.id}')" style="background: #dc2626; border-color: #dc2626; font-size: 0.72rem; font-weight: 800; padding: 4px 10px; cursor: pointer;">
+                📜 Issue Form-IV Notice
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="handleTriggerBufferStock('${a.id}')" style="font-size: 0.72rem; font-weight: 800; padding: 4px 10px; cursor: pointer; border-color: #0284c7; color: #0284c7;">
+                🏭 Release Buffer
+              </button>
+            ` : `
+              <span style="font-size: 0.74rem; color: #059669; font-weight: 800;">✓ Form-IV Dispatched & Buffer Active</span>
+            `}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function handleIssueAntiHoardingNotice(anomalyId) {
+  const res = AgriNexAdminGovernance.resolveMarketAnomaly(anomalyId, "form-iv-notice");
+  if (res.success) {
+    alert("⚖️ STATUTORY NOTICE DISPATCHED:\nForm-IV Summons issued to 42 licensed commission agents at Lasalgaon APMC. Physical warehouse inspection team scheduled.");
+    renderAntiHoardingAlerts();
+    renderAuditLogs();
+  }
+}
+
+function handleTriggerBufferStock(anomalyId) {
+  const res = AgriNexAdminGovernance.resolveMarketAnomaly(anomalyId, "buffer-release");
+  if (res.success) {
+    alert("🏭 MSWC BUFFER STOCK RELEASED:\n5,000 MT buffer onion stock released to stabilize retail wholesale prices across Mumbai and Pune terminals.");
+    renderAntiHoardingAlerts();
+    renderAuditLogs();
+  }
+}
+
+/* =========================================================================
+   15. PUBLIC CRISIS ADVISORY & MULTILINGUAL VOICE BROADCASTER
+   ========================================================================= */
+let currentBroadcastLang = 'mr';
+let currentBroadcastTemplateId = 'ADV-01';
+
+function openBroadcastModal(templateId = 'ADV-01') {
+  currentBroadcastTemplateId = templateId;
+  const modal = document.getElementById("modal-broadcast-advisory");
+  if (!modal) return;
+  modal.classList.add("active");
+  selectAdvisoryTemplate(templateId);
+}
+
+function closeBroadcastModal() {
+  const modal = document.getElementById("modal-broadcast-advisory");
+  if (modal) modal.classList.remove("active");
+  const audioEl = document.getElementById("tts-audio-element");
+  if (audioEl) audioEl.pause();
+  if (typeof window !== "undefined" && window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
+}
+
+function selectAdvisoryTemplate(templateId) {
+  currentBroadcastTemplateId = templateId;
+  document.querySelectorAll("#modal-broadcast-advisory .filter-pill").forEach(p => p.classList.remove("active"));
+  const activeBtn = document.getElementById(`btn-tmpl-${templateId}`);
+  if (activeBtn) activeBtn.classList.add("active");
+
+  const templates = AgriNexAdminGovernance.getAdvisoryTemplates();
+  const tmpl = templates.find(t => t.id === templateId);
+
+  const txtArea = document.getElementById("broadcast-message-text");
+  const scopeEl = document.getElementById("advisory-target-scope");
+  const reachEl = document.getElementById("advisory-reach-text");
+
+  if (tmpl) {
+    if (scopeEl) scopeEl.textContent = tmpl.targetDistricts;
+    if (reachEl) reachEl.textContent = tmpl.estimatedReach;
+
+    if (currentBroadcastLang === 'mr') {
+      txtArea.value = tmpl.textMarathi;
+    } else if (currentBroadcastLang === 'hi') {
+      txtArea.value = tmpl.textHindi;
+    } else {
+      txtArea.value = tmpl.textEnglish;
+    }
+  } else {
+    if (txtArea) txtArea.value = "";
+    if (scopeEl) scopeEl.textContent = "All 305 APMC Mandis (Maharashtra)";
+    if (reachEl) reachEl.textContent = "34,500 Producers & Buyers";
+  }
+}
+
+function setBroadcastLang(lang) {
+  currentBroadcastLang = lang;
+  document.querySelectorAll(".lang-selector-pill").forEach(p => p.classList.remove("active"));
+  const btn = document.getElementById(`lang-btn-${lang}`);
+  if (btn) btn.classList.add("active");
+
+  selectAdvisoryTemplate(currentBroadcastTemplateId);
+}
+
+async function previewVoiceAdvisory() {
+  const txtArea = document.getElementById("broadcast-message-text");
+  const text = txtArea ? txtArea.value.trim() : "";
+  if (!text) {
+    alert("Please enter or select advisory text to preview audio.");
+    return;
+  }
+
+  const btnIcon = document.getElementById("preview-voice-icon");
+  const btnText = document.getElementById("preview-voice-text");
+  const statusEl = document.getElementById("preview-voice-status");
+  const audioContainer = document.getElementById("audio-player-container");
+  const audioEl = document.getElementById("tts-audio-element");
+
+  if (btnIcon) btnIcon.textContent = "⏳";
+  if (btnText) btnText.textContent = "Synthesizing...";
+  if (statusEl) statusEl.textContent = "Synthesizing with Sarvam AI Bulbul...";
+
+  const langCode = currentBroadcastLang === 'mr' ? 'mr-IN' : (currentBroadcastLang === 'hi' ? 'hi-IN' : 'en-IN');
+
+  try {
+    const response = await fetch('/api/tts/speak', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: text,
+        language_code: langCode,
+        speaker: 'priya'
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success && data.audio_base64) {
+      if (audioEl) {
+        audioEl.src = `data:audio/wav;base64,${data.audio_base64}`;
+        if (audioContainer) audioContainer.style.display = "block";
+        audioEl.play();
+      }
+      if (statusEl) statusEl.innerHTML = `<span style="color: #059669; font-weight: bold;">✓ Playing Sarvam AI Bulbul Voice</span>`;
+    } else {
+      // Graceful fallback to browser speech synthesis
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = langCode;
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+        if (statusEl) statusEl.innerHTML = `<span style="color: #0284c7; font-weight: bold;">🔊 Playing via Local Voice Synthesizer</span>`;
+      } else {
+        alert("Audio preview ready.");
+      }
+    }
+  } catch (err) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = langCode;
+      window.speechSynthesis.speak(utterance);
+      if (statusEl) statusEl.innerHTML = `<span style="color: #0284c7; font-weight: bold;">🔊 Playing via Local Voice Synthesizer</span>`;
+    }
+  } finally {
+    if (btnIcon) btnIcon.textContent = "🔊";
+    if (btnText) btnText.textContent = "Preview Voice Call";
+  }
+}
+
+function executeBroadcastDispatch() {
+  const text = document.getElementById("broadcast-message-text").value.trim();
+  if (!text) {
+    alert("Please enter message content before dispatching.");
+    return;
+  }
+
+  const progressBox = document.getElementById("dispatch-progress-box");
+  const progressBar = document.getElementById("dispatch-progress-bar");
+  const pctEl = document.getElementById("dispatch-pct");
+  const logLines = document.getElementById("dispatch-log-lines");
+  const dispatchBtn = document.getElementById("btn-dispatch-blast");
+
+  if (progressBox) progressBox.style.display = "block";
+  if (dispatchBtn) dispatchBtn.disabled = true;
+
+  let progress = 0;
+  const targetScope = document.getElementById("advisory-target-scope").textContent;
+  const reach = document.getElementById("advisory-reach-text").textContent;
+
+  const interval = setInterval(() => {
+    progress += 20;
+    if (progressBar) progressBar.style.width = `${progress}%`;
+    if (pctEl) pctEl.textContent = `${progress}%`;
+
+    if (progress === 20 && logLines) {
+      logLines.innerHTML += `<div>> Connected to Maharashtra Telecom Gateway (IVR + SMS)</div>`;
+    } else if (progress === 60 && logLines) {
+      logLines.innerHTML += `<div>> Transmitting Sarvam AI speech packets to ${reach}...</div>`;
+    } else if (progress === 100 && logLines) {
+      logLines.innerHTML += `<div style="color: #4ade80;">> [SUCCESS] Dispatched to ${reach} with 99.1% gateway acknowledgment!</div>`;
+      clearInterval(interval);
+      if (dispatchBtn) dispatchBtn.disabled = false;
+
+      AgriNexAdminGovernance.addAuditLog(
+        "Multilingual Crisis Broadcast Dispatched",
+        targetScope,
+        `${reach} (IVR & SMS)`,
+        "Chief Mandi Commissioner"
+      );
+      renderAuditLogs();
+    }
+  }, 400);
+}
+
+/* =========================================================================
+   16. FPO CREDIT & SUBSIDY SANCTION DESK
+   ========================================================================= */
+function openFpoCreditModal(fpoId) {
+  const fpos = AgriNexAdminGovernance.getFpoFederations();
+  const fpo = fpos.find(f => f.id === fpoId);
+  if (!fpo) return;
+
+  const modal = document.getElementById("modal-fpo-credit");
+  const title = document.getElementById("fpo-modal-title");
+  const body = document.getElementById("fpo-modal-body");
+
+  if (title) title.textContent = `${fpo.name} — Credit Desk`;
+  if (body) {
+    body.innerHTML = `
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+          <div>
+            <strong style="font-size: 1rem; color: #0f172a;">${fpo.name}</strong>
+            <div style="font-size: 0.75rem; color: #64748b;">${fpo.regNo} • HQ: ${fpo.headquarters}</div>
+          </div>
+          <span class="badge ${fpo.ratingClass}">NABARD: ${fpo.nabardRating}</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.78rem; margin-top: 8px;">
+          <div>Members: <strong>${fpo.memberCount} Farmers</strong></div>
+          <div>Land Base: <strong>${fpo.totalAcreage}</strong></div>
+          <div>Sanctioned Line: <strong style="color: #059669;">${fpo.sanctionedWorkingCapital}</strong></div>
+          <div>Utilized: <strong>${fpo.utilizedCapital}</strong></div>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #bbf7d0; background: #f0fdf4; border-radius: 12px; padding: 14px 16px;">
+        <h4 style="margin: 0 0 6px 0; font-size: 0.88rem; color: #166534; font-weight: 800;">40% State Bulk Transport Subsidy</h4>
+        <div style="font-size: 0.78rem; color: #334155; margin-bottom: 10px;">
+          Approved Amount: <strong>${fpo.freightSubsidyApproved}</strong> • Current Status: <strong>${fpo.subsidyStatus}</strong>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="handleDisburseFpoSubsidy('${fpo.id}')" style="background: #059669; border-color: #059669; font-weight: 800; cursor: pointer;">
+          ✓ Disburse Subsidy via Direct DBT
+        </button>
+      </div>
+
+      <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px;">
+        <h4 style="margin: 0 0 6px 0; font-size: 0.88rem; color: #0f172a; font-weight: 800;">Enhance Working Capital Line</h4>
+        <div style="display: flex; gap: 8px; margin-top: 8px;">
+          <button class="btn btn-outline btn-sm" onclick="handleSanctionFpoCredit('${fpo.id}', 0.5)">+ ₹ 50 Lakhs</button>
+          <button class="btn btn-outline btn-sm" onclick="handleSanctionFpoCredit('${fpo.id}', 1.0)">+ ₹ 1.00 Crore</button>
+          <button class="btn btn-outline btn-sm" onclick="handleSanctionFpoCredit('${fpo.id}', 2.0)">+ ₹ 2.00 Crores</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if (modal) modal.classList.add("active");
+}
+
+function closeFpoModal() {
+  const modal = document.getElementById("modal-fpo-credit");
+  if (modal) modal.classList.remove("active");
+}
+
+function handleSanctionFpoCredit(fpoId, amountCr) {
+  const res = AgriNexAdminGovernance.sanctionFpoWorkingCapital(fpoId, amountCr);
+  if (res.success) {
+    alert(`✓ Credit Line Enhanced:\nSanctioned +₹ ${amountCr} Crore working capital line.`);
+    closeFpoModal();
+    renderUsersTable('FPO');
+    renderAuditLogs();
+  }
+}
+
+function handleDisburseFpoSubsidy(fpoId) {
+  const res = AgriNexAdminGovernance.disburseFpoSubsidy(fpoId);
+  if (res.success) {
+    alert(`✓ State Subsidy Disbursed:\n${res.message}`);
+    closeFpoModal();
+    renderUsersTable('FPO');
+    renderAuditLogs();
+  }
+}
+
+/* =========================================================================
+   17. FUNCTIONAL CLIENT-SIDE CSV & OFFICIAL PDF REPORT GENERATORS
+   ========================================================================= */
+function exportAuditLedgerCSV() {
+  const logs = AgriNexAdminGovernance.getAuditLogs();
+
+  let csvContent = "data:text/csv;charset=utf-8,";
+  csvContent += "Event ID,Timestamp,Action Category,Counterparties / Entity,Jurisdiction / Volume,Financial Value,SHA-256 Hash,Authorized By\n";
+
+  logs.forEach(log => {
+    const cleanAction = `"${(log.action || '').replace(/"/g, '""')}"`;
+    const cleanEntity = `"${(log.entity || '').replace(/"/g, '""')}"`;
+    const cleanAmount = `"${(log.amount || '').replace(/"/g, '""')}"`;
+    const cleanOfficer = `"${(log.officer || '').replace(/"/g, '""')}"`;
+    csvContent += `${log.id},${log.timestamp},${cleanAction},${cleanEntity},Maharashtra Mandi Board,${cleanAmount},${log.hash},${cleanOfficer}\n`;
+  });
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  const dateStr = new Date().toISOString().slice(0, 10);
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `AgriNex_Governance_Audit_Ledger_${dateStr}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function downloadOfficialAuditPDF() {
+  const stats = AgriNexAdminGovernance.getStats();
+  const logs = AgriNexAdminGovernance.getAuditLogs().slice(0, 10);
+  const dateStr = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    alert("Please allow popups to generate the official audit report.");
+    return;
+  }
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>MSAMB Regulatory Compliance & Audit Report - AgriNex</title>
+      <style>
+        body { font-family: 'Plus Jakarta Sans', Arial, sans-serif; margin: 40px; color: #0f172a; line-height: 1.5; font-size: 13px; }
+        .header { border-bottom: 3px double #0c5a36; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+        .header-title { color: #0c5a36; font-size: 20px; font-weight: 900; margin: 0; }
+        .header-sub { color: #475569; font-size: 12px; margin-top: 4px; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+        .kpi-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; }
+        .kpi-val { font-size: 18px; font-weight: 800; color: #0c5a36; }
+        .kpi-lbl { font-size: 11px; color: #64748b; font-weight: 700; text-transform: uppercase; }
+        table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 12px; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; }
+        th { background: #0c5a36; color: #ffffff; font-weight: 800; }
+        tr:nth-child(even) { background: #f8fafc; }
+        .hash { font-family: monospace; font-size: 10px; color: #6b21a8; }
+        .stamp-box { margin-top: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .seal { border: 2px solid #059669; color: #059669; padding: 10px 18px; border-radius: 8px; font-weight: 900; font-size: 12px; text-transform: uppercase; text-align: center; }
+        @media print { .no-print { display: none; } }
+      </style>
+    </head>
+    <body>
+      <div class="no-print" style="margin-bottom: 16px;">
+        <button onclick="window.print()" style="background: #0c5a36; color: #fff; padding: 8px 16px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">🖨️ Print / Save as PDF</button>
+        <span style="color: #64748b; margin-left: 10px; font-size: 12px;">Click above or press Ctrl+P to save as official PDF</span>
+      </div>
+      <div class="header">
+        <div>
+          <div style="font-size: 11px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.08em;">Government of Maharashtra • MSAMB</div>
+          <h1 class="header-title">AgriNex Regulatory Compliance & Audit Certificate</h1>
+          <div class="header-sub">Marketplace Control Center • 305 APMC Mandis Jurisdiction • Generated: ${dateStr}</div>
+        </div>
+        <div class="seal">
+          MSAMB Verified<br/>Cryptographic Seal
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-box">
+          <div class="kpi-lbl">Verified Producers</div>
+          <div class="kpi-val">${stats.verifiedFarmers}</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-lbl">Licensed Buyers</div>
+          <div class="kpi-val">${stats.enterpriseBuyers}</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-lbl">Dual-Key Escrow Pool</div>
+          <div class="kpi-val">${stats.totalEscrowLocked}</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-lbl">Dispute Resolution SLA</div>
+          <div class="kpi-val">${stats.disputeSLA}</div>
+        </div>
+      </div>
+
+      <h3 style="color: #0c5a36; margin-bottom: 6px; font-size: 14px;">Cryptographic Governance Audit Trail (Immutable SHA-256 Hashes)</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Event ID</th>
+            <th>Timestamp</th>
+            <th>Governance Action</th>
+            <th>Entity / Counterparty</th>
+            <th>Value</th>
+            <th>SHA-256 Hash</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${logs.map(l => `
+            <tr>
+              <td><strong>${l.id}</strong></td>
+              <td>${l.timestamp}</td>
+              <td>${l.action}</td>
+              <td>${l.entity}</td>
+              <td><strong>${l.amount}</strong></td>
+              <td class="hash">${l.hash}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+
+      <div class="stamp-box">
+        <div>
+          <p style="font-size: 11px; color: #64748b; margin: 0;">
+            This audit report is cryptographically sealed under the statutory authority of the Maharashtra Agricultural Produce Marketing (Development and Regulation) Act.
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-weight: 900; color: #0f172a;">Dr. R. K. Shinde, IAS</div>
+          <div style="font-size: 11px; color: #64748b;">Chief Mandi Commissioner & Escrow Regulator</div>
+          <div style="font-size: 10px; color: #059669; font-weight: 700;">Digital Signature: 0x7f2a99...msamb</div>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  printWindow.document.write(html);
+  printWindow.document.close();
+}
+
