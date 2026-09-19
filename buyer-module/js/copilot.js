@@ -747,6 +747,13 @@
     if (elEscrowAdv) elEscrowAdv.textContent = `₹ ${escrow35.toLocaleString('en-IN')} (35% Locked)`;
     if (elEscrowBal) elEscrowBal.textContent = `₹ ${balance65.toLocaleString('en-IN')} (65% on Delivery)`;
 
+    // Persist & Cache to IndexedDB document cache
+    if (window.UgamBuyerDB && window.UgamBuyerDB.cacheDocument) {
+      window.UgamBuyerDB.cacheDocument(poNumber, 'purchase_order', `Digital Purchase Order - ${cropName}`, {
+        refId, cropName, qtyText, farmerName, totalVal, escrow35, balance65, date: todayStr
+      });
+    }
+
     modal.classList.add('active');
   }
 

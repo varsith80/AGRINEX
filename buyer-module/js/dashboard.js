@@ -127,8 +127,8 @@ function showToast(message, type = 'success') {
   }, 4000);
 }
 
-// Modular View Switcher
-function switchView(viewId) {
+// Modular View Switcher with Deep-Link State Sync
+function switchView(viewId, params = {}) {
   if (viewId === 'view-marketplace') {
     viewId = 'view-verified-produce';
   }
@@ -162,30 +162,91 @@ function switchView(viewId) {
     }
   });
 
+  // Sync Mobile Bottom Navigation
+  const mobNavItems = document.querySelectorAll('.mobile-bottom-nav .mob-nav-item');
+  mobNavItems.forEach((item) => {
+    const dView = item.getAttribute('data-view');
+    if (dView) {
+      if (dView === viewId) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    }
+  });
+
+  // Auto-close mobile off-canvas drawer on view selection
+  if (typeof toggleMobileSidebar === 'function') {
+    toggleMobileSidebar(false);
+  }
+
+  // Close spotlight search dropdown if open
+  closeSpotlightDropdown();
+
   // Re-invoke view-specific renderers to ensure fresh data and proper canvas dimensions
   if (viewId === 'view-insights') {
-    try { if (typeof initBuyerMarketInsights === 'function') initBuyerMarketInsights(); } catch (e) { console.error('Insights view init error:', e); }
+    try { 
+      if (typeof initBuyerMarketInsights === 'function') initBuyerMarketInsights();
+      if (params.crop && typeof window.selectInsightCommodity === 'function') {
+        window.selectInsightCommodity(params.crop);
+      }
+    } catch (e) { console.error('Insights view init error:', e); }
   } else if (viewId === 'view-consignments') {
-    try { if (typeof renderBuyerConsignments === 'function') renderBuyerConsignments(); } catch (e) { console.error('Consignments view render error:', e); }
+    try { 
+      if (typeof renderBuyerConsignments === 'function') renderBuyerConsignments();
+      if (params.search && typeof handleBuyerShipmentSearch === 'function') {
+        const shipInput = document.getElementById('buyer-shipment-search-input');
+        if (shipInput) shipInput.value = params.search;
+        handleBuyerShipmentSearch(params.search);
+      }
+    } catch (e) { console.error('Consignments view render error:', e); }
   } else if (viewId === 'view-verified-produce') {
-    try { if (typeof renderVerifiedLots === 'function') renderVerifiedLots(); } catch (e) { console.error('Verified produce render error:', e); }
+    try { 
+      if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
+      if (params.category && typeof filterByCategory === 'function') {
+        filterByCategory(params.category);
+      }
+      if (params.grade && typeof filterByGrade === 'function') {
+        filterByGrade(params.grade);
+      }
+    } catch (e) { console.error('Verified produce render error:', e); }
   } else if (viewId === 'view-bulk-demands') {
-    try { if (typeof renderBuyerDemands === 'function') renderBuyerDemands(); } catch (e) { console.error('Demands render error:', e); }
+    try { 
+      if (typeof renderBuyerDemands === 'function') renderBuyerDemands();
+      if (params.search && typeof handleDemandSearch === 'function') {
+        const demInput = document.getElementById('demand-search-input');
+        if (demInput) demInput.value = params.search;
+        handleDemandSearch(params.search);
+      }
+    } catch (e) { console.error('Demands render error:', e); }
   } else if (viewId === 'view-escrow-vault') {
     try { if (typeof renderBuyerEscrowVault === 'function') renderBuyerEscrowVault(); } catch (e) { console.error('Escrow vault render error:', e); }
   } else if (viewId === 'view-messages') {
     try {
       if (typeof renderChatSidebar === 'function') renderChatSidebar();
-      const currentChat = (typeof window.getActiveChatKey === 'function') ? window.getActiveChatKey() : 'patil';
+      const currentChat = params.chat || ((typeof window.getActiveChatKey === 'function') ? window.getActiveChatKey() : 'patil');
       if (typeof selectChatContact === 'function') selectChatContact(currentChat);
     } catch (e) { console.error('Messages view render error:', e); }
   } else if (viewId === 'view-grievance') {
     try { if (typeof renderGrievances === 'function') renderGrievances(); } catch (e) { console.error('Grievances view render error:', e); }
   }
 
+  // Persist URL hash with search parameters for deep-linking
   try {
-    history.replaceState(null, '', '#' + viewId.replace('view-', ''));
+    syncUrlState(viewId, params);
   } catch(e) {}
+}
+
+function syncUrlState(viewId, params = {}) {
+  try {
+    const cleanView = viewId.replace('view-', '');
+    const queryParts = [];
+    for (const [k, v] of Object.entries(params)) {
+      if (v) queryParts.push(`${encodeURIComponent(k)}=${encodeURIComponent(v)}`);
+    }
+    const hashStr = '#' + cleanView + (queryParts.length > 0 ? '?' + queryParts.join('&') : '');
+    history.replaceState(null, '', hashStr);
+  } catch (e) {}
 }
 
 function setupSidebarNav() {
@@ -199,6 +260,19 @@ function setupSidebarNav() {
     });
   });
 }
+
+// Mobile Sidebar Drawer Controller
+function toggleMobileSidebar(forceState) {
+  const body = document.body;
+  if (typeof forceState === 'boolean') {
+    if (forceState) body.classList.add('sidebar-open');
+    else body.classList.remove('sidebar-open');
+  } else {
+    body.classList.toggle('sidebar-open');
+  }
+}
+window.toggleMobileSidebar = toggleMobileSidebar;
+
 
 function initLocationSwitcher() {
   const locBtn = document.getElementById('btn-change-buyer-location');
@@ -300,18 +374,49 @@ function bootBuyerDashboard() {
   try { initLocationSwitcher(); } catch(e) { console.error('Location switcher error:', e); }
 
 
-  // Global keyboard shortcuts (Esc to close any active modal, Ctrl+K to search)
+  // Global keyboard shortcuts (Esc to close modals / spotlight, Ctrl+K to search, Up/Down for spotlight)
   document.addEventListener('keydown', (e) => {
+    const spotlightDropdown = document.getElementById('buyer-search-spotlight-dropdown');
+    const isSpotlightOpen = spotlightDropdown && spotlightDropdown.style.display !== 'none';
+
     if (e.key === 'Escape') {
+      if (isSpotlightOpen) {
+        closeSpotlightDropdown();
+      }
       const activeModals = document.querySelectorAll('.modal-overlay.active');
       activeModals.forEach(m => m.classList.remove('active'));
-    } else if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
       e.preventDefault();
       const searchBox = document.getElementById('buyer-global-search') || document.getElementById('marketplace-search-input');
       if (searchBox) {
         searchBox.focus();
         searchBox.select();
+        if (searchBox.value.trim().length > 0) {
+          renderSpotlightDropdown(searchBox.value);
+        }
       }
+    } else if (isSpotlightOpen) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        navigateSpotlight(1);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        navigateSpotlight(-1);
+      } else if (e.key === 'Enter') {
+        if (spotlightActiveIndex >= 0 && spotlightVisibleItems[spotlightActiveIndex]) {
+          e.preventDefault();
+          const item = spotlightVisibleItems[spotlightActiveIndex];
+          selectSpotlightItem(item.type, item.id);
+        }
+      }
+    }
+  });
+
+  // Global click outside to dismiss spotlight dropdown
+  document.addEventListener('click', (e) => {
+    const searchBox = document.getElementById('navbar-search-box');
+    if (searchBox && !searchBox.contains(e.target)) {
+      closeSpotlightDropdown();
     }
   });
 
@@ -340,27 +445,282 @@ function bootBuyerDashboard() {
   // Update corporate auth badge
   updateCorporateAuthBadge();
 
-  // Handle hash navigation on load
-  const hash = window.location.hash;
-  if (hash) {
-    const clean = hash.replace('#', '');
-    if (document.body.classList.contains('lite-mode-active')) {
-      if (clean === 'insights' && typeof switchLiteSection === 'function') {
-        switchLiteSection('insights');
-      } else if ((clean === 'orders' || clean === 'consignments') && typeof switchLiteSection === 'function') {
-        switchLiteSection('orders');
-      } else if (clean === 'escrow' && typeof switchLiteSection === 'function') {
-        switchLiteSection('escrow');
-      } else if (clean === 'produce' && typeof switchLiteSection === 'function') {
-        switchLiteSection('produce');
-      } else {
-        const vId = 'view-' + clean;
-        if (document.getElementById(vId)) switchView(vId);
+  // Handle initial URL state on load & listen for browser back/forward
+  parseAndApplyUrlState();
+  window.addEventListener('hashchange', parseAndApplyUrlState);
+}
+
+// =========================================================================
+// SPOTLIGHT AUTO-SUGGEST SEARCH ENGINE (Ctrl + K)
+// =========================================================================
+let spotlightActiveIndex = -1;
+let spotlightVisibleItems = [];
+
+function highlightMatchText(text, query) {
+  if (!text || !query) return text || '';
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`(${escaped})`, 'gi');
+  return text.replace(regex, '<mark>$1</mark>');
+}
+
+function renderSpotlightDropdown(query) {
+  const dropdown = document.getElementById('buyer-search-spotlight-dropdown');
+  const container = document.getElementById('spotlight-results-container');
+  if (!dropdown || !container) return;
+
+  const raw = (query || '').trim();
+  if (raw.length === 0) {
+    closeSpotlightDropdown();
+    return;
+  }
+
+  const q = raw.toLowerCase();
+  spotlightVisibleItems = [];
+  spotlightActiveIndex = -1;
+
+  let html = '';
+
+  // 1. Match Produce Lots
+  const lots = (buyerData && buyerData.verifiedLots) ? buyerData.verifiedLots : [];
+  const matchedLots = lots.filter(l => 
+    (l.crop && l.crop.toLowerCase().includes(q)) ||
+    (l.farmerName && l.farmerName.toLowerCase().includes(q)) ||
+    (l.farmerLocation && l.farmerLocation.toLowerCase().includes(q)) ||
+    (l.id && l.id.toLowerCase().includes(q))
+  ).slice(0, 3);
+
+  if (matchedLots.length > 0) {
+    html += `<div class="spotlight-group-header">🌾 Verified Produce Lots (${matchedLots.length})</div>`;
+    matchedLots.forEach(lot => {
+      const idx = spotlightVisibleItems.length;
+      spotlightVisibleItems.push({ type: 'lot', id: lot.id, data: lot });
+      html += `
+        <div class="spotlight-item" data-index="${idx}" onclick="selectSpotlightItem('lot', '${lot.id}')">
+          <div class="spotlight-item-left">
+            <div class="spotlight-item-icon">🌾</div>
+            <div style="min-width:0; flex:1;">
+              <div class="spotlight-item-title">${highlightMatchText(lot.crop, raw)} <span style="font-size:0.7rem; color:#64748b;">(${lot.id})</span></div>
+              <div class="spotlight-item-sub">🧑‍🌾 ${highlightMatchText(lot.farmerName, raw)} • ${lot.farmerLocation}</div>
+            </div>
+          </div>
+          <div class="spotlight-item-right">
+            <span class="spotlight-price-badge">₹ ${lot.pricePerKg || (lot.priceNum/100)}/kg</span>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  // 2. Match APMC Mandi Benchmarks & Commodities
+  const commodities = (window.COMMODITY_INSIGHTS) ? Object.values(window.COMMODITY_INSIGHTS) : [];
+  const matchedCrops = commodities.filter(c =>
+    (c.name && c.name.toLowerCase().includes(q)) ||
+    (c.key && c.key.toLowerCase().includes(q)) ||
+    (c.hub && c.hub.toLowerCase().includes(q))
+  ).slice(0, 3);
+
+  if (matchedCrops.length > 0) {
+    html += `<div class="spotlight-group-header">📊 APMC Mandi Price Benchmarks (${matchedCrops.length})</div>`;
+    matchedCrops.forEach(c => {
+      const idx = spotlightVisibleItems.length;
+      spotlightVisibleItems.push({ type: 'insights', id: c.key, data: c });
+      html += `
+        <div class="spotlight-item" data-index="${idx}" onclick="selectSpotlightItem('insights', '${c.key}')">
+          <div class="spotlight-item-left">
+            <div class="spotlight-item-icon">${c.emoji || '📈'}</div>
+            <div style="min-width:0; flex:1;">
+              <div class="spotlight-item-title">${highlightMatchText(c.name, raw)}</div>
+              <div class="spotlight-item-sub">🏛️ Benchmark: ${c.hub} • Arbitrage: +${c.arbitragePct}%</div>
+            </div>
+          </div>
+          <div class="spotlight-item-right">
+            <span class="spotlight-price-badge" style="background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe;">₹ ${(c.currentModalQt/100).toFixed(2)}/kg</span>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  // 3. Match Bulk Demands
+  const demands = (buyerData && buyerData.buyerDemands) ? buyerData.buyerDemands : [];
+  const matchedDemands = demands.filter(d =>
+    (d.crop && d.crop.toLowerCase().includes(q)) ||
+    (d.hub && d.hub.toLowerCase().includes(q)) ||
+    (d.id && d.id.toLowerCase().includes(q))
+  ).slice(0, 2);
+
+  if (matchedDemands.length > 0) {
+    html += `<div class="spotlight-group-header">⚡ Bulk Quota Demands (${matchedDemands.length})</div>`;
+    matchedDemands.forEach(d => {
+      const idx = spotlightVisibleItems.length;
+      spotlightVisibleItems.push({ type: 'demand', id: d.id, data: d });
+      html += `
+        <div class="spotlight-item" data-index="${idx}" onclick="selectSpotlightItem('demand', '${d.id}')">
+          <div class="spotlight-item-left">
+            <div class="spotlight-item-icon">⚡</div>
+            <div style="min-width:0; flex:1;">
+              <div class="spotlight-item-title">${highlightMatchText(d.crop, raw)} <span style="font-size:0.7rem; color:#64748b;">(${d.id})</span></div>
+              <div class="spotlight-item-sub">🎯 Target: ${d.targetVolumeQt || d.quantity} Qt • ${d.hub}</div>
+            </div>
+          </div>
+          <div class="spotlight-item-right">
+            <span class="spotlight-price-badge" style="background:#fef3c7; color:#b45309; border-color:#fde68a;">Quota</span>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  // 4. Match Consignments & GPS Fleet
+  const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
+  const matchedConsignments = consignments.filter(con =>
+    (con.trackingId && con.trackingId.toLowerCase().includes(q)) ||
+    (con.truckPlate && con.truckPlate.toLowerCase().includes(q)) ||
+    (con.driverName && con.driverName.toLowerCase().includes(q)) ||
+    (con.crop && con.crop.toLowerCase().includes(q))
+  ).slice(0, 2);
+
+  if (matchedConsignments.length > 0) {
+    html += `<div class="spotlight-group-header">🚚 Active Orders & Fleet (${matchedConsignments.length})</div>`;
+    matchedConsignments.forEach(con => {
+      const idx = spotlightVisibleItems.length;
+      spotlightVisibleItems.push({ type: 'consignment', id: con.trackingId, data: con });
+      html += `
+        <div class="spotlight-item" data-index="${idx}" onclick="selectSpotlightItem('consignment', '${con.trackingId}')">
+          <div class="spotlight-item-left">
+            <div class="spotlight-item-icon">🚚</div>
+            <div style="min-width:0; flex:1;">
+              <div class="spotlight-item-title">${highlightMatchText(con.crop, raw)} • ${con.trackingId}</div>
+              <div class="spotlight-item-sub">🚛 ${con.truckPlate} (${con.driverName}) • ${con.eta || 'In Transit'}</div>
+            </div>
+          </div>
+          <div class="spotlight-item-right">
+            <span class="spotlight-price-badge" style="background:#f5f3ff; color:#7c3aed; border-color:#ddd6fe;">${con.status === 'transit' ? 'On Road' : 'Scheduled'}</span>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  if (spotlightVisibleItems.length === 0) {
+    html = `
+      <div style="padding: 24px 16px; text-align: center; color: #64748b;">
+        <div style="font-size: 1.8rem; margin-bottom: 6px;">🔍</div>
+        <div style="font-size: 0.88rem; font-weight: 700; color: #0f172a;">No matches found for "${raw}"</div>
+        <div style="font-size: 0.75rem; margin-top: 4px;">Try searching for crops (Tomato, Onion), districts (Nashik, Pune), or lot IDs.</div>
+      </div>
+    `;
+  } else {
+    html += `
+      <div class="spotlight-footer">
+        <span>↑↓ Navigate</span>
+        <span>↵ Select</span>
+        <span>ESC to Close</span>
+      </div>
+    `;
+  }
+
+  container.innerHTML = html;
+  dropdown.style.display = 'block';
+}
+
+function closeSpotlightDropdown() {
+  const dropdown = document.getElementById('buyer-search-spotlight-dropdown');
+  if (dropdown) dropdown.style.display = 'none';
+  spotlightActiveIndex = -1;
+  spotlightVisibleItems = [];
+}
+
+function navigateSpotlight(delta) {
+  if (spotlightVisibleItems.length === 0) return;
+  const items = document.querySelectorAll('.search-spotlight-dropdown .spotlight-item');
+  if (items.length === 0) return;
+
+  if (spotlightActiveIndex >= 0 && items[spotlightActiveIndex]) {
+    items[spotlightActiveIndex].classList.remove('selected');
+  }
+
+  spotlightActiveIndex += delta;
+  if (spotlightActiveIndex >= items.length) spotlightActiveIndex = 0;
+  if (spotlightActiveIndex < 0) spotlightActiveIndex = items.length - 1;
+
+  if (items[spotlightActiveIndex]) {
+    items[spotlightActiveIndex].classList.add('selected');
+    items[spotlightActiveIndex].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+}
+
+function selectSpotlightItem(type, id) {
+  closeSpotlightDropdown();
+  const searchInput = document.getElementById('buyer-global-search');
+  if (searchInput) searchInput.value = '';
+
+  if (type === 'lot') {
+    switchView('view-verified-produce');
+    setTimeout(() => {
+      const lotCard = document.getElementById(`lot-card-${id}`);
+      if (lotCard) {
+        lotCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        lotCard.style.outline = '3px solid #10b981';
+        lotCard.style.borderRadius = '14px';
+        lotCard.style.transition = 'outline 0.3s ease';
+        setTimeout(() => { lotCard.style.outline = 'none'; }, 2400);
       }
-    } else {
-      const vId = 'view-' + clean;
-      if (document.getElementById(vId)) switchView(vId);
+      if (typeof openDirectBuyModal === 'function') {
+        openDirectBuyModal(id);
+      }
+    }, 200);
+  } else if (type === 'insights') {
+    switchView('view-insights', { crop: id });
+  } else if (type === 'demand') {
+    switchView('view-bulk-demands', { search: id });
+  } else if (type === 'consignment') {
+    switchView('view-consignments', { search: id });
+    if (typeof openGpsTrackerModal === 'function') {
+      setTimeout(() => openGpsTrackerModal(id), 220);
     }
+  }
+}
+
+// Deep-link URL state parser
+function parseAndApplyUrlState() {
+  const hash = window.location.hash || '';
+  if (!hash) return;
+
+  const rawClean = hash.replace('#', '');
+  const [viewSlug, queryString] = rawClean.split('?');
+  const params = {};
+  if (queryString) {
+    const pairs = queryString.split('&');
+    for (const p of pairs) {
+      const [k, v] = p.split('=');
+      if (k) params[decodeURIComponent(k)] = decodeURIComponent(v || '');
+    }
+  }
+
+  if (document.body.classList.contains('lite-mode-active')) {
+    if (viewSlug === 'insights' && typeof switchLiteSection === 'function') {
+      switchLiteSection('insights');
+    } else if ((viewSlug === 'orders' || viewSlug === 'consignments') && typeof switchLiteSection === 'function') {
+      switchLiteSection('orders');
+    } else if (viewSlug === 'escrow' && typeof switchLiteSection === 'function') {
+      switchLiteSection('escrow');
+    } else if (viewSlug === 'produce' && typeof switchLiteSection === 'function') {
+      switchLiteSection('produce');
+    } else {
+      const vId = 'view-' + viewSlug;
+      if (document.getElementById(vId)) switchView(vId, params);
+    }
+  } else {
+    let vId = viewSlug.startsWith('view-') ? viewSlug : 'view-' + viewSlug;
+    if (viewSlug === 'marketplace' || viewSlug === 'lots' || viewSlug === 'verified-lots') vId = 'view-verified-produce';
+    if (viewSlug === 'grievance' || viewSlug === 'grievances' || viewSlug === 'disputes') vId = 'view-grievance';
+    if (viewSlug === 'demands' || viewSlug === 'bulk-demands') vId = 'view-bulk-demands';
+    if (viewSlug === 'shipments' || viewSlug === 'orders' || viewSlug === 'consignments') vId = 'view-consignments';
+    if (viewSlug === 'calculator' || viewSlug === 'agricalc') vId = 'view-calculator';
+    if (viewSlug === 'escrow' || viewSlug === 'vault' || viewSlug === 'escrow-vault') vId = 'view-escrow-vault';
+    if (viewSlug === 'messages' || viewSlug === 'chat') vId = 'view-messages';
+    if (document.getElementById(vId)) switchView(vId, params);
   }
 }
 
@@ -632,4 +992,10 @@ window.handleBuyerAuthSubmit = handleBuyerAuthSubmit;
 window.updateCorporateAuthBadge = updateCorporateAuthBadge;
 window.showNotification = showNotification;
 window.bootBuyerDashboard = bootBuyerDashboard;
+window.renderSpotlightDropdown = renderSpotlightDropdown;
+window.closeSpotlightDropdown = closeSpotlightDropdown;
+window.selectSpotlightItem = selectSpotlightItem;
+window.syncUrlState = syncUrlState;
+window.parseAndApplyUrlState = parseAndApplyUrlState;
+
 

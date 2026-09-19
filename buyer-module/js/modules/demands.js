@@ -90,14 +90,28 @@ function renderBuyerDemands() {
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <div class="empty-state-card">
-        <div class="empty-state-icon" style="background: #eff6ff; color: #1e40af; border-color: #bfdbfe;">📋</div>
-        <div class="empty-state-title">No matching procurement quotas found</div>
-        <div class="empty-state-text">Try adjusting your search keywords, status tabs, or selected receiving hub.</div>
-        <button type="button" class="empty-state-btn" style="border-color: #93c5fd; color: #1e40af;" onclick="clearDemandFilters()">
-          <span>🔄</span>
-          <span>Reset Quota Filters</span>
-        </button>
+      <div class="empty-state-card" style="padding: 48px 28px; text-align: center; max-width: 540px; margin: 28px auto; background: #ffffff; border: 1.5px dashed #cbd5e1; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+        <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 2px solid #bfdbfe; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <h4 style="font-size: 1.18rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">No Matching Procurement Quotas Found</h4>
+        <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 22px; line-height: 1.55; max-width: 420px; margin-left: auto; margin-right: auto;">Try adjusting your search keywords, status tabs, or broadcast a new forward contract quota directly to verified farmer FPOs.</p>
+        <div style="display: inline-flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" onclick="openDemandModal ? openDemandModal() : null" style="padding: 9px 20px; font-weight: 700; border-radius: 10px; display: inline-flex; align-items: center; gap: 8px;">
+            <span>⚡</span>
+            <span>+ Broadcast New Quota</span>
+          </button>
+          <button type="button" class="btn btn-outline" onclick="clearDemandFilters()" style="padding: 9px 18px; font-weight: 700; border-radius: 10px; display: inline-flex; align-items: center; gap: 8px;">
+            <span>🔄</span>
+            <span>Reset Quota Filters</span>
+          </button>
+        </div>
       </div>
     `;
     return;

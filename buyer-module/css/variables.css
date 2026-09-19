@@ -58,4 +58,18 @@
 
   /* Typography */
   --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Mobile Layout & Navigation */
+  --nav-bottom-height: 64px;
+  --header-mobile-height: 60px;
+  --z-sidebar: 1000;
+  --z-backdrop: 999;
+  --z-bottom-nav: 900;
+  --z-copilot: 850;
+  --z-modal: 2000;
+
+  /* Accessible High-Contrast Colors */
+  --text-muted-dark: #334155;
+  --text-subtle-dark: #475569;
 }
+

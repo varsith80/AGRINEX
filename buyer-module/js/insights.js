@@ -15615,6 +15615,31 @@
     const minData = (dataObj.mandiMin || []).map(v => v !== null ? (v * multiplier) : null);
     const maxData = (dataObj.mandiMax || []).map(v => v !== null ? (v * multiplier) : null);
 
+    const lblModal = window.t ? window.t('insights_legend_modal', 'Mandi Modal Price') : 'Mandi Modal Price';
+    const lblForecast = window.t ? window.t('insights_legend_forecast', 'AI Forward Forecast') : 'AI Forward Forecast';
+    const lblCeiling = window.t ? window.t('insights_legend_ceiling', 'Mandi Ceiling') : 'Mandi Ceiling';
+    const lblFloor = window.t ? window.t('insights_legend_floor', 'Mandi Floor') : 'Mandi Floor';
+
+    // Smooth In-Place Chart Data Transition if Instance Exists
+    if (priceChartInstance && priceChartInstance.data && priceChartInstance.data.datasets && priceChartInstance.data.datasets.length >= 4) {
+      try {
+        priceChartInstance.data.labels = dataObj.labels;
+        priceChartInstance.data.datasets[0].label = `${lblModal} (${unitLabel})`;
+        priceChartInstance.data.datasets[0].data = histData;
+        priceChartInstance.data.datasets[1].label = `${lblForecast} (${unitLabel})`;
+        priceChartInstance.data.datasets[1].data = foreData;
+        priceChartInstance.data.datasets[2].label = `${lblCeiling} (${unitLabel})`;
+        priceChartInstance.data.datasets[2].data = maxData;
+        priceChartInstance.data.datasets[3].label = `${lblFloor} (${unitLabel})`;
+        priceChartInstance.data.datasets[3].data = minData;
+        priceChartInstance.update();
+        return;
+      } catch (err) {
+        priceChartInstance.destroy();
+        priceChartInstance = null;
+      }
+    }
+
     if (priceChartInstance) {
       priceChartInstance.destroy();
     }
@@ -15625,11 +15650,6 @@
     const gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
     gradientFill.addColorStop(0, 'rgba(12, 90, 54, 0.22)');
     gradientFill.addColorStop(1, 'rgba(12, 90, 54, 0.00)');
-
-    const lblModal = window.t ? window.t('insights_legend_modal', 'Mandi Modal Price') : 'Mandi Modal Price';
-    const lblForecast = window.t ? window.t('insights_legend_forecast', 'AI Forward Forecast') : 'AI Forward Forecast';
-    const lblCeiling = window.t ? window.t('insights_legend_ceiling', 'Mandi Ceiling') : 'Mandi Ceiling';
-    const lblFloor = window.t ? window.t('insights_legend_floor', 'Mandi Floor') : 'Mandi Floor';
 
     priceChartInstance = new Chart(ctx, {
       type: 'line',
@@ -16545,15 +16565,24 @@
     const msgSuccess = (window.getBuyerLanguage && window.getBuyerLanguage() === 'mr') ? '✓ बाजार समिती थेट लिलाव दर आणि आवक अद्ययावत झाली आहे!' : (window.getBuyerLanguage && window.getBuyerLanguage() === 'hi') ? '✓ मंडी भाव और आवक डेटा सिंक हो गया है!' : '✓ Mandi arrival volumes & live auction benchmarks synchronized!';
     
     if (typeof showToast === 'function') showToast(msgConnecting, 'info');
+    
+    // Add skeleton shimmer to KPI cards and chart
+    const kpiCards = document.querySelectorAll('.insight-kpi-card');
+    kpiCards.forEach(c => c.classList.add('skeleton-shimmer'));
+    const chartCanvas = document.getElementById('market-trend-chart');
+    if (chartCanvas) chartCanvas.style.opacity = '0.35';
+
     setTimeout(() => {
       if (icon) icon.style.animation = 'none';
+      kpiCards.forEach(c => c.classList.remove('skeleton-shimmer'));
+      if (chartCanvas) chartCanvas.style.opacity = '1';
       updateLiveTimestamp();
       renderProduceSelectorChips();
       renderInsightChart();
       renderInsightSummaryCards();
       renderMaharashtraMandisTable();
       if (typeof showToast === 'function') showToast(msgSuccess, 'success');
-    }, 900);
+    }, 850);
   }
 
   function updateLiveTimestamp() {
@@ -16573,6 +16602,7 @@
   }
 
   // Export to window
+  window.COMMODITY_INSIGHTS = COMMODITY_INSIGHTS;
   window.initBuyerMarketInsights = initBuyerMarketInsights;
   window.selectInsightCommodity = selectInsightCommodity;
   window.selectInsightCategory = selectInsightCategory;

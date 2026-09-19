@@ -254,7 +254,7 @@ function selectChatContact(contactKey) {
   if (headerStatus) headerStatus.textContent = `${transStatus} • ${transCrop}`;
   if (headerAvatar) headerAvatar.src = chat.avatar;
 
-  const headerActions = document.querySelector('.chat-main .chat-header div:last-child');
+  const headerActions = document.getElementById('chat-header-actions') || document.querySelector('.chat-main .chat-header > div:last-child');
   if (headerActions) {
     headerActions.innerHTML = `
       <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="font-weight: 700; border-color: #cbd5e1; color: #334155;">${counterBtnText}</button>

@@ -882,6 +882,24 @@
   ],
   "bids": [
     {
+      "id": 26,
+      "crop_id": "LOT-TOM-02",
+      "crop": "Tomato (Narayangaon Hybrid)",
+      "buyer_name": "Karthik Sundaram (BigBasket)",
+      "buyer_phone": "+91 98220-44911",
+      "buyer_type": "Institutional Supermarket",
+      "bid_rate_kg": 12.5,
+      "bid_rate_qt": 1250,
+      "quantity_kg": 6000,
+      "quantity_qt": 60,
+      "total_value": 75000,
+      "advance_35": 26250,
+      "balance_65": 48750,
+      "status": "Pending",
+      "time_ago": "Just Now",
+      "created_at": "2026-09-19T16:30:31.801Z"
+    },
+    {
       "id": 25,
       "crop_id": "LOT-TOM-02",
       "crop": "Tomato (Narayangaon Hybrid)",
@@ -1426,6 +1444,21 @@
   ],
   "escrow_contracts": [
     {
+      "contract_no": "ESC-MH-1685",
+      "bank_ref": "NODAL-ICICI-958221",
+      "crop": "Red Onion (Nashik Garwa Quality)",
+      "variety": "Grade A",
+      "buyer": "Karthik Sundaram (BigBasket)",
+      "total_amount": 90000,
+      "advance_amount": 31500,
+      "advance_status": "35% Advance Locked in Escrow",
+      "balance_amount": 58500,
+      "balance_status": "Disbursed to Farmer Bank Account",
+      "overall_status": "100% Settled & Released",
+      "date_label": "Today",
+      "created_at": "2026-09-19T16:30:31.791Z"
+    },
+    {
       "contract_no": "ESC-MH-8154",
       "bank_ref": "NODAL-ICICI-591146",
       "crop": "Red Onion (Nashik Garwa Quality)",
@@ -1734,6 +1767,26 @@
     }
   ],
   "shipments": [
+    {
+      "tracking_id": "TRK-GW-9352-MH",
+      "gate_pass": "GP-2026-8310",
+      "contract_no": "ESC-MH-1685",
+      "crop": "Red Onion (Nashik Garwa Quality)",
+      "variety": "Grade A",
+      "quantity_qt": 50,
+      "quantity_kg": 5000,
+      "buyer": "Karthik Sundaram (BigBasket)",
+      "destination": "Vashi Receiving Terminal, Navi Mumbai",
+      "driver": "Sanjay Patil",
+      "phone": "+91 98220-44911",
+      "vehicle": "Eicher Pro 14ft (MH 15 DK 8810)",
+      "status": "delivered",
+      "step": 4,
+      "current_loc": "Samruddhi Corridor Checkpoint ~ 45 km to Terminal",
+      "total_value": 90000,
+      "advance_paid": 31500,
+      "created_at": "2026-09-19T16:30:31.791Z"
+    },
     {
       "tracking_id": "TRK-GW-4346-MH",
       "gate_pass": "GP-2026-1698",
@@ -2906,6 +2959,21 @@
     }
   ],
   "buyer_demands": [
+    {
+      "id": "DEM-BB-974",
+      "crop": "Red Onion (Lasalgaon Garwa Export Grade)",
+      "category": "Fresh Farm Produce",
+      "tonnage": "50 Qt (5,000 kg)",
+      "tonnageNum": 50,
+      "targetPrice": "₹ 18.00/kg",
+      "pricePerKg": 18,
+      "location": "Vashi APMC Central Terminal, Navi Mumbai, MH",
+      "deadline": "30 Sep 2026",
+      "status": "Broadcasting",
+      "statusClass": "badge-status-open",
+      "bids": [],
+      "created_at": "2026-09-19T16:30:31.776Z"
+    },
     {
       "id": "DEM-BB-852",
       "crop": "Red Onion (Lasalgaon Garwa Export Grade)",

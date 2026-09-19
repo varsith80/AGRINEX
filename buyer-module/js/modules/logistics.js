@@ -92,16 +92,23 @@ function renderBuyerConsignments() {
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <div class="empty-state-card">
-        <div class="empty-state-icon">🚚</div>
-        <div class="empty-state-title">${trTab('No Shipments Found in this View')}</div>
-        <div class="empty-state-text">${trTab('Book a dedicated transport fleet or source farm-direct produce to initiate live telemetry shipments.')}</div>
-        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <button type="button" class="empty-state-btn" onclick="openBookTransportModal()">
+      <div class="empty-state-card" style="padding: 48px 28px; text-align: center; max-width: 540px; margin: 28px auto; background: #ffffff; border: 1.5px dashed #cbd5e1; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+        <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 2px solid #bfdbfe; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13" rx="2"/>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/>
+            <circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <h4 style="font-size: 1.18rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">${trTab('No Shipments Found in this View')}</h4>
+        <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 22px; line-height: 1.55; max-width: 420px; margin-left: auto; margin-right: auto;">${trTab('Book a dedicated transport fleet or source farm-direct produce to initiate live telemetry shipments.')}</p>
+        <div style="display: inline-flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" onclick="openBookTransportModal()" style="padding: 9px 20px; font-weight: 700; border-radius: 10px; display: inline-flex; align-items: center; gap: 8px;">
             <span>🚚</span>
             <span>${trTab('+ Book Transport Fleet')}</span>
           </button>
-          <button type="button" class="empty-state-btn" style="border-color: #cbd5e1; color: #475569;" onclick="filterBuyerShipmentsTab('all', document.getElementById('tab-shipments-all'))">
+          <button type="button" class="btn btn-outline" onclick="filterBuyerShipmentsTab('all', document.getElementById('tab-shipments-all'))" style="padding: 9px 18px; font-weight: 700; border-radius: 10px; display: inline-flex; align-items: center; gap: 8px;">
             <span>🔄</span>
             <span>${trTab('Show All Orders')}</span>
           </button>

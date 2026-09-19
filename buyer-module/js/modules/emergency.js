@@ -89,7 +89,7 @@ function renderBuyerEmergencyDesk() {
 
     return `
       <tr style="background-color: ${rowBg}; ${borderStyle}">
-        <td>
+        <td data-label="${window.t ? window.t('col_crop_lot', 'Crop Lot') : 'Crop Lot'}">
           <div class="crop-cell">
             <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
             <div>
@@ -110,32 +110,32 @@ function renderBuyerEmergencyDesk() {
             </div>
           </div>
         </td>
-        <td>
+        <td data-label="${window.t ? window.t('col_farmer_mandi', 'Farmer & Mandi') : 'Farmer & Mandi'}">
           <div style="font-weight: 700; color: #0f172a; font-size: 0.88rem;">${window.tPerson ? window.tPerson(item.farmerName) : item.farmerName}</div>
           <div style="font-size: 0.74rem; color: #64748b;">📍 ${window.tLocation ? window.tLocation(item.mandi) : item.mandi}</div>
         </td>
-        <td>
+        <td data-label="${window.t ? window.t('col_quantity', 'Quantity') : 'Quantity'}">
           <strong style="color: ${isPurchased && isViewingAsOther ? '#ef4444' : '#0f172a'}; font-size: 0.95rem;">
             ${isPurchased && isViewingAsOther ? (window.t ? window.t('sold_out_qty', '0 kg (Sold Out)') : '0 kg (Sold Out)') : item.quantity}
           </strong>
         </td>
-        <td>
+        <td data-label="${window.t ? window.t('col_buyout_price', 'Buyout Price') : 'Buyout Price'}">
           <div>
             <span style="font-size: 1.05rem; font-weight: 800; color: #15803d;">${item.breakevenPrice}</span>
             <div style="font-size: 0.72rem; color: #64748b; text-decoration: line-through;">Orig: ${item.floorPrice}</div>
           </div>
         </td>
-        <td>
+        <td data-label="${window.t ? window.t('col_target_use', 'Target Use') : 'Target Use'}">
           <span class="badge-buyer-type ${item.targetUseBadge}">
             <span>${item.targetIcon}</span> ${window.tText ? window.tText(item.targetUse) : item.targetUse}
           </span>
         </td>
-        <td>
+        <td data-label="${window.t ? window.t('col_urgency', 'Urgency') : 'Urgency'}">
           <span class="badge badge-status-emergency" style="font-size: 0.72rem;">
             ${window.tText ? window.tText(item.shelfLife) : item.shelfLife}
           </span>
         </td>
-        <td>
+        <td data-label="${window.t ? window.t('col_action', 'Action') : 'Action'}">
           ${isPurchased ? (
             isViewingAsOther ? `
               <button class="btn btn-secondary" disabled style="background: #e2e8f0; color: #64748b; font-size: 0.8rem; padding: 7px 14px; font-weight: 800; border: 1px solid #cbd5e1; cursor: not-allowed; border-radius: 8px;">

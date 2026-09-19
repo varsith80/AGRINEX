@@ -22,237 +22,19 @@
       document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"><\/script>');
     }
   </script>
-  
   <style>
-    /* Tab View Display Controller */
+    /* Critical Portal View Visibility Controller */
     .portal-view {
-      display: none;
-      animation: fadeInView 0.22s ease-in-out;
+      display: none !important;
     }
     .portal-view.active-view {
-      display: block;
+      display: flex !important;
+      flex-direction: column;
+      animation: fadeInView 0.22s ease-in-out;
     }
     @keyframes fadeInView {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* In-App Chat UI */
-    .chat-layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      background: #ffffff;
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      height: 620px;
-      max-height: calc(100vh - 150px);
-    }
-    .chat-sidebar {
-      border-right: 1px solid var(--border-default);
-      background: #f8fafc;
-      overflow-y: auto;
-      height: 100%;
-    }
-    .chat-contact {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border-subtle);
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .chat-contact:hover, .chat-contact.active {
-      background: #e8f5ed;
-    }
-    .chat-main {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow: hidden;
-      background: #ffffff;
-    }
-    .chat-header {
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--border-default);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #ffffff;
-      flex-shrink: 0;
-    }
-    .chat-messages {
-      padding: 20px;
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      background: #f8fafc;
-    }
-    .chat-bubble {
-      max-width: 75%;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      line-height: 1.4;
-    }
-    .chat-bubble.incoming {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      align-self: flex-start;
-      color: #0f172a;
-    }
-    .chat-bubble.outgoing {
-      background: #0c5a36;
-      color: #ffffff;
-      align-self: flex-end;
-    }
-    .chat-input-bar {
-      padding: 14px 18px;
-      border-top: 1px solid var(--border-default);
-      display: flex;
-      gap: 10px;
-      background: #ffffff;
-      flex-shrink: 0;
-    }
-
-    /* Orders & Shipment Tracking UI (Matching Farmer Module Polish) */
-    .simple-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-    @media (max-width: 1024px) {
-      .simple-stats-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    .stat-card-compact {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-    }
-    .stat-icon-sq {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .filter-tabs-row {
-      display: flex;
-      gap: 8px;
-      border-bottom: 2px solid #e2e8f0;
-      margin-bottom: 18px;
-      overflow-x: auto;
-    }
-    .filter-tab {
-      background: none;
-      border: none;
-      padding: 10px 18px;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: #64748b;
-      cursor: pointer;
-      border-radius: 8px 8px 0 0;
-      white-space: nowrap;
-      transition: all 0.15s ease;
-    }
-    .filter-tab:hover {
-      color: #0f172a;
-      background: #f8fafc;
-    }
-    .filter-tab.active {
-      color: #0c5a36;
-      background: #ffffff;
-      border-bottom: 3px solid #0c5a36;
-      font-weight: 800;
-    }
-
-    .order-box {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 20px 22px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-      transition: all 0.2s ease;
-    }
-    .order-box:hover {
-      border-color: #cbd5e1;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-    }
-    .order-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #f1f5f9;
-      padding-bottom: 12px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    /* 4-Step Clean Progress Line */
-    .step-track {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      margin: 18px 0 20px;
-      gap: 8px;
-      text-align: center;
-      position: relative;
-    }
-    .step-dot {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #ffffff;
-      border: 2px solid #cbd5e1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 6px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: #64748b;
-      transition: all 0.2s;
-    }
-    .step-dot.done {
-      background: #059669;
-      border-color: #059669;
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
-    }
-    .step-dot.active {
-      background: #0284c7;
-      border-color: #0284c7;
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
-    }
-
-    .info-strip {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 16px 18px;
-      font-size: 0.84rem;
-      margin-bottom: 16px;
-      line-height: 1.45;
-    }
-    @media (max-width: 860px) {
-      .info-strip { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -272,8 +54,11 @@
 
   <div class="app-container">
     
+    <!-- Mobile Off-Canvas Sidebar Backdrop -->
+    <div id="mobile-sidebar-backdrop" class="mobile-sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
+    
     <!-- LEFT SIDEBAR NAVIGATION (Full-Height Sticky) -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="buyer-main-sidebar">
       <div>
         <!-- Brand Header (Golden Wheat Logo) -->
         <div class="sidebar-brand">
@@ -416,14 +201,28 @@
            <!-- Top Extended Navbar Header -->
       <header class="top-navbar">
         <div class="navbar-left">
-          <!-- Quick Search Bar with Keyboard Hint -->
-          <div class="navbar-search" id="navbar-search-box">
+          <!-- Mobile Sidebar Drawer Hamburger Toggle Button -->
+          <button type="button" id="btn-mobile-menu-toggle" class="btn-mobile-menu-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Navigation Menu" title="Open Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="6" x2="20" y2="6"></line>
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+              <line x1="4" y1="18" x2="20" y2="18"></line>
+            </svg>
+          </button>
+
+          <!-- Quick Search Bar with Keyboard Hint & Spotlight Dropdown -->
+          <div class="navbar-search" id="navbar-search-box" style="position: relative;">
             <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="buyer-global-search" data-i18n-placeholder="search_placeholder" data-orig-placeholder="Search crops, mandis, lots..." placeholder="Search crops, mandis, lots..." oninput="handleBuyerSearch(this.value)" />
+            <input type="text" id="buyer-global-search" data-i18n-placeholder="search_placeholder" data-orig-placeholder="Search crops, mandis, lots..." placeholder="Search crops, mandis, lots..." oninput="handleBuyerSearch(this.value)" autocomplete="off" />
             <kbd class="search-kbd-shortcut">Ctrl K</kbd>
+
+            <!-- Spotlight Live Dropdown Results -->
+            <div id="buyer-search-spotlight-dropdown" class="search-spotlight-dropdown" style="display: none;">
+              <div id="spotlight-results-container"></div>
+            </div>
           </div>
 
           <!-- Unified Buyer Context: Procurement Hub Location + Corporate Security Auth -->
@@ -761,11 +560,36 @@
   <div id="modals-container"></div>
 
   <!-- Floating AGRIFLEX AI Trigger Button -->
-  <!-- Floating AGRIFLEX AI Trigger Button -->
   <button id="btn-floating-copilot" class="btn-floating-copilot" onclick="openCopilotModal()">
     <span>🤖</span>
     <span>AGRIFLEX AI</span>
   </button>
+
+  <!-- Persistent Mobile Bottom Navigation Bar (Enterprise Mode <= 768px) -->
+  <nav id="mobile-bottom-nav" class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <div class="mobile-bottom-nav-inner">
+      <button type="button" class="mob-nav-item active" data-view="view-verified-produce" onclick="switchView('view-verified-produce')" title="Marketplace Lots">
+        <span class="mob-nav-icon">🌾</span>
+        <span class="mob-nav-label" data-i18n="mob_nav_market">Market</span>
+      </button>
+      <button type="button" class="mob-nav-item" data-view="view-insights" onclick="switchView('view-insights')" title="Market Insights">
+        <span class="mob-nav-icon">📊</span>
+        <span class="mob-nav-label" data-i18n="mob_nav_insights">Insights</span>
+      </button>
+      <button type="button" class="mob-nav-item" data-view="view-bulk-demands" onclick="switchView('view-bulk-demands')" title="Bulk Demands & Quotas">
+        <span class="mob-nav-icon">⚡</span>
+        <span class="mob-nav-label" data-i18n="mob_nav_quotas">Quotas</span>
+      </button>
+      <button type="button" class="mob-nav-item" data-view="view-consignments" onclick="switchView('view-consignments')" title="Orders & Shipments">
+        <span class="mob-nav-icon">🚚</span>
+        <span class="mob-nav-label" data-i18n="mob_nav_orders">Orders</span>
+      </button>
+      <button type="button" class="mob-nav-item" onclick="toggleMobileSidebar()" title="More Navigation Menu">
+        <span class="mob-nav-icon">☰</span>
+        <span class="mob-nav-label" data-i18n="mob_nav_more">More</span>
+      </button>
+    </div>
+  </nav>
 
   <!-- Scripts -->
   <script src="js/data.js"></script>
@@ -776,6 +600,8 @@
   <script src="js/insights.js"></script>
   <script src="js/copilot.js"></script>
   <script src="js/lite_mode.js"></script>
+  <!-- IndexedDB Storage & Document Cache -->
+  <script src="js/idb_storage.js"></script>
   <!-- Enterprise REST API Client -->
   <script src="js/api_client.js"></script>
   <!-- Async Partials Loader -->

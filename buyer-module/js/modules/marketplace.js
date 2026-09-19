@@ -59,7 +59,7 @@ window.setBuyerPersona = setBuyerPersona;
 // FEATURE 4: INSTANT SEARCH, GRADE & KG UNIT FILTER
 // ==========================================
 
-// Global Search handler // Search input handler
+// Global Search handler // Search input handler with Spotlight Dropdown
 function handleBuyerSearch(query) {
   const rawQuery = query || '';
   buyerFilterState.search = rawQuery.trim().toLowerCase();
@@ -69,9 +69,14 @@ function handleBuyerSearch(query) {
   if (globalInput && globalInput.value !== rawQuery) globalInput.value = rawQuery;
   if (marketInput && marketInput.value !== rawQuery) marketInput.value = rawQuery;
 
-  // If user is searching and not currently in verified produce view, switch to it
+  // Trigger live Spotlight Dropdown if active
+  if (typeof window.renderSpotlightDropdown === 'function') {
+    window.renderSpotlightDropdown(rawQuery);
+  }
+
+  // If user is searching from marketplace input and not currently in verified produce view, switch to it
   const activeView = document.querySelector('.portal-view.active-view');
-  if (buyerFilterState.search && activeView && activeView.id !== 'view-verified-produce') {
+  if (buyerFilterState.search && activeView && activeView.id !== 'view-verified-produce' && !document.getElementById('buyer-search-spotlight-dropdown')) {
     switchView('view-verified-produce');
   }
 
@@ -295,14 +300,27 @@ function renderVerifiedLots(lotsToRender = null) {
     if (lots.length === 0) {
       grid.innerHTML = `
         <div style="grid-column: 1 / -1; width: 100%;">
-          <div class="empty-state-card">
-            <div class="empty-state-icon">🌾</div>
-            <div class="empty-state-title">No farm-direct lots found</div>
-            <div class="empty-state-text">No lots match your current search query or category filter. Try clearing filters or exploring other commodities.</div>
-            <button type="button" class="empty-state-btn" onclick="resetBuyerFilters()">
-              <span>🔄</span>
-              <span>Reset All Filters</span>
-            </button>
+          <div class="empty-state-card" style="padding: 48px 28px; text-align: center; max-width: 540px; margin: 28px auto; background: #ffffff; border: 1.5px dashed #cbd5e1; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+            <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid #bbf7d0; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(22, 101, 52, 0.08);">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
+                <path d="M12 12L2.5 7.5"/>
+                <path d="M12 12v10"/>
+                <circle cx="12" cy="12" r="2" fill="#16a34a"/>
+              </svg>
+            </div>
+            <h4 style="font-size: 1.18rem; font-weight: 800; color: #0f172a; margin-bottom: 8px; letter-spacing: -0.01em;">No Farm-Direct Produce Lots Found</h4>
+            <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 22px; line-height: 1.55; max-width: 420px; margin-left: auto; margin-right: auto;">No verified lots match your current search query or category filter. Try clearing your filters or broadcast a customized bulk procurement demand.</p>
+            <div style="display: inline-flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+              <button type="button" class="btn btn-primary" onclick="resetBuyerFilters()" style="padding: 9px 20px; font-weight: 700; border-radius: 10px; display: inline-flex; align-items: center; gap: 8px;">
+                <span>🔄</span>
+                <span>Reset All Filters</span>
+              </button>
+              <button type="button" class="btn btn-outline" onclick="openDemandModal ? openDemandModal() : switchView('view-bulk-demands')" style="padding: 9px 18px; font-weight: 700; border-radius: 10px; display: inline-flex; align-items: center; gap: 8px;">
+                <span>⚡</span>
+                <span>Post Demand Quota</span>
+              </button>
+            </div>
           </div>
         </div>
       `;
@@ -467,12 +485,18 @@ function renderVerifiedLots(lotsToRender = null) {
     if (lots.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="7" style="padding: 24px; border: none; background: transparent;">
-            <div class="empty-state-card" style="margin: 12px auto;">
-              <div class="empty-state-icon">🌾</div>
-              <div class="empty-state-title">No matching farmer lots found</div>
-              <div class="empty-state-text">No lots match your current search query or category filter. Try clearing filters or exploring other commodities.</div>
-              <button type="button" class="empty-state-btn" onclick="resetBuyerFilters()">
+          <td colspan="7" style="padding: 32px 16px; border: none; background: transparent;">
+            <div class="empty-state-card" style="padding: 40px 24px; text-align: center; max-width: 500px; margin: 12px auto; background: #ffffff; border: 1.5px dashed #cbd5e1; border-radius: 16px;">
+              <div style="width: 64px; height: 64px; margin: 0 auto 16px; background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.8">
+                  <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
+                  <path d="M12 12L2.5 7.5"/>
+                  <path d="M12 12v10"/>
+                </svg>
+              </div>
+              <h4 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 6px;">No Matching Farmer Lots Found</h4>
+              <p style="font-size: 0.84rem; color: #64748b; margin-bottom: 18px; line-height: 1.5;">Try adjusting your keyword filter, grade selector, or sorting parameters.</p>
+              <button type="button" class="btn btn-primary" onclick="resetBuyerFilters()" style="padding: 8px 18px; font-size: 0.82rem; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; margin: 0 auto;">
                 <span>🔄</span>
                 <span>Reset All Filters</span>
               </button>
