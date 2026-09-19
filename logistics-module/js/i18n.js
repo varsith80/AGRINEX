@@ -54,6 +54,10 @@
     "Zero cold-chain spoilages": { hi: "शून्य कोल्ड-चेन खराबी", mr: "शून्य शेतमाल नासाडी" },
     "Zero transit spoilages": { hi: "शून्य परिवहन खराबी", mr: "वाहतुकीदरम्यान शून्य नुकसान" },
     "Freight Settled": { hi: "मालभाड़ा भुगतान", mr: "मिळालेले भाडे जमा" },
+    "Freight Earned": { hi: "अर्जित मालभाड़ा", mr: "मिळालेले एकूण भाडे" },
+    "100% Paid to bank account": { hi: "100% बैंक खाते में भुगतान", mr: "१००% बँक खात्यात जमा" },
+    "On-Time Deliveries": { hi: "समय पर डिलीवरी", mr: "वेळेवर पोहोच" },
+    "Zero transit damage": { hi: "परिवहन में शून्य नुकसान", mr: "वाहतुकीदरम्यान शून्य नुकसान" },
     "₹ 4.86 Lakh": { hi: "₹ 4.86 लाख", mr: "₹ ४.८६ लाख" },
     "Direct bank escrow": { hi: "सीधा बैंक एस्क्रो", mr: "थेट बँक एस्क्रो खात्यात" },
     "Smart escrow settlements": { hi: "स्मार्ट एस्क्रो भुगतान", mr: "स्मार्ट एस्क्रो सेटलमेंट" },
@@ -139,6 +143,8 @@
 
     // Bulk FPO Hauls Page (`fpo-hauls.html`)
     "Heavy Bulk Freight & Multi-Farm Sourcing": { hi: "भारी थोक माल ढुलाई और बहु-कृषि संकलन", mr: "मोठी घाऊक वाहतूक व थेट शेतकरी गट एकत्रीकरण" },
+    "Bulk FPO Cooperative Hauls": { hi: "थोक एफपीओ सहकारी ढुलाई", mr: "घाऊक FPO सहकारी शेतमाल वाहतूक" },
+    "Combined multi-farmer batches with guaranteed bulk freight payments": { hi: "गारंटीकृत थोक मालभाड़ा भुगतान के साथ कई किसानों के संयुक्त बैच", mr: "हमी दिलेल्या घाऊक भाडे रकमेसह एकत्रित शेतकरी बॅच वाहतूक" },
     "FPO Collective Hauls": { hi: "एफपीओ सामूहिक ढुलाई", mr: "FPO शेतकरी उत्पादक गट वाहतूक" },
     "High-tonnage aggregation hauls directly from farmer producer organizations (FPOs) across Maharashtra.": {
       hi: "महाराष्ट्र भर के किसान उत्पादक संगठनों (FPO) से सीधे उच्च टन भार वाली थोक उपज ढुलाई।",
@@ -196,6 +202,56 @@
     "Farm Pickup Origin": { hi: "खेत पिकअप उद्गम", mr: "शेतातून माल भरण्याचे ठिकाण" },
 
     // Grievance Module Page (`grievance.html`)
+    "Fleet Support Desk": { hi: "फ्लीट सहायता डेस्क", mr: "फ्लीट मदत कक्ष" },
+    "Maharashtra Highway Logistics Redressal": { hi: "महाराष्ट्र हाईवे लॉजिस्टिक्स निवारण", mr: "महाराष्ट्र महामार्ग वाहतूक तक्रार निवारण" },
+    "Logistics & Highway Transit Redressal": { hi: "लॉजिस्टिक्स और हाईवे पारगमन निवारण", mr: "वाहतूक आणि महामार्ग पारगमन तक्रार निवारण" },
+    "File urgent disputes for buyer PIN refusal, loading dock detentions, tare weight discrepancies, or transit toll delays with instant APMC nodal escalation.": {
+      hi: "खरीदार पिन इनकार, लोडिंग डॉक रोक, धर्मकांटा विसंगतियों या टोल देरी के लिए तत्काल एपीएमसी नोडल समाधान हेतु शिकायत दर्ज करें।",
+      mr: "खरेदीदाराकडून पिन नकार, डॉकवरील अडवणूक, वजनकाटा तफावत किंवा टोल विलंब यावर तत्काळ APMC नोडल निवारणासाठी तक्रार दाखल करा."
+    },
+    "Highway Helpline: 1800-425-4490": { hi: "हाईवे हेल्पलाइन: 1800-425-4490", mr: "महामार्ग हेल्पलाईन: १८००-४२५-४४९०" },
+    "📞 Highway Helpline: 1800-425-4490": { hi: "📞 हाईवे हेल्पलाइन: 1800-425-4490", mr: "📞 महामार्ग हेल्पलाईन: १८००-४२५-४४९०" },
+    "+ Raise New Ticket": { hi: "+ नया टिकट दर्ज करें", mr: "+ नवीन तक्रार नोंदवा" },
+    "+ File New Complaint": { hi: "+ नई शिकायत दर्ज करें", mr: "+ नवीन तक्रार नोंदवा" },
+    "Active Disputes": { hi: "सक्रिय विवाद", mr: "सक्रिय तक्रारी" },
+    "1 Ticket": { hi: "1 टिकट", mr: "१ तक्रार" },
+    "Under Review": { hi: "समीक्षाधीन", mr: "तपासणी सुरू" },
+    "Avg. Resolution": { hi: "औसत समाधान समय", mr: "सरासरी निवारण वेळ" },
+    "4.2 Hours": { hi: "4.2 घंटे", mr: "४.२ तास" },
+    "Fast Track Highway Redressal": { hi: "फास्ट ट्रैक हाईवे निवारण", mr: "जलद गती महामार्ग निवारण" },
+    "Settled Tickets": { hi: "निस्तारित टिकटें", mr: "निकाली काढलेल्या तक्रारी" },
+    "Resolved Tickets": { hi: "निस्तारित टिकटें", mr: "निकाली काढलेल्या तक्रारी" },
+    "18 Resolved": { hi: "18 निस्तारित", mr: "१८ निकाली" },
+    "100% Freight Recovered": { hi: "100% मालभाड़ा प्राप्त", mr: "१००% भाडे वसूल" },
+    "Escrow Compensation": { hi: "एस्क्रो मुआवजा", mr: "एस्क्रो भरपाई" },
+    "₹ 34,500": { hi: "₹ 34,500", mr: "₹ ३४,५००" },
+    "Detention & waiting fees paid": { hi: "अनावश्यक रोक और प्रतीक्षा शुल्क भुगतान", mr: "थांबून राहिल्याबद्दल मिळालेली नुकसान भरपाई" },
+    "Your Filed Grievance Tickets": { hi: "आपकी दर्ज शिकायतें", mr: "आपण दाखल केलेली तक्रार तिकिटे" },
+    "Track live escalation status with APMC Highway Arbitration Team": { hi: "एपीएमसी हाईवे मध्यस्थता दल के साथ लाइव स्थिति ट्रैक करें", mr: "APMC महामार्ग लवाद पथकासह थेट निवारण स्थिती पहा" },
+    "TICKET #LOG-GRV-8819 • UNDER INVESTIGATION": { hi: "टिकट #LOG-GRV-8819 • जांच जारी", mr: "तक्रार क्र #LOG-GRV-8819 • चौकशी सुरू" },
+    "Receiving Dock Detention & PIN Delay at Thane DC": { hi: "ठाणे डीसी पर रिसीविंग डॉक रोक और पिन में देरी", mr: "ठाणे वितरण केंद्रात (DC) वाहनाची अडवणूक आणि पिन मिळण्यास विलंब" },
+    "Pending Escrow Payout: ₹ 4,200": { hi: "लंबित एस्क्रो भुगतान: ₹ 4,200", mr: "प्रलंबित एस्क्रो भाडे: ₹ ४,२००" },
+    "Filed 45 mins ago": { hi: "45 मिनट पहले दर्ज", mr: "४५ मिनिटांपूर्वी नोंदवले" },
+    "Submitted": { hi: "दर्ज किया गया", mr: "नोंदवले" },
+    "APMC Nodal Review": { hi: "एपीएमसी नोडल समीक्षा", mr: "APMC नोडल तपासणी" },
+    "Dock Manager Notice": { hi: "डॉक मैनेजर को नोटिस", mr: "डॉक मॅनेजरला नोटीस" },
+    "Escrow Auto-Release": { hi: "एस्क्रो स्वतः रिलीज", mr: "एस्क्रो खात्यातून थेट रक्कम जमा" },
+    "Latest Nodal Action (10 mins ago):": { hi: "ताजा नोडल कार्रवाई (10 मिनट पहले):", mr: "नोडल अधिकाऱ्यांची ताजी कृती (१० मिनिटांपूर्वी):" },
+    "APMC Officer Sunil More has issued an automated 30-minute notice to AgriFoods receiving manager. If the PIN is not confirmed or unloading completed within 30 mins, 100% freight payout plus ₹ 500/hr detention fee will be released automatically.": {
+      hi: "एपीएमसी अधिकारी सुनील मोरे ने एग्रीफूड्स रिसीविंग मैनेजर को स्वचालित 30 मिनट का नोटिस जारी किया है। यदि 30 मिनट के भीतर पिन की पुष्टि नहीं की जाती है या अनलोडिंग पूरी नहीं होती है, तो 100% मालभाड़ा भुगतान और ₹ 500/घंटा की दर से रोक शुल्क स्वचालित रूप से जारी कर दिया जाएगा।",
+      mr: "APMC अधिकारी सुनील मोरे यांनी अ‍ॅग्रीफूड्स व्यवस्थापकाला ३० मिनिटांची नोटीस बजावली आहे. ३० मिनिटांत पिन न दिल्यास किंवा अनलोडिंग न झाल्यास १००% भाडे अधिक ₹ ५००/तास विलंब शुल्क थेट चालकाच्या खात्यात जमा केले जाईल."
+    },
+    "Call Nodal Officer": { hi: "नोडल अधिकारी को कॉल करें", mr: "नोडल अधिकाऱ्यास कॉल करा" },
+    "📞 Call Nodal Officer": { hi: "📞 नोडल अधिकारी को कॉल करें", mr: "📞 नोडल अधिकाऱ्यास कॉल करा" },
+    "Add Photo Evidence": { hi: "फोटो साक्ष्य जोड़ें", mr: "फोटो पुरावा जोडा" },
+    "TICKET #LOG-GRV-8410 • RESOLVED & PAID": { hi: "टिकट #LOG-GRV-8410 • निस्तारित और भुगतान संपन्न", mr: "तक्रार क्र #LOG-GRV-8410 • निवारण पूर्ण व भाडे जमा" },
+    "Weighbridge Calibration Discrepancy (Lasalgaon Yard)": { hi: "धर्मकांटा अंशांकन विसंगति (लासलगांव यार्ड)", mr: "वजनकाटा कॅलिब्रेशन तफावत (लासलगाव यार्ड)" },
+    "Compensated: ₹ 11,200": { hi: "मुआवजा प्राप्त: ₹ 11,200", mr: "नुकसान भरपाई: ₹ ११,२००" },
+    "✓ Settled to UPI": { hi: "✓ यूपीआई में भुगतान संपन्न", mr: "✓ UPI खात्यात जमा" },
+    "Mandi Tare weighbridge slip verified against certified digital scale. Full freight released to driver account within 2 hours.": {
+      hi: "प्रमाणित डिजिटल तराजू के साथ मंडी खाली वजन (टियर वेट) पर्ची का सत्यापन किया गया। 2 घंटे के भीतर चालक के खाते में पूरा मालभाड़ा जारी कर दिया गया।",
+      mr: "प्रमाणित डिजिटल स्केलवरून बाजार समितीची रिकाम्या वाहनाची वजन पावती तपासण्यात आली. २ तासांच्या आत चालकाच्या खात्यावर पूर्ण भाडे जमा करण्यात आले."
+    },
     "Logistics Grievance & Helpdesk": { hi: "लॉजिस्टिक्स शिकायत निवारण व सहायता", mr: "वाहतूक तक्रार निवारण व मदत कक्ष" },
     "Grievance Redressal": { hi: "शिकायत निवारण", mr: "तक्रार निवारण कक्ष" },
     "Fast-track resolution for highway detentions, weighbridge disputes & payment releases": {
