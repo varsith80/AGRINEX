@@ -571,7 +571,7 @@ function renderVerifiedLots(lotsToRender = null) {
 
           return `
             <tr style="${isSoldOut && isViewingAsOther ? 'background-color: #fff8f8;' : ''}">
-              <td>
+              <td class="table-sticky-col" data-label="Crop & Farmer">
                 <div class="crop-cell">
                   <img src="${lot.image}" alt="${lot.crop}" class="crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
                   <div>
@@ -580,16 +580,16 @@ function renderVerifiedLots(lotsToRender = null) {
                   </div>
                 </div>
               </td>
-              <td>
+              <td data-label="Quality Grade">
                 <span class="badge ${gradeBadge}">${window.tGrade ? window.tGrade(lot.grade || 'Grade A') : (lot.grade || 'Grade A')}</span>
                 <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">Moisture: ${lot.moisture || '13.5%'}</div>
               </td>
-              <td>
+              <td data-label="Farmer Trust">
                 <strong>${window.tPerson ? window.tPerson(lot.farmerName) : lot.farmerName}</strong>
                 <div style="font-size: 0.72rem; color: #d97706; font-weight: 700;">${farmerRating}</div>
               </td>
-              <td>${qtyColumnHtml}</td>
-              <td>
+              <td data-label="Quantity">${qtyColumnHtml}</td>
+              <td data-label="Ask Price">
                 <div style="display: flex; align-items: baseline; gap: 4px;">
                   <strong style="color: #0c5a36; font-size: 0.96rem;">₹ ${kgRate} /kg</strong>
                 </div>
@@ -597,10 +597,10 @@ function renderVerifiedLots(lotsToRender = null) {
                   Mandi: <span style="text-decoration: line-through;">${mandiRateStr}</span>
                 </div>
               </td>
-              <td>
+              <td data-label="Mandi Saving">
                 <span class="badge badge-grade-a">${window.tText ? window.tText(savingsText) : savingsText}</span>
               </td>
-              <td>
+              <td data-label="Action">
                 <div style="display: flex; gap: 6px;">
                   ${actionColHtml}
                 </div>

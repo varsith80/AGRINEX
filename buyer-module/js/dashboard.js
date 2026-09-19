@@ -362,6 +362,14 @@ function bootBuyerDashboard() {
   try { if (typeof initBuyerPayments === 'function') initBuyerPayments(); } catch(e) { console.error('Buyer payments init error:', e); }
   try { if (typeof renderBuyerEmergencyDesk === 'function') renderBuyerEmergencyDesk(); } catch(e) { console.error('Emergency desk init error:', e); }
   try { loadPersistedBuyerState(); } catch(e) { console.error('Load persisted state error:', e); }
+  try {
+    if (window.apiClient && typeof window.apiClient.getMarketplaceLots === 'function') {
+      window.apiClient.getMarketplaceLots().then(() => {
+        if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
+        if (typeof updateBuyerMarketStats === 'function') updateBuyerMarketStats();
+      }).catch(e => console.warn('Async lot fetch error:', e));
+    }
+  } catch(e) {}
   try { updateBuyerMarketStats(); } catch(e) { console.error('Market stats error:', e); }
   try { if (typeof renderBuyerEscrowVault === 'function') renderBuyerEscrowVault(); } catch(e) { console.error('Escrow vault error:', e); }
   try { setupSidebarNav(); } catch(e) { console.error('Sidebar nav error:', e); }
@@ -372,6 +380,17 @@ function bootBuyerDashboard() {
   try { if (typeof renderGrievances === 'function') renderGrievances(); } catch(e) { console.error('Grievances error:', e); }
   try { if (typeof renderChatSidebar === 'function') renderChatSidebar(); } catch(e) { console.error('Chat sidebar error:', e); }
   try { initLocationSwitcher(); } catch(e) { console.error('Location switcher error:', e); }
+
+  // Listen for Cross-Tab / Cross-Module live events
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'agrinex_verified_lots' || e.key === 'agrinex_crops_updated') {
+      try {
+        loadPersistedBuyerState();
+        if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
+        if (typeof updateBuyerMarketStats === 'function') updateBuyerMarketStats();
+      } catch(err) {}
+    }
+  });
 
 
   // Global keyboard shortcuts (Esc to close modals / spotlight, Ctrl+K to search, Up/Down for spotlight)

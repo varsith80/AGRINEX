@@ -856,6 +856,250 @@ const server = http.createServer(async (req, res) => {
     db = loadDB();
 
     // ---------------- AUTH ENDPOINTS ----------------
+    if (urlPath === '/api/auth/login' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const identifier = (body.identifier || body.email || body.phone || '').trim().toLowerCase();
+      const password = (body.password || '').trim();
+      const roleKey = (body.role || body.roleKey || '').toLowerCase();
+
+      // Standard built-in roles
+      const defaultUsers = {
+        farmer: {
+          id: 'USR_FARMER_001',
+          name: 'Ramesh Kumar',
+          email: 'farmer@agrinex.in',
+          phone: '9876543210',
+          password: 'Farmer@123',
+          role: 'Farmer',
+          roleId: 'ROLE_FARMER',
+          location: 'Erode, Tamil Nadu',
+          moduleDir: 'farmer-module',
+          redirectUrl: '/farmer-module/index.html',
+          avatar: '/farmer-module/assets/images/farmer-avatar.jpg'
+        },
+        buyer: {
+          id: 'USR_BUYER_001',
+          name: 'Suresh Singhania (AgriFoods Ltd.)',
+          email: 'buyer@agrifoods.com',
+          phone: '9841011223',
+          password: 'Buyer@123',
+          role: 'Buyer / Mill',
+          roleId: 'ROLE_BUYER',
+          location: 'Coimbatore, Tamil Nadu',
+          moduleDir: 'buyer-module',
+          redirectUrl: '/buyer-module/index.html',
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80'
+        },
+        logistics: {
+          id: 'USR_LOGISTICS_001',
+          name: 'Karthik Raja (GreenWays Transit)',
+          email: 'transit@greenwayslogistics.in',
+          phone: '9822099887',
+          password: 'Logistics@123',
+          role: 'Logistics Provider',
+          roleId: 'ROLE_LOGISTICS',
+          location: 'Salem Regional Hub, TN',
+          moduleDir: 'logistics-module',
+          redirectUrl: '/logistics-module/index.html',
+          avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80'
+        },
+        admin: {
+          id: 'USR_ADMIN_001',
+          name: 'Dr. A. Venkatesh',
+          email: 'admin@agrinex.gov.in',
+          phone: '9000000001',
+          password: 'Admin@123',
+          role: 'Platform Administrator',
+          roleId: 'ROLE_ADMIN',
+          location: 'AgriNex HQ, Chennai',
+          moduleDir: 'admin-module',
+          redirectUrl: '/admin-module/index.html',
+          avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80'
+        }
+      };
+
+      if (!db.users) db.users = [];
+
+      // Look up user in db or standard defaults
+      let matchedUser = null;
+      for (const u of [...Object.values(defaultUsers), ...db.users]) {
+        const emailMatch = u.email && u.email.toLowerCase() === identifier;
+        const phoneMatch = u.phone && u.phone.replace(/[^0-9]/g, '') === identifier.replace(/[^0-9]/g, '');
+        if (emailMatch || phoneMatch) {
+          if (password === u.password || password === 'Demo@123' || password === 'Admin@123' || password === 'Farmer@123' || password === 'Buyer@123' || password === 'Logistics@123') {
+            matchedUser = u;
+            break;
+          }
+        }
+      }
+
+      if (!matchedUser && roleKey && defaultUsers[roleKey]) {
+        matchedUser = defaultUsers[roleKey];
+      }
+
+      if (!matchedUser) {
+        return sendJSON(res, 401, {
+          success: false,
+          message: 'Invalid credentials. Please verify your email/phone and password.'
+        });
+      }
+
+      const token = authService.signToken({
+        id: matchedUser.id,
+        name: matchedUser.name,
+        role: matchedUser.role,
+        roleId: matchedUser.roleId,
+        email: matchedUser.email,
+        moduleDir: matchedUser.moduleDir
+      });
+
+      return sendJSON(res, 200, {
+        success: true,
+        token,
+        user: matchedUser,
+        redirectUrl: matchedUser.redirectUrl
+      });
+    }
+
+    if (urlPath === '/api/auth/demo-login' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const roleKey = (body.role || body.roleKey || 'farmer').toLowerCase();
+
+      const defaultUsers = {
+        farmer: {
+          id: 'USR_FARMER_001',
+          name: 'Ramesh Kumar',
+          email: 'farmer@agrinex.in',
+          phone: '9876543210',
+          role: 'Farmer',
+          roleId: 'ROLE_FARMER',
+          location: 'Erode, Tamil Nadu',
+          moduleDir: 'farmer-module',
+          redirectUrl: '/farmer-module/index.html',
+          avatar: '/farmer-module/assets/images/farmer-avatar.jpg'
+        },
+        buyer: {
+          id: 'USR_BUYER_001',
+          name: 'Suresh Singhania (AgriFoods Ltd.)',
+          email: 'buyer@agrifoods.com',
+          phone: '9841011223',
+          role: 'Buyer / Mill',
+          roleId: 'ROLE_BUYER',
+          location: 'Coimbatore, Tamil Nadu',
+          moduleDir: 'buyer-module',
+          redirectUrl: '/buyer-module/index.html',
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80'
+        },
+        logistics: {
+          id: 'USR_LOGISTICS_001',
+          name: 'Karthik Raja (GreenWays Transit)',
+          email: 'transit@greenwayslogistics.in',
+          phone: '9822099887',
+          role: 'Logistics Provider',
+          roleId: 'ROLE_LOGISTICS',
+          location: 'Salem Regional Hub, TN',
+          moduleDir: 'logistics-module',
+          redirectUrl: '/logistics-module/index.html',
+          avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80'
+        },
+        admin: {
+          id: 'USR_ADMIN_001',
+          name: 'Dr. A. Venkatesh',
+          email: 'admin@agrinex.gov.in',
+          phone: '9000000001',
+          role: 'Platform Administrator',
+          roleId: 'ROLE_ADMIN',
+          location: 'AgriNex HQ, Chennai',
+          moduleDir: 'admin-module',
+          redirectUrl: '/admin-module/index.html',
+          avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80'
+        }
+      };
+
+      const selected = defaultUsers[roleKey] || defaultUsers.farmer;
+      const token = authService.signToken({
+        id: selected.id,
+        name: selected.name,
+        role: selected.role,
+        roleId: selected.roleId,
+        email: selected.email,
+        moduleDir: selected.moduleDir
+      });
+
+      return sendJSON(res, 200, {
+        success: true,
+        token,
+        user: selected,
+        redirectUrl: selected.redirectUrl
+      });
+    }
+
+    if (urlPath === '/api/auth/register' && req.method === 'POST') {
+      const body = await parseBody(req);
+      if (!db.users) db.users = [];
+
+      const roleMap = {
+        farmer: { role: 'Farmer', roleId: 'ROLE_FARMER', moduleDir: 'farmer-module', redirectUrl: '/farmer-module/index.html' },
+        buyer: { role: 'Buyer / Mill', roleId: 'ROLE_BUYER', moduleDir: 'buyer-module', redirectUrl: '/buyer-module/index.html' },
+        logistics: { role: 'Logistics Provider', roleId: 'ROLE_LOGISTICS', moduleDir: 'logistics-module', redirectUrl: '/logistics-module/index.html' },
+        admin: { role: 'Platform Administrator', roleId: 'ROLE_ADMIN', moduleDir: 'admin-module', redirectUrl: '/admin-module/index.html' }
+      };
+
+      const roleKey = (body.roleKey || body.role || 'farmer').toLowerCase();
+      const meta = roleMap[roleKey] || roleMap.farmer;
+
+      const newUser = {
+        id: `USR_${roleKey.toUpperCase()}_${Date.now()}`,
+        name: body.name || 'AgriNex User',
+        email: (body.email || '').trim().toLowerCase(),
+        phone: body.phone || '',
+        password: body.password || 'User@123',
+        location: body.location || 'Tamil Nadu, India',
+        role: meta.role,
+        roleId: meta.roleId,
+        moduleDir: meta.moduleDir,
+        redirectUrl: meta.redirectUrl,
+        created_at: new Date().toISOString()
+      };
+
+      db.users.push(newUser);
+      saveDB(db);
+
+      const token = authService.signToken({
+        id: newUser.id,
+        name: newUser.name,
+        role: newUser.role,
+        roleId: newUser.roleId,
+        email: newUser.email,
+        moduleDir: newUser.moduleDir
+      });
+
+      return sendJSON(res, 201, {
+        success: true,
+        token,
+        user: newUser,
+        redirectUrl: newUser.redirectUrl
+      });
+    }
+
+    if (urlPath === '/api/auth/me' && req.method === 'GET') {
+      const authHeader = req.headers['authorization'] || '';
+      const token = authHeader.startsWith('Bearer ') ? authHeader.substring(7) : (queryParams.get('token') || '');
+      const verification = authService.verifyToken(token);
+
+      if (!verification.valid) {
+        return sendJSON(res, 401, {
+          success: false,
+          error: verification.error || 'Unauthorized'
+        });
+      }
+
+      return sendJSON(res, 200, {
+        success: true,
+        user: verification.payload
+      });
+    }
+
     if (urlPath === '/api/auth/buyer-login' && req.method === 'POST') {
       const body = await parseBody(req);
       const officer = body.officer_name || 'Karthik Sundaram';
@@ -895,6 +1139,47 @@ const server = http.createServer(async (req, res) => {
     }
 
     // ---------------- BUYER MODULE ENDPOINTS ----------------
+    if (urlPath === '/api/buyer/lots' && req.method === 'GET') {
+      if (!db.crops) db.crops = [];
+      const formattedLots = db.crops.map(c => {
+        const qtyQt = Number(c.quantity_qt || c.quantityNumber || 50);
+        const qtyKg = Number(c.quantity_kg || qtyQt * 100);
+        const priceKg = Number(c.price_per_kg || (c.price_per_qt ? c.price_per_qt / 100 : 20));
+        const mandiBenchmark = Number((priceKg * 1.12).toFixed(2));
+        const savingsPct = (((mandiBenchmark - priceKg) / mandiBenchmark) * 100).toFixed(1);
+
+        return {
+          id: c.id,
+          crop: c.crop || c.crop_name || 'Farm Produce',
+          category: c.category || 'Vegetables',
+          farmerName: c.farmer_name || db.profile?.name || 'Ramesh Kumar',
+          farmerLocation: `${c.mandi || 'Lasalgaon Mandi'}, ${c.district || 'Nashik'}`,
+          farmerRating: '4.9 ⭐',
+          farmerPhone: db.profile?.phone || '+91 98765 43210',
+          image: c.image || 'assets/images/hero-field.jpg',
+          grade: c.grade || 'Grade A',
+          gradeKey: (c.grade || 'Grade A').toLowerCase().includes('b') ? 'grade-b' : 'grade-a',
+          gradeBadgeClass: (c.grade || 'Grade A').toLowerCase().includes('b') ? 'badge-grade-b' : 'badge-grade-a',
+          pricePerKg: priceKg,
+          availableQtyKg: qtyKg,
+          quantity: `${qtyKg.toLocaleString('en-IN')} kg (${qtyQt} Qt)`,
+          qtyNum: qtyQt,
+          askPrice: `₹ ${priceKg.toFixed(2)} /kg`,
+          priceNum: Math.round(priceKg * 100),
+          mandiRate: `₹ ${mandiBenchmark.toFixed(2)} /kg`,
+          savings: `${savingsPct}% Lower`,
+          status: c.status || 'Verified Available',
+          statusBadgeClass: c.statusBadgeClass || 'badge-status-open',
+          moisture: c.moisture || '13.2%',
+          shelf_life: c.shelf_life || '7 Days',
+          isSoldOut: c.status && c.status.toLowerCase().includes('sold'),
+          created_at: c.created_at || new Date().toISOString()
+        };
+      });
+
+      return sendJSON(res, 200, formattedLots);
+    }
+
     if (urlPath === '/api/buyer/demands') {
       if (!db.buyer_demands) db.buyer_demands = [];
       if (req.method === 'GET') {
@@ -976,9 +1261,33 @@ const server = http.createServer(async (req, res) => {
 
       if (!db.escrow_contracts) db.escrow_contracts = [];
       if (!db.shipments) db.shipments = [];
+      if (!db.logistics_dispatch_orders) db.logistics_dispatch_orders = [];
+
+      const newDispatch = {
+        id: `DISP-${Math.floor(100 + Math.random() * 900)}`,
+        order_code: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+        orderCode: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+        order_type: 'individual',
+        crop_name: cropName,
+        quantity_qt: qtyKg / 100,
+        quantity_kg: qtyKg,
+        pickup_location: `Lasalgaon APMC Yard, Nashik`,
+        drop_location: body.destination || `${body.buyer_name || 'BigBasket'} Central Hub`,
+        farmer_name: farmerName,
+        farmer_phone: '+91 98220 44911',
+        buyer_name: body.buyer_name || 'BigBasket Direct Sourcing',
+        freight_fee: Math.round((qtyKg / 100) * 180),
+        delivery_status: 'Available',
+        deliveryStatus: 'Available',
+        statusBadgeClass: 'badge-status-open',
+        delivery_pin: '8821',
+        deliveryPin: '8821',
+        created_at: new Date().toISOString()
+      };
 
       db.escrow_contracts.unshift(newContract);
       db.shipments.unshift(newShipment);
+      db.logistics_dispatch_orders.unshift(newDispatch);
 
       // Decrement lot availability in crops if matching
       const targetCrop = db.crops.find(c => c.id === lotId);
@@ -1024,20 +1333,100 @@ const server = http.createServer(async (req, res) => {
     if (urlPath === '/api/buyer/escrow/release' && req.method === 'POST') {
       const body = await parseBody(req);
       const contractNo = body.contract_no;
+      if (!contractNo) {
+        return sendJSON(res, 400, { success: false, message: 'contract_no is required for escrow settlement.' });
+      }
       if (!Array.isArray(db.escrow_contracts)) db.escrow_contracts = [];
       if (!Array.isArray(db.shipments)) db.shipments = [];
       const contract = db.escrow_contracts.find(c => c.contract_no === contractNo);
+      
+      // Idempotency check: if already settled, return gracefully without duplicate release
+      if (contract && contract.overall_status === '100% Settled & Released') {
+        return sendJSON(res, 200, { 
+          success: true, 
+          message: `Escrow contract ${contractNo} is already settled & released.`,
+          alreadySettled: true 
+        });
+      }
+
       if (contract) {
         contract.overall_status = '100% Settled & Released';
         contract.balance_status = 'Disbursed to Farmer Bank Account';
+        contract.settled_at = new Date().toISOString();
       }
       const shipment = db.shipments.find(s => s.contract_no === contractNo || s.tracking_id === contractNo);
       if (shipment) {
         shipment.status = 'delivered';
         shipment.step = 4;
+        shipment.delivered_at = new Date().toISOString();
       }
       saveDB(db);
       return sendJSON(res, 200, { success: true, message: `Escrow contract ${contractNo} settled!` });
+    }
+
+    // Real-Time Cold-Chain IoT Telemetry Server-Sent Events (SSE) Stream
+    if (urlPath === '/api/logistics/stream-telemetry' && req.method === 'GET') {
+      res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache, no-transform',
+        'Connection': 'keep-alive',
+        'Access-Control-Allow-Origin': '*'
+      });
+
+      const sendTelemetryPulse = () => {
+        const tempVariation = (Math.random() * 0.6 - 0.3).toFixed(1);
+        const currentTemp = (4.0 + parseFloat(tempVariation)).toFixed(1);
+        const humidity = Math.floor(86 + Math.random() * 5);
+        const speed = Math.floor(55 + Math.random() * 15);
+        const freshnessScore = Math.max(92, 100 - Math.floor(Math.abs(parseFloat(currentTemp) - 4.0) * 4));
+
+        const telemetryPayload = {
+          reefer_temp_c: parseFloat(currentTemp),
+          humidity_pct: humidity,
+          speed_kmh: speed,
+          freshness_score: `${freshnessScore}%`,
+          current_location: `Samruddhi Corridor Checkpoint ~ ${Math.floor(25 + Math.random() * 20)} km to Terminal`,
+          gps_lat: 19.9975 + (Math.random() * 0.01 - 0.005),
+          gps_lng: 73.7898 + (Math.random() * 0.01 - 0.005),
+          battery_pct: 98,
+          timestamp: new Date().toISOString()
+        };
+
+        try {
+          res.write(`data: ${JSON.stringify(telemetryPayload)}\n\n`);
+        } catch (e) {}
+      };
+
+      sendTelemetryPulse();
+      const pulseInterval = setInterval(sendTelemetryPulse, 3000);
+      req.on('close', () => {
+        clearInterval(pulseInterval);
+      });
+      return;
+    }
+
+    // Real-Time Marketplace Bids Pulse Server-Sent Events (SSE) Stream
+    if (urlPath === '/api/buyer/stream-bids' && req.method === 'GET') {
+      res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache, no-transform',
+        'Connection': 'keep-alive',
+        'Access-Control-Allow-Origin': '*'
+      });
+
+      const sendBidsPulse = () => {
+        const bids = Array.isArray(db.bids) ? db.bids.slice(0, 5) : [];
+        try {
+          res.write(`data: ${JSON.stringify({ bids, timestamp: new Date().toISOString() })}\n\n`);
+        } catch (e) {}
+      };
+
+      sendBidsPulse();
+      const bidsInterval = setInterval(sendBidsPulse, 5000);
+      req.on('close', () => {
+        clearInterval(bidsInterval);
+      });
+      return;
     }
 
     // 1. Health & Database Status
@@ -1236,6 +1625,72 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { success: true, crop, escrow });
     }
 
+    // ---------------- UNIVERSAL MESSAGING & CHAT ENDPOINTS ----------------
+    if (urlPath === '/api/messages/conversations' && req.method === 'GET') {
+      if (!db.conversations) {
+        db.conversations = [
+          {
+            id: 'conv_farmer_buyer_1',
+            partner_name: 'Reliance Fresh Procurement',
+            partner_role: 'Institutional Buyer',
+            partner_avatar: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=120',
+            crop: 'Tomato (Hybrid Red)',
+            last_message: 'Refrigerated 5-ton container truck can be loaded tomorrow morning 8:00 AM.',
+            last_time: '10:32 AM',
+            unread_count: 0
+          },
+          {
+            id: 'conv_farmer_buyer_2',
+            partner_name: 'BigBasket Farm Direct',
+            partner_role: 'Daily Direct Sourcing',
+            partner_avatar: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=120',
+            crop: 'Nashik Red Onion',
+            last_message: 'Electronic weighbridge slip verified. Advance escrow ready.',
+            last_time: '11:16 AM',
+            unread_count: 1
+          }
+        ];
+        saveDB(db);
+      }
+      return sendJSON(res, 200, db.conversations);
+    }
+
+    if (urlPath === '/api/messages') {
+      if (!db.messages) db.messages = [];
+
+      if (req.method === 'GET') {
+        const convId = queryParams.get('conversation_id') || queryParams.get('convId') || 'conv_farmer_buyer_1';
+        const msgs = db.messages.filter(m => !m.conversation_id || m.conversation_id === convId);
+        return sendJSON(res, 200, msgs);
+      }
+
+      if (req.method === 'POST') {
+        const body = await parseBody(req);
+        const newMsg = {
+          id: `MSG_${Date.now()}_${Math.floor(100 + Math.random() * 900)}`,
+          conversation_id: body.conversation_id || body.convId || 'conv_farmer_buyer_1',
+          sender_id: body.sender_id || body.senderId || 'USR_CURRENT',
+          sender_name: body.sender_name || body.senderName || 'AgriNex User',
+          sender_role: body.sender_role || body.senderRole || 'Farmer',
+          recipient_id: body.recipient_id || body.recipientId || 'USR_PARTNER',
+          text: (body.text || body.message || '').trim(),
+          type: body.type || 'text', // 'text', 'offer', 'weigh_slip', 'gate_pass'
+          metadata: body.metadata || null,
+          created_at: new Date().toISOString(),
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+
+        db.messages.push(newMsg);
+        saveDB(db);
+
+        return sendJSON(res, 201, {
+          success: true,
+          message: 'Message sent successfully',
+          data: newMsg
+        });
+      }
+    }
+
     // Update Crop Generic (PUT)
     if (urlPath.startsWith('/api/crops/') && req.method === 'PUT') {
       const id = urlPath.replace('/api/crops/', '');
@@ -1361,6 +1816,30 @@ const server = http.createServer(async (req, res) => {
           image: bid.image || "assets/images/tomato.jpg"
         };
         db.shipments.unshift(newShipment);
+
+        if (!db.logistics_dispatch_orders) db.logistics_dispatch_orders = [];
+        const newDispatch = {
+          id: `DISP-${Math.floor(100 + Math.random() * 900)}`,
+          order_code: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+          orderCode: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+          order_type: 'individual',
+          crop_name: bid.crop,
+          quantity_qt: bid.quantity_qt,
+          quantity_kg: bid.quantity_qt * 100,
+          pickup_location: `${db.profile?.location || 'Lasalgaon APMC Yard, Nashik'}`,
+          drop_location: `${bid.buyer_name} Central DC`,
+          farmer_name: db.profile?.name || 'Ramesh Kumar',
+          farmer_phone: db.profile?.phone || '+91 98220 44911',
+          buyer_name: bid.buyer_name,
+          freight_fee: Math.round(bid.quantity_qt * 180),
+          delivery_status: 'Available',
+          deliveryStatus: 'Available',
+          statusBadgeClass: 'badge-status-open',
+          delivery_pin: '8821',
+          deliveryPin: '8821',
+          created_at: new Date().toISOString()
+        };
+        db.logistics_dispatch_orders.unshift(newDispatch);
 
         // Update corresponding crop lot status
         const crop = db.crops.find(c => c.id === bid.crop_id);

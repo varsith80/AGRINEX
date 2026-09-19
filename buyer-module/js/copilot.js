@@ -11,6 +11,18 @@
 (function () {
   'use strict';
 
+  // Helper for Anti-XSS DOM Sanitization
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    if (typeof window.escapeHTML === 'function') return window.escapeHTML(str);
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   // State Management
   const selectedCompareLots = new Set();
   let copilotLang = 'en';

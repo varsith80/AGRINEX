@@ -922,6 +922,40 @@ function submitBookTransport(e) {
   }
 }
 
+// -------------------------------------------------------------
+// REAL-TIME COLD-CHAIN IOT SSE TELEMETRY SUBSCRIBER
+// -------------------------------------------------------------
+function initBuyerLiveTelemetryStream() {
+  if (window.apiClient && typeof window.apiClient.subscribeTelemetrySSE === 'function') {
+    window.apiClient.subscribeTelemetrySSE((telemetry) => {
+      // 1. Update open GPS modal fields if active
+      const modal = document.getElementById('modal-gps-tracker');
+      if (modal && modal.classList.contains('active')) {
+        const tempEl = document.getElementById('gps-temp-val');
+        const humidEl = document.getElementById('gps-humidity-val');
+        const speedEl = document.getElementById('gps-speed-val');
+        const freshEl = document.getElementById('gps-freshness-val');
+        const locEl = document.getElementById('gps-current-loc-val');
+
+        if (tempEl) {
+          tempEl.textContent = `${telemetry.reefer_temp_c} °C`;
+          tempEl.classList.add('telemetry-updated');
+          setTimeout(() => tempEl.classList.remove('telemetry-updated'), 600);
+        }
+        if (humidEl) humidEl.textContent = `${telemetry.humidity_pct} %`;
+        if (speedEl) speedEl.textContent = `${telemetry.speed_kmh} km/h`;
+        if (freshEl) freshEl.textContent = telemetry.freshness_score;
+        if (locEl && telemetry.current_location) locEl.textContent = telemetry.current_location;
+      }
+
+      // 2. Update reactive store state
+      if (window.AgriNexStore) {
+        window.AgriNexStore.setState({ telemetry });
+      }
+    });
+  }
+}
+
 // Global delegated listener for transport booking form
 document.addEventListener('submit', (e) => {
   if (e.target && e.target.id === 'form-book-transport') {
@@ -929,7 +963,17 @@ document.addEventListener('submit', (e) => {
   }
 });
 
+// Auto-initialize real-time telemetry stream
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBuyerLiveTelemetryStream);
+  } else {
+    initBuyerLiveTelemetryStream();
+  }
+}
+
 // Logistics Window Bindings
+window.initBuyerLiveTelemetryStream = initBuyerLiveTelemetryStream;
 window.handleBuyerShipmentSearch = handleBuyerShipmentSearch;
 window.filterBuyerShipmentsTab = filterBuyerShipmentsTab;
 window.renderBuyerConsignments = renderBuyerConsignments;

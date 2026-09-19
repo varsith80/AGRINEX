@@ -396,13 +396,14 @@ function sendChatMessage() {
   const container = document.getElementById('chat-messages-container');
   if (!input || !container || !input.value.trim()) return;
 
-  const msg = input.value.trim();
+  const rawMsg = input.value.trim();
+  const safeMsg = window.escapeHTML ? window.escapeHTML(rawMsg) : rawMsg;
   const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   const group = document.createElement('div');
   group.className = 'chat-bubble-group outgoing';
   group.innerHTML = `
-    <div class="chat-bubble outgoing">${msg}</div>
+    <div class="chat-bubble outgoing">${safeMsg}</div>
     <div class="chat-meta-bar outgoing">
       <span>${timeNow}</span>
       <span style="color: #16a34a; font-weight: 800;">✓✓</span>
@@ -411,7 +412,7 @@ function sendChatMessage() {
   container.appendChild(group);
 
   if (chatConversations[activeChatKey]) {
-    chatConversations[activeChatKey].messages.push({ type: "outgoing", text: msg });
+    chatConversations[activeChatKey].messages.push({ type: "outgoing", text: rawMsg });
     saveChatConversations();
   }
 
@@ -424,17 +425,18 @@ function sendChatMessage() {
 
   setTimeout(() => {
     let replyText = `Thank you for your message! As agreed for ${currentCrop}, we will prepare the vehicle weighing pass once escrow advance is initiated.`;
-    if (msg.toLowerCase().includes('price') || msg.toLowerCase().includes('rate') || msg.toLowerCase().includes('discount') || msg.toLowerCase().includes('offer')) {
+    if (rawMsg.toLowerCase().includes('price') || rawMsg.toLowerCase().includes('rate') || rawMsg.toLowerCase().includes('discount') || rawMsg.toLowerCase().includes('offer')) {
       replyText = `Understood Karthik sir. I can offer an instant discount of ₹ 1.50/kg if you confirm bulk lifting with verified lorry receipt today!`;
-    } else if (msg.toLowerCase().includes('sample') || msg.toLowerCase().includes('assay') || msg.toLowerCase().includes('quality') || msg.toLowerCase().includes('moisture')) {
+    } else if (rawMsg.toLowerCase().includes('sample') || rawMsg.toLowerCase().includes('assay') || rawMsg.toLowerCase().includes('quality') || rawMsg.toLowerCase().includes('moisture')) {
       replyText = `Digital moisture and assay report is verified at ${chatConversations[currentKey]?.status?.split('•')[1] || 'farm gate'}. Quality is 100% guaranteed Grade A.`;
     }
 
+    const safeReply = window.escapeHTML ? window.escapeHTML(replyText) : replyText;
     const replyGroup = document.createElement('div');
     replyGroup.className = 'chat-bubble-group incoming';
     const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     replyGroup.innerHTML = `
-      <div class="chat-bubble incoming">${replyText}</div>
+      <div class="chat-bubble incoming">${safeReply}</div>
       <div class="chat-meta-bar incoming">
         <span>${replyTime}</span>
       </div>
@@ -697,7 +699,11 @@ function submitGrievance(e) {
 
   const category = catSelect ? catSelect.value : 'Quality Assay Deviation';
   const claimAmt = amtInput ? parseFloat(amtInput.value) || 15000 : 15000;
-  const description = descInput ? descInput.value.trim() : 'Quality variance reported by receiving hub.';
+  const rawDesc = descInput ? descInput.value.trim() : 'Quality variance reported by receiving hub.';
+  const safeDesc = window.escapeHTML ? window.escapeHTML(rawDesc) : rawDesc;
+  const safeCat = window.escapeHTML ? window.escapeHTML(category) : category;
+  const safeCrop = window.escapeHTML ? window.escapeHTML(crop) : crop;
+  const safeFarmer = window.escapeHTML ? window.escapeHTML(farmer) : farmer;
 
   const grvId = `GRV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
   const now = new Date();
@@ -706,12 +712,12 @@ function submitGrievance(e) {
   const newGrievance = {
     id: grvId,
     lotId: lotId,
-    crop: crop,
-    farmer: farmer,
-    category: category,
+    crop: safeCrop,
+    farmer: safeFarmer,
+    category: safeCat,
     amount: `₹ ${claimAmt.toLocaleString('en-IN')}`,
     amountNum: claimAmt,
-    description: description,
+    description: safeDesc,
     status: 'Under Review',
     statusClass: 'badge-status-emergency',
     resolutionEta: 'Within 24 Hours',
@@ -727,6 +733,9 @@ function submitGrievance(e) {
   if (!buyerData.grievances) buyerData.grievances = [];
   buyerData.grievances.unshift(newGrievance);
   buyerData.activeGrievances = buyerData.grievances;
+  if (window.AgriNexStore) {
+    window.AgriNexStore.setState({ grievances: buyerData.grievances });
+  }
 
   try {
     localStorage.setItem('agrinex_buyer_grievances', JSON.stringify(buyerData.grievances));

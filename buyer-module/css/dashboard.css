@@ -4056,3 +4056,209 @@ body.lite-mode-active #lite-floating-voice-mic {
   }
 }
 
+/* =========================================================================
+   LITE MODE: BULK DEMANDS & GRIEVANCES STYLES
+   ========================================================================= */
+
+.lite-bulk-crop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.lite-crop-pick-btn {
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 10px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.lite-crop-pick-btn:hover {
+  border-color: #0c5a36;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(12, 90, 54, 0.12);
+}
+
+.lite-crop-pick-btn.active {
+  border-color: #0c5a36;
+  background: #f0fdf4;
+  box-shadow: 0 4px 12px rgba(12, 90, 54, 0.2);
+}
+
+.lite-stepper-btn-large {
+  padding: 12px 10px;
+  border-radius: 12px;
+  border: 1.5px solid #cbd5e1;
+  background: #f8fafc;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #0f172a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lite-stepper-btn-large:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+}
+
+.lite-stepper-btn-large:active {
+  transform: scale(0.97);
+}
+
+.lite-hub-pill, .lite-grade-pill, .lite-grv-cat-pill {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lite-hub-pill:hover, .lite-grade-pill:hover, .lite-grv-cat-pill:hover {
+  border-color: #0c5a36;
+  background: #f8fafc;
+}
+
+.lite-hub-pill.active, .lite-grade-pill.active {
+  border-color: #0c5a36;
+  background: #0c5a36;
+  color: #ffffff;
+}
+
+.lite-grv-cat-pill.active {
+  border-color: #dc2626;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.lite-pulse-mic {
+  animation: pulseMicAnim 1.5s infinite;
+}
+
+@keyframes pulseMicAnim {
+  0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.6); transform: scale(1); }
+  50% { box-shadow: 0 0 0 16px rgba(220, 38, 38, 0); transform: scale(1.05); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); transform: scale(1); }
+}
+
+body.lite-sunlight-mode .lite-crop-pick-btn {
+  background: #ffffff !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
+}
+
+body.lite-sunlight-mode .lite-crop-pick-btn.active {
+  background: #fef08a !important;
+  border-color: #000000 !important;
+}
+
+body.lite-sunlight-mode .lite-stepper-btn-large {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+}
+
+/* =========================================================================
+   SIMPLE MODE FLOATING MIC RESPONSIVENESS & PULSE ANIMATION
+   ========================================================================= */
+#lite-floating-voice-mic.mic-pulsing {
+  animation: micPulseGlow 1.2s infinite ease-in-out !important;
+  background: #dc2626 !important;
+  border-color: #fca5a5 !important;
+}
+
+@keyframes micPulseGlow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 18px rgba(220, 38, 38, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  #lite-floating-voice-mic {
+    bottom: 84px !important; /* Lifts above mobile bottom bar */
+    right: 16px !important;
+    width: 58px !important;
+    height: 58px !important;
+    box-shadow: 0 6px 20px rgba(12, 90, 54, 0.45) !important;
+    z-index: 9999 !important;
+  }
+}
+
+/* ==========================================================================
+   PHASE 2 & 3: HIGH-PERFORMANCE DOM VIRTUALIZATION & REAL-TIME IOT TELEMETRY
+   ========================================================================== */
+
+/* Table Row Virtualization for 60fps rendering across large crop datasets */
+.verified-lots-table tbody tr,
+.demands-table tbody tr,
+.consignments-table tbody tr,
+.grv-claim-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 65px;
+}
+
+/* Real-Time Live Sensor Pulse Badge */
+.live-sensor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(12, 90, 54, 0.1);
+  color: #0c5a36;
+  border: 1px solid rgba(12, 90, 54, 0.25);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.live-sensor-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16a34a;
+  animation: liveTelemetryPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes liveTelemetryPulse {
+  0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
+  50% { transform: scale(1.15); box-shadow: 0 0 0 7px rgba(22, 163, 74, 0); }
+  100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+}
+
+/* Cold-Chain Temp Indicator Transition */
+.telemetry-gauge-value {
+  transition: color 0.4s ease, transform 0.2s ease;
+}
+.telemetry-updated {
+  animation: flashTelemetry 0.6s ease;
+}
+@keyframes flashTelemetry {
+  0% { background-color: rgba(74, 222, 128, 0.25); }
+  100% { background-color: transparent; }
+}
+
+
+

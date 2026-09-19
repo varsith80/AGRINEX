@@ -1987,9 +1987,60 @@
       closeCreateListingModal();
       document.getElementById("form-create-listing-full").reset();
 
+      // Sync with Central REST Backend and Buyer Marketplace
+      fetch('/api/crops', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          crop: name,
+          category: category,
+          grade: grade,
+          quantity_qt: qty,
+          price_per_qt: price,
+          shelf_life: shelfLife,
+          harvest_date: formattedDate,
+          mandi: location,
+          image: img
+        })
+      }).then(res => res.json()).then(data => {
+        if (data.crop) {
+          // Sync buyer local verified lots
+          try {
+            let buyerLots = JSON.parse(localStorage.getItem('agrinex_verified_lots') || '[]');
+            const buyerLot = {
+              id: data.crop.id || newListing.id,
+              crop: data.crop.crop,
+              category: data.crop.category,
+              farmerName: data.crop.farmer_name || 'Ramesh Kumar',
+              farmerLocation: location,
+              farmerRating: '4.9 ⭐',
+              image: data.crop.image,
+              grade: data.crop.grade,
+              gradeKey: grade === 'Grade A' ? 'grade-a' : 'grade-b',
+              gradeBadgeClass: data.crop.gradeBadgeClass,
+              pricePerKg: data.crop.price_per_kg || (price / 100),
+              availableQtyKg: qty * 100,
+              quantity: `${qty * 100} kg (${qty} Qt)`,
+              qtyNum: qty,
+              askPrice: `₹ ${(price / 100).toFixed(2)} /kg`,
+              priceNum: price,
+              mandiRate: `₹ ${((price / 100) * 1.12).toFixed(2)} /kg`,
+              savings: '12% Lower',
+              status: 'Verified Available',
+              statusBadgeClass: 'badge-status-open',
+              moisture: '13.0%',
+              shelf_life: shelfLife
+            };
+            buyerLots.unshift(buyerLot);
+            localStorage.setItem('agrinex_verified_lots', JSON.stringify(buyerLots));
+            localStorage.setItem('agrinex_crops_updated', Date.now().toString());
+          } catch(e) {}
+        }
+      }).catch(err => console.warn('Backend crop save error:', err));
+
       renderAllCrops();
       updateKpis();
-      alert(`🎉 Crop Lot "${name}" with Harvest Date (${formattedDate}) has been published to the AgriNex exchange!`);
+      alert(`🎉 Crop Lot "${name}" (${qty} Qt @ ₹${price}/Qt) published live to Buyer Marketplace!`);
     }
 
     function openLotDetail(lotId) {
@@ -2403,7 +2454,7 @@
   </script>
 
   <script src="js/i18n.js"></script>
+  <script src="../assets/js/agrinex-auth-bridge.js"></script>
 </body>
-
 </html>
 

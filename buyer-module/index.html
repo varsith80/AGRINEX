@@ -310,19 +310,27 @@
           <div style="display: flex; gap: 12px; flex-wrap: wrap;">
             <button type="button" class="lite-nav-tab active" id="lite-tab-produce" onclick="switchLiteSection('produce')">
               <span style="font-size: 1.4rem;">🌾</span>
-              <span id="lite-tab-produce-text">Buy Produce (शेतीमाल खरेदी)</span>
+              <span id="lite-tab-produce-text">Buy Produce</span>
+            </button>
+            <button type="button" class="lite-nav-tab" id="lite-tab-bulk" onclick="switchLiteSection('bulk')">
+              <span style="font-size: 1.4rem;">⚡</span>
+              <span id="lite-tab-bulk-text">Post Bulk Quota</span>
             </button>
             <button type="button" class="lite-nav-tab" id="lite-tab-insights" onclick="switchLiteSection('insights')">
               <span style="font-size: 1.4rem;">📊</span>
-              <span id="lite-tab-insights-text">Market Insights (बाज़ार भाव व अंदाज)</span>
+              <span id="lite-tab-insights-text">Market Insights</span>
             </button>
             <button type="button" class="lite-nav-tab" id="lite-tab-orders" onclick="switchLiteSection('orders')">
               <span style="font-size: 1.4rem;">🚚</span>
-              <span id="lite-tab-orders-text">My Orders & Trucks (माझ्या गाड्या)</span>
+              <span id="lite-tab-orders-text">My Orders & Trucks</span>
+            </button>
+            <button type="button" class="lite-nav-tab" id="lite-tab-grievance" onclick="switchLiteSection('grievance')">
+              <span style="font-size: 1.4rem;">🚨</span>
+              <span id="lite-tab-grievance-text">Disputes & Grievance</span>
             </button>
             <button type="button" class="lite-nav-tab" id="lite-tab-escrow" onclick="switchLiteSection('escrow')">
               <span style="font-size: 1.4rem;">🛡️</span>
-              <span id="lite-tab-escrow-text">Safe Escrow (सुरक्षित खाती)</span>
+              <span id="lite-tab-escrow-text">Safe Escrow Vault</span>
             </button>
           </div>
 
@@ -330,19 +338,19 @@
           <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <!-- Font Scaler -->
             <div style="display: flex; gap: 3px; background: #ffffff; padding: 4px; border-radius: 999px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
-              <button type="button" onclick="setLiteFontSize('sm')" title="Small Text / लहान अक्षरे" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.75rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">A-</button>
-              <button type="button" id="btn-font-md" onclick="setLiteFontSize('md')" title="Normal Text / मध्यम" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.85rem; font-weight: 800; cursor: pointer; background: #0c5a36; color: #ffffff;">A</button>
-              <button type="button" id="btn-font-lg" onclick="setLiteFontSize('lg')" title="Large Text / मोठी अक्षरे" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.95rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">A+</button>
+              <button type="button" onclick="setLiteFontSize('sm')" title="Small Text" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.75rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">A-</button>
+              <button type="button" id="btn-font-md" onclick="setLiteFontSize('md')" title="Normal Text" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.85rem; font-weight: 800; cursor: pointer; background: #0c5a36; color: #ffffff;">A</button>
+              <button type="button" id="btn-font-lg" onclick="setLiteFontSize('lg')" title="Large Text" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.95rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">A+</button>
             </div>
 
             <!-- Speech Speed Controller -->
-            <div style="display: flex; gap: 3px; background: #ffffff; padding: 4px; border-radius: 999px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.05);" title="Audio Voice Speed / आवाजाचा वेग">
+            <div style="display: flex; gap: 3px; background: #ffffff; padding: 4px; border-radius: 999px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.05);" title="Audio Voice Speed">
               <button type="button" id="btn-speed-slow" onclick="setLiteSpeechRate(0.8)" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.78rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">🐢 0.8x</button>
               <button type="button" id="btn-speed-normal" onclick="setLiteSpeechRate(1.0)" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.78rem; font-weight: 800; cursor: pointer; background: #0c5a36; color: #ffffff;">🗣️ 1.0x</button>
             </div>
 
             <!-- Mandi Sunlight High-Contrast Toggle -->
-            <button type="button" id="btn-sunlight-mode" onclick="toggleSunlightMode()" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #ca8a04; background: #fef08a; color: #854d0e; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 5px;" title="High Contrast for Mandi Sunlight / कडक उन्हासाठी हाय-कॉन्ट्रास्ट">
+            <button type="button" id="btn-sunlight-mode" onclick="toggleSunlightMode()" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #ca8a04; background: #fef08a; color: #854d0e; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 5px;" title="High Contrast for Mandi Sunlight">
               <span>☀️</span>
               <span id="lite-sunlight-text">Sunlight Mode</span>
             </button>
@@ -366,14 +374,14 @@
               <p class="lite-hero-desc" id="lite-hero-desc">Tap any large crop photo, listen to voice details in your language, and buy directly from farmers in 1-click.</p>
             </div>
             <div class="lite-hero-actions">
-              <button type="button" class="lite-voice-search-btn" onclick="startLiteVoiceAssistant()" title="Voice Search / बोलून शोधा / बोलकर खोजें">
+              <button type="button" class="lite-voice-search-btn" onclick="startLiteVoiceAssistant()" title="Voice Search">
                 <span style="font-size: 1.6rem;">🎤</span>
                 <div style="text-align: left;">
                   <div style="font-size: 0.95rem; font-weight: 800;" id="lite-voice-btn-title">Voice Search</div>
                   <div style="font-size: 0.75rem; opacity: 0.85;" id="lite-voice-btn-desc">"Show Tomatoes" / "Onion"</div>
                 </div>
               </button>
-              <button type="button" class="lite-emergency-badge-btn" onclick="filterLiteProduce('emergency')" title="Emergency Sales / सवलत विक्री">
+              <button type="button" class="lite-emergency-badge-btn" onclick="filterLiteProduce('emergency')" title="Emergency Sales">
                 <span style="font-size: 1.5rem;">🚨</span>
                 <div style="text-align: left;">
                   <div style="font-size: 0.95rem; font-weight: 800;" id="lite-emerg-btn-title">Emergency Sales</div>
@@ -413,27 +421,136 @@
 
           <!-- Quick 1-Tap Crop Pills Bar (All Crops) -->
           <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 18px; -webkit-overflow-scrolling: touch;" class="no-scrollbar">
-            <button type="button" onclick="filterLiteProduce('Onion')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🧅 Onion (कांदा)</button>
-            <button type="button" onclick="filterLiteProduce('Tomato')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍅 Tomato (टोमॅटो)</button>
-            <button type="button" onclick="filterLiteProduce('Potato')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🥔 Potato (बटाटा)</button>
-            <button type="button" onclick="filterLiteProduce('Soybean')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌱 Soybean (सोयाबीन)</button>
-            <button type="button" onclick="filterLiteProduce('Banana')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍌 Banana (केळी)</button>
-            <button type="button" onclick="filterLiteProduce('Pomegranate')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍇 Pomegranate (डाळिंब)</button>
-            <button type="button" onclick="filterLiteProduce('Orange')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍊 Orange (संत्रा)</button>
-            <button type="button" onclick="filterLiteProduce('Mango')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🥭 Alphonso (हापूस)</button>
-            <button type="button" onclick="filterLiteProduce('Grapes')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍇 Grapes (द्राक्षे)</button>
-            <button type="button" onclick="filterLiteProduce('Turmeric')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌿 Turmeric (हळद)</button>
-            <button type="button" onclick="filterLiteProduce('Cotton')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">☁️ Cotton (कापूस)</button>
-            <button type="button" onclick="filterLiteProduce('Wheat')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌾 Wheat (गहू)</button>
-            <button type="button" onclick="filterLiteProduce('Rice')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌾 Rice (तांदूळ)</button>
-            <button type="button" onclick="filterLiteProduce('Chana')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌱 Chana (हरभरा)</button>
-            <button type="button" onclick="filterLiteProduce('Groundnut')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🥜 Peanut (शेंगदाणा)</button>
-            <button type="button" onclick="filterLiteProduce('Chilli')" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌶️ Chilli (मिरची)</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Onion', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🧅 Onion</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Tomato', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍅 Tomato</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Potato', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🥔 Potato</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Soybean', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌱 Soybean</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Banana', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍌 Banana</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Pomegranate', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍇 Pomegranate</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Orange', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍊 Orange</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Mango', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🥭 Alphonso</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Grapes', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🍇 Grapes</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Turmeric', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌿 Turmeric</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Cotton', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">☁️ Cotton</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Wheat', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌾 Wheat</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Rice', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌾 Rice</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Chana', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌱 Chana</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Groundnut', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🥜 Groundnut</button>
+            <button type="button" class="lite-crop-quick-pill" onclick="filterLiteProduce('Chilli', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #e2e8f0; background: #ffffff; color: #0f172a; font-weight: 700; font-size: 0.82rem; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">🌶️ Chilli</button>
           </div>
 
           <!-- Big Visual Produce Grid -->
           <div id="lite-produce-grid" class="lite-produce-grid">
             <!-- Rendered dynamically by lite_mode.js -->
+          </div>
+        </div>
+
+        <!-- SECTION 1.2: 1-TAP POST BULK PROCUREMENT QUOTA (SIMPLE MODE) -->
+        <div id="lite-section-bulk" style="display: none;">
+          <!-- Top Hero Card for Bulk Demands -->
+          <div style="background: linear-gradient(135deg, #064e3b 0%, #0c5a36 100%); border-radius: 20px; padding: 22px 24px; color: #ffffff; margin-bottom: 22px; box-shadow: 0 4px 16px rgba(6,78,59,0.2);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+              <div>
+                <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(74, 222, 128, 0.18); border: 1px solid #4ade80; color: #86efac; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 800; margin-bottom: 8px;">
+                  <span>⚡ Institutional Sourcing Engine</span>
+                  <span>•</span>
+                  <span id="lite-bulk-badge">Direct FPO & Farmer Broadcast</span>
+                </div>
+                <h2 style="font-size: 1.55rem; font-weight: 800; margin: 0 0 6px 0;" id="lite-bulk-title">⚡ 1-Tap Post Bulk Requirement</h2>
+                <p style="font-size: 0.92rem; color: #d1fae5; margin: 0; max-width: 680px;" id="lite-bulk-desc">Broadcast your bulk buying demand (e.g., 500 Bags Onion, 1,000 Bags Wheat) directly to verified Maharashtra farmers & FPOs.</p>
+              </div>
+              <button type="button" class="lite-audio-btn" style="position: static; background: #ffffff; color: #064e3b; border: 2px solid #86efac; font-weight: 800; padding: 10px 18px; font-size: 0.92rem; border-radius: 999px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onclick="startVoiceBulkDemand()">
+                🎤 <span id="lite-bulk-voice-btn">Speak Demand</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 1-Tap Quota Creator Form Card -->
+          <div style="background: #ffffff; border-radius: 20px; border: 1.5px solid #e2e8f0; padding: 24px; margin-bottom: 24px;">
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0 0 16px 0;" id="lite-bulk-form-title">📝 1-Tap Procurement Quota Details</h3>
+            
+            <!-- Step 1: Crop Selection -->
+            <label style="display: block; font-size: 0.88rem; font-weight: 800; color: #475569; margin-bottom: 8px;" id="lite-bulk-crop-label">1. Select Crop:</label>
+            <div class="lite-bulk-crop-grid" id="lite-bulk-crop-picker">
+              <!-- Rendered dynamically by lite_mode.js -->
+            </div>
+
+            <!-- Step 2: Quantity Selection -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                <label style="font-size: 0.9rem; font-weight: 800; color: #0f172a;" id="lite-bulk-qty-label">2. Required Quantity:</label>
+                <div style="font-size: 1.25rem; font-weight: 900; color: #0c5a36;" id="lite-bulk-qty-display">500 Bags (25,000 kg • 25 MT)</div>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px;" id="lite-bulk-steppers-grid">
+                <button type="button" class="lite-stepper-btn-large" onclick="changeLiteBulkQuantity(50)">+ 50 Bags (2.5 MT)</button>
+                <button type="button" class="lite-stepper-btn-large" onclick="changeLiteBulkQuantity(100)">+ 100 Bags (5 MT)</button>
+                <button type="button" class="lite-stepper-btn-large" onclick="changeLiteBulkQuantity(200)">+ 200 Bags (10 MT)</button>
+                <button type="button" class="lite-stepper-btn-large" onclick="changeLiteBulkQuantity(500)">+ 500 Bags (25 MT)</button>
+                <button type="button" class="lite-stepper-btn-large" onclick="changeLiteBulkQuantity(1000)">+ 1,000 Bags (50 MT)</button>
+                <button type="button" class="lite-stepper-btn-large" onclick="changeLiteBulkQuantity(-100)" style="color: #dc2626;">- 100 Bags</button>
+              </div>
+            </div>
+
+            <!-- Step 3: Target Max Buying Price & Estimated Total -->
+            <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 16px; padding: 18px; margin-bottom: 18px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; align-items: center;">
+                <div>
+                  <label style="display: block; font-size: 0.85rem; font-weight: 800; color: #166534; margin-bottom: 6px;" id="lite-bulk-price-label">3. Target Max Buying Price:</label>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <button type="button" onclick="changeLiteBulkPrice(-1)" style="width: 38px; height: 38px; border-radius: 10px; border: 1.5px solid #86efac; background: #ffffff; color: #166534; font-size: 1.2rem; font-weight: 900; cursor: pointer;">-</button>
+                    <span id="lite-bulk-price-val" style="font-size: 1.5rem; font-weight: 900; color: #0c5a36;">₹ 24.00</span>
+                    <span style="font-size: 0.9rem; font-weight: 700; color: #475569;" id="lite-bulk-unit-label">/ kg</span>
+                    <button type="button" onclick="changeLiteBulkPrice(1)" style="width: 38px; height: 38px; border-radius: 10px; border: 1.5px solid #86efac; background: #ffffff; color: #166534; font-size: 1.2rem; font-weight: 900; cursor: pointer;">+</button>
+                  </div>
+                </div>
+                <div>
+                  <span style="display: block; font-size: 0.85rem; font-weight: 800; color: #166534; margin-bottom: 4px;" id="lite-bulk-total-label">Total Estimated Budget:</span>
+                  <div style="font-size: 1.55rem; font-weight: 900; color: #15803d;" id="lite-bulk-total-budget">₹ 6,00,000</div>
+                  <span style="font-size: 0.78rem; font-weight: 700; color: #166534;" id="lite-bulk-savings-est">💰 Approx ~15% Lower than APMC middlemen</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Delivery APMC Destination Hub & Quality Grade -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 22px;">
+              <div>
+                <label style="display: block; font-size: 0.85rem; font-weight: 800; color: #475569; margin-bottom: 8px;" id="lite-bulk-hub-label">4. Delivery Hub:</label>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="lite-bulk-hub-pills">
+                  <button type="button" class="lite-hub-pill active" onclick="selectLiteBulkHub('Mumbai (Vashi Terminal)', this)">📍 Mumbai (Vashi)</button>
+                  <button type="button" class="lite-hub-pill" onclick="selectLiteBulkHub('Pune (Gultekdi Yard)', this)">📍 Pune (Gultekdi)</button>
+                  <button type="button" class="lite-hub-pill" onclick="selectLiteBulkHub('Nashik Central Hub', this)">📍 Nashik</button>
+                  <button type="button" class="lite-hub-pill" onclick="selectLiteBulkHub('Nagpur Terminal', this)">📍 Nagpur</button>
+                </div>
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.85rem; font-weight: 800; color: #475569; margin-bottom: 8px;" id="lite-bulk-grade-label">5. Quality Grade:</label>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="lite-bulk-grade-pills">
+                  <button type="button" class="lite-grade-pill active" onclick="selectLiteBulkGrade('Grade A (Export / Super)', this)">🏆 Grade A (Export)</button>
+                  <button type="button" class="lite-grade-pill" onclick="selectLiteBulkGrade('Grade B (Standard)', this)">🥈 Grade B (Standard)</button>
+                  <button type="button" class="lite-grade-pill" onclick="selectLiteBulkGrade('Grade C (Processing)', this)">🥉 Grade C (Processing)</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Publish Demand Button -->
+            <button type="button" onclick="publishLiteBulkDemand()" style="width: 100%; padding: 16px; border-radius: 16px; border: none; background: linear-gradient(135deg, #0c5a36 0%, #16a34a 100%); color: #ffffff; font-size: 1.15rem; font-weight: 900; cursor: pointer; box-shadow: 0 4px 16px rgba(12,90,54,0.3); display: flex; align-items: center; justify-content: center; gap: 10px;">
+              <span>⚡</span>
+              <span id="lite-bulk-submit-btn">Publish Bulk Quota Now</span>
+            </button>
+          </div>
+
+          <!-- Active Posted Quotas & Received Farmer Bids -->
+          <div style="background: #ffffff; border-radius: 20px; border: 1.5px solid #e2e8f0; padding: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;" id="lite-bulk-active-title">📋 Active Posted Quotas & Farmer Bids</h3>
+                <span style="font-size: 0.85rem; color: #64748b;" id="lite-bulk-active-sub">Real-time farmer lots and FPO bids responding to your quotas</span>
+              </div>
+              <span class="badge" style="background: #dcfce7; color: #166534; font-weight: 800; padding: 6px 14px; border-radius: 999px; font-size: 0.85rem;" id="lite-bulk-quota-count">3 Active Quotas</span>
+            </div>
+            <div id="lite-bulk-demands-list" style="display: flex; flex-direction: column; gap: 16px;">
+              <!-- Populated dynamically by lite_mode.js -->
+            </div>
           </div>
         </div>
 
@@ -471,9 +588,9 @@
               </div>
               <!-- Simple Filter -->
               <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="lite-insights-filters">
-                <button type="button" class="lite-insights-filter-btn active" onclick="filterLiteInsights('all', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #0c5a36; background: #0c5a36; color: #ffffff; font-weight: 800; font-size: 0.82rem; cursor: pointer;">All (सर्व)</button>
-                <button type="button" class="lite-insights-filter-btn" onclick="filterLiteInsights('buy', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; background: #f0fdf4; color: #166534; font-weight: 800; font-size: 0.82rem; cursor: pointer;">🟢 Buy Today (आज खरेदी)</button>
-                <button type="button" class="lite-insights-filter-btn" onclick="filterLiteInsights('wait', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #fed7aa; background: #fff7ed; color: #9a3412; font-weight: 800; font-size: 0.82rem; cursor: pointer;">⏳ Wait / Hold (थांबा)</button>
+                <button type="button" class="lite-insights-filter-btn active" onclick="filterLiteInsights('all', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #0c5a36; background: #0c5a36; color: #ffffff; font-weight: 800; font-size: 0.82rem; cursor: pointer;">All Insights</button>
+                <button type="button" class="lite-insights-filter-btn" onclick="filterLiteInsights('buy', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; background: #f0fdf4; color: #166534; font-weight: 800; font-size: 0.82rem; cursor: pointer;">🟢 Buy Today</button>
+                <button type="button" class="lite-insights-filter-btn" onclick="filterLiteInsights('wait', this)" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #fed7aa; background: #fff7ed; color: #9a3412; font-weight: 800; font-size: 0.82rem; cursor: pointer;">⏳ Wait / Hold</button>
               </div>
             </div>
 
@@ -493,8 +610,8 @@
                 <span style="font-size: 0.95rem; color: #64748b;" id="lite-orders-subtitle">Track your delivery trucks on live GPS with 1-tap call to driver</span>
               </div>
               <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                <button type="button" class="lite-btn-call" style="padding: 10px 18px; font-size: 0.92rem; background: #fee2e2; color: #991b1b; border: 1.5px solid #f87171;" onclick="openLiteGrievanceModal()">
-                  🚨 <span id="lite-grievance-btn-text">Voice Dispute / तक्रार नोंदवा</span>
+                <button type="button" class="lite-btn-call" style="padding: 10px 18px; font-size: 0.92rem; background: #fee2e2; color: #991b1b; border: 1.5px solid #f87171;" onclick="switchLiteSection('grievance')">
+                  🚨 <span id="lite-grievance-btn-text">Voice Dispute / Grievance</span>
                 </button>
                 <button type="button" class="lite-audio-btn" style="position: static;" onclick="speakOrdersSummary()">
                   🔊 <span id="lite-orders-audio-btn">Listen Status</span>
@@ -502,6 +619,97 @@
               </div>
             </div>
             <div id="lite-orders-list" style="display: flex; flex-direction: column; gap: 20px;">
+              <!-- Populated dynamically by lite_mode.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2.5: 1-TAP VOICE GRIEVANCE & DISPUTE REDRESSAL (SIMPLE MODE) -->
+        <div id="lite-section-grievance" style="display: none;">
+          <!-- Top Hero Card -->
+          <div style="background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%); border-radius: 20px; padding: 22px 24px; color: #ffffff; margin-bottom: 22px; box-shadow: 0 4px 16px rgba(127,29,29,0.25);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+              <div>
+                <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(254, 202, 202, 0.2); border: 1px solid #f87171; color: #fecdd3; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 800; margin-bottom: 8px;">
+                  <span>🚨 100% Escrow Protection</span>
+                  <span>•</span>
+                  <span id="lite-grv-badge">Quality Dispute Arbitrator</span>
+                </div>
+                <h2 style="font-size: 1.55rem; font-weight: 800; margin: 0 0 6px 0;" id="lite-grv-hero-title">🚨 1-Tap Voice Dispute & Grievance</h2>
+                <p style="font-size: 0.92rem; color: #fee2e2; margin: 0; max-width: 680px;" id="lite-grv-hero-desc">Encountered quality issues, moisture mismatch, or weight shortage? Record a 15-second voice note. Smart escrow immediately freezes payout to farmer until resolution.</p>
+              </div>
+              <button type="button" class="lite-audio-btn" style="position: static; background: #ffffff; color: #991b1b; border: 2px solid #fca5a5; font-weight: 800; padding: 10px 18px; font-size: 0.92rem; border-radius: 999px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onclick="toggleLiteVoiceGrievance()">
+                🎙️ <span id="lite-grv-voice-btn">Speak Voice Dispute</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 1-Tap Voice Dispute Box -->
+          <div style="background: #ffffff; border-radius: 20px; border: 1.5px solid #fecdd3; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #991b1b; margin: 0 0 16px 0;" id="lite-grv-form-title">🎙️ Lodge Instant Quality Dispute</h3>
+
+            <!-- 15-Second Voice Recorder Card -->
+            <div style="background: #fff5f5; border: 2px dashed #f87171; border-radius: 18px; padding: 24px; text-align: center; margin-bottom: 20px;">
+              <div id="lite-grv-rec-status" style="font-size: 1.05rem; font-weight: 800; color: #334155; margin-bottom: 14px;">
+                🎙️ Tap mic button to record voice dispute (e.g., High moisture in onion bags)
+              </div>
+              <button type="button" id="btn-lite-grv-mic" onclick="toggleLiteVoiceGrievance()" style="width: 86px; height: 86px; border-radius: 999px; background: #dc2626; color: #ffffff; border: 4px solid #ffffff; box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4); font-size: 2.2rem; cursor: pointer; transition: all 0.2s; margin-bottom: 12px;">
+                🎤
+              </button>
+              <div id="lite-grv-rec-timer" style="font-size: 0.95rem; font-weight: 800; color: #dc2626; display: none;">
+                ⏱️ <span id="lite-grv-seconds">00:00</span> / 00:15
+              </div>
+              <div id="lite-grv-transcript-box" style="display: none; background: #ffffff; border: 1.5px solid #86efac; border-radius: 12px; padding: 12px 16px; margin-top: 14px; text-align: left;">
+                <span style="font-size: 0.8rem; font-weight: 800; color: #166534; display: block; margin-bottom: 4px;">✓ Voice Recording Note Captured:</span>
+                <p id="lite-grv-transcript-text" style="font-size: 0.92rem; color: #14532d; margin: 0; font-weight: 600;"></p>
+              </div>
+            </div>
+
+            <!-- Issue Category Pills -->
+            <label style="display: block; font-size: 0.88rem; font-weight: 800; color: #475569; margin-bottom: 8px;" id="lite-grv-cat-label">1. Select Dispute Reason:</label>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;" id="lite-grv-cat-pills">
+              <button type="button" class="lite-grv-cat-pill active" onclick="selectLiteGrievanceCategory('quality', 'Quality / Grade Mismatch', this)">🍂 Quality / Grade Mismatch</button>
+              <button type="button" class="lite-grv-cat-pill" onclick="selectLiteGrievanceCategory('moisture', 'High Moisture %', this)">💧 High Moisture %</button>
+              <button type="button" class="lite-grv-cat-pill" onclick="selectLiteGrievanceCategory('weight', 'Bag Weight Shortage', this)">⚖️ Bag Weight Shortage</button>
+              <button type="button" class="lite-grv-cat-pill" onclick="selectLiteGrievanceCategory('transit', 'Transit Delay', this)">🚚 Transit Delay</button>
+              <button type="button" class="lite-grv-cat-pill" onclick="selectLiteGrievanceCategory('escrow', 'Lock Escrow Release', this)">💸 Lock Escrow Release</button>
+            </div>
+
+            <!-- Consignment & Photo row -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px;">
+              <div>
+                <label style="display: block; font-size: 0.85rem; font-weight: 800; color: #475569; margin-bottom: 6px;" id="lite-grv-cons-label">2. Select In-Transit Shipment:</label>
+                <select id="lite-grv-consignment-select" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #cbd5e1; font-weight: 700; font-size: 0.9rem; color: #0f172a; background: #f8fafc;">
+                  <!-- Options populated dynamically -->
+                </select>
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.85rem; font-weight: 800; color: #475569; margin-bottom: 6px;" id="lite-grv-photo-label">3. Photo Evidence:</label>
+                <button type="button" onclick="attachLitePhotoProof()" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px dashed #cbd5e1; background: #f8fafc; color: #334155; font-size: 0.9rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                  <span>📸</span>
+                  <span id="lite-grv-photo-btn-text">Attach Inspection Photo</span>
+                </button>
+                <div id="lite-grv-photo-preview" style="display: none; margin-top: 8px; font-size: 0.8rem; font-weight: 700; color: #166534;">✓ Photo attached: moisture_defect_assay_sample.jpg</div>
+              </div>
+            </div>
+
+            <!-- Submit Dispute Button -->
+            <button type="button" onclick="submitLiteGrievanceForm()" style="width: 100%; padding: 16px; border-radius: 16px; border: none; background: #dc2626; color: #ffffff; font-size: 1.15rem; font-weight: 900; cursor: pointer; box-shadow: 0 4px 16px rgba(220,38,38,0.3); display: flex; align-items: center; justify-content: center; gap: 10px;">
+              <span>🚨</span>
+              <span id="lite-grv-submit-btn">File Quality Grievance & Freeze Escrow</span>
+            </button>
+          </div>
+
+          <!-- Active Grievance & Live Resolution Tracker -->
+          <div style="background: #ffffff; border-radius: 20px; border: 1.5px solid #e2e8f0; padding: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;" id="lite-grv-active-title">🛡️ Active Grievances & Settlement Status</h3>
+                <span style="font-size: 0.85rem; color: #64748b;" id="lite-grv-active-sub">Track real-time field surveyor investigations and escrow rebate settlements</span>
+              </div>
+              <span class="badge" style="background: #fee2e2; color: #991b1b; font-weight: 800; padding: 6px 14px; border-radius: 999px; font-size: 0.85rem;" id="lite-grv-cases-count">1 Open Dispute</span>
+            </div>
+            <div id="lite-grievances-list" style="display: flex; flex-direction: column; gap: 16px;">
               <!-- Populated dynamically by lite_mode.js -->
             </div>
           </div>
@@ -617,5 +825,6 @@
   <script src="js/modules/chat_grievance.js"></script>
   <!-- Core Coordinator -->
   <script src="js/dashboard.js"></script>
+  <script src="../assets/js/agrinex-auth-bridge.js"></script>
 </body>
 </html>
