@@ -1,0 +1,80 @@
+  <div class="modal-overlay" id="modal-ai-copilot">
+    <div class="modal-content" style="max-width: 560px; width: 92%; max-height: 86vh; display: flex; flex-direction: column; padding: 16px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);">
+      
+      <!-- Compact Header -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #0c5a36 0%, #166534 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 2px 6px rgba(12, 90, 54, 0.2);">
+            🤖
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <h3 style="font-size: 1rem; font-weight: 800; color: #0c5a36; margin: 0;">AGRIFLEX AI</h3>
+              <span class="badge" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.62rem; font-weight: 800; padding: 1px 5px;">v2.0</span>
+            </div>
+            <span style="font-size: 0.68rem; color: #64748b;">Mandi Arbitrage & Voice Procurement</span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <!-- Compact Language Selector Dropdown -->
+          <div style="display: flex; align-items: center; gap: 4px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 2px 6px;">
+            <span style="font-size: 0.7rem;">🗣️</span>
+            <select id="copilot-lang-select" onchange="setCopilotLanguage(this.value)" style="border: none; background: transparent; font-size: 0.72rem; font-weight: 700; color: #334155; outline: none; cursor: pointer;">
+              <option value="en" selected>English</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="mr">मराठी (Marathi)</option>
+              <option value="bn">বাংলা (Bengali)</option>
+              <option value="te">తెలుగు (Telugu)</option>
+              <option value="ta">தமிழ் (Tamil)</option>
+              <option value="gu">ગુજરાતી (Gujarati)</option>
+              <option value="ur">اردو (Urdu)</option>
+              <option value="kn">ಕನ್ನಡ (Kannada)</option>
+              <option value="or">ଓଡ଼ିଆ (Odia)</option>
+              <option value="ml">മലയാളം (Malayalam)</option>
+            </select>
+          </div>
+
+          <button id="btn-copilot-tts-stop" class="btn btn-outline btn-sm" onclick="stopCopilotTTS()" style="display: none; font-size: 0.68rem; color: #dc2626; border-color: #fca5a5; background: #fef2f2; padding: 2px 6px;" title="Stop Voice Audio">
+            ⏹️ Stop
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="clearCopilotChat()" style="font-size: 0.68rem; color: #64748b; padding: 2px 6px;" title="Reset Conversation">
+            🔄
+          </button>
+          <button onclick="closeCopilotModal()" style="font-size: 1.15rem; color: #64748b; background: transparent; border: none; cursor: pointer; padding: 0 4px; line-height: 1;">✕</button>
+        </div>
+      </div>
+
+      <!-- Scrollable Conversational Thread Container -->
+      <div id="copilot-chat-thread" style="flex: 1; min-height: 220px; max-height: 380px; overflow-y: auto; padding-right: 4px; margin-bottom: 8px;">
+        <!-- Rendered dynamically via copilot.js -->
+      </div>
+
+      <!-- Quick Suggestion Chips Bar -->
+      <div id="copilot-chips-bar" style="display: flex; gap: 5px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 8px; scrollbar-width: none;">
+        <button class="copilot-chip" style="padding: 3px 9px; font-size: 0.72rem;" onclick="askCopilot('Best Onion Arbitrage in Lasalgaon')">🧅 Onion Arbitrage</button>
+        <button class="copilot-chip" style="padding: 3px 9px; font-size: 0.72rem;" onclick="askCopilot('High Grade Tomato Narayangaon under 14/kg')">🍅 Tomato Lots</button>
+        <button class="copilot-chip" style="padding: 3px 9px; font-size: 0.72rem;" onclick="askCopilot('Emergency Salvage processing deals')">🚨 Salvage Lots</button>
+        <button class="copilot-chip" style="padding: 3px 9px; font-size: 0.72rem;" onclick="askCopilot('I have ₹3 Lakh budget for Pune retail store')">💼 ₹3L Budget</button>
+      </div>
+
+      <!-- Voice & Text Query Input Form -->
+      <form onsubmit="handleCopilotSubmit(event)" style="display: flex; gap: 6px; align-items: center;">
+        <button type="button" id="btn-copilot-mic" class="btn-mic-record" onclick="toggleCopilotSpeechRecognition()" title="Click to speak in chosen language" style="width: 36px; height: 36px; min-width: 36px; font-size: 1rem; border-radius: 8px;">
+          🎤
+        </button>
+        <input type="text" id="copilot-query-input" class="form-input" placeholder="Ask in any language: e.g. Onion arbitrage in Lasalgaon..." style="flex: 1; font-size: 0.82rem; padding: 7px 10px; border-radius: 8px;" />
+        <button type="submit" id="btn-copilot-send" class="btn btn-primary" style="background: #0c5a36; border-color: #0c5a36; font-weight: 700; padding: 7px 14px; font-size: 0.82rem; border-radius: 8px; white-space: nowrap;">
+          ⚡ Ask
+        </button>
+      </form>
+      
+      <div id="copilot-mic-status" style="font-size: 0.68rem; color: #64748b; margin-top: 3px; min-height: 14px; display: flex; justify-content: space-between; align-items: center;">
+        <span id="copilot-status-text">💡 Tip: Speak or type in your chosen regional language.</span>
+        <span id="copilot-voice-lang-indicator" style="font-weight: 700; color: #0c5a36;">Voice: English</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL 14: ENTERPRISE DIGITAL PURCHASE ORDER (PO) & TAX INVOICE -->

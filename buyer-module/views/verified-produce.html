@@ -1,0 +1,301 @@
+      <div id="view-verified-produce" class="portal-view active-view dashboard-content">
+
+        <!-- 2. 4-Column Stat Metric Pills -->
+        <div class="market-stats-row">
+          <!-- Active Orders -->
+          <div class="market-stat-pill" style="cursor: pointer;" onclick="switchView('view-consignments')">
+            <div class="market-stat-icon" style="background: #10b981;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                <path d="M3 6h18"></path>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="market-stat-label">ACTIVE ORDERS</div>
+              <div class="market-stat-num" id="stat-active-orders-num">0</div>
+            </div>
+          </div>
+
+          <!-- Total Volume -->
+          <div class="market-stat-pill">
+            <div class="market-stat-icon" style="background: #3b82f6;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m4.93 4.93 4.24 4.24"></path>
+                <path d="m14.83 14.83 4.24 4.24"></path>
+                <path d="m14.83 9.17 4.24-4.24"></path>
+                <path d="m4.93 19.07 4.24-4.24"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="market-stat-label">TOTAL VOLUME</div>
+              <div class="market-stat-num" id="stat-total-volume-num">0 kg</div>
+            </div>
+          </div>
+
+          <!-- Total Procured -->
+          <div class="market-stat-pill" style="cursor: pointer;" onclick="switchView('view-escrow-vault')">
+            <div class="market-stat-icon" style="background: #8b5cf6;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect width="20" height="14" x="2" y="5" rx="2"></rect>
+                <line x1="2" x2="22" y1="10" y2="10"></line>
+              </svg>
+            </div>
+            <div>
+              <div class="market-stat-label">TOTAL PROCURED</div>
+              <div class="market-stat-num" id="stat-total-procured-num">₹ 0</div>
+            </div>
+          </div>
+
+          <!-- Direct Savings -->
+          <div class="market-stat-pill" style="cursor: pointer;" onclick="switchView('view-calculator')">
+            <div class="market-stat-icon" style="background: #f97316;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+            </div>
+            <div>
+              <div class="market-stat-label">DIRECT SAVINGS</div>
+              <div class="market-stat-num" style="color: #0c5a36;" id="stat-direct-savings-num">~14% Saved</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Emergency Salvage Exchange (Breakeven Procurement) -->
+        <section class="card" id="marketplace-emergency-salvage-section" style="border: 1.5px solid #fca5a5; background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%); margin-bottom: 20px; border-radius: 14px; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.07);">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #fee2e2; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: #fee2e2; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);">
+                🚨
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <h3 class="card-title" style="color: #b91c1c; font-size: 1.05rem; font-weight: 800; margin: 0;">
+                    Emergency Salvage Exchange (Breakeven Procurement)
+                  </h3>
+                  <span class="badge badge-status-emergency" style="font-size: 0.72rem; padding: 2px 8px; border-radius: 6px;">⚡ Instant Escrow Match</span>
+                </div>
+                <p style="font-size: 0.78rem; color: #78350f; margin: 3px 0 0 0;">
+                  Direct sourcing stream for <strong>Food Processors</strong>, <strong>Commercial Caterers</strong> &amp; <strong>Bio-Compost Manufacturers</strong> to purchase low shelf-life harvests immediately.
+                </p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 0.75rem; color: #991b1b; font-weight: 700; background: #fff1f2; padding: 4px 10px; border-radius: 6px; border: 1px solid #fecdd3;">
+                🛡️ Guaranteed 65%–75% Farmer Recovery
+              </span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="toggleEmergencySection(this)" style="font-size: 0.74rem; font-weight: 700; border-color: #fca5a5; color: #991b1b; background: #ffffff; padding: 4px 10px; border-radius: 6px; cursor: pointer;">
+                Hide / Show ▾
+              </button>
+            </div>
+          </div>
+
+          <div class="data-table-container" id="marketplace-emergency-table-container" style="overflow-x: auto; padding: 0;">
+            <table class="data-table" style="margin: 0; width: 100%;">
+              <thead>
+                <tr style="background: #fef2f2; border-bottom: 1.5px solid #fecdd3;">
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 16px;">Emergency Crop Lot</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 14px;">Farmer &amp; Mandi</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 14px;">Quantity</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 14px;">Breakeven Buyout Price</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 14px;">Target Salvage Use</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 14px;">Shelf-Life Urgency</th>
+                  <th style="color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 10px 16px;">Immediate Buy Action</th>
+                </tr>
+              </thead>
+              <tbody id="emergency-buyer-tbody-marketplace" class="emergency-buyer-tbody">
+                <tr style="background-color: #fffdfa;">
+                  <td>
+                    <div class="crop-cell">
+                      <img src="assets/images/tomato.jpg" alt="Tomato" class="crop-thumb" onerror="this.src='assets/images/tomato.jpg'" />
+                      <div>
+                        <div class="crop-name" style="color: #991b1b; font-weight: 800;">Narayangaon Tomatoes (Perishable)</div>
+                        <span style="font-size: 0.72rem; color: #dc2626; font-weight: 700;">🚨 Active Salvage Call</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div style="font-weight: 700; color: #0f172a; font-size: 0.88rem;">Sanjay Deshmukh</div>
+                    <div style="font-size: 0.74rem; color: #64748b;">📍 Manchar / Narayangaon Yard, Pune, MH</div>
+                  </td>
+                  <td>
+                    <strong style="color: #0f172a; font-size: 0.95rem;">4,500 kg (45 Qt)</strong>
+                  </td>
+                  <td>
+                    <div>
+                      <span style="font-size: 1.05rem; font-weight: 800; color: #15803d;">₹ 8.90 /kg</span>
+                      <div style="font-size: 0.72rem; color: #64748b; text-decoration: line-through;">Orig: ₹ 12.00 /kg</div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge-buyer-type buyer-type-processing">
+                      <span>🥫</span> Tomato Puree &amp; Sauce
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge badge-status-emergency" style="font-size: 0.72rem;">
+                      ⚡ 24-36 Hours Left
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary" style="background: #dc2626; font-size: 0.8rem; padding: 7px 14px; font-weight: 800; box-shadow: 0 2px 8px rgba(220,38,38,0.25); border: none; cursor: pointer; border-radius: 8px;" onclick="openEmergencyBuyoutModal('EMG-LOT-TOM-99')">
+                      ⚡ Instant Buyout
+                    </button>
+                  </td>
+                </tr>
+                <tr style="background-color: #fffdfa;">
+                  <td>
+                    <div class="crop-cell">
+                      <img src="assets/images/onion.jpg" alt="Onion" class="crop-thumb" onerror="this.src='assets/images/onion.jpg'" />
+                      <div>
+                        <div class="crop-name" style="color: #991b1b; font-weight: 800;">Nashik Garwa Red Onion Lot</div>
+                        <span style="font-size: 0.72rem; color: #dc2626; font-weight: 700;">🚨 Active Salvage Call</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div style="font-weight: 700; color: #0f172a; font-size: 0.88rem;">Patil Rameshwar</div>
+                    <div style="font-size: 0.74rem; color: #64748b;">📍 Lasalgaon APMC Yard, Nashik, MH</div>
+                  </td>
+                  <td>
+                    <strong style="color: #0f172a; font-size: 0.95rem;">6,000 kg (60 Qt)</strong>
+                  </td>
+                  <td>
+                    <div>
+                      <span style="font-size: 1.05rem; font-weight: 800; color: #15803d;">₹ 13.50 /kg</span>
+                      <div style="font-size: 0.72rem; color: #64748b; text-decoration: line-through;">Orig: ₹ 18.00 /kg</div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge-buyer-type buyer-type-caterer">
+                      <span>🍲</span> Bulk Kitchen Catering
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge badge-status-emergency" style="font-size: 0.72rem;">
+                      ⚡ 48 Hours Left
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary" style="background: #dc2626; font-size: 0.8rem; padding: 7px 14px; font-weight: 800; box-shadow: 0 2px 8px rgba(220,38,38,0.25); border: none; cursor: pointer; border-radius: 8px;" onclick="openEmergencyBuyoutModal('EMG-LOT-ONI-88')">
+                      ⚡ Instant Buyout
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 3. Sticky Glassmorphic Filter Header -->
+        <div class="market-sticky-filter-wrapper">
+          <div style="position: relative; margin-bottom: 12px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="marketplace-search-input" placeholder="Search crops, varieties, farmers, or keywords (e.g. Tomato, Onion, Potato, 500kg)..." oninput="handleBuyerSearch(this.value)" style="width: 100%; padding: 13px 20px 13px 48px; border-radius: 12px; border: 1.5px solid #cbd5e1; font-size: 0.92rem; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.03); outline: none; transition: all 0.2s;" onfocus="this.style.borderColor='#0c5a36'; this.style.boxShadow='0 0 0 3px rgba(12,90,54,0.12)';" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 6px rgba(0,0,0,0.03)';" />
+          </div>
+
+          <!-- 4. Category Filter Badges -->
+          <div class="market-category-pills" id="market-category-pills">
+            <button class="market-pill active" onclick="filterByCategoryPill('all', this)">🌾 All Crops</button>
+            <button class="market-pill" onclick="filterByCategoryPill('Vegetables', this)">🍅 Vegetables</button>
+            <button class="market-pill" onclick="filterByCategoryPill('Spices & High-Value', this)">🌶️ Spices & High-Value</button>
+            <button class="market-pill" onclick="filterByCategoryPill('Grains & Cereals', this)">🌾 Grains & Cereals</button>
+            <button class="market-pill" onclick="filterByCategoryPill('Pulses & Legumes', this)">🌱 Pulses & Legumes</button>
+            <button class="market-pill" onclick="filterByCategoryPill('Oilseeds', this)">🌻 Oilseeds</button>
+            <button class="market-pill" onclick="filterByCategoryPill('Fruits', this)">🍌 Fruits</button>
+            <button class="market-pill" onclick="filterByCategoryPill('Cash Crops', this)">☁️ Cash Crops</button>
+            <button class="market-pill" onclick="filterByCategoryPill('FPO Bulk Lots', this)">📦 FPO Bulk Lots</button>
+          </div>
+        </div>
+
+
+        <!-- 6. Section Header & Sorting -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h2 style="font-size: 1.22rem; font-weight: 800; color: #0f172a; margin: 0;">🌾 Available Farm-Direct Lots</h2>
+              <span class="badge" id="market-lots-count" style="background: #e8f5ed; color: #0c5a36; font-weight: 800; font-size: 0.78rem; padding: 3px 8px; border-radius: 6px; border: 1px solid #bbf7d0;">25 Lots</span>
+            </div>
+            <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Inspected quality crops available for immediate dispatch</div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <!-- Buyer Perspective Simulator: You vs Other Buyer -->
+            <div style="display: flex; align-items: center; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 9px; padding: 2px 4px; gap: 4px;" title="Switch perspective to see how sold-out lots appear to other buyers">
+              <span style="font-size: 0.72rem; font-weight: 800; color: #475569; padding-left: 4px;">👤 View as:</span>
+              <button id="btn-persona-self" class="unit-toggle-btn active" onclick="setBuyerPersona('my-account', this)" style="background: #0c5a36; color: #ffffff; border: none; padding: 4px 9px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">
+                🏢 You (BigBasket)
+              </button>
+              <button id="btn-persona-other" class="unit-toggle-btn" onclick="setBuyerPersona('other-buyer', this)" style="background: transparent; color: #475569; border: none; padding: 4px 9px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">
+                👥 Other Buyer (Simulate)
+              </button>
+            </div>
+
+            <!-- View Mode Switcher: Grid vs Table -->
+            <div style="display: flex; align-items: center; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 2px;">
+              <button id="btn-view-grid" class="unit-toggle-btn active" onclick="setMarketViewMode('grid', this)" style="background: #0c5a36; color: #ffffff; border: none; padding: 5px 9px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer;" title="Grid View">
+                ⊞ Grid
+              </button>
+              <button id="btn-view-table" class="unit-toggle-btn" onclick="setMarketViewMode('table', this)" style="background: transparent; color: #475569; border: none; padding: 5px 9px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer;" title="Table View">
+                ☰ Table
+              </button>
+            </div>
+
+            <!-- Sort Dropdown -->
+            <select id="filter-sort" onchange="applyFilters()" style="padding: 7px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.82rem; font-weight: 600; color: #334155; background: #ffffff; cursor: pointer; outline: none;">
+              <option value="default">Recommended ⌵</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating">Farmer Trust Rating</option>
+              <option value="savings">Highest Mandi Savings</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Simulated Other Buyer Notification Banner -->
+        <div id="other-buyer-sim-banner" style="display: none; background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 12px; padding: 12px 18px; margin-bottom: 16px; font-size: 0.83rem; color: #991b1b; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.06);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.25rem;">👥</span>
+            <div>
+              <strong style="color: #991b1b; display: block; margin-bottom: 2px;">Simulating Other Buyer View (Reliance Fresh / External Buyer)</strong>
+              <span style="color: #7f1d1d; font-size: 0.78rem;">Any crop lot fully procured by another buyer appears as <strong>🚫 SOLD OUT (0 kg Available)</strong> and procurement is strictly disabled.</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline" onclick="setBuyerPersona('my-account', document.getElementById('btn-persona-self'))" style="border-color: #fca5a5; color: #991b1b; background: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 5px 12px; border-radius: 7px; white-space: nowrap; cursor: pointer;">
+            ✕ Exit Simulation
+          </button>
+        </div>
+
+        <!-- 7. 3-Column Visual Grid of Farm-Direct Produce Cards -->
+        <div id="market-lots-grid" class="market-lots-grid">
+          <!-- Rendered dynamically via dashboard.js renderVerifiedLots() -->
+        </div>
+
+        <!-- 8. Fallback Data Table (Accessible when Table View toggled) -->
+        <div id="market-lots-table-wrapper" class="data-table-container" style="display: none; margin-top: 16px;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Crop & Farmer</th>
+                <th>Quality Grade</th>
+                <th>Farmer Trust</th>
+                <th>Quantity</th>
+                <th>Ask Price</th>
+                <th>Mandi Saving</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="verified-lots-tbody">
+              <!-- Rendered via dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- VIEW 3: BULK PROCUREMENT DEMANDS (FULL-PAGE BOARD) -->

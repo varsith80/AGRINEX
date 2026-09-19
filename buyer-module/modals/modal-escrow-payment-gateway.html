@@ -1,0 +1,290 @@
+  <div class="modal-overlay" id="modal-escrow-payment-gateway">
+    <div class="gateway-modal-box">
+      <!-- Top Bar -->
+      <div class="gateway-top-bar">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+            🛡️
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em;" id="gateway-modal-title">AgriNex Nodal Escrow Gateway</h3>
+            <span style="font-size: 0.72rem; opacity: 0.88; font-weight: 600;">RBI-Supervised Tri-Party Nodal Trust Account • 100% Protected</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeEscrowPaymentGateway()" style="background: rgba(255,255,255,0.15); border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease;">✕</button>
+      </div>
+
+      <!-- Order Context Header -->
+      <div style="background: #f1f5f9; border-bottom: 1px solid #e2e8f0; padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <div style="font-size: 0.82rem; color: #475569; font-weight: 700;" id="gateway-crop-label">Garwa Red Onion (Grade A) • 5,000 kg</div>
+          <div style="font-size: 0.75rem; color: #64748b;">Farmer: <strong style="color: #0f172a;" id="gateway-farmer-label">Patil Rameshwar</strong> • Total Lot Value: <strong style="color: #0f172a;" id="gateway-total-lot-val">₹ 90,000</strong></div>
+        </div>
+        <div style="text-align: right;">
+          <span style="font-size: 0.72rem; color: #0c5a36; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">35% Advance Escrow Due</span>
+          <div style="font-size: 1.35rem; font-weight: 900; color: #0c5a36; line-height: 1.1;" id="gateway-advance-due">₹ 31,500</div>
+        </div>
+      </div>
+
+      <!-- Main Gateway Screen (Payment Rails & Checkout) -->
+      <div id="gateway-screen-checkout" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+        <div class="gateway-body-grid">
+          <!-- Left: Payment Rails Navigation -->
+          <div class="gateway-rail-nav">
+            <span style="font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase; padding: 4px 8px; letter-spacing: 0.05em;">Select Payment Rail</span>
+            
+            <button type="button" class="gateway-rail-btn active" onclick="switchGatewayRail('upi', this)">
+              <div class="gateway-rail-icon">⚡</div>
+              <div>
+                <div>UPI Instant Pay</div>
+                <div style="font-size: 0.7rem; color: #64748b; font-weight: 600;">QR &amp; 1-Tap Apps</div>
+              </div>
+            </button>
+
+            <button type="button" class="gateway-rail-btn" onclick="switchGatewayRail('van', this)">
+              <div class="gateway-rail-icon">🏦</div>
+              <div>
+                <div>Corporate NEFT / RTGS</div>
+                <div style="font-size: 0.7rem; color: #64748b; font-weight: 600;">Virtual Escrow (VAN)</div>
+              </div>
+            </button>
+
+            <button type="button" class="gateway-rail-btn" onclick="switchGatewayRail('wallet', this)">
+              <div class="gateway-rail-icon">🛡️</div>
+              <div>
+                <div>Escrow Wallet</div>
+                <div style="font-size: 0.7rem; color: #166534; font-weight: 700;" id="gateway-rail-wallet-bal">Bal: ₹ 1,50,000</div>
+              </div>
+            </button>
+
+            <button type="button" class="gateway-rail-btn" onclick="switchGatewayRail('credit', this)">
+              <div class="gateway-rail-icon">🌾</div>
+              <div>
+                <div>Agri-Credit PayLater</div>
+                <div style="font-size: 0.7rem; color: #64748b; font-weight: 600;">Arya.ag / Samunnati</div>
+              </div>
+            </button>
+
+            <button type="button" class="gateway-rail-btn" onclick="switchGatewayRail('card', this)">
+              <div class="gateway-rail-icon">💳</div>
+              <div>
+                <div>Corporate Card</div>
+                <div style="font-size: 0.7rem; color: #64748b; font-weight: 600;">Visa / Mastercard / RuPay</div>
+              </div>
+            </button>
+          </div>
+
+          <!-- Right: Interactive Rail Details -->
+          <div class="gateway-content-pane">
+            <!-- PANEL 1: UPI -->
+            <div class="gateway-panel active" id="gateway-panel-upi">
+              <div class="gateway-qr-wrapper">
+                <div class="gateway-qr-box">
+                  <!-- Dynamic SVG QR Code Simulation -->
+                  <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="140" height="140" fill="white"/>
+                    <!-- Corner 1 -->
+                    <rect x="10" y="10" width="36" height="36" rx="4" fill="#0c5a36"/>
+                    <rect x="16" y="16" width="24" height="24" rx="2" fill="white"/>
+                    <rect x="22" y="22" width="12" height="12" fill="#0c5a36"/>
+                    <!-- Corner 2 -->
+                    <rect x="94" y="10" width="36" height="36" rx="4" fill="#0c5a36"/>
+                    <rect x="100" y="16" width="24" height="24" rx="2" fill="white"/>
+                    <rect x="106" y="22" width="12" height="12" fill="#0c5a36"/>
+                    <!-- Corner 3 -->
+                    <rect x="10" y="94" width="36" height="36" rx="4" fill="#0c5a36"/>
+                    <rect x="16" y="100" width="24" height="24" rx="2" fill="white"/>
+                    <rect x="22" y="106" width="12" height="12" fill="#0c5a36"/>
+                    <!-- Data points -->
+                    <rect x="54" y="14" width="8" height="8" fill="#0c5a36"/>
+                    <rect x="68" y="14" width="8" height="8" fill="#0c5a36"/>
+                    <rect x="54" y="28" width="8" height="8" fill="#0c5a36"/>
+                    <rect x="74" y="36" width="10" height="10" fill="#0c5a36"/>
+                    <rect x="54" y="54" width="32" height="32" rx="4" fill="#0c5a36"/>
+                    <rect x="60" y="60" width="20" height="20" fill="white"/>
+                    <text x="70" y="74" font-size="12" font-weight="bold" fill="#0c5a36" text-anchor="middle">₹</text>
+                    <rect x="94" y="54" width="8" height="8" fill="#0c5a36"/>
+                    <rect x="112" y="64" width="8" height="8" fill="#0c5a36"/>
+                    <rect x="94" y="78" width="12" height="8" fill="#0c5a36"/>
+                    <rect x="114" y="94" width="16" height="16" fill="#0c5a36"/>
+                    <rect x="54" y="94" width="8" height="8" fill="#0c5a36"/>
+                    <rect x="68" y="104" width="14" height="8" fill="#0c5a36"/>
+                    <rect x="54" y="118" width="8" height="8" fill="#0c5a36"/>
+                    <rect x="74" y="118" width="12" height="8" fill="#0c5a36"/>
+                    <rect x="94" y="118" width="8" height="8" fill="#0c5a36"/>
+                  </svg>
+                </div>
+                <div style="font-size: 0.82rem; font-weight: 700; color: #0f172a;">Scan QR with Any UPI App</div>
+                <div style="font-size: 0.74rem; color: #64748b; margin-top: 2px;">Expires in: <strong style="color: #dc2626;" id="gateway-upi-timer">04:59</strong> • VPA: <code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">agrinex.escrow@icici</code></div>
+              </div>
+
+              <!-- 1-Tap Fast UPI Apps -->
+              <span style="font-size: 0.75rem; font-weight: 800; color: #475569; display: block; margin-top: 6px;">Or 1-Tap Pay via Installed UPI Apps:</span>
+              <div class="gateway-app-grid">
+                <button type="button" class="gateway-app-btn" onclick="simulateFastUpiPay('GPay')">
+                  <span style="font-size: 1.1rem;">🔵</span>
+                  <span>Google Pay</span>
+                </button>
+                <button type="button" class="gateway-app-btn" onclick="simulateFastUpiPay('PhonePe')">
+                  <span style="font-size: 1.1rem;">🟣</span>
+                  <span>PhonePe</span>
+                </button>
+                <button type="button" class="gateway-app-btn" onclick="simulateFastUpiPay('Paytm')">
+                  <span style="font-size: 1.1rem;">🔷</span>
+                  <span>Paytm UPI</span>
+                </button>
+                <button type="button" class="gateway-app-btn" onclick="simulateFastUpiPay('BHIM')">
+                  <span style="font-size: 1.1rem;">🟢</span>
+                  <span>BHIM / Cred</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- PANEL 2: Corporate NetBanking / VAN -->
+            <div class="gateway-panel" id="gateway-panel-van">
+              <div style="margin-bottom: 12px;">
+                <span style="font-size: 0.76rem; font-weight: 800; color: #0c5a36; background: #e8f5ed; padding: 3px 8px; border-radius: 6px; display: inline-block; margin-bottom: 6px;">🏢 Dedicated Virtual Escrow Account (VAN)</span>
+                <p style="font-size: 0.8rem; color: #475569; margin: 0;">Transfer advance escrow directly from your corporate treasury (SAP/Oracle/Tally) via RTGS/NEFT.</p>
+              </div>
+
+              <div class="gateway-van-card">
+                <div class="gateway-van-row">
+                  <span style="color: #64748b;">Beneficiary Account:</span>
+                  <strong style="color: #0f172a; font-family: monospace; font-size: 0.95rem;">AGRI99201948</strong>
+                </div>
+                <div class="gateway-van-row">
+                  <span style="color: #64748b;">Account Name:</span>
+                  <strong style="color: #0f172a;">AgriNex B2B Escrow Nodal Trustee</strong>
+                </div>
+                <div class="gateway-van-row">
+                  <span style="color: #64748b;">IFSC Code:</span>
+                  <strong style="color: #0f172a; font-family: monospace;">ICIC0000011 (ICICI Bank Nodal Branch)</strong>
+                </div>
+                <div class="gateway-van-row">
+                  <span style="color: #64748b;">Payment Mode:</span>
+                  <span style="font-weight: 700; color: #0c5a36;">Real-Time RTGS / IMPS Auto-Reconciled</span>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-outline btn-sm" onclick="copyVirtualAccountDetails()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 700; border-radius: 8px;">
+                <span>📋</span>
+                <span>Copy Beneficiary &amp; Virtual Account Details</span>
+              </button>
+            </div>
+
+            <!-- PANEL 3: Escrow Wallet Balance -->
+            <div class="gateway-panel" id="gateway-panel-wallet">
+              <div style="background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); color: #ffffff; border-radius: 14px; padding: 18px; margin-bottom: 14px;">
+                <div style="font-size: 0.76rem; text-transform: uppercase; opacity: 0.85; font-weight: 800; letter-spacing: 0.05em;">AgriNex Pre-funded Escrow Reserves</div>
+                <div style="font-size: 1.8rem; font-weight: 900; margin: 6px 0 2px;" id="gateway-wallet-display-bal">₹ 1,50,000</div>
+                <div style="font-size: 0.76rem; opacity: 0.9;">Available for instant 1-click escrow lock with 0% gateway surcharge.</div>
+              </div>
+              <div style="font-size: 0.82rem; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px;">
+                <span>💡 <strong>Instant Debit:</strong> Required advance of <strong style="color: #0c5a36;" id="gateway-wallet-debit-req">₹ 31,500</strong> will be earmarked immediately for this contract.</span>
+              </div>
+            </div>
+
+            <!-- PANEL 4: Agri-Credit PayLater -->
+            <div class="gateway-panel" id="gateway-panel-credit">
+              <div style="border: 1.5px solid #fed7aa; background: #fffaf5; border-radius: 14px; padding: 16px; margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 0.78rem; font-weight: 800; color: #9a3412; text-transform: uppercase;">Arya.ag / Samunnati Agri-Line</span>
+                  <span class="badge" style="background: #ffedd5; color: #9a3412; font-weight: 800;">14 Days @ 0% Interest</span>
+                </div>
+                <div style="font-size: 1.35rem; font-weight: 900; color: #9a3412;">₹ 7,80,000 Available</div>
+                <div style="font-size: 0.75rem; color: #78350f; margin-top: 4px;">Institutional Working Capital Line • Auto-settled on Day 14.</div>
+              </div>
+              <div style="font-size: 0.8rem; color: #475569;">
+                ✓ No immediate cash outflow.<br>
+                ✓ Escrow guarantee issued to farmer immediately.
+              </div>
+            </div>
+
+            <!-- PANEL 5: Corporate Card -->
+            <div class="gateway-panel" id="gateway-panel-card">
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div>
+                  <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">Card Number</label>
+                  <input type="text" id="gateway-card-num" placeholder="4123 •••• •••• 8821" value="4123 9981 4451 8821" style="width: 100%; padding: 9px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: monospace; font-size: 0.9rem;">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                  <div>
+                    <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">Expiry (MM/YY)</label>
+                    <input type="text" id="gateway-card-exp" placeholder="08/29" value="08/29" style="width: 100%; padding: 9px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem;">
+                  </div>
+                  <div>
+                    <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">CVV</label>
+                    <input type="password" id="gateway-card-cvv" placeholder="•••" value="882" maxlength="4" style="width: 100%; padding: 9px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Button & Summary -->
+            <div style="margin-top: 18px; border-top: 1.5px solid #f1f5f9; padding-top: 14px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #64748b; margin-bottom: 10px;">
+                <span>Gateway Fee &amp; Trust Surcharge:</span>
+                <span style="color: #166534; font-weight: 800;">₹ 0.00 (WAIVED)</span>
+              </div>
+              <button type="button" class="btn btn-primary" id="btn-gateway-process-pay" onclick="processEscrowGatewayPayment()" style="width: 100%; background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); font-weight: 900; font-size: 1rem; padding: 13px; border-radius: 12px; box-shadow: 0 4px 16px rgba(12,90,54,0.3); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <span>🔒 Lock 35% Escrow</span>
+                <span id="gateway-pay-btn-amt">(₹ 31,500)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- State 2: Processing Screen -->
+      <div class="gateway-state-view" id="gateway-screen-processing">
+        <div class="gateway-spinner"></div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0 0 6px;">Authorizing Nodal Escrow Deposit...</h3>
+        <p style="font-size: 0.85rem; color: #64748b; margin: 0 0 20px;" id="gateway-processing-sub">Connecting to ICICI Nodal Trust Clearing Node...</p>
+        
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 20px; font-size: 0.8rem; text-align: left; max-width: 380px; width: 100%;">
+          <div style="color: #166534; font-weight: 700; margin-bottom: 4px;" id="proc-step-1">✓ Verified Tri-Party Contract Hash</div>
+          <div style="color: #166534; font-weight: 700; margin-bottom: 4px;" id="proc-step-2">✓ Locking 35% Advance in RBI Nodal Vault</div>
+          <div style="color: #64748b; font-weight: 700;" id="proc-step-3">⏳ Generating Digital Escrow Deed &amp; Bank UTR...</div>
+        </div>
+      </div>
+
+      <!-- State 3: Success Screen -->
+      <div class="gateway-state-view" id="gateway-screen-success">
+        <div class="gateway-success-badge">✓</div>
+        <h3 style="font-size: 1.3rem; font-weight: 900; color: #0c5a36; margin: 0 0 6px;">35% Escrow Advance Successfully Locked!</h3>
+        <p style="font-size: 0.85rem; color: #475569; margin: 0 0 16px;">Funds are safely held under nodal bank trusteeship. Farmer dispatched notification sent.</p>
+        
+        <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 14px; padding: 14px 18px; width: 100%; max-width: 480px; font-size: 0.82rem; text-align: left; margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span style="color: #64748b;">Gateway Txn ID:</span>
+            <strong style="color: #0f172a; font-family: monospace;" id="succ-gateway-txnid">TXN_AGR_99218412</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span style="color: #64748b;">Bank Settlement UTR:</span>
+            <strong style="color: #0f172a; font-family: monospace;" id="succ-gateway-utr">ICICR52026091800192</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span style="color: #64748b;">Escrow Certificate #:</span>
+            <strong style="color: #0c5a36; font-family: monospace;" id="succ-gateway-cert">ESC-CERT-MH-8821</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: #64748b;">Locked Advance Amount:</span>
+            <strong style="color: #0c5a36; font-size: 0.95rem;" id="succ-gateway-amt">₹ 31,500</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; width: 100%; max-width: 480px;">
+          <button type="button" class="btn btn-outline" onclick="openPaymentReceiptFromSuccess()" style="flex: 1; font-weight: 800; border-radius: 10px;">
+            📄 View Tax Receipt
+          </button>
+          <button type="button" class="btn btn-primary" onclick="finishEscrowGatewaySuccess()" style="flex: 1.4; background: #0c5a36; font-weight: 800; border-radius: 10px;">
+            🚚 Track Consignment
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: DIGITAL TAX RECEIPT & ESCROW VOUCHER
+       ========================================== -->

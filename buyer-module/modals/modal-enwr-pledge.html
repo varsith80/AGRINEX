@@ -1,0 +1,64 @@
+  <div class="modal-overlay" id="modal-enwr-pledge">
+    <div class="modal-content" style="max-width: 600px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #eff6ff; color: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            🏛️
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e3a8a; margin: 0;">e-NWR Warehouse Pledge Loan</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="enwr-receipt-ref">WDRA Receipt #eNWR-MH-2026-88192</span>
+          </div>
+        </div>
+        <button onclick="closeEnwrPledgeModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <form id="form-enwr-pledge" onsubmit="handleEnwrPledgeSubmit(event)">
+        <input type="hidden" id="enwr-booking-id" value="STR-2026-901" />
+
+        <!-- Valuation Card -->
+        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.82rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #64748b;">Stored Collateral:</span>
+            <strong style="color: #0f172a;" id="enwr-modal-lot">Red Onion (Garwa Export) • 80 Qt (8,000 kg)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #64748b;">AgriNex Mandi Benchmark Value:</span>
+            <strong style="color: #0f172a;" id="enwr-modal-val">₹ 1,44,000 (₹ 18.00 /kg)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding-top: 6px; border-top: 1px solid #86efac; margin-top: 6px;">
+            <span style="font-weight: 800; color: #166534;">Maximum 70% Loan-to-Value (LTV):</span>
+            <strong style="font-size: 1.15rem; color: #15803d;" id="enwr-modal-max-loan">₹ 1,00,800</strong>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Select Partner Financing Bank</label>
+          <select id="enwr-bank-partner" class="form-select" required>
+            <option value="SBI Agri Warehouse Financing (6.8% p.a.)">State Bank of India (SBI) Agri Credit (6.8% p.a. • Instant Disbursal)</option>
+            <option value="ICICI Bank Commodity Finance (7.1% p.a.)">ICICI Bank Commodity Financing (7.1% p.a. • Direct Escrow Credit)</option>
+            <option value="HDFC Kisan Credit Pledge (7.0% p.a.)">HDFC Bank Kisan Gold Credit (7.0% p.a. • Flexible Repayment)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Requested Loan Amount (₹)</label>
+          <input type="number" id="enwr-draw-amount" class="form-input" value="100800" min="5000" max="100800" step="1000" required style="font-size: 1.1rem; font-weight: 800; color: #15803d;" />
+          <span style="font-size: 0.72rem; color: #64748b; margin-top: 4px; display: block;">Funds will be credited to your linked Escrow Liquidity Pool within 2 hours of digital lien marking.</span>
+        </div>
+
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 10px 12px; margin-bottom: 16px; font-size: 0.76rem; color: #1e40af;">
+          🛡️ <strong>Lien Marking:</strong> The electronic Negotiable Warehouse Receipt will be marked with a digital lien in favor of the lending bank under WDRA portal registry.
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-outline" onclick="closeEnwrPledgeModal()" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 2; background: #2563eb; border-color: #2563eb; font-weight: 800;">
+            ✓ Mark Lien & Disburse ₹ Loan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 13: AI SOURCING COPILOT 2.0 SUITE -->

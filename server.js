@@ -4,6 +4,8 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const dbService = require('./backend/db');
+const authService = require('./backend/auth');
+const gstinValidator = require('./backend/gstin_validator');
 
 // Native Indian Voice Text-to-Speech Engine (Sarvam AI Bulbul)
 async function synthesizeSarvamSpeech(text, languageCode = 'hi-IN', speaker = 'priya') {
@@ -852,6 +854,192 @@ const server = http.createServer(async (req, res) => {
   // ================= API ROUTES =================
   if (urlPath.startsWith('/api/')) {
     db = loadDB();
+
+    // ---------------- AUTH ENDPOINTS ----------------
+    if (urlPath === '/api/auth/buyer-login' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const officer = body.officer_name || 'Karthik Sundaram';
+      const company = body.company || 'BigBasket Direct Farm Sourcing';
+      const gstin = body.gstin || '27AABCB2210M1Z2';
+      const fssai = body.fssai || '11522034000189';
+
+      const gstinCheck = gstinValidator.validateGSTIN(gstin);
+      const token = authService.signToken({
+        officer,
+        company,
+        gstin,
+        fssai,
+        role: 'Wholesale Buyer Procurement Lead'
+      });
+
+      return sendJSON(res, 200, {
+        success: true,
+        token,
+        officer,
+        company,
+        gstin_valid: gstinCheck.valid,
+        fssai_valid: gstinValidator.validateFSSAI(fssai).valid,
+        state: gstinCheck.stateName || 'Maharashtra'
+      });
+    }
+
+    if (urlPath === '/api/auth/verify-gstin' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const gstinRes = gstinValidator.validateGSTIN(body.gstin || '');
+      const fssaiRes = gstinValidator.validateFSSAI(body.fssai || '');
+      return sendJSON(res, 200, {
+        gstin: gstinRes,
+        fssai: fssaiRes,
+        compliant: gstinRes.valid && fssaiRes.valid
+      });
+    }
+
+    // ---------------- BUYER MODULE ENDPOINTS ----------------
+    if (urlPath === '/api/buyer/demands') {
+      if (!db.buyer_demands) db.buyer_demands = [];
+      if (req.method === 'GET') {
+        return sendJSON(res, 200, db.buyer_demands);
+      }
+      if (req.method === 'POST') {
+        const body = await parseBody(req);
+        const newDemand = {
+          id: body.id || `DEM-BB-${Math.floor(100 + Math.random() * 900)}`,
+          crop: body.crop || 'Crop Produce',
+          category: body.category || 'Agricultural Crop',
+          tonnage: body.tonnage || '50 Qt (5,000 kg)',
+          tonnageNum: Number(body.tonnageNum) || 50,
+          targetPrice: body.targetPrice || '₹ 15.00/kg',
+          pricePerKg: Number(body.pricePerKg) || 15.00,
+          location: body.location || 'Vashi APMC Central Terminal, Navi Mumbai, MH',
+          deadline: body.deadline || '28 Sep 2026',
+          status: 'Broadcasting',
+          statusClass: 'badge-status-open',
+          bids: body.bids || [],
+          created_at: new Date().toISOString()
+        };
+        db.buyer_demands.unshift(newDemand);
+        saveDB(db);
+        return sendJSON(res, 201, { success: true, demand: newDemand });
+      }
+    }
+
+    if (urlPath === '/api/buyer/direct-buy' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const lotId = body.lot_id || body.lotId;
+      const qtyKg = Number(body.qty_kg || body.qtyKg || 5000);
+      const rateKg = Number(body.rate_kg || body.rateKg || 18);
+      const cropName = body.crop || 'Produce Lot';
+      const farmerName = body.farmer_name || body.farmerName || 'Farmer Partner';
+      const totalVal = Math.round(qtyKg * rateKg);
+      const advAmount = Math.round(totalVal * 0.35);
+      const balAmount = totalVal - advAmount;
+
+      const contractNo = `ESC-MH-${Math.floor(1000 + Math.random() * 9000)}`;
+      const trackingId = `TRK-GW-${Math.floor(1000 + Math.random() * 9000)}-MH`;
+
+      const newContract = {
+        contract_no: contractNo,
+        bank_ref: `NODAL-ICICI-${Math.floor(100000 + Math.random() * 900000)}`,
+        crop: cropName,
+        variety: body.grade || 'Grade A',
+        buyer: body.buyer_name || 'BigBasket Direct Sourcing',
+        total_amount: totalVal,
+        advance_amount: advAmount,
+        advance_status: '35% Advance Locked in Escrow',
+        balance_amount: balAmount,
+        balance_status: '65% Balance Delivery Hold',
+        overall_status: 'Active (Dispatched in Transit)',
+        date_label: 'Today',
+        created_at: new Date().toISOString()
+      };
+
+      const newShipment = {
+        tracking_id: trackingId,
+        gate_pass: `GP-2026-${Math.floor(1000 + Math.random() * 9000)}`,
+        contract_no: contractNo,
+        crop: cropName,
+        variety: body.grade || 'Grade A',
+        quantity_qt: qtyKg / 100,
+        quantity_kg: qtyKg,
+        buyer: body.buyer_name || 'BigBasket Direct Sourcing',
+        destination: body.destination || 'Vashi Receiving Terminal, Navi Mumbai',
+        driver: 'Sanjay Patil',
+        phone: '+91 98220-44911',
+        vehicle: 'Eicher Pro 14ft (MH 15 DK 8810)',
+        status: 'transit',
+        step: 3,
+        current_loc: 'Samruddhi Corridor Checkpoint ~ 45 km to Terminal',
+        total_value: totalVal,
+        advance_paid: advAmount,
+        created_at: new Date().toISOString()
+      };
+
+      if (!db.escrow_contracts) db.escrow_contracts = [];
+      if (!db.shipments) db.shipments = [];
+
+      db.escrow_contracts.unshift(newContract);
+      db.shipments.unshift(newShipment);
+
+      // Decrement lot availability in crops if matching
+      const targetCrop = db.crops.find(c => c.id === lotId);
+      if (targetCrop) {
+        targetCrop.quantity_kg = Math.max(0, (targetCrop.quantity_kg || 0) - qtyKg);
+        targetCrop.quantity_qt = Math.round(targetCrop.quantity_kg / 100);
+      }
+
+      saveDB(db);
+      return sendJSON(res, 201, {
+        success: true,
+        message: 'Order created and 35% advance locked in escrow!',
+        contract: newContract,
+        shipment: newShipment
+      });
+    }
+
+    if (urlPath === '/api/buyer/counter-bid' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const newBid = {
+        id: db.bids.length + 1,
+        crop_id: body.lot_id || 'LOT-GEN-01',
+        crop: body.crop || 'Produce',
+        buyer_name: body.buyer_name || 'BigBasket Direct Procurement',
+        buyer_phone: '+91 98220-44911',
+        buyer_type: 'Institutional Supermarket',
+        bid_rate_kg: Number(body.bid_rate_kg || 15),
+        bid_rate_qt: Number(body.bid_rate_kg || 15) * 100,
+        quantity_kg: Number(body.quantity_kg || 5000),
+        quantity_qt: Number(body.quantity_kg || 5000) / 100,
+        total_value: Math.round(Number(body.bid_rate_kg || 15) * Number(body.quantity_kg || 5000)),
+        advance_35: Math.round(Number(body.bid_rate_kg || 15) * Number(body.quantity_kg || 5000) * 0.35),
+        balance_65: Math.round(Number(body.bid_rate_kg || 15) * Number(body.quantity_kg || 5000) * 0.65),
+        status: 'Pending',
+        time_ago: 'Just Now',
+        created_at: new Date().toISOString()
+      };
+      db.bids.unshift(newBid);
+      saveDB(db);
+      return sendJSON(res, 201, { success: true, bid: newBid });
+    }
+
+    if (urlPath === '/api/buyer/escrow/release' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const contractNo = body.contract_no;
+      if (!Array.isArray(db.escrow_contracts)) db.escrow_contracts = [];
+      if (!Array.isArray(db.shipments)) db.shipments = [];
+      const contract = db.escrow_contracts.find(c => c.contract_no === contractNo);
+      if (contract) {
+        contract.overall_status = '100% Settled & Released';
+        contract.balance_status = 'Disbursed to Farmer Bank Account';
+      }
+      const shipment = db.shipments.find(s => s.contract_no === contractNo || s.tracking_id === contractNo);
+      if (shipment) {
+        shipment.status = 'delivered';
+        shipment.step = 4;
+      }
+      saveDB(db);
+      return sendJSON(res, 200, { success: true, message: `Escrow contract ${contractNo} settled!` });
+    }
+
     // 1. Health & Database Status
     if (urlPath === '/api/health') {
       return sendJSON(res, 200, {

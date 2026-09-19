@@ -1,0 +1,130 @@
+      <div id="view-grievance" class="portal-view dashboard-content">
+        <div>
+          
+          <!-- Executive Glass Hero Header Banner -->
+          <div class="grv-hero-header">
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <h2 style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin: 0; letter-spacing: -0.02em;">Grievances, Claims & Dispute Redressal</h2>
+                <span class="badge" style="background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 4px 10px; font-weight: 800;">⚡ Guaranteed &lt;24h Resolution SLA</span>
+              </div>
+              <p style="font-size: 0.85rem; color: #64748b; margin: 6px 0 0;">Report quality assay mismatches, weighbridge shortages, or transit delays. 65% escrow balance remains auto-frozen until mutual resolution.</p>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button class="btn btn-primary" onclick="openGrievanceModal()" style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); border-color: #dc2626; font-weight: 800; padding: 10px 18px; border-radius: 10px; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.25); display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                <span>File New Grievance / Claim</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Top 4 Grievance Metric KPI Cards -->
+          <div class="grv-kpi-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+            <div class="grv-kpi-card kpi-grv-red">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.72rem; color: #991b1b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Active Open Disputes</span>
+                <span style="font-size: 0.7rem; background: #fee2e2; color: #b91c1c; font-weight: 800; padding: 3px 8px; border-radius: 6px;" id="grv-active-count">1 Case</span>
+              </div>
+              <div style="font-size: 1.55rem; font-weight: 800; color: #991b1b; margin: 8px 0 2px; letter-spacing: -0.02em;">Under Review</div>
+              <div style="font-size: 0.78rem; color: #dc2626; font-weight: 700;">Assigned to AgriNex QA Arbitrator</div>
+            </div>
+
+            <div class="grv-kpi-card kpi-grv-gold">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.72rem; color: #92400e; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Escrow Withheld / Frozen</span>
+                <span style="font-size: 0.7rem; background: #fef3c7; color: #92400e; font-weight: 800; padding: 3px 8px; border-radius: 6px;">Frozen</span>
+              </div>
+              <div style="font-size: 1.55rem; font-weight: 800; color: #0c5a36; margin: 8px 0 2px; letter-spacing: -0.02em;" id="grv-frozen-amount">₹ 42,900</div>
+              <div style="font-size: 0.78rem; color: #b45309; font-weight: 700;">🔒 Protected in Safe Vault</div>
+            </div>
+
+            <div class="grv-kpi-card kpi-grv-green">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.72rem; color: #0c5a36; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Claims Resolved & Settled</span>
+                <span style="font-size: 0.7rem; background: #bbf7d0; color: #065f46; font-weight: 800; padding: 3px 8px; border-radius: 6px;" id="grv-resolved-count">1 Case</span>
+              </div>
+              <div style="font-size: 1.55rem; font-weight: 800; color: #0c5a36; margin: 8px 0 2px; letter-spacing: -0.02em;">₹ 6,800</div>
+              <div style="font-size: 0.78rem; color: #166534; font-weight: 700;">Credited Back to Wallet</div>
+            </div>
+
+            <div class="grv-kpi-card kpi-grv-blue">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.72rem; color: #1d4ed8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Avg Resolution Turnaround</span>
+                <span style="font-size: 0.7rem; background: #dbeafe; color: #1e40af; font-weight: 800; padding: 3px 8px; border-radius: 6px;">⚡ SLA</span>
+              </div>
+              <div style="font-size: 1.55rem; font-weight: 800; color: #1e3a8a; margin: 8px 0 2px; letter-spacing: -0.02em;">18.4 Hrs</div>
+              <div style="font-size: 0.78rem; color: #2563eb; font-weight: 700;">Guaranteed &lt;24h Turnaround</div>
+            </div>
+          </div>
+
+          <!-- Escrow Protection Guarantee Banner -->
+          <div class="grv-protection-banner">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg, #dc2626, #b91c1c); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; flex-shrink: 0; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);">
+                🛡️
+              </div>
+              <div>
+                <div style="font-weight: 800; color: #991b1b; font-size: 0.98rem; letter-spacing: -0.01em;">AgriNex Zero-Risk Buyer Protection Guarantee</div>
+                <div style="color: #7f1d1d; font-size: 0.82rem; margin-top: 3px; line-height: 1.4;">
+                  Whenever you file a claim within 48 hours of lot delivery at your warehouse, the farmer's 65% balance payout is auto-frozen in the escrow smart contract until quality assays or weight slips are jointly ratified.
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="showNotification('Policy: AgriNex Buyer Protection covers up to 100% replacement/refund on Grade assay deviations > 5% or transit weight losses > 2%.', 'info')" style="white-space: nowrap; border-color: #dc2626; color: #dc2626; font-weight: 800; padding: 8px 14px; border-radius: 8px; background: #ffffff;">
+              View Dispute Policy
+            </button>
+          </div>
+
+          <!-- State MSAMB Dispute Tribunal Arbitration Protocol Card -->
+          <div class="card" style="border: 1.5px solid #fed7aa; background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%); border-radius: 16px; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 18px rgba(234, 88, 12, 0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px; margin-bottom: 14px; border-bottom: 1px solid #ffedd5; padding-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: #ea580c; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);">
+                  ⚖️
+                </div>
+                <div>
+                  <h3 style="font-size: 1.1rem; font-weight: 800; color: #9a3412; margin: 0;">MSAMB Fast-Track Dispute Tribunal Arbitration</h3>
+                  <span style="font-size: 0.78rem; color: #c2410c; font-weight: 600;">Statutory resolution protocol for quality assay variations & weighbridge shortages</span>
+                </div>
+              </div>
+              <span class="badge" style="background: #ffedd5; color: #9a3412; border: 1px solid #fed7aa; font-weight: 800; font-size: 0.74rem;">
+                ⚖️ Legal Binding Escrow Freeze
+              </span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; font-size: 0.82rem;">
+              <div style="background: #ffffff; border: 1px solid #fed7aa; border-radius: 10px; padding: 12px 14px;">
+                <strong style="color: #9a3412; display: block; margin-bottom: 4px; font-weight: 800;">Step 1: Evidence Dossier Filing</strong>
+                <span style="color: #64748b; font-size: 0.76rem; line-height: 1.4; display: block;">Upload certified digital weighbridge slip & NABL lab assay report within 48h of lot arrival.</span>
+              </div>
+              <div style="background: #ffffff; border: 1px solid #fed7aa; border-radius: 10px; padding: 12px 14px;">
+                <strong style="color: #9a3412; display: block; margin-bottom: 4px; font-weight: 800;">Step 2: Dual-Key Escrow Freeze</strong>
+                <span style="color: #64748b; font-size: 0.76rem; line-height: 1.4; display: block;">The 65% delivery balance is instantly locked in ICICI Nodal Escrow until tribunal ruling.</span>
+              </div>
+              <div style="background: #ffffff; border: 1px solid #fed7aa; border-radius: 10px; padding: 12px 14px;">
+                <strong style="color: #9a3412; display: block; margin-bottom: 4px; font-weight: 800;">Step 3: &lt;24h Rebate Settlement</strong>
+                <span style="color: #64748b; font-size: 0.76rem; line-height: 1.4; display: block;">State QA Arbitrator orders pro-rata price rebate or lot return with zero transaction loss.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter Tabs & Container -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <span style="font-size: 0.85rem; font-weight: 800; color: #475569; margin-right: 4px;">Filter Claims:</span>
+              <button class="btn btn-primary btn-sm grv-filter-btn" id="filter-grv-all" onclick="filterGrievance('all', this)" style="border-radius: 8px; font-weight: 800; padding: 6px 14px;">All Claims (2)</button>
+              <button class="btn btn-outline btn-sm grv-filter-btn" id="filter-grv-open" onclick="filterGrievance('open', this)" style="border-radius: 8px; font-weight: 700; padding: 6px 14px;">Under Review (1)</button>
+              <button class="btn btn-outline btn-sm grv-filter-btn" id="filter-grv-resolved" onclick="filterGrievance('resolved', this)" style="border-radius: 8px; font-weight: 700; padding: 6px 14px;">Resolved & Settled (1)</button>
+            </div>
+            <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Showing verified claim records</span>
+          </div>
+
+          <!-- Grievances List Container -->
+          <div id="grievances-list-container" style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- Dynamically populated via dashboard.js renderGrievances() -->
+          </div>
+
+        </div>
+      </div>
+
+      <!-- VIEW 8: COLD STORAGE, HERMETIC SILOS & e-NWR WAREHOUSING -->

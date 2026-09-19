@@ -1,0 +1,225 @@
+  <div class="modal-overlay" id="modal-district-crop-matrix">
+    <div class="modal-content" style="max-width: 920px; width: 95%;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.5rem;" id="district-matrix-emoji">🗺️</span>
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #0c5a36; margin: 0;" id="district-matrix-title">All Maharashtra Districts APMC Price Matrix</h3>
+            <span style="font-size: 0.78rem; color: #64748b;" id="district-matrix-subtitle">Real-time modal rates, arrival volumes, and farmgate arbitrage across all Maharashtra agricultural districts</span>
+          </div>
+        </div>
+        <button onclick="closeDistrictMatrixModal()" style="font-size: 1.3rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Filter bar inside modal -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 10px; flex-wrap: wrap;">
+        <input type="text" id="district-matrix-search" placeholder="Search district or mandi yard..." data-i18n-placeholder="ph_search_dist_mandi" oninput="filterDistrictMatrixSearch(this.value)" style="padding: 7px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.8rem; width: 260px; outline: none;" />
+        <span style="font-size: 0.76rem; color: #0c5a36; font-weight: 700; background: #e8f5ed; padding: 4px 12px; border-radius: 999px;" id="district-matrix-count">Showing All Districts</span>
+      </div>
+
+      <!-- Matrix Table -->
+      <div style="max-height: 440px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 10px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
+          <thead style="position: sticky; top: 0; background: #f8fafc; z-index: 10; border-bottom: 2px solid #e2e8f0;">
+            <tr>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_dist_mandi">District & Mandi Yard</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_modal_price_kg">Modal Price (₹/kg)</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_modal_price_qt">Modal Rate (₹/Qt)</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_min_max_range">Min – Max Range</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_24h_arrivals_col">24h Arrivals</th>
+              <th style="padding: 10px 14px; color: #475569;" data-i18n="th_arbitrage_spread">Arbitrage Spread</th>
+              <th style="padding: 10px 14px; text-align: right; color: #475569;" data-i18n="th_action">Action</th>
+            </tr>
+          </thead>
+          <tbody id="district-matrix-tbody">
+            <!-- Populated dynamically by insights.js openDistrictMatrixModal(cropKey) -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 14px; margin-top: 16px;">
+        <span style="font-size: 0.76rem; color: #64748b;" data-i18n="matrix_footer_note">* Live e-NAM & APMC auction feeds updated every 15 mins.</span>
+        <button type="button" class="btn btn-outline" onclick="closeDistrictMatrixModal()" data-i18n="btn_close_matrix">Close Matrix</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ultra-Simplified Buy Confirmation Modal for Lite Mode -->
+  <div id="modal-lite-buy">
+    <div class="lite-modal-card">
+      <div class="lite-modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.6rem;">🛒</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #065f46;" id="lite-buy-crop-title">Buy Produce</h3>
+            <span style="font-size: 0.85rem; color: #166534;" id="lite-buy-farmer">Farmer: Ramesh Patil (Pune)</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeLiteBuyModal()" style="background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer; padding: 4px;">✕</button>
+      </div>
+
+      <div class="lite-modal-body">
+        <div style="text-align: center; margin-bottom: 18px;">
+          <img id="lite-buy-img" src="assets/images/tomato.jpg" alt="Produce" style="width: 130px; height: 130px; object-fit: cover; border-radius: 18px; border: 2px solid #bbf7d0; box-shadow: 0 4px 12px rgba(0,0,0,0.08);" />
+        </div>
+
+        <div class="lite-modal-row">
+          <span style="color: #475569;" id="lite-modal-price-label">Price / Rate:</span>
+          <strong id="lite-buy-price" style="color: #16a34a;">₹ 22 / kg</strong>
+        </div>
+
+        <div class="lite-modal-row">
+          <span style="color: #475569;" id="lite-modal-qty-label">Quantity:</span>
+          <strong id="lite-buy-qty">5,000 kg (100 Bags)</strong>
+        </div>
+
+        <!-- Big 1-Tap Bag Stepper Controls (No Keypad Required) -->
+        <div style="margin: 10px 0 14px 0;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 6px;" id="lite-stepper-label">⚡ 1-Tap Quick Quantity (बोरी निवडा):</span>
+          <div class="lite-stepper-grid">
+            <button type="button" class="lite-stepper-btn" onclick="changeLiteBuyQuantity(-10)">- 10 बोरी</button>
+            <button type="button" class="lite-stepper-btn" onclick="changeLiteBuyQuantity(10)">+ 10 बोरी</button>
+            <button type="button" class="lite-stepper-btn" onclick="changeLiteBuyQuantity(50)">+ 50 बोरी</button>
+            <button type="button" class="lite-stepper-btn" onclick="changeLiteBuyQuantity(100)">+ 100 बोरी</button>
+          </div>
+        </div>
+
+        <div class="lite-modal-row" style="background: #f0fdf4; padding: 12px 14px; border-radius: 12px; border: 1px solid #bbf7d0;">
+          <span style="font-weight: 800; color: #166534;" id="lite-modal-total-label">Total Amount:</span>
+          <strong id="lite-buy-total" style="color: #15803d; font-size: 1.45rem;">₹ 1,10,000</strong>
+        </div>
+        <div class="lite-modal-row" style="border-bottom: none; padding-top: 8px;">
+          <span style="font-size: 0.88rem; color: #64748b;" id="lite-modal-escrow-label">🛡️ Escrow Advance Deposit:</span>
+          <span id="lite-buy-advance" style="font-size: 0.92rem; font-weight: 700; color: #0f172a;">₹ 38,500 (35% Protected Deposit)</span>
+        </div>
+      </div>
+
+      <div class="lite-modal-footer">
+        <button type="button" class="lite-modal-btn-cancel" onclick="closeLiteBuyModal()" id="lite-modal-btn-cancel-text">
+          ✕ Cancel
+        </button>
+        <button type="button" class="lite-modal-btn-confirm" onclick="confirmLiteBuyOrder()" id="lite-modal-btn-confirm-text">
+          ✓ Confirm Purchase
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-Tap Voice Grievance / Quality Dispute Modal for Simple Mode -->
+  <div id="modal-lite-grievance">
+    <div class="lite-modal-card">
+      <div class="lite-modal-header" style="background: #fee2e2; border-color: #fca5a5;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.6rem;">🚨</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #991b1b;" id="lite-grievance-title">1-Tap Voice Dispute</h3>
+            <span style="font-size: 0.85rem; color: #b91c1c;" id="lite-grievance-sub">Record a 15-second voice note about quality, moisture, or weight issue.</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeLiteGrievanceModal()" style="background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer; padding: 4px;">✕</button>
+      </div>
+
+      <div class="lite-modal-body" style="text-align: center; padding: 28px 24px;">
+        <div id="lite-grievance-status" style="font-size: 1.05rem; font-weight: 700; color: #334155; margin-bottom: 20px;">
+          🎙️ माइक बटण दाबा आणि तक्रार बोला (Tap mic to speak issue)
+        </div>
+
+        <button type="button" id="btn-grievance-record" onclick="toggleGrievanceRecord()" style="width: 90px; height: 90px; border-radius: 999px; background: #dc2626; color: #ffffff; border: 4px solid #ffffff; box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4); font-size: 2.2rem; cursor: pointer; transition: all 0.2s; margin-bottom: 18px;">
+          🎤
+        </button>
+
+        <div id="lite-grievance-audio-timer" style="font-size: 0.95rem; font-weight: 800; color: #dc2626; display: none;">
+          ⏱️ <span id="grievance-seconds">00:00</span> / 00:15
+        </div>
+
+        <div id="lite-grievance-result-box" style="display: none; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; padding: 14px; margin-top: 16px; text-align: left;">
+          <span style="font-size: 0.82rem; font-weight: 800; color: #166534; display: block; margin-bottom: 4px;">✓ Voice Dispute Ticket #AGX-DISP-892</span>
+          <p id="lite-grievance-text" style="font-size: 0.95rem; color: #14532d; margin: 0;"></p>
+        </div>
+      </div>
+
+      <div class="lite-modal-footer">
+        <button type="button" class="lite-modal-btn-cancel" onclick="closeLiteGrievanceModal()" id="lite-grievance-btn-cancel">
+          ✕ Cancel
+        </button>
+        <button type="button" class="lite-modal-btn-confirm" style="background: #dc2626;" onclick="submitLiteGrievance()" id="lite-grievance-btn-submit">
+          🚨 Submit Ticket (तक्रार पाठवा)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-Tap Quick Bargain & Counter-Offer Modal for Simple Mode -->
+  <div id="modal-lite-bargain">
+    <div class="lite-modal-card">
+      <div class="lite-modal-header" style="background: #f0f9ff; border-color: #bae6fd;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.6rem;">🤝</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #0369a1;" id="lite-bargain-modal-title">1-Tap Price Bargain (भाव कमी करा)</h3>
+            <span style="font-size: 0.85rem; color: #0284c7;" id="lite-bargain-farmer-info">Farmer: Suresh Patil • Nashik</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeLiteBargainModal()" style="background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer; padding: 4px;">✕</button>
+      </div>
+
+      <div class="lite-modal-body">
+        <div style="text-align: center; margin-bottom: 14px;">
+          <img id="lite-bargain-img" src="assets/images/onion.jpg" alt="Crop" style="width: 110px; height: 110px; object-fit: cover; border-radius: 16px; border: 2px solid #bae6fd; box-shadow: 0 4px 12px rgba(0,0,0,0.08);" />
+          <h4 id="lite-bargain-crop-name" style="margin: 8px 0 2px 0; font-size: 1.15rem; font-weight: 800; color: #0f172a;">Onion (Red)</h4>
+        </div>
+
+        <!-- Price Comparison Box -->
+        <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; padding: 14px 16px; margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 0.88rem; color: #64748b;" id="lite-bargain-farmer-rate-label">Farmer Listed Rate:</span>
+            <span id="lite-bargain-orig-rate" style="font-size: 1.05rem; font-weight: 700; color: #64748b; text-decoration: line-through;">₹ 24 / kg</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.95rem; font-weight: 800; color: #0369a1;" id="lite-bargain-counter-rate-label">Your Counter Offer:</span>
+            <strong id="lite-bargain-offer-rate" style="font-size: 1.55rem; font-weight: 900; color: #0284c7;">₹ 22 / kg</strong>
+          </div>
+          <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; justify-content: space-between; align-items: center;">
+            <span id="lite-bargain-savings-badge" style="background: #dcfce7; color: #166534; font-size: 0.82rem; font-weight: 800; padding: 3px 10px; border-radius: 999px;">💰 You Save ₹ 10,000!</span>
+            <span id="lite-bargain-total-offer" style="font-size: 0.92rem; font-weight: 800; color: #0f172a;">Total: ₹ 1,10,000</span>
+          </div>
+        </div>
+
+        <!-- 1-Tap Quick Counter Pills -->
+        <span style="font-size: 0.82rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 6px;" id="lite-bargain-quick-label">⚡ Select 1-Tap Counter Rate (कमी दर निवडा):</span>
+        <div class="lite-bargain-rate-grid">
+          <button type="button" class="lite-bargain-rate-btn" id="btn-bargain-minus1" onclick="selectBargainRateDelta(-1)">- ₹1 / kg</button>
+          <button type="button" class="lite-bargain-rate-btn active" id="btn-bargain-minus2" onclick="selectBargainRateDelta(-2)">- ₹2 / kg</button>
+          <button type="button" class="lite-bargain-rate-btn" id="btn-bargain-minus3" onclick="selectBargainRateDelta(-3)">- ₹3 / kg</button>
+        </div>
+
+        <!-- Voice Speak Counter Offer Button -->
+        <button type="button" onclick="startVoiceBargainOffer()" style="width: 100%; background: #ffffff; border: 2px dashed #0284c7; color: #0369a1; padding: 10px; border-radius: 12px; font-weight: 800; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+          <span>🎤</span>
+          <span id="lite-bargain-voice-label">बोलून भाव सांगा (Speak Counter Rate)</span>
+        </button>
+
+        <!-- Quantity Stepper -->
+        <span style="font-size: 0.82rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 6px;" id="lite-bargain-qty-label">Quantity: <strong id="lite-bargain-qty-val" style="color: #0f172a;">5,000 kg (100 Bags)</strong></span>
+        <div class="lite-stepper-grid">
+          <button type="button" class="lite-stepper-btn" onclick="changeLiteBargainQuantity(-10)">- 10 बोरी</button>
+          <button type="button" class="lite-stepper-btn" onclick="changeLiteBargainQuantity(10)">+ 10 बोरी</button>
+          <button type="button" class="lite-stepper-btn" onclick="changeLiteBargainQuantity(50)">+ 50 बोरी</button>
+          <button type="button" class="lite-stepper-btn" onclick="changeLiteBargainQuantity(100)">+ 100 बोरी</button>
+        </div>
+      </div>
+
+      <div class="lite-modal-footer" style="grid-template-columns: 1fr 1.6fr;">
+        <button type="button" class="lite-modal-btn-cancel" onclick="closeLiteBargainModal()" id="lite-bargain-btn-cancel">
+          ✕ Cancel
+        </button>
+        <button type="button" class="lite-modal-btn-confirm" style="background: #0284c7;" onclick="sendLiteBargainOffer()" id="lite-bargain-btn-send">
+          💬 Send Offer (शेतकऱ्याला पाठवा)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: AGRINEX ESCROW PAYMENT GATEWAY
+       ========================================== -->

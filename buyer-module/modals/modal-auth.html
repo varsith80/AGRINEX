@@ -1,0 +1,70 @@
+  <!-- ==========================================
+       ENTERPRISE CORPORATE LOGIN & GSTIN/FSSAI VERIFICATION MODAL
+       ========================================== -->
+  <div class="modal-overlay" id="modal-buyer-auth">
+    <div class="modal-content" style="max-width: 520px; border-radius: 18px; border: 1.5px solid #0c5a36;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #e8f5ed; color: #0c5a36; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+            🏢
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #0f172a;">Institutional Buyer Authentication</h3>
+            <span style="font-size: 0.75rem; color: #64748b;">Sign in with Corporate GSTIN / FSSAI Credentials</span>
+          </div>
+        </div>
+        <button type="button" class="btn-close" onclick="closeBuyerAuthModal()">✕</button>
+      </div>
+
+      <form id="form-buyer-auth" onsubmit="handleBuyerAuthSubmit(event)">
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 0.8rem; font-weight: 800; color: #334155; display: block; margin-bottom: 5px;">Corporate Organization:</label>
+          <select id="auth-company-select" style="width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-weight: 700; color: #0f172a;" onchange="handleAuthCompanyPreset(this.value)">
+            <option value="bigbasket">BigBasket Direct Farm Sourcing (Maharashtra)</option>
+            <option value="reliance">Reliance Retail Agri-Sourcing Hub</option>
+            <option value="itc">ITC e-Choupal Institutional Procurement</option>
+            <option value="custom">-- Enter Custom Corporate License --</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <label style="font-size: 0.78rem; font-weight: 800; color: #334155; display: block; margin-bottom: 4px;">Procurement Officer Name:</label>
+            <input type="text" id="auth-officer-name" value="Karthik Sundaram" required style="width: 100%; padding: 9px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.88rem; font-weight: 700;" />
+          </div>
+          <div>
+            <label style="font-size: 0.78rem; font-weight: 800; color: #334155; display: block; margin-bottom: 4px;">Official Phone / PIN:</label>
+            <input type="text" id="auth-officer-phone" value="+91 98220-44911" required style="width: 100%; padding: 9px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.88rem; font-weight: 700;" />
+          </div>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label style="font-size: 0.78rem; font-weight: 800; color: #334155;">15-Digit Corporate GSTIN:</label>
+            <span id="gstin-status-pill" style="font-size: 0.7rem; font-weight: 800; color: #059669;">✓ Verified Format</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="auth-gstin-input" value="27AABCB2210M1Z2" maxlength="15" style="flex: 1; padding: 9px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: monospace; font-weight: 800; font-size: 0.95rem; text-transform: uppercase;" oninput="validateLiveGstin(this.value)" />
+            <button type="button" class="btn btn-outline btn-sm" onclick="verifyGstinLive()" style="font-weight: 800; font-size: 0.75rem;">Validate Live</button>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label style="font-size: 0.78rem; font-weight: 800; color: #334155;">14-Digit FSSAI License No:</label>
+            <span id="fssai-status-pill" style="font-size: 0.7rem; font-weight: 800; color: #059669;">✓ Active Food Safety Proof</span>
+          </div>
+          <input type="text" id="auth-fssai-input" value="11522034000189" maxlength="14" style="width: 100%; padding: 9px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: monospace; font-weight: 800; font-size: 0.95rem;" />
+        </div>
+
+        <div id="auth-feedback-box" style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; margin-bottom: 14px;"></div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="submit" id="btn-submit-auth" class="btn btn-primary" style="flex: 1; background: #0c5a36; border-color: #0c5a36; font-weight: 800; padding: 11px;">
+            🔐 Authenticate & Issue JWT Token
+          </button>
+          <button type="button" class="btn btn-outline" onclick="closeBuyerAuthModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>

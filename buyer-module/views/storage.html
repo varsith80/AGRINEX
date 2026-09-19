@@ -1,0 +1,165 @@
+      <div id="view-storage" class="portal-view dashboard-content">
+        <div class="storage-hero-header">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+              <span class="badge" style="background: rgba(12, 90, 54, 0.1); color: #0c5a36; font-weight: 800; font-size: 0.72rem;">❄️ CLIMATE CONTROLLED NETWORK</span>
+              <span class="badge" style="background: rgba(37, 99, 235, 0.1); color: #2563eb; font-weight: 800; font-size: 0.72rem;">WDRA CERTIFIED</span>
+            </div>
+            <h1 class="dash-title" style="margin-bottom: 4px;">Cold Storage, Hermetic Silos & e-NWR Warehouse Network</h1>
+            <p class="dash-subtitle" style="margin-bottom: 0; max-width: 820px;">Book climate-controlled cold chambers, dry grain silos, and unlock WDRA-regulated electronic Negotiable Warehouse Receipts (e-NWR) for 70% instant pledge loans.</p>
+          </div>
+          <div class="dash-actions">
+            <button class="btn btn-outline" onclick="openDepositEscrowModal()" style="border-color: #0c5a36; color: #0c5a36; font-weight: 700; background: #ffffff;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Escrow Credit Pool
+            </button>
+            <button class="btn btn-primary" onclick="openBookStorageModal('WH-NSK-01')" style="background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); font-weight: 800; box-shadow: 0 4px 14px rgba(12, 90, 54, 0.3);">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              + Book Chamber Space
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric KPI Cards for Storage -->
+        <div class="stats-grid" style="margin-bottom: 26px;">
+          <div class="storage-kpi-card storage-kpi-green">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+              <span class="stat-title" style="color: #166534;">Active Space Booked</span>
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(22, 163, 74, 0.15); color: #15803d; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                ❄️
+              </div>
+            </div>
+            <div class="stat-value" id="storage-active-space" style="color: #14532d; font-size: 1.7rem; font-weight: 900;">50 Qt</div>
+            <div class="stat-change positive" style="margin-top: 6px; font-weight: 700; color: #166534;">5,000 kg in Chamber #4-B</div>
+          </div>
+
+          <div class="storage-kpi-card storage-kpi-blue">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+              <span class="stat-title" style="color: #075985;">Regional Capacity</span>
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(2, 132, 199, 0.15); color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                🌾
+              </div>
+            </div>
+            <div class="stat-value" id="storage-avail-space" style="color: #0c4a6e; font-size: 1.7rem; font-weight: 900;">21,200 Qt</div>
+            <div class="stat-change positive" style="margin-top: 6px; font-weight: 700; color: #0369a1;">Across 4 Accredited Hubs</div>
+          </div>
+
+          <div class="storage-kpi-card storage-kpi-yellow">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+              <span class="stat-title" style="color: #854d0e;">e-NWR Pledge Credit</span>
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(202, 138, 4, 0.15); color: #ca8a04; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                ⚡
+              </div>
+            </div>
+            <div class="stat-value" id="storage-pledge-credit" style="color: #713f12; font-size: 1.7rem; font-weight: 900;">₹ 42,000</div>
+            <div class="stat-change positive" style="margin-top: 6px; font-weight: 700; color: #a16207;">⚡ 70% LTV Instant Disbursal</div>
+          </div>
+
+          <div class="storage-kpi-card storage-kpi-purple">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+              <span class="stat-title" style="color: #6b21a8;">WDRA Accreditation</span>
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(147, 51, 234, 0.15); color: #9333ea; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                🛡️
+              </div>
+            </div>
+            <div class="stat-value" style="color: #581c87; font-size: 1.7rem; font-weight: 900;">100% Verified</div>
+            <div class="stat-change positive" style="margin-top: 6px; font-weight: 700; color: #7e22ce;">Govt Regulated & Insured</div>
+          </div>
+        </div>
+
+        <!-- e-NWR Warehouse Financing Hero Banner -->
+        <div class="enwr-hero-banner">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 54px; height: 54px; border-radius: 14px; background: linear-gradient(135deg, #2563eb, #1d4ed8); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 14px rgba(37,99,235,0.4); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: #ffffff; flex-shrink: 0;">
+              🏛️
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <h3 style="font-weight: 900; color: #ffffff; font-size: 1.08rem; margin: 0; letter-spacing: -0.01em;">Electronic Negotiable Warehouse Receipts (e-NWR) & Pledge Financing</h3>
+                <span style="background: rgba(59, 130, 246, 0.25); color: #93c5fd; border: 1px solid rgba(147, 197, 253, 0.3); font-size: 0.68rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.03em;">WDRA REGULATED</span>
+              </div>
+              <p style="color: #cbd5e1; font-size: 0.85rem; margin-top: 4px; max-width: 820px; line-height: 1.45;">
+                Store harvested produce in certified AgriNex cold chain chambers or hermetic silos during seasonal mandi gluts. Receive instant digital <strong>e-NWR certificates</strong> and draw up to <strong>70% loan value</strong> against deposited inventory while awaiting higher market prices.
+              </p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px; z-index: 1;">
+            <button class="btn btn-outline btn-sm" onclick="showToast('e-NWR guidelines: Regulated under Warehousing (Development & Regulation) Act 2007. Loans disbursed by SBI, ICICI & HDFC Agri.', 'info')" style="background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.25); color: #ffffff; font-weight: 700;">
+              📜 e-NWR Policy
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="openEnwrPledgeModal('STR-2026-901')" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); border-color: #2563eb; font-weight: 800; box-shadow: 0 4px 14px rgba(37,99,235,0.4); padding: 8px 16px;">
+              ⚡ Draw 70% Pledge Loan
+            </button>
+          </div>
+        </div>
+
+
+        <!-- Active Stored Produce Inventory & e-NWR Ledger -->
+        <div class="card" style="margin-bottom: 26px;">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0c5a36" stroke-width="2.2">
+                <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+              </svg>
+              <span>Your Active Storage Holdings & e-NWR Pledges</span>
+            </h3>
+            <span class="badge badge-grade-a">1 Active Chamber Holding</span>
+          </div>
+
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Booking ID & Facility</th>
+                  <th>Commodity Lot</th>
+                  <th>Quantity (Qt & kg)</th>
+                  <th>Live IoT Telemetry</th>
+                  <th>Storage Tenure</th>
+                  <th>e-NWR Receipt & Pledge Value</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="storage-bookings-tbody">
+                <!-- Rendered dynamically via dashboard.js renderStorageBookings() -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Storage Facilities Directory & Filter Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: #475569; margin-right: 4px;">Filter Facilities:</span>
+            <button class="btn btn-primary btn-sm storage-filter-btn active" onclick="filterStorageFacilities('all', this)">All Hubs (4)</button>
+            <button class="btn btn-outline btn-sm storage-filter-btn" onclick="filterStorageFacilities('cold-storage', this)">❄️ Cold Storage (0-4°C)</button>
+            <button class="btn btn-outline btn-sm storage-filter-btn" onclick="filterStorageFacilities('dry-silo', this)">🌾 Hermetic Dry Silos</button>
+            <button class="btn btn-outline btn-sm storage-filter-btn" onclick="filterStorageFacilities('solar-onion', this)">☀️ Solar Onion Complex</button>
+          </div>
+          <span style="font-size: 0.78rem; color: #64748b;">All rates in ₹/kg/month</span>
+        </div>
+
+        <!-- Facilities Cards Grid -->
+        <div id="storage-facilities-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 20px;">
+          <!-- Dynamically populated via dashboard.js renderStorageFacilities() -->
+        </div>
+
+        <!-- 2D Chamber & Silo Slot Visualizer Section -->
+        <div class="card" style="padding: 20px; margin-top: 24px;">
+          <div class="card-header" style="margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="card-title" style="font-size: 1.05rem; color: #0c5a36;">
+              <span>❄️</span>
+              <span>Interactive Chamber & Hermetic Silo Slot Visualizer</span>
+            </h3>
+            <span class="badge badge-grade-a">Live IoT Chamber Telemetry</span>
+          </div>
+          <p style="font-size: 0.8rem; color: #64748b; margin-top: 0; margin-bottom: 14px;">
+            Select real-time individual storage chambers with live sensor readings (Temperature, Humidity RH, and available capacity) to book specific slots instantly.
+          </p>
+          <div id="facility-chambers-visualizer">
+            <!-- Rendered dynamically by copilot.js renderChamberVisualizerForFacility() -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- VIEW 9: INSTITUTIONAL MARKET INSIGHTS & REAL-TIME APMC ANALYTICS -->

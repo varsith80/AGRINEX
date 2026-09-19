@@ -1,0 +1,118 @@
+  <div class="modal-overlay" id="modal-payment-receipt">
+    <div class="receipt-sheet">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0c5a36; padding-bottom: 16px; margin-bottom: 18px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.5rem;">🌾</span>
+            <span style="font-size: 1.35rem; font-weight: 900; color: #0c5a36; letter-spacing: -0.02em;">AgriNex</span>
+            <span style="background: #e8f5ed; color: #0c5a36; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-left: 4px;">ESCROW CLEARING CORP</span>
+          </div>
+          <div style="font-size: 0.74rem; color: #64748b; margin-top: 4px;">
+            GSTIN: <strong>27AAGCA1234F1Z8</strong> • CIN: U01100MH2026PTC448102<br>
+            Nodal Escrow Trustee Branch: ICICI Bank Tower, BKC, Mumbai - 400051
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 0.85rem; font-weight: 800; color: #0f172a;" id="rcpt-voucher-no">VOUCHER #ESC-V-2026-9921</div>
+          <div style="font-size: 0.74rem; color: #64748b;" id="rcpt-date-time">18 Sep 2026, 00:30 AM</div>
+          <span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36; border: 1px solid #bbf7d0; font-weight: 800; font-size: 0.72rem; margin-top: 4px; display: inline-block;">✓ 100% ESCROW VERIFIED</span>
+        </div>
+      </div>
+
+      <!-- Parties Grid -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 18px; font-size: 0.8rem;">
+        <div>
+          <span style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Buyer / Payer Details</span>
+          <div style="font-weight: 800; color: #0f172a; margin-top: 2px;">Karthik Sundaram (BigBasket Procurement Corp)</div>
+          <div style="color: #475569;">GSTIN: 27AAACB2291M1Z5</div>
+          <div style="color: #64748b;">Vashi APMC Central Terminal, Navi Mumbai (MH)</div>
+        </div>
+        <div>
+          <span style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Beneficiary Farmer Details</span>
+          <div style="font-weight: 800; color: #0f172a; margin-top: 2px;" id="rcpt-farmer-name">Patil Rameshwar</div>
+          <div style="color: #475569;" id="rcpt-farmer-acc">Aadhaar Linked DBT A/C ••8812 (HDFC Bank)</div>
+          <div style="color: #64748b;" id="rcpt-farmer-loc">Lasalgaon, Nashik Yard, Maharashtra</div>
+        </div>
+      </div>
+
+      <!-- Lot Particulars Table -->
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-bottom: 18px;">
+        <thead style="background: #f1f5f9; border-bottom: 1.5px solid #cbd5e1; color: #475569; font-weight: 800;">
+          <tr>
+            <th style="padding: 10px; text-align: left;">PRODUCE LOT</th>
+            <th style="padding: 10px; text-align: center;">ASSAY GRADE</th>
+            <th style="padding: 10px; text-align: right;">QUANTITY</th>
+            <th style="padding: 10px; text-align: right;">RATE (₹/KG)</th>
+            <th style="padding: 10px; text-align: right;">TOTAL LOT VALUE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 10px; font-weight: 700;" id="rcpt-table-crop">Garwa Red Onion</td>
+            <td style="padding: 10px; text-align: center;"><span class="badge badge-grade-a">Grade A</span></td>
+            <td style="padding: 10px; text-align: right;" id="rcpt-table-qty">5,000 kg (50 Qt)</td>
+            <td style="padding: 10px; text-align: right;" id="rcpt-table-rate">₹ 18.00</td>
+            <td style="padding: 10px; text-align: right; font-weight: 800;" id="rcpt-table-total">₹ 90,000</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Financial Tranche Breakdown -->
+      <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; margin-bottom: 20px; font-size: 0.82rem;">
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 12px;">
+          <span style="font-size: 0.72rem; font-weight: 800; color: #0c5a36; text-transform: uppercase;">Bank &amp; Escrow Gateway Settlement Trail</span>
+          <div style="margin-top: 6px; line-height: 1.6; color: #334155;">
+            • Gateway Txn: <code id="rcpt-trail-txnid" style="font-weight: 700;">TXN_AGR_99218412</code><br>
+            • Bank UTR: <code id="rcpt-trail-utr" style="font-weight: 700;">ICICR52026091800192</code><br>
+            • Payment Rail: <strong id="rcpt-trail-rail">UPI 2.0 (Dynamic Escrow QR)</strong><br>
+            • Escrow Certificate: <strong id="rcpt-trail-cert" style="color: #0c5a36;">ESC-CERT-MH-8821</strong>
+          </div>
+        </div>
+
+        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; background: #ffffff;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: #475569;">
+            <span>Gross Value:</span>
+            <strong id="rcpt-sum-gross">₹ 90,000</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: #0c5a36; font-weight: 800; background: #e8f5ed; padding: 4px 6px; border-radius: 6px;">
+            <span>🔒 35% Advance Paid:</span>
+            <strong id="rcpt-sum-advance">₹ 31,500</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: #1d4ed8; font-weight: 700;">
+            <span>65% Delivery Hold:</span>
+            <strong id="rcpt-sum-balance">₹ 58,500</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b; border-top: 1px dashed #cbd5e1; padding-top: 4px;">
+            <span>TDS (Sec 194Q @ 0.1%):</span>
+            <span>₹ 90.00 (Exempt under threshold)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Digital Stamp & Print Actions -->
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px solid #e2e8f0; padding-top: 16px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 44px; height: 44px; border: 1.5px solid #0c5a36; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+            🛡️
+          </div>
+          <div style="font-size: 0.72rem; color: #64748b;">
+            Digitally Signed &amp; Timestamped by<br>
+            <strong style="color: #0c5a36;">AgriNex Nodal Clearing Trustee</strong>
+          </div>
+        </div>
+
+        <div class="receipt-no-print" style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-outline btn-sm" onclick="window.print()" style="font-weight: 700; border-radius: 8px;">
+            🖨️ Print Receipt
+          </button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="closePaymentReceiptModal()" style="background: #0c5a36; font-weight: 800; border-radius: 8px;">
+            Done / Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: DEPOSIT LIQUID ESCROW CAPITAL
+       ========================================== -->

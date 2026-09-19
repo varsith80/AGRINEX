@@ -1,0 +1,30 @@
+  <div class="modal-overlay" id="modal-lot-comparison">
+    <div class="modal-content" style="max-width: 860px; width: 95%;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.3rem;">⚖️</span>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">Side-by-Side Multi-Lot Comparative Matrix</h3>
+            <span style="font-size: 0.75rem; color: #64748b;">Benchmarking price, landed logistics freight, farmer reliability & escrow requirements</span>
+          </div>
+        </div>
+        <button onclick="closeLotComparisonModal()" style="font-size: 1.3rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Comparison Matrix Table -->
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem;">
+          <tbody id="comparison-matrix-tbody">
+            <!-- Rendered dynamically by copilot.js openLotComparisonModal() -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 14px; margin-top: 16px;">
+        <button type="button" class="btn btn-outline btn-sm" onclick="clearLotComparison(); closeLotComparisonModal();">Clear Selection</button>
+        <button type="button" class="btn btn-outline" onclick="closeLotComparisonModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 16: ALL-DISTRICT APMC PRICE MATRIX FOR COMMODITIES -->

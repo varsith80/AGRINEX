@@ -993,9 +993,12 @@
       if (floatingCopilot) floatingCopilot.style.display = 'flex';
       if (floatingMic) floatingMic.style.display = 'none';
       
-      // Restore default verified produce view
-      const defaultView = document.getElementById('view-verified-produce');
-      if (defaultView) defaultView.classList.add('active-view');
+      // Restore default verified produce view if none active
+      const currentActive = document.querySelector('.portal-view.active-view');
+      if (!currentActive) {
+        const defaultView = document.getElementById('view-verified-produce');
+        if (defaultView) defaultView.classList.add('active-view');
+      }
     }
   }
 
@@ -1307,13 +1310,38 @@
   // 2. RENDER ORDERS & LIVE TRUCKS
   // =========================================================================
 
+  // Helper to retrieve and normalize orders from consignments data
+  function getBuyerOrders() {
+    if (window.buyerData && Array.isArray(window.buyerData.consignments) && window.buyerData.consignments.length > 0) {
+      return window.buyerData.consignments.map(c => {
+        const isDeliv = (c.status || '').toLowerCase() === 'delivered';
+        const qtyKg = c.quantity_kg || (c.quantity_qt ? c.quantity_qt * 100 : 5000);
+        return {
+          id: c.tracking_id || c.id || '#ORD-8921',
+          crop: c.crop || 'Produce Lot',
+          quantityKg: qtyKg,
+          status: isDeliv ? 'Delivered' : 'On Road',
+          driverName: c.driver || 'Ramesh Shinde',
+          driverPhone: c.driver_phone || '+91 94220 88310',
+          truckNumber: c.vehicle || 'MH-15-EG-8291',
+          currentLocation: c.loc || 'Samruddhi Mahamarg Corridor',
+          eta: c.eta || 'Today 4:30 PM (Speed: 58 km/h)'
+        };
+      });
+    }
+    if (window.buyerData && Array.isArray(window.buyerData.activeOrders) && window.buyerData.activeOrders.length > 0) {
+      return window.buyerData.activeOrders;
+    }
+    return [];
+  }
+
   function renderLiteOrdersList() {
     const container = document.getElementById('lite-orders-list');
     if (!container) return;
 
     const dict = getDict();
     const currentLang = getCurrentLang();
-    const orders = (window.buyerData && window.buyerData.activeOrders) ? window.buyerData.activeOrders : [];
+    const orders = getBuyerOrders();
 
     if (orders.length === 0) {
       container.innerHTML = `
@@ -1514,7 +1542,7 @@
 
   function speakOrdersSummary() {
     const currentLang = getCurrentLang();
-    const orders = (window.buyerData && window.buyerData.activeOrders) ? window.buyerData.activeOrders : [];
+    const orders = getBuyerOrders();
     
     if (orders.length === 0) {
       const msg = (currentLang === 'mr') ? 'सध्या कोणतीही गाडी रस्त्यात नाही.' : (currentLang === 'hi' ? 'वर्तमान में कोई गाड़ी रास्ते में नहीं है।' : 'No active truck shipments right now.');
@@ -1612,12 +1640,78 @@
 
   function confirmLiteBuyOrder() {
     const dict = getDict();
+    if (!activeBuyLot) {
+      closeLiteBuyModal();
+      return;
+    }
+
+    const kgPrice = Number(activeBuyLot.pricePerKg) || 20;
+    const totalKg = selectedBuyBags * 50;
+    const totalAmount = totalKg * kgPrice;
+    const depositAmount = Math.round(totalAmount * 0.35);
+    const balanceAmount = totalAmount - depositAmount;
+
+    // 1. Lock 35% Escrow
+    if (window.buyerEscrowState) {
+      if (window.buyerEscrowState.availableLiquidity >= depositAmount) {
+        window.buyerEscrowState.availableLiquidity -= depositAmount;
+      }
+      const currentAdv = window.buyerEscrowState.advanceLocked || window.buyerEscrowState.lockedAdvance || 0;
+      window.buyerEscrowState.advanceLocked = currentAdv + depositAmount;
+      window.buyerEscrowState.lockedAdvance = window.buyerEscrowState.advanceLocked;
+      try {
+        localStorage.setItem('agrinex_buyer_escrow', JSON.stringify(window.buyerEscrowState));
+      } catch(e) {}
+      if (typeof updateEscrowVaultDOM === 'function') updateEscrowVaultDOM();
+    }
+
+    // 2. Create Consignment
+    const newConsignment = {
+      id: `TRK-${Date.now().toString().slice(-4)}-LITE`,
+      tracking_id: `TRK-${Date.now().toString().slice(-4)}-LITE`,
+      contract_id: `ESC-MH-${Math.floor(1000 + Math.random() * 9000)}`,
+      lot_id: activeBuyLot.id || `LOT-${Date.now().toString().slice(-4)}`,
+      crop: activeBuyLot.crop || 'Produce',
+      farmer_name: activeBuyLot.farmerName || 'Farmer Partner',
+      farmer_location: activeBuyLot.farmerLocation || 'Nashik APMC',
+      driver_name: 'Dnyaneshwar Shinde (AgriNex Express)',
+      driver_phone: '+91 98224 55102',
+      vehicle_no: 'MH-15-EG-4412',
+      origin: activeBuyLot.farmerLocation || 'Nashik',
+      destination: 'Buyer Central Hub, Mumbai',
+      quantity_qt: Math.round((totalKg / 100) * 10) / 10,
+      quantity_kg: totalKg,
+      rate_kg: kgPrice,
+      total_val: totalAmount,
+      advance_paid: depositAmount,
+      balance_due: balanceAmount,
+      freight_fee: 4500,
+      status: 'transit',
+      status_label: 'Vehicle Dispatched',
+      eta: 'Tomorrow, 9:00 AM',
+      progress: 20,
+      assay_grade: activeBuyLot.grade || 'Grade A',
+      temp_celsius: 15.5
+    };
+
+    if (!window.buyerData) window.buyerData = {};
+    if (!window.buyerData.consignments) window.buyerData.consignments = [];
+    window.buyerData.consignments.unshift(newConsignment);
+
+    try {
+      localStorage.setItem('agrinex_buyer_consignments', JSON.stringify(window.buyerData.consignments));
+    } catch(err) {}
+
     closeLiteBuyModal();
     if (typeof showToast === 'function') {
       showToast(dict.orderSuccess, 'success');
     }
     const currentLang = getCurrentLang();
     speakText(dict.orderSuccess, currentLang);
+
+    if (typeof renderBuyerConsignments === 'function') renderBuyerConsignments();
+    if (typeof renderLiteOrdersList === 'function') renderLiteOrdersList();
+    if (typeof updateBuyerMarketStats === 'function') updateBuyerMarketStats();
   }
 
   // Bargain Modal
@@ -1758,6 +1852,7 @@
   window.filterLiteProduce = filterLiteProduce;
   window.renderLiteProduceCards = renderLiteProduceCards;
   window.renderLiteOrdersList = renderLiteOrdersList;
+  window.renderLiteOrdersCards = renderLiteOrdersList;
   window.renderLiteEscrowCards = renderLiteEscrowCards;
   window.renderLiteInsights = renderLiteInsights;
   window.filterLiteInsights = filterLiteInsights;

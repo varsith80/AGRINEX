@@ -15590,13 +15590,16 @@
   }
 
   // Render High-DPI Chart.js Interactive Graph
+  let chartRetryAttempts = 0;
   function renderInsightChart() {
     const canvas = document.getElementById('buyer-insight-chart');
     if (!canvas) return;
 
     if (typeof Chart === 'undefined') {
-      console.warn('Chart.js not loaded yet. Waiting...');
-      setTimeout(renderInsightChart, 200);
+      chartRetryAttempts++;
+      if (chartRetryAttempts < 8) {
+        setTimeout(renderInsightChart, 250);
+      }
       return;
     }
 

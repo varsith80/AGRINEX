@@ -1,0 +1,54 @@
+  <div class="modal-overlay" id="modal-lorry-receipt">
+    <div class="modal-content" style="max-width: 620px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #e8f5ed; color: #0c5a36; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            📄
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0c5a36; margin: 0;">Digital Lorry Receipt (LR)</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="lr-tracking-subtitle">LR No: LR-MH-2026-9921 • AgriNex Logistics System</span>
+          </div>
+        </div>
+        <button onclick="closeLorryReceiptModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Printable LR Voucher Card -->
+      <div id="lr-printable-card" style="background: #ffffff; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 18px; margin-bottom: 18px; font-size: 0.82rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;">
+          <div>
+            <span style="font-size: 0.7rem; color: #166534; font-weight: 800; background: #e8f5ed; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">Verified Transit Consignment</span>
+            <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-top: 4px;" id="lr-crop-title">80 Qt Garwa Export Red Onion (Grade A)</div>
+            <span style="font-size: 0.75rem; color: #64748b;">Consignor: Patil Rameshwar (Lasalgaon) → Consignee: BigBasket Vashi Terminal</span>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-family: monospace; font-weight: 800; font-size: 0.95rem; color: #0c5a36;" id="lr-id-display">TRK-EXP-9921-MH</div>
+            <span style="font-size: 0.68rem; color: #64748b;">Security Gate Seal: <strong>#SEAL-88912</strong></span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; background: #f8fafc; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+          <div><strong>Vehicle:</strong> <span id="lr-vehicle-display">Eicher Pro 2049 (MH 15 DK 8810)</span></div>
+          <div><strong>Driver:</strong> <span id="lr-driver-display">Sanjay Patil (+91 98220-44911)</span></div>
+          <div><strong>Gross Weight:</strong> 10,850 kg (Digital Certified)</div>
+          <div><strong>Tare Weight:</strong> 2,850 kg (Empty Truck)</div>
+          <div><strong>Certified Net Cargo:</strong> <strong style="color: #0c5a36;">8,000 kg (80.0 Qt)</strong></div>
+          <div><strong>Assay Moisture:</strong> 12.4% (Grade A Compliant)</div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; font-size: 0.72rem; color: #64748b;">
+          <span>🔒 Digitally Signed by AgriNex Weighbridge Terminal</span>
+          <span>Timestamp: 13 Sep 2026, 06:30 AM</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeLorryReceiptModal()" style="flex: 1;">Close</button>
+        <button class="btn btn-primary" onclick="printLorryReceipt()" style="flex: 2;">
+          🖨️ Print / Download Official LR PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 8: CONFIRM ARRIVAL & ESCROW RELEASE -->

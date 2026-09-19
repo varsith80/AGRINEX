@@ -1,0 +1,65 @@
+  <div class="modal-overlay" id="modal-deposit-receipt">
+    <div class="modal-content" style="max-width: 540px; padding: 24px;">
+      
+      <!-- Receipt Header Banner -->
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 56px; height: 56px; border-radius: 50%; background: #dcfce7; color: #15803d; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; box-shadow: 0 4px 14px rgba(22, 101, 52, 0.2);">
+          ✓
+        </div>
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: #0c5a36; margin: 0;">Escrow Top-Up Successful!</h3>
+        <div style="font-size: 0.78rem; color: #64748b; margin-top: 3px;">Funds credited to AgriNex Nodal Escrow Account</div>
+      </div>
+
+      <!-- Receipt Card -->
+      <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 18px; margin-bottom: 20px;" id="printable-deposit-receipt">
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;">
+          <div>
+            <span style="font-size: 0.72rem; color: #64748b; display: block;">AMOUNT CREDITED</span>
+            <strong style="font-size: 1.5rem; color: #0c5a36;" id="receipt-deposit-amount">₹ 50,000</strong>
+          </div>
+          <div style="text-align: right;">
+            <span class="badge badge-grade-a">✓ Escrow Verified</span>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 4px;" id="receipt-deposit-date">14 Sep 2026, 12:45 PM</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.8rem; margin-bottom: 12px;">
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block;">TRANSACTION REF</span>
+            <strong style="color: #0f172a; font-family: monospace;" id="receipt-deposit-txn">#TXN-ESC-2026-8812</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block;">BANK UTR NUMBER</span>
+            <strong style="color: #0f172a; font-family: monospace;" id="receipt-deposit-utr">ICIC091488129</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block;">PAYMENT RAIL</span>
+            <strong style="color: #0f172a;" id="receipt-deposit-rail">Instant UPI (VPA)</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block;">UPDATED ESCROW BALANCE</span>
+            <strong style="color: #166534;" id="receipt-updated-balance">₹ 1,21,400</strong>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid #e2e8f0; padding-top: 10px; font-size: 0.74rem; color: #64748b; display: flex; align-items: center; justify-content: space-between;">
+          <span>Escrow Trustee: <strong>ICICI Nodal Services</strong></span>
+          <span>Client ID: <strong>AGRI-BUY-4402</strong></span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn btn-outline" onclick="printDepositReceipt()" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <span>🖨️</span>
+          <span>Print Receipt</span>
+        </button>
+        <button type="button" class="btn btn-primary" onclick="closeDepositReceiptModal()" style="flex: 1.5; background: #0c5a36; border-color: #0c5a36; font-weight: 800;">
+          Done & Return to Portal
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL 10: ESCROW DIGITAL AGREEMENT DEED MODAL -->

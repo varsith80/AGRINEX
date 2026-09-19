@@ -1724,6 +1724,8 @@ const buyerData = {
     }
   ]
 };
+buyerData.demands = buyerData.buyerDemands;
+buyerData.activeGrievances = buyerData.grievances;
 
 if (typeof window !== 'undefined') {
   window.buyerData = buyerData;

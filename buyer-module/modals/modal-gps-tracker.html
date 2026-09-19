@@ -1,0 +1,70 @@
+  <div class="modal-overlay" id="modal-gps-tracker">
+    <div class="modal-content" style="max-width: 580px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 8px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            🛰️
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e3a8a; margin: 0;" data-i18n="gps_modal_title">Live Satellite GPS Telemetry</h3>
+            <span style="font-size: 0.75rem; color: #64748b;" id="gps-tracking-num">TRK-MH-4412-EICHER</span>
+          </div>
+        </div>
+        <button onclick="closeGpsModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Live GPS Telemetry Dashboard -->
+      <div style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 18px; margin-bottom: 16px; font-size: 0.82rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <span style="color: #94a3b8; font-size: 0.72rem; text-transform: uppercase;" data-i18n="vehicle_and_transporter">Vehicle & Transporter</span>
+            <div style="font-size: 0.95rem; font-weight: 800; color: #38bdf8;" id="gps-vehicle-name">Eicher Pro 2049 (MH 15 DK 8810)</div>
+          </div>
+          <span style="background: #166534; color: #86efac; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px;" id="gps-status-badge">
+            <span style="width: 6px; height: 6px; background: #4ade80; border-radius: 50%;"></span> <span data-i18n="gps_online_speed">Online (58 km/h)</span>
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: rgba(255,255,255,0.06); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+          <div>
+            <span style="color: #94a3b8; font-size: 0.7rem; display: block;" data-i18n="driver">Driver</span>
+            <strong id="gps-driver-name">Sanjay Patil</strong>
+          </div>
+          <div>
+            <span style="color: #94a3b8; font-size: 0.7rem; display: block;" data-i18n="distance_remaining">Distance Remaining</span>
+            <strong style="color: #fbbf24;" id="gps-distance-val">142 km</strong>
+          </div>
+          <div>
+            <span style="color: #94a3b8; font-size: 0.7rem; display: block;" data-i18n="live_eta">Live ETA</span>
+            <strong style="color: #4ade80;" id="gps-eta-val">Tomorrow 9:15 AM</strong>
+          </div>
+        </div>
+
+        <div style="font-size: 0.78rem; color: #cbd5e1; margin-bottom: 4px;" id="gps-corridor-row">
+          <span data-i18n="current_corridor_label">📍 Current Corridor:</span> <strong id="gps-corridor-name">NH 60 Nashik-Pune Corridor (Near Sangamner Bypass)</strong>
+        </div>
+        <div style="font-size: 0.7rem; color: #64748b;" id="gps-satellite-row" data-i18n="satellite_fix_telemetry">
+          Satellite Fix: 19.5760° N, 74.2070° E • Reefer Temp: 18.2°C (Optimal Curing)
+        </div>
+      </div>
+
+      <!-- Live Corridor Checkpoints & Fastag Waypoints -->
+      <div style="margin-bottom: 16px;">
+        <strong style="font-size: 0.85rem; color: #0f172a; display: block; margin-bottom: 10px;" data-i18n="corridor_route_telemetry">Corridor Route & Checkpoints Telemetry:</strong>
+        <div id="gps-route-checkpoints-container">
+          <!-- Rendered dynamically by copilot.js renderGpsRouteVisualizer() -->
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-outline" onclick="showToast('Calling driver Sanjay Patil (+91 98220-44911)...', 'info')" style="flex: 1;" data-i18n="call_driver_btn">
+          📞 Call Driver
+        </button>
+        <button class="btn btn-primary" onclick="showToast('Satellite telemetry ping refreshed! Location updated.', 'success')" style="flex: 2;" data-i18n="refresh_gps_ping_btn">
+          🔄 Refresh GPS Ping
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DRIVER & VEHICLE FLEET DETAILS -->
