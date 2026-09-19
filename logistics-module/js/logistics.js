@@ -553,6 +553,9 @@ function openGatePassModal(orderCode) {
   `;
 
   modal.classList.add("active");
+  if (window.AgriNexLogisticsI18n && typeof window.AgriNexLogisticsI18n.walkAndTranslateDOM === 'function') {
+    window.AgriNexLogisticsI18n.walkAndTranslateDOM(modal);
+  }
 }
 
 function closeGatePassModal() {
@@ -574,7 +577,12 @@ function openPinModal(orderCode) {
     inputEl.value = "";
     inputEl.focus();
   }
-  if (modal) modal.classList.add("active");
+  if (modal) {
+    modal.classList.add("active");
+    if (window.AgriNexLogisticsI18n && typeof window.AgriNexLogisticsI18n.walkAndTranslateDOM === 'function') {
+      window.AgriNexLogisticsI18n.walkAndTranslateDOM(modal);
+    }
+  }
 }
 
 function closePinModal() {
@@ -733,6 +741,9 @@ function openScheduleSlotModal(orderCode) {
   `;
 
   modal.classList.add("active");
+  if (window.AgriNexLogisticsI18n && typeof window.AgriNexLogisticsI18n.walkAndTranslateDOM === 'function') {
+    window.AgriNexLogisticsI18n.walkAndTranslateDOM(modal);
+  }
 }
 
 function closeScheduleSlotModal() {
