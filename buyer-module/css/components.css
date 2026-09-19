@@ -310,3 +310,103 @@ input, select, textarea {
     opacity: 1;
   }
 }
+
+/* ==========================================================================
+   Tabular Numerals for Finance, Quantities & Mandi Rates
+   ========================================================================== */
+.tabular-nums,
+.num-tabular,
+.data-table,
+.table td,
+.metric-num,
+.metric-value,
+.lot-price,
+.stat-value,
+.stat-card-compact .num,
+.deal-rate,
+.price-tag {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ==========================================================================
+   Smooth View Transitions for Active Portal Views
+   ========================================================================== */
+.portal-view.active-view,
+.portal-view.active {
+  animation: portalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes portalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Chat Negotiation Offer Banner & Action Components
+   ========================================================================== */
+.chat-offer-badge {
+  background: #ca8a04;
+  color: #ffffff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(202, 138, 4, 0.3);
+  flex-shrink: 0;
+}
+
+.chat-offer-text {
+  color: #713f12;
+  font-size: 0.84rem;
+}
+
+.chat-offer-text strong.rate-highlight {
+  color: #14532d;
+}
+
+.btn-offer-accept {
+  background: #15803d;
+  border: 1px solid #15803d;
+  color: #ffffff;
+  padding: 5px 12px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.btn-offer-accept:hover {
+  background: #166534;
+  border-color: #166534;
+  transform: translateY(-1px);
+}
+
+.btn-offer-recounter {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 5px 10px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.btn-offer-recounter:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+

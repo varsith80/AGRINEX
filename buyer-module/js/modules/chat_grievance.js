@@ -268,12 +268,12 @@ function selectChatContact(contactKey) {
     const transOfferText = window.tText ? window.tText(chat.offerText) : chat.offerText;
     banner.innerHTML = `
       <div style="display: flex; align-items: center; gap: 10px;">
-        <span style="background: #ca8a04; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; box-shadow: 0 2px 6px rgba(202,138,4,0.3);">⚡</span>
-        <span style="color: #713f12;"><strong>${activeOfferLabel}</strong> ${transOfferText}</span>
+        <span class="chat-offer-badge">⚡</span>
+        <span class="chat-offer-text"><strong>${activeOfferLabel}</strong> ${transOfferText}</span>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button class="btn btn-primary btn-sm" onclick="acceptFarmerCounter('${chat.lotId}', ${chat.counterRate})" style="background: #15803d; border-color: #15803d; padding: 5px 12px; font-size: 0.76rem; font-weight: 800;">${acceptLockText}</button>
-        <button class="btn btn-outline btn-sm" onclick="openBidModal('${chat.lotId}')" style="padding: 5px 10px; font-size: 0.76rem; font-weight: 700; background: #ffffff;">${reCounterText}</button>
+        <button class="btn btn-offer-accept" onclick="acceptFarmerCounter('${chat.lotId}', ${chat.counterRate})">${acceptLockText}</button>
+        <button class="btn btn-offer-recounter" onclick="openBidModal('${chat.lotId}')">${reCounterText}</button>
       </div>
     `;
   }
