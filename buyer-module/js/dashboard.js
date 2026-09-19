@@ -182,6 +182,14 @@ function switchView(viewId) {
     try { if (typeof renderBuyerDemands === 'function') renderBuyerDemands(); } catch (e) { console.error('Demands render error:', e); }
   } else if (viewId === 'view-escrow-vault') {
     try { if (typeof renderBuyerEscrowVault === 'function') renderBuyerEscrowVault(); } catch (e) { console.error('Escrow vault render error:', e); }
+  } else if (viewId === 'view-messages') {
+    try {
+      if (typeof renderChatSidebar === 'function') renderChatSidebar();
+      const currentChat = (typeof window.getActiveChatKey === 'function') ? window.getActiveChatKey() : 'patil';
+      if (typeof selectChatContact === 'function') selectChatContact(currentChat);
+    } catch (e) { console.error('Messages view render error:', e); }
+  } else if (viewId === 'view-grievance') {
+    try { if (typeof renderGrievances === 'function') renderGrievances(); } catch (e) { console.error('Grievances view render error:', e); }
   }
 
   try {

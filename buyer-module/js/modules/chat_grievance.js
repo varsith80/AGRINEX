@@ -3,6 +3,158 @@
  * Handles in-app buyer-farmer messaging, counter-offers, and 4-stage dispute resolution.
  */
 
+// 8 Verified Farmer Contacts for Direct APMC Negotiation
+const INITIAL_CONVERSATIONS = {
+  patil: {
+    name: "Patil Rameshwar",
+    avatar: "assets/images/onion.jpg",
+    status: "● Online • Lasalgaon, Nashik, Maharashtra",
+    lotId: "LOT-ONI-01",
+    crop: "Red Onion (Nashik Garwa Quality)",
+    farmerPhone: "+91 98220-44911",
+    offerText: "Farmer Ask Rate: <strong style=\"color: #0c5a36;\">₹ 18.00 /kg</strong> for 10,000 kg (Lasalgaon APMC Gate)",
+    counterRate: 18.00,
+    lockRateText: "Lock 35% Escrow (₹ 18.00/kg)",
+    messages: [
+      { type: "incoming", text: "Namaste Karthik sir! I have 10,000 kg export-graded Garwa red onions cured and ready at Lasalgaon APMC yard." },
+      { type: "outgoing", text: "Hello Patil ji! We are looking for immediate institutional dispatch to Navi Mumbai Terminal. Can you load today?" },
+      { type: "incoming", text: "Yes sir, weighing is completed on electronic weighbridge. Once 35% advance escrow is locked, truck can move immediately via Samruddhi Expressway." }
+    ]
+  },
+  deshmukh: {
+    name: "Sanjay Deshmukh",
+    avatar: "assets/images/tomato.jpg",
+    status: "● Online • Manchar, Pune (18 km away)",
+    lotId: "LOT-TOM-02",
+    crop: "Tomato (Shivam / Abhinav Hybrid)",
+    farmerPhone: "+91 98224-33100",
+    offerText: "Farmer countered at <strong style=\"color: #0c5a36;\">₹ 13.00 /kg</strong> for 6,000 kg (Retail Ready)",
+    counterRate: 13.00,
+    lockRateText: "Lock 35% Escrow (₹ 13.00/kg)",
+    messages: [
+      { type: "incoming", text: "Hello sir, my 6,000 kg Narayangaon hybrid tomato harvest has 82% firmness index, packed in sanitized returnable crates." },
+      { type: "outgoing", text: "Hi Sanjay ji, what is your best floor price for the entire lot?" },
+      { type: "incoming", text: "I can offer ₹ 13.00/kg direct farm-gate price if payment is routed through AgriNex Smart Escrow." }
+    ]
+  },
+  shinde: {
+    name: "Rajesh Shinde",
+    avatar: "assets/images/banana.jpg",
+    status: "● Online • Raver, Jalgaon (Khandesh Banana Belt)",
+    lotId: "LOT-BAN-03",
+    crop: "Grand Naine Banana (GI Khandesh Export)",
+    farmerPhone: "+91 98500-11234",
+    offerText: "GI Certified Khandesh: <strong style=\"color: #0c5a36;\">₹ 14.50 /kg</strong> for 12,000 kg",
+    counterRate: 14.50,
+    lockRateText: "Lock 35% Escrow (₹ 14.50/kg)",
+    messages: [
+      { type: "incoming", text: "Namaskar! 12,000 kg Grand Naine bananas harvested at mature green stage with 7-8 hands per bunch ready for reefer transport." },
+      { type: "outgoing", text: "Excellent quality! We need temperature-logged reefer transport at 13.5°C to Navi Mumbai." },
+      { type: "incoming", text: "All pre-cooling and foam pad packaging done. Ready for loading at Raver hub." }
+    ]
+  },
+  jadhav: {
+    name: "Anandrao Jadhav",
+    avatar: "assets/images/wheat-logo.png",
+    status: "● Online • Latur Mega APMC Silo Yard",
+    lotId: "LOT-SOY-04",
+    crop: "Yellow Soybean (JS 335 / High Protein)",
+    farmerPhone: "+91 98231-55890",
+    offerText: "FPO Bulk Single-Origin: <strong style=\"color: #0c5a36;\">₹ 42 /kg</strong> for 150 Qt",
+    counterRate: 4200,
+    lockRateText: "Lock 35% Escrow (₹ 42/kg)",
+    messages: [
+      { type: "incoming", text: "Greetings Karthik! Latur FPO has 150 Qt clean JS-335 soybean with 19% oil content ready in 50kg jute bags." }
+    ]
+  },
+  thorat: {
+    name: "Kavita Thorat",
+    avatar: "assets/images/turmeric.jpg",
+    status: "● Online • Sangli APMC (Turmeric Market)",
+    lotId: "LOT-TUR-06",
+    crop: "Sangli Rajapuri Turmeric Finger",
+    farmerPhone: "+91 98228-88190",
+    offerText: "Lab Tested Curcumin 4.8%: <strong style=\"color: #0c5a36;\">₹ 135 /kg</strong> for 50 Qt",
+    counterRate: 13500,
+    lockRateText: "Lock 35% Escrow (₹ 135/kg)",
+    messages: [
+      { type: "incoming", text: "Namaste sir, 50 Qt double-polished Rajapuri turmeric fingers available for direct institutional spice procurement." }
+    ]
+  },
+  wankhede: {
+    name: "Vikas Wankhede",
+    avatar: "assets/images/orange.jpg",
+    status: "● Online • Katol, Nagpur (Vidarbha Citrus)",
+    lotId: "LOT-ORG-05",
+    crop: "Nagpur Orange / Santra (GI Vidarbha Quality)",
+    farmerPhone: "+91 98222-33104",
+    offerText: "GI Table Fruit: <strong style=\"color: #0c5a36;\">₹ 38 /kg</strong> for 80 Qt",
+    counterRate: 3800,
+    lockRateText: "Lock 35% Escrow (₹ 38/kg)",
+    messages: [
+      { type: "incoming", text: "Hello Karthik sir, fresh harvest Nagpur mandarins graded by electronic weight sizer ready at Katol packhouse." }
+    ]
+  },
+  chavan: {
+    name: "Sunil Chavan",
+    avatar: "assets/images/pomegranate.jpg?v=2",
+    status: "● Online • Pandharpur, Solapur (Pomegranate Belt)",
+    lotId: "LOT-POM-07",
+    crop: "Bhagwa Pomegranate (Solapur Export Grade)",
+    farmerPhone: "+91 98226-44102",
+    offerText: "Deep Red Arils: <strong style=\"color: #0c5a36;\">₹ 88 /kg</strong> for 40 Qt",
+    counterRate: 8800,
+    lockRateText: "Lock 35% Escrow (₹ 88/kg)",
+    messages: [
+      { type: "incoming", text: "Namaskar! 40 Qt export-grade Bhagwa pomegranates (250g+ fruit weight) boxed in 10kg corrugated cartons." }
+    ]
+  },
+  more: {
+    name: "Balasaheb More",
+    avatar: "assets/images/cotton.jpg?v=2",
+    status: "● Online • Amravati APMC (Vidarbha Cotton Yard)",
+    lotId: "LOT-COT-08",
+    crop: "Raw Cotton (Vidarbha Long Staple)",
+    farmerPhone: "+91 98225-77890",
+    offerText: "Staple >29mm: <strong style=\"color: #0c5a36;\">₹ 62 /kg</strong> for 90 Qt",
+    counterRate: 6200,
+    lockRateText: "Lock 35% Escrow (₹ 62/kg)",
+    messages: [
+      { type: "incoming", text: "Greetings! 90 Qt long staple cotton pressed bales ready for institutional textile & ginning delivery." }
+    ]
+  }
+};
+
+let chatConversations = {};
+try {
+  const saved = typeof localStorage !== 'undefined' ? localStorage.getItem('agrinex_buyer_chats') : null;
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    chatConversations = Object.assign({}, JSON.parse(JSON.stringify(INITIAL_CONVERSATIONS)), parsed);
+  } else {
+    chatConversations = JSON.parse(JSON.stringify(INITIAL_CONVERSATIONS));
+  }
+} catch(e) {
+  chatConversations = JSON.parse(JSON.stringify(INITIAL_CONVERSATIONS));
+}
+
+let activeChatKey = 'patil';
+
+function saveChatConversations() {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('agrinex_buyer_chats', JSON.stringify(chatConversations));
+    }
+  } catch(e) {
+    console.warn('Could not save chat conversations to localStorage:', e);
+  }
+}
+
+window.chatConversations = chatConversations;
+window.getActiveChatKey = function() { return typeof activeChatKey !== 'undefined' ? activeChatKey : 'patil'; };
+window.saveChatConversations = saveChatConversations;
+
+
 function filterChatContacts(query) {
   const q = (query || '').toLowerCase().trim();
   const contacts = document.querySelectorAll('.chat-contact');
@@ -66,6 +218,9 @@ function renderChatSidebar() {
       `;
     })
     .join('');
+  if (activeChatKey && chatConversations[activeChatKey]) {
+    selectChatContact(activeChatKey);
+  }
 }
 
 // Select a specific Farmer Chat Contact
@@ -194,6 +349,7 @@ function openFarmerChat(lotId) {
       matchedKey = slug;
     }
   }
+  saveChatConversations();
 
   renderChatSidebar();
   selectChatContact(matchedKey);
@@ -256,6 +412,7 @@ function sendChatMessage() {
 
   if (chatConversations[activeChatKey]) {
     chatConversations[activeChatKey].messages.push({ type: "outgoing", text: msg });
+    saveChatConversations();
   }
 
   input.value = '';
@@ -286,6 +443,7 @@ function sendChatMessage() {
 
     if (chatConversations[currentKey]) {
       chatConversations[currentKey].messages.push({ type: "incoming", text: replyText });
+      saveChatConversations();
     }
 
     renderChatSidebar();
