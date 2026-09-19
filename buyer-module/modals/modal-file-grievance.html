@@ -1,19 +1,17 @@
-  <div class="modal-overlay" id="modal-file-grievance">
+  <div class="modal-overlay" id="modal-file-grievance" role="dialog" aria-modal="true" aria-labelledby="grv-modal-title">
     <div class="modal-content" style="max-width: 580px;">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <div style="width: 36px; height: 36px; border-radius: 8px; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-            ⚠️
-          </div>
-          <div>
-            <h3 style="font-size: 1.2rem; font-weight: 800; color: #991b1b; margin: 0;">File Quality / Delivery Claim</h3>
-            <span style="font-size: 0.75rem; color: #64748b;">AgriNex Escrow Redressal Cell</span>
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge icon-red">⚠️</div>
+          <div class="modal-title-group">
+            <h3 class="modal-title title-danger" id="grv-modal-title">File Quality / Delivery Claim</h3>
+            <span class="modal-subtitle">AgriNex Escrow Redressal Cell</span>
           </div>
         </div>
-        <button onclick="closeGrievanceModal()" style="font-size: 1.2rem; color: #64748b; background: transparent; border: none; cursor: pointer;">✕</button>
+        <button type="button" class="modal-close-btn" onclick="closeGrievanceModal()" title="Close">✕</button>
       </div>
 
-      <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.78rem; color: #9a3412;">
+      <div class="modal-alert-box alert-amber">
         <strong>🔒 Automated Escrow Freeze:</strong> Filing this complaint triggers an instant hold on the remaining 65% settlement escrow in the smart contract until resolved.
       </div>
 
@@ -33,7 +31,7 @@
             <label class="form-label">Grievance Category</label>
             <select id="grv-category" class="form-select" required>
               <option value="Quality Assay Deviation">Quality Assay Deviation (Grade / Moisture)</option>
-              <option value="Weighbridge Shortage">Weighbridge Shortage (> 2% Loss)</option>
+              <option value="Weighbridge Shortage">Weighbridge Shortage (&gt; 2% Loss)</option>
               <option value="Transit Spoilage / Damage">Transit Spoilage / Physical Damage</option>
               <option value="Critical Delivery Delay">Critical Delivery Delay Breach</option>
               <option value="Foreign Matter / Infestation">Foreign Matter / Pest Infestation</option>
@@ -52,7 +50,7 @@
 
         <div class="form-group">
           <label class="form-label">Attach Supporting Evidence (Weighbridge Slip, Assay Report or Photo)</label>
-          <div style="border: 2px dashed #cbd5e1; border-radius: 8px; padding: 14px; text-align: center; background: #f8fafc; cursor: pointer;" onclick="document.getElementById('grv-file-input').click()">
+          <div class="modal-upload-dropzone" onclick="document.getElementById('grv-file-input').click()">
             <input type="file" id="grv-file-input" style="display: none;" onchange="handleGrievanceFileUpload(this)" />
             <span id="grv-upload-label" style="font-size: 0.8rem; color: #64748b;">
               📄 Click to upload Digital Assay Slip / Weight Receipt / Photo Proof
@@ -60,10 +58,10 @@
           </div>
         </div>
 
-        <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <div class="modal-actions-row">
           <button type="button" class="btn btn-outline" onclick="closeGrievanceModal()" style="flex: 1;">Cancel</button>
           <button type="submit" class="btn btn-primary" style="flex: 2; background: #dc2626; border-color: #dc2626;">
-            Freeze Escrow & Submit Claim
+            Freeze Escrow &amp; Submit Claim
           </button>
         </div>
       </form>

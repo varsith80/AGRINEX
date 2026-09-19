@@ -1,8 +1,14 @@
-  <div class="modal-overlay" id="modal-post-demand">
+  <div class="modal-overlay" id="modal-post-demand" role="dialog" aria-modal="true" aria-labelledby="post-demand-modal-title">
     <div class="modal-content">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
-        <h3 style="font-size: 1.25rem; font-weight: 800; color: #0c5a36;">Post Bulk Sourcing Demand</h3>
-        <button onclick="closePostDemandModal()" style="font-size: 1.2rem; color: #64748b;">✕</button>
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge icon-green">📢</div>
+          <div class="modal-title-group">
+            <h3 class="modal-title" id="post-demand-modal-title">Post Bulk Sourcing Demand</h3>
+            <span class="modal-subtitle">Broadcast Demand Directly to Verified Farmer Clusters</span>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closePostDemandModal()" title="Close">✕</button>
       </div>
 
       <form id="form-new-demand" onsubmit="handleNewDemandSubmit(event)">
@@ -59,7 +65,7 @@
           </select>
         </div>
 
-        <div style="display: flex; gap: 10px; margin-top: 18px;">
+        <div class="modal-actions-row">
           <button type="submit" class="btn btn-primary" style="flex: 1;">Broadcast to Farmers</button>
           <button type="button" class="btn btn-outline" onclick="closePostDemandModal()">Cancel</button>
         </div>

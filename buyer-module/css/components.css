@@ -481,4 +481,197 @@ input, select, textarea {
   transform: translateY(-1px);
 }
 
+/* ==========================================================================
+   Modal Component Design System Tokens
+   ========================================================================== */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  border-bottom: 1.5px solid var(--border-default);
+  padding-bottom: 12px;
+}
+
+.modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-icon-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.modal-icon-badge.icon-green {
+  background: #e8f5ed;
+  color: #0c5a36;
+}
+
+.modal-icon-badge.icon-red {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.modal-icon-badge.icon-amber {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.modal-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0c5a36;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.modal-title.title-danger {
+  color: #991b1b;
+}
+
+.modal-subtitle {
+  font-size: 0.74rem;
+  color: #64748b;
+  margin-top: 1px;
+}
+
+.modal-close-btn {
+  font-size: 1.25rem;
+  color: #64748b;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.modal-close-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Modal Callout & Alert Boxes */
+.modal-alert-box {
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.modal-alert-box.alert-green {
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  color: #166534;
+}
+
+.modal-alert-box.alert-amber {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #9a3412;
+}
+
+.modal-alert-box.alert-gold {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  color: #78350f;
+}
+
+/* Modal Summary & Breakdown Strips */
+.modal-summary-strip {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  font-size: 0.82rem;
+}
+
+.modal-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  color: #475569;
+}
+
+.modal-summary-row:last-child {
+  margin-bottom: 0;
+}
+
+.modal-summary-row.highlight-green {
+  background: #e8f5ed;
+  padding: 6px 8px;
+  border-radius: 6px;
+  color: #0c5a36;
+  font-weight: 700;
+}
+
+.modal-summary-divider {
+  border-top: 1px dashed #e2e8f0;
+  margin: 6px 0;
+  padding-top: 6px;
+}
+
+/* Modal Action Footers */
+.modal-actions-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modal-radio-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.modal-radio-option:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.modal-radio-option.active {
+  border-color: #0c5a36;
+  background: #f0fdf4;
+}
+
+/* Upload Dropzone inside modals */
+.modal-upload-dropzone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.modal-upload-dropzone:hover {
+  border-color: #0c5a36;
+  background: #f0fdf4;
+}
+
+
 
