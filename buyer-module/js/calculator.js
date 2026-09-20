@@ -1087,9 +1087,142 @@ function filterMarketplaceFromCalculator() {
   }
 }
 
-// Action: Print / Export Procurement Cost Sheet
+// Action: Download Procurement Cost Sheet PDF
+function downloadProcurementCostSheetPdf() {
+  const curLang = (window.AgriNexI18n && typeof window.AgriNexI18n.getBuyerLanguage === 'function') ? window.AgriNexI18n.getBuyerLanguage() : 'en';
+  const isMr = curLang === 'mr';
+  const isHi = curLang === 'hi';
+
+  const produceEl = document.getElementById('calc-buyer-produce');
+  const gradeEl = document.getElementById('calc-buyer-grade');
+  const originEl = document.getElementById('calc-buyer-origin') || document.getElementById('calc-mandi-origin');
+  const destEl = document.getElementById('calc-buyer-destination') || document.getElementById('calc-buyer-hub');
+  const qtyEl = document.getElementById('calc-buyer-qty');
+  const farmPriceEl = document.getElementById('calc-buyer-price');
+  const mandiPriceEl = document.getElementById('calc-mandi-benchmark-price');
+  const distEl = document.getElementById('calc-buyer-distance');
+
+  const produceName = produceEl ? (produceEl.options[produceEl.selectedIndex]?.text || produceEl.value) : 'Fresh Produce';
+  const gradeName = gradeEl ? (gradeEl.options[gradeEl.selectedIndex]?.text || gradeEl.value) : 'Grade A';
+  const origin = originEl ? (originEl.options[originEl.selectedIndex]?.text || originEl.value) : 'Farm Origin';
+  const dest = destEl ? (destEl.options[destEl.selectedIndex]?.text || destEl.value) : 'Central Hub';
+  const qty = qtyEl ? qtyEl.value : '50';
+  const farmPrice = farmPriceEl ? farmPriceEl.value : '18';
+  const mandiPrice = mandiPriceEl ? mandiPriceEl.value : '25';
+  const distance = distEl ? distEl.value : '210';
+
+  const directTotal = document.getElementById('calc-summary-direct-total')?.textContent || '₹ 94,800';
+  const directPerKg = document.getElementById('calc-summary-direct-perkg')?.textContent || '₹ 18.96 /kg';
+  const mandiTotal = document.getElementById('calc-summary-mandi-total')?.textContent || '₹ 1,37,500';
+  const mandiPerKg = document.getElementById('calc-summary-mandi-perkg')?.textContent || '₹ 27.50 /kg';
+  const netSavings = document.getElementById('calc-summary-net-savings')?.textContent || '₹ 42,700';
+  const netSavingsPct = document.getElementById('calc-summary-savings-pct')?.textContent || '31.1% Lower Cost';
+
+  const dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  const sheetDocId = `COST-AGRI-${Math.floor(10000 + Math.random() * 90000)}`;
+
+  const pdfHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${sheetDocId} - AgriCalc Procurement Cost Sheet & Landed Arbitrage Analysis</title>
+  <style>
+    body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; padding: 36px; color: #0f172a; background: #ffffff; margin: 0; }
+    .sheet-card { max-width: 840px; margin: auto; border: 2px solid #0c5a36; border-radius: 12px; padding: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0c5a36; padding-bottom: 14px; margin-bottom: 18px; }
+    .title { font-size: 22px; font-weight: 800; color: #0c5a36; }
+    .subtitle { font-size: 12px; color: #64748b; margin-top: 2px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .box { background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 13px; }
+    .box-title { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 6px; }
+    .highlight-card { background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: 8px; padding: 16px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .hl-title { font-size: 11px; font-weight: 700; color: #065f46; text-transform: uppercase; }
+    .hl-val { font-size: 18px; font-weight: 800; color: #0c5a36; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 12.5px; }
+    th { background: #0c5a36; color: #ffffff; padding: 9px 12px; text-align: left; }
+    td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; }
+    .footer { border-top: 1px solid #e2e8f0; padding-top: 12px; display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="sheet-card">
+    <div class="header">
+      <div>
+        <div class="title">AGRINEX ENTERPRISE • AGRICALC COST SHEET</div>
+        <div class="subtitle">Direct Farm-Gate Sourcing vs Traditional APMC Mandi Landed Cost Benchmark</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-weight: 800; font-size: 14px; color: #0f172a;">${sheetDocId}</div>
+        <div style="font-size: 11px; color: #64748b;">Generated: ${dateStr}</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="box">
+        <div class="box-title">Procurement Commodity & Scope</div>
+        <div style="font-size: 14px; font-weight: 800; color: #0f172a;">${produceName} (${gradeName})</div>
+        <div>Volume: <strong>${qty} Qt (${parseInt(qty, 10) * 100} kg)</strong></div>
+        <div>Farm Base Ask: <strong>₹ ${farmPrice} / kg</strong></div>
+      </div>
+      <div class="box">
+        <div class="box-title">Freight Logistics & Routing</div>
+        <div>Origin: <strong>${origin}</strong></div>
+        <div>Destination: <strong>${dest}</strong></div>
+        <div>Transit Distance: <strong>${distance} km</strong></div>
+      </div>
+    </div>
+
+    <div class="highlight-card">
+      <div>
+        <div class="hl-title">Direct Delivered Landed Cost</div>
+        <div class="hl-val">${directTotal}</div>
+        <div style="font-size: 12px; color: #047857;">(${directPerKg})</div>
+      </div>
+      <div>
+        <div class="hl-title">Mandi Benchmark Cost</div>
+        <div class="hl-val" style="color: #991b1b;">${mandiTotal}</div>
+        <div style="font-size: 12px; color: #991b1b;">(${mandiPerKg})</div>
+      </div>
+      <div>
+        <div class="hl-title">Total Buyer Arbitrage</div>
+        <div class="hl-val" style="color: #15803d;">${netSavings}</div>
+        <div style="font-size: 12px; color: #15803d; font-weight: 700;">${netSavingsPct}</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Audited by AgriNex Transparent Landed Cost Engine • GST & FSSAI Compliant</div>
+      <div>www.agrinex.in</div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  const blob = new Blob([pdfHtml], { type: 'application/pdf;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${sheetDocId}.pdf`;
+  document.body.appendChild(link);
+  link.click();
+  setTimeout(() => {
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, 200);
+
+  const toastMsg = isMr
+    ? `✓ AgriCalc खर्च पत्रक (${sheetDocId}.pdf) डाऊनलोड झाले!`
+    : isHi
+    ? `✓ AgriCalc लागत पत्रक (${sheetDocId}.pdf) डाउनलोड हो गया!`
+    : `✓ AgriCalc Cost Sheet (${sheetDocId}.pdf) downloaded successfully!`;
+
+  if (typeof showToast === 'function') {
+    showToast(toastMsg, 'success');
+  }
+}
+
 function printProcurementCostSheet() {
-  window.print();
+  downloadProcurementCostSheetPdf();
 }
 
 // Initialize Interactive Events
@@ -1232,6 +1365,7 @@ window.recalculateBuyerCosts = recalculateBuyerCosts;
 window.prefillDemandFromCalculator = prefillDemandFromCalculator;
 window.filterMarketplaceFromCalculator = filterMarketplaceFromCalculator;
 window.printProcurementCostSheet = printProcurementCostSheet;
+window.downloadProcurementCostSheetPdf = downloadProcurementCostSheetPdf;
 window.applyCalcPreset = applyCalcPreset;
 window.applyQuickCalcScenario = applyQuickCalcScenario;
 window.toggleAdvancedCalcDrivers = toggleAdvancedCalcDrivers;

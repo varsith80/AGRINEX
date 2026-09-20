@@ -775,7 +775,7 @@
   }
 
   function printDigitalPO() {
-    window.print();
+    downloadDigitalPOPdf();
   }
 
   function downloadDigitalPOPdf() {

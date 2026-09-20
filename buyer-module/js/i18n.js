@@ -803,7 +803,11 @@
       calc_header_subtitle: 'Grounded in Maharashtra APMC benchmarks, origin-destination logistics routes, fleet capacities, and zero-intermediary farm gate trade.',
       btn_calc_post_demand: 'Post Procurement Demand',
       btn_calc_view_lots: 'View Matching Lots',
-      btn_print_sheet: 'Print Cost Sheet',
+      btn_print_sheet: '📥 Download PDF Cost Sheet',
+      btn_download_cost_sheet: '📥 Download PDF Cost Sheet',
+      btn_download_payment_receipt: '📥 Download PDF Receipt',
+      btn_download_deposit_receipt: '📥 Download PDF Receipt',
+      btn_download_lr_pdf: '📥 Download Official LR (PDF)',
       
       // Insights View
       insights_header_title: 'Maharashtra APMC Market Insights & AI Hedging',
@@ -1071,7 +1075,11 @@
       calc_header_subtitle: 'महाराष्ट्र एपीएमसी बेंचमार्क, मूल-गंतव्य लॉजिस्टिक्स मार्गों और शून्य-मध्यस्थ फार्म गेट व्यापार पर आधारित।',
       btn_calc_post_demand: 'खरीद मांग दर्ज करें',
       btn_calc_view_lots: 'मिलान वाले लॉट देखें',
-      btn_print_sheet: 'लागत पत्रक प्रिंट करें',
+      btn_print_sheet: '📥 लागत पत्रक PDF डाउनलोड करें',
+      btn_download_cost_sheet: '📥 लागत पत्रक PDF डाउनलोड करें',
+      btn_download_payment_receipt: '📥 भुगतान रसीद PDF डाउनलोड करें',
+      btn_download_deposit_receipt: '📥 जमा रसीद PDF डाउनलोड करें',
+      btn_download_lr_pdf: '📥 आधिकारिक LR (PDF) डाउनलोड करें',
       
       // Insights View
       insights_header_title: 'महाराष्ट्र एपीएमसी बाजार विश्लेषण और एआई हेजिंग',
@@ -1339,7 +1347,11 @@
       calc_header_subtitle: 'महाराष्ट्र बाजार समिती भाव, थेट शेतावरून खरेदी आणि थेट वाहतूक मार्गांवर आधारित.',
       btn_calc_post_demand: 'खरेदी मागणी नोंदवा',
       btn_calc_view_lots: 'जुळणारे लॉट्स पहा',
-      btn_print_sheet: 'खर्च पत्रक प्रिंट करा',
+      btn_print_sheet: '📥 खर्च पत्रक PDF डाऊनलोड करा',
+      btn_download_cost_sheet: '📥 खर्च पत्रक PDF डाऊनलोड करा',
+      btn_download_payment_receipt: '📥 पेमेंट पावती PDF डाऊनलोड करा',
+      btn_download_deposit_receipt: '📥 एस्क्रो ठेव पावती PDF डाऊनलोड करा',
+      btn_download_lr_pdf: '📥 अधिकृत LR (PDF) डाऊनलोड करा',
       
       // Insights View
       insights_header_title: 'महाराष्ट्र बाजार समित्यांमधील थेट लिलाव दर तक्ता',
@@ -1568,7 +1580,7 @@
     { sel: '#view-calculator .dash-title', key: 'calc_header_title' },
     { sel: '#view-calculator .dash-subtitle', key: 'calc_header_subtitle' },
     { sel: '#btn-calc-post-demand', key: 'btn_calc_post_demand' },
-    { sel: '#view-calculator .btn-outline[onclick*="printProcurementCostSheet"]', key: 'btn_print_sheet' },
+    { sel: '#view-calculator .btn-outline[onclick*="downloadProcurementCostSheetPdf"], #view-calculator .btn-outline[onclick*="printProcurementCostSheet"]', key: 'btn_print_sheet' },
     { sel: '#view-calculator .btn-primary[onclick*="filterMarketplaceFromCalculator"]', key: 'btn_calc_view_lots' },
     
     // Insights View Header & Benchmark Controls
@@ -2187,6 +2199,9 @@
       [/\bAsk AI\b/gi, 'AI ला विचारा'],
       [/\bPrint \/ Save PDF\b/gi, 'प्रिंट / PDF जतन करा'],
       [/\bPrint Receipt\b/gi, 'पावती प्रिंट करा'],
+      [/\bDownload PDF Cost Sheet\b/gi, 'खर्च पत्रक PDF डाऊनलोड करा'],
+      [/\bDownload PDF Receipt\b/gi, 'पावती PDF डाऊनलोड करा'],
+      [/\bDownload Official LR \(PDF\)\b/gi, 'अधिकृत LR (PDF) डाऊनलोड करा'],
       [/\bDone & Return to Portal\b/gi, 'पूर्ण झाले, पोर्टलवर परत जा'],
       [/\bDownload Stamped PDF\b/gi, 'स्वाक्षरी केलेला PDF करार डाऊनलोड करा'],
       [/\bPrint \/ Download Official LR PDF\b/gi, 'अधिकृत LR पावती प्रिंट / डाऊनलोड करा (PDF)'],
@@ -2805,6 +2820,9 @@
       [/\bAsk AI\b/gi, 'एआई से पूछें'],
       [/\bPrint \/ Save PDF\b/gi, 'प्रिंट / पीडीएफ सहेजें'],
       [/\bPrint Receipt\b/gi, 'रसीद प्रिंट करें'],
+      [/\bDownload PDF Cost Sheet\b/gi, 'लागत पत्रक PDF डाउनलोड करें'],
+      [/\bDownload PDF Receipt\b/gi, 'रसीद PDF डाउनलोड करें'],
+      [/\bDownload Official LR \(PDF\)\b/gi, 'आधिकारिक LR (PDF) डाउनलोड करें'],
       [/\bDone & Return to Portal\b/gi, 'पूर्ण, पोर्टल पर वापस जाएं'],
       [/\bDownload Stamped PDF\b/gi, 'हस्ताक्षरित पीडीएफ डाउनलोड करें'],
       [/\bPrint \/ Download Official LR PDF\b/gi, 'आधिकारिक LR रसीद प्रिंट / डाउनलोड करें (PDF)'],

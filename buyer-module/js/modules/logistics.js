@@ -461,12 +461,108 @@ function closeLorryReceiptModal() {
   if (modal) modal.classList.remove('active');
 }
 
-function printLorryReceipt() {
-  showToast('Generating official AgriNex Digital Lorry Receipt PDF with QR verification seal...');
+function downloadLorryReceiptPdf() {
+  const curLang = (window.AgriNexI18n && typeof window.AgriNexI18n.getBuyerLanguage === 'function') ? window.AgriNexI18n.getBuyerLanguage() : 'en';
+  const isMr = curLang === 'mr';
+  const isHi = curLang === 'hi';
+
+  const subtitle = document.getElementById('lr-tracking-subtitle')?.textContent || 'LR No: LR-MH-2026-9921';
+  const cropTitle = document.getElementById('lr-crop-title')?.textContent || '80 Qt Garwa Export Red Onion (Grade A)';
+  const lrId = document.getElementById('lr-id-display')?.textContent || 'TRK-EXP-9921-MH';
+  const vehicle = document.getElementById('lr-vehicle-display')?.textContent || 'Eicher Pro 2049 (MH 15 DK 8810)';
+  const driver = document.getElementById('lr-driver-display')?.textContent || 'Sanjay Patil (+91 98220-44911)';
+  const dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  const docId = lrId.replace(/[^a-zA-Z0-9-_]/g, '');
+
+  const pdfHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${docId} - AgriNex Digital Lorry Receipt (LR)</title>
+  <style>
+    body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; padding: 36px; color: #0f172a; background: #ffffff; margin: 0; }
+    .lr-card { max-width: 800px; margin: auto; border: 2.5px solid #0c5a36; border-radius: 12px; padding: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0c5a36; padding-bottom: 14px; margin-bottom: 16px; }
+    .title { font-size: 22px; font-weight: 800; color: #0c5a36; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 13px; margin-bottom: 16px; }
+    .seal-box { background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: 8px; padding: 14px; margin-bottom: 16px; font-size: 12.5px; }
+    .footer { border-top: 1px solid #e2e8f0; padding-top: 12px; display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="lr-card">
+    <div class="header">
+      <div>
+        <div class="title">AGRINEX LOGISTICS • DIGITAL LORRY RECEIPT (LR)</div>
+        <div style="font-size: 12px; color: #64748b;">Official Motor Transport Consignment Note • Carriage by Road Act 2007</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-weight: 800; font-size: 15px; color: #0f172a;">${lrId}</div>
+        <div style="font-size: 11px; color: #64748b;">${subtitle}</div>
+        <div style="font-size: 11px; color: #64748b;">Date: ${dateStr}</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 16px; padding: 12px 14px; background: #f1f5f9; border-radius: 6px;">
+      <span style="font-size: 11px; font-weight: 800; color: #065f46; background: #dcfce7; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">Verified Transit Cargo</span>
+      <div style="font-size: 16px; font-weight: 800; color: #0f172a; margin-top: 4px;">${cropTitle}</div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Vehicle & Fleet Carrier</div>
+        <div style="font-weight: 800; color: #0f172a; margin-top: 2px;">${vehicle}</div>
+        <div style="color: #64748b; margin-top: 2px;">Driver: ${driver}</div>
+        <div style="color: #64748b;">GPS Telemetry: Active IoT Cold-Chain Tracker</div>
+      </div>
+      <div>
+        <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Weighbridge Certified Weights</div>
+        <div>Gross Truck Weight: <strong>10,850 kg</strong></div>
+        <div>Tare (Empty Truck): <strong>2,850 kg</strong></div>
+        <div>Certified Net Cargo: <strong style="color: #0c5a36;">8,000 kg (80.0 Qt)</strong></div>
+        <div>Moisture Content: <strong>12.4% (Grade A Compliant)</strong></div>
+      </div>
+    </div>
+
+    <div class="seal-box">
+      <div style="font-weight: 800; color: #065f46; margin-bottom: 4px;">🔒 Electronic Gate Pass Seal: #SEAL-88912</div>
+      <div style="color: #15803d;">Certified by AgriNex Mandi Gate Weighbridge Terminal • Anti-Tampering Smart Lock Engaged</div>
+    </div>
+
+    <div class="footer">
+      <div>Digitally Signed by AgriNex Fleet Logistics Network</div>
+      <div>Harmonized with National e-Way Bill & GST Portal</div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  const blob = new Blob([pdfHtml], { type: 'application/pdf;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${docId || 'Lorry-Receipt'}.pdf`;
+  document.body.appendChild(link);
+  link.click();
   setTimeout(() => {
-    closeLorryReceiptModal();
-    showToast('✓ Digital Lorry Receipt (LR) downloaded successfully!');
-  }, 900);
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, 200);
+
+  const toastMsg = isMr
+    ? `✓ अधिकृत LR पावती (${docId}.pdf) डाऊनलोड झाली!`
+    : isHi
+    ? `✓ आधिकारिक LR रसीद (${docId}.pdf) डाउनलोड हो गई!`
+    : `✓ Official Lorry Receipt (${docId}.pdf) downloaded successfully!`;
+
+  if (typeof showToast === 'function') {
+    showToast(toastMsg, 'success');
+  }
+}
+
+function printLorryReceipt() {
+  downloadLorryReceiptPdf();
 }
 
 let activeArrivalDisbursement = {
@@ -983,6 +1079,7 @@ window.openGpsFromDriverModal = openGpsFromDriverModal;
 window.openLorryReceiptModal = openLorryReceiptModal;
 window.closeLorryReceiptModal = closeLorryReceiptModal;
 window.printLorryReceipt = printLorryReceipt;
+window.downloadLorryReceiptPdf = downloadLorryReceiptPdf;
 window.openArrivalReleaseModal = openArrivalReleaseModal;
 window.closeArrivalReleaseModal = closeArrivalReleaseModal;
 window.confirmReleaseEscrowAction = confirmReleaseEscrowAction;
