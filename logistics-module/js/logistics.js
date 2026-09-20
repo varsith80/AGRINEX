@@ -9,6 +9,7 @@ let currentActiveOrder = null;
 // Initialize when DOM ready
 document.addEventListener("DOMContentLoaded", () => {
   initSharedComponents();
+  syncLogisticsDataFromAPI();
 });
 
 function initSharedComponents() {
@@ -16,6 +17,41 @@ function initSharedComponents() {
   const profileNameEl = document.querySelector(".profile-name");
   if (profileNameEl && window.logisticsData) {
     profileNameEl.textContent = logisticsData.profile.name;
+  }
+}
+
+/**
+ * Hydrate dispatch orders dynamically from server DB API
+ */
+async function syncLogisticsDataFromAPI() {
+  try {
+    const res = await fetch('/api/logistics/dispatch-orders');
+    if (res.ok) {
+      const orders = await res.json();
+      if (Array.isArray(orders) && orders.length > 0 && window.logisticsData) {
+        orders.forEach(backendOrder => {
+          const code = backendOrder.order_code || backendOrder.orderCode;
+          const idx = (logisticsData.dispatchOrders || []).findIndex(o => o.orderCode === code);
+          if (idx !== -1) {
+            if (backendOrder.delivery_status) {
+              logisticsData.dispatchOrders[idx].deliveryStatus = backendOrder.delivery_status;
+              logisticsData.dispatchOrders[idx].statusBadgeClass = backendOrder.delivery_status === 'In Transit' ? 'badge-status-transit' : backendOrder.delivery_status === 'Delivered' ? 'badge-status-sold' : logisticsData.dispatchOrders[idx].statusBadgeClass;
+            }
+            if (backendOrder.driver_scheduled_slot) {
+              logisticsData.dispatchOrders[idx].driverScheduledSlot = backendOrder.driver_scheduled_slot;
+            }
+            if (backendOrder.driver_notes) {
+              logisticsData.dispatchOrders[idx].driverNotes = backendOrder.driver_notes;
+            }
+          }
+        });
+        if (typeof renderOrdersList === 'function') renderOrdersList();
+        if (typeof renderFpoCards === 'function') renderFpoCards();
+        if (typeof renderExpressPage === 'function') renderExpressPage();
+      }
+    }
+  } catch (e) {
+    // Graceful offline fallback
   }
 }
 
