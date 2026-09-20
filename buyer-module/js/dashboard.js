@@ -434,11 +434,16 @@ function bootBuyerDashboard() {
     }
   });
 
-  // Global click outside to dismiss spotlight dropdown
+  // Global click outside to dismiss spotlight dropdown & modal backdrops
   document.addEventListener('click', (e) => {
     const searchBox = document.getElementById('navbar-search-box');
     if (searchBox && !searchBox.contains(e.target)) {
       closeSpotlightDropdown();
+    }
+
+    // Dismiss modal if clicking directly on the dark overlay backdrop (outside modal-content)
+    if (e.target && e.target.classList && e.target.classList.contains('modal-overlay') && e.target.classList.contains('active')) {
+      e.target.classList.remove('active');
     }
   });
 
@@ -477,6 +482,13 @@ function bootBuyerDashboard() {
 // =========================================================================
 let spotlightActiveIndex = -1;
 let spotlightVisibleItems = [];
+
+function closeSpotlightDropdown() {
+  const dropdown = document.getElementById('buyer-search-spotlight-dropdown');
+  if (dropdown) dropdown.style.display = 'none';
+  spotlightActiveIndex = -1;
+  spotlightVisibleItems = [];
+}
 
 function highlightMatchText(text, query) {
   if (!text || !query) return text || '';
@@ -595,25 +607,29 @@ function renderSpotlightDropdown(query) {
 
   // 4. Match Consignments & GPS Fleet
   const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
-  const matchedConsignments = consignments.filter(con =>
-    (con.trackingId && con.trackingId.toLowerCase().includes(q)) ||
-    (con.truckPlate && con.truckPlate.toLowerCase().includes(q)) ||
-    (con.driverName && con.driverName.toLowerCase().includes(q)) ||
-    (con.crop && con.crop.toLowerCase().includes(q))
-  ).slice(0, 2);
+  const matchedConsignments = consignments.filter(con => {
+    const trkId = (con.trackingId || con.tracking_id || con.id || '').toLowerCase();
+    const vehiclePlate = (con.truckPlate || con.vehicle || '').toLowerCase();
+    const drvName = (con.driverName || con.driver || '').toLowerCase();
+    const cropName = (con.crop || '').toLowerCase();
+    return trkId.includes(q) || vehiclePlate.includes(q) || drvName.includes(q) || cropName.includes(q);
+  }).slice(0, 2);
 
   if (matchedConsignments.length > 0) {
     html += `<div class="spotlight-group-header">🚚 Active Orders & Fleet (${matchedConsignments.length})</div>`;
     matchedConsignments.forEach(con => {
+      const trkId = con.trackingId || con.tracking_id || con.id || 'TRK';
+      const vehiclePlate = con.truckPlate || con.vehicle || 'Vehicle';
+      const drvName = con.driverName || con.driver || 'Driver';
       const idx = spotlightVisibleItems.length;
-      spotlightVisibleItems.push({ type: 'consignment', id: con.trackingId, data: con });
+      spotlightVisibleItems.push({ type: 'consignment', id: trkId, data: con });
       html += `
-        <div class="spotlight-item" data-index="${idx}" onclick="selectSpotlightItem('consignment', '${con.trackingId}')">
+        <div class="spotlight-item" data-index="${idx}" onclick="selectSpotlightItem('consignment', '${trkId}')">
           <div class="spotlight-item-left">
             <div class="spotlight-item-icon">🚚</div>
             <div style="min-width:0; flex:1;">
-              <div class="spotlight-item-title">${highlightMatchText(con.crop, raw)} • ${con.trackingId}</div>
-              <div class="spotlight-item-sub">🚛 ${con.truckPlate} (${con.driverName}) • ${con.eta || 'In Transit'}</div>
+              <div class="spotlight-item-title">${highlightMatchText(con.crop, raw)} • ${trkId}</div>
+              <div class="spotlight-item-sub">🚛 ${vehiclePlate} (${drvName}) • ${con.eta || 'In Transit'}</div>
             </div>
           </div>
           <div class="spotlight-item-right">
@@ -720,7 +736,7 @@ function parseAndApplyUrlState() {
     }
   }
 
-  if (document.body.classList.contains('lite-mode-active')) {
+  if (document.body.classList.contains('lite-mode-active') || document.documentElement.classList.contains('lite-mode-active')) {
     if (viewSlug === 'insights' && typeof switchLiteSection === 'function') {
       switchLiteSection('insights');
     } else if ((viewSlug === 'orders' || viewSlug === 'consignments') && typeof switchLiteSection === 'function') {
