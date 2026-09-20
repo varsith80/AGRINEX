@@ -223,6 +223,10 @@ function renderBuyerDemands() {
             <button class="btn btn-outline btn-sm" onclick="downloadPurchaseOrder('${dem.id}')" style="font-size: 0.78rem; font-weight: 700; border-color: #cbd5e1; color: #334155;" title="Download Institutional Purchase Order">
               📄 PO
             </button>
+
+            <button class="btn btn-outline btn-sm" onclick="deleteDemandQuota('${dem.id}')" style="font-size: 0.78rem; font-weight: 700; border-color: #fecdd3; color: #e11d48; background: #fff1f2;" title="Cancel & Remove Quota">
+              🗑️
+            </button>
           </div>
         </div>
       </div>
@@ -492,111 +496,60 @@ async function handleNewDemandSubmit(e) {
   }
 }
 
-async function syncDemandsFromBackend() {
-  if (window.apiClient) {
-    try {
-      const serverDemands = await window.apiClient.getDemands();
-      if (Array.isArray(serverDemands) && serverDemands.length > 0) {
-        const existingIds = new Set((buyerData.buyerDemands || []).map(d => d.id));
-        serverDemands.forEach(sd => {
-          if (!existingIds.has(sd.id)) {
-            buyerData.buyerDemands.unshift({
-              ...sd,
-              statusLabel: sd.statusLabel || '● Broadcasting',
-              statusClass: sd.statusClass || 'badge-status-open'
-            });
-          }
-        });
-        renderBuyerDemands();
-      }
-    } catch(err) {
-      console.warn('Backend demands fetch skipped, using local store', err);
+    if (window.apiClient) {
+      window.apiClient.getDemands().then(serverDemands => {
+        if (Array.isArray(serverDemands) && serverDemands.length > 0) {
+          const existingIds = new Set((buyerData.buyerDemands || []).map(d => d.id));
+          serverDemands.forEach(sd => {
+            if (!existingIds.has(sd.id)) {
+              buyerData.buyerDemands.unshift({
+                ...sd,
+                statusLabel: sd.statusLabel || '● Broadcasting Quota',
+                statusClass: sd.statusClass || 'badge-status-open'
+              });
+            }
+          });
+          renderBuyerDemands();
+        }
+      }).catch(err => {
+        console.warn('Backend demands fetch skipped, using local store', err);
+      });
     }
   }
-}
 
-function handleNewDemandSubmit(e) {
-  if (e) e.preventDefault();
+  // Allow deleting/cancelling any unwanted or duplicate quotas
+  function deleteDemandQuota(demandId) {
+    if (!buyerData.buyerDemands) return;
+    const idx = buyerData.buyerDemands.findIndex(d => d.id === demandId);
+    if (idx === -1) return;
 
-  const crop = document.getElementById('demand-crop')?.value || 'Red Onion (Lasalgaon Garwa)';
-  const tonnage = parseFloat(document.getElementById('demand-tonnage')?.value) || 50;
-  const unit = document.getElementById('demand-unit')?.value || 'Qt';
-  const price = parseFloat(document.getElementById('demand-price')?.value) || 18.00;
-  const priceUnit = document.getElementById('demand-price-unit')?.value || 'kg';
-
-  const qtyQt = unit === 'kg' ? tonnage / 100 : tonnage;
-  const qtyKg = unit === 'kg' ? tonnage : tonnage * 100;
-  const pricePerKg = priceUnit === 'qt' ? price / 100 : price;
-
-  const newDemandId = `DEM-MH-${Math.floor(100 + Math.random() * 900)}`;
-
-  const newDemand = {
-    id: newDemandId,
-    commodity: crop,
-    crop: crop,
-    category: 'Vegetables',
-    image: 'assets/images/onion.jpg',
-    targetQtyNum: qtyQt,
-    targetQty: `${qtyQt} Qt (${qtyKg.toLocaleString('en-IN')} kg)`,
-    targetVolume: `${qtyQt} Qt`,
-    sourcedVolume: 0,
-    sourcedVolumeText: '0 Qt',
-    fulfilledPct: 0,
-    ceilingPriceKg: pricePerKg,
-    ceilingPrice: `₹ ${pricePerKg.toFixed(2)} /kg`,
-    mandiBenchmark: `₹ ${(pricePerKg * 0.95).toFixed(2)} /kg`,
-    location: 'Vashi APMC Central Terminal, Navi Mumbai, MH',
-    destination: 'Vashi APMC Central Terminal, Navi Mumbai, MH',
-    deadline: '31 Oct 2026',
-    daysLeft: 42,
-    status: 'broadcasting',
-    statusLabel: '● Broadcasting Quota',
-    spec: 'Grade A (Export / Supermarket >= 70%)',
-    bids: []
-  };
-
-  if (!buyerData.buyerDemands) buyerData.buyerDemands = [];
-  buyerData.buyerDemands.unshift(newDemand);
-  buyerData.demands = buyerData.buyerDemands;
-
-  try {
-    localStorage.setItem('agrinex_buyer_demands', JSON.stringify(buyerData.buyerDemands));
-  } catch (err) {
-    console.warn('Could not persist buyer demands:', err);
+    const cropName = buyerData.buyerDemands[idx].crop;
+    if (confirm(`Are you sure you want to cancel and remove procurement quota #${demandId} (${cropName})?`)) {
+      buyerData.buyerDemands.splice(idx, 1);
+      buyerData.demands = buyerData.buyerDemands;
+      try {
+        localStorage.setItem('agrinex_buyer_demands', JSON.stringify(buyerData.buyerDemands));
+        if (typeof BroadcastChannel !== 'undefined') {
+          const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+          syncChannel.postMessage({ type: 'DEMANDS_UPDATED', deletedId: demandId });
+        }
+      } catch(err) {}
+      renderBuyerDemands();
+      if (typeof showToast === 'function') {
+        showToast(`✓ Quota #${demandId} canceled and removed from active board.`);
+      }
+    }
   }
+  window.deleteDemandQuota = deleteDemandQuota;
 
-  closePostDemandModal();
-  renderBuyerDemands();
-
-  if (window.apiClient) {
-    window.apiClient.createDemand({
-      commodity: newDemand.commodity,
-      target_qty: newDemand.targetQty,
-      target_price: newDemand.ceilingPrice,
-      deadline: newDemand.deadline
-    }).catch(err => console.warn('Offline demand sync skipped', err));
-  }
-
-  if (typeof showToast === 'function') {
-    showToast(`✓ Sourcing quota #${newDemandId} posted! Broadcasting to 1,200+ FPOs & verified farmers.`, 'success');
-  }
-}
-
-document.addEventListener('agrinex:partials-ready', () => {
-  const form = document.getElementById('form-new-demand');
-  if (form && !form.__wired) {
-    form.__wired = true;
-    form.addEventListener('submit', handleNewDemandSubmit);
-  }
-  syncDemandsFromBackend();
-});
-
-// Global delegated listener for post demand form
-document.addEventListener('submit', (e) => {
-  if (e.target && e.target.id === 'form-new-demand') {
-    handleNewDemandSubmit(e);
-  }
-});
+  document.addEventListener('agrinex:partials-ready', () => {
+    const form = document.getElementById('form-new-demand');
+    if (form && !form.__wired) {
+      form.__wired = true;
+      form.addEventListener('submit', handleNewDemandSubmit);
+    }
+    syncDemandsFromBackend();
+  });
 
 // Location Switcher
 function updateDemandPricePreview() {
