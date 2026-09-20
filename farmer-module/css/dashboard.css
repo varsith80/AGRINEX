@@ -1246,6 +1246,235 @@ body.lite-sunlight-mode .lite-hero-card {
 }
 
 /* ==========================================================================
+   FARMER SIMPLE MODE - MARKET INSIGHTS & GRAPH STYLES
+   ========================================================================== */
+.insights-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+@media (max-width: 1100px) {
+  .insights-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .insights-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.insight-stat-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.insight-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.stat-icon-square {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.stat-icon-green { background: #e8f5ed; color: #10b981; }
+.stat-icon-purple { background: #f3e8ff; color: #a855f7; }
+.stat-icon-orange { background: #ffedd5; color: #f97316; }
+.stat-icon-blue { background: #e0f2fe; color: #0284c7; }
+
+.graph-hero-card {
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  margin-bottom: 22px;
+}
+
+.graph-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.unit-toggle-wrap {
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 999px;
+  gap: 4px;
+}
+
+.unit-toggle-btn {
+  border: none;
+  background: transparent;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.unit-toggle-btn.active {
+  background: #064e3b;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(6, 78, 59, 0.25);
+}
+
+.produce-chips-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px 2px 14px 2px;
+  scrollbar-width: thin;
+}
+
+.produce-chip {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+  user-select: none;
+}
+.produce-chip:hover {
+  border-color: #94a3b8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.produce-chip.active {
+  border-color: #0c5a36;
+  background: #f0fdf4;
+  border-width: 2px;
+  box-shadow: 0 4px 14px rgba(12, 90, 54, 0.12);
+}
+
+.produce-chip-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #cbd5e1;
+}
+
+.insights-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+@media (max-width: 900px) {
+  .insights-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.insight-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 20px 22px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header-clean {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.card-title-text {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.demand-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f8fafc;
+}
+.demand-thumb {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #e2e8f0;
+}
+.demand-track {
+  background: #f1f5f9;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  width: 100%;
+}
+.demand-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: #0c5a36;
+}
+
+.forecast-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 14px;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.forecast-row:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+body.lite-sunlight-mode .graph-hero-card,
+body.lite-sunlight-mode .insight-stat-card,
+body.lite-sunlight-mode .insight-card {
+  border: 3.5px solid #000000 !important;
+  box-shadow: 0 6px 0 #000000 !important;
+}
+body.lite-sunlight-mode .produce-chip.active {
+  border: 3.5px solid #000000 !important;
+  background: #fef08a !important;
+}
+
+/* ==========================================================================
    AGRIFLEX KRISHI AI COPILOT SUITE STYLES
    ========================================================================== */
 
