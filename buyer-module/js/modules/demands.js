@@ -496,26 +496,28 @@ async function handleNewDemandSubmit(e) {
   }
 }
 
-    if (window.apiClient) {
-      window.apiClient.getDemands().then(serverDemands => {
-        if (Array.isArray(serverDemands) && serverDemands.length > 0) {
-          const existingIds = new Set((buyerData.buyerDemands || []).map(d => d.id));
-          serverDemands.forEach(sd => {
-            if (!existingIds.has(sd.id)) {
-              buyerData.buyerDemands.unshift({
-                ...sd,
-                statusLabel: sd.statusLabel || '● Broadcasting Quota',
-                statusClass: sd.statusClass || 'badge-status-open'
-              });
-            }
-          });
-          renderBuyerDemands();
-        }
-      }).catch(err => {
-        console.warn('Backend demands fetch skipped, using local store', err);
-      });
+async function syncDemandsFromBackend() {
+  if (window.apiClient) {
+    try {
+      const serverDemands = await window.apiClient.getDemands();
+      if (Array.isArray(serverDemands) && serverDemands.length > 0) {
+        const existingIds = new Set((buyerData.buyerDemands || []).map(d => d.id));
+        serverDemands.forEach(sd => {
+          if (!existingIds.has(sd.id)) {
+            buyerData.buyerDemands.unshift({
+              ...sd,
+              statusLabel: sd.statusLabel || '● Broadcasting Quota',
+              statusClass: sd.statusClass || 'badge-status-open'
+            });
+          }
+        });
+        renderBuyerDemands();
+      }
+    } catch (err) {
+      console.warn('Backend demands fetch skipped, using local store', err);
     }
   }
+}
 
   // Allow deleting/cancelling any unwanted or duplicate quotas
   function deleteDemandQuota(demandId) {
