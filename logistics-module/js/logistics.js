@@ -10,6 +10,14 @@ let currentActiveOrder = null;
 document.addEventListener("DOMContentLoaded", () => {
   initSharedComponents();
   syncLogisticsDataFromAPI();
+
+  // Cross-Module Broadcast Listener
+  if (typeof BroadcastChannel !== "undefined") {
+    const syncChannel = new BroadcastChannel("agrinex_cross_module_sync");
+    syncChannel.onmessage = (event) => {
+      syncLogisticsDataFromAPI();
+    };
+  }
 });
 
 function initSharedComponents() {

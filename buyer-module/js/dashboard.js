@@ -400,14 +400,35 @@ function bootBuyerDashboard() {
 
   // Listen for Cross-Tab / Cross-Module live events
   window.addEventListener('storage', (e) => {
-    if (e.key === 'agrinex_verified_lots' || e.key === 'agrinex_crops_updated') {
+    if (e.key === 'agrinex_verified_lots' || e.key === 'agrinex_crops_updated' || e.key === 'agrinex_buyer_demands') {
       try {
         loadPersistedBuyerState();
         if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
+        if (typeof renderBuyerDemands === 'function') renderBuyerDemands();
         if (typeof updateBuyerMarketStats === 'function') updateBuyerMarketStats();
       } catch(err) {}
     }
   });
+
+  if (typeof BroadcastChannel !== 'undefined') {
+    const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+    syncChannel.onmessage = async (event) => {
+      if (event.data && event.data.type === 'LOT_CREATED') {
+        if (window.apiClient) {
+          try {
+            await window.apiClient.getMarketplaceLots();
+          } catch(err) {}
+        }
+        loadPersistedBuyerState();
+        if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
+        if (typeof updateBuyerMarketStats === 'function') updateBuyerMarketStats();
+      }
+      if (event.data && event.data.type === 'DEMANDS_UPDATED') {
+        loadPersistedBuyerState();
+        if (typeof renderBuyerDemands === 'function') renderBuyerDemands();
+      }
+    };
+  }
 
 
   // Global keyboard shortcuts (Esc to close modals / spotlight, Ctrl+K to search, Up/Down for spotlight)

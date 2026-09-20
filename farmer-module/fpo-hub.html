@@ -637,6 +637,11 @@
       renderMyCommitments();
       renderCompletedPools();
       renderBoardMembers();
+
+      const engine = getFPOEngine();
+      if (engine && typeof engine.syncFromServer === 'function') {
+        engine.syncFromServer();
+      }
     }
 
     // Run on DOMContentLoaded or immediately if already loaded

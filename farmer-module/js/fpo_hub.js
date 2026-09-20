@@ -195,23 +195,106 @@ const FPO_COOPERATIVE_DATA = {
 
 class AgriNexFPOHub {
   static getBulkDemands() {
-    let data = null;
+    let fpoData = [];
     try {
       const stored = localStorage.getItem("agrinex_fpo_bulk_demands");
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          data = parsed;
+          fpoData = parsed;
         }
       }
     } catch(e) {}
-    return (data && data.length > 0) ? data : FPO_COOPERATIVE_DATA.bulkDemands;
+
+    if (!fpoData || fpoData.length === 0) {
+      fpoData = [...FPO_COOPERATIVE_DATA.bulkDemands];
+    }
+
+    // Unify with buyer-posted demands from localStorage
+    try {
+      const buyerStored = localStorage.getItem("agrinex_buyer_demands");
+      if (buyerStored) {
+        const buyerDemands = JSON.parse(buyerStored);
+        if (Array.isArray(buyerDemands) && buyerDemands.length > 0) {
+          buyerDemands.forEach(bd => {
+            const exists = fpoData.some(d => d.id === bd.id);
+            if (!exists) {
+              const cropLower = (bd.crop || '').toLowerCase();
+              let cropImg = 'assets/images/tomato.jpg';
+              if (cropLower.includes('mango') || cropLower.includes('आंबा')) cropImg = 'assets/images/mango.jpg';
+              else if (cropLower.includes('onion') || cropLower.includes('कांदा')) cropImg = 'assets/images/onion.jpg';
+              else if (cropLower.includes('potato') || cropLower.includes('बटाटा')) cropImg = 'assets/images/potato.jpg';
+              else if (cropLower.includes('grape') || cropLower.includes('द्राक्षे')) cropImg = 'assets/images/grapes.jpg';
+              else if (cropLower.includes('pomegranate') || cropLower.includes('डाळिंब')) cropImg = 'assets/images/pomegranate.jpg';
+              else if (cropLower.includes('wheat') || cropLower.includes('गहू') || cropLower.includes('paddy')) cropImg = 'assets/images/wheat.jpg';
+              else if (cropLower.includes('cotton') || cropLower.includes('कापूस')) cropImg = 'assets/images/cotton.jpg';
+
+              const reqQt = Number(bd.tonnageNum || (bd.tonnage && parseInt(bd.tonnage)) || 50);
+              const priceKg = Number(bd.pricePerKg || (bd.targetPrice && parseFloat(bd.targetPrice.replace(/[^\d.]/g, ''))) || 18);
+              const priceQt = Math.round(priceKg * 100);
+
+              const mappedFpoDemand = {
+                id: bd.id,
+                crop: bd.crop,
+                image: cropImg,
+                buyerName: bd.buyerName || bd.buyer_name || "BigBasket Direct Procurement",
+                buyerLogo: "🏢",
+                buyerCategory: "Institutional Buyer Quota",
+                totalRequiredQty: `${reqQt} Qt (${(reqQt * 100).toLocaleString('en-IN')} kg)`,
+                totalRequiredNumber: reqQt,
+                currentPooledQty: bd.fulfilledTonnage || 0,
+                targetPricePerQt: `₹ ${priceKg.toFixed(2)} /kg (₹ ${priceQt.toLocaleString('en-IN')} /Qt)`,
+                targetPriceNumber: priceQt,
+                minContribution: "5 Qt (500 kg)",
+                deadline: bd.deadline || "5 Days Remaining",
+                destination: bd.location || "Vashi APMC Central Terminal, Navi Mumbai",
+                status: "Pooling Active (0% Filled)",
+                qualitySpecs: "Standard Farm Gate Grade A, Escrow Guaranteed",
+                advancePercent: "35% Advance",
+                farmerContributors: []
+              };
+              fpoData.unshift(mappedFpoDemand);
+            }
+          });
+        }
+      }
+    } catch(e) {
+      console.warn('[AgriNexFPOHub] Sync error:', e);
+    }
+
+    return fpoData;
   }
 
   static saveBulkDemands(demands) {
     try {
       localStorage.setItem("agrinex_fpo_bulk_demands", JSON.stringify(demands));
+      // Notify other open tabs/windows
+      if (typeof BroadcastChannel !== 'undefined') {
+        const bc = new BroadcastChannel('agrinex_cross_module_sync');
+        bc.postMessage({ type: 'DEMANDS_UPDATED', demands });
+      }
     } catch(e) {}
+  }
+
+  static async syncFromServer() {
+    try {
+      const res = await fetch('/api/buyer/demands');
+      if (res.ok) {
+        const serverDemands = await res.json();
+        if (Array.isArray(serverDemands) && serverDemands.length > 0) {
+          const currentBuyerStored = localStorage.getItem("agrinex_buyer_demands");
+          const localBuyer = currentBuyerStored ? JSON.parse(currentBuyerStored) : [];
+          const merged = new Map(localBuyer.map(d => [d.id, d]));
+          serverDemands.forEach(d => merged.set(d.id, { ...merged.get(d.id), ...d }));
+          localStorage.setItem("agrinex_buyer_demands", JSON.stringify(Array.from(merged.values())));
+          
+          if (typeof renderFPOPageDemands === 'function') renderFPOPageDemands();
+          if (typeof renderFPOHub === 'function') renderFPOHub();
+        }
+      }
+    } catch(e) {
+      // Graceful offline fallback
+    }
   }
 
   static contributeToPool(demandId, qtyQt, farmerName = "Ramesh Patil") {
@@ -303,6 +386,22 @@ class AgriNexFPOHub {
 if (typeof window !== "undefined") {
   window.AgriNexFPOHub = AgriNexFPOHub;
   window.FPO_COOPERATIVE_DATA = FPO_COOPERATIVE_DATA;
+
+  // Cross-tab real-time listener
+  if (typeof BroadcastChannel !== "undefined") {
+    const syncChannel = new BroadcastChannel("agrinex_cross_module_sync");
+    syncChannel.onmessage = (event) => {
+      if (event.data && event.data.type === "DEMANDS_UPDATED") {
+        if (typeof renderFPOPageDemands === "function") renderFPOPageDemands();
+        if (typeof renderFPOHub === "function") renderFPOHub();
+      }
+    };
+  }
+
+  // Auto-sync from server when online
+  document.addEventListener("DOMContentLoaded", () => {
+    AgriNexFPOHub.syncFromServer();
+  });
 }
 if (typeof global !== "undefined") {
   global.AgriNexFPOHub = AgriNexFPOHub;
@@ -311,3 +410,4 @@ if (typeof global !== "undefined") {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = { AgriNexFPOHub, FPO_COOPERATIVE_DATA };
 }
+

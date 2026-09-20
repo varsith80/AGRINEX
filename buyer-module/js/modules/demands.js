@@ -471,6 +471,12 @@ async function handleNewDemandSubmit(e) {
   buyerData.buyerDemands.unshift(newDemand);
   try {
     localStorage.setItem('agrinex_buyer_demands', JSON.stringify(buyerData.buyerDemands));
+    
+    // Cross-tab real-time broadcast to Farmer & Admin modules
+    if (typeof BroadcastChannel !== 'undefined') {
+      const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+      syncChannel.postMessage({ type: 'DEMANDS_UPDATED', demand: newDemand });
+    }
   } catch(err) {}
 
   if (window.apiClient) {

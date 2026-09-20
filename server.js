@@ -1950,12 +1950,19 @@ const server = http.createServer(async (req, res) => {
         let cropImage = body.image || body.image_url || "";
         if (!cropImage) {
           const lower = cropName.toLowerCase();
-          if (lower.includes('tomato')) cropImage = 'assets/images/tomato.jpg';
-          else if (lower.includes('onion')) cropImage = 'assets/images/onion.jpg';
-          else if (lower.includes('potato')) cropImage = 'assets/images/potato.jpg';
-          else if (lower.includes('wheat') || lower.includes('paddy')) cropImage = 'assets/images/paddy.jpg';
-          else if (lower.includes('cotton')) cropImage = 'assets/images/cotton.jpg';
-          else if (lower.includes('chilli')) cropImage = 'assets/images/chilli.jpg';
+          if (lower.includes('mango') || lower.includes('आंबा')) cropImage = 'assets/images/mango.jpg';
+          else if (lower.includes('tomato') || lower.includes('टोमॅटो')) cropImage = 'assets/images/tomato.jpg';
+          else if (lower.includes('onion') || lower.includes('कांदा')) cropImage = 'assets/images/onion.jpg';
+          else if (lower.includes('potato') || lower.includes('बटाटा')) cropImage = 'assets/images/potato.jpg';
+          else if (lower.includes('grape') || lower.includes('द्राक्षे')) cropImage = 'assets/images/grapes.jpg';
+          else if (lower.includes('pomegranate') || lower.includes('डाळिंब')) cropImage = 'assets/images/pomegranate.jpg';
+          else if (lower.includes('banana') || lower.includes('केळी')) cropImage = 'assets/images/banana.jpg';
+          else if (lower.includes('orange') || lower.includes('संत्रे')) cropImage = 'assets/images/orange.jpg';
+          else if (lower.includes('wheat') || lower.includes('गहू') || lower.includes('paddy') || lower.includes('धान')) cropImage = 'assets/images/wheat.jpg';
+          else if (lower.includes('cotton') || lower.includes('कापूस')) cropImage = 'assets/images/cotton.jpg';
+          else if (lower.includes('chilli') || lower.includes('मिरची')) cropImage = 'assets/images/chilli.jpg';
+          else if (lower.includes('soybean') || lower.includes('सोयाबीन')) cropImage = 'assets/images/soybean.jpg';
+          else if (lower.includes('turmeric') || lower.includes('हळद')) cropImage = 'assets/images/turmeric.jpg';
           else cropImage = 'assets/images/hero-field.jpg';
         }
 

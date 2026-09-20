@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   renderListings();
   syncListingsFromBackend();
   renderFPOHub();
+  if (window.AgriNexFPOHub && typeof window.AgriNexFPOHub.syncFromServer === 'function') {
+    window.AgriNexFPOHub.syncFromServer();
+  }
   setupModals();
   setupNavigation();
   setupLocationChange();
@@ -26,6 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           showToast("🎉 Crop lot published to marketplace!");
           await syncListingsFromBackend();
+
+          // Broadcast to Buyer and Admin tabs immediately
+          if (typeof BroadcastChannel !== 'undefined') {
+            const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+            syncChannel.postMessage({ type: 'LOT_CREATED', crop: cropName });
+          }
+
           document.getElementById("modal-create-listing").classList.remove("active");
           createForm.reset();
           return;

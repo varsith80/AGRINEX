@@ -43,6 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const saved = window.getAdminLanguage ? window.getAdminLanguage() : "en";
     window.AgriNexAdminI18n.walkAndTranslateDOM(document.body, saved);
   }
+
+  // Cross-Module Broadcast Listener
+  if (typeof BroadcastChannel !== "undefined") {
+    const syncChannel = new BroadcastChannel("agrinex_cross_module_sync");
+    syncChannel.onmessage = (event) => {
+      renderOverviewStats();
+      renderPriorityActionQueue();
+      renderDealsPaymentsTable();
+      renderMarketDataTable();
+    };
+  }
 });
 
 // Real-time language switcher event listener
