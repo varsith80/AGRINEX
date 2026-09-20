@@ -53,4 +53,33 @@ describe('AgriNex Cross-Module Synchronization Suite', () => {
     assert.ok(lot11, 'LOT-FRE-11 must exist');
     assert.strictEqual(lot11.image, 'assets/images/mango.jpg', 'LOT-FRE-11 must use assets/images/mango.jpg');
   });
+
+  it('should audit Escrow, Payments, Logistics, and Grievances sync data contracts', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const dataJson = JSON.parse(fs.readFileSync(path.join(__dirname, '../backend/data.json'), 'utf8'));
+
+    // 1. Escrow Contracts & Payments Sync Integrity
+    assert.ok(Array.isArray(dataJson.escrow_contracts), 'Escrow contracts array must exist');
+    assert.ok(dataJson.escrow_contracts.length > 0, 'Must have active escrow contracts');
+    const sampleContract = dataJson.escrow_contracts[0];
+    assert.ok(sampleContract.contract_no, 'Escrow must have contract_no');
+    assert.ok(sampleContract.advance_amount !== undefined, 'Escrow must track 35% advance amount');
+    assert.ok(sampleContract.balance_amount !== undefined, 'Escrow must track 65% balance amount');
+
+    // 2. Logistics Fleet Dispatches Sync Integrity
+    assert.ok(Array.isArray(dataJson.logistics_dispatch_orders), 'Logistics dispatch orders array must exist');
+    assert.ok(dataJson.logistics_dispatch_orders.length > 0, 'Must have logistics dispatches');
+    const sampleDispatch = dataJson.logistics_dispatch_orders[0];
+    assert.ok(sampleDispatch.order_code || sampleDispatch.orderCode, 'Dispatch must track order code');
+    assert.ok(sampleDispatch.delivery_status || sampleDispatch.deliveryStatus, 'Dispatch must track delivery status');
+
+    // 3. Grievance & Dispute Redressal Sync Integrity
+    assert.ok(Array.isArray(dataJson.grievances), 'Grievances array must exist');
+    assert.ok(dataJson.grievances.length > 0, 'Must have filed grievances');
+    const sampleGrv = dataJson.grievances[0];
+    assert.ok(sampleGrv.id, 'Grievance must have ID');
+    assert.ok(sampleGrv.status, 'Grievance must have status');
+    assert.ok(Array.isArray(sampleGrv.steps), 'Grievance must have resolution steps');
+  });
 });

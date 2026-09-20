@@ -804,9 +804,18 @@ function confirmReleaseEscrowAction() {
     try { updateBuyerMarketStats(); } catch(e) {}
   }
 
-  // 6. Broadcast storage event across windows/tabs
+  // 6. Broadcast storage event & cross-module sync across windows/tabs
   try {
     window.dispatchEvent(new Event('storage'));
+    if (typeof BroadcastChannel !== 'undefined') {
+      const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+      syncChannel.postMessage({
+        type: 'ESCROW_SETTLED',
+        contractNo: (cItem && cItem.contract_no) || targetRef,
+        amount: amtStr,
+        farmer: activeArrivalDisbursement.farmer || 'Farmer'
+      });
+    }
   } catch(e) {}
 
   // 7. Persist escrow release to backend API

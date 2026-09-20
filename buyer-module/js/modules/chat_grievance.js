@@ -506,6 +506,22 @@ function acceptGrievanceResolution(grvId) {
       { step: "AI Assay & Photo Review", done: true, time: "12 Sep, 11:30 AM" },
       { step: "Settlement Agreed & Credited", done: true, time: "Just now" }
     ];
+
+    try {
+      localStorage.setItem('agrinex_buyer_grievances', JSON.stringify(buyerData.grievances));
+      if (typeof BroadcastChannel !== 'undefined') {
+        const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+        syncChannel.postMessage({ type: 'GRIEVANCE_RESOLVED', grievanceId: grvId });
+      }
+    } catch(err) {}
+
+    // Synchronize to backend server
+    fetch(`/api/grievances/${grvId}/resolve`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ resolution_type: 'payout_adjusted', notes: 'Accepted 5% rebate' })
+    }).catch(e => console.warn('Offline grievance resolution'));
+
     showToast(`Dispute ${grvId} settled! ₹ 3,900 rebate credit disbursed to your AgriNex wallet.`);
     renderGrievances();
   }
@@ -741,7 +757,26 @@ function submitGrievance(e) {
 
   try {
     localStorage.setItem('agrinex_buyer_grievances', JSON.stringify(buyerData.grievances));
+    
+    // Broadcast to Admin and Farmer portals
+    if (typeof BroadcastChannel !== 'undefined') {
+      const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+      syncChannel.postMessage({ type: 'GRIEVANCE_FILED', grievance: newGrievance });
+    }
   } catch(err) {}
+
+  // Sync with central backend API
+  fetch('/api/grievances', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      category: safeCat,
+      lot_ref: lotId,
+      subject: `${safeCrop} Quality Variance Disputed`,
+      description: safeDesc,
+      priority: 'High'
+    })
+  }).catch(e => console.warn('Offline grievance logging'));
 
   if (buyerData.consignments) {
     const matched = buyerData.consignments.find(c => c.id === lotId || c.tracking_id === lotId || c.lot_id === lotId) ||

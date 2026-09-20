@@ -171,7 +171,7 @@ function executeBuyerLotPurchase(lotId, customPricePerKg = null, customQtyKg = n
   if (typeof renderLiteOrdersCards === 'function') renderLiteOrdersCards();
   if (typeof renderLiteEscrowCards === 'function') renderLiteEscrowCards();
 
-  // 8. Backend Sync
+  // 8. Backend Sync & Cross-Module Broadcast
   if (window.apiClient) {
     window.apiClient.directBuy({
       lot_id: lot.id,
@@ -182,6 +182,20 @@ function executeBuyerLotPurchase(lotId, customPricePerKg = null, customQtyKg = n
       rate_kg: priceKg,
       buyer_name: lot.purchasedByName || "Karthik Sundaram (BigBasket)"
     }).catch(e => console.warn('[AgriNex] directBuy offline fallback', e));
+  }
+
+  // Real-time broadcast to Farmer, Logistics, and Admin modules
+  if (typeof BroadcastChannel !== 'undefined') {
+    const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+    syncChannel.postMessage({
+      type: 'ESCROW_ORDER_CREATED',
+      contractNo: contractNo,
+      trackingId: trackingId,
+      crop: lot.crop,
+      farmerName: lot.farmerName,
+      totalAmount: totalVal,
+      advanceAmount: advAmount
+    });
   }
 
   try {
