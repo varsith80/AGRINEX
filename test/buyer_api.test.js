@@ -182,4 +182,53 @@ describe('AgriNex Buyer Module REST API Live Endpoints', () => {
     });
   });
 
+  describe('4. Market Insights & Landed Cost Endpoints', () => {
+    it('GET /api/buyer/market-insights - should return Maharashtra APMC commodity benchmarks', async () => {
+      const res = await fetch(`${BASE_URL}/api/buyer/market-insights`);
+      assert.strictEqual(res.status, 200);
+      const json = await res.json();
+      assert.strictEqual(json.success, true);
+      assert.ok(json.data && typeof json.data === 'object');
+      assert.ok(json.commodities_count >= 28, 'Expected at least 28 commodity benchmarks');
+      assert.ok(json.data.onion, 'Expected onion data in benchmarks');
+      assert.strictEqual(json.data.onion.key, 'onion');
+    });
+
+    it('POST /api/buyer/mandi-sync - should dynamically synchronize APMC rates and arrival volumes', async () => {
+      const res = await fetch(`${BASE_URL}/api/buyer/mandi-sync`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      assert.strictEqual(res.status, 200);
+      const json = await res.json();
+      assert.strictEqual(json.success, true);
+      assert.ok(json.synced_at);
+      assert.ok(json.data && json.data.onion);
+    });
+
+    it('POST /api/buyer/landed-cost-estimate - should calculate precise freight, statutory cess and net landed cost', async () => {
+      const payload = {
+        qtyKg: 5000,
+        rateKg: 18.0,
+        distanceKm: 210,
+        terminalRateKg: 21.50
+      };
+
+      const res = await fetch(`${BASE_URL}/api/buyer/landed-cost-estimate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      assert.strictEqual(res.status, 200);
+      const json = await res.json();
+      assert.strictEqual(json.success, true);
+      assert.strictEqual(json.farmGateCost, 90000);
+      assert.ok(json.totalLandedCost > 90000);
+      assert.ok(json.landedCostPerKg > 19 && json.landedCostPerKg < 21);
+      assert.ok(json.netSavings > 0);
+      assert.ok(json.arbitragePct > 0);
+    });
+  });
+
 });
+

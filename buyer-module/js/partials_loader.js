@@ -36,6 +36,7 @@
     'modals/modal-digital-po.html',
     'modals/modal-lot-comparison.html',
     'modals/modal-district-crop-matrix.html',
+    'modals/modal-landed-cost.html',
     'modals/modal-escrow-payment-gateway.html',
     'modals/modal-payment-receipt.html',
     'modals/modal-auth.html'

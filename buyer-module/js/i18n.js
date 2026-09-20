@@ -840,6 +840,10 @@
       insights_mandis_table_title: '🏛️ Maharashtra APMC Mandis Live Auction Benchmark Table',
       insights_mandis_table_sub: 'Compare major regulated mandis (Lasalgaon, Narayangaon, Raver, Latur, Katol, Sangli, Pandharpur, Pimpalgaon, Kolhapur, Solapur) vs Direct Farm Sourcing to maximize institutional arbitrage.',
       insights_quick_districts: 'Quick Districts:',
+      table_mode_top_commodities: '🌾 Top Commodity Benchmarks (28)',
+      table_mode_commodity: 'By Commodity (28)',
+      table_mode_all_mandis: '🏛️ All APMC District Hubs',
+      insights_sort_hint: '💡 Click any column header to sort',
       insights_all_apmcs: '🌾 All APMCs',
       quick_dist_nashik: '🧅 Nashik',
       quick_dist_pune: '🍅 Pune',
@@ -1112,6 +1116,10 @@
       insights_mandis_table_title: '🏛️ महाराष्ट्र एपीएमसी मंडियों की लाइव नीलामी बेंचमार्क तालिका',
       insights_mandis_table_sub: 'प्रमुख मंडियों की तुलना सीधे खेत से खरीद से करें और अधिकतम संस्थागत लाभ प्राप्त करें।',
       insights_quick_districts: 'प्रमुख जिले:',
+      table_mode_top_commodities: '🌾 शीर्ष फसल बेंचमार्क (28)',
+      table_mode_commodity: 'फसलों के अनुसार (28)',
+      table_mode_all_mandis: '🏛️ सभी एपीएमसी मंडी केंद्र',
+      insights_sort_hint: '💡 क्रमबद्ध करने के लिए किसी भी कॉलम हेडर पर क्लिक करें',
       insights_all_apmcs: '🌾 सभी मंडियां',
       quick_dist_nashik: '🧅 नासिक',
       quick_dist_pune: '🍅 पुणे',
@@ -1384,6 +1392,10 @@
       insights_mandis_table_title: '🏛️ महाराष्ट्र बाजार समित्यांमधील थेट लिलाव दर तक्ता',
       insights_mandis_table_sub: 'प्रमुख बाजार समित्यांची (लासलगाव, नारायणगाव, रावेर, लातूर इत्यादी) थेट शेतीमाल खरेदीशी तुलना करा आणि कमाल नफा मिळवा.',
       insights_quick_districts: 'प्रमुख जिल्हे:',
+      table_mode_top_commodities: '🌾 प्रमुख शेतमाल दर (२८ पिके)',
+      table_mode_commodity: 'शेतमालानुसार (२८)',
+      table_mode_all_mandis: '🏛️ सर्व बाजार समिती केंद्रे',
+      insights_sort_hint: '💡 क्रमवारी लावण्यासाठी कोणत्याही शीर्षकावर क्लिक करा',
       insights_all_apmcs: '🌾 सर्व बाजार समित्या',
       quick_dist_nashik: '🧅 नाशिक',
       quick_dist_pune: '🍅 पुणे',
@@ -7054,6 +7066,7 @@
     if (typeof window.renderBuyerEscrowVault === 'function') window.renderBuyerEscrowVault();
     if (typeof window.renderGrievances === 'function') window.renderGrievances();
     if (typeof window.recalculateBuyerCosts === 'function') window.recalculateBuyerCosts();
+    if (typeof window.updateLandedCostCalculation === 'function') window.updateLandedCostCalculation();
 
     if (typeof window.renderChatSidebar === 'function') window.renderChatSidebar();
     if (typeof window.selectChatContact === 'function') {

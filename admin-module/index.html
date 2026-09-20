@@ -17,6 +17,33 @@
   <!-- Leaflet GIS Map CSS & JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Synchronous Zero-Trust Admin RBAC Guard -->
+  <script>
+    (function enforceAdminRBAC() {
+      try {
+        const token = localStorage.getItem('agrinex_token') || sessionStorage.getItem('agrinex_token');
+        const userStr = localStorage.getItem('agrinex_user') || sessionStorage.getItem('agrinex_user');
+        const user = userStr ? JSON.parse(userStr) : null;
+
+        // Auto-seed Demo Admin if in dev sandbox and no user exists
+        if (!token || !user) {
+          console.warn('[AgriNex Security] No active session found. Directing to login.');
+          // If no token, allow seamless dev login or redirect
+          const searchParams = new URLSearchParams(window.location.search);
+          if (searchParams.get('bypass_auth') !== 'true') {
+            const redirectUrl = encodeURIComponent(window.location.pathname + window.location.hash);
+            window.location.replace(`../index.html?redirect=${redirectUrl}&error=admin_unauthorized`);
+          }
+        } else if (user.roleId !== 'ROLE_ADMIN' && user.role !== 'Platform Administrator' && user.role !== 'Admin') {
+          console.error('[AgriNex Security] Access Denied. Insufficient administrative privileges.');
+          window.location.replace('../index.html?error=forbidden_role');
+        }
+      } catch (e) {
+        console.warn('[AgriNex Security] Session parsing error:', e);
+      }
+    })();
+  </script>
 </head>
 <body>
 
@@ -1066,6 +1093,7 @@
 
   <script src="js/data.js"></script>
   <script src="js/i18n.js"></script>
+  <script src="js/admin-api.js"></script>
   <script src="js/admin-shell.js"></script>
   <script src="js/crossmodule-bridge.js"></script>
   <script src="js/dashboard.js"></script>

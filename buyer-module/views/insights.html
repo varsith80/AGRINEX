@@ -17,6 +17,10 @@
               <span style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block;"></span>
               <span id="mandi-live-timestamp">Synced: Today at 09:00 AM • e-NAM & APMC Live</span>
             </div>
+            <button class="btn btn-outline btn-sm" onclick="openLandedCostCalculator()" style="border-color: #1e3a8a; color: #1e3a8a; display: flex; align-items: center; gap: 6px; font-weight: 700; background: #eff6ff;">
+              <span>🚚</span>
+              <span data-i18n="insights_btn_landed_calc">Landed Cost Calculator</span>
+            </button>
             <button class="btn btn-primary btn-sm" onclick="triggerMandiSync()" style="background: #0c5a36; border-color: #0c5a36; display: flex; align-items: center; gap: 6px; font-weight: 700;">
               <span id="mandi-sync-icon" style="display: inline-block;">🔄</span>
               <span data-i18n="insights_sync_btn">Sync Mandi Rates</span>
@@ -326,6 +330,25 @@
             </div>
           </div>
 
+          <!-- Table View Mode Switcher: Top Commodity Benchmarks vs All APMC Hubs -->
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
+            <div style="display: inline-flex; background: #f1f5f9; padding: 4px; border-radius: 12px; border: 1px solid #e2e8f0; gap: 4px;">
+              <button type="button" id="mandis-view-top-btn" class="active" onclick="setMandisTableViewMode('top_commodities')" 
+                style="padding: 7px 16px; font-size: 0.82rem; font-weight: 800; border-radius: 9px; border: 1px solid #0c5a36; background: #0c5a36; color: #ffffff; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" 
+                data-i18n="table_mode_top_commodities">
+                <span>🌾 Top Commodity Benchmarks (28)</span>
+              </button>
+              <button type="button" id="mandis-view-all-btn" onclick="setMandisTableViewMode('all_mandis')" 
+                style="padding: 7px 16px; font-size: 0.82rem; font-weight: 800; border-radius: 9px; border: 1px solid transparent; background: transparent; color: #475569; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" 
+                data-i18n="table_mode_all_mandis">
+                <span>🏛️ All APMC District Hubs</span>
+              </button>
+            </div>
+            <div style="font-size: 0.74rem; color: #64748b; font-weight: 600;">
+              <span data-i18n="insights_sort_hint">💡 Click any column header to sort</span>
+            </div>
+          </div>
+
           <!-- District Quick-Filter Chips Bar -->
           <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; scrollbar-width: thin;">
             <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; align-self: center; white-space: nowrap; margin-right: 4px;" data-i18n="insights_quick_districts">Quick Districts:</span>
@@ -342,12 +365,24 @@
             <table class="data-table">
               <thead style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0;">
                 <tr>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_commodity_hub">APMC Mandi & Crop</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_24h_arrivals">Arrival Volume (Qt & kg)</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_min_price">Min Price</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_modal_price">Modal Price (Live)</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_max_price">Max Price</th>
-                  <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase;" data-i18n="th_direct_arbitrage">Direct Arbitrage (Spread)</th>
+                  <th onclick="sortMandisTable('crop')" style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase; cursor: pointer; user-select: none;" title="Sort by Crop">
+                    <span data-i18n="th_commodity_hub">APMC Mandi & Crop</span><span id="sort-caret-crop" style="color: #94a3b8;"> ↕</span>
+                  </th>
+                  <th onclick="sortMandisTable('arrivals')" style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase; cursor: pointer; user-select: none;" title="Sort by Arrival Volume">
+                    <span data-i18n="th_24h_arrivals">Arrival Volume</span><span id="sort-caret-arrivals" style="color: #94a3b8;"> ↕</span>
+                  </th>
+                  <th onclick="sortMandisTable('minPrice')" style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase; cursor: pointer; user-select: none;" title="Sort by Min Price">
+                    <span data-i18n="th_min_price">Min Price</span><span id="sort-caret-minPrice" style="color: #94a3b8;"> ↕</span>
+                  </th>
+                  <th onclick="sortMandisTable('modalPrice')" style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase; cursor: pointer; user-select: none;" title="Sort by Modal Price">
+                    <span data-i18n="th_modal_price">Modal Price (Live)</span><span id="sort-caret-modalPrice" style="color: #94a3b8;"> ↕</span>
+                  </th>
+                  <th onclick="sortMandisTable('maxPrice')" style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase; cursor: pointer; user-select: none;" title="Sort by Max Price">
+                    <span data-i18n="th_max_price">Max Price</span><span id="sort-caret-maxPrice" style="color: #94a3b8;"> ↕</span>
+                  </th>
+                  <th onclick="sortMandisTable('arbitrage')" style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase; cursor: pointer; user-select: none;" title="Sort by Direct Arbitrage Spread">
+                    <span data-i18n="th_direct_arbitrage">Direct Arbitrage</span><span id="sort-caret-arbitrage" style="color: #94a3b8;"> ↕</span>
+                  </th>
                   <th style="padding: 14px 16px; font-weight: 800; color: #334155; font-size: 0.78rem; text-transform: uppercase; text-align: right;" data-i18n="th_action">Sourcing Actions</th>
                 </tr>
               </thead>

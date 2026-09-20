@@ -276,11 +276,24 @@
     }
 
     .ticker-tag span.dot {
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: #16a34a;
-      box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+      box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
+      animation: pulseGreenDot 2s infinite cubic-bezier(0.66, 0, 0, 1);
+    }
+
+    @keyframes pulseGreenDot {
+      0% {
+        box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 7px rgba(22, 163, 74, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
+      }
     }
 
     .ticker-track {
@@ -297,11 +310,12 @@
     .ticker-marquee {
       display: inline-flex;
       align-items: center;
-      animation: tickerRun 44s linear infinite;
+      animation: tickerRun 40s linear infinite;
       gap: 36px;
       white-space: nowrap;
       will-change: transform;
       padding-left: 12px;
+      transition: animation-play-state 0.2s ease;
     }
 
     .ticker-marquee:hover {
@@ -309,8 +323,8 @@
     }
 
     @keyframes tickerRun {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
     }
 
     .ticker-item {
@@ -318,6 +332,11 @@
       align-items: center;
       gap: 6px;
       color: #475569;
+      transition: transform 0.2s ease;
+    }
+
+    .ticker-item:hover {
+      transform: scale(1.04);
     }
 
     .ticker-item strong {
@@ -366,6 +385,17 @@
       align-items: flex-start;
     }
 
+    @keyframes heroFadeInUp {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 24px, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
     .hero-pill-badge {
       display: inline-flex;
       align-items: center;
@@ -378,6 +408,7 @@
       font-size: 0.82rem;
       font-weight: 700;
       margin-bottom: 20px;
+      animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
     }
 
     .hero-main-title {
@@ -387,10 +418,13 @@
       line-height: 1.16;
       letter-spacing: -0.03em;
       margin-bottom: 18px;
+      animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
     }
 
     .hero-main-title span.highlight {
       color: var(--primary-green);
+      position: relative;
+      display: inline-block;
     }
 
     .hero-description {
@@ -399,6 +433,7 @@
       line-height: 1.65;
       margin-bottom: 28px;
       max-width: 620px;
+      animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
     }
 
     .hero-actions-row {
@@ -407,6 +442,7 @@
       gap: 14px;
       margin-bottom: 32px;
       flex-wrap: wrap;
+      animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s backwards;
     }
 
     .btn-primary-green {
@@ -420,14 +456,36 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 4px 12px rgba(13, 74, 43, 0.25);
-      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(13, 74, 43, 0.25);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary-green::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -80%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+      transform: rotate(25deg);
+      transition: all 0.75s ease;
+    }
+
+    .btn-primary-green:hover::after {
+      left: 140%;
     }
 
     .btn-primary-green:hover {
       background: #07381e;
-      box-shadow: 0 6px 18px rgba(13, 74, 43, 0.35);
-      transform: translateY(-1px);
+      box-shadow: 0 8px 22px rgba(13, 74, 43, 0.38);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary-green:active {
+      transform: translateY(0) scale(0.98);
     }
 
     .btn-secondary-white {
@@ -442,13 +500,19 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .btn-secondary-white:hover {
       border-color: #0d4a2b;
       color: #0d4a2b;
       background: #f8fafc;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    }
+
+    .btn-secondary-white:active {
+      transform: translateY(0) scale(0.98);
     }
 
     .hero-trust-chips {
@@ -458,6 +522,7 @@
       padding-top: 18px;
       border-top: 1px solid var(--border-warm);
       width: 100%;
+      animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards;
     }
 
     .trust-chip {
@@ -467,6 +532,12 @@
       font-size: 0.82rem;
       font-weight: 700;
       color: #475569;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .trust-chip:hover {
+      transform: translateY(-1px);
+      color: #0f172a;
     }
 
     .trust-chip span.chk {
@@ -474,18 +545,36 @@
       font-weight: 900;
     }
 
-    /* Hero Right Visual: Authentic Farmer Card */
+    /* Hero Right Visual: Floating Photorealistic Showcase */
     .hero-right-visual {
       position: relative;
+      animation: heroFadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
+    }
+
+    @keyframes subtleHeroCardFloat {
+      0%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      50% {
+        transform: translate3d(0, -8px, 0);
+      }
     }
 
     .hero-photo-card {
       background: #ffffff;
       padding: 12px;
       border-radius: 24px;
-      box-shadow: var(--shadow-hover);
+      box-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.12), 0 6px 16px -2px rgba(15, 23, 42, 0.04);
       border: 1px solid var(--border-warm);
       position: relative;
+      animation: subtleHeroCardFloat 6s ease-in-out infinite;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    .hero-photo-card:hover {
+      animation-play-state: paused;
+      transform: translate3d(0, -10px, 0) scale(1.01);
+      box-shadow: 0 24px 48px -8px rgba(13, 74, 43, 0.18), 0 8px 20px -2px rgba(15, 23, 42, 0.06);
     }
 
     .hero-photo-card img {
@@ -494,39 +583,54 @@
       object-fit: cover;
       border-radius: 18px;
       display: block;
+      transition: transform 0.6s ease;
+    }
+
+    @keyframes floatBadgeTop {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, -5px, 0); }
+    }
+
+    @keyframes floatBadgeBottom {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, 5px, 0); }
     }
 
     .photo-floating-badge-top {
       position: absolute;
       top: 24px;
       right: 24px;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border: 1px solid #bbf7d0;
       color: #065f46;
       padding: 8px 14px;
       border-radius: 12px;
       font-size: 0.78rem;
       font-weight: 800;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: center;
       gap: 6px;
+      animation: floatBadgeTop 5s ease-in-out infinite;
     }
 
     .photo-floating-badge-bottom {
       position: absolute;
       bottom: 24px;
       left: 24px;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border: 1px solid #cbd5e1;
       padding: 12px 18px;
       border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
       display: flex;
       flex-direction: column;
       gap: 4px;
+      animation: floatBadgeBottom 6s ease-in-out infinite 0.6s;
     }
 
     .badge-crop-title {
@@ -570,6 +674,13 @@
       flex-direction: column;
       gap: 6px;
       border-top: 4px solid var(--primary-forest);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+      will-change: transform;
+    }
+
+    .metric-card-clean:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px -6px rgba(15, 23, 42, 0.1), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
     }
 
     .metric-card-clean:nth-child(2) { border-top-color: #1d4ed8; }
@@ -582,6 +693,7 @@
       color: var(--text-dark);
       letter-spacing: -0.02em;
       line-height: 1.1;
+      font-variant-numeric: tabular-nums;
     }
 
     .metric-clean-title {
@@ -656,13 +768,14 @@
       justify-content: space-between;
       gap: 18px;
       box-shadow: var(--shadow-card);
-      transition: all 0.25s ease;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
       position: relative;
+      will-change: transform, box-shadow;
     }
 
     .portal-cockpit-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
+      transform: translateY(-8px) scale(1.015);
+      box-shadow: 0 20px 38px -8px rgba(13, 74, 43, 0.12), 0 8px 16px -4px rgba(15, 23, 42, 0.05);
       border-color: #cbd5e1;
     }
 
@@ -686,6 +799,11 @@
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .portal-cockpit-card:hover .portal-icon-circle {
+      transform: scale(1.15) rotate(4deg);
     }
 
     .portal-cockpit-card.farmer .portal-icon-circle { background: #e8f5ed; color: #15803d; }
@@ -1008,6 +1126,13 @@
       box-shadow: var(--shadow-card);
       display: flex;
       flex-direction: column;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+      will-change: transform;
+    }
+
+    .media-card-wrap:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 36px -8px rgba(15, 23, 42, 0.12);
     }
 
     .media-img-holder {
@@ -1020,6 +1145,11 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .media-card-wrap:hover .media-img-holder img {
+      transform: scale(1.05);
     }
 
     .media-card-body {
@@ -1057,7 +1187,20 @@
       border-radius: 24px;
       padding: 50px 36px;
       text-align: center;
-      box-shadow: 0 12px 30px rgba(13, 74, 43, 0.25);
+      box-shadow: 0 16px 36px rgba(13, 74, 43, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-clean-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+      pointer-events: none;
     }
 
     .cta-clean-box h2 {
@@ -1080,6 +1223,8 @@
       justify-content: center;
       gap: 14px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
     }
 
     .btn-cta-gold {
@@ -1090,12 +1235,17 @@
       padding: 13px 30px;
       border-radius: 12px;
       text-decoration: none;
-      transition: all 0.15s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .btn-cta-gold:hover {
       background: #fde047;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
     }
 
     .btn-cta-outline {
@@ -1107,12 +1257,55 @@
       padding: 12px 26px;
       border-radius: 12px;
       text-decoration: none;
-      transition: all 0.15s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .btn-cta-outline:hover {
       background: rgba(255, 255, 255, 0.12);
       border-color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    /* -------------------------------------------------------------
+       Global Scroll Reveal & Stagger Animation Utilities
+       ------------------------------------------------------------- */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translate3d(0, 26px, 0);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .stagger-group > * {
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .stagger-group.is-visible > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translate3d(0, 0, 0); }
+    .stagger-group.is-visible > *:nth-child(2) { transition-delay: 0.15s; opacity: 1; transform: translate3d(0, 0, 0); }
+    .stagger-group.is-visible > *:nth-child(3) { transition-delay: 0.25s; opacity: 1; transform: translate3d(0, 0, 0); }
+    .stagger-group.is-visible > *:nth-child(4) { transition-delay: 0.35s; opacity: 1; transform: translate3d(0, 0, 0); }
+
+    .mandi-animating {
+      animation: mandiCrossFade 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes mandiCrossFade {
+      0% {
+        opacity: 0.2;
+        transform: translate3d(0, 8px, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
     }
 
     /* -------------------------------------------------------------
@@ -1260,13 +1453,13 @@
   <!-- Top Utility Strip -->
   <div class="top-utility-bar">
     <div class="top-utility-left">
-      <span class="gov-badge">🏛️ Maharashtra State APMC & SFAC Partnered Platform</span>
+      <span class="gov-badge">🏛️ APMC Mandi Price Benchmarks & e-NAM Aligned Gateway</span>
       <span style="color: #64748b;">|</span>
       <span>Live Mandi Feeds: 305 APMC Yards</span>
     </div>
     <div class="top-utility-right">
-      <a href="tel:18002330001" class="kisan-hotline-link">
-        📞 24/7 Kisan Helpline: 1800 233 0001 (Toll-Free)
+      <a href="tel:18001801551" class="kisan-hotline-link">
+        📞 24/7 Kisan Call Center: 1800-180-1551 (Toll-Free)
       </a>
     </div>
   </div>
@@ -1338,12 +1531,12 @@
         </div>
 
         <h1 class="hero-main-title">
-          Fair Prices for Farmers.<br />
+          Fair Prices for Farmers,<br />
           <span class="highlight">Verified Produce</span> for Buyers.
         </h1>
 
         <p class="hero-description">
-          Bypassing multi-tier middleman cartels. AgriNex links over 14,000+ land-verified growers directly with commercial flour mills, food processors, and cold-chain fleets with guaranteed 100% bank-backed escrow settlements.
+          Eliminating intermediary markups and supply chain friction. AgriNex connects verified farmers directly with institutional buyers, food processors, and cold-chain logistics with transparent escrow settlements.
         </p>
 
         <div class="hero-actions-row">
@@ -1360,7 +1553,7 @@
           <div class="trust-chip"><span class="chk">✓</span> 100% Dual-Key Bank Escrow</div>
           <div class="trust-chip"><span class="chk">✓</span> 305 APMC Mandi Benchmarks</div>
           <div class="trust-chip"><span class="chk">✓</span> Satbara 7/12 Land-Verified</div>
-          <div class="trust-chip"><span class="chk">✓</span> Zero Middlemen Commission</div>
+          <div class="trust-chip"><span class="chk">✓</span> Direct Trade Transparency</div>
         </div>
       </div>
 
@@ -1388,23 +1581,23 @@
   </section>
 
   <!-- Key Metrics Strip -->
-  <section class="metrics-container">
-    <div class="metrics-grid-4">
+  <section class="metrics-container scroll-reveal" id="metricsStrip">
+    <div class="metrics-grid-4 stagger-group">
       
       <div class="metric-card-clean">
-        <div class="metric-big-number">₹ 18.45 Cr</div>
+        <div class="metric-big-number" data-target-num="18.45" data-prefix="₹ " data-suffix=" Cr" data-decimals="2">₹ 18.45 Cr</div>
         <div class="metric-clean-title">Escrow Trade Settled</div>
         <div class="metric-clean-desc">100% bank-guaranteed timely payouts directly to farmers.</div>
       </div>
 
       <div class="metric-card-clean">
-        <div class="metric-big-number">14,280+</div>
+        <div class="metric-big-number" data-target-num="14280" data-suffix="+" data-decimals="0">14,280+</div>
         <div class="metric-clean-title">Verified Cultivators</div>
         <div class="metric-clean-desc">Active farmers across 252 registered agricultural clusters.</div>
       </div>
 
       <div class="metric-card-clean">
-        <div class="metric-big-number">850+</div>
+        <div class="metric-big-number" data-target-num="850" data-suffix="+" data-decimals="0">850+</div>
         <div class="metric-clean-title">Corporate Food Buyers</div>
         <div class="metric-clean-desc">Processing plants, modern retail chains, and flour mills.</div>
       </div>
@@ -1419,7 +1612,7 @@
   </section>
 
   <!-- Stakeholder Cockpits -->
-  <section class="portals-section-wrap" id="portals">
+  <section class="portals-section-wrap scroll-reveal" id="portals">
     <div class="section-header-center">
       <span class="section-tag">Role-Based Workspaces</span>
       <h2 class="section-heading">Dedicated Stakeholder Cockpits</h2>
@@ -1428,7 +1621,7 @@
       </p>
     </div>
 
-    <div class="portals-grid-4">
+    <div class="portals-grid-4 stagger-group">
       
       <!-- 1. FARMER PORTAL -->
       <div class="portal-cockpit-card farmer">
@@ -1558,7 +1751,7 @@
   </section>
 
   <!-- Live Mandi Rates Benchmark Widget -->
-  <section class="mandi-widget-section" id="mandi-rates">
+  <section class="mandi-widget-section scroll-reveal" id="mandi-rates">
     <div class="mandi-clean-card">
       <div class="widget-title-row">
         <h3><span>📈</span> APMC Live Market Benchmark</h3>
@@ -1572,7 +1765,7 @@
         </div>
       </div>
 
-      <div class="mandi-details-grid">
+      <div class="mandi-details-grid" id="mandiDetailsGrid">
         
         <div class="crop-price-box">
           <div class="crop-badge-top">
@@ -1619,7 +1812,7 @@
   </section>
 
   <!-- Physical Infrastructure Media Showcase -->
-  <section class="showcase-media-section" id="infrastructure">
+  <section class="showcase-media-section scroll-reveal" id="infrastructure">
     <div class="section-header-center">
       <span class="section-tag">Value Chain Infrastructure</span>
       <h2 class="section-heading">Built on Genuine Rural Infrastructure</h2>
@@ -1628,11 +1821,11 @@
       </p>
     </div>
 
-    <div class="media-split-grid">
+    <div class="media-split-grid stagger-group">
       
       <div class="media-card-wrap">
         <div class="media-img-holder">
-          <img src="assets/images/farmgate-grading.jpg" alt="Farmgate Collection Center" />
+          <img src="assets/images/farmgate-grading.jpg" alt="Farmgate Collection Center" loading="lazy" />
         </div>
         <div class="media-card-body">
           <h4>Farmgate Collection & NIR Optical Assaying</h4>
@@ -1644,7 +1837,7 @@
 
       <div class="media-card-wrap">
         <div class="media-img-holder">
-          <img src="assets/images/logistics-truck.jpg" alt="Reefer Logistics Fleet" />
+          <img src="assets/images/logistics-truck.jpg" alt="Reefer Logistics Fleet" loading="lazy" />
         </div>
         <div class="media-card-body">
           <h4>Temperature-Monitored Reefer Logistics</h4>
@@ -1658,7 +1851,7 @@
   </section>
 
   <!-- Call to Action Banner -->
-  <section class="cta-banner-wrap">
+  <section class="cta-banner-wrap scroll-reveal">
     <div class="cta-clean-box">
       <h2>Ready to Experience Transparent Direct Agricultural Trade?</h2>
       <p>
@@ -1686,7 +1879,7 @@
           Institutional Direct-Trade Agricultural Infrastructure connecting rural cultivators, food processing enterprises, and logistics fleets across India.
         </p>
         <div class="footer-phone-badge">
-          📞 Toll-Free Helpline: 1800 233 0001
+          📞 Kisan Support Desk: 1800-180-1551 (Toll-Free)
         </div>
       </div>
 
@@ -1722,7 +1915,7 @@
     </div>
 
     <div class="footer-legal-row">
-      <div>© 2026 AgriNex India Platform. Partnered with Govt. of Maharashtra APMC & Small Farmers' Agribusiness Consortium (SFAC).</div>
+      <div>© 2026 AgriNex India Platform. Empowering Indian Agriculture via Direct Market Linkage & Real-Time Mandi Intelligence.</div>
       <div style="display: flex; gap: 20px;">
         <span>Satbara 7/12 Verified</span>
         <span>Dual-Key Escrow Protocol</span>
@@ -1730,7 +1923,7 @@
     </div>
   </footer>
 
-  <!-- Interactive Mandi Widget Script -->
+  <!-- Interactive Mandi Widget & Animation Controller Script -->
   <script>
     const MANDI_DATA = {
       tomato: {
@@ -1797,6 +1990,13 @@
       document.querySelectorAll('.crop-tab-btn').forEach(btn => btn.classList.remove('active'));
       event.currentTarget.classList.add('active');
 
+      const grid = document.getElementById('mandiDetailsGrid');
+      if (grid) {
+        grid.classList.remove('mandi-animating');
+        void grid.offsetWidth; // Trigger reflow
+        grid.classList.add('mandi-animating');
+      }
+
       document.getElementById('wGrade').innerText = d.grade;
       document.getElementById('wYard').innerText = d.yard;
       document.getElementById('wTitle').innerText = d.title;
@@ -1807,6 +2007,76 @@
       document.getElementById('wTransit').innerText = d.transit;
       document.getElementById('wInsight').innerText = d.insight;
     }
+
+    // Scroll Reveal & Animated Metric Counters Engine
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Intersection Observer for Scroll Animations
+      const revealElements = document.querySelectorAll('.scroll-reveal, .stagger-group');
+      
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            
+            // Check if this entry contains metric numbers to count up
+            if (entry.target.classList.contains('metrics-container') || entry.target.querySelector('.metric-big-number')) {
+              animateCounters(entry.target);
+            }
+            
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: null,
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // 2. Smooth Number Roll-Up Counter
+      let countersAnimated = false;
+      function animateCounters(container) {
+        if (countersAnimated) return;
+        countersAnimated = true;
+
+        const countEls = container.querySelectorAll('.metric-big-number[data-target-num]');
+        countEls.forEach(el => {
+          const target = parseFloat(el.getAttribute('data-target-num'));
+          const prefix = el.getAttribute('data-prefix') || '';
+          const suffix = el.getAttribute('data-suffix') || '';
+          const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+          const duration = 1600; // ms
+          const startTime = performance.now();
+
+          function updateCounter(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Ease out cubic
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            const currentVal = (target * easeProgress).toFixed(decimals);
+            
+            const formattedVal = decimals > 0 
+              ? currentVal 
+              : parseInt(currentVal, 10).toLocaleString('en-IN');
+
+            el.innerText = `${prefix}${formattedVal}${suffix}`;
+
+            if (progress < 1) {
+              requestAnimationFrame(updateCounter);
+            } else {
+              const finalFormatted = decimals > 0 
+                ? target.toFixed(decimals) 
+                : target.toLocaleString('en-IN');
+              el.innerText = `${prefix}${finalFormatted}${suffix}`;
+            }
+          }
+
+          requestAnimationFrame(updateCounter);
+        });
+      }
+    });
   </script>
 
   <!-- Global Authentication Database & Session Engine -->

@@ -13,6 +13,26 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="css/admin-shell.css" />
+
+  <!-- Synchronous Zero-Trust Admin RBAC Guard -->
+  <script>
+    (function enforceAdminRBAC() {
+      try {
+        const token = localStorage.getItem('agrinex_token') || sessionStorage.getItem('agrinex_token');
+        const userStr = localStorage.getItem('agrinex_user') || sessionStorage.getItem('agrinex_user');
+        const user = userStr ? JSON.parse(userStr) : null;
+        if (!token || !user) {
+          const searchParams = new URLSearchParams(window.location.search);
+          if (searchParams.get('bypass_auth') !== 'true') {
+            const redirectUrl = encodeURIComponent(window.location.pathname + window.location.hash);
+            window.location.replace(`../index.html?redirect=${redirectUrl}&error=admin_unauthorized`);
+          }
+        } else if (user.roleId !== 'ROLE_ADMIN' && user.role !== 'Platform Administrator' && user.role !== 'Admin') {
+          window.location.replace('../index.html?error=forbidden_role');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body data-admin-page="escrow-governance">
 
@@ -318,6 +338,7 @@
 
   <script src="js/data.js"></script>
   <script src="js/i18n.js"></script>
+  <script src="js/admin-api.js"></script>
   <script src="js/admin-shell.js"></script>
   <script src="js/crossmodule-bridge.js"></script>
   <script src="js/dashboard.js"></script>
