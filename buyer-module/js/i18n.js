@@ -6496,13 +6496,15 @@
   }
 
   // Close dropdown on outside click
-  document.addEventListener('click', function (e) {
-    const selectorWidget = document.querySelector('.lang-selector-widget');
-    const menu = document.getElementById('language-dropdown-menu');
-    if (menu && selectorWidget && !selectorWidget.contains(e.target)) {
-      menu.style.display = 'none';
-    }
-  });
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', function (e) {
+      const selectorWidget = document.querySelector('.lang-selector-widget');
+      const menu = document.getElementById('language-dropdown-menu');
+      if (menu && selectorWidget && !selectorWidget.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  }
 
   let isTranslating = false;
   let observerTimer = null;
@@ -7094,36 +7096,38 @@
   }
 
   // Export to Global Scope for Buyer Module
-  window.AgriNexI18n = {
-    t,
-    tCrop,
-    tPerson,
-    tLocation,
-    tGrade,
-    tVehicle,
-    tWarehouse,
-    tStatus,
-    tText,
-    setBuyerLanguage,
-    getBuyerLanguage,
-    toggleLanguageMenu,
-    walkAndTranslateDOM,
-    TRANSLATIONS
-  };
+  if (typeof window !== 'undefined') {
+    window.AgriNexI18n = {
+      t,
+      tCrop,
+      tPerson,
+      tLocation,
+      tGrade,
+      tVehicle,
+      tWarehouse,
+      tStatus,
+      tText,
+      setBuyerLanguage,
+      getBuyerLanguage,
+      toggleLanguageMenu,
+      walkAndTranslateDOM,
+      TRANSLATIONS
+    };
 
-  window.t = t;
-  window.tCrop = tCrop;
-  window.tPerson = tPerson;
-  window.tLocation = tLocation;
-  window.tGrade = tGrade;
-  window.tVehicle = tVehicle;
-  window.tWarehouse = tWarehouse;
-  window.tStatus = tStatus;
-  window.tText = tText;
-  window.setBuyerLanguage = setBuyerLanguage;
-  window.getBuyerLanguage = getBuyerLanguage;
-  window.toggleLanguageMenu = toggleLanguageMenu;
-  window.walkAndTranslateDOM = walkAndTranslateDOM;
+    window.t = t;
+    window.tCrop = tCrop;
+    window.tPerson = tPerson;
+    window.tLocation = tLocation;
+    window.tGrade = tGrade;
+    window.tVehicle = tVehicle;
+    window.tWarehouse = tWarehouse;
+    window.tStatus = tStatus;
+    window.tText = tText;
+    window.setBuyerLanguage = setBuyerLanguage;
+    window.getBuyerLanguage = getBuyerLanguage;
+    window.toggleLanguageMenu = toggleLanguageMenu;
+    window.walkAndTranslateDOM = walkAndTranslateDOM;
+  }
 
   // Listen for storage events across modules and browser tabs for instantaneous sync
   if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
@@ -7137,9 +7141,29 @@
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBuyerI18n);
-  } else {
-    initBuyerI18n();
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      t,
+      tCrop,
+      tPerson,
+      tLocation,
+      tGrade,
+      tVehicle,
+      tWarehouse,
+      tStatus,
+      tText,
+      setBuyerLanguage,
+      getBuyerLanguage,
+      walkAndTranslateDOM,
+      TRANSLATIONS
+    };
+  }
+
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBuyerI18n);
+    } else {
+      initBuyerI18n();
+    }
   }
 })();

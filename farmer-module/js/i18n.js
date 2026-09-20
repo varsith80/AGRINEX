@@ -876,7 +876,7 @@
     ["Patil Rameshwar", "पाटिल रामेश्वर", "पाटील रामेश्वर"],
     ["Rameshwar Patil", "पाटिल रामेश्वर", "पाटील रामेश्वर"],
     ["My Crops & Lots", "मेरी फसलें और लॉट", "माझी पिके आणि लॉट्स"],
-    ["Market Insights", "मंडी अंतर्दृष्टि", "बाजार भाव"],
+    ["Market Insights", "मंडी अंतर्दृष्टि", "बाजार अंतर्दृष्टी"],
     ["Escrow Tracking", "एस्क्रो ट्रैकिंग", "एस्क्रो ट्रॅकिंग"],
     ["Better Tomorrow", "बेहतर कल", "उज्ज्वल भविष्य"],
     ["Acknowledgement", "पावती", "पोचपावती"],
@@ -1658,9 +1658,79 @@
 
   const PHRASE_MAP = RAW_PHRASES;
 
+  // 10. REVERSE DICTIONARIES & BIDIRECTIONAL LOCALIZATION
+  const REVERSE_FARMER_CORE = {};
+  const REVERSE_FARMER_SUBSTRINGS = [];
+
+  function buildFarmerReverseDictionaries() {
+    for (let i = 0; i < PHRASE_MAP.length; i++) {
+      const row = PHRASE_MAP[i];
+      const en = row[0];
+      const hi = row[1];
+      const mr = row[2];
+      if (hi) {
+        REVERSE_FARMER_CORE[hi.toLowerCase().trim()] = en;
+        REVERSE_FARMER_SUBSTRINGS.push({ foreign: hi.trim(), en: en });
+      }
+      if (mr && mr.toLowerCase().trim() !== (hi && hi.toLowerCase().trim())) {
+        REVERSE_FARMER_CORE[mr.toLowerCase().trim()] = en;
+        REVERSE_FARMER_SUBSTRINGS.push({ foreign: mr.trim(), en: en });
+      }
+    }
+
+    function indexMap(sourceMap) {
+      if (!sourceMap) return;
+      for (const [en, v] of Object.entries(sourceMap)) {
+        if (v.hi) {
+          REVERSE_FARMER_CORE[v.hi.toLowerCase().trim()] = en;
+          REVERSE_FARMER_SUBSTRINGS.push({ foreign: v.hi.trim(), en: en });
+        }
+        if (v.mr) {
+          REVERSE_FARMER_CORE[v.mr.toLowerCase().trim()] = en;
+          REVERSE_FARMER_SUBSTRINGS.push({ foreign: v.mr.trim(), en: en });
+        }
+      }
+    }
+
+    indexMap(CROP_MAP);
+    indexMap(VARIETY_MAP);
+    indexMap(MANDI_MAP);
+    indexMap(BUYER_MAP);
+    indexMap(PERSON_MAP);
+    indexMap(CATEGORY_MAP);
+    indexMap(GRADE_MAP);
+    indexMap(STATUS_MAP);
+    indexMap(DISTRICT_MAP);
+
+    REVERSE_FARMER_SUBSTRINGS.sort((a, b) => b.foreign.length - a.foreign.length);
+  }
+
+  buildFarmerReverseDictionaries();
+
+  function translateFarmerToEnglish(str) {
+    if (!str || typeof str !== 'string') return str;
+    if (!/[\u0900-\u097F]/.test(str)) return str;
+
+    const trimmed = str.trim();
+    const lowerTrimmed = trimmed.toLowerCase();
+
+    if (REVERSE_FARMER_CORE[lowerTrimmed]) {
+      return REVERSE_FARMER_CORE[lowerTrimmed];
+    }
+
+    let translated = trimmed;
+    for (let i = 0; i < REVERSE_FARMER_SUBSTRINGS.length; i++) {
+      const item = REVERSE_FARMER_SUBSTRINGS[i];
+      if (item.foreign.length > 2 && translated.includes(item.foreign)) {
+        translated = translated.split(item.foreign).join(item.en);
+      }
+    }
+    return translated;
+  }
+
   function getFarmerLanguage() {
     try {
-      return localStorage.getItem(STORAGE_KEY) || localStorage.getItem('agrinex_buyer_language') || 'en';
+      return localStorage.getItem(STORAGE_KEY) || localStorage.getItem('agrinex_language') || 'en';
     } catch (e) {
       return 'en';
     }
@@ -1669,24 +1739,19 @@
   function tCrop(cropName, lang) {
     if (!cropName || typeof cropName !== 'string') return cropName;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return cropName;
+    if (l === 'en') return translateFarmerToEnglish(cropName);
 
-    if (CROP_MAP[cropName] && CROP_MAP[cropName][l]) {
-      return CROP_MAP[cropName][l];
+    let enName = cropName;
+    if (/[\u0900-\u097F]/.test(cropName)) {
+      enName = translateFarmerToEnglish(cropName);
     }
 
-    let res = cropName;
+    if (CROP_MAP[enName] && CROP_MAP[enName][l]) {
+      return CROP_MAP[enName][l];
+    }
+
+    let res = enName;
     for (const [k, v] of Object.entries(CROP_MAP)) {
-      if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
-      }
-    }
-    for (const [k, v] of Object.entries(VARIETY_MAP)) {
-      if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
-      }
-    }
-    for (const [k, v] of Object.entries(DISTRICT_MAP)) {
       if (res.includes(k) && v[l]) {
         res = res.replaceAll(k, v[l]);
       }
@@ -1697,13 +1762,18 @@
   function tVariety(varietyName, lang) {
     if (!varietyName || typeof varietyName !== 'string') return varietyName;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return varietyName;
+    if (l === 'en') return translateFarmerToEnglish(varietyName);
 
-    if (VARIETY_MAP[varietyName] && VARIETY_MAP[varietyName][l]) {
-      return VARIETY_MAP[varietyName][l];
+    let enName = varietyName;
+    if (/[\u0900-\u097F]/.test(varietyName)) {
+      enName = translateFarmerToEnglish(varietyName);
     }
 
-    let res = varietyName;
+    if (VARIETY_MAP[enName] && VARIETY_MAP[enName][l]) {
+      return VARIETY_MAP[enName][l];
+    }
+
+    let res = enName;
     for (const [k, v] of Object.entries(VARIETY_MAP)) {
       if (res.includes(k) && v[l]) {
         res = res.replaceAll(k, v[l]);
@@ -1715,12 +1785,17 @@
   function tBuyer(buyerName, lang) {
     if (!buyerName || typeof buyerName !== 'string') return buyerName;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return buyerName;
+    if (l === 'en') return translateFarmerToEnglish(buyerName);
 
-    if (BUYER_MAP[buyerName] && BUYER_MAP[buyerName][l]) {
-      return BUYER_MAP[buyerName][l];
+    let enName = buyerName;
+    if (/[\u0900-\u097F]/.test(buyerName)) {
+      enName = translateFarmerToEnglish(buyerName);
     }
-    let res = buyerName;
+
+    if (BUYER_MAP[enName] && BUYER_MAP[enName][l]) {
+      return BUYER_MAP[enName][l];
+    }
+    let res = enName;
     for (const [k, v] of Object.entries(BUYER_MAP)) {
       if (res.includes(k) && v[l]) {
         res = res.replaceAll(k, v[l]);
@@ -1732,17 +1807,27 @@
   function tPerson(name, lang) {
     if (!name || typeof name !== 'string') return name;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return name;
-    return (PERSON_MAP[name] && PERSON_MAP[name][l]) || name;
+    if (l === 'en') return translateFarmerToEnglish(name);
+    let enName = name;
+    if (/[\u0900-\u097F]/.test(name)) {
+      enName = translateFarmerToEnglish(name);
+    }
+    return (PERSON_MAP[enName] && PERSON_MAP[enName][l]) || enName;
   }
 
   function tLocation(loc, lang) {
     if (!loc || typeof loc !== 'string') return loc;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return loc;
-    if (MANDI_MAP[loc] && MANDI_MAP[loc][l]) return MANDI_MAP[loc][l];
-    if (DISTRICT_MAP[loc] && DISTRICT_MAP[loc][l]) return DISTRICT_MAP[loc][l];
-    let res = loc;
+    if (l === 'en') return translateFarmerToEnglish(loc);
+
+    let enLoc = loc;
+    if (/[\u0900-\u097F]/.test(loc)) {
+      enLoc = translateFarmerToEnglish(loc);
+    }
+
+    if (MANDI_MAP[enLoc] && MANDI_MAP[enLoc][l]) return MANDI_MAP[enLoc][l];
+    if (DISTRICT_MAP[enLoc] && DISTRICT_MAP[enLoc][l]) return DISTRICT_MAP[enLoc][l];
+    let res = enLoc;
     for (const [k, v] of Object.entries(MANDI_MAP)) {
       if (res.includes(k) && v[l]) res = res.replaceAll(k, v[l]);
     }
@@ -1755,14 +1840,14 @@
   function tCategory(cat, lang) {
     if (!cat || typeof cat !== 'string') return cat;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return cat;
+    if (l === 'en') return translateFarmerToEnglish(cat);
     return (CATEGORY_MAP[cat] && CATEGORY_MAP[cat][l]) || cat;
   }
 
   function tGrade(grade, lang) {
     if (!grade || typeof grade !== 'string') return grade;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return grade;
+    if (l === 'en') return translateFarmerToEnglish(grade);
     if (GRADE_MAP[grade] && GRADE_MAP[grade][l]) return GRADE_MAP[grade][l];
     let res = grade;
     for (const [k, v] of Object.entries(GRADE_MAP)) {
@@ -1774,17 +1859,22 @@
   function tStatus(status, lang) {
     if (!status || typeof status !== 'string') return status;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return status;
+    if (l === 'en') return translateFarmerToEnglish(status);
     return (STATUS_MAP[status] && STATUS_MAP[status][l]) || status;
   }
 
   function tText(str, lang) {
     if (!str || typeof str !== 'string') return str;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return str;
-    const colIdx = l === 'hi' ? 1 : 2;
+    if (l === 'en') return translateFarmerToEnglish(str);
 
-    let res = str;
+    let enText = str;
+    if (/[\u0900-\u097F]/.test(str)) {
+      enText = translateFarmerToEnglish(str);
+    }
+
+    const colIdx = l === 'hi' ? 1 : 2;
+    let res = enText;
 
     // STEP 1: Phrase Map (Longest to shortest)
     for (let i = 0; i < PHRASE_MAP.length; i++) {
@@ -1860,6 +1950,10 @@
     return res;
   }
 
+  function t(key, defaultVal) {
+    return tText(defaultVal || key);
+  }
+
   function toggleLanguageMenu() {
     const menu = document.getElementById('language-dropdown-menu');
     if (!menu) return;
@@ -1867,7 +1961,7 @@
     menu.style.display = isShown ? 'none' : 'block';
   }
 
-  // Close dropdown on outside click
+  // Close dropdown when clicked outside
   if (typeof document !== 'undefined') {
     document.addEventListener('click', function (e) {
       const widget = document.querySelector('.lang-selector-widget');
@@ -1882,7 +1976,7 @@
 
   // Universal DOM Translation Walker
   function walkAndTranslateDOM(rootNode, lang) {
-    if (!rootNode || typeof document === 'undefined') return;
+    if (!rootNode || typeof document === 'undefined' || typeof document.createTreeWalker !== 'function') return;
     const l = lang || getFarmerLanguage();
 
     const walker = document.createTreeWalker(
@@ -1897,7 +1991,7 @@
           if (tag === 'script' || tag === 'style' || tag === 'svg' || tag === 'path' || tag === 'code') {
             return NodeFilter.FILTER_REJECT;
           }
-          if (parent.closest('#language-dropdown-menu') || parent.closest('#btn-language-selector')) {
+          if (parent.closest && (parent.closest('#language-dropdown-menu') || parent.closest('#btn-language-selector'))) {
             return NodeFilter.FILTER_REJECT;
           }
           return NodeFilter.FILTER_ACCEPT;
@@ -1917,56 +2011,62 @@
       const parent = textNode.parentElement;
       if (!parent) return;
 
-      if (!textNode._originalEnglishText) {
-        textNode._originalEnglishText = textNode.nodeValue;
+      const currentVal = textNode.nodeValue;
+      let orig = parent.getAttribute('data-agx-orig');
+      if (!orig) {
+        if (!/[\u0900-\u097F]/.test(currentVal)) {
+          orig = currentVal;
+        } else {
+          orig = translateFarmerToEnglish(currentVal);
+        }
+        if (orig) parent.setAttribute('data-agx-orig', orig);
       }
 
-      const orig = textNode._originalEnglishText;
       if (l === 'en') {
-        textNode.nodeValue = orig;
+        textNode.nodeValue = orig || translateFarmerToEnglish(currentVal);
         return;
       }
 
-      textNode.nodeValue = tText(orig, l);
+      textNode.nodeValue = tText(orig || currentVal, l);
     });
 
     // Translate Inputs placeholders
-    document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(input => {
-      if (!input._origPlaceholder) {
-        input._origPlaceholder = input.getAttribute('placeholder') || '';
+    const placeholders = rootNode.querySelectorAll ? rootNode.querySelectorAll('input[placeholder], textarea[placeholder]') : [];
+    placeholders.forEach(input => {
+      let orig = input.getAttribute('data-agx-orig-ph');
+      if (!orig) {
+        const curPh = input.getAttribute('placeholder') || '';
+        orig = !/[\u0900-\u097F]/.test(curPh) ? curPh : translateFarmerToEnglish(curPh);
+        if (orig) input.setAttribute('data-agx-orig-ph', orig);
       }
-      if (l === 'en') {
-        input.setAttribute('placeholder', input._origPlaceholder);
-      } else {
-        input.setAttribute('placeholder', tText(input._origPlaceholder, l));
-      }
+      input.setAttribute('placeholder', l === 'en' ? orig : tText(orig, l));
     });
 
     // Translate Select Options
-    document.querySelectorAll('select option').forEach(opt => {
-      if (!opt._origText) {
-        opt._origText = opt.text || '';
+    const options = rootNode.querySelectorAll ? rootNode.querySelectorAll('select option') : [];
+    options.forEach(opt => {
+      let orig = opt.getAttribute('data-agx-orig-opt');
+      if (!orig) {
+        const curOpt = opt.text || '';
+        orig = !/[\u0900-\u097F]/.test(curOpt) ? curOpt : translateFarmerToEnglish(curOpt);
+        if (orig) opt.setAttribute('data-agx-orig-opt', orig);
       }
-      if (l === 'en') {
-        opt.text = opt._origText;
-      } else {
-        opt.text = tText(opt._origText, l);
-      }
+      opt.text = l === 'en' ? orig : tText(orig, l);
     });
   }
 
   let domObserver = null;
   function startDOMObserver() {
     if (domObserver || typeof MutationObserver === 'undefined' || typeof document === 'undefined') return;
-    domObserver = new MutationObserver(mutations => {
-      const lang = getFarmerLanguage();
-      if (lang === 'en') return;
-      mutations.forEach(mut => {
-        mut.addedNodes.forEach(node => {
-          if (node.nodeType === Node.ELEMENT_NODE) {
-            walkAndTranslateDOM(node, lang);
-          }
-        });
+    domObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1 && !node.closest('#language-dropdown-menu')) {
+              walkAndTranslateDOM(node);
+            }
+          });
+        }
       });
     });
     if (document.body) {
@@ -2007,30 +2107,15 @@
     }
 
     // Re-render dynamic views
-    if (typeof window.renderDashboard === 'function') {
-      window.renderDashboard();
-    }
-    if (typeof window.renderListings === 'function') {
-      window.renderListings();
-    }
-    if (typeof window.renderFPOHub === 'function') {
-      window.renderFPOHub();
-    }
-    if (typeof window.renderAllCrops === 'function') {
-      window.renderAllCrops();
-    }
-    if (typeof window.renderMandiPrices === 'function') {
-      window.renderMandiPrices();
-    }
-    if (typeof window.renderCropsTable === 'function') {
-      window.renderCropsTable();
-    }
-    if (typeof window.renderLots === 'function') {
-      window.renderLots();
-    }
-    if (typeof window.renderOffers === 'function') {
-      window.renderOffers();
-    }
+    if (typeof window.renderDashboard === 'function') window.renderDashboard();
+    if (typeof window.renderListings === 'function') window.renderListings();
+    if (typeof window.renderFPOHub === 'function') window.renderFPOHub();
+    if (typeof window.renderAllCrops === 'function') window.renderAllCrops();
+    if (typeof window.renderMandiPrices === 'function') window.renderMandiPrices();
+    if (typeof window.renderCropsTable === 'function') window.renderCropsTable();
+    if (typeof window.renderLots === 'function') window.renderLots();
+    if (typeof window.renderOffers === 'function') window.renderOffers();
+
     // Translate entire DOM immediately including newly rendered dynamic content
     if (typeof document !== 'undefined' && document.body) {
       walkAndTranslateDOM(document.body, lang);
@@ -2038,61 +2123,69 @@
     }
 
     // Trigger toast notification if showNotificationToast exists
+    const toastMsgs = {
+      en: 'Language set to English',
+      hi: 'भाषा बदलकर हिन्दी कर दी गई है',
+      mr: 'भाषा मराठीमध्ये बदलण्यात आली आहे'
+    };
     if (typeof window.showNotificationToast === 'function') {
-      window.showNotificationToast(TRANSLATIONS[lang].toast_lang_updated);
+      window.showNotificationToast(toastMsgs[lang] || toastMsgs.en, 'success');
+    }
+
+    // Cross-tab and module broadcast
+    if (typeof window !== 'undefined') {
+      try {
+        window.dispatchEvent(new CustomEvent('agrinex_language_changed', { detail: { lang: lang } }));
+      } catch (e) {}
     }
   }
 
   function initFarmerI18n() {
-    let saved = 'en';
-    try {
-      saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('agrinex_buyer_language') || localStorage.getItem('agrinex_language') || 'en';
-    } catch (e) {}
+    const saved = getFarmerLanguage();
     setFarmerLanguage(saved);
   }
 
-  // Export to global window object
+  // Exports
   if (typeof window !== 'undefined') {
     window.AgriNexFarmerI18n = {
+      t,
+      tText,
       tCrop,
-      tBuyer,
       tVariety,
-      tCategory,
+      tBuyer,
       tPerson,
       tLocation,
+      tCategory,
       tGrade,
       tStatus,
-      tText,
       setFarmerLanguage,
       getFarmerLanguage,
       toggleLanguageMenu,
       walkAndTranslateDOM
     };
 
-    window.tCrop = tCrop;
-    window.tBuyer = tBuyer;
-    window.tVariety = tVariety;
-    window.tCategory = tCategory;
-    window.tPerson = tPerson;
-    window.tLocation = tLocation;
-    window.tGrade = tGrade;
-    window.tStatus = tStatus;
-    window.tText = tText;
     window.setFarmerLanguage = setFarmerLanguage;
     window.getFarmerLanguage = getFarmerLanguage;
     window.toggleLanguageMenu = toggleLanguageMenu;
+    window.tFarmer = tText;
+  }
 
-    // Listen for storage events across modules and tabs
-    if (typeof window.addEventListener === 'function') {
-      window.addEventListener('storage', function (e) {
-        if (e.key === 'agrinex_buyer_language' || e.key === 'agrinex_farmer_language' || e.key === 'agrinex_language') {
-          const newLang = e.newValue;
-          if (newLang && ['en', 'hi', 'mr'].includes(newLang) && newLang !== getFarmerLanguage()) {
-            setFarmerLanguage(newLang);
-          }
-        }
-      });
-    }
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      t,
+      tText,
+      tCrop,
+      tVariety,
+      tBuyer,
+      tPerson,
+      tLocation,
+      tCategory,
+      tGrade,
+      tStatus,
+      setFarmerLanguage,
+      getFarmerLanguage,
+      walkAndTranslateDOM
+    };
   }
 
   if (typeof document !== 'undefined') {

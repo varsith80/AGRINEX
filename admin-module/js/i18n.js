@@ -700,7 +700,111 @@
     }
   };
 
-  // 7. TRANSLATION LOOKUP FUNCTIONS
+  // 6.5. DEDICATED SHELL PHRASES (For guaranteed Admin Sidebar, Nav & Banner localization)
+  const SHELL_PHRASES = [
+    ['Marketplace Control Center', 'मार्केटप्लेस नियंत्रण केंद्र', 'बाजारपेठ नियंत्रण केंद्र'],
+    ['Control Center', 'नियंत्रण केंद्र', 'नियंत्रण केंद्र'],
+    ['Governance Desks', 'प्रशासन डेस्क', 'प्रशासन डेस्क'],
+    ['Connected Portals:', 'कनेक्टेड पोर्टल:', 'जोडलेली दालने:'],
+    ['Farmer Portal', 'किसान पोर्टल', 'शेतकरी दालन'],
+    ['Buyer Terminal', 'खरीदार टर्मिनल', 'खरेदीदार टर्मिनल'],
+    ['Logistics Hub', 'लॉजिस्टिक्स हब', 'वाहतूक केंद्र'],
+    ['Dashboard', 'डैशबोर्ड', 'डॅशबोर्ड'],
+    ['Users', 'उपयोगकर्ता और केवायसी', 'वापरकर्ते व केवायसी'],
+    ['Users & KYC', 'उपयोगकर्ता और केवायसी', 'वापरकर्ते व केवायसी'],
+    ['Market Data', 'मार्केट डेटा', 'बाजार आकडेवारी'],
+    ['Deals & Payments', 'सौदे और भुगतान', 'सौदे व देयके'],
+    ['Logistics & Storage', 'लॉजिस्टिक्स और भंडारण', 'वाहतूक व साठवणूक'],
+    ['Emergency Sell', 'आपातकालीन बिक्री', 'तातडीची विक्री'],
+    ['Grievances', 'शिकायतें', 'तक्रारी'],
+    ['Reports', 'रिपोर्ट और ऑडिट', 'अहवाल व तपासणी'],
+    ['Escrow Clearances', 'एस्क्रो निकासी', 'एस्क्रो मंजुरी'],
+    ['Mandi MSP Desk', 'मंडी एमएसपी डेस्क', 'बाजार समिती हमीभाव डेस्क'],
+    ['Tribunal Bench', 'न्यायाधिकरण बेंच', 'लवाद खंडपीठ'],
+    ['🛡️ AgriNex Marketplace Control Center', '🛡️ एग्रीनेक्स मार्केटप्लेस नियंत्रण केंद्र', '🛡️ अ‍ॅग्रीनेक्स बाजारपेठ नियंत्रण केंद्र'],
+    ['AgriNex Marketplace Control Center', 'एग्रीनेक्स मार्केटप्लेस नियंत्रण केंद्र', 'अ‍ॅग्रीनेक्स बाजारपेठ नियंत्रण केंद्र'],
+    ['Sign Out', 'लॉग आउट', 'बाहेर पडा'],
+    ['Switch Portal', 'पोर्टल बदलें', 'दालन बदला'],
+    ['Directory →', 'निर्देशिका →', 'निर्देशिका →'],
+    ['Ledger →', 'खाताबही →', 'नोंदवही →'],
+    ['Track →', 'ट्रैक करें →', 'मागोवा घ्या →'],
+    ['Triage →', 'कार्यवाही →', 'निवारण करा →'],
+    ['Triage All', 'सभी की समीक्षा करें', 'सर्व निवारण करा'],
+    ['Dr. R. K. Shinde, IAS', 'डॉ. आर. के. शिंदे, आईएएस', 'डॉ. आर. के. शिंदे, आयएएस'],
+    ['Central APMC Control Desk', 'केंद्रीय एपीएमसी नियंत्रण कक्ष', 'केंद्रीय बाजार समिती नियंत्रण कक्ष'],
+    ['305 Mandis Live Across Maharashtra', 'महाराष्ट्र भर में 305 मंडियां लाइव', 'महाराष्ट्रभरातील ३०५ बाजार समित्या थेट कार्यरत'],
+    ['Nodal Governance Active', 'नोडल प्रशासन सक्रिय', 'नोडल प्रशासन सक्रिय'],
+    ['14,280 Producers · 850 Enterprise Buyers', '14,280 उत्पादक · 850 कॉर्पोरेट खरीदार', '१४,२८० उत्पादक · ८५० संस्थात्मक खरेदीदार'],
+    ['1,420 Active Trade Contracts', '1,420 सक्रिय व्यापार अनुबंध', '१,४२० सक्रिय व्यवहार करार'],
+    ['Orders in Transport across MH', 'महाराष्ट्र भर में परिवहन में ऑर्डर', 'महाराष्ट्रभरात वाहतुकीतील माल'],
+    ['5 Escrow · 3 Disputes · 6 KYC', '5 एस्क्रो · 3 विवाद · 6 केवाईसी', '५ एस्क्रो · ३ वाद · ६ केवायसी'],
+    ['✓ Satbara 7/12 & GSTIN Verified', '✓ सातबारा 7/12 और जीएसटी सत्यापित', '✓ ७/१२ व जीएसटी प्रमाणित'],
+    ['Search Users, Deals, Mandi commodities, Shipments... (Press ⌘K or Ctrl+K)', 'उपयोगकर्ता, सौदे, मंडी कृषि उत्पाद, शिपमेंट खोजें... (⌘K या Ctrl+K दबाएं)', 'वापरकर्ते, सौदे, बाजार समिती शेतमाल, वाहतूक शोधा... (⌘K किंवा Ctrl+K दाबा)']
+  ];
+
+  // 7. REVERSE DICTIONARIES & BIDIRECTIONAL LOCALIZATION
+  const REVERSE_CORE_MAP = {};
+  const REVERSE_SUBSTRINGS = [];
+  const REVERSE_CROPS = {};
+  const REVERSE_PERSONS = {};
+  const REVERSE_BUYERS = {};
+  const REVERSE_MANDIS = {};
+  const REVERSE_WAREHOUSES = {};
+  const REVERSE_PLACEHOLDERS = {};
+
+  function buildReverseDictionaries() {
+    // 1. Merge SHELL_PHRASES into RAW_PHRASES
+    if (typeof SHELL_PHRASES !== 'undefined' && Array.isArray(SHELL_PHRASES)) {
+      for (let i = 0; i < SHELL_PHRASES.length; i++) {
+        RAW_PHRASES.push(SHELL_PHRASES[i]);
+      }
+    }
+
+    // 2. Core phrases
+    for (let i = 0; i < RAW_PHRASES.length; i++) {
+      const row = RAW_PHRASES[i];
+      const en = row[0];
+      const hi = row[1];
+      const mr = row[2];
+      if (hi) {
+        REVERSE_CORE_MAP[hi.toLowerCase().trim()] = en;
+        REVERSE_SUBSTRINGS.push({ foreign: hi.trim(), en: en });
+      }
+      if (mr && mr.toLowerCase().trim() !== (hi && hi.toLowerCase().trim())) {
+        REVERSE_CORE_MAP[mr.toLowerCase().trim()] = en;
+        REVERSE_SUBSTRINGS.push({ foreign: mr.trim(), en: en });
+      }
+    }
+
+    // 3. Maps helper
+    function indexMap(sourceMap, targetReverse) {
+      for (const [en, v] of Object.entries(sourceMap)) {
+        if (v.hi) {
+          targetReverse[v.hi.toLowerCase().trim()] = en;
+          REVERSE_CORE_MAP[v.hi.toLowerCase().trim()] = en;
+          REVERSE_SUBSTRINGS.push({ foreign: v.hi.trim(), en: en });
+        }
+        if (v.mr) {
+          targetReverse[v.mr.toLowerCase().trim()] = en;
+          REVERSE_CORE_MAP[v.mr.toLowerCase().trim()] = en;
+          REVERSE_SUBSTRINGS.push({ foreign: v.mr.trim(), en: en });
+        }
+      }
+    }
+
+    indexMap(CROP_MAP, REVERSE_CROPS);
+    indexMap(PERSON_MAP, REVERSE_PERSONS);
+    indexMap(BUYER_MAP, REVERSE_BUYERS);
+    indexMap(MANDI_MAP, REVERSE_MANDIS);
+    indexMap(WAREHOUSE_MAP, REVERSE_WAREHOUSES);
+    indexMap(PLACEHOLDER_MAP, REVERSE_PLACEHOLDERS);
+
+    // Sort substrings by descending length to prevent partial word collision
+    REVERSE_SUBSTRINGS.sort((a, b) => b.foreign.length - a.foreign.length);
+  }
+
+  buildReverseDictionaries();
+
   function getAdminLanguage() {
     try {
       return localStorage.getItem(STORAGE_KEY) || localStorage.getItem('agrinex_language') || 'en';
@@ -715,7 +819,6 @@
     let suffix = '';
     let core = str.trim();
 
-    // Leading emojis & icons (e.g. 🔒, 🚚, 🌾, ⚖️, ⚠️, ✓, 🔬, 🧪, 📸, 🏛️, 🛡️, 📈, 📊, 📋, 🏁, 🌧️, 💰, 🐛, 🔊, 🚀, 🗺️, 🏭, ✏️, 🎉, 🖨️, 📜, 📑, 🚪, 🔍, 🧑‍🌾, 🏢, ⚡, 📍, ❄️, 🌐, 🎯)
     const prefixRegex = /^([\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}✓⚠️⚡📍❄️🌐🎯>•·]+\s*)+/u;
     const pMatch = core.match(prefixRegex);
     if (pMatch) {
@@ -723,7 +826,6 @@
       core = core.slice(prefix.length).trim();
     }
 
-    // Trailing colons, arrows, dots, quotes
     const suffixRegex = /([:→➔←↗\s·•]+)$/;
     const sMatch = core.match(suffixRegex);
     if (sMatch) {
@@ -734,50 +836,155 @@
     return { prefix, core, suffix };
   }
 
-  function tText(englishText, targetLang) {
-    if (!englishText || typeof englishText !== 'string') return englishText;
-    const l = targetLang || getAdminLanguage();
-    if (l === 'en') return englishText;
+  // Helper: translate any Hindi or Marathi string back to canonical English
+  function translateToEnglish(str) {
+    if (!str || typeof str !== 'string') return str;
+    if (!/[\u0900-\u097F]/.test(str)) return str;
 
-    const trimmed = englishText.trim()
+    const trimmed = str.trim()
       .replace(/&larr;/g, '←')
       .replace(/&rarr;/g, '→')
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&nbsp;/g, ' ')
       .replace(/&amp;/g, '&');
-    if (!trimmed || /^[0-9.,₹$%+\-/:#\s]+$/.test(trimmed)) return englishText;
+
+    const lowerTrimmed = trimmed.toLowerCase();
+
+    // Direct placeholder map lookup
+    if (REVERSE_PLACEHOLDERS[lowerTrimmed]) {
+      return REVERSE_PLACEHOLDERS[lowerTrimmed];
+    }
+
+    // Direct whole phrase lookup
+    if (REVERSE_CORE_MAP[lowerTrimmed]) {
+      return REVERSE_CORE_MAP[lowerTrimmed];
+    }
+
+    // Decompose into prefix (emojis), core, and suffix
+    const { prefix, core, suffix } = decomposeText(trimmed);
+    const lowerCore = core.toLowerCase();
+
+    // Direct core lookup
+    if (REVERSE_CORE_MAP[lowerCore]) {
+      return prefix + REVERSE_CORE_MAP[lowerCore] + suffix;
+    }
+
+    // Dynamic patterns in reverse
+    if (/^इस सप्ताह \+([0-9.,%]+)$/i.test(core) || /^या आठवड्यात \+([0-9.,%]+)$/i.test(core)) {
+      const num = core.match(/\+([0-9.,%]+)/)[1];
+      return prefix + '+' + num + ' this week' + suffix;
+    }
+    if (/^इस महीने \+([0-9.,%]+)$/i.test(core) || /^या महिन्यात \+([0-9.,%]+)$/i.test(core)) {
+      const num = core.match(/\+([0-9.,%]+)/)[1];
+      return prefix + '+' + num + ' this month' + suffix;
+    }
+    if (/\+([0-9.,%]+)\s*(लाइसेंस प्राप्त|परवानाधारक)/i.test(core)) {
+      const num = core.match(/\+([0-9.,%]+)/)[1];
+      return prefix + '+' + num + ' licensed' + suffix;
+    }
+    if (/शीर्ष\s*([0-9]+)\s*कार्य तत्काल हस्ताक्षर हेतु/i.test(core) || /प्रमुख\s*([0-9]+)\s*कृती तात्काळ स्वाक्षरीसाठी/i.test(core) || /आज हस्ताक्षर हेतु आवश्यक शीर्ष\s*([0-9]+)/i.test(core) || /आज स्वाक्षरीसाठी आवश्यक प्रमुख\s*([0-9]+)/i.test(core)) {
+      const num = core.match(/([0-9]+)/)[1];
+      return prefix + `Top ${num} Requiring Today's Sign-Off` + suffix;
+    }
+    if (/सभी\s*([0-9]+)\s*लंबित कार्य देखें/i.test(core) || /सर्व\s*([0-9]+)\s*प्रलंबित कृती पहा/i.test(core)) {
+      const num = core.match(/([0-9]+)/)[1];
+      return prefix + `View All ${num} Action Items in Full Triage Desk` + suffix;
+    }
+    if (/^([0-9]+)\s*(लंबित कार्य|प्रलंबित कृती)$/i.test(core)) {
+      const num = core.match(/([0-9]+)/)[1];
+      return prefix + num + ' Action Items' + suffix;
+    }
+    if (/([0-9]+)\s*(सक्रिय मामले|सक्रिय प्रकरणे)/i.test(core)) {
+      const num = core.match(/([0-9]+)/)[1];
+      return prefix + num + ' Active Cases' + suffix;
+    }
+    if (/([0-9.]+)\s*(घंटे|तास)/i.test(core)) {
+      const num = core.match(/([0-9.]+)/)[1];
+      return prefix + num + ' Hours' + suffix;
+    }
+    if (/([0-9]+)\s*(प्रमुख फसलें|प्रमुख शेतमाल)/i.test(core)) {
+      const num = core.match(/([0-9]+)/)[1];
+      return prefix + num + ' Commodities' + suffix;
+    }
+    if (/([0-9.,]+)\s*(मीट्रिक टन कुल ट्रैक की गई क्षमता|मेट्रिक टन एकूण नोंदवलेली साठवणूक क्षमता)/i.test(core)) {
+      const num = core.match(/([0-9.,]+)/)[1];
+      return prefix + num + ' MT Total Capacity Tracked' + suffix;
+    }
+    if (/^(\(\+38% उछाल\)|\(\+३८% वाढ\))$/.test(core)) return '(+38% spike)';
+    if (/^\(स्थिर\)$/.test(core)) return '(Stable)';
+    if (core.startsWith('(खेत ₹') || core.startsWith('(शेतबांधावर ₹')) {
+      const pr = core.replace(/[^0-9.]/g, '');
+      return `(Gate ₹${pr})`;
+    }
+
+    // Substring replacements across all registered translations
+    let translated = trimmed;
+    for (let i = 0; i < REVERSE_SUBSTRINGS.length; i++) {
+      const item = REVERSE_SUBSTRINGS[i];
+      if (item.foreign.length > 2 && translated.includes(item.foreign)) {
+        translated = translated.split(item.foreign).join(item.en);
+      }
+    }
+
+    return translated;
+  }
+
+  function tText(text, targetLang) {
+    if (!text || typeof text !== 'string') return text;
+    const l = targetLang || getAdminLanguage();
+
+    const trimmed = text.trim()
+      .replace(/&larr;/g, '←')
+      .replace(/&rarr;/g, '→')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&');
+    if (!trimmed || /^[0-9.,₹$%+\-\/:#\s]+$/.test(trimmed)) return text;
+
+    // If target is English: convert any Devanagari text back to English
+    if (l === 'en') {
+      return translateToEnglish(text);
+    }
+
+    // If source is currently in Devanagari, convert to canonical English first
+    let englishText = text;
+    if (/[\u0900-\u097F]/.test(text)) {
+      englishText = translateToEnglish(text);
+    }
 
     // Direct Placeholder map
     if (PLACEHOLDER_MAP[trimmed] && PLACEHOLDER_MAP[trimmed][l]) {
       return PLACEHOLDER_MAP[trimmed][l];
     }
+    if (PLACEHOLDER_MAP[englishText.trim()] && PLACEHOLDER_MAP[englishText.trim()][l]) {
+      return PLACEHOLDER_MAP[englishText.trim()][l];
+    }
 
-    // Decompose into prefix (emojis), core, and suffix (colons, arrows)
-    const { prefix, core, suffix } = decomposeText(trimmed);
-
-    // Exact Core Lookups
+    // Decompose into prefix (emojis), core, and suffix
+    const { prefix, core, suffix } = decomposeText(englishText.trim());
     const colIdx = l === 'hi' ? 1 : 2;
 
     // Check Person map
     if (PERSON_MAP[core] && PERSON_MAP[core][l]) return prefix + PERSON_MAP[core][l] + suffix;
-    if (PERSON_MAP[trimmed] && PERSON_MAP[trimmed][l]) return PERSON_MAP[trimmed][l];
+    if (PERSON_MAP[englishText.trim()] && PERSON_MAP[englishText.trim()][l]) return PERSON_MAP[englishText.trim()][l];
 
     // Check Buyer map
     if (BUYER_MAP[core] && BUYER_MAP[core][l]) return prefix + BUYER_MAP[core][l] + suffix;
-    if (BUYER_MAP[trimmed] && BUYER_MAP[trimmed][l]) return BUYER_MAP[trimmed][l];
+    if (BUYER_MAP[englishText.trim()] && BUYER_MAP[englishText.trim()][l]) return BUYER_MAP[englishText.trim()][l];
 
     // Check Crop map
     if (CROP_MAP[core] && CROP_MAP[core][l]) return prefix + CROP_MAP[core][l] + suffix;
-    if (CROP_MAP[trimmed] && CROP_MAP[trimmed][l]) return CROP_MAP[trimmed][l];
+    if (CROP_MAP[englishText.trim()] && CROP_MAP[englishText.trim()][l]) return CROP_MAP[englishText.trim()][l];
 
     // Check Mandi map
     if (MANDI_MAP[core] && MANDI_MAP[core][l]) return prefix + MANDI_MAP[core][l] + suffix;
-    if (MANDI_MAP[trimmed] && MANDI_MAP[trimmed][l]) return MANDI_MAP[trimmed][l];
+    if (MANDI_MAP[englishText.trim()] && MANDI_MAP[englishText.trim()][l]) return MANDI_MAP[englishText.trim()][l];
 
     // Check Warehouse map
     if (WAREHOUSE_MAP[core] && WAREHOUSE_MAP[core][l]) return prefix + WAREHOUSE_MAP[core][l] + suffix;
-    if (WAREHOUSE_MAP[trimmed] && WAREHOUSE_MAP[trimmed][l]) return WAREHOUSE_MAP[trimmed][l];
+    if (WAREHOUSE_MAP[englishText.trim()] && WAREHOUSE_MAP[englishText.trim()][l]) return WAREHOUSE_MAP[englishText.trim()][l];
 
     // Exact Phrase Match on core or trimmed
     for (let i = 0; i < RAW_PHRASES.length; i++) {
@@ -785,13 +992,12 @@
       if (row[0].toLowerCase() === core.toLowerCase()) {
         return prefix + row[colIdx] + suffix;
       }
-      if (row[0].toLowerCase() === trimmed.toLowerCase()) {
+      if (row[0].toLowerCase() === englishText.trim().toLowerCase()) {
         return row[colIdx];
       }
     }
 
     // Dynamic template patterns
-    // 1. "+142 this week" / "+12.4% this month"
     if (/^\+([0-9.,%]+)\s+this\s+week$/i.test(core)) {
       const num = core.match(/^\+([0-9.,%]+)/)[1];
       return prefix + (l === 'hi' ? `इस सप्ताह +${num}` : `या आठवड्यात +${num}`) + suffix;
@@ -804,50 +1010,46 @@
       const num = core.match(/^\+([0-9.,%]+)/)[1];
       return prefix + (l === 'hi' ? `+${num} लाइसेंस प्राप्त` : `+${num} परवानाधारक`) + suffix;
     }
-
-    // 2. "X active orders in transport..."
     if (/active orders in transport with IoT temperature telemetry/i.test(core)) {
       return prefix + (l === 'hi'
         ? '312 सक्रिय परिवहन ऑर्डर लाइव आईओटी तापमान टेलीमेट्री और राज्य भंडारण क्षमता के साथ'
         : '३१२ सक्रिय वाहतूक ऑर्डर्स थेट आयओटी तापमान माहिती व राज्य साठवणूक क्षमतेसह') + suffix;
     }
-
-    // 3. "X MT Total Capacity Tracked"
     if (/([0-9.,]+)\s*MT Total Capacity Tracked/i.test(core)) {
       const num = core.match(/([0-9.,]+)/)[1];
       return prefix + (l === 'hi' ? `${num} मीट्रिक टन कुल ट्रैक की गई क्षमता` : `${num} मेट्रिक टन एकूण नोंदवलेली साठवणूक क्षमता`) + suffix;
     }
-
-    // 4. "Active Orders in Transport..."
     if (/Active Orders in Transport/i.test(core)) {
       return prefix + (l === 'hi' ? 'परिवहन में सक्रिय ऑर्डर (लाइव रीफर और मल्टी-एक्सल फ्लीट)' : 'वाहतुकीतील सक्रिय ऑर्डर्स (थेट शीत-वाहतूक व बहु-अ‍ॅक्सल फ्लीट)') + suffix;
     }
-
-    // 5. "X Commodities"
     if (/([0-9]+)\s*Commodities/i.test(core)) {
       const num = core.match(/([0-9]+)/)[1];
       return prefix + (l === 'hi' ? `${num} प्रमुख फसलें` : `${num} प्रमुख शेतमाल`) + suffix;
     }
-
-    // 6. "X Volatility Alerts"
     if (/([0-9]+)\s*Volatility Alerts/i.test(core)) {
       const num = core.match(/([0-9]+)/)[1];
       return prefix + (l === 'hi' ? `${num} मूल्य अस्थिरता चेतावनी` : `${num} बाजारभाव चढ-उतार इशारे`) + suffix;
     }
-
-    // 7. "X Active Cases"
     if (/([0-9]+)\s*Active Cases/i.test(core)) {
       const num = core.match(/([0-9]+)/)[1];
       return prefix + (l === 'hi' ? `${num} सक्रिय मामले` : `${num} सक्रिय प्रकरणे`) + suffix;
     }
-
-    // 8. "X Hours"
     if (/([0-9.]+)\s*Hours/i.test(core)) {
       const num = core.match(/([0-9.]+)/)[1];
       return prefix + (l === 'hi' ? `${num} घंटे` : `${num} तास`) + suffix;
     }
-
-    // 9. "(+38% spike)" / "(-46%)" / "(Gate ₹9.50)"
+    if (/View All\s*([0-9]+)\s*Action Items in Full Triage Desk/i.test(core)) {
+      const num = core.match(/([0-9]+)/)[1];
+      return prefix + (l === 'hi' ? `सभी ${num} लंबित कार्य देखें` : `सर्व ${num} प्रलंबित कृती पहा`) + suffix;
+    }
+    if (/Top\s*([0-9]+)\s*Requiring Today's Sign-Off/i.test(core)) {
+      const num = core.match(/([0-9]+)/)[1];
+      return prefix + (l === 'hi' ? `शीर्ष ${num} कार्य तत्काल हस्ताक्षर हेतु` : `प्रमुख ${num} कृती तात्काळ स्वाक्षरीसाठी`) + suffix;
+    }
+    if (/([0-9]+)\s*Action Items/i.test(core)) {
+      const num = core.match(/([0-9]+)/)[1];
+      return prefix + (l === 'hi' ? `${num} लंबित कार्य` : `${num} प्रलंबित कृती`) + suffix;
+    }
     if (core === '(+38% spike)') return l === 'hi' ? '(+38% उछाल)' : '(+३८% वाढ)';
     if (core === '(-46%)') return '(-46%)';
     if (core === '(Stable)') return l === 'hi' ? '(स्थिर)' : '(स्थिर)';
@@ -856,9 +1058,8 @@
       return l === 'hi' ? `(खेत ₹${pr})` : `(शेतबांधावर ₹${pr})`;
     }
 
-    // 10. Substring replacements for composite phrases
-    let translated = trimmed;
-    // Replace known entities
+    // Substring replacements for composite phrases
+    let translated = englishText.trim();
     for (let i = 0; i < RAW_PHRASES.length; i++) {
       const row = RAW_PHRASES[i];
       if (row[0].length > 4 && translated.includes(row[0])) {
@@ -896,37 +1097,295 @@
 
   function tCrop(cropName, targetLang) {
     const l = targetLang || getAdminLanguage();
-    if (l === 'en' || !cropName) return cropName;
-    if (CROP_MAP[cropName] && CROP_MAP[cropName][l]) return CROP_MAP[cropName][l];
-    return tText(cropName, l);
+    if (!cropName) return cropName;
+    if (l === 'en') {
+      const lower = cropName.toLowerCase().trim();
+      return REVERSE_CROPS[lower] || translateToEnglish(cropName);
+    }
+    let enName = cropName;
+    if (/[\u0900-\u097F]/.test(cropName)) {
+      enName = REVERSE_CROPS[cropName.toLowerCase().trim()] || translateToEnglish(cropName);
+    }
+    if (CROP_MAP[enName] && CROP_MAP[enName][l]) return CROP_MAP[enName][l];
+    return tText(enName, l);
   }
 
   function tPerson(name, targetLang) {
     const l = targetLang || getAdminLanguage();
-    if (l === 'en' || !name) return name;
-    if (PERSON_MAP[name] && PERSON_MAP[name][l]) return PERSON_MAP[name][l];
-    return tText(name, l);
+    if (!name) return name;
+    if (l === 'en') {
+      const lower = name.toLowerCase().trim();
+      return REVERSE_PERSONS[lower] || translateToEnglish(name);
+    }
+    let enName = name;
+    if (/[\u0900-\u097F]/.test(name)) {
+      enName = REVERSE_PERSONS[name.toLowerCase().trim()] || translateToEnglish(name);
+    }
+    if (PERSON_MAP[enName] && PERSON_MAP[enName][l]) return PERSON_MAP[enName][l];
+    return tText(enName, l);
   }
 
   function tBuyer(buyer, targetLang) {
     const l = targetLang || getAdminLanguage();
-    if (l === 'en' || !buyer) return buyer;
-    if (BUYER_MAP[buyer] && BUYER_MAP[buyer][l]) return BUYER_MAP[buyer][l];
-    return tText(buyer, l);
+    if (!buyer) return buyer;
+    if (l === 'en') {
+      const lower = buyer.toLowerCase().trim();
+      return REVERSE_BUYERS[lower] || translateToEnglish(buyer);
+    }
+    let enName = buyer;
+    if (/[\u0900-\u097F]/.test(buyer)) {
+      enName = REVERSE_BUYERS[buyer.toLowerCase().trim()] || translateToEnglish(buyer);
+    }
+    if (BUYER_MAP[enName] && BUYER_MAP[enName][l]) return BUYER_MAP[enName][l];
+    return tText(enName, l);
   }
 
   function tLocation(loc, targetLang) {
     const l = targetLang || getAdminLanguage();
-    if (l === 'en' || !loc) return loc;
-    if (MANDI_MAP[loc] && MANDI_MAP[loc][l]) return MANDI_MAP[loc][l];
-    return tText(loc, l);
+    if (!loc) return loc;
+    if (l === 'en') {
+      const lower = loc.toLowerCase().trim();
+      return REVERSE_MANDIS[lower] || translateToEnglish(loc);
+    }
+    let enLoc = loc;
+    if (/[\u0900-\u097F]/.test(loc)) {
+      enLoc = REVERSE_MANDIS[loc.toLowerCase().trim()] || translateToEnglish(loc);
+    }
+    if (MANDI_MAP[enLoc] && MANDI_MAP[enLoc][l]) return MANDI_MAP[enLoc][l];
+    return tText(enLoc, l);
   }
 
   function t(key, defaultVal) {
     return tText(defaultVal || key);
   }
 
-  // 8. NON-DESTRUCTIVE DOM TREE WALKER
+  // 8. DIRECT SHELL TRANSLATION ENGINE (Guarantees 100% Sidebar, Header, & Banner instant updates)
+  function applyShellTranslations(lang) {
+    if (typeof document === 'undefined') return;
+    const l = lang || getAdminLanguage();
+
+    // 1. Sidebar Brand & Title
+    const brandAccent = document.querySelector('.brand-title .brand-accent');
+    if (brandAccent) brandAccent.textContent = l === 'en' ? 'ADMIN' : 'प्रशासक';
+
+    const brandTagline = document.querySelector('.brand-tagline');
+    if (brandTagline) brandTagline.textContent = tText('Marketplace Control Center', l);
+
+    // Sidebar Headings
+    document.querySelectorAll('.sidebar-menu-heading').forEach(el => {
+      const txt = el.textContent.trim();
+      if (txt.includes('Control Center') || txt.includes('नियंत्रण केंद्र')) {
+        el.textContent = tText('Control Center', l);
+      } else if (txt.includes('Governance Desks') || txt.includes('प्रशासन डेस्क')) {
+        el.textContent = tText('Governance Desks', l);
+      }
+    });
+
+    const connectedPortalsHeading = document.querySelector('.connected-portals-box div:first-child');
+    if (connectedPortalsHeading) connectedPortalsHeading.textContent = tText('Connected Portals:', l);
+
+    // 2. Sidebar Navigation Items
+    const navItemMap = [
+      { sec: 'dashboard', en: 'Dashboard' },
+      { sec: 'users', en: 'Users' },
+      { sec: 'market-data', en: 'Market Data' },
+      { sec: 'deals-payments', en: 'Deals & Payments' },
+      { sec: 'logistics-storage', en: 'Logistics & Storage' },
+      { sec: 'emergency-sell', en: 'Emergency Sell' },
+      { sec: 'grievances', en: 'Grievances' },
+      { sec: 'reports', en: 'Reports' }
+    ];
+
+    navItemMap.forEach(({ sec, en }) => {
+      const item = document.querySelector(`.sidebar-nav .nav-item[data-section="${sec}"] a span:last-child`);
+      if (item) {
+        item.textContent = tText(en, l);
+        if (item.parentElement) item.parentElement.setAttribute('data-agx-orig', en);
+      }
+    });
+
+    // Governance Desks Links
+    const deskEscrow = document.querySelector('.sidebar-nav .nav-item[data-tooltip*="Escrow"] a span:last-child');
+    if (deskEscrow) {
+      deskEscrow.textContent = tText('Escrow Clearances', l);
+      if (deskEscrow.parentElement) deskEscrow.parentElement.setAttribute('data-agx-orig', 'Escrow Clearances');
+    }
+
+    const deskMandi = document.querySelector('.sidebar-nav .nav-item[data-tooltip*="Mandi"] a span:last-child');
+    if (deskMandi) {
+      deskMandi.textContent = tText('Mandi MSP Desk', l);
+      if (deskMandi.parentElement) deskMandi.parentElement.setAttribute('data-agx-orig', 'Mandi MSP Desk');
+    }
+
+    const deskTribunal = document.querySelector('.sidebar-nav .nav-item[data-tooltip*="Tribunal"] a span:last-child');
+    if (deskTribunal) {
+      deskTribunal.textContent = tText('Tribunal Bench', l);
+      if (deskTribunal.parentElement) deskTribunal.parentElement.setAttribute('data-agx-orig', 'Tribunal Bench');
+    }
+
+    // Connected Portals Links
+    const portalLinks = document.querySelectorAll('.connected-portals-box a');
+    portalLinks.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      if (href.includes('farmer-module')) {
+        link.innerHTML = `<span>🌾</span> ${tText('Farmer Portal', l)}`;
+      } else if (href.includes('buyer-module')) {
+        link.innerHTML = `<span>🏢</span> ${tText('Buyer Terminal', l)}`;
+      } else if (href.includes('logistics-module')) {
+        link.innerHTML = `<span>🚚</span> ${tText('Logistics Hub', l)}`;
+      }
+    });
+
+    // 3. Top Navbar
+    const searchInput = document.getElementById('global-search-input');
+    if (searchInput) {
+      searchInput.setAttribute('placeholder', tText('Search Users, Deals, Mandi commodities, Shipments... (Press ⌘K or Ctrl+K)', l));
+      searchInput.setAttribute('data-agx-orig-ph', 'Search Users, Deals, Mandi commodities, Shipments... (Press ⌘K or Ctrl+K)');
+    }
+
+    const badgeControlCenter = document.querySelector('.navbar-left div:last-child span');
+    if (badgeControlCenter) {
+      badgeControlCenter.textContent = tText('🛡️ AgriNex Marketplace Control Center', l);
+    }
+
+    const btnSignOut = document.querySelector('.navbar-right a[href*="admin_login.html"]');
+    if (btnSignOut) {
+      btnSignOut.innerHTML = `<span>🚪</span> ${tText('Sign Out', l)}`;
+    }
+
+    const btnSwitchPortal = document.querySelector('.navbar-right a[href*="login_details/index.html"]');
+    if (btnSwitchPortal) {
+      btnSwitchPortal.textContent = `🔀 ${tText('Switch Portal', l)}`;
+    }
+
+    // 4. Executive Banner
+    const execName = document.querySelector('.executive-name');
+    if (execName) execName.textContent = tText('Dr. R. K. Shinde, IAS', l);
+
+    const execRole = document.querySelector('.executive-role-pill');
+    if (execRole) execRole.textContent = tText('Central APMC Control Desk', l);
+
+    const execSub = document.querySelector('.executive-subtext span:nth-child(2)');
+    if (execSub) execSub.textContent = tText('305 Mandis Live Across Maharashtra', l);
+
+    const execNodal = document.querySelector('.status-sub-highlight');
+    if (execNodal) execNodal.textContent = tText('Nodal Governance Active', l);
+
+    const pillPending = document.getElementById('pill-pending-count');
+    if (pillPending) {
+      const numMatch = pillPending.textContent.match(/\d+/);
+      const count = numMatch ? numMatch[0] : '14';
+      pillPending.textContent = tText(`${count} Action Items`, l);
+    }
+
+    const btnAdvisory = document.querySelector('.btn-pill-advisory span:last-child');
+    if (btnAdvisory) btnAdvisory.textContent = tText('Advisory', l);
+
+    const btnAudit = document.querySelector('.btn-pill-audit span:last-child');
+    if (btnAudit) btnAudit.textContent = tText('Audit Export', l);
+
+    // 5. KPI Cards
+    const counterpartiesCard = document.querySelector('.kpi-card-counterparties');
+    if (counterpartiesCard) {
+      const chip = counterpartiesCard.querySelector('.kpi-tag-chip');
+      if (chip) chip.textContent = tText('+142 this week', l);
+      const label = counterpartiesCard.querySelector('.kpi-label');
+      if (label) label.textContent = tText('Producers & Buyers', l);
+      const caption = counterpartiesCard.querySelector('.kpi-caption');
+      if (caption) caption.textContent = tText('14,280 Producers · 850 Enterprise Buyers', l);
+      const note = counterpartiesCard.querySelector('.kpi-footer-note');
+      if (note) note.textContent = tText('✓ Satbara 7/12 & GSTIN Verified', l);
+      const link = counterpartiesCard.querySelector('.kpi-footer-link');
+      if (link) link.textContent = tText('Directory →', l);
+    }
+
+    const escrowCard = document.querySelector('.kpi-card-escrow');
+    if (escrowCard) {
+      const chip = escrowCard.querySelector('.kpi-tag-chip');
+      if (chip) chip.textContent = tText('Dual-Key Protected', l);
+      const label = escrowCard.querySelector('.kpi-label');
+      if (label) label.textContent = tText('Escrow Locked', l);
+      const caption = escrowCard.querySelector('.kpi-caption');
+      if (caption) caption.textContent = tText('1,420 Active Trade Contracts', l);
+      const note = escrowCard.querySelector('.kpi-footer-note');
+      if (note) note.textContent = tText('RTGS / NSDL Escrow Vault', l);
+      const link = escrowCard.querySelector('.kpi-footer-link');
+      if (link) link.textContent = tText('Ledger →', l);
+    }
+
+    const fleetsCard = document.querySelector('.kpi-card-fleets');
+    if (fleetsCard) {
+      const chip = fleetsCard.querySelector('.kpi-tag-chip');
+      if (chip) chip.textContent = tText('98.4% On Schedule', l);
+      const label = fleetsCard.querySelector('.kpi-label');
+      if (label) label.textContent = tText('Active Fleets', l);
+      const caption = fleetsCard.querySelector('.kpi-caption');
+      if (caption) caption.textContent = tText('Orders in Transport across MH', l);
+      const note = fleetsCard.querySelector('.kpi-footer-note');
+      if (note) note.textContent = tText('Live IoT Reefer Telemetry', l);
+      const link = fleetsCard.querySelector('.kpi-footer-link');
+      if (link) link.textContent = tText('Track →', l);
+    }
+
+    const actionsCard = document.querySelector('.kpi-card-actions');
+    if (actionsCard) {
+      const chip = actionsCard.querySelector('.kpi-tag-chip');
+      if (chip) chip.textContent = tText('Action Required', l);
+      const label = actionsCard.querySelector('.kpi-label');
+      if (label) label.textContent = tText('Action Items', l);
+      const caption = actionsCard.querySelector('.kpi-caption');
+      if (caption) caption.textContent = tText('Pending Dual-Key & Tribunal Triage', l);
+      const note = actionsCard.querySelector('.kpi-footer-note');
+      if (note) note.textContent = tText('5 Escrow · 3 Disputes · 6 KYC', l);
+      const link = actionsCard.querySelector('.kpi-footer-link');
+      if (link) link.textContent = tText('Triage →', l);
+    }
+
+    // 6. Cockpit Panels
+    const queueTitle = document.querySelector('.cockpit-panel-queue .panel-title');
+    if (queueTitle) queueTitle.textContent = tText('Priority Action Queue', l);
+
+    const queueSubtitle = document.querySelector('.cockpit-panel-queue .panel-subtitle');
+    if (queueSubtitle) queueSubtitle.textContent = tText('Immediate dual-key payouts, tribunal bench orders, and buyer KYC verifications', l);
+
+    const queueBadge = document.getElementById('queue-badge-count');
+    if (queueBadge) {
+      const m = queueBadge.textContent.match(/\d+/);
+      const n = m ? m[0] : '3';
+      queueBadge.textContent = tText(`Top ${n} Requiring Today's Sign-Off`, l);
+    }
+
+    const btnTriageAll = document.querySelector('.cockpit-panel-queue .btn-panel-action span:first-child');
+    if (btnTriageAll) btnTriageAll.textContent = tText('Triage All', l);
+
+    const footerActionsLabel = document.getElementById('footer-actions-label');
+    if (footerActionsLabel) {
+      const m = footerActionsLabel.textContent.match(/\d+/);
+      const n = m ? m[0] : '14';
+      footerActionsLabel.textContent = tText(`View All ${n} Action Items in Full Triage Desk`, l);
+    }
+
+    const pulseTitle = document.querySelector('.cockpit-panel-pulse .panel-title');
+    if (pulseTitle) pulseTitle.textContent = tText('Live Operational Pulse', l);
+
+    const pulseSubtitle = document.querySelector('.cockpit-panel-pulse .panel-subtitle');
+    if (pulseSubtitle) pulseSubtitle.textContent = tText('Unified telemetry across APMC mandis, reefer transit & cold chain', l);
+
+    // Pulse Tabs
+    const tabMandi = document.getElementById('pulse-tab-mandi');
+    if (tabMandi) tabMandi.innerHTML = `<span>🗺️ ${tText('Mandi APMC Watch', l)}</span>`;
+
+    const tabFleets = document.getElementById('pulse-tab-fleets');
+    if (tabFleets) tabFleets.innerHTML = `<span>🚚 ${tText('Reefer Fleets', l)}</span>`;
+
+    const tabStorage = document.getElementById('pulse-tab-storage');
+    if (tabStorage) tabStorage.innerHTML = `<span>🏭 ${tText('Cold Storage', l)}</span>`;
+
+    const btnGis = document.querySelector('.btn-gis-modal-trigger span:first-child');
+    if (btnGis) btnGis.textContent = `🗺️ ${tText('Open Full State GIS Command Map', l)} (305 Mandis)`;
+  }
+
+  // 9. ROBUST BI-DIRECTIONAL DOM TREE WALKER
   let _isTranslating = false;
 
   function walkAndTranslateDOM(rootNode, targetLang) {
@@ -954,8 +1413,11 @@
             if (parent.classList && parent.classList.contains('no-translate')) {
               return fReject;
             }
+            if (parent.closest && (parent.closest('#admin-language-dropdown-menu') || parent.closest('#btn-admin-language-selector'))) {
+              return fReject;
+            }
             const val = node.nodeValue.trim();
-            if (!val || /^[0-9.,₹$%+\-/:#\s]+$/.test(val)) {
+            if (!val || /^[0-9.,₹$%+\-\/:#\s]+$/.test(val)) {
               return fSkip;
             }
             return fAccept;
@@ -970,14 +1432,27 @@
       }
 
       nodesToUpdate.forEach(textNode => {
-        if (typeof textNode._originalEnglishText === 'undefined') {
-          textNode._originalEnglishText = textNode.nodeValue;
+        const parent = textNode.parentElement;
+        if (!parent) return;
+
+        const currentVal = textNode.nodeValue;
+        let origEnglish = parent.getAttribute('data-agx-orig');
+
+        if (!origEnglish) {
+          if (!/[\u0900-\u097F]/.test(currentVal)) {
+            origEnglish = currentVal;
+          } else {
+            origEnglish = translateToEnglish(currentVal);
+          }
+          if (origEnglish) {
+            parent.setAttribute('data-agx-orig', origEnglish);
+          }
         }
-        const orig = textNode._originalEnglishText;
+
         if (l === 'en') {
-          textNode.nodeValue = orig;
+          textNode.nodeValue = origEnglish || translateToEnglish(currentVal);
         } else {
-          textNode.nodeValue = tText(orig, l);
+          textNode.nodeValue = tText(origEnglish || currentVal, l);
         }
       });
 
@@ -986,19 +1461,23 @@
       elementsWithAttrs.forEach(el => {
         // Placeholders
         if (el.hasAttribute('placeholder')) {
-          if (typeof el._originalPlaceholder === 'undefined') {
-            el._originalPlaceholder = el.getAttribute('placeholder');
+          let origPh = el.getAttribute('data-agx-orig-ph');
+          if (!origPh) {
+            const curPh = el.getAttribute('placeholder') || '';
+            origPh = !/[\u0900-\u097F]/.test(curPh) ? curPh : translateToEnglish(curPh);
+            if (origPh) el.setAttribute('data-agx-orig-ph', origPh);
           }
-          const orig = el._originalPlaceholder;
-          el.setAttribute('placeholder', l === 'en' ? orig : tText(orig, l));
+          el.setAttribute('placeholder', l === 'en' ? origPh : tText(origPh, l));
         }
         // Titles / Tooltips
         if (el.hasAttribute('title')) {
-          if (typeof el._originalTitle === 'undefined') {
-            el._originalTitle = el.getAttribute('title');
+          let origT = el.getAttribute('data-agx-orig-title');
+          if (!origT) {
+            const curT = el.getAttribute('title') || '';
+            origT = !/[\u0900-\u097F]/.test(curT) ? curT : translateToEnglish(curT);
+            if (origT) el.setAttribute('data-agx-orig-title', origT);
           }
-          const orig = el._originalTitle;
-          el.setAttribute('title', l === 'en' ? orig : tText(orig, l));
+          el.setAttribute('title', l === 'en' ? origT : tText(origT, l));
         }
       });
     } finally {
@@ -1006,7 +1485,7 @@
     }
   }
 
-  // 9. AUTOMATIC MUTATION OBSERVER (Ensures dynamic modals & tables are always translated)
+  // 10. AUTOMATIC MUTATION OBSERVER
   function setupMutationObserver() {
     if (typeof MutationObserver === 'undefined' || typeof document === 'undefined' || !document.body) return;
 
@@ -1014,7 +1493,6 @@
     const observer = new MutationObserver(mutations => {
       if (_isTranslating) return;
       const currentLang = getAdminLanguage();
-      if (currentLang === 'en') return;
 
       let hasNewNodes = false;
       for (const m of mutations) {
@@ -1040,19 +1518,26 @@
     });
   }
 
-  // 10. LANGUAGE SWITCH CONTROLLER
+  // 11. LANGUAGE SWITCH CONTROLLER
   function setAdminLanguage(lang) {
     if (!['en', 'hi', 'mr'].includes(lang)) lang = 'en';
 
     try {
       localStorage.setItem(STORAGE_KEY, lang);
+      localStorage.setItem('agrinex_admin_language', lang);
+      localStorage.setItem('agrinex_buyer_language', lang);
+      localStorage.setItem('agrinex_farmer_language', lang);
+      localStorage.setItem('agrinex_logistics_language', lang);
       localStorage.setItem('agrinex_language', lang);
     } catch (e) {}
 
-    // Update Language UI Selector Dropdown
+    // 1. Update Language UI Selector Dropdown
     updateLanguageSelectorUI(lang);
 
-    // Re-render active dynamic views FIRST so DOM has fresh full elements
+    // 2. Direct Shell Elements Update (Guaranteed Sidebar & Header refresh)
+    applyShellTranslations(lang);
+
+    // 3. Re-render active dynamic views FIRST so DOM has fresh full elements
     if (typeof window.renderActiveSectionData === 'function') {
       const activeSec = document.querySelector('.gov-section.active');
       if (activeSec && activeSec.id) {
@@ -1061,20 +1546,21 @@
       }
     }
 
-    // Now walk and translate entire document body
+    // 4. Walk and translate entire document body
     if (typeof document !== 'undefined' && document.body) {
       walkAndTranslateDOM(document.body, lang);
     }
 
-    // Broadcast change event
+    // 5. Broadcast change event
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('agrinex:languageChanged', { detail: { language: lang } }));
+      window.dispatchEvent(new CustomEvent('agrinex_language_changed', { detail: { lang: lang } }));
       if (window.AgriNexBus) {
         window.AgriNexBus.emit('language:changed', { language: lang, timestamp: Date.now() });
       }
     }
 
-    // Show feedback toast if available
+    // 6. Show feedback toast if available
     const toastMsgs = {
       en: 'Language set to English',
       hi: 'भाषा बदलकर हिन्दी कर दी गई है',
@@ -1135,10 +1621,11 @@
     });
   }
 
-  // 11. INITIALIZATION
+  // 12. INITIALIZATION
   function initAdminI18n() {
     const saved = getAdminLanguage();
     updateLanguageSelectorUI(saved);
+    applyShellTranslations(saved);
     if (document.body) {
       walkAndTranslateDOM(document.body, saved);
     }
@@ -1157,7 +1644,9 @@
       setAdminLanguage,
       getAdminLanguage,
       toggleAdminLanguageMenu,
-      walkAndTranslateDOM
+      applyShellTranslations,
+      walkAndTranslateDOM,
+      translateToEnglish
     };
 
     window.setAdminLanguage = setAdminLanguage;
@@ -1167,7 +1656,7 @@
 
     // Cross-module & tab storage sync
     window.addEventListener('storage', function (e) {
-      if (e.key === STORAGE_KEY || e.key === 'agrinex_language') {
+      if (e.key === STORAGE_KEY || e.key === 'agrinex_language' || e.key === 'agrinex_admin_language') {
         const newLang = e.newValue;
         if (newLang && ['en', 'hi', 'mr'].includes(newLang) && newLang !== getAdminLanguage()) {
           setAdminLanguage(newLang);
@@ -1186,7 +1675,9 @@
       tLocation,
       setAdminLanguage,
       getAdminLanguage,
-      walkAndTranslateDOM
+      applyShellTranslations,
+      walkAndTranslateDOM,
+      translateToEnglish
     };
   }
 
