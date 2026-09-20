@@ -32,6 +32,24 @@ function loadPersistedBuyerState() {
     if (savedDemands) {
       const parsed = JSON.parse(savedDemands);
       if (Array.isArray(parsed) && parsed.length > 0) {
+        parsed.forEach(dem => {
+          if (window.getCropImage) {
+            if (!dem.image || (dem.image.includes('tomato.jpg') && !dem.crop.toLowerCase().includes('tomato') && !dem.crop.toLowerCase().includes('टोमॅटो') && !dem.crop.toLowerCase().includes('टमाटर'))) {
+              dem.image = window.getCropImage(dem.crop);
+            } else if (dem.image.includes('?')) {
+              dem.image = dem.image.split('?')[0];
+            }
+          }
+          if (Array.isArray(dem.bids)) {
+            dem.bids.forEach(b => {
+              if (!b.farmerAvatar || b.farmerAvatar.includes('onion') || b.farmerAvatar.includes('tomato') || b.farmerAvatar.includes('banana') || b.farmerAvatar.includes('soybean') || b.farmerAvatar.includes('turmeric')) {
+                b.farmerAvatar = 'assets/images/farmer-avatar.jpg';
+              } else if (b.farmerAvatar.includes('?')) {
+                b.farmerAvatar = b.farmerAvatar.split('?')[0];
+              }
+            });
+          }
+        });
         buyerData.buyerDemands = parsed;
       }
     }

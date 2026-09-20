@@ -220,14 +220,21 @@ class AgriNexFPOHub {
             const exists = fpoData.some(d => d.id === bd.id);
             if (!exists) {
               const cropLower = (bd.crop || '').toLowerCase();
-              let cropImg = 'assets/images/tomato.jpg';
+              let cropImg = (bd.image && typeof bd.image === 'string' && bd.image.startsWith('assets/images/')) 
+                ? bd.image.split('?')[0] 
+                : 'assets/images/tomato.jpg';
               if (cropLower.includes('mango') || cropLower.includes('आंबा')) cropImg = 'assets/images/mango.jpg';
-              else if (cropLower.includes('onion') || cropLower.includes('कांदा')) cropImg = 'assets/images/onion.jpg';
-              else if (cropLower.includes('potato') || cropLower.includes('बटाटा')) cropImg = 'assets/images/potato.jpg';
+              else if (cropLower.includes('onion') || cropLower.includes('कांदा') || cropLower.includes('garwa')) cropImg = 'assets/images/onion.jpg';
+              else if (cropLower.includes('banana') || cropLower.includes('केळी') || cropLower.includes('kela')) cropImg = 'assets/images/banana.jpg';
+              else if (cropLower.includes('soybean') || cropLower.includes('सोयाबीन') || cropLower.includes('soya')) cropImg = 'assets/images/soybean.jpg';
+              else if (cropLower.includes('orange') || cropLower.includes('संत्रा') || cropLower.includes('santra')) cropImg = 'assets/images/orange.jpg';
+              else if (cropLower.includes('turmeric') || cropLower.includes('हळद') || cropLower.includes('haldi')) cropImg = 'assets/images/turmeric.jpg';
+              else if (cropLower.includes('potato') || cropLower.includes('बटाटा') || cropLower.includes('aloo')) cropImg = 'assets/images/potato.jpg';
               else if (cropLower.includes('grape') || cropLower.includes('द्राक्षे')) cropImg = 'assets/images/grapes.jpg';
               else if (cropLower.includes('pomegranate') || cropLower.includes('डाळिंब')) cropImg = 'assets/images/pomegranate.jpg';
-              else if (cropLower.includes('wheat') || cropLower.includes('गहू') || cropLower.includes('paddy')) cropImg = 'assets/images/wheat.jpg';
+              else if (cropLower.includes('wheat') || cropLower.includes('गहू') || cropLower.includes('paddy') || cropLower.includes('rice')) cropImg = 'assets/images/wheat.jpg';
               else if (cropLower.includes('cotton') || cropLower.includes('कापूस')) cropImg = 'assets/images/cotton.jpg';
+              else if (cropLower.includes('chilli') || cropLower.includes('मिरची')) cropImg = 'assets/images/green_chilli.jpg';
 
               const reqQt = Number(bd.tonnageNum || (bd.tonnage && parseInt(bd.tonnage)) || 50);
               const priceKg = Number(bd.pricePerKg || (bd.targetPrice && parseFloat(bd.targetPrice.replace(/[^\d.]/g, ''))) || 18);

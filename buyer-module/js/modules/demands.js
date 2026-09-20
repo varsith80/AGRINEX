@@ -49,6 +49,113 @@ function clearDemandFilters() {
   renderBuyerDemands();
 }
 
+function getCropImage(cropName) {
+  if (!cropName) return 'assets/images/onion.jpg';
+  const c = String(cropName).toLowerCase();
+
+  if (c.includes('onion') || c.includes('कांदा') || c.includes('kanda') || c.includes('pyaz') || c.includes('प्याज') || c.includes('garwa')) {
+    return 'assets/images/onion.jpg';
+  }
+  if (c.includes('tomato') || c.includes('टोमॅटो') || c.includes('टमाटर') || c.includes('tamatar')) {
+    return 'assets/images/tomato.jpg';
+  }
+  if (c.includes('banana') || c.includes('केळी') || c.includes('केला') || c.includes('kela') || c.includes('naine')) {
+    return 'assets/images/banana.jpg';
+  }
+  if (c.includes('soybean') || c.includes('सोयाबीन') || c.includes('soya') || c.includes('js-335') || c.includes('js 335')) {
+    return 'assets/images/soybean.jpg';
+  }
+  if (c.includes('orange') || c.includes('संत्रा') || c.includes('santra') || c.includes('mandarin') || c.includes('narangi') || c.includes('नारंगी')) {
+    return 'assets/images/orange.jpg';
+  }
+  if (c.includes('turmeric') || c.includes('हळद') || c.includes('haldi') || c.includes('हल्दी') || c.includes('curcumin') || c.includes('rajapuri')) {
+    return 'assets/images/turmeric.jpg';
+  }
+  if (c.includes('mango') || c.includes('आंबा') || c.includes('आम') || c.includes('aam') || c.includes('alphonso') || c.includes('hapus') || c.includes('हापूस')) {
+    return 'assets/images/mango.jpg';
+  }
+  if (c.includes('pomegranate') || c.includes('डाळिंब') || c.includes('anar') || c.includes('अनार') || c.includes('bhagwa')) {
+    return 'assets/images/pomegranate.jpg';
+  }
+  if (c.includes('cotton') || c.includes('कापूस') || c.includes('kapas') || c.includes('कपास')) {
+    return 'assets/images/cotton.jpg';
+  }
+  if (c.includes('wheat') || c.includes('गहू') || c.includes('gehun') || c.includes('गेहूं') || c.includes('sharbati') || c.includes('lokwan')) {
+    return 'assets/images/wheat.jpg';
+  }
+  if (c.includes('rice') || c.includes('तांदूळ') || c.includes('chawal') || c.includes('चावल') || c.includes('kolam') || c.includes('paddy') || c.includes('धान')) {
+    return 'assets/images/rice.jpg';
+  }
+  if (c.includes('grapes') || c.includes('द्राक्षे') || c.includes('angur') || c.includes('अंगूर') || c.includes('thompson')) {
+    return 'assets/images/grapes.jpg';
+  }
+  if (c.includes('potato') || c.includes('बटाटा') || c.includes('aloo') || c.includes('आलू') || c.includes('jyoti')) {
+    return 'assets/images/potato.jpg';
+  }
+  if (c.includes('chilli') || c.includes('chili') || c.includes('मिरची') || c.includes('mirchi') || c.includes('मिर्च')) {
+    return 'assets/images/green_chilli.jpg';
+  }
+  if (c.includes('bajra') || c.includes('बाजरी') || c.includes('millet')) {
+    return 'assets/images/bajra.jpg';
+  }
+  if (c.includes('jowar') || c.includes('ज्वारी') || c.includes('sorghum') || c.includes('shalu')) {
+    return 'assets/images/jowar.jpg';
+  }
+  if (c.includes('chana') || c.includes('हरभरा') || c.includes('चना') || c.includes('gram')) {
+    return 'assets/images/chana.jpg';
+  }
+  if (c.includes('tur') || c.includes('तूर') || c.includes('arhar') || c.includes('अरहर') || c.includes('pigeon pea')) {
+    return 'assets/images/tur.jpg';
+  }
+  if (c.includes('mung') || c.includes('moong') || c.includes('मूग') || c.includes('मूंग')) {
+    return 'assets/images/mung.jpg';
+  }
+  if (c.includes('urad') || c.includes('उडीद') || c.includes('उडद')) {
+    return 'assets/images/urad.jpg';
+  }
+  if (c.includes('groundnut') || c.includes('भुईमूग') || c.includes('peanut') || c.includes('मूंगफली')) {
+    return 'assets/images/groundnut.jpg';
+  }
+  if (c.includes('sugarcane') || c.includes('ऊस') || c.includes('ganna') || c.includes('गन्ना')) {
+    return 'assets/images/sugarcane.jpg';
+  }
+  if (c.includes('guava') || c.includes('पेरू') || c.includes('amrood') || c.includes('अमरूद')) {
+    return 'assets/images/guava.jpg';
+  }
+  if (c.includes('papaya') || c.includes('पपई') || c.includes('पपीता')) {
+    return 'assets/images/papaya.jpg';
+  }
+  if (c.includes('garlic') || c.includes('लसूण') || c.includes('lahsun') || c.includes('लहसुन')) {
+    return 'assets/images/garlic.jpg';
+  }
+  if (c.includes('lemon') || c.includes('लिंबू') || c.includes('nimbu') || c.includes('नींबू')) {
+    return 'assets/images/lemon.jpg';
+  }
+  if (c.includes('capsicum') || c.includes('ढोबळी') || c.includes('shimla')) {
+    return 'assets/images/capsicum.jpg';
+  }
+  if (c.includes('cabbage') || c.includes('कोबी') || c.includes('patta gobhi')) {
+    return 'assets/images/cabbage.jpg';
+  }
+  if (c.includes('cauliflower') || c.includes('फ्लॉवर') || c.includes('phool gobhi')) {
+    return 'assets/images/cauliflower.jpg';
+  }
+  if (c.includes('brinjal') || c.includes('वांगी') || c.includes('baingan') || c.includes('बैंगन') || c.includes('eggplant')) {
+    return 'assets/images/brinjal.jpg';
+  }
+  if (c.includes('cucumber') || c.includes('काकडी') || c.includes('kheera') || c.includes('खीरा')) {
+    return 'assets/images/cucumber.jpg';
+  }
+  if (c.includes('watermelon') || c.includes('कलिंगड') || c.includes('tarbooj') || c.includes('तरबूज')) {
+    return 'assets/images/watermelon.jpg';
+  }
+
+  return 'assets/images/onion.jpg';
+}
+if (typeof window !== 'undefined') {
+  window.getCropImage = getCropImage;
+}
+
 function renderBuyerDemands() {
   const container = document.getElementById('demands-list-container');
   if (!container || !buyerData.buyerDemands) return;
@@ -65,6 +172,24 @@ function renderBuyerDemands() {
     if (count >= 2) return false;
     seenSignatures.set(sig, count + 1);
     return true;
+  });
+
+  // Auto-normalize image and bid avatar paths to avoid broken or fallback images
+  buyerData.buyerDemands.forEach(dem => {
+    if (!dem.image || (dem.image.includes('tomato.jpg') && !dem.crop.toLowerCase().includes('tomato') && !dem.crop.toLowerCase().includes('टोमॅटो') && !dem.crop.toLowerCase().includes('टमाटर'))) {
+      dem.image = getCropImage(dem.crop);
+    } else if (dem.image.includes('?')) {
+      dem.image = dem.image.split('?')[0];
+    }
+    if (Array.isArray(dem.bids)) {
+      dem.bids.forEach(b => {
+        if (!b.farmerAvatar || b.farmerAvatar.includes('onion') || b.farmerAvatar.includes('tomato') || b.farmerAvatar.includes('banana') || b.farmerAvatar.includes('soybean') || b.farmerAvatar.includes('turmeric')) {
+          b.farmerAvatar = 'assets/images/farmer-avatar.jpg';
+        } else if (b.farmerAvatar.includes('?')) {
+          b.farmerAvatar = b.farmerAvatar.split('?')[0];
+        }
+      });
+    }
   });
 
   const filtered = buyerData.buyerDemands.filter(dem => {
@@ -137,6 +262,7 @@ function renderBuyerDemands() {
     const progressTextColor = fulfilledPct >= 100 ? '#15803d' : (fulfilledPct >= 60 ? '#0c5a36' : '#a16207');
     const bidsCount = (dem.bids && dem.bids.length) || 0;
     const isFulfilled = fulfilledPct >= 100;
+    const cropImg = dem.image || getCropImage(dem.crop);
 
     const destinationLbl = window.t ? window.t('demand_destination_lbl', 'Destination:') : 'Destination:';
     const deadlineLbl = window.t ? window.t('demand_deadline_lbl', 'Sourcing Deadline:') : 'Sourcing Deadline:';
@@ -156,7 +282,7 @@ function renderBuyerDemands() {
         <!-- Top Bar: Crop Info + Status Badge -->
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
           <div style="display: flex; align-items: center; gap: 14px;">
-            <img src="${dem.image}" alt="${dem.crop}" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; border: 1.5px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);" onerror="this.src='assets/images/tomato.jpg'" />
+            <img src="${cropImg}" alt="${dem.crop}" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; border: 1.5px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);" onerror="this.onerror=null; this.src=getCropImage('${(dem.crop || '').replace(/'/g, "\\'")}');" />
             <div>
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                 <strong style="font-size: 1.15rem; color: #0f172a; font-weight: 900;">${window.tCrop ? window.tCrop(dem.crop) : dem.crop}</strong>
@@ -306,7 +432,7 @@ function openDemandBidsModal(demandId) {
           <div style="background: #ffffff; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 14px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
               <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="${bid.farmerAvatar || 'assets/images/tomato.jpg'}" alt="${bid.farmerName}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid #86efac;" onerror="this.src='assets/images/tomato.jpg'" />
+                <img src="${bid.farmerAvatar || 'assets/images/farmer-avatar.jpg'}" alt="${bid.farmerName}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid #86efac;" onerror="this.onerror=null; this.src='assets/images/farmer-avatar.jpg';" />
                 <div>
                   <div style="display: flex; align-items: center; gap: 6px;">
                     <strong style="font-size: 0.95rem; color: #0f172a;">${window.tPerson ? window.tPerson(bid.farmerName) : bid.farmerName}</strong>
@@ -472,6 +598,7 @@ async function handleNewDemandSubmit(e) {
   const newDemand = {
     id: `DEM-MH-${Math.floor(1000 + Math.random() * 9000)}`,
     crop: crop,
+    image: getCropImage(crop),
     category: 'Fresh Farm Produce',
     tonnage: `${tonnageQt} Qt (${totalKg.toLocaleString('en-IN')} kg)`,
     tonnageNum: tonnageQt,
@@ -521,6 +648,7 @@ async function syncDemandsFromBackend() {
           if (!existingIds.has(sd.id)) {
             buyerData.buyerDemands.push({
               ...sd,
+              image: sd.image || getCropImage(sd.crop),
               statusLabel: sd.statusLabel || '● Broadcasting Quota',
               statusClass: sd.statusClass || 'badge-status-open'
             });

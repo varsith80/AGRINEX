@@ -1514,6 +1514,44 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, formattedLots);
     }
 
+    function getCropImage(cropName) {
+      if (!cropName) return 'assets/images/onion.jpg';
+      const c = String(cropName).toLowerCase();
+      if (c.includes('onion') || c.includes('कांदा') || c.includes('kanda') || c.includes('pyaz') || c.includes('प्याज') || c.includes('garwa')) return 'assets/images/onion.jpg';
+      if (c.includes('tomato') || c.includes('टोमॅटो') || c.includes('टमाटर') || c.includes('tamatar')) return 'assets/images/tomato.jpg';
+      if (c.includes('banana') || c.includes('केळी') || c.includes('केला') || c.includes('kela') || c.includes('naine')) return 'assets/images/banana.jpg';
+      if (c.includes('soybean') || c.includes('सोयाबीन') || c.includes('soya') || c.includes('js-335') || c.includes('js 335')) return 'assets/images/soybean.jpg';
+      if (c.includes('orange') || c.includes('संत्रा') || c.includes('santra') || c.includes('mandarin') || c.includes('narangi') || c.includes('नारंगी')) return 'assets/images/orange.jpg';
+      if (c.includes('turmeric') || c.includes('हळद') || c.includes('haldi') || c.includes('हल्दी') || c.includes('curcumin') || c.includes('rajapuri')) return 'assets/images/turmeric.jpg';
+      if (c.includes('mango') || c.includes('आंबा') || c.includes('आम') || c.includes('aam') || c.includes('alphonso') || c.includes('hapus') || c.includes('हापूस')) return 'assets/images/mango.jpg';
+      if (c.includes('pomegranate') || c.includes('डाळिंब') || c.includes('anar') || c.includes('अनार') || c.includes('bhagwa')) return 'assets/images/pomegranate.jpg';
+      if (c.includes('cotton') || c.includes('कापूस') || c.includes('kapas') || c.includes('कपास')) return 'assets/images/cotton.jpg';
+      if (c.includes('wheat') || c.includes('गहू') || c.includes('gehun') || c.includes('गेहूं') || c.includes('sharbati') || c.includes('lokwan')) return 'assets/images/wheat.jpg';
+      if (c.includes('rice') || c.includes('तांदूळ') || c.includes('chawal') || c.includes('चावल') || c.includes('kolam') || c.includes('paddy') || c.includes('धान')) return 'assets/images/rice.jpg';
+      if (c.includes('grapes') || c.includes('द्राक्षे') || c.includes('angur') || c.includes('अंगूर') || c.includes('thompson')) return 'assets/images/grapes.jpg';
+      if (c.includes('potato') || c.includes('बटाटा') || c.includes('aloo') || c.includes('आलू') || c.includes('jyoti')) return 'assets/images/potato.jpg';
+      if (c.includes('chilli') || c.includes('chili') || c.includes('मिरची') || c.includes('mirchi') || c.includes('मिर्च')) return 'assets/images/green_chilli.jpg';
+      if (c.includes('bajra') || c.includes('बाजरी') || c.includes('millet')) return 'assets/images/bajra.jpg';
+      if (c.includes('jowar') || c.includes('ज्वारी') || c.includes('sorghum') || c.includes('shalu')) return 'assets/images/jowar.jpg';
+      if (c.includes('chana') || c.includes('हरभरा') || c.includes('चना') || c.includes('gram')) return 'assets/images/chana.jpg';
+      if (c.includes('tur') || c.includes('तूर') || c.includes('arhar') || c.includes('अरहर') || c.includes('pigeon pea')) return 'assets/images/tur.jpg';
+      if (c.includes('mung') || c.includes('moong') || c.includes('मूग') || c.includes('मूंग')) return 'assets/images/mung.jpg';
+      if (c.includes('urad') || c.includes('उडीद') || c.includes('उडद')) return 'assets/images/urad.jpg';
+      if (c.includes('groundnut') || c.includes('भुईमूग') || c.includes('peanut') || c.includes('मूंगफली')) return 'assets/images/groundnut.jpg';
+      if (c.includes('sugarcane') || c.includes('ऊस') || c.includes('ganna') || c.includes('गन्ना')) return 'assets/images/sugarcane.jpg';
+      if (c.includes('guava') || c.includes('पेरू') || c.includes('amrood') || c.includes('अमरूद')) return 'assets/images/guava.jpg';
+      if (c.includes('papaya') || c.includes('पपई') || c.includes('पपीता')) return 'assets/images/papaya.jpg';
+      if (c.includes('garlic') || c.includes('लसूण') || c.includes('lahsun') || c.includes('लहसुन')) return 'assets/images/garlic.jpg';
+      if (c.includes('lemon') || c.includes('लिंबू') || c.includes('nimbu') || c.includes('नींबू')) return 'assets/images/lemon.jpg';
+      if (c.includes('capsicum') || c.includes('ढोबळी') || c.includes('shimla')) return 'assets/images/capsicum.jpg';
+      if (c.includes('cabbage') || c.includes('कोबी') || c.includes('patta gobhi')) return 'assets/images/cabbage.jpg';
+      if (c.includes('cauliflower') || c.includes('फ्लॉवर') || c.includes('phool gobhi')) return 'assets/images/cauliflower.jpg';
+      if (c.includes('brinjal') || c.includes('वांगी') || c.includes('baingan') || c.includes('बैंगन') || c.includes('eggplant')) return 'assets/images/brinjal.jpg';
+      if (c.includes('cucumber') || c.includes('काकडी') || c.includes('kheera') || c.includes('खीरा')) return 'assets/images/cucumber.jpg';
+      if (c.includes('watermelon') || c.includes('कलिंगड') || c.includes('tarbooj') || c.includes('तरबूज')) return 'assets/images/watermelon.jpg';
+      return 'assets/images/onion.jpg';
+    }
+
     if (urlPath === '/api/buyer/demands/reset' && req.method === 'POST') {
       const seedDemands = [
         {
@@ -1550,7 +1588,7 @@ const server = http.createServer(async (req, res) => {
           id: "DEM-BB-102",
           crop: "Tomato (Pune Junnar / Narayangaon Hybrid)",
           category: "Vegetables",
-          image: "assets/images/tomato.jpg?v=2",
+          image: "assets/images/tomato.jpg",
           tonnage: "15,000 kg (150 Qt)",
           tonnageNum: 150,
           totalQuantityKg: 15000,
@@ -1580,7 +1618,7 @@ const server = http.createServer(async (req, res) => {
           id: "DEM-BB-103",
           crop: "Grand Naine Banana (Khandesh Export Pack)",
           category: "Fruits",
-          image: "assets/images/banana.jpg?v=2",
+          image: "assets/images/banana.jpg",
           tonnage: "20,000 kg (200 Qt)",
           tonnageNum: 200,
           totalQuantityKg: 20000,
@@ -1610,7 +1648,7 @@ const server = http.createServer(async (req, res) => {
           id: "DEM-BB-104",
           crop: "Yellow Soybean (JS 335 / High Oil Content)",
           category: "Grains & Cereals",
-          image: "assets/images/soybean.jpg?v=3",
+          image: "assets/images/soybean.jpg",
           tonnage: "30,000 kg (300 Qt)",
           tonnageNum: 300,
           totalQuantityKg: 30000,
@@ -1640,7 +1678,7 @@ const server = http.createServer(async (req, res) => {
           id: "DEM-BB-105",
           crop: "Nagpur Orange / Santra (Table Export Grade)",
           category: "Fruits",
-          image: "assets/images/orange.jpg?v=2",
+          image: "assets/images/orange.jpg",
           tonnage: "18,000 kg (180 Qt)",
           tonnageNum: 180,
           totalQuantityKg: 18000,
@@ -1724,6 +1762,7 @@ const server = http.createServer(async (req, res) => {
           id: body.id || `DEM-BB-${Math.floor(100 + Math.random() * 900)}`,
           crop: body.crop || 'Crop Produce',
           category: body.category || 'Agricultural Crop',
+          image: body.image ? body.image.split('?')[0] : getCropImage(body.crop || ''),
           tonnage: body.tonnage || '50 Qt (5,000 kg)',
           tonnageNum: Number(body.tonnageNum) || 50,
           targetPrice: body.targetPrice || '₹ 15.00/kg',
