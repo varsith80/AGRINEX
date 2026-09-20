@@ -134,7 +134,7 @@ function switchView(viewId, params = {}) {
   }
 
   // If in Lite / Simple Mode and switching to an enterprise view, seamlessly switch to Enterprise layout
-  if (document.body.classList.contains('lite-mode-active')) {
+  if (document.body.classList.contains('lite-mode-active') || document.documentElement.classList.contains('lite-mode-active')) {
     if (typeof applyLiteModeUI === 'function') {
       applyLiteModeUI(false);
       localStorage.setItem('agrinex_buyer_lite_mode', 'false');
@@ -142,6 +142,9 @@ function switchView(viewId, params = {}) {
       if (toggleBtn && typeof updateToggleBtnState === 'function') {
         updateToggleBtnState(toggleBtn);
       }
+    } else {
+      document.body.classList.remove('lite-mode-active');
+      document.documentElement.classList.remove('lite-mode-active');
     }
   }
 

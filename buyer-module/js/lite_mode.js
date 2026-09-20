@@ -1322,19 +1322,24 @@
       } else {
         speakText("Simple Mode is active. Tap the speaker icon to listen to produce details.", "en");
       }
+    } else {
+      if (typeof showToast === 'function') {
+        showToast('⚡ Switched to Enterprise Wholesale Portal', 'info');
+      }
     }
   }
 
   function updateToggleBtnState(btn) {
+    if (!btn) return;
     const dict = getDict();
     if (isLiteMode) {
-      btn.innerHTML = `<span style="font-size: 0.9rem;">⚡</span><span>${dict.toggleEnterprise || 'Enterprise Mode'}</span>`;
+      btn.innerHTML = `<span class="mode-icon" style="font-size: 0.95rem;">⚡</span><span id="lite-mode-toggle-text">${dict.toggleEnterprise || 'Enterprise Mode'}</span>`;
       btn.classList.add('active-lite');
       btn.style.background = '#0f172a';
       btn.style.color = '#f8fafc';
       btn.style.borderColor = '#334155';
     } else {
-      btn.innerHTML = `<span style="font-size: 0.9rem;">🌱</span><span>${dict.toggleSimple || 'Simple Mode'}</span>`;
+      btn.innerHTML = `<span class="mode-icon" style="font-size: 0.95rem;">🌱</span><span id="lite-mode-toggle-text">${dict.toggleSimple || 'Simple Mode'}</span>`;
       btn.classList.remove('active-lite');
       btn.style.background = '#f8fafc';
       btn.style.color = '#334155';
@@ -1351,31 +1356,42 @@
     const floatingMic = document.getElementById('lite-floating-voice-mic');
 
     if (enable) {
-      document.body.classList.add('lite-mode-active');
+      if (document.body && document.body.classList) document.body.classList.add('lite-mode-active');
+      if (document.documentElement && document.documentElement.classList) document.documentElement.classList.add('lite-mode-active');
       regularViews.forEach(v => v.classList.remove('active-view'));
       if (liteContainer) {
         liteContainer.style.display = 'block';
         updateLiteModeLanguage(getCurrentLang());
-        switchLiteSection('produce');
+        switchLiteSection(activeLiteSection || 'produce');
       }
       if (sidebar) sidebar.style.display = 'none';
       if (headerSearch) headerSearch.style.display = 'none';
       if (floatingCopilot) floatingCopilot.style.display = 'none';
       if (floatingMic) floatingMic.style.display = 'flex';
     } else {
-      document.body.classList.remove('lite-mode-active');
+      if (document.body && document.body.classList) document.body.classList.remove('lite-mode-active');
+      if (document.documentElement && document.documentElement.classList) document.documentElement.classList.remove('lite-mode-active');
       if (liteContainer) liteContainer.style.display = 'none';
-      if (sidebar) sidebar.style.display = 'flex';
-      if (headerSearch) headerSearch.style.display = 'flex';
-      if (floatingCopilot) floatingCopilot.style.display = 'flex';
+      if (sidebar) sidebar.style.display = '';
+      if (headerSearch) headerSearch.style.display = '';
+      if (floatingCopilot) floatingCopilot.style.display = '';
       if (floatingMic) floatingMic.style.display = 'none';
       
-      // Restore default verified produce view if none active
-      const currentActive = document.querySelector('.portal-view.active-view');
+      // Ensure enterprise view is active
+      let currentActive = document.querySelector('.portal-view.active-view');
       if (!currentActive) {
-        const defaultView = document.getElementById('view-verified-produce');
-        if (defaultView) defaultView.classList.add('active-view');
+        if (typeof switchView === 'function') {
+          switchView('view-verified-produce');
+        } else {
+          const defaultView = document.getElementById('view-verified-produce');
+          if (defaultView) defaultView.classList.add('active-view');
+        }
       }
+
+      // Re-render Enterprise components
+      if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
+      if (typeof updateBuyerMarketStats === 'function') updateBuyerMarketStats();
+      if (typeof renderBuyerConsignments === 'function') renderBuyerConsignments();
     }
   }
 

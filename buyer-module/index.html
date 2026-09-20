@@ -38,19 +38,22 @@
     }
   </style>
 
-  <!-- Instant Zero-Delay Direct Landing in Simple Mode -->
+  <!-- Fast Initial Mode Resolution -->
   <script>
     (function() {
       try {
-        var isEnterprise = localStorage.getItem('agrinex_buyer_lite_mode') === 'false';
-        if (!isEnterprise) {
+        var savedPref = localStorage.getItem('agrinex_buyer_lite_mode');
+        var isLite = savedPref !== null ? (savedPref === 'true') : (window.innerWidth < 1024);
+        if (isLite) {
           document.documentElement.classList.add('lite-mode-active');
+        } else {
+          document.documentElement.classList.remove('lite-mode-active');
         }
       } catch (e) {}
     })();
   </script>
 </head>
-<body class="lite-mode-active">
+<body>
 
   <div class="app-container">
     

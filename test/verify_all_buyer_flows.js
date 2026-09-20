@@ -81,6 +81,7 @@ function createMockElement(id, tag = 'div') {
 global.window = global;
 global.localStorage = mockLocalStorage;
 global.document = {
+  documentElement: createMockElement('html', 'html'),
   body: createMockElement('body', 'body'),
   getElementById: (id) => domElements.get(id) || createMockElement(id),
   querySelector: (sel) => {
