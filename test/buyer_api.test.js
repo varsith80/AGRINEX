@@ -87,6 +87,16 @@ describe('AgriNex Buyer Module REST API Live Endpoints', () => {
       assert.ok(data.demand && data.demand.id);
       assert.strictEqual(data.demand.crop, newDemand.crop);
       assert.strictEqual(data.demand.pricePerKg, 18.0);
+
+      // Clean up test demand using DELETE endpoint to prevent test clutter accumulation
+      const delRes = await fetch(`${BASE_URL}/api/buyer/demands/${data.demand.id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      assert.strictEqual(delRes.status, 200);
+      const delData = await delRes.json();
+      assert.strictEqual(delData.success, true);
+      assert.strictEqual(delData.deletedId, data.demand.id);
     });
 
     it('GET /api/buyer/demands - should return list of active procurement demands', async () => {

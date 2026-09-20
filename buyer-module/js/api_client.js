@@ -219,6 +219,18 @@
       });
     },
 
+    async deleteDemand(demandId) {
+      return await this.request(`/buyer/demands/${demandId}`, {
+        method: 'DELETE'
+      });
+    },
+
+    async resetDemands() {
+      return await this.request('/buyer/demands/reset', {
+        method: 'POST'
+      });
+    },
+
     // ---------------- TRADING & ESCROW METHODS ----------------
     async directBuy(orderData) {
       return await this.request('/buyer/direct-buy', {

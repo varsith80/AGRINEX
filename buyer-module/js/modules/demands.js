@@ -53,6 +53,20 @@ function renderBuyerDemands() {
   const container = document.getElementById('demands-list-container');
   if (!container || !buyerData.buyerDemands) return;
 
+  // Auto-deduplicate and filter out redundant identical test duplicates
+  const seenIds = new Set();
+  const seenSignatures = new Map();
+  buyerData.buyerDemands = buyerData.buyerDemands.filter(dem => {
+    if (!dem || !dem.id) return false;
+    if (seenIds.has(dem.id)) return false;
+    seenIds.add(dem.id);
+    const sig = `${dem.crop}|${dem.tonnage}|${dem.targetPrice}|${dem.location}`.toLowerCase();
+    const count = seenSignatures.get(sig) || 0;
+    if (count >= 2) return false;
+    seenSignatures.set(sig, count + 1);
+    return true;
+  });
+
   const filtered = buyerData.buyerDemands.filter(dem => {
     // Search query
     if (demandFilters.searchQuery) {
@@ -502,16 +516,24 @@ async function syncDemandsFromBackend() {
       const serverDemands = await window.apiClient.getDemands();
       if (Array.isArray(serverDemands) && serverDemands.length > 0) {
         const existingIds = new Set((buyerData.buyerDemands || []).map(d => d.id));
+        let added = false;
         serverDemands.forEach(sd => {
           if (!existingIds.has(sd.id)) {
-            buyerData.buyerDemands.unshift({
+            buyerData.buyerDemands.push({
               ...sd,
               statusLabel: sd.statusLabel || '● Broadcasting Quota',
               statusClass: sd.statusClass || 'badge-status-open'
             });
+            existingIds.add(sd.id);
+            added = true;
           }
         });
-        renderBuyerDemands();
+        if (added) {
+          try {
+            localStorage.setItem('agrinex_buyer_demands', JSON.stringify(buyerData.buyerDemands));
+          } catch (e) {}
+          renderBuyerDemands();
+        }
       }
     } catch (err) {
       console.warn('Backend demands fetch skipped, using local store', err);
@@ -520,7 +542,7 @@ async function syncDemandsFromBackend() {
 }
 
   // Allow deleting/cancelling any unwanted or duplicate quotas
-  function deleteDemandQuota(demandId) {
+  async function deleteDemandQuota(demandId) {
     if (!buyerData.buyerDemands) return;
     const idx = buyerData.buyerDemands.findIndex(d => d.id === demandId);
     if (idx === -1) return;
@@ -536,6 +558,16 @@ async function syncDemandsFromBackend() {
           syncChannel.postMessage({ type: 'DEMANDS_UPDATED', deletedId: demandId });
         }
       } catch(err) {}
+
+      // Delete from backend API
+      try {
+        if (window.apiClient && typeof window.apiClient.deleteDemand === 'function') {
+          window.apiClient.deleteDemand(demandId).catch(e => console.warn('[AgriNex] Backend delete failed', e));
+        } else {
+          fetch(`/api/buyer/demands/${demandId}`, { method: 'DELETE' }).catch(() => {});
+        }
+      } catch (err) {}
+
       renderBuyerDemands();
       if (typeof showToast === 'function') {
         showToast(`✓ Quota #${demandId} canceled and removed from active board.`);
@@ -543,6 +575,46 @@ async function syncDemandsFromBackend() {
     }
   }
   window.deleteDemandQuota = deleteDemandQuota;
+
+  // Reset buyer demands back to clean default quotas (removing old test duplicates)
+  async function resetBuyerDemandsToDefault() {
+    if (confirm('Reset and clean all procurement quotas back to the standard institutional seed contracts? All test duplicates will be cleared.')) {
+      localStorage.removeItem('agrinex_buyer_demands');
+      localStorage.removeItem('agrinex_fpo_bulk_demands');
+
+      // Call backend reset
+      try {
+        if (window.apiClient && typeof window.apiClient.resetDemands === 'function') {
+          await window.apiClient.resetDemands();
+        } else {
+          await fetch('/api/buyer/demands/reset', { method: 'POST' });
+        }
+      } catch (err) {
+        console.warn('Backend reset failed', err);
+      }
+
+      // Revert to initial template from data.js
+      if (typeof BUYER_DATA !== 'undefined' && BUYER_DATA.buyerDemands) {
+        buyerData.buyerDemands = JSON.parse(JSON.stringify(BUYER_DATA.buyerDemands));
+      } else {
+        buyerData.buyerDemands = (buyerData.buyerDemands || []).slice(0, 6);
+      }
+      buyerData.demands = buyerData.buyerDemands;
+
+      try {
+        localStorage.setItem('agrinex_buyer_demands', JSON.stringify(buyerData.buyerDemands));
+        if (typeof BroadcastChannel !== 'undefined') {
+          const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+          syncChannel.postMessage({ type: 'DEMANDS_UPDATED' });
+        }
+      } catch(err) {}
+      renderBuyerDemands();
+      if (typeof showToast === 'function') {
+        showToast('🧹 Cleaned all accumulated test quotas! Reset to standard active board.', 'success');
+      }
+    }
+  }
+  window.resetBuyerDemandsToDefault = resetBuyerDemandsToDefault;
 
   document.addEventListener('agrinex:partials-ready', () => {
     const form = document.getElementById('form-new-demand');
