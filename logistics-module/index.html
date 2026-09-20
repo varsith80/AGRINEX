@@ -3,296 +3,437 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgriNex - Logistics Dashboard | Direct Trade · Better Tomorrow</title>
+  <title>AgriNex Driver & Fleet Console | Live Navigation & Telemetry</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   
+  <!-- Leaflet Map CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
-  <link rel="stylesheet" href="../admin-module/css/admin-shell.css" />
-
-  <style>
-    .filter-tab-btn {
-      padding: 8px 16px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #64748b;
-      background: none;
-      border: none;
-      border-bottom: 3px solid transparent;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .filter-tab-btn.active {
-      color: #0c5a36;
-      border-bottom-color: #0c5a36;
-      font-weight: 800;
-    }
-  </style>
+  <link rel="stylesheet" href="css/driver-console.css" />
 </head>
-<body>
-  <div class="app-container">
-    <!-- LEFT SIDEBAR NAVIGATION (Full-Height Sticky) -->
-    <aside class="sidebar">
-      <div>
-        <!-- Brand Header (Golden Wheat Logo) -->
-        <div class="sidebar-brand">
-          <div class="brand-logo-box">
-            <img src="../assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" onerror="this.src='../farmer-module/assets/images/wheat-logo.png'" />
-          </div>
-          <div>
-            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
-            <div class="brand-tagline">Direct Trade · Better Tomorrow</div>
-          </div>
-        </div>
+<body class="driver-console-body">
+  <div class="dc-app-layout">
+    <!-- LEFT SIDEBAR: DRIVER SHIFT WORKFLOW -->
+    <aside class="dc-sidebar">
+      <!-- Top Brand Strip -->
+      <div class="dc-sidebar-brand-strip">
+        <div>AgriNex <span style="font-weight: 500; opacity: 0.9;">Driver</span></div>
+        <div class="sub">Fleet & Dispatch Console</div>
+      </div>
 
-        <!-- Navigation Links -->
-        <ul class="sidebar-nav">
-          <li class="nav-item active" onclick="window.location.href='index.html'">
-            <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-              <span>Dashboard</span>
-            </div>
-          </li>
-          <li class="nav-item " onclick="window.location.href='fpo-hauls.html'">
-            <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-              <span>Bulk FPO Hauls</span>
-            </div>
-          </li>
-          <li class="nav-item " onclick="window.location.href='individual-orders.html'">
-            <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-              <span>Express Orders</span>
-            </div>
-          </li>
-          <li class="nav-item " onclick="window.location.href='profile.html'">
-            <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
-              <span>Passbook & Profile</span>
-            </div>
-          </li>
+      <div class="dc-sidebar-content">
+        <div class="dc-workflow-heading" id="dc-sidebar-heading">DRIVER SHIFT WORKFLOW</div>
 
-          <!-- RED GRIEVANCE MODULE LINK (Identical across all modules) -->
-          <li class="nav-item nav-item-grievance" onclick="window.location.href='grievance.html'" title="File transit complaints & payment redressal">
-            <div class="nav-item-left">
-              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        <ul class="dc-nav-list">
+          <li>
+            <a href="javascript:void(0)" class="dc-nav-item active" id="nav-item-active-mission" onclick="switchConsoleTab('mission')">
+              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+              <span id="label-nav-mission">Active Mission & Map</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="dc-nav-item" id="nav-item-duty-profile" onclick="switchConsoleTab('duty')">
+              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span id="label-nav-duty">Duty & Profile</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="dc-nav-item" id="nav-item-earnings" onclick="switchConsoleTab('earnings')">
+              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+              <span id="label-nav-earnings">Earnings & UPI Payout</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="dc-nav-item" id="nav-item-loads" onclick="switchConsoleTab('loads')">
+              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
               </svg>
-              <span style="font-weight: 800;">Grievance Module</span>
-            </div>
-            <span class="grv-badge-red">Support</span>
+              <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                <span id="label-nav-loads">Nearby Load Broadcasts</span>
+                <span style="background:#ea580c; color:#ffffff; font-size:0.62rem; font-weight:800; padding:1px 6px; border-radius:999px;">3</span>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="dc-nav-item" id="nav-item-pod" onclick="switchConsoleTab('pod')">
+              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <polyline points="9 15 12 18 16 12"></polyline>
+              </svg>
+              <span id="label-nav-pod">POD Handover</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="dc-nav-item" id="nav-item-diagnostics" onclick="switchConsoleTab('diagnostics')">
+              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                <path d="M9 9h6v6H9z"></path>
+              </svg>
+              <span id="label-nav-diagnostics">Vehicle Diagnostics</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="dc-nav-item" style="color: #fca5a5;" onclick="triggerEmergencySos()">
+              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2">
+                <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span id="label-nav-sos" style="font-weight: 700;">Emergency SOS</span>
+            </a>
+          </li>
+          <li>
+            <a href="dispatch-table.html" class="dc-nav-item" id="nav-item-table-dispatches" title="View All Fleet Dispatch Records">
+              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+              <span>Manage Dispatches</span>
+            </a>
           </li>
         </ul>
-      </div>
 
-      <!-- User Profile at bottom -->
-      <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
-        <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
-          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80" alt="Dinesh Yadav" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" />
-          <div style="min-width:0; flex:1;">
-            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Dinesh Yadav</div>
-            <div style="font-size:0.65rem; color:#86efac;">Verified Fleet Partner • Nashik</div>
+        <!-- Bottom User Profile Pill -->
+        <div class="dc-sidebar-bottom-user">
+          <div class="dc-user-circle" id="sidebar-user-avatar">KR</div>
+          <div class="dc-user-meta">
+            <div class="dc-user-name" id="sidebar-user-name">Karthik Raja</div>
+            <div class="dc-user-veh" id="sidebar-user-veh">Tata Ace EV • TN-33-AX-8910</div>
           </div>
-          <a href="../login_details/logistics_login.html" onclick="localStorage.removeItem('agrinex_active_session');" title="Logout & Switch Role" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
+          <a href="../login_details/logistics_login.html" onclick="localStorage.removeItem('agrinex_active_session');" title="Logout & Switch Role" style="color:rgba(255,255,255,0.7); display:flex; align-items:center;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
           </a>
         </div>
       </div>
     </aside>
 
-    <main class="main-wrapper">
-      <!-- Top Extended Navbar Header (Identical across Farmer & Buyer modules) -->
-      <header class="top-navbar">
-        <div class="navbar-left">
-          <div class="navbar-search" style="min-width: 320px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input type="text" placeholder="Search orders, crops, buyer locations..." oninput="handleSearch(this.value)" />
-          </div>
-          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer; white-space: nowrap;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            <span>Nashik Mandi Hub, Maharashtra</span>
-          </div>
+    <!-- MAIN CONSOLE WRAPPER -->
+    <main class="dc-main-wrapper">
+      <!-- TOP EXTENDED HEADER -->
+      <header class="dc-top-header">
+        <div class="dc-header-left">
+          <h1 class="dc-header-title">
+            <span>🚚</span>
+            <span id="dc-header-brand-title">AgriNex Driver & Fleet Console</span>
+          </h1>
+          <div class="dc-veh-pill" id="dc-header-veh-tag">TATA ACE EV • TN-33-AX-8910</div>
         </div>
 
-        <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
-          <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
-          <div class="lang-selector-widget" style="position: relative;">
-            <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
-              <span id="current-language-label">🇬🇧 English</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </button>
-            <div id="language-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 12px 28px -4px rgba(0,0,0,0.15), 0 8px 12px -6px rgba(0,0,0,0.08); width: 185px; z-index: 1100; overflow: hidden; font-size: 0.82rem;">
-              <div style="padding: 8px 12px; font-size: 0.7rem; font-weight: 800; color: #64748b; background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; justify-content: space-between;">
-                <span>🌐 Select Language</span>
-              </div>
-              <button type="button" id="lang-opt-en" onclick="setLogisticsLanguage('en')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: #e8f5ed; color: #0c5a36; cursor: pointer; text-align: left; font-weight: 700; transition: background 0.15s ease;">
-                <span style="display: flex; align-items: center; gap: 8px;">🇬🇧 English</span>
-                <span class="lang-check" style="font-weight: 900; color: #16a34a;">✓</span>
-              </button>
-              <button type="button" id="lang-opt-hi" onclick="setLogisticsLanguage('hi')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;" onmouseover="if(window.getLogisticsLanguage && window.getLogisticsLanguage()!=='hi')this.style.background='#f8fafc'" onmouseout="if(window.getLogisticsLanguage && window.getLogisticsLanguage()!=='hi')this.style.background='transparent'">
-                <span style="display: flex; align-items: center; gap: 8px;">🇮🇳 हिन्दी</span>
-                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
-              </button>
-              <button type="button" id="lang-opt-mr" onclick="setLogisticsLanguage('mr')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;" onmouseover="if(window.getLogisticsLanguage && window.getLogisticsLanguage()!=='mr')this.style.background='#f8fafc'" onmouseout="if(window.getLogisticsLanguage && window.getLogisticsLanguage()!=='mr')this.style.background='transparent'">
-                <span style="display: flex; align-items: center; gap: 8px;">🚩 मराठी</span>
-                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
-              </button>
-            </div>
+        <div class="dc-header-right">
+          <!-- Trilingual Language Switcher (EN, हिंदी, தமிழ்) -->
+          <div class="dc-lang-selector-group">
+            <button type="button" class="dc-lang-btn active" id="btn-lang-en" onclick="setConsoleLanguage('en')">🌐 EN</button>
+            <button type="button" class="dc-lang-btn" id="btn-lang-hi" onclick="setConsoleLanguage('hi')">हिंदी</button>
+            <button type="button" class="dc-lang-btn" id="btn-lang-ta" onclick="setConsoleLanguage('ta')">தமிழ்</button>
           </div>
 
-          <!-- Red Grievance Desk Top Quick Action -->
-          <a href="grievance.html" class="navbar-btn-grievance" title="Direct Redressal Desk">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-            <span>Grievance Module</span>
-          </a>
-
-          <div class="profile-widget">
-            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80" alt="Dinesh Yadav" class="profile-avatar" />
-            <div class="profile-info">
-              <span class="profile-name">Dinesh Yadav</span>
-              <span class="profile-role">Logistics Partner</span>
-            </div>
-          </div>
+          <!-- Red SOS Emergency Button -->
+          <button type="button" class="dc-btn-sos" onclick="triggerEmergencySos()" title="Activate Rapid Highway SOS">
+            <span>🚨</span>
+            <span>SOS</span>
+          </button>
         </div>
       </header>
 
-      <div class="dashboard-content">
-        <!-- 4 Clean Metric Cards Grid -->
-        <section class="stat-cards-grid">
-          <div class="stat-card">
-            <div class="stat-card-top">
-              <div class="stat-icon-wrapper green">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-              </div>
-              <div class="stat-meta">
-                <span class="stat-title">Connected Trucks</span>
-                <span class="stat-value">24 Vehicles</span>
-              </div>
-            </div>
-            <div class="stat-card-bottom">
-              <span>Ready for pickup</span>
-              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-card-top">
-              <div class="stat-icon-wrapper blue">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-              </div>
-              <div class="stat-meta">
-                <span class="stat-title">Trips In Transit</span>
-                <span class="stat-value">4 Orders</span>
-              </div>
-            </div>
-            <div class="stat-card-bottom">
-              <span>On highway right now</span>
-              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-card-top">
-              <div class="stat-icon-wrapper amber">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-              </div>
-              <div class="stat-meta">
-                <span class="stat-title">Freight Earned</span>
-                <span class="stat-value">₹ 4,86,500</span>
-              </div>
-            </div>
-            <div class="stat-card-bottom">
-              <span>100% Paid to bank account</span>
-              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-card-top">
-              <div class="stat-icon-wrapper purple">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-              </div>
-              <div class="stat-meta">
-                <span class="stat-title">On-Time Deliveries</span>
-                <span class="stat-value">99.4%</span>
-              </div>
-            </div>
-            <div class="stat-card-bottom">
-              <span>Zero transit damage</span>
-              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-            </div>
-          </div>
-        </section>
-
-        <!-- Current Available Orders Board -->
-        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.02);">
+      <!-- TWO-COLUMN MAIN BODY -->
+      <div class="dc-content-body">
+        
+        <!-- LEFT / CENTER COLUMN: ACTIVE MISSION & INTERACTIVE SHORTEST MAP -->
+        <div class="dc-left-column" id="console-view-mission">
           
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f1f5f9; padding-bottom:12px; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
-            <div style="display:flex; gap:10px;">
-              <button class="filter-tab-btn active" onclick="setDashboardTab('all', this)">All Orders (6)</button>
-              <button class="filter-tab-btn" onclick="setDashboardTab('available', this)">Available Pickups (5)</button>
-              <button class="filter-tab-btn" onclick="setDashboardTab('transit', this)">On Road (1)</button>
+          <!-- MISSION BANNER (Navy Card with Amber Border) -->
+          <section class="dc-mission-banner">
+            <div class="dc-mission-top-row">
+              <div class="dc-mission-pool-tag" id="dc-mission-pool-tag">DISPATCHED MISSION IN PROGRESS • POOL #801</div>
+              <div class="dc-mission-active-badge" id="dc-mission-badge">ACTIVE MISSION</div>
             </div>
-            <div style="font-size:0.8rem; color:#64748b;">
-              📍 Mandi: <strong>Nashik APMC Yard</strong>
+
+            <h2 class="dc-mission-title" id="dc-mission-title">CLUSTER-AGX-801 • 3-Village Tomato Collection</h2>
+            
+            <div class="dc-mission-meta-line">
+              <span id="dc-mission-load-info">Load: Fresh Roma Tomatoes (48 Crates - 1.2 Tonnes)</span>
+              <span>•</span>
+              <span>Net Driver Pay: <strong class="dc-mission-net-pay" id="dc-mission-net-pay">₹1,650</strong></span>
+            </div>
+
+            <!-- CURRENT ACTIVE TASK SUBCARD -->
+            <div class="dc-task-subcard">
+              <div class="dc-task-subcard-header">
+                <span class="dc-task-label" id="dc-task-current-label">CURRENT ACTIVE TASK:</span>
+                <span class="dc-task-status-pill" id="dc-task-status-pill">IN PROGRESS</span>
+              </div>
+              <h3 class="dc-task-title" id="dc-task-title">Stop 1: Farmgate A - Thindal (Farmer: Ravi Kumar)</h3>
+              <div class="dc-task-desc" id="dc-task-desc">Load: 350 kg Fresh Tomatoes (14 Crates) • Share: ₹481</div>
+            </div>
+          </section>
+
+          <!-- PROMINENT NAVIGATION CTA BUTTON -->
+          <button type="button" class="dc-cta-nav-button" id="dc-cta-button" onclick="advanceMissionStop(currentActiveMissionCode)">
+            <span>🚚</span>
+            <span id="dc-cta-button-text">Navigate to Stop 1 (Thindal) &rarr;</span>
+          </button>
+          
+          <div class="dc-cta-caption">
+            <span>💡</span>
+            <span id="dc-cta-caption-text">Tap this action button as you arrive, load crates, and proceed to each village stop.</span>
+          </div>
+
+          <!-- INTERACTIVE MAP CONTAINER WITH SHORTEST ROUTE TELEMETRY -->
+          <div class="dc-map-wrapper">
+            <!-- Floating Top Right Controls -->
+            <div class="dc-map-floating-controls">
+              <button type="button" class="dc-map-ctrl-btn" onclick="recenterConsoleMap()" title="Recenter Map on Driver Truck">
+                <span>🔄</span>
+                <span>Recenter</span>
+              </button>
+              <button type="button" class="dc-map-ctrl-btn" onclick="showFullConsoleRoute()" title="Show Complete Waypoint Route">
+                <span>🗺️</span>
+                <span>Full Route</span>
+              </button>
+              <button type="button" class="dc-map-ctrl-btn" style="color:#0284c7; font-weight:800;" onclick="openGoogleMapsNavigation(currentActiveMissionCode)" title="Open in Google Maps">
+                <span>↗️</span>
+                <span>Google Maps</span>
+              </button>
+            </div>
+
+            <!-- Floating Top Left Shortest Route Indicator -->
+            <div class="dc-map-route-indicator">
+              <div class="dc-route-badge-shortest">
+                <span>⚡</span>
+                <span>Shortest Route: <span class="savings">Saves 8.7 km &amp; 22 mins</span></span>
+              </div>
+              <div class="dc-route-selector-pills">
+                <button type="button" class="dc-route-choice-btn active" id="btn-route-shortest" onclick="setRouteOption('shortest')">
+                  ⚡ Shortest (29.7 km)
+                </button>
+                <button type="button" class="dc-route-choice-btn" id="btn-route-highway" onclick="setRouteOption('highway')">
+                  🛣️ Highway (38.4 km)
+                </button>
+              </div>
+            </div>
+
+            <!-- Leaflet Map Div -->
+            <div id="dc-leaflet-map" class="dc-leaflet-container"></div>
+
+            <!-- Floating Bottom Telemetry Bar -->
+            <div class="dc-telemetry-bar">
+              <div class="dc-telemetry-item">
+                <span class="dc-telemetry-label">TRUCK SPEED</span>
+                <span class="dc-telemetry-value amber" id="dc-telemetry-speed">54 km/h</span>
+              </div>
+              <div class="dc-telemetry-item">
+                <span class="dc-telemetry-label">DISTANCE</span>
+                <span class="dc-telemetry-value" id="dc-telemetry-distance">29.7 km</span>
+              </div>
+              <div class="dc-telemetry-item">
+                <span class="dc-telemetry-label">NEXT STOP ETA</span>
+                <span class="dc-telemetry-value green" id="dc-telemetry-eta">On highway - ETA 35m</span>
+              </div>
             </div>
           </div>
 
-          <!-- Orders Table List -->
-          <div class="table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Produce & Order ID</th>
-                  <th>Quantity</th>
-                  <th>Pickup Location</th>
-                  <th>Delivery Location</th>
-                  <th>Freight Payment</th>
-                  <th style="min-width:160px;">Status & Delivery Time</th>
-                  <th style="text-align:right;">Action</th>
-                </tr>
-              </thead>
-              <tbody id="orders-list-tbody">
-                <!-- Rendered via JS -->
-              </tbody>
-            </table>
+        </div>
+
+        <!-- TAB: NEARBY LOAD BROADCASTS (When loads tab is selected) -->
+        <div class="dc-left-column" id="console-view-loads" style="display: none;">
+          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
+              <div>
+                <h2 style="font-size:1.2rem; font-weight:800; color:#0f172a; margin:0;">📡 Nearby Load Broadcasts</h2>
+                <div style="font-size:0.8rem; color:#64748b; margin-top:2px;">Live freight opportunities within 30 km radius of your GPS position</div>
+              </div>
+              <button class="btn btn-outline" onclick="switchConsoleTab('mission')" style="font-size:0.8rem;">&larr; Back to Active Map</button>
+            </div>
+            <div id="nearby-loads-list-container" style="display:flex; flex-direction:column; gap:12px;">
+              <!-- Rendered via JS -->
+            </div>
           </div>
         </div>
+
+        <!-- TAB: DUTY & PROFILE -->
+        <div class="dc-left-column" id="console-view-duty" style="display: none;">
+          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
+              <h2 style="font-size:1.2rem; font-weight:800; color:#0f172a; margin:0;">📋 Commercial Pilot Duty &amp; Telematics</h2>
+              <button class="btn btn-outline" onclick="switchConsoleTab('mission')" style="font-size:0.8rem;">&larr; Back to Map</button>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div style="background:#f8fafc; padding:16px; border-radius:12px; border:1px solid #e2e8f0;">
+                <h4 style="font-size:0.85rem; font-weight:800; color:#0f172a; margin:0 0 10px 0;">Commercial Pilot License &amp; KYC</h4>
+                <div style="font-size:0.8rem; line-height:1.7; color:#334155;">
+                  <div><strong>Pilot ID:</strong> DRV-TN-8910</div>
+                  <div><strong>Heavy Transport License:</strong> TN-33-2018-882190</div>
+                  <div><strong>Nodal APMC Badge:</strong> Erode APMC Certified Pilot</div>
+                  <div><strong>Status:</strong> <span style="color:#15803d; font-weight:800;">✓ Active &amp; Verified</span></div>
+                </div>
+              </div>
+              <div style="background:#f8fafc; padding:16px; border-radius:12px; border:1px solid #e2e8f0;">
+                <h4 style="font-size:0.85rem; font-weight:800; color:#0f172a; margin:0 0 10px 0;">Tata Ace EV Telematics</h4>
+                <div style="font-size:0.8rem; line-height:1.7; color:#334155;">
+                  <div><strong>Registration:</strong> TN-33-AX-8910</div>
+                  <div><strong>Battery Health:</strong> 96.2% (Liquid Cooled LFP)</div>
+                  <div><strong>Payload Capacity:</strong> 1.8 Metric Tonnes</div>
+                  <div><strong>IoT GPS Telematics:</strong> 4G Dual-SIM Ntrip RTK</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: POD HANDOVER -->
+        <div class="dc-left-column" id="console-view-pod" style="display: none;">
+          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
+              <h2 style="font-size:1.2rem; font-weight:800; color:#0f172a; margin:0;">🔐 Proof of Delivery (POD) &amp; Gate Pass</h2>
+              <button class="btn btn-outline" onclick="switchConsoleTab('mission')" style="font-size:0.8rem;">&larr; Back to Map</button>
+            </div>
+            <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:12px; padding:16px; margin-bottom:16px;">
+              <h3 style="font-size:1rem; font-weight:800; color:#14532d; margin:0 0 4px 0;">Mandi Gate Unloading Confirmation</h3>
+              <p style="font-size:0.8rem; color:#166534; margin:0 0 12px 0;">
+                Provide the digital e-Gate Pass barcode to the receiving dock officer and enter the 4-digit buyer PIN to release ₹1,650 freight into your instant settlement wallet.
+              </p>
+              <div style="display:flex; gap:10px;">
+                <button class="btn btn-outline" onclick="openGatePassModal(currentActiveMissionCode)" style="background:#ffffff; font-size:0.8rem;">📑 View e-Gate Pass</button>
+                <button class="btn btn-primary" onclick="openPinModal(currentActiveMissionCode)" style="background:#0c5a36; font-size:0.8rem;">🔐 Enter 4-Digit POD PIN</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: DRIVER PROFILE, SHIFT EARNINGS & FARE BREAKDOWN -->
+        <aside class="dc-right-column">
+          
+          <!-- DRIVER PROFILE & DUTY STATUS CARD -->
+          <div class="dc-card">
+            <div class="dc-profile-header">
+              <div class="dc-profile-avatar-large" id="dc-profile-avatar">KR</div>
+              <div class="dc-profile-info-block">
+                <h3 class="dc-profile-driver-name" id="dc-profile-name">Karthik Raja</h3>
+                <div class="dc-profile-driver-sub" id="dc-profile-veh">Commercial Pilot • Tata Ace EV (TN-33-AX-8910)</div>
+                <div class="dc-profile-rating-line" id="dc-profile-rating">⭐ 4.92 Rating • 428 Trips Completed</div>
+              </div>
+            </div>
+
+            <div class="dc-profile-duty-bar">
+              <div class="dc-duty-badge-online" id="dc-duty-badge">
+                <span>●</span>
+                <span>ONLINE</span>
+              </div>
+              <button type="button" class="dc-btn-toggle-duty" id="dc-btn-duty-toggle" onclick="toggleDriverDuty()">
+                Go Offline
+              </button>
+            </div>
+          </div>
+
+          <!-- SHIFT EARNINGS & INSTANT PAYOUT CARD -->
+          <div class="dc-card">
+            <div class="dc-payout-header">
+              <h3 class="dc-payout-title">
+                <span>💰</span>
+                <span id="dc-label-earnings-title">Shift Earnings &amp; Instant Payout</span>
+              </h3>
+              <span class="dc-payout-tag-instant">INSTANT SETTLEMENT</span>
+            </div>
+            <div class="dc-payout-subtitle" id="dc-label-earnings-sub">Direct UPI transfer to your bank account</div>
+
+            <!-- 2x2 Stats Grid -->
+            <div class="dc-shift-stats-grid">
+              <div class="dc-stat-box">
+                <div class="dc-stat-box-title">SETTLED TODAY</div>
+                <div class="dc-stat-box-value green" id="dc-stat-settled">₹3,840</div>
+                <div class="dc-stat-box-sub">+₹1,650 in-trip</div>
+              </div>
+
+              <div class="dc-stat-box">
+                <div class="dc-stat-box-title">TRIPS TODAY</div>
+                <div class="dc-stat-box-value" id="dc-stat-trips">3 Trips</div>
+                <div class="dc-stat-box-sub">100% On-time</div>
+              </div>
+
+              <div class="dc-stat-box">
+                <div class="dc-stat-box-title">DISTANCE</div>
+                <div class="dc-stat-box-value" id="dc-stat-distance">142 km</div>
+                <div class="dc-stat-box-sub">NH 544 Belt</div>
+              </div>
+
+              <div class="dc-stat-box">
+                <div class="dc-stat-box-title">EV BATTERY</div>
+                <div class="dc-stat-box-value" id="dc-stat-battery">84%</div>
+                <div class="dc-stat-box-sub">110 km Range</div>
+              </div>
+            </div>
+
+            <!-- Linked UPI VPA Strip -->
+            <div class="dc-upi-strip">
+              <span class="dc-upi-label">LINKED UPI VPA:</span>
+              <span class="dc-upi-vpa" id="dc-upi-vpa">9842199812@okhdfcbank</span>
+            </div>
+
+            <!-- Big Green Withdraw Button -->
+            <button type="button" class="dc-btn-withdraw" id="dc-btn-withdraw" onclick="withdrawDriverEarnings()">
+              <span>⚡</span>
+              <span id="dc-btn-withdraw-text">Withdraw ₹3,840 to Bank Account</span>
+            </button>
+          </div>
+
+          <!-- CURRENT TRIP FARE BREAKDOWN CARD -->
+          <div class="dc-card">
+            <h4 class="dc-fare-card-title" id="dc-fare-header-title">CURRENT TRIP FARE BREAKDOWN (CLUSTER-AGX-801):</h4>
+            
+            <div class="dc-fare-list">
+              <div class="dc-fare-row">
+                <span class="dc-fare-item-name">Base Fare</span>
+                <span class="dc-fare-item-amount" id="dc-fare-base">₹600</span>
+              </div>
+              <div class="dc-fare-row">
+                <span class="dc-fare-item-name" id="dc-fare-dist-label">Distance Freight (35 km @ ₹20/km)</span>
+                <span class="dc-fare-item-amount" id="dc-fare-dist">₹700</span>
+              </div>
+              <div class="dc-fare-row">
+                <span class="dc-fare-item-name" id="dc-fare-stop-label">Multi-Stop Loading Allowance (3 Stops)</span>
+                <span class="dc-fare-item-amount" id="dc-fare-stop">₹350</span>
+              </div>
+              <div class="dc-fare-total-row">
+                <span class="dc-fare-total-label">Total Net Driver Pay</span>
+                <span class="dc-fare-total-val" id="dc-fare-total">₹1,650</span>
+              </div>
+            </div>
+
+            <div class="dc-escrow-pill-footer">
+              <span>🔒</span>
+              <span>Guaranteed Escrow Secured by APMC Nodal Bank</span>
+            </div>
+          </div>
+
+        </aside>
 
       </div>
     </main>
   </div>
 
-  <!-- DRIVER FLEXIBLE SCHEDULE PICKUP MODAL -->
-  <div class="modal-overlay" id="modal-schedule-pickup">
-    <div class="modal-card" style="max-width: 520px; padding: 0;" id="modal-schedule-pickup-body">
-      <!-- Injected via JS openScheduleSlotModal() -->
-    </div>
-  </div>
-
   <!-- DIGITAL GATE PASS MODAL -->
   <div class="modal-overlay" id="modal-gate-pass">
-    <div class="modal-card" style="max-width: 500px; padding: 0;" id="modal-gate-pass-body">
-      <!-- Injected via JS -->
-    </div>
+    <div class="modal-card" style="max-width: 500px; padding: 0;" id="modal-gate-pass-body"></div>
   </div>
 
   <!-- 4-DIGIT PIN VERIFICATION MODAL -->
@@ -303,114 +444,244 @@
         <button onclick="closePinModal()" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:#64748b;">&times;</button>
       </div>
       <p style="font-size:0.85rem; color:#475569; line-height:1.5; margin-bottom:16px;">
-        Ask the buyer receiving manager for their <strong>4-digit PIN</strong> to confirm delivery and receive your freight payout.
+        Ask the receiving manager at the unloading dock for their <strong>4-digit Security PIN</strong> to confirm delivery and trigger instant freight payout.
       </p>
       <div style="margin-bottom:18px;">
         <label style="display:block; font-size:0.8rem; font-weight:700; color:#334155; margin-bottom:6px;">Enter 4-Digit Delivery PIN</label>
-        <input type="text" id="delivery-pin-input" maxlength="4" placeholder="e.g. 5519" style="width:100%; font-size:1.4rem; letter-spacing:6px; text-align:center; font-weight:800; color:#0c5a36; padding:10px; border:2px solid #cbd5e1; border-radius:10px;" />
+        <input type="text" id="delivery-pin-input" maxlength="4" placeholder="8821" style="width:100%; font-size:1.4rem; letter-spacing:6px; text-align:center; font-weight:800; color:#0c5a36; padding:10px; border:2px solid #cbd5e1; border-radius:10px;" />
       </div>
       <div style="display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="submitDeliveryPin()" style="background:#0c5a36;">✓ Verify & Complete</button>
+        <button class="btn btn-primary" onclick="submitDeliveryPin()" style="background:#0c5a36;">✓ Verify &amp; Complete</button>
       </div>
     </div>
   </div>
 
+  <!-- SCRIPTS -->
   <script src="js/data.js"></script>
   <script src="js/logistics.js"></script>
   <script src="js/i18n.js"></script>
   <script>
-    let currentTab = 'all';
+    let currentActiveMissionCode = "CLUSTER-AGX-801";
+    let currentConsoleLang = "en";
 
     document.addEventListener("DOMContentLoaded", () => {
-      renderOrdersList();
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('orderCode') || 'CLUSTER-AGX-801';
+      currentActiveMissionCode = code;
+
+      loadMissionIntoConsole(code);
+      renderNearbyLoadsList();
     });
 
-    function setDashboardTab(tab, btn) {
-      currentTab = tab;
-      document.querySelectorAll(".filter-tab-btn").forEach(b => b.classList.remove("active"));
-      if (btn) btn.classList.add("active");
-      renderOrdersList();
-    }
+    function loadMissionIntoConsole(orderCode) {
+      const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode) || logisticsData.dispatchOrders[0];
+      if (!order) return;
 
-    function renderOrdersList() {
-      const tbody = document.getElementById("orders-list-tbody");
-      if (!tbody || !logisticsData.dispatchOrders) return;
+      currentActiveMissionCode = order.orderCode;
 
-      const filtered = logisticsData.dispatchOrders.filter(o => {
-        if (currentTab === 'available') return o.deliveryStatus === 'Available';
-        if (currentTab === 'transit') return o.deliveryStatus === 'In Transit';
-        return true;
-      });
+      // Update Mission Banner
+      const poolTagEl = document.getElementById("dc-mission-pool-tag");
+      const titleEl = document.getElementById("dc-mission-title");
+      const loadInfoEl = document.getElementById("dc-mission-load-info");
+      const netPayEl = document.getElementById("dc-mission-net-pay");
+      const taskTitleEl = document.getElementById("dc-task-title");
+      const taskDescEl = document.getElementById("dc-task-desc");
+      const ctaBtn = document.getElementById("dc-cta-button");
 
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:32px; color:#64748b;">No orders in this tab.</td></tr>`;
-        return;
+      if (poolTagEl) poolTagEl.textContent = `DISPATCHED MISSION IN PROGRESS • ${order.poolTag || 'POOL #801'}`;
+      if (titleEl) titleEl.textContent = order.title || `${order.orderCode} • ${order.typeLabel}`;
+      if (loadInfoEl) loadInfoEl.textContent = `Load: ${order.cropName} (${order.cargoPackaging || (order.quantityQt + ' Qt')})`;
+      if (netPayEl) netPayEl.textContent = order.freightFormatted || `₹${order.freightFee.toLocaleString()}`;
+
+      // Populate stops
+      const activeIdx = order.activeStopIndex || 0;
+      const currentStop = (order.stops && order.stops[activeIdx]) ? order.stops[activeIdx] : null;
+      if (currentStop) {
+        if (taskTitleEl) taskTitleEl.textContent = currentStop.label || currentStop.shortTitle;
+        if (taskDescEl) taskDescEl.textContent = currentStop.loadText || `Pickup: ${order.pickupAddress}`;
+        if (ctaBtn) ctaBtn.innerHTML = `<span>🚚</span> Navigate to ${currentStop.shortTitle || `Stop 1`} &rarr;`;
+      } else {
+        if (taskTitleEl) taskTitleEl.textContent = `Pickup: ${order.pickupFarmerName || order.pickupAddress}`;
+        if (taskDescEl) taskDescEl.textContent = `Destination: ${order.deliveryAddress}`;
+        if (ctaBtn) ctaBtn.innerHTML = `<span>🚚</span> Navigate to Pickup Gate &rarr;`;
       }
 
-      tbody.innerHTML = filtered.map(o => `
-        <tr>
-          <td>
-            <div style="display:flex; gap:10px; align-items:center;">
-              <img src="../farmer-module/${o.image}" alt="${o.cropName}" style="width:44px; height:44px; border-radius:8px; object-fit:cover; border:1px solid #e2e8f0;" onerror="this.src='../assets/images/tomato.jpg'" />
-              <div>
-                <strong style="font-size:0.88rem; color:#0f172a; display:block;">${o.cropName}</strong>
-                <span style="font-size:0.72rem; color:#64748b;">${o.orderCode} • ${o.typeLabel}</span>
-              </div>
+      // Update Fare Breakdown
+      const fareTitleEl = document.getElementById("dc-fare-header-title");
+      const baseEl = document.getElementById("dc-fare-base");
+      const distLabelEl = document.getElementById("dc-fare-dist-label");
+      const distValEl = document.getElementById("dc-fare-dist");
+      const stopValEl = document.getElementById("dc-fare-stop");
+      const totalValEl = document.getElementById("dc-fare-total");
+
+      if (fareTitleEl) fareTitleEl.textContent = `CURRENT TRIP FARE BREAKDOWN (${order.orderCode}):`;
+      if (order.fareBreakdown) {
+        if (baseEl) baseEl.textContent = `₹${order.fareBreakdown.baseFare}`;
+        if (distLabelEl) distLabelEl.textContent = `Distance Freight (${order.fareBreakdown.distanceFreightDetail || '35 km @ ₹20/km'})`;
+        if (distValEl) distValEl.textContent = `₹${order.fareBreakdown.distanceFreight}`;
+        if (stopValEl) stopValEl.textContent = `₹${order.fareBreakdown.multiStopAllowance}`;
+        if (totalValEl) totalValEl.textContent = `₹${order.fareBreakdown.total.toLocaleString()}`;
+      } else {
+        const base = Math.round(order.freightFee * 0.4);
+        const dist = Math.round(order.freightFee * 0.45);
+        const allowance = order.freightFee - base - dist;
+        if (baseEl) baseEl.textContent = `₹${base.toLocaleString()}`;
+        if (distValEl) distValEl.textContent = `₹${dist.toLocaleString()}`;
+        if (stopValEl) stopValEl.textContent = `₹${allowance.toLocaleString()}`;
+        if (totalValEl) totalValEl.textContent = `₹${order.freightFee.toLocaleString()}`;
+      }
+
+      // Update Telemetry Bar
+      const speedEl = document.getElementById("dc-telemetry-speed");
+      const distEl = document.getElementById("dc-telemetry-distance");
+      const etaEl = document.getElementById("dc-telemetry-eta");
+      if (speedEl) speedEl.textContent = order.truckSpeed || `${order.speedKmh || 54} km/h`;
+      if (distEl) distEl.textContent = `${order.shortestDistanceKm || order.distanceKm} km`;
+      if (etaEl) etaEl.textContent = order.etaTime || `On highway - ETA 35m`;
+
+      // Initialize Leaflet Map
+      initConsoleMap(order.orderCode);
+    }
+
+    function switchConsoleTab(tab) {
+      document.querySelectorAll(".dc-nav-item").forEach(item => item.classList.remove("active"));
+      
+      const missionView = document.getElementById("console-view-mission");
+      const loadsView = document.getElementById("console-view-loads");
+      const dutyView = document.getElementById("console-view-duty");
+      const podView = document.getElementById("console-view-pod");
+
+      if (missionView) missionView.style.display = (tab === 'mission') ? 'block' : 'none';
+      if (loadsView) loadsView.style.display = (tab === 'loads') ? 'block' : 'none';
+      if (dutyView) dutyView.style.display = (tab === 'duty') ? 'block' : 'none';
+      if (podView) podView.style.display = (tab === 'pod') ? 'block' : 'none';
+
+      if (tab === 'mission') {
+        document.getElementById("nav-item-active-mission")?.classList.add("active");
+        setTimeout(() => {
+          if (dcActiveMap) dcActiveMap.invalidateSize();
+        }, 150);
+      } else if (tab === 'loads') {
+        document.getElementById("nav-item-loads")?.classList.add("active");
+      } else if (tab === 'duty') {
+        document.getElementById("nav-item-duty-profile")?.classList.add("active");
+      } else if (tab === 'pod') {
+        document.getElementById("nav-item-pod")?.classList.add("active");
+      } else if (tab === 'earnings') {
+        document.getElementById("nav-item-earnings")?.classList.add("active");
+        showToast("Shift settled earnings: ₹3,840 available for instant withdrawal.");
+      } else if (tab === 'diagnostics') {
+        document.getElementById("nav-item-diagnostics")?.classList.add("active");
+        showToast("EV Battery Health: 96.2% • Tire Pressure: 34 PSI • Reefer Temp: 4.8°C");
+      }
+    }
+
+    function renderNearbyLoadsList() {
+      const container = document.getElementById("nearby-loads-list-container");
+      if (!container || !logisticsData.dispatchOrders) return;
+
+      const otherOrders = logisticsData.dispatchOrders.filter(o => o.orderCode !== currentActiveMissionCode);
+      container.innerHTML = otherOrders.map(o => `
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <span style="font-size:0.7rem; background:#dcfce7; color:#15803d; font-weight:800; padding:2px 8px; border-radius:4px;">${o.typeLabel || 'Direct Load'}</span>
+              <strong style="color:#0f172a; font-size:0.95rem;">${o.cropName}</strong>
+              <span style="color:#64748b; font-size:0.75rem;">(${o.quantityQt} Qt / ${(o.quantityKg).toLocaleString()} kg)</span>
             </div>
-          </td>
-          <td>
-            <strong style="color:#0c5a36; font-size:0.9rem;">${o.quantityQt} Qt</strong>
-            <div style="font-size:0.72rem; color:#64748b;">${o.quantityKg.toLocaleString()} kg</div>
-          </td>
-          <td>
-            <div style="font-size:0.8rem; color:#334155; font-weight:700;">${o.pickupFarmerName}</div>
-            <div style="font-size:0.72rem; color:#64748b;">📍 ${o.pickupGate}</div>
-          </td>
-          <td>
-            <div style="font-size:0.8rem; color:#0f172a; font-weight:700;">${o.buyerName}</div>
-            <div style="font-size:0.72rem; color:#0284c7;">⏱️ ${o.distanceKm} km (${o.etaTime})</div>
-          </td>
-          <td>
-            <strong style="font-size:0.95rem; color:#0c5a36;">${o.freightFormatted}</strong>
-            <span style="display:block; font-size:0.68rem; color:#15803d; font-weight:700;">✓ Bank Escrow</span>
-          </td>
-                    <td>
-            <div style="display:flex; flex-direction:column; gap:5px; align-items:flex-start;">
-              <span class="badge ${o.statusBadgeClass}">${o.deliveryStatus}</span>
-              <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:4px 8px; font-size:0.72rem; line-height:1.3; white-space:nowrap; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
-                <div style="font-size:0.66rem; color:#64748b; font-weight:800; letter-spacing:0.3px; text-transform:uppercase;">🚚 Deliver Between:</div>
-                <strong style="color:#0c5a36; font-size:0.8rem;">${o.deliveryWindow || '01:00 PM – 05:00 PM'}</strong>
-              </div>
+            <div style="font-size:0.78rem; color:#475569;">
+              📍 Pickup: <strong>${o.pickupAddress.split(',')[0]}</strong> ➔ 🏁 Drop: <strong>${o.deliveryAddress.split(',')[0]}</strong>
             </div>
-          </td>
-          <td style="text-align:right;">
-            <div style="display:inline-flex; gap:6px;">
-              ${o.deliveryStatus === 'Available' ? `
-                <button class="btn btn-primary" style="padding:6px 14px; font-size:0.78rem;" onclick="handleAcceptOrder('${o.orderCode}')">Accept Trip</button>
-              ` : `
-                <button class="btn btn-outline" style="padding:5px 10px; font-size:0.75rem;" onclick="openGatePassModal('${o.orderCode}')">Gate Pass</button>
-                <button class="btn btn-primary" style="padding:5px 10px; font-size:0.75rem; background:#0284c7;" onclick="openPinModal('${o.orderCode}')">Verify PIN</button>
-              `}
+            <div style="font-size:0.75rem; color:#0284c7; margin-top:2px;">
+              ⚡ Shortest Route: <strong>${o.distanceKm} km</strong> • ETA: <strong>${o.etaTime}</strong>
             </div>
-          </td>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:1.15rem; font-weight:800; color:#0c5a36; margin-bottom:4px;">${o.freightFormatted}</div>
+            <button class="btn btn-primary" style="padding:6px 14px; font-size:0.78rem; background:#b45309;" onclick="handleAcceptOrder('${o.orderCode}')">
+              ⚡ Accept &amp; Route
+            </button>
+          </div>
+        </div>
       `).join("");
-
-      if (window.AgriNexLogisticsI18n && typeof window.AgriNexLogisticsI18n.walkAndTranslateDOM === 'function') {
-        window.AgriNexLogisticsI18n.walkAndTranslateDOM(tbody);
-      }
     }
 
-    function handleSearch(val) {
-      const q = val.toLowerCase().trim();
-      const rows = document.querySelectorAll("#orders-list-tbody tr");
-      rows.forEach(r => {
-        r.style.display = r.textContent.toLowerCase().includes(q) ? "" : "none";
-      });
+    // Trilingual switch in Driver Console
+    function setConsoleLanguage(lang) {
+      currentConsoleLang = lang;
+      document.querySelectorAll(".dc-lang-btn").forEach(b => b.classList.remove("active"));
+      const activeBtn = document.getElementById(`btn-lang-${lang}`);
+      if (activeBtn) activeBtn.classList.add("active");
+
+      if (window.setLogisticsLanguage) {
+        window.setLogisticsLanguage(lang);
+      }
+
+      const dict = {
+        en: {
+          brand: "AgriNex Driver & Fleet Console",
+          heading: "DRIVER SHIFT WORKFLOW",
+          missionNav: "Active Mission & Map",
+          dutyNav: "Duty & Profile",
+          earningsNav: "Earnings & UPI Payout",
+          loadsNav: "Nearby Load Broadcasts",
+          podNav: "POD Handover",
+          diagNav: "Vehicle Diagnostics",
+          sosNav: "Emergency SOS",
+          activeBadge: "ACTIVE MISSION",
+          taskLabel: "CURRENT ACTIVE TASK:",
+          caption: "Tap this action button as you arrive, load crates, and proceed to each village stop.",
+          withdrawText: "Withdraw ₹3,840 to Bank Account"
+        },
+        hi: {
+          brand: "एग्रीनेक्स ड्राइवर व फ्लीट कंसोल",
+          heading: "ड्राइवर शिफ्ट कार्यप्रवाह",
+          missionNav: "सक्रिय मिशन व नक्शा",
+          dutyNav: "ड्यूटी व प्रोफाइल",
+          earningsNav: "कमाई व UPI भुगतान",
+          loadsNav: "नजदीकी माल प्रसारण",
+          podNav: "POD हैंडओवर",
+          diagNav: "वाहन डायग्नोस्टिक्स",
+          sosNav: "आपातकालीन SOS",
+          activeBadge: "सक्रिय मिशन",
+          taskLabel: "वर्तमान सक्रिय कार्य:",
+          caption: "प्रत्येक गाँव स्टॉप पर पहुँचने, क्रेट लोड करने और आगे बढ़ने पर इस बटन को दबाएँ।",
+          withdrawText: "₹3,840 बैंक खाते में ट्रांसफर करें"
+        },
+        ta: {
+          brand: "அக்ரிநெக்ஸ் ஓட்டுநர் மற்றும் கடற்படை கன்சோல்",
+          heading: "ஓட்டுநர் பணிப்பாய்வு",
+          missionNav: "செயலில் உள்ள மிஷன் & வரைபடம்",
+          dutyNav: "பணி & சுயவிவரம்",
+          earningsNav: "வருமானம் & UPI பணம்",
+          loadsNav: "அருகிலுள்ள சுமை வாய்ப்புகள்",
+          podNav: "விநியோக ஒப்படைப்பு",
+          diagNav: "வாகன கண்டறிதல்",
+          sosNav: "அவசர SOS",
+          activeBadge: "செயலில் உள்ள மிஷன்",
+          taskLabel: "தற்போதைய பணி:",
+          caption: "ஒவ்வொரு கிராம நிறுத்தத்திற்கும் வந்து பெட்டிகளை ஏற்றிய பின் இந்த பொத்தானை அழுத்தவும்.",
+          withdrawText: "₹3,840 வங்கி கணக்கிற்கு மாற்றவும்"
+        }
+      };
+
+      const t = dict[lang] || dict.en;
+      document.getElementById("dc-header-brand-title").textContent = t.brand;
+      document.getElementById("dc-sidebar-heading").textContent = t.heading;
+      document.getElementById("label-nav-mission").textContent = t.missionNav;
+      document.getElementById("label-nav-duty").textContent = t.dutyNav;
+      document.getElementById("label-nav-earnings").textContent = t.earningsNav;
+      document.getElementById("label-nav-loads").textContent = t.loadsNav;
+      document.getElementById("label-nav-pod").textContent = t.podNav;
+      document.getElementById("label-nav-diagnostics").textContent = t.diagNav;
+      document.getElementById("label-nav-sos").textContent = t.sosNav;
+      document.getElementById("dc-mission-badge").textContent = t.activeBadge;
+      document.getElementById("dc-task-current-label").textContent = t.taskLabel;
+      document.getElementById("dc-cta-caption-text").textContent = t.caption;
+      const withdrawBtn = document.getElementById("dc-btn-withdraw-text");
+      if (withdrawBtn) withdrawBtn.textContent = t.withdrawText;
     }
   </script>
-  <script src="../admin-module/js/admin-shell.js"></script>
-  <script src="../admin-module/js/crossmodule-bridge.js"></script>
-  <script src="../assets/js/agrinex-auth-bridge.js"></script>
 </body>
 </html>

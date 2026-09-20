@@ -20,116 +20,465 @@ function initSharedComponents() {
 }
 
 /**
- * Initialize Interactive Live GPS Leaflet Map
+ * Calculate Great-Circle Haversine Distance between two GPS coordinates in kilometers
  */
-function initLogisticsMap(containerId = "logistics-radar-map") {
-  const mapContainer = document.getElementById(containerId);
-  if (!mapContainer || typeof L === 'undefined') return;
-
-  // Default center on Kasara Ghat - Nashik to Mumbai corridor
-  const defaultCenter = [19.7042, 73.4862];
-  
-  if (activeMap) {
-    activeMap.remove();
-  }
-
-  activeMap = L.map(containerId, {
-    zoomControl: true,
-    scrollWheelZoom: false
-  }).setView(defaultCenter, 9);
-
-  // Modern CartoDB Dark/Voyager Hybrid Tiles for Professional Telematics Look
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CARTO',
-    maxZoom: 19
-  }).addTo(activeMap);
-
-  // Waypoints: Farm Pickup (Nashik) -> Highway Waypoint (Kasara) -> Buyer Terminal (Thane/Mumbai)
-  const pickupPoint = [20.0110, 73.7900]; // Ramesh Patil Farm, Nashik
-  const kasaraPoint = [19.7042, 73.4862]; // Current Truck Position (Kasara)
-  const deliveryPoint = [19.2183, 72.9781]; // AgriFoods DC, Thane
-
-  // Route Polyline
-  const routePoints = [
-    pickupPoint,
-    [19.8920, 73.6820], // Igatpuri
-    kasaraPoint,
-    [19.4520, 73.1820], // Asangaon
-    [19.2967, 73.0631], // Bhiwandi Bypass
-    deliveryPoint
-  ];
-
-  // Draw Highway Route Path
-  const routeLine = L.polyline(routePoints, {
-    color: '#0c5a36',
-    weight: 5,
-    opacity: 0.85,
-    dashArray: '8, 8',
-    lineCap: 'round'
-  }).addTo(activeMap);
-
-  // 1. Farm Pickup Origin Marker
-  const pickupIcon = L.divIcon({
-    className: 'custom-map-icon',
-    html: `<div style="background:#15803d; color:white; width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:800; border:2px solid white; box-shadow:0 4px 12px rgba(0,0,0,0.3);">🌱</div>`,
-    iconSize: [34, 34],
-    iconAnchor: [17, 17]
-  });
-  L.marker(pickupPoint, { icon: pickupIcon }).addTo(activeMap)
-    .bindPopup(`
-      <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:4px;">
-        <strong style="color:#0c5a36; font-size:0.95rem;">📍 Farm Pickup Origin</strong>
-        <div style="font-size:0.8rem; color:#334155; margin-top:4px;">Ramesh Patil Farm Gate #1, Nashik</div>
-        <div style="font-size:0.75rem; color:#15803d; font-weight:700; margin-top:2px;">Loaded: 50 Qt Tomato (Shivam Hybrid)</div>
-      </div>
-    `);
-
-  // 2. Animated Radar Pulse Active Reefer Truck Marker
-  const truckIcon = L.divIcon({
-    className: 'truck-marker-pin',
-    html: `
-      <div class="radar-ring"></div>
-      <div class="radar-ring-2"></div>
-      <div class="icon-core">🚚</div>
-    `,
-    iconSize: [46, 46],
-    iconAnchor: [23, 23]
-  });
-  vehicleMarker = L.marker(kasaraPoint, { icon: truckIcon }).addTo(activeMap)
-    .bindPopup(`
-      <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:6px; min-width:200px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:6px; margin-bottom:6px;">
-          <strong style="color:#34d399; font-size:0.9rem;">● MH-15-AQ-9011</strong>
-          <span style="font-size:0.7rem; background:#065f46; color:#a7f3d0; padding:2px 6px; border-radius:4px; font-weight:800;">52 km/h</span>
-        </div>
-        <div style="font-size:0.78rem; color:#e2e8f0;">Tata 407 Reefer Cold-Box</div>
-        <div style="font-size:0.75rem; color:#94a3b8; margin-top:2px;">Location: <strong>Kasara Ghat Highway</strong></div>
-        <div style="font-size:0.75rem; color:#38bdf8; font-weight:700; margin-top:4px;">❄️ Temp: 4.8°C (Optimal)</div>
-        <div style="font-size:0.72rem; color:#fbbf24; margin-top:2px;">⏱️ ETA Thane: 1 hr 15 mins</div>
-      </div>
-    `).openPopup();
-
-  // 3. Buyer Receiving Destination Marker
-  const deliveryIcon = L.divIcon({
-    className: 'custom-map-icon',
-    html: `<div style="background:#0284c7; color:white; width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:800; border:2px solid white; box-shadow:0 4px 12px rgba(0,0,0,0.3);">🏢</div>`,
-    iconSize: [34, 34],
-    iconAnchor: [17, 17]
-  });
-  L.marker(deliveryPoint, { icon: deliveryIcon }).addTo(activeMap)
-    .bindPopup(`
-      <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:4px;">
-        <strong style="color:#0284c7; font-size:0.95rem;">🏁 Buyer Destination</strong>
-        <div style="font-size:0.8rem; color:#334155; margin-top:4px;">AgriFoods Ltd. DC, Majiwada, Thane</div>
-        <div style="font-size:0.75rem; color:#0284c7; font-weight:700; margin-top:2px;">Receiving Bay #3 (Dock Open)</div>
-      </div>
-    `);
-
-  activeMap.fitBounds(routeLine.getBounds(), { padding: [40, 40] });
+function haversineDistance(coord1, coord2) {
+  if (!coord1 || !coord2) return 0;
+  const R = 6371; // Earth radius in km
+  const dLat = (coord2[0] - coord1[0]) * Math.PI / 180;
+  const dLon = (coord2[1] - coord1[1]) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(coord1[0] * Math.PI / 180) * Math.cos(coord2[0] * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return parseFloat((R * c).toFixed(1));
 }
 
 /**
- * Accept Dispatch Order API & Local State Transition
+ * Shortest Distance Route Optimizer
+ * Takes truck start location, intermediate stop waypoints, and destination hub.
+ * Finds the optimal permutation that minimizes total distance, comparing with standard highway route.
+ */
+function calculateShortestRoute(origin, waypoints = [], destination) {
+  if (!origin || !destination) return null;
+
+  // Calculate standard sequential / highway path distance
+  let highwayDistance = 0;
+  let highwayPoints = [origin];
+  let curr = origin;
+  for (const wp of waypoints) {
+    const coords = wp.coords || wp;
+    highwayDistance += haversineDistance(curr, coords);
+    highwayPoints.push(coords);
+    curr = coords;
+  }
+  highwayDistance += haversineDistance(curr, destination);
+  highwayPoints.push(destination);
+
+  // Highway factor for arterial roads vs direct country shortcut (approx 1.25x for state highway corridors)
+  highwayDistance = parseFloat((highwayDistance * 1.28).toFixed(1));
+
+  // Find shortest permutation of intermediate waypoints
+  let bestPermutation = [...waypoints];
+  let minDistance = Infinity;
+
+  function permute(arr, l, r) {
+    if (l === r) {
+      let dist = haversineDistance(origin, arr[0].coords || arr[0]);
+      for (let i = 0; i < arr.length - 1; i++) {
+        dist += haversineDistance(arr[i].coords || arr[i], arr[i + 1].coords || arr[i + 1]);
+      }
+      dist += haversineDistance(arr[arr.length - 1].coords || arr[arr.length - 1], destination);
+      if (dist < minDistance) {
+        minDistance = dist;
+        bestPermutation = [...arr];
+      }
+      return;
+    }
+    for (let i = l; i <= r; i++) {
+      [arr[l], arr[i]] = [arr[i], arr[l]];
+      permute(arr, l + 1, r);
+      [arr[l], arr[i]] = [arr[i], arr[l]];
+    }
+  }
+
+  if (waypoints.length > 0) {
+    permute([...waypoints], 0, waypoints.length - 1);
+  } else {
+    minDistance = haversineDistance(origin, destination);
+  }
+
+  // Realistic routing curvature factor for countryside roads (1.08x)
+  const shortestKm = parseFloat((minDistance * 1.08).toFixed(1));
+  const savingsKm = parseFloat(Math.max(1.5, (highwayDistance - shortestKm)).toFixed(1));
+  const savingsMin = Math.round(savingsKm * 2.5);
+
+  const shortestPoints = [origin, ...bestPermutation.map(p => p.coords || p), destination];
+
+  // Build Google Maps URL with optimized waypoints
+  let gmapsWaypointsParam = '';
+  if (bestPermutation.length > 0) {
+    gmapsWaypointsParam = '&waypoints=' + bestPermutation.map(p => {
+      const c = p.coords || p;
+      return `${c[0]},${c[1]}`;
+    }).join('|');
+  }
+  const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${origin[0]},${origin[1]}&destination=${destination[0]},${destination[1]}${gmapsWaypointsParam}&travelmode=driving`;
+
+  return {
+    shortestKm,
+    highwayKm: highwayDistance,
+    savingsKm,
+    savingsMin,
+    shortestPoints,
+    highwayPoints,
+    bestPermutation,
+    googleMapsUrl
+  };
+}
+
+/**
+ * Driver & Fleet Console Interactive Map Instance
+ */
+let dcActiveMap = null;
+let dcTruckMarker = null;
+let dcShortestPolyline = null;
+let dcHighwayPolyline = null;
+let dcStopMarkers = [];
+let dcActiveRouteMode = 'shortest'; // 'shortest' or 'highway'
+
+function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
+  const mapContainer = document.getElementById("dc-leaflet-map") || document.getElementById("logistics-radar-map");
+  if (!mapContainer || typeof L === 'undefined') return;
+
+  const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode) || logisticsData.dispatchOrders[0];
+  if (!order) return;
+
+  if (dcActiveMap) {
+    dcActiveMap.remove();
+    dcActiveMap = null;
+  }
+
+  // Determine Truck Origin and Waypoints
+  const truckCoords = order.currentTruckCoords || order.pickupCoords || [11.3000, 77.6500];
+  const destCoords = order.deliveryCoords || [11.3410, 77.7172];
+  const stops = order.stops || [
+    { label: "Pickup Gate", coords: order.pickupCoords || [11.3190, 77.6880] }
+  ];
+
+  // Initialize Leaflet Map
+  dcActiveMap = L.map(mapContainer.id, {
+    zoomControl: true,
+    scrollWheelZoom: false
+  }).setView(truckCoords, 11);
+
+  // CartoDB Voyager Tiles (Crisp, High-DPI, Professional Telematics)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    maxZoom: 19
+  }).addTo(dcActiveMap);
+
+  // Calculate Shortest Route vs Highway Route
+  const routeData = calculateShortestRoute(truckCoords, stops, destCoords);
+
+  // Draw Alternative Highway Route (Muted Slate / Blue Dashed)
+  const highwayPoints = order.highwayPoints || [
+    truckCoords,
+    [11.2800, 77.6100],
+    [11.3200, 77.6300],
+    [11.3500, 77.6900],
+    destCoords
+  ];
+  dcHighwayPolyline = L.polyline(highwayPoints, {
+    color: '#64748b',
+    weight: 4,
+    opacity: 0.55,
+    dashArray: '6, 8',
+    lineCap: 'round'
+  }).addTo(dcActiveMap);
+
+  // Draw Optimized Shortest Route (Emerald Green Glow)
+  const shortestPoints = order.shortestPoints || routeData.shortestPoints || [
+    truckCoords,
+    ...stops.map(s => s.coords),
+    destCoords
+  ];
+  dcShortestPolyline = L.polyline(shortestPoints, {
+    color: '#10b981',
+    weight: 6,
+    opacity: 0.95,
+    lineCap: 'round',
+    lineJoin: 'round'
+  }).addTo(dcActiveMap);
+
+  // Add Stop Waypoint Markers
+  dcStopMarkers = [];
+  stops.forEach((stop, idx) => {
+    const isCurrent = idx === (order.activeStopIndex || 0);
+    const stopIcon = L.divIcon({
+      className: 'dc-map-stop-pin',
+      html: `
+        <div class="dc-stop-marker-bubble" style="background:${isCurrent ? '#d97706' : '#15803d'};">
+          <span>📍</span>
+          <span>${stop.shortTitle || `Stop ${idx + 1}`}</span>
+        </div>
+      `,
+      iconSize: [110, 30],
+      iconAnchor: [55, 15]
+    });
+    const marker = L.marker(stop.coords, { icon: stopIcon }).addTo(dcActiveMap);
+    marker.bindPopup(`
+      <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:4px; min-width:180px;">
+        <strong style="color:#0c5a36; font-size:0.88rem;">${stop.label || stop.shortTitle}</strong>
+        <div style="font-size:0.75rem; color:#475569; margin-top:3px;">${stop.loadText || 'Harvest Load Point'}</div>
+        <div style="font-size:0.72rem; color:#d97706; font-weight:800; margin-top:2px;">Status: ${stop.status || 'Pending'}</div>
+      </div>
+    `);
+    dcStopMarkers.push(marker);
+  });
+
+  // Add Delivery Hub Marker
+  const hubIcon = L.divIcon({
+    className: 'dc-map-hub-pin',
+    html: `
+      <div class="dc-hub-marker-bubble">
+        <span>🏢</span>
+        <span>Erode Mandi Hub</span>
+      </div>
+    `,
+    iconSize: [120, 30],
+    iconAnchor: [60, 15]
+  });
+  const hubMarker = L.marker(destCoords, { icon: hubIcon }).addTo(dcActiveMap);
+  hubMarker.bindPopup(`
+    <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:4px;">
+      <strong style="color:#b45309; font-size:0.9rem;">🏢 Mandi Delivery Terminal</strong>
+      <div style="font-size:0.75rem; color:#475569; margin-top:2px;">${order.deliveryAddress}</div>
+      <div style="font-size:0.72rem; color:#15803d; font-weight:700; margin-top:3px;">Receiving Dock Open • PIN Verification</div>
+    </div>
+  `);
+
+  // Add Active Animated Truck Marker
+  const truckIcon = L.divIcon({
+    className: 'dc-truck-marker',
+    html: `
+      <div class="dc-truck-radar-ring"></div>
+      <div class="dc-truck-bubble">
+        <span>🚚</span>
+        <span>${order.driverName || 'Karthik'} • ${order.truckSpeed || '54 km/h'}</span>
+      </div>
+    `,
+    iconSize: [140, 32],
+    iconAnchor: [70, 16]
+  });
+  dcTruckMarker = L.marker(truckCoords, { icon: truckIcon }).addTo(dcActiveMap);
+  dcTruckMarker.bindPopup(`
+    <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:6px; min-width:200px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:6px;">
+        <strong style="color:#0284c7; font-size:0.85rem;">● ${order.vehicleNo || 'TN-33-AX-8910'}</strong>
+        <span style="font-size:0.7rem; background:#dbeafe; color:#1e40af; padding:2px 6px; border-radius:4px; font-weight:800;">${order.truckSpeed || '54 km/h'}</span>
+      </div>
+      <div style="font-size:0.75rem; color:#334155;">Speed: <strong>54 km/h (Normal Cruise)</strong></div>
+      <div style="font-size:0.75rem; color:#15803d; font-weight:700; margin-top:2px;">⚡ Shortest Route Active (29.7 km)</div>
+      <div style="font-size:0.72rem; color:#d97706; margin-top:2px;">Next: <strong>${stops[order.activeStopIndex || 0]?.shortTitle || 'Stop 1'}</strong></div>
+    </div>
+  `).openPopup();
+
+  // Auto-fit to route bounds
+  showFullConsoleRoute();
+}
+
+/**
+ * Re-center Leaflet Map directly on current truck location
+ */
+function recenterConsoleMap() {
+  if (!dcActiveMap || !dcTruckMarker) return;
+  dcActiveMap.setView(dcTruckMarker.getLatLng(), 13, { animate: true });
+}
+
+/**
+ * Fit Map to Show Complete Multi-Stop Route
+ */
+function showFullConsoleRoute() {
+  if (!dcActiveMap || !dcShortestPolyline) return;
+  dcActiveMap.fitBounds(dcShortestPolyline.getBounds(), { padding: [50, 50] });
+}
+
+/**
+ * Switch Route Display (Shortest vs Highway Corridor)
+ */
+function setRouteOption(mode) {
+  dcActiveRouteMode = mode;
+  const shortestBtn = document.getElementById("btn-route-shortest");
+  const highwayBtn = document.getElementById("btn-route-highway");
+  const distTelemetry = document.getElementById("dc-telemetry-distance");
+  const etaTelemetry = document.getElementById("dc-telemetry-eta");
+
+  if (mode === 'shortest') {
+    if (shortestBtn) shortestBtn.classList.add("active");
+    if (highwayBtn) highwayBtn.classList.remove("active");
+    if (dcShortestPolyline) dcShortestPolyline.setStyle({ color: '#10b981', weight: 6, opacity: 0.95 });
+    if (dcHighwayPolyline) dcHighwayPolyline.setStyle({ color: '#64748b', weight: 3, opacity: 0.4 });
+    if (distTelemetry) distTelemetry.textContent = "29.7 km";
+    if (etaTelemetry) etaTelemetry.textContent = "On highway - ETA 35m";
+    showToast("⚡ Switched to Shortest Distance Route (Saves 8.7 km & 22 mins)");
+  } else {
+    if (shortestBtn) shortestBtn.classList.remove("active");
+    if (highwayBtn) highwayBtn.classList.add("active");
+    if (dcShortestPolyline) dcShortestPolyline.setStyle({ color: '#10b981', weight: 3, opacity: 0.4 });
+    if (dcHighwayPolyline) dcHighwayPolyline.setStyle({ color: '#0284c7', weight: 6, opacity: 0.95 });
+    if (distTelemetry) distTelemetry.textContent = "38.4 km";
+    if (etaTelemetry) etaTelemetry.textContent = "Via NH-544 - ETA 57m";
+    showToast("🛣️ Switched to Standard Highway Route (38.4 km)");
+  }
+}
+
+/**
+ * Open Turn-by-Turn GPS Guidance in Google Maps
+ */
+function openGoogleMapsNavigation(orderCode = "CLUSTER-AGX-801") {
+  const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode) || logisticsData.dispatchOrders[0];
+  if (!order) return;
+
+  const truckCoords = order.currentTruckCoords || order.pickupCoords || [11.3000, 77.6500];
+  const destCoords = order.deliveryCoords || [11.3410, 77.7172];
+  const stops = order.stops || [];
+
+  const routeData = calculateShortestRoute(truckCoords, stops, destCoords);
+  const url = routeData ? routeData.googleMapsUrl : getGoogleMapsUrl(order);
+  window.open(url, '_blank');
+}
+
+/**
+ * Advance Multi-Stop Mission Workflow
+ * Step 1 -> Step 2 -> Step 3 (Hub PIN Verification)
+ */
+function advanceMissionStop(orderCode = "CLUSTER-AGX-801") {
+  const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode) || logisticsData.dispatchOrders[0];
+  if (!order || !order.stops) return;
+
+  const currentIdx = order.activeStopIndex || 0;
+  const currentStop = order.stops[currentIdx];
+
+  if (currentIdx === 0) {
+    // Complete Stop 1, advance to Stop 2
+    currentStop.status = "COMPLETED";
+    order.activeStopIndex = 1;
+    const nextStop = order.stops[1];
+    nextStop.status = "IN PROGRESS";
+
+    // Update UI elements
+    updateConsoleMissionUI(order);
+    showToast(`✅ Arrived at Stop 1 (${currentStop.shortTitle})! Loaded 14 Crates (350 kg). Farmer Ravi Kumar OTP #7291 Verified.`);
+    if (dcActiveMap && nextStop.coords) {
+      dcTruckMarker.setLatLng(currentStop.coords);
+      dcActiveMap.panTo(nextStop.coords);
+    }
+  } else if (currentIdx === 1) {
+    // Complete Stop 2, advance to Mandi Delivery Hub
+    currentStop.status = "COMPLETED";
+    order.activeStopIndex = 2;
+    const finalStop = order.stops[2];
+    finalStop.status = "IN PROGRESS";
+
+    updateConsoleMissionUI(order);
+    showToast(`✅ Arrived at Stop 2 (${currentStop.shortTitle})! Loaded 18 Crates (450 kg). Farmer Senthil OTP #4819 Verified. Proceeding to Erode Central Mandi.`);
+    if (dcActiveMap && finalStop.coords) {
+      dcTruckMarker.setLatLng(currentStop.coords);
+      dcActiveMap.panTo(finalStop.coords);
+    }
+  } else {
+    // At Mandi Hub - trigger 4-digit PIN verification to complete mission
+    openPinModal(order.orderCode);
+  }
+}
+
+/**
+ * Update Driver Console DOM with current mission stop details
+ */
+function updateConsoleMissionUI(order) {
+  const currentIdx = order.activeStopIndex || 0;
+  const stop = order.stops[currentIdx];
+  if (!stop) return;
+
+  const taskTitleEl = document.getElementById("dc-task-title");
+  const taskDescEl = document.getElementById("dc-task-desc");
+  const ctaBtn = document.getElementById("dc-cta-button");
+
+  if (taskTitleEl) taskTitleEl.textContent = stop.label;
+  if (taskDescEl) taskDescEl.textContent = stop.loadText;
+
+  if (ctaBtn) {
+    if (currentIdx < order.stops.length - 1) {
+      ctaBtn.innerHTML = `<span>🚚</span> Navigate to ${stop.shortTitle || `Stop ${currentIdx + 1}`} &rarr;`;
+    } else {
+      ctaBtn.innerHTML = `<span>🏢</span> Deliver to Erode Mandi Hub &amp; Verify PIN &rarr;`;
+      ctaBtn.style.background = "#0c5a36";
+    }
+  }
+}
+
+/**
+ * Instant UPI Payout Withdrawal
+ */
+function withdrawDriverEarnings() {
+  const settledAmount = logisticsData.profile.settledToday || 3840;
+  if (settledAmount <= 0) {
+    alert("No pending earnings to withdraw at this moment.");
+    return;
+  }
+
+  const upiId = logisticsData.profile.upiId || "9842199812@okhdfcbank";
+  const withdrawBtn = document.getElementById("dc-btn-withdraw");
+  if (withdrawBtn) {
+    withdrawBtn.disabled = true;
+    withdrawBtn.innerHTML = `<span>⏳</span> Initiating Instant UPI Transfer...`;
+  }
+
+  setTimeout(() => {
+    const txnRef = "UPI-AGX-" + Math.floor(100000 + Math.random() * 900000);
+    showToast(`⚡ Instant Settlement Successful! ₹${settledAmount.toLocaleString()} credited to ${upiId} (Ref: ${txnRef}).`);
+
+    // Reset settled amount
+    logisticsData.profile.settledToday = 0;
+    const settledEl = document.getElementById("dc-stat-settled");
+    if (settledEl) settledEl.textContent = "₹0";
+
+    if (withdrawBtn) {
+      withdrawBtn.disabled = true;
+      withdrawBtn.innerHTML = `<span>✓</span> ₹${settledAmount.toLocaleString()} Settled to Bank`;
+      withdrawBtn.style.background = "#64748b";
+    }
+  }, 900);
+}
+
+/**
+ * Driver Online / Offline Duty Toggle
+ */
+function toggleDriverDuty() {
+  const isOnline = logisticsData.profile.status === "ONLINE";
+  const badgeEl = document.getElementById("dc-duty-badge");
+  const btnEl = document.getElementById("dc-btn-duty-toggle");
+
+  if (isOnline) {
+    logisticsData.profile.status = "OFFLINE";
+    if (badgeEl) {
+      badgeEl.innerHTML = "○ OFFLINE";
+      badgeEl.style.background = "#f1f5f9";
+      badgeEl.style.color = "#64748b";
+      badgeEl.style.borderColor = "#cbd5e1";
+    }
+    if (btnEl) btnEl.textContent = "Go Online";
+    showToast("Driver shift set to Offline. New loads will not be broadcasted.");
+  } else {
+    logisticsData.profile.status = "ONLINE";
+    if (badgeEl) {
+      badgeEl.innerHTML = "● ONLINE";
+      badgeEl.style.background = "#dcfce7";
+      badgeEl.style.color = "#15803d";
+      badgeEl.style.borderColor = "#bbf7d0";
+    }
+    if (btnEl) btnEl.textContent = "Go Offline";
+    showToast("Driver shift set to ONLINE. Ready for smart dispatch missions!");
+  }
+}
+
+/**
+ * Emergency SOS Button Handler
+ */
+function triggerEmergencySos() {
+  const vehicle = logisticsData.profile.vehicleNo || "Tata Ace EV (TN-33-AX-8910)";
+  const location = logisticsData.telemetry.currentLocation || "NH 544 Highway Corridor";
+  const confirmed = confirm(
+    `🚨 EMERGENCY SOS PROTOCOL ACTIVATED 🚨\n\nVehicle: ${vehicle}\nCurrent GPS: ${location}\n\nDo you want to immediately alert Highway Patrol (112) and AgriNex 24/7 Safety Command Center?`
+  );
+  if (confirmed) {
+    showToast(`🚨 SOS Broadcast sent! Highway Patrol & AgriNex Rapid Response Dispatched to your GPS location.`);
+  }
+}
+
+/**
+ * Accept Dispatch Order API & Transition Directly to Driver Console with Shortest Route
  */
 async function handleAcceptOrder(orderCode) {
   const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode);
@@ -154,24 +503,21 @@ async function handleAcceptOrder(orderCode) {
       order.driverPhone = logisticsData.profile.phone;
       order.vehicleNo = logisticsData.profile.vehicleNo;
       
-      showToast(`🎉 Dispatch accepted for ${order.orderCode}! Digital Gate Pass generated.`);
+      showToast(`🎉 Order #${order.orderCode} Accepted! Calculating shortest route and launching Driver Console...`);
       
-      if (typeof renderOrders === 'function') renderOrders();
-      if (typeof updateStats === 'function') updateStats();
-      
-      // Auto open gate pass modal
-      openGatePassModal(orderCode);
+      setTimeout(() => {
+        window.location.href = `gps-tracking.html?orderCode=${orderCode}`;
+      }, 700);
       return;
-    } else {
-      alert(data.error || "Could not accept order.");
     }
   } catch (e) {
-    // Local fallback
+    // Offline / local fallback
     order.deliveryStatus = "In Transit";
     order.statusBadgeClass = "badge-status-transit";
-    showToast(`🎉 Dispatch accepted for ${order.orderCode}! Digital Gate Pass generated.`);
-    if (typeof renderOrders === 'function') renderOrders();
-    openGatePassModal(orderCode);
+    showToast(`🎉 Order #${order.orderCode} Accepted! Calculating shortest route and launching Driver Console...`);
+    setTimeout(() => {
+      window.location.href = `gps-tracking.html?orderCode=${orderCode}`;
+    }, 700);
   }
 }
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgriNex - Bulk FPO Hauls | Direct Trade · Better Tomorrow</title>
+  <title>AgriNex - Logistics Dashboard | Direct Trade · Better Tomorrow</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,23 +12,24 @@
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
-  
+  <link rel="stylesheet" href="../admin-module/css/admin-shell.css" />
+
   <style>
-    .fpo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 18px;
-      margin-top: 18px;
+    .filter-tab-btn {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748b;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
     }
-    .fpo-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 18px 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .filter-tab-btn.active {
+      color: #0c5a36;
+      border-bottom-color: #0c5a36;
+      font-weight: 800;
     }
   </style>
 </head>
@@ -50,7 +51,7 @@
 
         <!-- Navigation Links -->
         <ul class="sidebar-nav">
-          <li class="nav-item " onclick="window.location.href='index.html'">
+          <li class="nav-item active" onclick="window.location.href='index.html'">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
               <span>Dashboard</span>
@@ -63,7 +64,7 @@
             </div>
             <span style="background:#ea580c; color:#ffffff; font-size:0.62rem; font-weight:800; padding:1px 6px; border-radius:999px;">Live</span>
           </li>
-          <li class="nav-item active" onclick="window.location.href='fpo-hauls.html'">
+          <li class="nav-item " onclick="window.location.href='fpo-hauls.html'">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
               <span>Bulk FPO Hauls</span>
@@ -181,20 +182,106 @@
       </header>
 
       <div class="dashboard-content">
-        
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
-          <div>
-            <h2 style="font-size:1.35rem; font-weight:800; color:#0f172a; margin:0;">🌾 Bulk FPO Cooperative Hauls</h2>
-            <div style="font-size:0.82rem; color:#64748b; margin-top:4px;">Combined multi-farmer batches with guaranteed bulk freight payments</div>
+        <!-- 4 Clean Metric Cards Grid -->
+        <section class="stat-cards-grid">
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper green">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Connected Trucks</span>
+                <span class="stat-value">24 Vehicles</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>Ready for pickup</span>
+              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
           </div>
-          <div style="display:flex; gap:8px;">
-            <button class="btn btn-outline" onclick="renderFpoCards()" style="font-size:0.78rem;">🔄 Refresh Hauls</button>
-          </div>
-        </div>
 
-        <!-- FPO Hauls Grid -->
-        <div class="fpo-grid" id="fpo-grid-container">
-          <!-- Rendered via JS -->
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper blue">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Trips In Transit</span>
+                <span class="stat-value">4 Orders</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>On highway right now</span>
+              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper amber">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Freight Earned</span>
+                <span class="stat-value">₹ 4,86,500</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>100% Paid to bank account</span>
+              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper purple">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">On-Time Deliveries</span>
+                <span class="stat-value">99.4%</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>Zero transit damage</span>
+              <svg class="stat-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- Current Available Orders Board -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.02);">
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f1f5f9; padding-bottom:12px; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; gap:10px;">
+              <button class="filter-tab-btn active" onclick="setDashboardTab('all', this)">All Orders (6)</button>
+              <button class="filter-tab-btn" onclick="setDashboardTab('available', this)">Available Pickups (5)</button>
+              <button class="filter-tab-btn" onclick="setDashboardTab('transit', this)">On Road (1)</button>
+            </div>
+            <div style="font-size:0.8rem; color:#64748b;">
+              📍 Mandi: <strong>Nashik APMC Yard</strong>
+            </div>
+          </div>
+
+          <!-- Orders Table List -->
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Produce & Order ID</th>
+                  <th>Quantity</th>
+                  <th>Pickup Location</th>
+                  <th>Delivery Location</th>
+                  <th>Freight Payment</th>
+                  <th style="min-width:160px;">Status & Delivery Time</th>
+                  <th style="text-align:right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="orders-list-tbody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
         </div>
 
       </div>
@@ -240,78 +327,97 @@
   <script src="js/logistics.js"></script>
   <script src="js/i18n.js"></script>
   <script>
+    let currentTab = 'all';
+
     document.addEventListener("DOMContentLoaded", () => {
-      renderFpoCards();
+      renderOrdersList();
     });
 
-    function renderFpoCards() {
-      const container = document.getElementById("fpo-grid-container");
-      if (!container || !logisticsData.dispatchOrders) return;
+    function setDashboardTab(tab, btn) {
+      currentTab = tab;
+      document.querySelectorAll(".filter-tab-btn").forEach(b => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      renderOrdersList();
+    }
 
-      const fpos = logisticsData.dispatchOrders.filter(o => o.orderType === 'bulk_fpo');
+    function renderOrdersList() {
+      const tbody = document.getElementById("orders-list-tbody");
+      if (!tbody || !logisticsData.dispatchOrders) return;
 
-      container.innerHTML = fpos.map(o => `
-        <div class="fpo-card">
-          <div>
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; gap:8px;">
-              <span class="badge badge-grade-a">${o.typeLabel}</span>
-              <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-                <span class="badge ${o.statusBadgeClass}">${o.deliveryStatus}</span>
-                <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:3px 7px; font-size:0.7rem; line-height:1.2; text-align:right;">
-                  <span style="font-size:0.64rem; color:#64748b; font-weight:800; display:block;">🚚 DELIVER BETWEEN:</span>
-                  <strong style="color:#0c5a36; font-size:0.75rem;">${o.deliveryWindow || '01:00 PM – 05:00 PM'}</strong>
-                </div>
-              </div>
-            </div>
+      const filtered = logisticsData.dispatchOrders.filter(o => {
+        if (currentTab === 'available') return o.deliveryStatus === 'Available';
+        if (currentTab === 'transit') return o.deliveryStatus === 'In Transit';
+        return true;
+      });
 
-            <div style="display:flex; gap:12px; align-items:center; margin-bottom:14px;">
-              <img src="../farmer-module/${o.image}" alt="${o.cropName}" style="width:52px; height:52px; border-radius:10px; object-fit:cover; border:1px solid #e2e8f0;" onerror="this.src='../assets/images/onion.jpg'" />
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:32px; color:#64748b;">No orders in this tab.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(o => `
+        <tr>
+          <td>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <img src="../farmer-module/${o.image}" alt="${o.cropName}" style="width:44px; height:44px; border-radius:8px; object-fit:cover; border:1px solid #e2e8f0;" onerror="this.src='../assets/images/tomato.jpg'" />
               <div>
-                <strong style="font-size:1rem; color:#0f172a; display:block;">${o.cropName}</strong>
-                <span style="font-size:0.75rem; color:#64748b;">${o.orderCode} • ${o.pickupFarmerName}</span>
+                <strong style="font-size:0.88rem; color:#0f172a; display:block;">${o.cropName}</strong>
+                <span style="font-size:0.72rem; color:#64748b;">${o.orderCode} • ${o.typeLabel}</span>
               </div>
             </div>
-
-            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; font-size:0.82rem; margin-bottom:14px; line-height:1.5;">
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span style="color:#64748b;">Weight / Volume:</span>
-                <strong style="color:#0c5a36;">${o.quantityQt} Qt (${o.quantityKg.toLocaleString()} kg)</strong>
-              </div>
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span style="color:#64748b;">Distance & Time:</span>
-                <strong style="color:#0284c7;">${o.distanceKm} km (${o.etaTime})</strong>
-              </div>
-              <div style="display:flex; justify-content:space-between; border-top:1px dashed #e2e8f0; padding-top:6px; margin-top:6px;">
-                <span style="color:#64748b;">Freight Pay:</span>
-                <strong style="color:#0c5a36; font-size:1.05rem;">${o.freightFormatted}</strong>
+          </td>
+          <td>
+            <strong style="color:#0c5a36; font-size:0.9rem;">${o.quantityQt} Qt</strong>
+            <div style="font-size:0.72rem; color:#64748b;">${o.quantityKg.toLocaleString()} kg</div>
+          </td>
+          <td>
+            <div style="font-size:0.8rem; color:#334155; font-weight:700;">${o.pickupFarmerName}</div>
+            <div style="font-size:0.72rem; color:#64748b;">📍 ${o.pickupGate}</div>
+          </td>
+          <td>
+            <div style="font-size:0.8rem; color:#0f172a; font-weight:700;">${o.buyerName}</div>
+            <div style="font-size:0.72rem; color:#0284c7;">⏱️ ${o.distanceKm} km (${o.etaTime})</div>
+          </td>
+          <td>
+            <strong style="font-size:0.95rem; color:#0c5a36;">${o.freightFormatted}</strong>
+            <span style="display:block; font-size:0.68rem; color:#15803d; font-weight:700;">✓ Bank Escrow</span>
+          </td>
+                    <td>
+            <div style="display:flex; flex-direction:column; gap:5px; align-items:flex-start;">
+              <span class="badge ${o.statusBadgeClass}">${o.deliveryStatus}</span>
+              <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:4px 8px; font-size:0.72rem; line-height:1.3; white-space:nowrap; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+                <div style="font-size:0.66rem; color:#64748b; font-weight:800; letter-spacing:0.3px; text-transform:uppercase;">🚚 Deliver Between:</div>
+                <strong style="color:#0c5a36; font-size:0.8rem;">${o.deliveryWindow || '01:00 PM – 05:00 PM'}</strong>
               </div>
             </div>
-
-            <div style="font-size:0.78rem; color:#475569; margin-bottom:14px;">
-              <div>📍 <strong>Pickup:</strong> ${o.pickupAddress}</div>
-              <div style="margin-top:4px;">🏁 <strong>Deliver to:</strong> ${o.deliveryAddress}</div>
+          </td>
+          <td style="text-align:right;">
+            <div style="display:inline-flex; gap:6px;">
+              ${o.deliveryStatus === 'Available' ? `
+                <button class="btn btn-primary" style="padding:6px 14px; font-size:0.78rem;" onclick="handleAcceptOrder('${o.orderCode}')">Accept Trip</button>
+              ` : `
+                <button class="btn btn-outline" style="padding:5px 10px; font-size:0.75rem;" onclick="openGatePassModal('${o.orderCode}')">Gate Pass</button>
+                <button class="btn btn-primary" style="padding:5px 10px; font-size:0.75rem; background:#0284c7;" onclick="openPinModal('${o.orderCode}')">Verify PIN</button>
+              `}
             </div>
-          </div>
-
-          <div style="display:flex; gap:8px; border-top:1px solid #f1f5f9; padding-top:12px;">
-            <button class="btn btn-outline" style="flex:1; font-size:0.8rem; justify-content:center;" onclick="openGatePassModal('${o.orderCode}')">
-              📑 Gate Pass
-            </button>
-            ${o.deliveryStatus === 'Available' ? `
-              <button class="btn btn-primary" style="flex:1; font-size:0.8rem; justify-content:center;" onclick="handleAcceptOrder('${o.orderCode}')">
-                Accept Haul
-              </button>
-            ` : `
-              <button class="btn btn-primary" style="flex:1; font-size:0.8rem; justify-content:center; background:#0284c7;" onclick="openPinModal('${o.orderCode}')">
-                Verify PIN
-              </button>
-            `}
+          </td>
       `).join("");
 
       if (window.AgriNexLogisticsI18n && typeof window.AgriNexLogisticsI18n.walkAndTranslateDOM === 'function') {
-        window.AgriNexLogisticsI18n.walkAndTranslateDOM(container);
+        window.AgriNexLogisticsI18n.walkAndTranslateDOM(tbody);
       }
     }
+
+    function handleSearch(val) {
+      const q = val.toLowerCase().trim();
+      const rows = document.querySelectorAll("#orders-list-tbody tr");
+      rows.forEach(r => {
+        r.style.display = r.textContent.toLowerCase().includes(q) ? "" : "none";
+      });
+    }
   </script>
+  <script src="../admin-module/js/admin-shell.js"></script>
+  <script src="../admin-module/js/crossmodule-bridge.js"></script>
+  <script src="../assets/js/agrinex-auth-bridge.js"></script>
 </body>
 </html>

@@ -547,7 +547,7 @@
   }
 
   function setLogisticsLanguage(lang) {
-    if (!['en', 'hi', 'mr'].includes(lang)) lang = 'en';
+    if (!['en', 'hi', 'mr', 'ta'].includes(lang)) lang = 'en';
 
     try {
       localStorage.setItem(STORAGE_KEY, lang);
@@ -563,9 +563,10 @@
         if (lang === 'en') labelEl.innerHTML = '🇬🇧 English';
         else if (lang === 'hi') labelEl.innerHTML = '🇮🇳 हिन्दी';
         else if (lang === 'mr') labelEl.innerHTML = '🚩 मराठी';
+        else if (lang === 'ta') labelEl.innerHTML = '🇮🇳 தமிழ்';
       }
 
-      ['en', 'hi', 'mr'].forEach(l => {
+      ['en', 'hi', 'mr', 'ta'].forEach(l => {
         const optBtn = document.getElementById(`lang-opt-${l}`);
         if (optBtn && typeof optBtn.querySelector === 'function') {
           const check = optBtn.querySelector('.lang-check');
