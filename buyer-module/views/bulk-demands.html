@@ -2,21 +2,24 @@
         <div class="bulk-hero-header">
           <div>
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-              <span class="badge" style="background: rgba(12, 90, 54, 0.1); color: #0c5a36; font-weight: 800; font-size: 0.72rem;">⚡ REVERSE AUCTION ENGINE</span>
-              <span class="badge badge-grade-a" id="demands-active-badge">6 Active Quotas</span>
+              <span class="badge" style="background: rgba(12, 90, 54, 0.1); color: #0c5a36; font-weight: 800; font-size: 0.72rem;" data-i18n="badge_reverse_auction">⚡ REVERSE AUCTION ENGINE</span>
+              <span class="badge badge-grade-a" id="demands-active-badge" data-i18n="demands_active_badge">6 Active Quotas</span>
             </div>
-            <h1 class="dash-title" style="margin-bottom: 4px;">Bulk Procurement Demands & Quota Board</h1>
-            <p class="dash-subtitle" style="margin-bottom: 0; max-width: 820px;">Broadcast institutional purchasing quotas directly to verified farmers & FPOs with automated reverse-auction price discovery and escrow locking.</p>
+            <h1 class="dash-title" style="margin-bottom: 4px;" data-i18n="demands_header_title">Bulk Procurement Demands & Quota Board</h1>
+            <p class="dash-subtitle" style="margin-bottom: 0; max-width: 820px;" data-i18n="demands_header_subtitle">Broadcast institutional purchasing quotas directly to verified farmers & FPOs with automated reverse-auction price discovery and escrow locking.</p>
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <button class="btn btn-outline" onclick="downloadAllPurchaseOrders()" style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; background: #ffffff; border-color: #cbd5e1; color: #334155;">
-              📄 Export POs (PDF)
+              <span>📄</span>
+              <span data-i18n="btn_export_pos">Export POs (PDF)</span>
             </button>
             <button class="btn btn-outline" onclick="refreshDemandMatches()" style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; background: #ffffff; border-color: #cbd5e1; color: #334155;">
-              🔄 Auto-Match Refresh
+              <span>🔄</span>
+              <span data-i18n="btn_automatch_refresh">Auto-Match Refresh</span>
             </button>
             <button class="btn btn-primary" onclick="openPostDemandModal()" style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 800; background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); border-color: #0c5a36; box-shadow: 0 4px 14px rgba(12, 90, 54, 0.3);">
-              + Broadcast New Quota
+              <span>+</span>
+              <span data-i18n="btn_broadcast_new_quota">Broadcast New Quota</span>
             </button>
           </div>
         </div>
@@ -26,27 +29,27 @@
           <!-- 1. Executive Institutional Procurement KPIs -->
           <div class="kpi-metric-grid-4">
             <div class="bulk-kpi-card kpi-bulk-blue">
-              <div style="font-size: 0.72rem; color: #075985; font-weight: 800; text-transform: uppercase;">Active Quota Volume</div>
+              <div style="font-size: 0.72rem; color: #075985; font-weight: 800; text-transform: uppercase;" data-i18n="kpi_active_quota_vol">Active Quota Volume</div>
               <div style="font-size: 1.4rem; font-weight: 900; color: #0c4a6e; margin-top: 4px;" id="stat-demand-target-vol">600 Qt <span style="font-size: 0.8rem; font-weight: 600; color: #0369a1;">(60,000 kg)</span></div>
-              <div style="font-size: 0.74rem; color: #0284c7; font-weight: 700; margin-top: 4px;">Across 4 Strategic Commodities</div>
+              <div style="font-size: 0.74rem; color: #0284c7; font-weight: 700; margin-top: 4px;" data-i18n="kpi_strategic_commodities">Across 4 Strategic Commodities</div>
             </div>
 
             <div class="bulk-kpi-card kpi-bulk-green">
-              <div style="font-size: 0.72rem; color: #166534; font-weight: 800; text-transform: uppercase;">Fulfilled / Sourced Volume</div>
+              <div style="font-size: 0.72rem; color: #166534; font-weight: 800; text-transform: uppercase;" data-i18n="kpi_fulfilled_vol">Fulfilled / Sourced Volume</div>
               <div style="font-size: 1.4rem; font-weight: 900; color: #14532d; margin-top: 4px;" id="stat-demand-fulfilled-vol">435 Qt <span style="font-size: 0.8rem; font-weight: 800; color: #15803d;">(43,500 kg • 72.5%)</span></div>
-              <div style="font-size: 0.74rem; color: #15803d; font-weight: 700; margin-top: 4px;">✓ 100% Quality Assay Passed</div>
+              <div style="font-size: 0.74rem; color: #15803d; font-weight: 700; margin-top: 4px;" data-i18n="kpi_quality_passed">✓ 100% Quality Assay Passed</div>
             </div>
 
             <div class="bulk-kpi-card kpi-bulk-gold">
-              <div style="font-size: 0.72rem; color: #854d0e; font-weight: 800; text-transform: uppercase;">Net Sourcing Savings</div>
+              <div style="font-size: 0.72rem; color: #854d0e; font-weight: 800; text-transform: uppercase;" data-i18n="kpi_net_sourcing_savings">Net Sourcing Savings</div>
               <div style="font-size: 1.4rem; font-weight: 900; color: #713f12; margin-top: 4px;">₹ 4.82 Lakhs <span style="font-size: 0.8rem; font-weight: 800; color: #a16207;">(~13.8%)</span></div>
-              <div style="font-size: 0.74rem; color: #a16207; font-weight: 700; margin-top: 4px;">Zero Middlemen Spread</div>
+              <div style="font-size: 0.74rem; color: #a16207; font-weight: 700; margin-top: 4px;" data-i18n="kpi_zero_middlemen">Zero Middlemen Spread</div>
             </div>
 
             <div class="bulk-kpi-card kpi-bulk-purple">
-              <div style="font-size: 0.72rem; color: #6b21a8; font-weight: 800; text-transform: uppercase;">Live Farmer Bids</div>
+              <div style="font-size: 0.72rem; color: #6b21a8; font-weight: 800; text-transform: uppercase;" data-i18n="kpi_live_farmer_bids">Live Farmer Bids</div>
               <div style="font-size: 1.4rem; font-weight: 900; color: #581c87; margin-top: 4px;" id="stat-demand-bids-count">18 Verified Bids</div>
-              <div style="font-size: 0.74rem; color: #7e22ce; font-weight: 700; margin-top: 4px;">Avg Response Time: 18 mins</div>
+              <div style="font-size: 0.74rem; color: #7e22ce; font-weight: 700; margin-top: 4px;" data-i18n="kpi_avg_response_time">Avg Response Time: 18 mins</div>
             </div>
           </div>
 
@@ -64,10 +67,10 @@
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
             <!-- Status Tabs -->
             <div style="display: flex; gap: 6px; flex-wrap: wrap;" id="demand-status-filters">
-              <button class="btn btn-outline btn-sm active" onclick="filterDemandsByStatus('all', this)" style="font-size: 0.76rem; padding: 4px 10px;">🌾 All Quotas</button>
-              <button class="btn btn-outline btn-sm" onclick="filterDemandsByStatus('match-ready', this)" style="font-size: 0.76rem; padding: 4px 10px;">⚡ Auto-Match Ready</button>
-              <button class="btn btn-outline btn-sm" onclick="filterDemandsByStatus('broadcasting', this)" style="font-size: 0.76rem; padding: 4px 10px;">● Broadcasting</button>
-              <button class="btn btn-outline btn-sm" onclick="filterDemandsByStatus('fulfilled', this)" style="font-size: 0.76rem; padding: 4px 10px;">✓ 100% Fulfilled</button>
+              <button class="btn btn-outline btn-sm active" onclick="filterDemandsByStatus('all', this)" style="font-size: 0.76rem; padding: 4px 10px;" data-i18n="tab_demands_all">🌾 All Quotas</button>
+              <button class="btn btn-outline btn-sm" onclick="filterDemandsByStatus('match-ready', this)" style="font-size: 0.76rem; padding: 4px 10px;" data-i18n="tab_demands_automatch">⚡ Auto-Match Ready</button>
+              <button class="btn btn-outline btn-sm" onclick="filterDemandsByStatus('broadcasting', this)" style="font-size: 0.76rem; padding: 4px 10px;" data-i18n="tab_demands_broadcasting">● Broadcasting</button>
+              <button class="btn btn-outline btn-sm" onclick="filterDemandsByStatus('fulfilled', this)" style="font-size: 0.76rem; padding: 4px 10px;" data-i18n="tab_demands_fulfilled">✓ 100% Fulfilled</button>
             </div>
 
             <!-- Hub Selector Filter -->

@@ -5,19 +5,19 @@
           <div class="vault-hero-header">
             <div>
               <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <h2 style="font-size: 1.4rem; font-weight: 800; color: #0c5a36; margin: 0; letter-spacing: -0.02em;">AgriNex Institutional Smart Escrow Vault</h2>
-                <span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36; border: 1px solid #bbf7d0; padding: 4px 10px; font-weight: 800;">🛡️ 100% Default-Proof Guarantee</span>
+                <h2 style="font-size: 1.4rem; font-weight: 800; color: #0c5a36; margin: 0; letter-spacing: -0.02em;" data-i18n="escrow_header_title">AgriNex Institutional Smart Escrow Vault</h2>
+                <span class="badge badge-grade-a" style="background: #e8f5ed; color: #0c5a36; border: 1px solid #bbf7d0; padding: 4px 10px; font-weight: 800;" data-i18n="badge_default_proof">🛡️ 100% Default-Proof Guarantee</span>
               </div>
-              <p style="font-size: 0.85rem; color: #64748b; margin: 6px 0 0;">Tri-party institutional escrow mechanism. 35% advance capital locked upon mutual bid acceptance, and 65% disbursed upon digital weighbridge & arrival QC pass.</p>
+              <p style="font-size: 0.85rem; color: #64748b; margin: 6px 0 0;" data-i18n="escrow_header_subtitle">Tri-party institutional escrow mechanism. 35% advance capital locked upon mutual bid acceptance, and 65% disbursed upon digital weighbridge & arrival QC pass.</p>
             </div>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
               <button class="btn btn-outline btn-sm" onclick="downloadEscrowStatement()" style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 700; padding: 8px 14px; border-radius: 8px;">
                 <span>📑</span>
-                <span>Audit Statement (PDF)</span>
+                <span data-i18n="btn_audit_statement">Audit Statement (PDF)</span>
               </button>
               <button class="btn btn-primary btn-sm" onclick="openDepositEscrowModal()" style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 800; background: #0c5a36; border-color: #0c5a36; padding: 8px 14px; border-radius: 8px; box-shadow: 0 2px 8px rgba(12,90,54,0.2);">
                 <span>💳</span>
-                <span>+ Deposit Escrow Capital</span>
+                <span data-i18n="btn_deposit_escrow">+ Deposit Escrow Capital</span>
               </button>
             </div>
           </div>
@@ -26,38 +26,38 @@
           <div class="vault-kpi-grid kpi-metric-grid-4">
             <div class="vault-kpi-card kpi-vault-slate">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.72rem; color: #475569; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Total Active Contracts</span>
+                <span style="font-size: 0.72rem; color: #475569; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;" data-i18n="kpi_active_contracts">Total Active Contracts</span>
                 <span style="font-size: 0.7rem; background: #e2e8f0; color: #334155; font-weight: 800; padding: 3px 8px; border-radius: 6px;" id="vault-contracts-count">3 Orders</span>
               </div>
               <div style="font-size: 1.55rem; font-weight: 800; color: #0f172a; margin: 8px 0 2px; letter-spacing: -0.02em;" id="vault-committed-pool">₹ 2,04,000</div>
-              <div style="font-size: 0.78rem; color: #64748b; font-weight: 700;">Committed Sourcing Pool</div>
+              <div style="font-size: 0.78rem; color: #64748b; font-weight: 700;" data-i18n="kpi_committed_pool">Committed Sourcing Pool</div>
             </div>
 
             <div class="vault-kpi-card kpi-vault-green">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.72rem; color: #0c5a36; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">35% Advance In Escrow</span>
-                <span style="font-size: 0.7rem; background: #bbf7d0; color: #065f46; font-weight: 800; padding: 3px 8px; border-radius: 6px;">Locked</span>
+                <span style="font-size: 0.72rem; color: #0c5a36; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;" data-i18n="kpi_advance_in_escrow">35% Advance In Escrow</span>
+                <span style="font-size: 0.7rem; background: #bbf7d0; color: #065f46; font-weight: 800; padding: 3px 8px; border-radius: 6px;" data-i18n="status_locked">Locked</span>
               </div>
               <div style="font-size: 1.55rem; font-weight: 800; color: #0c5a36; margin: 8px 0 2px; letter-spacing: -0.02em;" id="vault-advance-locked">₹ 71,400</div>
-              <div style="font-size: 0.78rem; color: #166534; font-weight: 700;">RBI Escrow Compliant</div>
+              <div style="font-size: 0.78rem; color: #166534; font-weight: 700;" data-i18n="kpi_rbi_compliant">RBI Escrow Compliant</div>
             </div>
 
             <div class="vault-kpi-card kpi-vault-blue">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.72rem; color: #1d4ed8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">65% Delivery Balances</span>
-                <span style="font-size: 0.7rem; background: #dbeafe; color: #1e40af; font-weight: 800; padding: 3px 8px; border-radius: 6px;">On-Hold</span>
+                <span style="font-size: 0.72rem; color: #1d4ed8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;" data-i18n="kpi_delivery_balances">65% Delivery Balances</span>
+                <span style="font-size: 0.7rem; background: #dbeafe; color: #1e40af; font-weight: 800; padding: 3px 8px; border-radius: 6px;" data-i18n="status_on_hold">On-Hold</span>
               </div>
               <div style="font-size: 1.55rem; font-weight: 800; color: #1d4ed8; margin: 8px 0 2px; letter-spacing: -0.02em;" id="vault-delivery-hold">₹ 1,32,600</div>
-              <div style="font-size: 0.78rem; color: #2563eb; font-weight: 700;">Disbursed After QC Pass</div>
+              <div style="font-size: 0.78rem; color: #2563eb; font-weight: 700;" data-i18n="kpi_disbursed_qc">Disbursed After QC Pass</div>
             </div>
 
             <div class="vault-kpi-card kpi-vault-purple">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.72rem; color: #86198f; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Available Liquid Reserves</span>
-                <span style="font-size: 0.7rem; background: #fae8ff; color: #a21caf; font-weight: 800; padding: 3px 8px; border-radius: 6px;">Ready</span>
+                <span style="font-size: 0.72rem; color: #86198f; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;" data-i18n="kpi_liquid_reserves">Available Liquid Reserves</span>
+                <span style="font-size: 0.7rem; background: #fae8ff; color: #a21caf; font-weight: 800; padding: 3px 8px; border-radius: 6px;" data-i18n="status_ready">Ready</span>
               </div>
               <div style="font-size: 1.55rem; font-weight: 800; color: #86198f; margin: 8px 0 2px; letter-spacing: -0.02em;" id="escrow-liquid-reserves">₹ 1,50,000</div>
-              <div style="font-size: 0.78rem; color: #a21caf; font-weight: 700;">Unallocated Liquidity Buffer</div>
+              <div style="font-size: 0.78rem; color: #a21caf; font-weight: 700;" data-i18n="kpi_unallocated_buffer">Unallocated Liquidity Buffer</div>
             </div>
           </div>
 
@@ -65,9 +65,9 @@
           <div class="vault-safeguard-banner">
             <div style="display: flex; align-items: center; gap: 12px;">
               <span style="font-size: 1.3rem;">🔒</span>
-              <span style="font-size: 0.84rem; color: #166534;"><strong>Bank-Grade Automated Arbitrage:</strong> Escrow deposits are held under nodal trustee oversight. Releasing balance transfers funds to farmer bank account in <strong>&lt;2 seconds</strong> via IMPS/RTGS.</span>
+              <span style="font-size: 0.84rem; color: #166534;" data-i18n="escrow_safeguard_callout"><strong>Bank-Grade Automated Arbitrage:</strong> Escrow deposits are held under nodal trustee oversight. Releasing balance transfers funds to farmer bank account in <strong>&lt;2 seconds</strong> via IMPS/RTGS.</span>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="switchView('view-grievance')" style="padding: 6px 14px; font-size: 0.78rem; font-weight: 800; background: #ffffff; color: #991b1b; border-color: #fca5a5; border-radius: 8px; white-space: nowrap;">
+            <button class="btn btn-outline btn-sm" onclick="switchView('view-grievance')" style="padding: 6px 14px; font-size: 0.78rem; font-weight: 800; background: #ffffff; color: #991b1b; border-color: #fca5a5; border-radius: 8px; white-space: nowrap;" data-i18n="btn_raise_qc_hold">
               ⚠️ Raise Quality Inspection Hold
             </button>
           </div>
@@ -75,8 +75,8 @@
           <!-- Section: Active Escrow Contracts & Milestone Steppers -->
           <div style="margin-bottom: 28px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-              <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.01em;">Active Escrow Contracts & Milestone Steppers</h3>
-              <span style="font-size: 0.78rem; color: #64748b; font-weight: 700; background: #f1f5f9; padding: 4px 10px; border-radius: 6px;" id="vault-tracks-count">3 Active Milestone Tracks</span>
+              <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.01em;" data-i18n="escrow_active_contracts_title">Active Escrow Contracts & Milestone Steppers</h3>
+              <span style="font-size: 0.78rem; color: #64748b; font-weight: 700; background: #f1f5f9; padding: 4px 10px; border-radius: 6px;" id="vault-tracks-count" data-i18n="vault_tracks_count">3 Active Milestone Tracks</span>
             </div>
 
             <div id="vault-escrow-cards-container">
@@ -222,14 +222,14 @@
           <div class="vault-ledger-card">
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 12px;">
               <div>
-                <h3 style="font-size: 1.08rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.01em;">Escrow Bank Ledger & Settlement Audit Trail</h3>
-                <span style="font-size: 0.78rem; color: #64748b;">Immutable digital receipts and UTR bank settlement records</span>
+                <h3 style="font-size: 1.08rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.01em;" data-i18n="escrow_ledger_title">Escrow Bank Ledger & Settlement Audit Trail</h3>
+                <span style="font-size: 0.78rem; color: #64748b;" data-i18n="escrow_ledger_sub">Immutable digital receipts and UTR bank settlement records</span>
               </div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <button class="btn btn-outline btn-sm active" onclick="filterEscrowLedger('all', this)" style="font-size: 0.76rem; font-weight: 700; padding: 6px 12px; border-radius: 6px;">All Settlements</button>
-                <button class="btn btn-outline btn-sm" onclick="filterEscrowLedger('advance', this)" style="font-size: 0.76rem; font-weight: 700; padding: 6px 12px; border-radius: 6px;">35% Advances</button>
-                <button class="btn btn-outline btn-sm" onclick="filterEscrowLedger('final', this)" style="font-size: 0.76rem; font-weight: 700; padding: 6px 12px; border-radius: 6px;">65% Final Releases</button>
-                <button class="btn btn-outline btn-sm" onclick="filterEscrowLedger('completed', this)" style="font-size: 0.76rem; font-weight: 700; padding: 6px 12px; border-radius: 6px;">Completed 100%</button>
+                <button class="btn btn-outline btn-sm active" onclick="filterEscrowLedger('all', this)" style="font-size: 0.76rem; font-weight: 700; padding: 6px 12px; border-radius: 6px;" data-i18n="tab_ledger_all">All Settlements</button>
+                <button class="btn btn-outline btn-sm" onclick="filterEscrowLedger('advance', this)" style="font-size: 0.76rem; font-weight: 700; padding: 6px 12px; border-radius: 6px;" data-i18n="tab_ledger_advances">35% Advances</button>
+                <button class="btn btn-outline btn-sm" onclick="filterEscrowLedger('final', this)" style="font-size: 0.76rem; font-weight: 700; padding: 6px 12px; border-radius: 6px;" data-i18n="tab_ledger_finals">65% Final Releases</button>
+                <button class="btn btn-outline btn-sm" onclick="filterEscrowLedger('completed', this)" style="font-size: 0.76rem; font-weight: 700; padding: 6px 12px; border-radius: 6px;" data-i18n="tab_ledger_completed">Completed 100%</button>
               </div>
             </div>
 
@@ -237,15 +237,15 @@
               <table class="data-table" style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
                 <thead style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0; color: #475569; font-weight: 700;">
                   <tr>
-                    <th class="table-sticky-col" style="padding: 12px 16px;">TXN REF / DATE</th>
-                    <th style="padding: 12px 16px;">CONTRACT REF</th>
-                    <th style="padding: 12px 16px;">BENEFICIARY FARMER</th>
-                    <th style="padding: 12px 16px;">PRODUCE LOT</th>
-                    <th style="padding: 12px 16px;">TRANCHE TYPE</th>
-                    <th style="padding: 12px 16px;">AMOUNT</th>
-                    <th style="padding: 12px 16px;">BANK UTR REF</th>
-                    <th style="padding: 12px 16px;">STATUS</th>
-                    <th style="padding: 12px 16px; text-align: right;">ACTION</th>
+                    <th class="table-sticky-col" style="padding: 12px 16px;" data-i18n="th_txn_ref">TXN REF / DATE</th>
+                    <th style="padding: 12px 16px;" data-i18n="th_contract_ref">CONTRACT REF</th>
+                    <th style="padding: 12px 16px;" data-i18n="th_farmer">BENEFICIARY FARMER</th>
+                    <th style="padding: 12px 16px;" data-i18n="th_produce_lot">PRODUCE LOT</th>
+                    <th style="padding: 12px 16px;" data-i18n="th_tranche_type">TRANCHE TYPE</th>
+                    <th style="padding: 12px 16px;" data-i18n="th_amount">AMOUNT</th>
+                    <th style="padding: 12px 16px;" data-i18n="th_bank_utr">BANK UTR REF</th>
+                    <th style="padding: 12px 16px;" data-i18n="th_status">STATUS</th>
+                    <th style="padding: 12px 16px; text-align: right;" data-i18n="th_action">ACTION</th>
                   </tr>
                 </thead>
                 <tbody id="escrow-ledger-tbody">

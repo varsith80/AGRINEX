@@ -234,6 +234,13 @@ function switchView(viewId, params = {}) {
     try { if (typeof renderGrievances === 'function') renderGrievances(); } catch (e) { console.error('Grievances view render error:', e); }
   }
 
+  // Ensure current language translations are instantly applied to newly activated view
+  if (target && typeof window.walkAndTranslateDOM === 'function') {
+    try {
+      window.walkAndTranslateDOM(target);
+    } catch(e) {}
+  }
+
   // Persist URL hash with search parameters for deep-linking
   try {
     syncUrlState(viewId, params);
@@ -383,6 +390,13 @@ function bootBuyerDashboard() {
   try { if (typeof renderGrievances === 'function') renderGrievances(); } catch(e) { console.error('Grievances error:', e); }
   try { if (typeof renderChatSidebar === 'function') renderChatSidebar(); } catch(e) { console.error('Chat sidebar error:', e); }
   try { initLocationSwitcher(); } catch(e) { console.error('Location switcher error:', e); }
+
+  // Ensure initial language is applied across all loaded modules
+  try {
+    if (typeof window.setBuyerLanguage === 'function' && typeof window.getBuyerLanguage === 'function') {
+      window.setBuyerLanguage(window.getBuyerLanguage());
+    }
+  } catch(e) {}
 
   // Listen for Cross-Tab / Cross-Module live events
   window.addEventListener('storage', (e) => {

@@ -333,7 +333,7 @@ function openDriverFleetModal(trackingId) {
 
   currentSelectedShipmentId = s.tracking_id;
 
-  const lang = (window.AgriNexBuyerI18n && window.AgriNexBuyerI18n.getCurrentLanguage()) || 'hi';
+  const lang = (typeof window.getBuyerLanguage === 'function' ? window.getBuyerLanguage() : (window.AgriNexI18n && typeof window.AgriNexI18n.getBuyerLanguage === 'function' ? window.AgriNexI18n.getBuyerLanguage() : 'en'));
   const isHi = lang === 'hi';
   const isMr = lang === 'mr';
   const tLoc = window.tLocation || (v => v);
@@ -423,7 +423,7 @@ function openLorryReceiptModal(trackingId) {
   const consignments = (buyerData && buyerData.consignments) ? buyerData.consignments : [];
   const s = consignments.find(c => c.tracking_id === trackingId) || consignments[0];
 
-  const lang = (window.AgriNexBuyerI18n && window.AgriNexBuyerI18n.getCurrentLanguage()) || 'hi';
+  const lang = (typeof window.getBuyerLanguage === 'function' ? window.getBuyerLanguage() : (window.AgriNexI18n && typeof window.AgriNexI18n.getBuyerLanguage === 'function' ? window.AgriNexI18n.getBuyerLanguage() : 'en'));
   const isHi = lang === 'hi';
   const isMr = lang === 'mr';
   const tCrop = window.tCrop || (v => v);
@@ -607,7 +607,7 @@ function openArrivalReleaseModal(trackingId, crop, amount, farmer, totalVal, adv
   const modal = document.getElementById('modal-confirm-arrival');
   if (!modal) return;
 
-  const lang = (window.AgriNexBuyerI18n && window.AgriNexBuyerI18n.getCurrentLanguage()) || (typeof window.getBuyerLanguage === 'function' ? window.getBuyerLanguage() : 'hi');
+  const lang = (typeof window.getBuyerLanguage === 'function' ? window.getBuyerLanguage() : (window.AgriNexI18n && typeof window.AgriNexI18n.getBuyerLanguage === 'function' ? window.AgriNexI18n.getBuyerLanguage() : 'en'));
   const isHi = lang === 'hi';
   const isMr = lang === 'mr';
   const tCrop = window.tCrop || (v => v);

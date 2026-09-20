@@ -1685,6 +1685,12 @@
   window.resetMandisTableCount = resetMandisTableCount;
   window.triggerMandiSync = triggerMandiSync;
   window.renderProduceSelectorChips = renderProduceSelectorChips;
+  window.renderInsightChart = renderInsightChart;
+  window.renderInsightSummaryCards = renderInsightSummaryCards;
+  window.renderSupplyInflowHeatmap = renderSupplyInflowHeatmap;
+  window.renderAiProcurementAdvisories = renderAiProcurementAdvisories;
+  window.renderDistrictDropdownOptions = renderDistrictDropdownOptions;
+  window.renderDistrictAlphabetBar = renderDistrictAlphabetBar;
   window.renderMaharashtraMandisTable = renderMaharashtraMandisTable;
   window.openDistrictMatrixModal = openDistrictMatrixModal;
   window.openCurrentDistrictMatrixModal = openCurrentDistrictMatrixModal;

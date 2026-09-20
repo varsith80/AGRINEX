@@ -172,7 +172,7 @@ function filterChatContacts(query) {
 function insertQuickChatMsg(text) {
   const input = document.getElementById('chat-input-field');
   if (input) {
-    input.value = text;
+    input.value = window.tText ? window.tText(text) : text;
     input.focus();
   }
 }
@@ -425,13 +425,15 @@ function sendChatMessage() {
 
   setTimeout(() => {
     let replyText = `Thank you for your message! As agreed for ${currentCrop}, we will prepare the vehicle weighing pass once escrow advance is initiated.`;
-    if (rawMsg.toLowerCase().includes('price') || rawMsg.toLowerCase().includes('rate') || rawMsg.toLowerCase().includes('discount') || rawMsg.toLowerCase().includes('offer')) {
+    const lower = rawMsg.toLowerCase();
+    if (lower.includes('price') || lower.includes('rate') || lower.includes('discount') || lower.includes('offer') || rawMsg.includes('दर') || rawMsg.includes('भाव') || rawMsg.includes('सूट') || rawMsg.includes('किंमत') || rawMsg.includes('मूल्य')) {
       replyText = `Understood Karthik sir. I can offer an instant discount of ₹ 1.50/kg if you confirm bulk lifting with verified lorry receipt today!`;
-    } else if (rawMsg.toLowerCase().includes('sample') || rawMsg.toLowerCase().includes('assay') || rawMsg.toLowerCase().includes('quality') || rawMsg.toLowerCase().includes('moisture')) {
+    } else if (lower.includes('sample') || lower.includes('assay') || lower.includes('quality') || lower.includes('moisture') || rawMsg.includes('ओलावा') || rawMsg.includes('नमुना') || rawMsg.includes('दर्जा') || rawMsg.includes('नमी') || rawMsg.includes('जांच') || rawMsg.includes('गुणवत्ता')) {
       replyText = `Digital moisture and assay report is verified at ${chatConversations[currentKey]?.status?.split('•')[1] || 'farm gate'}. Quality is 100% guaranteed Grade A.`;
     }
 
-    const safeReply = window.escapeHTML ? window.escapeHTML(replyText) : replyText;
+    const translatedReply = window.tText ? window.tText(replyText) : replyText;
+    const safeReply = window.escapeHTML ? window.escapeHTML(translatedReply) : translatedReply;
     const replyGroup = document.createElement('div');
     replyGroup.className = 'chat-bubble-group incoming';
     const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });

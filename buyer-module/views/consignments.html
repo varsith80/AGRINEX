@@ -3,11 +3,11 @@
         <div class="shipment-hero-header">
           <div>
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-              <span class="badge" style="background: rgba(12, 90, 54, 0.1); color: #0c5a36; font-weight: 800; font-size: 0.72rem;">🚚 AIS-140 GPS TELEMETRY</span>
-              <span class="badge" style="background: rgba(37, 99, 235, 0.1); color: #2563eb; font-weight: 800; font-size: 0.72rem;">SMART ESCROW DISBURSAL</span>
+              <span class="badge" style="background: rgba(12, 90, 54, 0.1); color: #0c5a36; font-weight: 800; font-size: 0.72rem;" data-i18n="badge_gps_telemetry">🚚 AIS-140 GPS TELEMETRY</span>
+              <span class="badge" style="background: rgba(37, 99, 235, 0.1); color: #2563eb; font-weight: 800; font-size: 0.72rem;" data-i18n="badge_escrow_disbursal">SMART ESCROW DISBURSAL</span>
             </div>
-            <h1 class="dash-title" style="margin-bottom: 4px;">Orders & Dispatch Shipments</h1>
-            <p class="dash-subtitle" style="margin-bottom: 0; max-width: 820px;">Track farm-gate crop pickup, truck GPS telemetry, weighbridge digital verification, and 65% final escrow releases in real time.</p>
+            <h1 class="dash-title" style="margin-bottom: 4px;" data-i18n="orders_header_title">Orders & Dispatch Shipments</h1>
+            <p class="dash-subtitle" style="margin-bottom: 0; max-width: 820px;" data-i18n="orders_header_subtitle">Track farm-gate crop pickup, truck GPS telemetry, weighbridge digital verification, and 65% final escrow releases in real time.</p>
           </div>
           <div style="display: flex; align-items: center; gap: 10px;">
             <button class="btn btn-outline" onclick="renderBuyerConsignments()" style="font-weight: 700; background: #ffffff; border-color: #cbd5e1; color: #334155;" data-i18n="insights_sync_btn">↻ Refresh</button>
@@ -26,7 +26,7 @@
             </div>
             <div>
               <div style="font-size: 0.72rem; font-weight: 800; color: #075985; text-transform: uppercase;" data-i18n="kpi_active_fleet">Active Fleet</div>
-              <div style="font-size: 1.4rem; font-weight: 900; color: #0c4a6e;" id="buyer-stat-active-trucks">2 On Road</div>
+              <div style="font-size: 1.4rem; font-weight: 900; color: #0c4a6e;" id="buyer-stat-active-trucks" data-i18n="stat_trucks_on_road">2 On Road</div>
             </div>
           </div>
 
@@ -46,7 +46,7 @@
             </div>
             <div>
               <div style="font-size: 0.72rem; font-weight: 800; color: #6b21a8; text-transform: uppercase;" data-i18n="kpi_verified_orders">Verified Orders</div>
-              <div style="font-size: 1.4rem; font-weight: 900; color: #581c87;" id="buyer-stat-gate-passes">2 Verified</div>
+              <div style="font-size: 1.4rem; font-weight: 900; color: #581c87;" id="buyer-stat-gate-passes" data-i18n="stat_gate_passes_verified">2 Verified</div>
             </div>
           </div>
 
@@ -73,11 +73,11 @@
 
         <!-- TABS -->
         <div class="filter-tabs-row">
-          <button class="filter-tab buyer-shipment-tab active" id="tab-shipments-all" onclick="filterBuyerShipmentsTab('all', this)">All Orders (3)</button>
-          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-transit" onclick="filterBuyerShipmentsTab('transit', this)">On The Road (3)</button>
-          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-scheduled" onclick="filterBuyerShipmentsTab('scheduled', this)">Pickup Scheduled (0)</button>
-          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-delivered" onclick="filterBuyerShipmentsTab('delivered', this)">Delivered (0)</button>
-          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-drivers" onclick="filterBuyerShipmentsTab('drivers', this)">Driver &amp; Vehicle Details (3)</button>
+          <button class="filter-tab buyer-shipment-tab active" id="tab-shipments-all" onclick="filterBuyerShipmentsTab('all', this)" data-i18n="tab_shipments_all">All Orders (3)</button>
+          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-transit" onclick="filterBuyerShipmentsTab('transit', this)" data-i18n="tab_shipments_transit">On The Road (3)</button>
+          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-scheduled" onclick="filterBuyerShipmentsTab('scheduled', this)" data-i18n="tab_shipments_scheduled">Pickup Scheduled (0)</button>
+          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-delivered" onclick="filterBuyerShipmentsTab('delivered', this)" data-i18n="tab_shipments_delivered">Delivered (0)</button>
+          <button class="filter-tab buyer-shipment-tab" id="tab-shipments-drivers" onclick="filterBuyerShipmentsTab('drivers', this)" data-i18n="tab_shipments_drivers">Driver &amp; Vehicle Details (3)</button>
         </div>
 
         <!-- SHIPMENTS LIST CONTAINER -->

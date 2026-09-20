@@ -64,11 +64,21 @@
       modalsContainer.innerHTML = modalTexts.join('\n');
 
       window.__agrinex_partials_ready = true;
+      if (typeof window.setBuyerLanguage === 'function' && typeof window.getBuyerLanguage === 'function') {
+        try {
+          window.setBuyerLanguage(window.getBuyerLanguage());
+        } catch(e) {}
+      }
       document.dispatchEvent(new CustomEvent('agrinex:partials-ready'));
     } catch (err) {
       console.warn('Partials loader fallback:', err.message);
       // If running without HTTP server or partial fetch fails, signal ready anyway
       window.__agrinex_partials_ready = true;
+      if (typeof window.setBuyerLanguage === 'function' && typeof window.getBuyerLanguage === 'function') {
+        try {
+          window.setBuyerLanguage(window.getBuyerLanguage());
+        } catch(e) {}
+      }
       document.dispatchEvent(new CustomEvent('agrinex:partials-ready'));
     }
   }
