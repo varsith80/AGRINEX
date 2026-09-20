@@ -833,10 +833,12 @@
     }
 
     // Listen to global language change event
-    window.addEventListener('agrinex_language_changed', function (e) {
-      const newLang = e.detail ? e.detail.lang : getCurrentLang();
-      updateLiteModeLanguage(newLang);
-    });
+    if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+      window.addEventListener('agrinex_language_changed', function (e) {
+        const newLang = e.detail ? e.detail.lang : getCurrentLang();
+        updateLiteModeLanguage(newLang);
+      });
+    }
   }
 
   function setLiteSpeechRate(rate, announce = true) {
@@ -3263,10 +3265,12 @@
   }
 
   // Initialize on Load (or immediately if DOM is already ready)
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLiteMode);
-  } else {
-    initLiteMode();
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading' && typeof document.addEventListener === 'function') {
+      document.addEventListener('DOMContentLoaded', initLiteMode);
+    } else {
+      initLiteMode();
+    }
   }
 
   // Global window bindings

@@ -384,31 +384,72 @@ document.addEventListener('submit', (e) => {
 // FEATURE 6: BID COUNTER-NEGOTIATION WORKFLOW
 // ==========================================
 
-// Open Counter Bid Modal with dynamic KG price preview
+// Open Counter Bid Modal with dynamic KG price preview & interactive margin calculations
 function openBidModal(lotId) {
-  const lot = buyerData.verifiedLots.find((l) => l.id === lotId) || buyerData.verifiedLots[0];
+  const lot = (buyerData.verifiedLots && buyerData.verifiedLots.find((l) => l.id === lotId)) || (buyerData.verifiedLots && buyerData.verifiedLots[0]);
   const modal = document.getElementById('modal-counter-bid');
-  if (!modal) return;
+  if (!modal || !lot) return;
 
   const baseKg = lot.pricePerKg || (lot.priceNum ? lot.priceNum / 100 : 18.0);
-  const totalKg = (lot.qtyNum * 100).toLocaleString('en-IN');
+  const availKg = (lot.availableQtyKg !== undefined) ? parseFloat(lot.availableQtyKg) : (lot.qtyNum ? lot.qtyNum * 100 : 5000);
 
   const elCrop = document.getElementById('bid-modal-crop');
-  const elAsk = document.getElementById('bid-modal-ask');
+  const elFarmerInfo = document.getElementById('bid-modal-farmer-info');
+  const elAskBadge = document.getElementById('bid-modal-ask-badge');
   const elId = document.getElementById('bid-modal-lot-id');
+  const elBaseRate = document.getElementById('bid-modal-base-ask-rate');
+  const elTotalKg = document.getElementById('bid-modal-total-kg');
+  const elAvailBadge = document.getElementById('bid-modal-avail-badge');
+  const elFullQtyLabel = document.getElementById('bid-modal-full-qty-label');
+  const customQtyInput = document.getElementById('bid-custom-qty-input');
+  const modeAll = document.getElementById('bid-mode-all');
 
-  if (elCrop) elCrop.textContent = `${lot.crop} (${lot.quantity} • ${totalKg} kg)`;
-  if (elAsk) elAsk.innerHTML = `Farmer Ask Price: <strong style="color: #0c5a36;">${lot.askPrice}</strong>`;
+  if (elCrop) elCrop.textContent = `${lot.crop} (${lot.grade || 'Grade A'})`;
+  if (elFarmerInfo) elFarmerInfo.textContent = `Farmer: ${lot.farmerName} • 📍 ${lot.farmerLocation || 'Regional Mandi'}`;
+  if (elAskBadge) elAskBadge.textContent = `₹ ${baseKg.toFixed(2)} /kg`;
   if (elId) elId.value = lot.id;
+  if (elBaseRate) elBaseRate.value = baseKg;
+  if (elTotalKg) elTotalKg.value = availKg;
+  if (elAvailBadge) elAvailBadge.textContent = `Available: ${availKg.toLocaleString('en-IN')} kg`;
+  if (elFullQtyLabel) elFullQtyLabel.textContent = `${availKg.toLocaleString('en-IN')} kg`;
+  if (customQtyInput) {
+    customQtyInput.max = availKg;
+    customQtyInput.value = Math.min(availKg, 2000);
+  }
+  if (modeAll) modeAll.checked = true;
+  toggleBidQtyMode('all');
 
-  // Suggest a counter price ~6% below ask price in ₹/kg
-  const suggestedCounter = (baseKg * 0.94).toFixed(2);
+  // Configure slider bounds: min is -35% of ask, max is +15% of ask
+  const minSlider = Math.max(1, parseFloat((baseKg * 0.65).toFixed(1)));
+  const maxSlider = parseFloat((baseKg * 1.15).toFixed(1));
+  const suggestedCounter = parseFloat((baseKg * 0.94).toFixed(2)); // default -6%
+
+  const slider = document.getElementById('counter-bid-slider');
+  const sliderMinLabel = document.getElementById('slider-min-label');
+  const sliderMaxLabel = document.getElementById('slider-max-label');
+
+  if (slider) {
+    slider.min = minSlider;
+    slider.max = maxSlider;
+    slider.step = "0.10";
+    slider.value = suggestedCounter;
+  }
+  if (sliderMinLabel) sliderMinLabel.textContent = `₹ ${minSlider.toFixed(2)} (-35%)`;
+  if (sliderMaxLabel) sliderMaxLabel.textContent = `₹ ${maxSlider.toFixed(2)} (+15%)`;
+
   const counterInput = document.getElementById('counter-bid-price');
   if (counterInput) {
-    counterInput.value = suggestedCounter;
+    counterInput.value = suggestedCounter.toFixed(2);
+    counterInput.min = (minSlider * 0.5).toFixed(1);
+    counterInput.max = (maxSlider * 2.0).toFixed(1);
     counterInput.step = "0.10";
   }
-  updateBidKgPreview(suggestedCounter);
+
+  // Set default preset active state to -6%
+  highlightPresetPill(-0.06);
+
+  // Perform full calculation
+  updateCounterBidCalculations();
 
   const form = document.getElementById('form-counter-bid');
   if (form && !form.__wired) {
@@ -419,19 +460,257 @@ function openBidModal(lotId) {
   modal.classList.add('active');
 }
 
+function toggleBidQtyMode(mode) {
+  const customWrapper = document.getElementById('bid-custom-qty-wrapper');
+  const labelAll = document.getElementById('label-bid-qty-all');
+  const labelCustom = document.getElementById('label-bid-qty-custom');
+
+  if (mode === 'custom') {
+    if (customWrapper) customWrapper.style.display = 'block';
+    if (labelCustom) {
+      labelCustom.style.borderColor = '#0c5a36';
+      labelCustom.style.background = '#e8f5ed';
+    }
+    if (labelAll) {
+      labelAll.style.borderColor = '#cbd5e1';
+      labelAll.style.background = '#ffffff';
+    }
+  } else {
+    if (customWrapper) customWrapper.style.display = 'none';
+    if (labelAll) {
+      labelAll.style.borderColor = '#0c5a36';
+      labelAll.style.background = '#e8f5ed';
+    }
+    if (labelCustom) {
+      labelCustom.style.borderColor = '#cbd5e1';
+      labelCustom.style.background = '#ffffff';
+    }
+  }
+  updateCounterBidCalculations();
+}
+
+function onBidQtyInputChange(val) {
+  updateCounterBidCalculations();
+}
+
+function onCounterBidPriceInput(val) {
+  let rate = parseFloat(val);
+  if (isNaN(rate) || rate <= 0) return;
+  const slider = document.getElementById('counter-bid-slider');
+  if (slider) {
+    slider.value = rate;
+  }
+  clearPresetPills();
+  updateCounterBidCalculations();
+}
+
+function onCounterBidSliderChange(val) {
+  let rate = parseFloat(val);
+  if (isNaN(rate) || rate <= 0) return;
+  const counterInput = document.getElementById('counter-bid-price');
+  if (counterInput) {
+    counterInput.value = rate.toFixed(2);
+  }
+  clearPresetPills();
+  updateCounterBidCalculations();
+}
+
+function applyBidPreset(discountPct) {
+  const baseAsk = parseFloat(document.getElementById('bid-modal-base-ask-rate')?.value) || 18.0;
+  const newRate = parseFloat((baseAsk * (1.0 + discountPct)).toFixed(2));
+
+  const counterInput = document.getElementById('counter-bid-price');
+  const slider = document.getElementById('counter-bid-slider');
+
+  if (counterInput) counterInput.value = newRate.toFixed(2);
+  if (slider) slider.value = newRate;
+
+  highlightPresetPill(discountPct);
+  updateCounterBidCalculations();
+}
+
+function highlightPresetPill(discountPct) {
+  const pills = document.querySelectorAll('.btn-preset-pill');
+  pills.forEach(p => {
+    p.style.background = '#f1f5f9';
+    p.style.borderColor = '#e2e8f0';
+    p.style.color = '#334155';
+  });
+
+  let targetIndex = 1; // default -6%
+  if (discountPct === -0.03) targetIndex = 0;
+  else if (discountPct === -0.06) targetIndex = 1;
+  else if (discountPct === -0.10) targetIndex = 2;
+  else if (discountPct === 0.0) targetIndex = 3;
+
+  if (pills[targetIndex]) {
+    pills[targetIndex].style.background = '#e8f5ed';
+    pills[targetIndex].style.borderColor = '#86efac';
+    pills[targetIndex].style.color = '#0c5a36';
+  }
+}
+
+function clearPresetPills() {
+  const pills = document.querySelectorAll('.btn-preset-pill');
+  pills.forEach(p => {
+    p.style.background = '#f1f5f9';
+    p.style.borderColor = '#e2e8f0';
+    p.style.color = '#334155';
+  });
+}
+
+function updateCounterBidCalculations() {
+  const baseAsk = parseFloat(document.getElementById('bid-modal-base-ask-rate')?.value) || 18.0;
+  const fullLotKg = parseFloat(document.getElementById('bid-modal-total-kg')?.value) || 5000;
+  const counterRate = parseFloat(document.getElementById('counter-bid-price')?.value) || (baseAsk * 0.94);
+
+  const isModeAll = document.getElementById('bid-mode-all')?.checked;
+  let targetQty = fullLotKg;
+  if (!isModeAll) {
+    const customVal = parseFloat(document.getElementById('bid-custom-qty-input')?.value);
+    if (!isNaN(customVal) && customVal > 0) {
+      targetQty = Math.min(customVal, fullLotKg);
+    }
+  }
+
+  // Math & Financials
+  const askTotalVal = Math.round(targetQty * baseAsk);
+  const counterTotalVal = Math.round(targetQty * counterRate);
+  const savingsRupees = askTotalVal - counterTotalVal;
+  const savingsPct = baseAsk > 0 ? (((baseAsk - counterRate) / baseAsk) * 100) : 0;
+  const advAmount = Math.round(counterTotalVal * 0.35);
+  const balAmount = counterTotalVal - advAmount;
+
+  // Wholesale Terminal Realization (Benchmark estimated retail markup is ~35-40% over ask baseline)
+  const estWholesaleSellRate = baseAsk * 1.35;
+  const grossProfitPerKg = estWholesaleSellRate - counterRate;
+  const grossMarginPct = estWholesaleSellRate > 0 ? ((grossProfitPerKg / estWholesaleSellRate) * 100) : 0;
+
+  // DOM Elements Updates
+  const elDiscountIndicator = document.getElementById('bid-discount-indicator');
+  const elTotalVal = document.getElementById('bid-card-total-val');
+  const elSavings = document.getElementById('bid-card-savings');
+  const elAdv = document.getElementById('bid-card-adv');
+  const elMargin = document.getElementById('bid-card-margin');
+  const elBtnRate = document.getElementById('btn-bid-rate-preview');
+  const elAcceptBadge = document.getElementById('bid-acceptance-badge');
+
+  if (elDiscountIndicator) {
+    if (savingsPct > 0) {
+      elDiscountIndicator.textContent = `-${savingsPct.toFixed(1)}% vs Ask`;
+      elDiscountIndicator.style.background = '#dcfce7';
+      elDiscountIndicator.style.color = '#15803d';
+    } else if (savingsPct < 0) {
+      elDiscountIndicator.textContent = `+${Math.abs(savingsPct).toFixed(1)}% Premium`;
+      elDiscountIndicator.style.background = '#fee2e2';
+      elDiscountIndicator.style.color = '#dc2626';
+    } else {
+      elDiscountIndicator.textContent = `0.0% Parity`;
+      elDiscountIndicator.style.background = '#f1f5f9';
+      elDiscountIndicator.style.color = '#475569';
+    }
+  }
+
+  if (elTotalVal) elTotalVal.textContent = `₹ ${counterTotalVal.toLocaleString('en-IN')}`;
+  if (elSavings) {
+    if (savingsRupees >= 0) {
+      elSavings.innerHTML = `<span style="color: #16a34a;">₹ ${savingsRupees.toLocaleString('en-IN')} (${savingsPct.toFixed(1)}%)</span>`;
+    } else {
+      elSavings.innerHTML = `<span style="color: #dc2626;">+₹ ${Math.abs(savingsRupees).toLocaleString('en-IN')} (Premium)</span>`;
+    }
+  }
+  if (elAdv) elAdv.textContent = `₹ ${advAmount.toLocaleString('en-IN')}`;
+  if (elMargin) {
+    elMargin.textContent = `${grossMarginPct.toFixed(1)}% (₹ ${grossProfitPerKg.toFixed(2)}/kg)`;
+  }
+  if (elBtnRate) elBtnRate.textContent = counterRate.toFixed(2);
+
+  // AI Farmer Acceptance Probability Logic
+  const ratio = counterRate / baseAsk;
+  if (elAcceptBadge) {
+    if (ratio >= 0.95) {
+      elAcceptBadge.innerHTML = '🟢 Very High (~92% Chance)';
+      elAcceptBadge.style.background = '#dcfce7';
+      elAcceptBadge.style.color = '#15803d';
+      elAcceptBadge.style.borderColor = '#bbf7d0';
+    } else if (ratio >= 0.88) {
+      elAcceptBadge.innerHTML = '🟢 High (~82% Chance)';
+      elAcceptBadge.style.background = '#dcfce7';
+      elAcceptBadge.style.color = '#15803d';
+      elAcceptBadge.style.borderColor = '#bbf7d0';
+    } else if (ratio >= 0.80) {
+      elAcceptBadge.innerHTML = '🟡 Moderate (~58% Chance)';
+      elAcceptBadge.style.background = '#fef3c7';
+      elAcceptBadge.style.color = '#b45309';
+      elAcceptBadge.style.borderColor = '#fde68a';
+    } else {
+      elAcceptBadge.innerHTML = '🔴 Low / Aggressive (~24% Chance)';
+      elAcceptBadge.style.background = '#fee2e2';
+      elAcceptBadge.style.color = '#dc2626';
+      elAcceptBadge.style.borderColor = '#fca5a5';
+    }
+  }
+
+  // Update legacy preview element if present
+  updateBidKgPreview(counterRate);
+}
+
+function updateBidKgPreview(bidVal) {
+  const lotId = document.getElementById('bid-modal-lot-id')?.value;
+  const lot = (buyerData.verifiedLots && buyerData.verifiedLots.find((l) => l.id === lotId)) || (buyerData.verifiedLots && buyerData.verifiedLots[0]);
+  let num = parseFloat(bidVal) || 0;
+  if (num > 100) num = num / 100;
+  const totalKg = lot ? (lot.qtyNum * 100) : 5000;
+  const totalCost = Math.round(num * totalKg);
+  const previewEl = document.getElementById('counter-bid-kg-preview');
+  if (previewEl) {
+    previewEl.innerHTML = `<span>⚖️ <strong>₹ ${num.toFixed(2)} /kg</strong> • Total Lot Value: <strong>₹ ${totalCost.toLocaleString('en-IN')}</strong> (${totalKg.toLocaleString('en-IN')} kg)</span>`;
+  }
+}
+
+function closeBidModal() {
+  const modal = document.getElementById('modal-counter-bid');
+  if (modal) modal.classList.remove('active');
+}
+
 function submitCounterBid(e) {
-  if (e) e.preventDefault();
+  if (e) {
+    if (typeof e.preventDefault === 'function') e.preventDefault();
+    if (typeof e.stopPropagation === 'function') e.stopPropagation();
+  }
+
   const currentLotId = document.getElementById('bid-modal-lot-id')?.value;
-  const counterPrice = parseFloat(document.getElementById('counter-bid-price')?.value) || 12.20;
-  const targetLot = (buyerData.verifiedLots && buyerData.verifiedLots.find(l => l.id === currentLotId)) || buyerData.verifiedLots[0];
+  const baseAsk = parseFloat(document.getElementById('bid-modal-base-ask-rate')?.value) || 18.0;
+  const counterPrice = parseFloat(document.getElementById('counter-bid-price')?.value) || (baseAsk * 0.94);
+  const deliveryDate = document.getElementById('counter-bid-delivery-date')?.value || new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0];
+
+  const targetLot = (buyerData.verifiedLots && buyerData.verifiedLots.find(l => l.id === currentLotId)) || (buyerData.verifiedLots && buyerData.verifiedLots[0]);
+  const fullLotKg = (targetLot && targetLot.availableQtyKg !== undefined) ? parseFloat(targetLot.availableQtyKg) : (targetLot ? targetLot.qtyNum * 100 : 5000);
+
+  const isModeAll = document.getElementById('bid-mode-all')?.checked;
+  let targetQty = fullLotKg;
+  if (!isModeAll) {
+    const customVal = parseFloat(document.getElementById('bid-custom-qty-input')?.value);
+    if (!isNaN(customVal) && customVal > 0) {
+      targetQty = Math.min(customVal, fullLotKg);
+    }
+  }
+
   closeBidModal();
+
+  const totalVal = Math.round(targetQty * counterPrice);
+  const advAmount = Math.round(totalVal * 0.35);
 
   const newBid = {
     id: `BID-2026-${Math.floor(1000 + Math.random() * 9000)}`,
     lot_id: currentLotId || (targetLot ? targetLot.id : 'LOT-01'),
     crop: targetLot ? targetLot.crop : 'Produce',
     bid_rate_kg: counterPrice,
-    quantity_kg: targetLot ? (targetLot.qtyNum * 100) : 5000,
+    ask_rate_kg: baseAsk,
+    quantity_kg: targetQty,
+    total_val: totalVal,
+    adv_escrow_35: advAmount,
+    delivery_date: deliveryDate,
     buyer_name: 'Karthik Sundaram (BigBasket)',
     status: 'Pending Farmer Acceptance',
     timestamp: new Date().toISOString()
@@ -454,32 +733,25 @@ function submitCounterBid(e) {
     }).catch(err => console.warn('Offline counter bid', err));
   }
 
+  if (typeof showToast === 'function') {
+    showToast(`⚖️ Counter-bid of ₹ ${counterPrice.toFixed(2)}/kg submitted for ${targetLot ? targetLot.crop : 'Produce'}!`, 'success');
+  }
+
   openNegotiationModal(currentLotId, counterPrice);
+  return false;
 }
 
-document.addEventListener('submit', (e) => {
-  if (e.target && e.target.id === 'form-counter-bid') {
-    submitCounterBid(e);
-  }
-});
-
-function updateBidKgPreview(bidVal) {
-  const lotId = document.getElementById('bid-modal-lot-id')?.value;
-  const lot = buyerData.verifiedLots.find((l) => l.id === lotId) || buyerData.verifiedLots[0];
-  let num = parseFloat(bidVal) || 0;
-  if (num > 100) num = num / 100; // safety fallback for old quintal inputs
-  const totalKg = (lot.qtyNum * 100);
-  const totalCost = Math.round(num * totalKg);
-  const previewEl = document.getElementById('counter-bid-kg-preview');
-  if (previewEl) {
-    previewEl.innerHTML = `<span>⚖️ <strong>₹ ${num.toFixed(2)} /kg</strong> • Total Lot Value: <strong>₹ ${totalCost.toLocaleString('en-IN')}</strong> (${totalKg.toLocaleString('en-IN')} kg)</span>`;
-  }
-}
-
-function closeBidModal() {
-  const modal = document.getElementById('modal-counter-bid');
-  if (modal) modal.classList.remove('active');
-}
+// Global Exports
+window.openBidModal = openBidModal;
+window.closeBidModal = closeBidModal;
+window.toggleBidQtyMode = toggleBidQtyMode;
+window.onBidQtyInputChange = onBidQtyInputChange;
+window.onCounterBidPriceInput = onCounterBidPriceInput;
+window.onCounterBidSliderChange = onCounterBidSliderChange;
+window.applyBidPreset = applyBidPreset;
+window.updateCounterBidCalculations = updateCounterBidCalculations;
+window.updateBidKgPreview = updateBidKgPreview;
+window.submitCounterBid = submitCounterBid;
 
 // Open WhatsApp / SMS Live Negotiation Modal with KG breakdown
 function openNegotiationModal(lotId, bidPrice) {

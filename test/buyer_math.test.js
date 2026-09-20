@@ -204,4 +204,77 @@ describe('AgriNex Buyer Mathematical & Algorithmic Engine', () => {
     });
   });
 
+  describe('6. Interactive Bidding Margin & AI Farmer Acceptance Probability Engine', () => {
+    function computeBiddingMargins({ baseAskRate, counterRate, qtyKg, wholesaleMarkup = 0.35 }) {
+      const askTotalVal = Math.round(qtyKg * baseAskRate);
+      const counterTotalVal = Math.round(qtyKg * counterRate);
+      const savingsRupees = askTotalVal - counterTotalVal;
+      const savingsPct = ((baseAskRate - counterRate) / baseAskRate) * 100;
+      const advAmount = Math.round(counterTotalVal * 0.35);
+      const balAmount = counterTotalVal - advAmount;
+
+      const estWholesaleSellRate = baseAskRate * (1 + wholesaleMarkup);
+      const grossProfitPerKg = estWholesaleSellRate - counterRate;
+      const grossMarginPct = (grossProfitPerKg / estWholesaleSellRate) * 100;
+
+      const ratio = counterRate / baseAskRate;
+      let acceptanceCategory = 'Low';
+      if (ratio >= 0.95) acceptanceCategory = 'Very High';
+      else if (ratio >= 0.88) acceptanceCategory = 'High';
+      else if (ratio >= 0.80) acceptanceCategory = 'Moderate';
+
+      return {
+        askTotalVal,
+        counterTotalVal,
+        savingsRupees,
+        savingsPct,
+        advAmount,
+        balAmount,
+        grossProfitPerKg,
+        grossMarginPct,
+        acceptanceCategory
+      };
+    }
+
+    it('should calculate -6% optimal preset margin and escrow advance with high acceptance', () => {
+      const result = computeBiddingMargins({
+        baseAskRate: 18.0,
+        counterRate: 16.92,
+        qtyKg: 10000
+      });
+
+      assert.strictEqual(result.askTotalVal, 180000);
+      assert.strictEqual(result.counterTotalVal, 169200);
+      assert.strictEqual(result.savingsRupees, 10800);
+      assert.strictEqual(Math.round(result.savingsPct), 6);
+      assert.strictEqual(result.advAmount, 59220);
+      assert.strictEqual(result.balAmount, 109980);
+      assert.strictEqual(result.acceptanceCategory, 'High');
+    });
+
+    it('should calculate -3% fast-deal preset with very high acceptance probability', () => {
+      const result = computeBiddingMargins({
+        baseAskRate: 18.0,
+        counterRate: 17.46,
+        qtyKg: 5000
+      });
+
+      assert.strictEqual(result.counterTotalVal, 87300);
+      assert.strictEqual(result.savingsRupees, 2700);
+      assert.strictEqual(result.advAmount, 30555);
+      assert.strictEqual(result.acceptanceCategory, 'Very High');
+    });
+
+    it('should flag bids below 80% ask as aggressive with low acceptance probability', () => {
+      const result = computeBiddingMargins({
+        baseAskRate: 18.0,
+        counterRate: 13.50,
+        qtyKg: 5000
+      });
+
+      assert.strictEqual(result.savingsRupees, 22500);
+      assert.strictEqual(result.acceptanceCategory, 'Low');
+    });
+  });
+
 });
