@@ -309,61 +309,73 @@
       <div id="lite-mode-container" class="lite-mode-wrapper" style="display: none;">
         
         <!-- Top Section Selector Tabs (Produce, Orders, Escrow) + Simple Mode Accessibility & Language Bar -->
-        <div class="lite-nav-tabs" style="display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 22px; flex-wrap: wrap;">
-          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <div class="lite-top-controls-card">
+          <!-- Top Row: Status Badge & Accessibility Suite -->
+          <div class="lite-top-header-row">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="lite-mode-status-badge">
+                <span style="font-size: 1rem;">🌱</span>
+                <span id="lite-mode-badge-title">सरल / सुलभ मोड (Simple Mode)</span>
+              </span>
+              <span style="font-size: 0.82rem; font-weight: 700; color: #64748b;" class="hide-mobile">• 31+ Live Maharashtra Mandis</span>
+            </div>
+
+            <!-- Elderly-First Accessibility & Audio Controls Bar -->
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <!-- Font Scaler -->
+              <div style="display: flex; gap: 2px; background: #f8fafc; padding: 3px; border-radius: 999px; border: 1.5px solid #cbd5e1;" title="Font Size">
+                <button type="button" onclick="setLiteFontSize('sm')" title="Small Text" style="padding: 4px 9px; border-radius: 999px; border: none; font-size: 0.75rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">A-</button>
+                <button type="button" id="btn-font-md" onclick="setLiteFontSize('md')" title="Normal Text" style="padding: 4px 9px; border-radius: 999px; border: none; font-size: 0.85rem; font-weight: 800; cursor: pointer; background: #0c5a36; color: #ffffff;">A</button>
+                <button type="button" id="btn-font-lg" onclick="setLiteFontSize('lg')" title="Large Text" style="padding: 4px 9px; border-radius: 999px; border: none; font-size: 0.95rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">A+</button>
+              </div>
+
+              <!-- Speech Speed Controller -->
+              <div style="display: flex; gap: 2px; background: #f8fafc; padding: 3px; border-radius: 999px; border: 1.5px solid #cbd5e1;" title="Audio Voice Speed">
+                <button type="button" id="btn-speed-slow" onclick="setLiteSpeechRate(0.8)" style="padding: 4px 9px; border-radius: 999px; border: none; font-size: 0.76rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">🐢 0.8x</button>
+                <button type="button" id="btn-speed-normal" onclick="setLiteSpeechRate(1.0)" style="padding: 4px 9px; border-radius: 999px; border: none; font-size: 0.76rem; font-weight: 800; cursor: pointer; background: #0c5a36; color: #ffffff;">🗣️ 1.0x</button>
+              </div>
+
+              <!-- Mandi Sunlight High-Contrast Toggle -->
+              <button type="button" id="btn-sunlight-mode" onclick="toggleSunlightMode()" style="padding: 6px 12px; border-radius: 999px; border: 1.5px solid #ca8a04; background: #fef08a; color: #854d0e; font-size: 0.8rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 5px;" title="High Contrast for Mandi Sunlight">
+                <span>☀️</span>
+                <span id="lite-sunlight-text">Sunlight Mode</span>
+              </button>
+
+              <!-- Quick 1-Tap Language Switcher for Simple Mode -->
+              <div class="lite-lang-switcher" style="display: flex; gap: 4px; background: #f8fafc; padding: 3px; border-radius: 999px; border: 1.5px solid #cbd5e1;">
+                <button type="button" class="lite-lang-btn" id="lite-lang-en" onclick="setBuyerLanguage('en')" style="padding: 5px 12px; border-radius: 999px; border: none; font-size: 0.8rem; font-weight: 800; cursor: pointer; transition: all 0.2s; background: #0c5a36; color: #ffffff;">🇬🇧 English</button>
+                <button type="button" class="lite-lang-btn" id="lite-lang-hi" onclick="setBuyerLanguage('hi')" style="padding: 5px 12px; border-radius: 999px; border: none; font-size: 0.8rem; font-weight: 800; cursor: pointer; transition: all 0.2s; background: transparent; color: #475569;">🇮🇳 हिन्दी</button>
+                <button type="button" class="lite-lang-btn" id="lite-lang-mr" onclick="setBuyerLanguage('mr')" style="padding: 5px 12px; border-radius: 999px; border: none; font-size: 0.8rem; font-weight: 800; cursor: pointer; transition: all 0.2s; background: transparent; color: #475569;">🚩 मराठी</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Row: 6-Column Navigation Grid -->
+          <div class="lite-nav-tabs">
             <button type="button" class="lite-nav-tab active" id="lite-tab-produce" onclick="switchLiteSection('produce')">
-              <span style="font-size: 1.4rem;">🌾</span>
+              <span class="tab-icon">🌾</span>
               <span id="lite-tab-produce-text">Buy Produce</span>
             </button>
             <button type="button" class="lite-nav-tab" id="lite-tab-bulk" onclick="switchLiteSection('bulk')">
-              <span style="font-size: 1.4rem;">⚡</span>
+              <span class="tab-icon">⚡</span>
               <span id="lite-tab-bulk-text">Post Bulk Quota</span>
             </button>
             <button type="button" class="lite-nav-tab" id="lite-tab-insights" onclick="switchLiteSection('insights')">
-              <span style="font-size: 1.4rem;">📊</span>
+              <span class="tab-icon">📊</span>
               <span id="lite-tab-insights-text">Market Insights</span>
             </button>
             <button type="button" class="lite-nav-tab" id="lite-tab-orders" onclick="switchLiteSection('orders')">
-              <span style="font-size: 1.4rem;">🚚</span>
+              <span class="tab-icon">🚚</span>
               <span id="lite-tab-orders-text">My Orders & Trucks</span>
             </button>
             <button type="button" class="lite-nav-tab" id="lite-tab-grievance" onclick="switchLiteSection('grievance')">
-              <span style="font-size: 1.4rem;">🚨</span>
+              <span class="tab-icon">🚨</span>
               <span id="lite-tab-grievance-text">Disputes & Grievance</span>
             </button>
             <button type="button" class="lite-nav-tab" id="lite-tab-escrow" onclick="switchLiteSection('escrow')">
-              <span style="font-size: 1.4rem;">🛡️</span>
+              <span class="tab-icon">🛡️</span>
               <span id="lite-tab-escrow-text">Safe Escrow Vault</span>
             </button>
-          </div>
-
-          <!-- Elderly-First Accessibility & Audio Controls Bar -->
-          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <!-- Font Scaler -->
-            <div style="display: flex; gap: 3px; background: #ffffff; padding: 4px; border-radius: 999px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
-              <button type="button" onclick="setLiteFontSize('sm')" title="Small Text" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.75rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">A-</button>
-              <button type="button" id="btn-font-md" onclick="setLiteFontSize('md')" title="Normal Text" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.85rem; font-weight: 800; cursor: pointer; background: #0c5a36; color: #ffffff;">A</button>
-              <button type="button" id="btn-font-lg" onclick="setLiteFontSize('lg')" title="Large Text" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.95rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">A+</button>
-            </div>
-
-            <!-- Speech Speed Controller -->
-            <div style="display: flex; gap: 3px; background: #ffffff; padding: 4px; border-radius: 999px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.05);" title="Audio Voice Speed">
-              <button type="button" id="btn-speed-slow" onclick="setLiteSpeechRate(0.8)" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.78rem; font-weight: 800; cursor: pointer; background: transparent; color: #475569;">🐢 0.8x</button>
-              <button type="button" id="btn-speed-normal" onclick="setLiteSpeechRate(1.0)" style="padding: 4px 10px; border-radius: 999px; border: none; font-size: 0.78rem; font-weight: 800; cursor: pointer; background: #0c5a36; color: #ffffff;">🗣️ 1.0x</button>
-            </div>
-
-            <!-- Mandi Sunlight High-Contrast Toggle -->
-            <button type="button" id="btn-sunlight-mode" onclick="toggleSunlightMode()" style="padding: 6px 14px; border-radius: 999px; border: 1.5px solid #ca8a04; background: #fef08a; color: #854d0e; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 5px;" title="High Contrast for Mandi Sunlight">
-              <span>☀️</span>
-              <span id="lite-sunlight-text">Sunlight Mode</span>
-            </button>
-
-            <!-- Quick 1-Tap Language Switcher for Simple Mode -->
-            <div class="lite-lang-switcher" style="display: flex; gap: 6px; background: #ffffff; padding: 4px; border-radius: 999px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
-              <button type="button" class="lite-lang-btn" id="lite-lang-en" onclick="setBuyerLanguage('en')" style="padding: 6px 14px; border-radius: 999px; border: none; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: all 0.2s; background: #0c5a36; color: #ffffff;">🇬🇧 English</button>
-              <button type="button" class="lite-lang-btn" id="lite-lang-hi" onclick="setBuyerLanguage('hi')" style="padding: 6px 14px; border-radius: 999px; border: none; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: all 0.2s; background: transparent; color: #475569;">🇮🇳 हिन्दी</button>
-              <button type="button" class="lite-lang-btn" id="lite-lang-mr" onclick="setBuyerLanguage('mr')" style="padding: 6px 14px; border-radius: 999px; border: none; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: all 0.2s; background: transparent; color: #475569;">🚩 मराठी</button>
-            </div>
           </div>
         </div>
 

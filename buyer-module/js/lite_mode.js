@@ -24,12 +24,12 @@
     en: {
       toggleSimple: 'Simple Mode',
       toggleEnterprise: 'Enterprise Mode',
-      tabProduce: '🌾 Buy Produce',
-      tabBulk: '⚡ Post Bulk Quota',
-      tabOrders: '🚚 My Orders & Trucks',
-      tabGrievance: '🚨 Disputes & Grievance',
-      tabEscrow: '🛡️ Safe Escrow Vault',
-      tabInsights: '📊 Market Insights',
+      tabProduce: 'Buy Produce',
+      tabBulk: 'Post Bulk Quota',
+      tabOrders: 'My Orders & Trucks',
+      tabGrievance: 'Disputes & Grievance',
+      tabEscrow: 'Safe Escrow Vault',
+      tabInsights: 'Market Insights',
       insightsTitle: '📊 All-Crop Market Insights & Mandi Arbitrage',
       insightsSubtitle: 'Compare current Mandi rates with direct farm prices for all crops, view 7-day price trends, and listen to voice buy/wait signals.',
       insightsBadge: 'Live Maharashtra Mandis',
@@ -161,12 +161,12 @@
     hi: {
       toggleSimple: 'सरल मोड',
       toggleEnterprise: 'एंटरप्राइज मोड',
-      tabProduce: '🌾 शेतीमाल खरीद (Buy)',
-      tabBulk: '⚡ बड़ी मांग दर्ज करें (Bulk)',
-      tabOrders: '🚚 मेरी गाड़ियां व ऑर्डर्स',
-      tabGrievance: '🚨 शिकायत व विवाद (Grievance)',
-      tabEscrow: '🛡️ सुरक्षित एस्क्रो खाता',
-      tabInsights: '📊 बाज़ार भाव व अंदाज',
+      tabProduce: 'शेतीमाल खरीद (Buy)',
+      tabBulk: 'बड़ी मांग (Bulk)',
+      tabOrders: 'मेरी गाड़ियां व ऑर्डर्स',
+      tabGrievance: 'शिकायत व विवाद',
+      tabEscrow: 'सुरक्षित एस्क्रो खाता',
+      tabInsights: 'बाज़ार भाव व अंदाज',
       insightsTitle: '📊 सभी फसलों के बाज़ार भाव व खरीद सलाह',
       insightsSubtitle: 'सभी 31+ फसलों के मंडी भाव और सीधे किसान भाव की तुलना करें, 7 दिनों का रुझान देखें और आवाज़ में सलाह सुनें।',
       insightsBadge: 'महाराष्ट्र लाइव मंडियां',
@@ -298,12 +298,12 @@
     mr: {
       toggleSimple: 'सुलभ मोड',
       toggleEnterprise: 'एंटरप्राइज मोड',
-      tabProduce: '🌾 शेतीमाल खरेदी (Buy)',
-      tabBulk: '⚡ मोठी मागणी (Bulk Quota)',
-      tabOrders: '🚚 माझ्या गाड्या व ऑर्डर्स',
-      tabGrievance: '🚨 तक्रार व वाद निवारण',
-      tabEscrow: '🛡️ सुरक्षित एस्क्रो खाते',
-      tabInsights: '📊 बाज़ार भाव व अंदाज',
+      tabProduce: 'शेतीमाल खरेदी (Buy)',
+      tabBulk: 'मोठी मागणी (Bulk)',
+      tabOrders: 'माझ्या गाड्या व ऑर्डर्स',
+      tabGrievance: 'तक्रार व निवारण',
+      tabEscrow: 'सुरक्षित एस्क्रो खाते',
+      tabInsights: 'बाजार भाव व अंदाज',
       insightsTitle: '📊 सर्व शेतीमाल बाजार भाव व खरेदी सल्ला',
       insightsSubtitle: 'सर्व ३१+ शेतीमालांचे बाजार समिती भाव आणि थेट शेतकरी भावाची तुलना, ७ दिवसांचा कल आणि आवाजात खरेदी सल्ला ऐका.',
       insightsBadge: 'महाराष्ट्र थेट बाजार समित्या',
@@ -980,6 +980,14 @@
     const tEscrow = document.getElementById('lite-tab-escrow-text');
     if (tEscrow) tEscrow.textContent = dict.tabEscrow;
 
+    // Mode Badge Title
+    const modeBadgeTitle = document.getElementById('lite-mode-badge-title');
+    if (modeBadgeTitle) {
+      modeBadgeTitle.textContent = (lang === 'mr') 
+        ? 'सुलभ मोड (Simple Mode)' 
+        : ((lang === 'hi') ? 'सरल मोड (Simple Mode)' : 'Simple Trading Mode');
+    }
+
     // 4. Update Hero Banner Elements
     const badge = document.getElementById('lite-hero-badge');
     if (badge) badge.textContent = dict.heroBadge;
@@ -1468,11 +1476,11 @@
       const imgSrc = lot.image || 'assets/images/tomato.jpg';
 
       return `
-        <div class="lite-produce-card" style="position: relative; background: #ffffff; border-radius: 20px; border: 2px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+        <div class="lite-produce-card" style="position: relative; background: #ffffff; border-radius: 20px; border: 2px solid #cbd5e1; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease, box-shadow 0.2s ease;">
           <div>
-            <div style="position: relative; height: 190px; width: 100%; overflow: hidden; background: #f1f5f9;">
+            <div style="position: relative; height: 195px; width: 100%; overflow: hidden; background: #f1f5f9;">
               <img src="${imgSrc}" alt="${displayCropName}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/tomato.jpg'" />
-              <div style="position: absolute; bottom: 8px; left: 10px; background: rgba(12, 90, 54, 0.9); color: #ffffff; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px);">
+              <div style="position: absolute; bottom: 8px; left: 10px; background: rgba(12, 90, 54, 0.92); color: #ffffff; padding: 4px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 800; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px); box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
                 ${dict.verifiedBadge}
               </div>
             </div>
@@ -1482,39 +1490,42 @@
                 ${displayCropName}
               </h3>
               
-              <div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem; color: #475569; font-weight: 700; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 0.92rem; color: #334155; font-weight: 800; margin-bottom: 12px;">
                 <span>👨‍🌾 ${farmerName}</span>
                 <span>•</span>
                 <span>📍 ${farmerLocation}</span>
               </div>
 
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; border-radius: 12px; padding: 12px; margin-bottom: 14px; border: 1px solid #e2e8f0;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; border: 1.5px solid #e2e8f0;">
                 <div>
-                  <span style="display: block; font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase;">${dict.priceLabel}</span>
-                  <div style="font-size: 1.35rem; font-weight: 900; color: #0c5a36; line-height: 1.1;">
-                    ₹${kgPrice} <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">${dict.perKg}</span>
+                  <span style="display: block; font-size: 0.75rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.3px;">${dict.priceLabel}</span>
+                  <div style="font-size: 1.4rem; font-weight: 900; color: #0c5a36; line-height: 1.1;">
+                    ₹${kgPrice} <span style="font-size: 0.88rem; font-weight: 800; color: #334155;">${dict.perKg}</span>
                   </div>
                 </div>
                 <div>
-                  <span style="display: block; font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase;">${dict.qtyLabel}</span>
-                  <div style="font-size: 1.25rem; font-weight: 900; color: #0f172a; line-height: 1.1;">
-                    ${bagsCount} <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">${dict.bags}</span>
+                  <span style="display: block; font-size: 0.75rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.3px;">${dict.qtyLabel}</span>
+                  <div style="font-size: 1.3rem; font-weight: 900; color: #0f172a; line-height: 1.1;">
+                    ${bagsCount} <span style="font-size: 0.88rem; font-weight: 800; color: #334155;">${dict.bags}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div style="padding: 0 18px 18px 18px; display: grid; grid-template-columns: 1.3fr 1fr 0.8fr; gap: 8px;">
-            <button type="button" class="btn btn-primary lite-action-buy" style="background: #0c5a36; border-color: #0c5a36; padding: 12px 6px; font-size: 0.95rem; font-weight: 900; border-radius: 12px; justify-content: center; box-shadow: 0 3px 10px rgba(12, 90, 54, 0.25);" onclick="openLiteBuyModal('${lot.id}')">
-              ${dict.buyNow}
+          <div style="padding: 0 18px 18px 18px;">
+            <button type="button" class="btn btn-primary lite-action-buy-hero" onclick="openLiteBuyModal('${lot.id}')">
+              <span>${dict.buyNow}</span>
+              <span style="opacity: 0.92; font-size: 0.92rem; font-weight: 800;">• ₹${kgPrice} ${dict.perKg}</span>
             </button>
-            <button type="button" class="btn btn-secondary lite-action-bargain" style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; padding: 12px 4px; font-size: 0.88rem; font-weight: 800; border-radius: 12px; justify-content: center;" onclick="openLiteBargainModal('${lot.id}')">
-              ${dict.bargainBtn}
-            </button>
-            <button type="button" class="btn btn-outline lite-action-call" style="background: #f8fafc; border: 1.5px solid #cbd5e1; color: #334155; padding: 12px 4px; font-size: 0.88rem; font-weight: 800; border-radius: 12px; justify-content: center;" onclick="callFarmerDirect('${phone}', '${farmerName}')">
-              ${dict.callFarmer}
-            </button>
+            <div class="lite-card-secondary-row">
+              <button type="button" class="btn btn-secondary lite-btn-bargain" onclick="openLiteBargainModal('${lot.id}')">
+                <span>${dict.bargainBtn}</span>
+              </button>
+              <button type="button" class="btn btn-outline lite-btn-call" onclick="callFarmerDirect('${phone}', '${farmerName}')">
+                <span>${dict.callFarmer}</span>
+              </button>
+            </div>
           </div>
         </div>
       `;
