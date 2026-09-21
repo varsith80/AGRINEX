@@ -33,9 +33,9 @@
 
         <ul class="dc-nav-list">
           <li>
-            <a href="gps-tracking.html" class="dc-nav-item" id="nav-item-gps-tracking">
-              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
-              <span id="label-nav-gps">Live GPS Tracking</span>
+            <a href="index.html" class="dc-nav-item" id="nav-item-fleet-dashboard">
+              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span id="label-nav-dashboard">&larr; Fleet Dashboard</span>
             </a>
           </li>
           <li>
@@ -44,7 +44,7 @@
                 <line x1="22" y1="2" x2="11" y2="13"></line>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
               </svg>
-              <span id="label-nav-mission">Active Mission & Map</span>
+              <span id="label-nav-mission">Active Mission &amp; Live Map</span>
             </a>
           </li>
           <li>
@@ -668,7 +668,8 @@
         en: {
           brand: "AgriNex Driver & Fleet Console",
           heading: "DRIVER SHIFT WORKFLOW",
-          missionNav: "Active Mission & Map",
+          dashboardNav: "← Fleet Dashboard",
+          missionNav: "Active Mission & Live Map",
           dutyNav: "Duty & Profile",
           earningsNav: "Earnings & UPI Payout",
           loadsNav: "Nearby Load Broadcasts",
@@ -683,7 +684,8 @@
         hi: {
           brand: "एग्रीनेक्स ड्राइवर व फ्लीट कंसोल",
           heading: "ड्राइवर शिफ्ट कार्यप्रवाह",
-          missionNav: "सक्रिय मिशन व नक्शा",
+          dashboardNav: "← फ्लीट डैशबोर्ड",
+          missionNav: "सक्रिय मिशन व लाइव नक्शा",
           dutyNav: "ड्यूटी व प्रोफाइल",
           earningsNav: "कमाई व UPI भुगतान",
           loadsNav: "नजदीकी माल प्रसारण",
@@ -698,7 +700,8 @@
         ta: {
           brand: "அக்ரிநெக்ஸ் ஓட்டுநர் மற்றும் கடற்படை கன்சோல்",
           heading: "ஓட்டுநர் பணிப்பாய்வு",
-          missionNav: "செயலில் உள்ள மிஷன் & வரைபடம்",
+          dashboardNav: "← கடற்படை டாஷ்போர்டு",
+          missionNav: "செயலில் உள்ள மிஷன் & நேரலை வரைபடம்",
           dutyNav: "பணி & சுயவிவரம்",
           earningsNav: "வருமானம் & UPI பணம்",
           loadsNav: "அருகிலுள்ள சுமை வாய்ப்புகள்",
@@ -715,6 +718,8 @@
       const t = dict[lang] || dict.en;
       document.getElementById("dc-header-brand-title").textContent = t.brand;
       document.getElementById("dc-sidebar-heading").textContent = t.heading;
+      const dashNav = document.getElementById("label-nav-dashboard");
+      if (dashNav) dashNav.textContent = t.dashboardNav;
       document.getElementById("label-nav-mission").textContent = t.missionNav;
       document.getElementById("label-nav-duty").textContent = t.dutyNav;
       document.getElementById("label-nav-earnings").textContent = t.earningsNav;
