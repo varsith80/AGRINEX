@@ -216,6 +216,7 @@
     ['Emergency Sell', 'आपातकालीन बिक्री', 'तातडीची विक्री'],
     ['Grievances', 'शिकायत निवारण', 'तक्रार निवारण'],
     ['Reports', 'ऑडिट रिपोर्ट', 'अहवाल व तपासणी'],
+    ['Manage Dispatches', 'डिस्पैच प्रबंधन', 'वाहतूक व्यवस्थापन'],
     ['Governance Desks', 'प्रशासन डेस्क', 'प्रशासन डेस्क'],
     ['Escrow Clearances', 'एस्क्रो निकासी', 'एस्क्रो मंजुरी'],
     ['Mandi MSP Desk', 'मंडी एमएसपी डेस्क', 'बाजार समिती हमीभाव डेस्क'],
@@ -1201,7 +1202,7 @@
     const connectedPortalsHeading = document.querySelector('.connected-portals-box div:first-child');
     if (connectedPortalsHeading) connectedPortalsHeading.textContent = tText('Connected Portals:', l);
 
-    // 2. Sidebar Navigation Items
+    // 2. Sidebar Navigation Items (Unified 9 Items across SPA and dedicated desk pages)
     const navItemMap = [
       { sec: 'dashboard', en: 'Dashboard' },
       { sec: 'users', en: 'Users' },
@@ -1210,34 +1211,38 @@
       { sec: 'logistics-storage', en: 'Logistics & Storage' },
       { sec: 'emergency-sell', en: 'Emergency Sell' },
       { sec: 'grievances', en: 'Grievances' },
+      { sec: 'manage-dispatches', en: 'Manage Dispatches' },
       { sec: 'reports', en: 'Reports' }
     ];
 
     navItemMap.forEach(({ sec, en }) => {
-      const item = document.querySelector(`.sidebar-nav .nav-item[data-section="${sec}"] a span:last-child`);
-      if (item) {
+      const items = document.querySelectorAll(
+        `.sidebar-nav .nav-item[data-section="${sec}"] a span:last-child, ` +
+        `.sidebar-nav .nav-item a[href*="${sec}"] span:last-child`
+      );
+      items.forEach(item => {
         item.textContent = tText(en, l);
         if (item.parentElement) item.parentElement.setAttribute('data-agx-orig', en);
-      }
+      });
     });
 
-    // Governance Desks Links
-    const deskEscrow = document.querySelector('.sidebar-nav .nav-item[data-tooltip*="Escrow"] a span:last-child');
+    // Governance Desks Links (if standalone pages have desk links)
+    const deskEscrow = document.querySelector('.sidebar-nav .nav-item a[href*="escrow"] span:last-child');
     if (deskEscrow) {
-      deskEscrow.textContent = tText('Escrow Clearances', l);
-      if (deskEscrow.parentElement) deskEscrow.parentElement.setAttribute('data-agx-orig', 'Escrow Clearances');
+      deskEscrow.textContent = tText('Deals & Payments', l);
+      if (deskEscrow.parentElement) deskEscrow.parentElement.setAttribute('data-agx-orig', 'Deals & Payments');
     }
 
-    const deskMandi = document.querySelector('.sidebar-nav .nav-item[data-tooltip*="Mandi"] a span:last-child');
+    const deskMandi = document.querySelector('.sidebar-nav .nav-item a[href*="mandi"] span:last-child');
     if (deskMandi) {
-      deskMandi.textContent = tText('Mandi MSP Desk', l);
-      if (deskMandi.parentElement) deskMandi.parentElement.setAttribute('data-agx-orig', 'Mandi MSP Desk');
+      deskMandi.textContent = tText('Market Data', l);
+      if (deskMandi.parentElement) deskMandi.parentElement.setAttribute('data-agx-orig', 'Market Data');
     }
 
-    const deskTribunal = document.querySelector('.sidebar-nav .nav-item[data-tooltip*="Tribunal"] a span:last-child');
+    const deskTribunal = document.querySelector('.sidebar-nav .nav-item a[href*="grievance"] span:last-child');
     if (deskTribunal) {
-      deskTribunal.textContent = tText('Tribunal Bench', l);
-      if (deskTribunal.parentElement) deskTribunal.parentElement.setAttribute('data-agx-orig', 'Tribunal Bench');
+      deskTribunal.textContent = tText('Grievances', l);
+      if (deskTribunal.parentElement) deskTribunal.parentElement.setAttribute('data-agx-orig', 'Grievances');
     }
 
     // Connected Portals Links
