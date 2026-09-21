@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgriNex Driver & Fleet Console | Live Navigation & Telemetry</title>
+  <title>AgriNex Logistics - Fleet Command & Telematics Operations</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,686 +17,354 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="css/driver-console.css" />
+  <link rel="stylesheet" href="../admin-module/css/admin-shell.css" />
+
+  <style>
+    .filter-tab-btn {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748b;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-tab-btn.active {
+      color: #0c5a36;
+      border-bottom-color: #0c5a36;
+      font-weight: 800;
+    }
+  </style>
 </head>
-<body class="driver-console-body">
-  <div class="dc-app-layout">
-    <!-- LEFT SIDEBAR: DRIVER SHIFT WORKFLOW -->
-    <aside class="dc-sidebar">
-      <!-- Top Brand Strip -->
-      <div class="dc-sidebar-brand-strip">
-        <div>AgriNex <span style="font-weight: 500; opacity: 0.9;">Driver</span></div>
-        <div class="sub">Fleet & Dispatch Console</div>
-      </div>
+<body>
+  <div class="app-container">
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header -->
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <img src="../assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" onerror="this.src='../farmer-module/assets/images/wheat-logo.png'" />
+          </div>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+            <div class="brand-tagline">Direct Trade · Better Tomorrow</div>
+          </div>
+        </div>
 
-      <div class="dc-sidebar-content">
-        <div class="dc-workflow-heading" id="dc-sidebar-heading">DRIVER SHIFT WORKFLOW</div>
-
-        <ul class="dc-nav-list">
-          <li>
-            <a href="gps-tracking.html" class="dc-nav-item" id="nav-item-gps-tracking">
-              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
-              <span id="label-nav-gps">Live GPS Tracking</span>
-            </a>
+        <!-- Navigation Links -->
+        <ul class="sidebar-nav">
+          <li class="nav-item active" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span id="nav-dashboard">Fleet Dashboard</span>
+            </div>
           </li>
-          <li>
-            <a href="javascript:void(0)" class="dc-nav-item active" id="nav-item-active-mission" onclick="switchConsoleTab('mission')">
-              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-              <span id="label-nav-mission">Active Mission & Map</span>
-            </a>
+          <li class="nav-item" onclick="window.location.href='gps-tracking.html'" style="background: rgba(234, 88, 12, 0.15); border: 1px solid rgba(234, 88, 12, 0.35);">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.2"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+              <span style="font-weight: 800; color: #c2410c;" id="nav-live-console">Driver &amp; GPS Console</span>
+            </div>
+            <span class="nav-badge" style="background: #ea580c; color: white; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 800;">LIVE</span>
           </li>
-          <li>
-            <a href="javascript:void(0)" class="dc-nav-item" id="nav-item-duty-profile" onclick="switchConsoleTab('duty')">
-              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-              <span id="label-nav-duty">Duty & Profile</span>
-            </a>
+          <li class="nav-item" onclick="window.location.href='dispatch-table.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+              <span id="nav-dispatches">All Dispatches</span>
+            </div>
           </li>
-          <li>
-            <a href="javascript:void(0)" class="dc-nav-item" id="nav-item-earnings" onclick="switchConsoleTab('earnings')">
-              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                <line x1="2" y1="10" x2="22" y2="10"></line>
-              </svg>
-              <span id="label-nav-earnings">Earnings & UPI Payout</span>
-            </a>
+          <li class="nav-item" onclick="window.location.href='fpo-hauls.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              <span id="nav-fpo">FPO Milk-Run Hauls</span>
+            </div>
           </li>
-          <li>
-            <a href="javascript:void(0)" class="dc-nav-item" id="nav-item-loads" onclick="switchConsoleTab('loads')">
-              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-              <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-                <span id="label-nav-loads">Nearby Load Broadcasts</span>
-                <span style="background:#ea580c; color:#ffffff; font-size:0.62rem; font-weight:800; padding:1px 6px; border-radius:999px;">3</span>
-              </div>
-            </a>
+          <li class="nav-item" onclick="window.location.href='individual-orders.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+              <span id="nav-individual">Individual Direct Orders</span>
+            </div>
           </li>
-          <li>
-            <a href="javascript:void(0)" class="dc-nav-item" id="nav-item-pod" onclick="switchConsoleTab('pod')">
-              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <polyline points="9 15 12 18 16 12"></polyline>
-              </svg>
-              <span id="label-nav-pod">POD Handover</span>
-            </a>
+          <li class="nav-item" onclick="window.location.href='grievance.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              <span id="nav-grievance">Grievance &amp; Transit Claims</span>
+            </div>
           </li>
-          <li>
-            <a href="javascript:void(0)" class="dc-nav-item" id="nav-item-diagnostics" onclick="switchConsoleTab('diagnostics')">
-              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <rect x="4" y="4" width="16" height="16" rx="2"></rect>
-                <path d="M9 9h6v6H9z"></path>
-              </svg>
-              <span id="label-nav-diagnostics">Vehicle Diagnostics</span>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)" class="dc-nav-item" style="color: #fca5a5;" onclick="triggerEmergencySos()">
-              <svg class="dc-nav-icon" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2">
-                <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-              <span id="label-nav-sos" style="font-weight: 700;">Emergency SOS</span>
-            </a>
+          <li class="nav-item" onclick="window.location.href='profile.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span id="nav-profile">Fleet Carrier Profile</span>
+            </div>
           </li>
         </ul>
+      </div>
 
-        <!-- Bottom User Profile Pill -->
-        <div class="dc-sidebar-bottom-user">
-          <div class="dc-user-circle" id="sidebar-user-avatar">KR</div>
-          <div class="dc-user-meta">
-            <div class="dc-user-name" id="sidebar-user-name">Karthik Raja</div>
-            <div class="dc-user-veh" id="sidebar-user-veh">Tata Ace EV • TN-33-AX-8910</div>
+      <!-- Bottom User Strip -->
+      <div class="sidebar-user" style="display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="user-avatar" style="background:#15803d; color:white; font-weight:800;">KR</div>
+          <div class="user-info">
+            <div class="user-name">Karthik Raja</div>
+            <div class="user-role">Commercial Pilot</div>
           </div>
-          <a href="../login_details/logistics_login.html" onclick="localStorage.removeItem('agrinex_active_session');" title="Logout & Switch Role" style="color:rgba(255,255,255,0.7); display:flex; align-items:center;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-          </a>
         </div>
+        <a href="../login_details/logistics_login.html" onclick="localStorage.removeItem('agrinex_active_session');" title="Logout" style="color:rgba(255,255,255,0.7); display:flex; align-items:center;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </a>
       </div>
     </aside>
 
-    <!-- MAIN CONSOLE WRAPPER -->
-    <main class="dc-main-wrapper">
-      <!-- TOP EXTENDED HEADER -->
-      <header class="dc-top-header">
-        <div class="dc-header-left">
-          <h1 class="dc-header-title">
-            <span>🚚</span>
-            <span id="dc-header-brand-title">AgriNex Driver & Fleet Console</span>
-          </h1>
-          <div class="dc-veh-pill" id="dc-header-veh-tag">TATA ACE EV • TN-33-AX-8910</div>
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+      <!-- TOP APP HEADER -->
+      <header class="app-header">
+        <div>
+          <h1 class="page-title" id="page-title">Enterprise Logistics &amp; Cold-Chain Fleet Command</h1>
+          <p class="page-subtitle" id="page-sub">Direct farm-to-mandi telematics, multi-stop shortest route dispatch &amp; instant escrow payouts</p>
         </div>
 
-        <div class="dc-header-right" style="display: flex; align-items: center; gap: 12px;">
-          <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
-          <div class="lang-selector-widget" style="position: relative;">
-            <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
-              <span id="current-language-label">🇬🇧 English</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </button>
-            <div id="language-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 12px 28px -4px rgba(0,0,0,0.15), 0 8px 12px -6px rgba(0,0,0,0.08); width: 185px; z-index: 1100; overflow: hidden; font-size: 0.82rem;">
-              <div style="padding: 8px 12px; font-size: 0.7rem; font-weight: 800; color: #64748b; background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; justify-content: space-between;">
-                <span>🌐 Select Language</span>
-              </div>
-              <button type="button" id="lang-opt-en" onclick="setLogisticsLanguage('en')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: #e8f5ed; color: #0c5a36; cursor: pointer; text-align: left; font-weight: 700; transition: background 0.15s ease;">
-                <span style="display: flex; align-items: center; gap: 8px;">🇬🇧 English</span>
-                <span class="lang-check" style="font-weight: 900; color: #16a34a;">✓</span>
-              </button>
-              <button type="button" id="lang-opt-hi" onclick="setLogisticsLanguage('hi')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;">
-                <span style="display: flex; align-items: center; gap: 8px;">🇮🇳 हिन्दी</span>
-                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
-              </button>
-              <button type="button" id="lang-opt-mr" onclick="setLogisticsLanguage('mr')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;">
-                <span style="display: flex; align-items: center; gap: 8px;">🚩 मराठी</span>
-                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
-              </button>
-            </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <!-- Multi-Language Switcher -->
+          <div style="display: flex; background: #f1f5f9; padding: 3px; border-radius: 8px; border: 1px solid #cbd5e1;">
+            <button class="filter-tab-btn active" id="btn-lang-en" onclick="setAppLanguage('en')" style="padding: 4px 10px; font-size: 0.76rem;">English</button>
+            <button class="filter-tab-btn" id="btn-lang-hi" onclick="setAppLanguage('hi')" style="padding: 4px 10px; font-size: 0.76rem;">हिंदी</button>
+            <button class="filter-tab-btn" id="btn-lang-ta" onclick="setAppLanguage('ta')" style="padding: 4px 10px; font-size: 0.76rem;">தமிழ்</button>
           </div>
 
-          <!-- Red SOS Emergency Button -->
-          <button type="button" class="dc-btn-sos" onclick="triggerEmergencySos()" title="Activate Rapid Highway SOS">
-            <span>🚨</span>
-            <span>SOS</span>
-          </button>
+          <!-- Driver Console Fast Action Button -->
+          <a href="gps-tracking.html" class="btn btn-primary" style="background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); border: none; padding: 8px 16px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; text-decoration: none; color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);">
+            <span>📡</span>
+            <span id="btn-open-driver-console">Open Driver Console</span>
+          </a>
         </div>
       </header>
 
-      <!-- TWO-COLUMN MAIN BODY -->
-      <div class="dc-content-body">
-        
-        <!-- LEFT / CENTER COLUMN: ACTIVE MISSION & INTERACTIVE SHORTEST MAP -->
-        <div class="dc-left-column" id="console-view-mission">
-          
-          <!-- MISSION BANNER (Navy Card with Amber Border) -->
-          <section class="dc-mission-banner">
-            <div class="dc-mission-top-row">
-              <div class="dc-mission-pool-tag" id="dc-mission-pool-tag">DISPATCHED MISSION IN PROGRESS • POOL #801</div>
-              <div class="dc-mission-active-badge" id="dc-mission-badge">ACTIVE MISSION</div>
-            </div>
+      <!-- LIVE COLD-CHAIN ANOMALY WARNING BANNER -->
+      <div id="cold-chain-anomaly-alert" style="display: none; padding: 12px 18px; border-radius: 12px; margin-bottom: 20px; font-size: 0.88rem; font-weight: 700; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"></div>
 
-            <h2 class="dc-mission-title" id="dc-mission-title">CLUSTER-AGX-801 • 3-Village Tomato Collection</h2>
-            
-            <div class="dc-mission-meta-line">
-              <span id="dc-mission-load-info">Load: Fresh Roma Tomatoes (48 Crates - 1.2 Tonnes)</span>
-              <span>•</span>
-              <span>Net Driver Pay: <strong class="dc-mission-net-pay" id="dc-mission-net-pay">₹1,650</strong></span>
-            </div>
-
-            <!-- CURRENT ACTIVE TASK SUBCARD -->
-            <div class="dc-task-subcard">
-              <div class="dc-task-subcard-header">
-                <span class="dc-task-label" id="dc-task-current-label">CURRENT ACTIVE TASK:</span>
-                <span class="dc-task-status-pill" id="dc-task-status-pill">IN PROGRESS</span>
-              </div>
-              <h3 class="dc-task-title" id="dc-task-title">Stop 1: Farmgate A - Thindal (Farmer: Ravi Kumar)</h3>
-              <div class="dc-task-desc" id="dc-task-desc">Load: 350 kg Fresh Tomatoes (14 Crates) • Share: ₹481</div>
-            </div>
-          </section>
-
-          <!-- PROMINENT NAVIGATION CTA BUTTON -->
-          <button type="button" class="dc-cta-nav-button" id="dc-cta-button" onclick="advanceMissionStop(currentActiveMissionCode)">
-            <span>🚚</span>
-            <span id="dc-cta-button-text">Navigate to Stop 1 (Thindal) &rarr;</span>
-          </button>
-          
-          <div class="dc-cta-caption">
-            <span>💡</span>
-            <span id="dc-cta-caption-text">Tap this action button as you arrive, load crates, and proceed to each village stop.</span>
+      <!-- 4 KPI METRIC CARDS -->
+      <section class="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+        <div class="stat-card" style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #64748b; text-transform: uppercase;">ACTIVE IOT FLEET</span>
+            <span style="background:#ecfdf5; color:#15803d; font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:999px;">● 4G RTK</span>
           </div>
-
-          <!-- INTERACTIVE MAP CONTAINER WITH SHORTEST ROUTE TELEMETRY -->
-          <div class="dc-map-wrapper">
-            <!-- Floating Top Right Controls -->
-            <div class="dc-map-floating-controls">
-              <button type="button" class="dc-map-ctrl-btn" onclick="recenterConsoleMap()" title="Recenter Map on Driver Truck">
-                <span>🔄</span>
-                <span>Recenter</span>
-              </button>
-              <button type="button" class="dc-map-ctrl-btn" onclick="showFullConsoleRoute()" title="Show Complete Waypoint Route">
-                <span>🗺️</span>
-                <span>Full Route</span>
-              </button>
-              <button type="button" class="dc-map-ctrl-btn" style="color:#0284c7; font-weight:800;" onclick="openGoogleMapsNavigation(currentActiveMissionCode)" title="Open in Google Maps">
-                <span>↗️</span>
-                <span>Google Maps</span>
-              </button>
-            </div>
-
-            <!-- Floating Top Left Shortest Route Indicator -->
-            <div class="dc-map-route-indicator">
-              <div class="dc-route-badge-shortest">
-                <span>⚡</span>
-                <span>Shortest Route: <span class="savings">Saves 8.7 km &amp; 22 mins</span></span>
-              </div>
-              <div class="dc-route-selector-pills">
-                <button type="button" class="dc-route-choice-btn active" id="btn-route-shortest" onclick="setRouteOption('shortest')">
-                  ⚡ Shortest (29.7 km)
-                </button>
-                <button type="button" class="dc-route-choice-btn" id="btn-route-highway" onclick="setRouteOption('highway')">
-                  🛣️ Highway (38.4 km)
-                </button>
-              </div>
-            </div>
-
-            <!-- Leaflet Map Div -->
-            <div id="dc-leaflet-map" class="dc-leaflet-container"></div>
-
-            <!-- Floating Bottom Telemetry Bar -->
-            <div class="dc-telemetry-bar">
-              <div class="dc-telemetry-item">
-                <span class="dc-telemetry-label">TRUCK SPEED</span>
-                <span class="dc-telemetry-value amber" id="dc-telemetry-speed">54 km/h</span>
-              </div>
-              <div class="dc-telemetry-item">
-                <span class="dc-telemetry-label">DISTANCE</span>
-                <span class="dc-telemetry-value" id="dc-telemetry-distance">29.7 km</span>
-              </div>
-              <div class="dc-telemetry-item">
-                <span class="dc-telemetry-label">NEXT STOP ETA</span>
-                <span class="dc-telemetry-value green" id="dc-telemetry-eta">On highway - ETA 35m</span>
-              </div>
-            </div>
-          </div>
-
+          <div style="font-size: 1.8rem; font-weight: 800; color: #0f172a; margin-top: 8px;">24 Trucks</div>
+          <div style="font-size: 0.78rem; color: #059669; font-weight: 700; margin-top: 4px;">Connected via IoT GPS</div>
         </div>
 
-        <!-- TAB: NEARBY LOAD BROADCASTS (When loads tab is selected) -->
-        <div class="dc-left-column" id="console-view-loads" style="display: none;">
-          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
-              <div>
-                <h2 style="font-size:1.2rem; font-weight:800; color:#0f172a; margin:0;">📡 Nearby Load Broadcasts</h2>
-                <div style="font-size:0.8rem; color:#64748b; margin-top:2px;">Live freight opportunities within 30 km radius of your GPS position</div>
-              </div>
-              <button class="btn btn-outline" onclick="switchConsoleTab('mission')" style="font-size:0.8rem;">&larr; Back to Active Map</button>
+        <div class="stat-card" style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #64748b; text-transform: uppercase;">COLD-CHAIN STATUS</span>
+            <span class="live-reefer-temp" style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:999px;">4.8°C</span>
+          </div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: #0f172a; margin-top: 8px;">99.4% Fresh</div>
+          <div style="font-size: 0.78rem; color: #0284c7; font-weight: 700; margin-top: 4px;">Zero transit spoilages</div>
+        </div>
+
+        <div class="stat-card" style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #64748b; text-transform: uppercase;">DISPATCH MISSIONS</span>
+            <span style="background:#fef3c7; color:#b45309; font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:999px;">ACTIVE</span>
+          </div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: #0f172a; margin-top: 8px;">4 In-Transit</div>
+          <div style="font-size: 0.78rem; color: #d97706; font-weight: 700; margin-top: 4px;">Cluster pool &amp; direct hauls</div>
+        </div>
+
+        <div class="stat-card" style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #64748b; text-transform: uppercase;">GUARANTEED FREIGHT</span>
+            <span style="background:#f0fdf4; color:#15803d; font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:999px;">ESCROW</span>
+          </div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: #0c5a36; margin-top: 8px;">₹ 4,86,500</div>
+          <div style="font-size: 0.78rem; color: #0c5a36; font-weight: 700; margin-top: 4px;">100% Locked &amp; Settled</div>
+        </div>
+      </section>
+
+      <!-- LIVE RADAR TELEMETRY PREVIEW -->
+      <section style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="background: #ea580c; color: white; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 4px;">ACTIVE RADAR</span>
+              <h2 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin: 0;">CLUSTER-AGX-801 • 3-Village Tomato Milk-Run</h2>
             </div>
-            <div id="nearby-loads-list-container" style="display:flex; flex-direction:column; gap:12px;">
-              <!-- Rendered via JS -->
+            <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+              Optimal Shortest Permutation active: <strong style="color: #059669;">Saves 8.7 km &amp; 22 mins</strong> vs standard state highway
             </div>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <a href="gps-tracking.html" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px; text-decoration: none; color: #334155;">Full Screen Telematics &rarr;</a>
           </div>
         </div>
 
-        <!-- TAB: DUTY & PROFILE -->
-        <div class="dc-left-column" id="console-view-duty" style="display: none;">
-          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
-              <h2 style="font-size:1.2rem; font-weight:800; color:#0f172a; margin:0;">📋 Commercial Pilot Duty &amp; Telematics</h2>
-              <button class="btn btn-outline" onclick="switchConsoleTab('mission')" style="font-size:0.8rem;">&larr; Back to Map</button>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-              <div style="background:#f8fafc; padding:16px; border-radius:12px; border:1px solid #e2e8f0;">
-                <h4 style="font-size:0.85rem; font-weight:800; color:#0f172a; margin:0 0 10px 0;">Commercial Pilot License &amp; KYC</h4>
-                <div style="font-size:0.8rem; line-height:1.7; color:#334155;">
-                  <div><strong>Pilot ID:</strong> DRV-TN-8910</div>
-                  <div><strong>Heavy Transport License:</strong> TN-33-2018-882190</div>
-                  <div><strong>Nodal APMC Badge:</strong> Erode APMC Certified Pilot</div>
-                  <div><strong>Status:</strong> <span style="color:#15803d; font-weight:800;">✓ Active &amp; Verified</span></div>
-                </div>
-              </div>
-              <div style="background:#f8fafc; padding:16px; border-radius:12px; border:1px solid #e2e8f0;">
-                <h4 style="font-size:0.85rem; font-weight:800; color:#0f172a; margin:0 0 10px 0;">Tata Ace EV Telematics</h4>
-                <div style="font-size:0.8rem; line-height:1.7; color:#334155;">
-                  <div><strong>Registration:</strong> TN-33-AX-8910</div>
-                  <div><strong>Battery Health:</strong> 96.2% (Liquid Cooled LFP)</div>
-                  <div><strong>Payload Capacity:</strong> 1.8 Metric Tonnes</div>
-                  <div><strong>IoT GPS Telematics:</strong> 4G Dual-SIM Ntrip RTK</div>
-                </div>
-              </div>
-            </div>
+        <div style="height: 320px; border-radius: 12px; overflow: hidden; border: 1px solid #cbd5e1;" id="logistics-radar-map"></div>
+      </section>
+
+      <!-- ACTIVE DISPATCHES & ORDERS TABLE -->
+      <section style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;">All Dispatch Consignments</h2>
+            <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">Real-time mandi consignments, farmgate pickup windows &amp; escrow status</div>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div style="display: flex; gap: 6px;">
+            <button class="filter-tab-btn active" id="tab-all" onclick="filterDispatches('ALL')">All Orders (4)</button>
+            <button class="filter-tab-btn" id="tab-transit" onclick="filterDispatches('In Transit')">In Transit</button>
+            <button class="filter-tab-btn" id="tab-available" onclick="filterDispatches('Available')">Available for Pickup</button>
+            <button class="filter-tab-btn" id="tab-delivered" onclick="filterDispatches('Delivered')">Delivered</button>
           </div>
         </div>
 
-        <!-- TAB: POD HANDOVER -->
-        <div class="dc-left-column" id="console-view-pod" style="display: none;">
-          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
-              <h2 style="font-size:1.2rem; font-weight:800; color:#0f172a; margin:0;">🔐 Proof of Delivery (POD) &amp; Gate Pass</h2>
-              <button class="btn btn-outline" onclick="switchConsoleTab('mission')" style="font-size:0.8rem;">&larr; Back to Map</button>
-            </div>
-            <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:12px; padding:16px; margin-bottom:16px;">
-              <h3 style="font-size:1rem; font-weight:800; color:#14532d; margin:0 0 4px 0;">Mandi Gate Unloading Confirmation</h3>
-              <p style="font-size:0.8rem; color:#166534; margin:0 0 12px 0;">
-                Provide the digital e-Gate Pass barcode to the receiving dock officer and enter the 4-digit buyer PIN to release ₹1,650 freight into your instant settlement wallet.
-              </p>
-              <div style="display:flex; gap:10px;">
-                <button class="btn btn-outline" onclick="openGatePassModal(currentActiveMissionCode)" style="background:#ffffff; font-size:0.8rem;">📑 View e-Gate Pass</button>
-                <button class="btn btn-primary" onclick="openPinModal(currentActiveMissionCode)" style="background:#0c5a36; font-size:0.8rem;">🔐 Enter 4-Digit POD PIN</button>
-              </div>
-            </div>
-          </div>
+        <!-- Dispatches Grid Container -->
+        <div id="dispatches-table-container" style="display: flex; flex-direction: column; gap: 14px;">
+          <!-- Rendered via JS -->
         </div>
-
-        <!-- RIGHT COLUMN: DRIVER PROFILE, SHIFT EARNINGS & FARE BREAKDOWN -->
-        <aside class="dc-right-column">
-          
-          <!-- DRIVER PROFILE & DUTY STATUS CARD -->
-          <div class="dc-card">
-            <div class="dc-profile-header">
-              <div class="dc-profile-avatar-large" id="dc-profile-avatar">KR</div>
-              <div class="dc-profile-info-block">
-                <h3 class="dc-profile-driver-name" id="dc-profile-name">Karthik Raja</h3>
-                <div class="dc-profile-driver-sub" id="dc-profile-veh">Commercial Pilot • Tata Ace EV (TN-33-AX-8910)</div>
-                <div class="dc-profile-rating-line" id="dc-profile-rating">⭐ 4.92 Rating • 428 Trips Completed</div>
-              </div>
-            </div>
-
-            <div class="dc-profile-duty-bar">
-              <div class="dc-duty-badge-online" id="dc-duty-badge">
-                <span>●</span>
-                <span>ONLINE</span>
-              </div>
-              <button type="button" class="dc-btn-toggle-duty" id="dc-btn-duty-toggle" onclick="toggleDriverDuty()">
-                Go Offline
-              </button>
-            </div>
-          </div>
-
-          <!-- SHIFT EARNINGS & INSTANT PAYOUT CARD -->
-          <div class="dc-card">
-            <div class="dc-payout-header">
-              <h3 class="dc-payout-title">
-                <span>💰</span>
-                <span id="dc-label-earnings-title">Shift Earnings &amp; Instant Payout</span>
-              </h3>
-              <span class="dc-payout-tag-instant">INSTANT SETTLEMENT</span>
-            </div>
-            <div class="dc-payout-subtitle" id="dc-label-earnings-sub">Direct UPI transfer to your bank account</div>
-
-            <!-- 2x2 Stats Grid -->
-            <div class="dc-shift-stats-grid">
-              <div class="dc-stat-box">
-                <div class="dc-stat-box-title">SETTLED TODAY</div>
-                <div class="dc-stat-box-value green" id="dc-stat-settled">₹3,840</div>
-                <div class="dc-stat-box-sub">+₹1,650 in-trip</div>
-              </div>
-
-              <div class="dc-stat-box">
-                <div class="dc-stat-box-title">TRIPS TODAY</div>
-                <div class="dc-stat-box-value" id="dc-stat-trips">3 Trips</div>
-                <div class="dc-stat-box-sub">100% On-time</div>
-              </div>
-
-              <div class="dc-stat-box">
-                <div class="dc-stat-box-title">DISTANCE</div>
-                <div class="dc-stat-box-value" id="dc-stat-distance">142 km</div>
-                <div class="dc-stat-box-sub">NH 544 Belt</div>
-              </div>
-
-              <div class="dc-stat-box">
-                <div class="dc-stat-box-title">EV BATTERY</div>
-                <div class="dc-stat-box-value" id="dc-stat-battery">84%</div>
-                <div class="dc-stat-box-sub">110 km Range</div>
-              </div>
-            </div>
-
-            <!-- Linked UPI VPA Strip -->
-            <div class="dc-upi-strip">
-              <span class="dc-upi-label">LINKED UPI VPA:</span>
-              <span class="dc-upi-vpa" id="dc-upi-vpa">9842199812@okhdfcbank</span>
-            </div>
-
-            <!-- Big Green Withdraw Button -->
-            <button type="button" class="dc-btn-withdraw" id="dc-btn-withdraw" onclick="withdrawDriverEarnings()">
-              <span>⚡</span>
-              <span id="dc-btn-withdraw-text">Withdraw ₹3,840 to Bank Account</span>
-            </button>
-          </div>
-
-          <!-- CURRENT TRIP FARE BREAKDOWN CARD -->
-          <div class="dc-card">
-            <h4 class="dc-fare-card-title" id="dc-fare-header-title">CURRENT TRIP FARE BREAKDOWN (CLUSTER-AGX-801):</h4>
-            
-            <div class="dc-fare-list">
-              <div class="dc-fare-row">
-                <span class="dc-fare-item-name">Base Fare</span>
-                <span class="dc-fare-item-amount" id="dc-fare-base">₹600</span>
-              </div>
-              <div class="dc-fare-row">
-                <span class="dc-fare-item-name" id="dc-fare-dist-label">Distance Freight (35 km @ ₹20/km)</span>
-                <span class="dc-fare-item-amount" id="dc-fare-dist">₹700</span>
-              </div>
-              <div class="dc-fare-row">
-                <span class="dc-fare-item-name" id="dc-fare-stop-label">Multi-Stop Loading Allowance (3 Stops)</span>
-                <span class="dc-fare-item-amount" id="dc-fare-stop">₹350</span>
-              </div>
-              <div class="dc-fare-total-row">
-                <span class="dc-fare-total-label">Total Net Driver Pay</span>
-                <span class="dc-fare-total-val" id="dc-fare-total">₹1,650</span>
-              </div>
-            </div>
-
-            <div class="dc-escrow-pill-footer">
-              <span>🔒</span>
-              <span>Guaranteed Escrow Secured by APMC Nodal Bank</span>
-            </div>
-          </div>
-
-        </aside>
-
-      </div>
+      </section>
     </main>
   </div>
 
   <!-- DIGITAL GATE PASS MODAL -->
   <div class="modal-overlay" id="modal-gate-pass">
-    <div class="modal-card" style="max-width: 500px; padding: 0;" id="modal-gate-pass-body"></div>
+    <div class="modal-container" style="max-width: 620px; padding: 0; overflow: hidden; border-radius: 16px;" id="modal-gate-pass-body">
+      <!-- Injected via logistics.js -->
+    </div>
   </div>
 
-  <!-- 4-DIGIT PIN VERIFICATION MODAL -->
+  <!-- 4-DIGIT SECURITY PIN VERIFICATION MODAL -->
   <div class="modal-overlay" id="modal-verify-pin">
-    <div class="modal-card" style="max-width: 440px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">
-        <h3 style="font-size:1.15rem; font-weight:800; color:#0f172a;">🔐 Complete Delivery (<span id="pin-modal-order-code" style="color:#0c5a36;"></span>)</h3>
-        <button onclick="closePinModal()" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:#64748b;">&times;</button>
+    <div class="modal-container" style="max-width: 440px; padding: 24px; border-radius: 16px;">
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div style="width: 50px; height: 50px; border-radius: 50%; background: #ecfdf5; color: #059669; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 8px;">🔐</div>
+        <h3 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin: 0;">Verify Delivery PIN</h3>
+        <p style="font-size: 0.8rem; color: #64748b; margin: 4px 0 0 0;">Enter the 4-digit security PIN provided by the receiving dock manager for <strong id="pin-modal-order-code">ORDER</strong>.</p>
       </div>
-      <p style="font-size:0.85rem; color:#475569; line-height:1.5; margin-bottom:16px;">
-        Ask the receiving manager at the unloading dock for their <strong>4-digit Security PIN</strong> to confirm delivery and trigger instant freight payout.
-      </p>
-      <div style="margin-bottom:18px;">
-        <label style="display:block; font-size:0.8rem; font-weight:700; color:#334155; margin-bottom:6px;">Enter 4-Digit Delivery PIN</label>
-        <input type="text" id="delivery-pin-input" maxlength="4" placeholder="8821" style="width:100%; font-size:1.4rem; letter-spacing:6px; text-align:center; font-weight:800; color:#0c5a36; padding:10px; border:2px solid #cbd5e1; border-radius:10px;" />
+
+      <div style="margin-bottom: 20px;">
+        <input type="password" id="delivery-pin-input" maxlength="4" placeholder="••••" style="width: 100%; text-align: center; font-size: 2rem; font-weight: 800; letter-spacing: 14px; padding: 12px; border: 2px solid #cbd5e1; border-radius: 12px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'" />
       </div>
-      <div style="display:flex; justify-content:flex-end; gap:8px;">
-        <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="submitDeliveryPin()" style="background:#0c5a36;">✓ Verify &amp; Complete</button>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-outline" style="flex: 1;" onclick="closePinModal()">Cancel</button>
+        <button class="btn btn-primary" style="flex: 1; background: #0c5a36;" onclick="submitDeliveryPin()">Confirm &amp; Release Escrow</button>
       </div>
     </div>
   </div>
 
-  <!-- SCRIPTS -->
+  <!-- FLEXIBLE PICKUP SCHEDULE MODAL -->
+  <div class="modal-overlay" id="modal-schedule-pickup">
+    <div class="modal-container" style="max-width: 560px; padding: 0; overflow: hidden; border-radius: 16px;" id="modal-schedule-pickup-body">
+      <!-- Injected via logistics.js -->
+    </div>
+  </div>
+
   <script src="js/data.js"></script>
-  <script src="js/logistics.js"></script>
   <script src="js/i18n.js"></script>
+  <script src="js/logistics.js"></script>
   <script>
-    let currentActiveMissionCode = "CLUSTER-AGX-801";
-    let currentConsoleLang = "en";
+    let currentFilter = 'ALL';
 
     document.addEventListener("DOMContentLoaded", () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get('orderCode') || 'CLUSTER-AGX-801';
-      currentActiveMissionCode = code;
-
-      loadMissionIntoConsole(code);
-      renderNearbyLoadsList();
+      renderOrdersList();
+      initConsoleMap("CLUSTER-AGX-801");
     });
 
-    function loadMissionIntoConsole(orderCode) {
-      const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode) || logisticsData.dispatchOrders[0];
-      if (!order) return;
-
-      currentActiveMissionCode = order.orderCode;
-
-      // Update Mission Banner
-      const poolTagEl = document.getElementById("dc-mission-pool-tag");
-      const titleEl = document.getElementById("dc-mission-title");
-      const loadInfoEl = document.getElementById("dc-mission-load-info");
-      const netPayEl = document.getElementById("dc-mission-net-pay");
-      const taskTitleEl = document.getElementById("dc-task-title");
-      const taskDescEl = document.getElementById("dc-task-desc");
-      const ctaBtn = document.getElementById("dc-cta-button");
-
-      if (poolTagEl) poolTagEl.textContent = `DISPATCHED MISSION IN PROGRESS • ${order.poolTag || 'POOL #801'}`;
-      if (titleEl) titleEl.textContent = order.title || `${order.orderCode} • ${order.typeLabel}`;
-      if (loadInfoEl) loadInfoEl.textContent = `Load: ${order.cropName} (${order.cargoPackaging || (order.quantityQt + ' Qt')})`;
-      if (netPayEl) netPayEl.textContent = order.freightFormatted || `₹${order.freightFee.toLocaleString()}`;
-
-      // Populate stops
-      const activeIdx = order.activeStopIndex || 0;
-      const currentStop = (order.stops && order.stops[activeIdx]) ? order.stops[activeIdx] : null;
-      if (currentStop) {
-        if (taskTitleEl) taskTitleEl.textContent = currentStop.label || currentStop.shortTitle;
-        if (taskDescEl) taskDescEl.textContent = currentStop.loadText || `Pickup: ${order.pickupAddress}`;
-        if (ctaBtn) ctaBtn.innerHTML = `<span>🚚</span> Navigate to ${currentStop.shortTitle || `Stop 1`} &rarr;`;
-      } else {
-        if (taskTitleEl) taskTitleEl.textContent = `Pickup: ${order.pickupFarmerName || order.pickupAddress}`;
-        if (taskDescEl) taskDescEl.textContent = `Destination: ${order.deliveryAddress}`;
-        if (ctaBtn) ctaBtn.innerHTML = `<span>🚚</span> Navigate to Pickup Gate &rarr;`;
-      }
-
-      // Update Fare Breakdown
-      const fareTitleEl = document.getElementById("dc-fare-header-title");
-      const baseEl = document.getElementById("dc-fare-base");
-      const distLabelEl = document.getElementById("dc-fare-dist-label");
-      const distValEl = document.getElementById("dc-fare-dist");
-      const stopValEl = document.getElementById("dc-fare-stop");
-      const totalValEl = document.getElementById("dc-fare-total");
-
-      if (fareTitleEl) fareTitleEl.textContent = `CURRENT TRIP FARE BREAKDOWN (${order.orderCode}):`;
-      if (order.fareBreakdown) {
-        if (baseEl) baseEl.textContent = `₹${order.fareBreakdown.baseFare}`;
-        if (distLabelEl) distLabelEl.textContent = `Distance Freight (${order.fareBreakdown.distanceFreightDetail || '35 km @ ₹20/km'})`;
-        if (distValEl) distValEl.textContent = `₹${order.fareBreakdown.distanceFreight}`;
-        if (stopValEl) stopValEl.textContent = `₹${order.fareBreakdown.multiStopAllowance}`;
-        if (totalValEl) totalValEl.textContent = `₹${order.fareBreakdown.total.toLocaleString()}`;
-      } else {
-        const base = Math.round(order.freightFee * 0.4);
-        const dist = Math.round(order.freightFee * 0.45);
-        const allowance = order.freightFee - base - dist;
-        if (baseEl) baseEl.textContent = `₹${base.toLocaleString()}`;
-        if (distValEl) distValEl.textContent = `₹${dist.toLocaleString()}`;
-        if (stopValEl) stopValEl.textContent = `₹${allowance.toLocaleString()}`;
-        if (totalValEl) totalValEl.textContent = `₹${order.freightFee.toLocaleString()}`;
-      }
-
-      // Update Telemetry Bar
-      const speedEl = document.getElementById("dc-telemetry-speed");
-      const distEl = document.getElementById("dc-telemetry-distance");
-      const etaEl = document.getElementById("dc-telemetry-eta");
-      if (speedEl) speedEl.textContent = order.truckSpeed || `${order.speedKmh || 54} km/h`;
-      if (distEl) distEl.textContent = `${order.shortestDistanceKm || order.distanceKm} km`;
-      if (etaEl) etaEl.textContent = order.etaTime || `On highway - ETA 35m`;
-
-      // Initialize Leaflet Map
-      initConsoleMap(order.orderCode);
+    function filterDispatches(status) {
+      currentFilter = status;
+      document.querySelectorAll(".filter-tab-btn").forEach(b => b.classList.remove("active"));
+      if (status === 'ALL') document.getElementById('tab-all')?.classList.add('active');
+      if (status === 'In Transit') document.getElementById('tab-transit')?.classList.add('active');
+      if (status === 'Available') document.getElementById('tab-available')?.classList.add('active');
+      if (status === 'Delivered') document.getElementById('tab-delivered')?.classList.add('active');
+      renderOrdersList();
     }
 
-    function switchConsoleTab(tab) {
-      document.querySelectorAll(".dc-nav-item").forEach(item => item.classList.remove("active"));
-      
-      const missionView = document.getElementById("console-view-mission");
-      const loadsView = document.getElementById("console-view-loads");
-      const dutyView = document.getElementById("console-view-duty");
-      const podView = document.getElementById("console-view-pod");
+    function renderOrdersList() {
+      const container = document.getElementById("dispatches-table-container");
+      if (!container || !window.logisticsData || !logisticsData.dispatchOrders) return;
 
-      if (missionView) missionView.style.display = (tab === 'mission') ? 'block' : 'none';
-      if (loadsView) loadsView.style.display = (tab === 'loads') ? 'block' : 'none';
-      if (dutyView) dutyView.style.display = (tab === 'duty') ? 'block' : 'none';
-      if (podView) podView.style.display = (tab === 'pod') ? 'block' : 'none';
+      const orders = logisticsData.dispatchOrders.filter(o => {
+        if (currentFilter === 'ALL') return true;
+        return o.deliveryStatus === currentFilter;
+      });
 
-      if (tab === 'mission') {
-        document.getElementById("nav-item-active-mission")?.classList.add("active");
-        setTimeout(() => {
-          if (dcActiveMap) dcActiveMap.invalidateSize();
-        }, 150);
-      } else if (tab === 'loads') {
-        document.getElementById("nav-item-loads")?.classList.add("active");
-      } else if (tab === 'duty') {
-        document.getElementById("nav-item-duty-profile")?.classList.add("active");
-      } else if (tab === 'pod') {
-        document.getElementById("nav-item-pod")?.classList.add("active");
-      } else if (tab === 'earnings') {
-        document.getElementById("nav-item-earnings")?.classList.add("active");
-        showToast("Shift settled earnings: ₹3,840 available for instant withdrawal.");
-      } else if (tab === 'diagnostics') {
-        document.getElementById("nav-item-diagnostics")?.classList.add("active");
-        showToast("EV Battery Health: 96.2% • Tire Pressure: 34 PSI • Reefer Temp: 4.8°C");
+      if (orders.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px 20px; color: #64748b; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">📦</div>
+            <strong>No orders found matching the filter "${currentFilter}".</strong>
+          </div>
+        `;
+        return;
       }
-    }
 
-    function renderNearbyLoadsList() {
-      const container = document.getElementById("nearby-loads-list-container");
-      if (!container || !logisticsData.dispatchOrders) return;
-
-      const otherOrders = logisticsData.dispatchOrders.filter(o => o.orderCode !== currentActiveMissionCode);
-      container.innerHTML = otherOrders.map(o => `
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-          <div>
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-              <span style="font-size:0.7rem; background:#dcfce7; color:#15803d; font-weight:800; padding:2px 8px; border-radius:4px;">${o.typeLabel || 'Direct Load'}</span>
-              <strong style="color:#0f172a; font-size:0.95rem;">${o.cropName}</strong>
-              <span style="color:#64748b; font-size:0.75rem;">(${o.quantityQt} Qt / ${(o.quantityKg).toLocaleString()} kg)</span>
-            </div>
-            <div style="font-size:0.78rem; color:#475569;">
-              📍 Pickup: <strong>${o.pickupAddress.split(',')[0]}</strong> ➔ 🏁 Drop: <strong>${o.deliveryAddress.split(',')[0]}</strong>
-            </div>
-            <div style="font-size:0.75rem; color:#0284c7; margin-top:2px;">
-              ⚡ Shortest Route: <strong>${o.distanceKm} km</strong> • ETA: <strong>${o.etaTime}</strong>
+      container.innerHTML = orders.map(o => `
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; transition: box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 6px 16px rgba(0,0,0,0.06)'" onmouseout="this.style.boxShadow='none'">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <img src="../farmer-module/${o.image || 'assets/images/tomato.jpg'}" alt="${o.cropName}" style="width: 60px; height: 60px; border-radius: 12px; object-fit: cover; border: 1px solid #cbd5e1;" onerror="this.src='../assets/images/tomato.jpg'" />
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <span class="badge" style="background: ${o.deliveryStatus === 'In Transit' ? '#dbeafe' : o.deliveryStatus === 'Delivered' ? '#dcfce7' : '#fef3c7'}; color: ${o.deliveryStatus === 'In Transit' ? '#1e40af' : o.deliveryStatus === 'Delivered' ? '#15803d' : '#b45309'}; font-weight: 800; font-size: 0.72rem;">${o.deliveryStatus}</span>
+                <span style="font-weight: 800; color: #0f172a; font-size: 1rem;">${o.orderCode}</span>
+                <span style="color: #64748b; font-size: 0.78rem;">• ${o.typeLabel || 'Direct Load'}</span>
+              </div>
+              <div style="font-weight: 700; color: #0f172a; font-size: 0.92rem;">${o.cropName} (${o.quantityQt} Qt / ${(o.quantityKg).toLocaleString()} kg)</div>
+              <div style="font-size: 0.78rem; color: #475569; margin-top: 3px;">
+                📍 Pickup: <strong>${o.pickupAddress.split(',')[0]}</strong> ➔ 🏁 Drop: <strong>${o.deliveryAddress.split(',')[0]}</strong>
+              </div>
+              <div style="font-size: 0.75rem; color: #0284c7; margin-top: 2px;">
+                ⚡ Route: <strong>${o.distanceKm} km</strong> (${o.etaTime}) • ❄️ Reefer: <strong>${o.temperatureC || '4.8°C'}</strong>
+              </div>
             </div>
           </div>
-          <div style="text-align:right;">
-            <div style="font-size:1.15rem; font-weight:800; color:#0c5a36; margin-bottom:4px;">${o.freightFormatted}</div>
-            <button class="btn btn-primary" style="padding:6px 14px; font-size:0.78rem; background:#b45309;" onclick="handleAcceptOrder('${o.orderCode}')">
-              ⚡ Accept &amp; Route
-            </button>
+
+          <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+            <div>
+              <span style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">GUARANTEED FREIGHT</span>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #0c5a36;">${o.freightFormatted}</div>
+            </div>
+
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 12px;" onclick="openGatePassModal('${o.orderCode}')">
+                📑 e-Gate Pass
+              </button>
+              <button class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 12px;" onclick="openScheduleSlotModal('${o.orderCode}')">
+                🕒 Pickup Slot
+              </button>
+              ${o.deliveryStatus === 'Available' ? `
+                <button class="btn btn-primary" style="font-size: 0.78rem; padding: 6px 14px; background: #b45309;" onclick="handleAcceptOrder('${o.orderCode}')">
+                  ⚡ Accept &amp; Route
+                </button>
+              ` : o.deliveryStatus === 'In Transit' ? `
+                <button class="btn btn-primary" style="font-size: 0.78rem; padding: 6px 14px; background: #0c5a36;" onclick="openPinModal('${o.orderCode}')">
+                  🔐 Verify PIN &amp; Deliver
+                </button>
+              ` : `
+                <span style="font-size: 0.78rem; color: #15803d; font-weight: 800; padding: 6px 12px; background: #dcfce7; border-radius: 8px;">
+                  ✓ Completed &amp; Settled
+                </span>
+              `}
+            </div>
           </div>
         </div>
       `).join("");
     }
 
-    // Trilingual switch in Driver Console
-    function setConsoleLanguage(lang) {
-      currentConsoleLang = lang;
-      document.querySelectorAll(".dc-lang-btn").forEach(b => b.classList.remove("active"));
-      const activeBtn = document.getElementById(`btn-lang-${lang}`);
-      if (activeBtn) activeBtn.classList.add("active");
+    function setAppLanguage(lang) {
+      document.querySelectorAll(".filter-tab-btn").forEach(b => {
+        if (b.id && b.id.startsWith("btn-lang-")) b.classList.remove("active");
+      });
+      const btn = document.getElementById(`btn-lang-${lang}`);
+      if (btn) btn.classList.add("active");
 
       if (window.setLogisticsLanguage) {
         window.setLogisticsLanguage(lang);
       }
-
-      const dict = {
-        en: {
-          brand: "AgriNex Driver & Fleet Console",
-          heading: "DRIVER SHIFT WORKFLOW",
-          missionNav: "Active Mission & Map",
-          dutyNav: "Duty & Profile",
-          earningsNav: "Earnings & UPI Payout",
-          loadsNav: "Nearby Load Broadcasts",
-          podNav: "POD Handover",
-          diagNav: "Vehicle Diagnostics",
-          sosNav: "Emergency SOS",
-          activeBadge: "ACTIVE MISSION",
-          taskLabel: "CURRENT ACTIVE TASK:",
-          caption: "Tap this action button as you arrive, load crates, and proceed to each village stop.",
-          withdrawText: "Withdraw ₹3,840 to Bank Account"
-        },
-        hi: {
-          brand: "एग्रीनेक्स ड्राइवर व फ्लीट कंसोल",
-          heading: "ड्राइवर शिफ्ट कार्यप्रवाह",
-          missionNav: "सक्रिय मिशन व नक्शा",
-          dutyNav: "ड्यूटी व प्रोफाइल",
-          earningsNav: "कमाई व UPI भुगतान",
-          loadsNav: "नजदीकी माल प्रसारण",
-          podNav: "POD हैंडओवर",
-          diagNav: "वाहन डायग्नोस्टिक्स",
-          sosNav: "आपातकालीन SOS",
-          activeBadge: "सक्रिय मिशन",
-          taskLabel: "वर्तमान सक्रिय कार्य:",
-          caption: "प्रत्येक गाँव स्टॉप पर पहुँचने, क्रेट लोड करने और आगे बढ़ने पर इस बटन को दबाएँ।",
-          withdrawText: "₹3,840 बैंक खाते में ट्रांसफर करें"
-        },
-        ta: {
-          brand: "அக்ரிநெக்ஸ் ஓட்டுநர் மற்றும் கடற்படை கன்சோல்",
-          heading: "ஓட்டுநர் பணிப்பாய்வு",
-          missionNav: "செயலில் உள்ள மிஷன் & வரைபடம்",
-          dutyNav: "பணி & சுயவிவரம்",
-          earningsNav: "வருமானம் & UPI பணம்",
-          loadsNav: "அருகிலுள்ள சுமை வாய்ப்புகள்",
-          podNav: "விநியோக ஒப்படைப்பு",
-          diagNav: "வாகன கண்டறிதல்",
-          sosNav: "அவசர SOS",
-          activeBadge: "செயலில் உள்ள மிஷன்",
-          taskLabel: "தற்போதைய பணி:",
-          caption: "ஒவ்வொரு கிராம நிறுத்தத்திற்கும் வந்து பெட்டிகளை ஏற்றிய பின் இந்த பொத்தானை அழுத்தவும்.",
-          withdrawText: "₹3,840 வங்கி கணக்கிற்கு மாற்றவும்"
-        }
-      };
-
-      const t = dict[lang] || dict.en;
-      document.getElementById("dc-header-brand-title").textContent = t.brand;
-      document.getElementById("dc-sidebar-heading").textContent = t.heading;
-      document.getElementById("label-nav-mission").textContent = t.missionNav;
-      document.getElementById("label-nav-duty").textContent = t.dutyNav;
-      document.getElementById("label-nav-earnings").textContent = t.earningsNav;
-      document.getElementById("label-nav-loads").textContent = t.loadsNav;
-      document.getElementById("label-nav-pod").textContent = t.podNav;
-      document.getElementById("label-nav-diagnostics").textContent = t.diagNav;
-      document.getElementById("label-nav-sos").textContent = t.sosNav;
-      document.getElementById("dc-mission-badge").textContent = t.activeBadge;
-      document.getElementById("dc-task-current-label").textContent = t.taskLabel;
-      document.getElementById("dc-cta-caption-text").textContent = t.caption;
-      const withdrawBtn = document.getElementById("dc-btn-withdraw-text");
-      if (withdrawBtn) withdrawBtn.textContent = t.withdrawText;
     }
   </script>
 </body>

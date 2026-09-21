@@ -203,6 +203,9 @@
             </div>
           </section>
 
+          <!-- LIVE COLD-CHAIN ANOMALY WARNING BANNER -->
+          <div id="cold-chain-anomaly-alert" style="display: none; padding: 12px 18px; border-radius: 12px; margin-bottom: 14px; font-size: 0.85rem; font-weight: 700; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"></div>
+
           <!-- PROMINENT NAVIGATION CTA BUTTON -->
           <button type="button" class="dc-cta-nav-button" id="dc-cta-button" onclick="advanceMissionStop(currentActiveMissionCode)">
             <span>🚚</span>
@@ -255,7 +258,11 @@
             <div class="dc-telemetry-bar">
               <div class="dc-telemetry-item">
                 <span class="dc-telemetry-label">TRUCK SPEED</span>
-                <span class="dc-telemetry-value amber" id="dc-telemetry-speed">54 km/h</span>
+                <span class="dc-telemetry-value amber live-truck-speed" id="dc-telemetry-speed">54 km/h</span>
+              </div>
+              <div class="dc-telemetry-item">
+                <span class="dc-telemetry-label">REEFER TEMP</span>
+                <span class="dc-telemetry-value live-reefer-temp" id="dc-telemetry-temp" style="color:#0284c7; font-weight:800;">4.8°C</span>
               </div>
               <div class="dc-telemetry-item">
                 <span class="dc-telemetry-label">DISTANCE</span>
@@ -331,6 +338,24 @@
               <div style="display:flex; gap:10px;">
                 <button class="btn btn-outline" onclick="openGatePassModal(currentActiveMissionCode)" style="background:#ffffff; font-size:0.8rem;">📑 View e-Gate Pass</button>
                 <button class="btn btn-primary" onclick="openPinModal(currentActiveMissionCode)" style="background:#0c5a36; font-size:0.8rem;">🔐 Enter 4-Digit POD PIN</button>
+              </div>
+            </div>
+
+            <!-- INTERACTIVE DIGITAL SIGNATURE PAD -->
+            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <label style="font-size:0.85rem; font-weight:800; color:#0f172a;">✍️ Receiver Digital Signature (On-Screen Touch / Mouse):</label>
+                <span id="pod-status-badge" style="font-size:0.72rem; font-weight:800; background:#fef3c7; color:#b45309; padding:2px 8px; border-radius:999px;">PENDING SIGNATURE</span>
+              </div>
+              <div style="margin-bottom:10px;">
+                <input type="text" id="pod-receiver-name-input" placeholder="Enter Receiver Name & Designation (e.g. S. Murugan, Dock Lead)" style="width:100%; padding:8px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-size:0.85rem; outline:none;" />
+              </div>
+              <div style="border:2px dashed #94a3b8; border-radius:10px; background:#f8fafc; overflow:hidden; position:relative; touch-action:none;">
+                <canvas id="pod-signature-canvas" style="width:100%; height:140px; display:block; cursor:crosshair;"></canvas>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                <button type="button" class="btn btn-outline" onclick="clearPodSignature('pod-signature-canvas')" style="font-size:0.78rem; padding:6px 14px;">🗑️ Clear Pad</button>
+                <button type="button" class="btn btn-primary" onclick="savePodSignature(currentActiveMissionCode)" style="background:#0c5a36; font-size:0.8rem; padding:7px 18px;">✓ Save Digital Signature &amp; Record POD</button>
               </div>
             </div>
           </div>
@@ -584,6 +609,11 @@
         document.getElementById("nav-item-duty-profile")?.classList.add("active");
       } else if (tab === 'pod') {
         document.getElementById("nav-item-pod")?.classList.add("active");
+        setTimeout(() => {
+          if (typeof initPodSignaturePad === 'function') {
+            initPodSignaturePad('pod-signature-canvas');
+          }
+        }, 100);
       } else if (tab === 'earnings') {
         document.getElementById("nav-item-earnings")?.classList.add("active");
         showToast("Shift settled earnings: ₹3,840 available for instant withdrawal.");

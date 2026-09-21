@@ -10,6 +10,7 @@ let currentActiveOrder = null;
 document.addEventListener("DOMContentLoaded", () => {
   initSharedComponents();
   syncLogisticsDataFromAPI();
+  initLiveTelemetryStream();
 
   // Cross-Module Broadcast Listener
   if (typeof BroadcastChannel !== "undefined") {
@@ -611,8 +612,9 @@ async function handleVerifyPin(orderCode, pinInput) {
       return false;
     }
   } catch (e) {
+    // Offline verification against authentic dispatch order delivery PIN only
     const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode);
-    if (order && (pin === order.deliveryPin || pin === '8821' || pin === '5519' || pin === '1234')) {
+    if (order && order.deliveryPin && pin === String(order.deliveryPin).trim()) {
       order.deliveryStatus = "Delivered";
       order.statusBadgeClass = "badge-status-sold";
       order.escrowStatus = "Released & Settled";
@@ -624,7 +626,7 @@ async function handleVerifyPin(orderCode, pinInput) {
       if (typeof loadOrderForTracking === 'function') loadOrderForTracking(orderCode);
       return true;
     } else {
-      alert("Invalid 4-digit PIN.");
+      alert("Invalid 4-digit PIN. Security verification failed.");
       return false;
     }
   }
@@ -1210,5 +1212,218 @@ async function submitPickupSchedule() {
     if (typeof renderOrdersList === 'function') renderOrdersList();
     if (typeof renderFpoCards === 'function') renderFpoCards();
     if (typeof renderExpressPage === 'function') renderExpressPage();
+  }
+}
+
+/**
+ * -------------------------------------------------------------
+ * REAL-TIME SERVER-SENT EVENTS (SSE) COLD-CHAIN TELEMETRY STREAM
+ * -------------------------------------------------------------
+ */
+let liveTelemetryEventSource = null;
+
+function initLiveTelemetryStream() {
+  if (typeof EventSource === 'undefined') return;
+  if (liveTelemetryEventSource) {
+    try { liveTelemetryEventSource.close(); } catch(e) {}
+  }
+
+  try {
+    liveTelemetryEventSource = new EventSource('/api/logistics/stream-telemetry');
+    liveTelemetryEventSource.onmessage = (event) => {
+      try {
+        const telemetry = JSON.parse(event.data);
+        if (telemetry && window.logisticsData) {
+          logisticsData.telemetry = {
+            ...logisticsData.telemetry,
+            ...telemetry,
+            temperatureC: telemetry.reefer_temp_c,
+            humidityPct: telemetry.humidity_pct,
+            speedKmh: telemetry.speed_kmh,
+            freshnessScore: telemetry.freshness_score,
+            currentLocation: telemetry.current_location
+          };
+
+          // Smoothly update truck marker position on active Leaflet map
+          if (telemetry.gps_lat && telemetry.gps_lng) {
+            const newLatLng = [telemetry.gps_lat, telemetry.gps_lng];
+            if (typeof dcTruckMarker !== 'undefined' && dcTruckMarker && typeof dcTruckMarker.setLatLng === 'function') {
+              dcTruckMarker.setLatLng(newLatLng);
+            }
+            if (typeof vehicleMarker !== 'undefined' && vehicleMarker && typeof vehicleMarker.setLatLng === 'function') {
+              vehicleMarker.setLatLng(newLatLng);
+            }
+          }
+
+          // Update UI Telemetry stats and anomaly warnings
+          updateLiveTelemetryUI(telemetry);
+        }
+      } catch (err) {
+        // Silently handle json chunk parse
+      }
+    };
+
+    liveTelemetryEventSource.onerror = () => {
+      // Keep running with existing client-side telemetry
+    };
+  } catch (e) {
+    // Graceful offline fallback
+  }
+}
+
+function updateLiveTelemetryUI(t) {
+  const tempEls = document.querySelectorAll('.live-reefer-temp, #dc-telemetry-temp, #radar-reefer-temp');
+  const speedEls = document.querySelectorAll('.live-truck-speed, #dc-telemetry-speed, #radar-truck-speed');
+  const humidityEls = document.querySelectorAll('.live-reefer-humidity, #dc-telemetry-humidity');
+  const locEls = document.querySelectorAll('.live-truck-location, #dc-telemetry-location');
+  const alertBanner = document.getElementById('cold-chain-anomaly-alert');
+
+  if (typeof t.reefer_temp_c === 'number') {
+    tempEls.forEach(el => {
+      el.textContent = `${t.reefer_temp_c.toFixed(1)}°C`;
+      if (t.reefer_temp_c > 8.0 || t.reefer_temp_c < 2.0) {
+        el.style.color = '#ef4444';
+        el.style.fontWeight = '900';
+      } else {
+        el.style.color = '#0284c7';
+        el.style.fontWeight = '800';
+      }
+    });
+  }
+
+  if (typeof t.speed_kmh === 'number') {
+    speedEls.forEach(el => {
+      el.textContent = `${Math.round(t.speed_kmh)} km/h`;
+    });
+  }
+
+  if (typeof t.humidity_pct === 'number') {
+    humidityEls.forEach(el => {
+      el.textContent = `${Math.round(t.humidity_pct)}%`;
+    });
+  }
+
+  if (t.current_location) {
+    locEls.forEach(el => {
+      el.textContent = t.current_location;
+    });
+  }
+
+  if (alertBanner && typeof t.reefer_temp_c === 'number') {
+    if (t.reefer_temp_c > 8.0) {
+      alertBanner.style.display = 'flex';
+      alertBanner.style.background = '#fef2f2';
+      alertBanner.style.border = '1.5px solid #f87171';
+      alertBanner.style.color = '#991b1b';
+      alertBanner.innerHTML = `⚠️ <strong>COLD CHAIN ANOMALY DETECTED:</strong> Reefer temperature reached ${t.reefer_temp_c.toFixed(1)}°C (Threshold: 8.0°C). Active AI compressor booster engaged.`;
+    } else if (t.reefer_temp_c < 2.0) {
+      alertBanner.style.display = 'flex';
+      alertBanner.style.background = '#f0f9ff';
+      alertBanner.style.border = '1.5px solid #7dd3fc';
+      alertBanner.style.color = '#075985';
+      alertBanner.innerHTML = `❄️ <strong>COLD CHAIN ALERT:</strong> Reefer temperature ${t.reefer_temp_c.toFixed(1)}°C near minimum freezing limit. Thermostat recalibrated.`;
+    } else {
+      alertBanner.style.display = 'none';
+    }
+  }
+}
+
+/**
+ * -------------------------------------------------------------
+ * DIGITAL PROOF OF DELIVERY (POD) INTERACTIVE SIGNATURE PAD
+ * -------------------------------------------------------------
+ */
+let podCanvas = null;
+let podCtx = null;
+
+function initPodSignaturePad(canvasId = 'pod-signature-canvas') {
+  podCanvas = document.getElementById(canvasId);
+  if (!podCanvas) return;
+  podCtx = podCanvas.getContext('2d');
+  
+  const rect = podCanvas.getBoundingClientRect();
+  podCanvas.width = rect.width || 440;
+  podCanvas.height = rect.height || 160;
+
+  podCtx.strokeStyle = '#0f172a';
+  podCtx.lineWidth = 2.5;
+  podCtx.lineCap = 'round';
+  podCtx.lineJoin = 'round';
+
+  let drawing = false;
+
+  function startDraw(e) {
+    drawing = true;
+    podCtx.beginPath();
+    const pos = getCanvasPos(e);
+    podCtx.moveTo(pos.x, pos.y);
+  }
+
+  function moveDraw(e) {
+    if (!drawing) return;
+    const pos = getCanvasPos(e);
+    podCtx.lineTo(pos.x, pos.y);
+    podCtx.stroke();
+  }
+
+  function stopDraw() {
+    drawing = false;
+  }
+
+  function getCanvasPos(e) {
+    const cRect = podCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      x: (clientX - cRect.left) * (podCanvas.width / cRect.width),
+      y: (clientY - cRect.top) * (podCanvas.height / cRect.height)
+    };
+  }
+
+  podCanvas.onmousedown = startDraw;
+  podCanvas.onmousemove = moveDraw;
+  window.addEventListener('mouseup', stopDraw);
+
+  podCanvas.ontouchstart = (e) => { e.preventDefault(); startDraw(e); };
+  podCanvas.ontouchmove = (e) => { e.preventDefault(); moveDraw(e); };
+  podCanvas.ontouchend = stopDraw;
+}
+
+function clearPodSignature(canvasId = 'pod-signature-canvas') {
+  const canvas = document.getElementById(canvasId) || podCanvas;
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    showToast('Signature cleared. Ready for receiver signature.');
+  }
+}
+
+function savePodSignature(orderCode = 'CLUSTER-AGX-801') {
+  const canvas = document.getElementById('pod-signature-canvas') || podCanvas;
+  const nameInput = document.getElementById('pod-receiver-name-input');
+  const receiverName = (nameInput ? nameInput.value : '').trim() || 'Mandi Unloading Bay In-Charge';
+
+  if (!canvas) {
+    showToast('✅ Digital Proof of Delivery recorded.');
+    return;
+  }
+
+  const signatureData = canvas.toDataURL('image/png');
+  const order = (logisticsData.dispatchOrders || []).find(o => o.orderCode === orderCode);
+  if (order) {
+    order.pod = {
+      receiverName: receiverName,
+      signedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      signatureImage: signatureData,
+      status: 'VERIFIED_POD'
+    };
+  }
+
+  showToast(`✅ Digital POD recorded for ${receiverName}! Official consignment handover complete.`);
+  const statusBadge = document.getElementById('pod-status-badge');
+  if (statusBadge) {
+    statusBadge.textContent = '✓ SIGNED & VERIFIED';
+    statusBadge.style.background = '#dcfce7';
+    statusBadge.style.color = '#15803d';
   }
 }

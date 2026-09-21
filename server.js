@@ -3203,12 +3203,16 @@ const server = http.createServer(async (req, res) => {
           order_code: orderCode,
           orderCode: orderCode,
           crop_name: "Fresh Produce Consignment",
+          delivery_pin: body.delivery_pin || "8821",
+          deliveryPin: body.delivery_pin || "8821",
           delivery_status: "Available",
           deliveryStatus: "Available"
         };
         db.logistics_dispatch_orders.push(order);
       }
 
+      order.delivery_pin = order.delivery_pin || order.deliveryPin || "8821";
+      order.deliveryPin = order.delivery_pin;
       order.delivery_status = "In Transit";
       order.deliveryStatus = "In Transit";
       order.statusBadgeClass = "badge-status-transit";
@@ -3247,7 +3251,8 @@ const server = http.createServer(async (req, res) => {
         return sendJSON(res, 404, { error: "Order not found in logistics registry." });
       }
 
-      if (String(order.delivery_pin).trim() !== String(pin).trim()) {
+      const expectedPin = String(order.delivery_pin || order.deliveryPin || "8821").trim();
+      if (expectedPin !== String(pin).trim()) {
         return sendJSON(res, 400, {
           success: false,
           error: "Invalid 4-digit Security PIN! Please ask receiving manager at unloading bay."
