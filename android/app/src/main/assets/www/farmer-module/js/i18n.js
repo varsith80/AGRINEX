@@ -470,6 +470,18 @@
 
   // 8. UI PHRASE REPLACEMENTS (High Precision Ordering - Longest Strings First)
   const RAW_PHRASES = [
+    ["Overall Performance Rating", "समग्र प्रदर्शन रेटिंग", "एकूण कामगिरी गुणांकन"],
+    ["Overall Performance", "समग्र प्रदर्शन", "एकूण कामगिरी"],
+    ["Cancellation Policy and Terms", "रद्द करने की नीति और शर्तें", "रद्द करण्याचे धोरण आणि अटी"],
+    ["Cancellation Policy", "रद्द करने की नीति", "रद्द करण्याचे धोरण"],
+    ["Feedback and Grievance Support", "प्रतिक्रिया और शिकायत सहायता", "अभिप्राय आणि तक्रार निवारण मदत"],
+    ["Feedback Form", "प्रतिक्रिया प्रपत्र", "अभिप्राय अर्ज"],
+    ["No produce lots matching all filter.", "सभी फ़िल्टर से मेल खाने वाला कोई लॉट नहीं मिला।", "सर्व फिल्टर्सनुसार कोणताही शेतमाल लॉट सापडला नाही."],
+    ["Reset All Filters", "सभी फ़िल्टर रीसेट करें", "सर्व फिल्टर्स पूर्ववत करा"],
+    ["Active verified listings", "सक्रिय सत्यापित फसल सूचियां", "सक्रिय प्रमाणित शेतमाल नोंदी"],
+    ["Buyers interested across Maharashtra", "महाराष्ट्र भर में इच्छुक सत्यापित खरीदार", "महाराष्ट्रभरातील इच्छुक प्रमाणित खरेदीदार"],
+    ["In transit to Vashi & Pune APMC", "वाशी और पुणे मंडी के रास्ते में", "वाशी व पुणे बाजार समितीच्या मार्गावर"],
+    ["Expected gross value", "अपेक्षित सकल मूल्य", "अपेक्षित एकूण मूल्य"],
     ["Facing payment delays, quality contestations, gate pass issues, or weighbridge discrepancies? Every crop transaction is 100% Escrow protected. Submit your grievance below for instant APMC Mandi Officer intervention.", "क्या आपको भुगतान में देरी, गुणवत्ता विवाद, गेट पास समस्या या वजन में अंतर का सामना करना पड़ रहा है? प्रत्येक सौदा 100% एस्क्रो सुरक्षित है। तुरंत सहायता के लिए शिकायत दर्ज करें।", "पेमेंट मिळण्यास उशीर, दर्जा वाद, गेट पास समस्या किंवा वजन काट्यात तफावत आहे का? प्रत्येक व्यवहार १००% एस्क्रो सुरक्षित आहे. तात्काळ मदतीसाठी आपली तक्रार नोंदवा."],
     ["Once submitted, an SMS acknowledgement is sent to your mobile. The designated APMC Mandi Officer reviews the consignment telemetry, weighbridge slip & escrow contract within 2 hours.", "शिकायत दर्ज होते ही आपके मोबाइल पर एसएमएस पावती भेजी जाती है। नियुक्त एपीएमसी अधिकारी 2 घंटे के भीतर टेलीमेट्री, वे-ब्रिज रसीद और अनुबंध की समीक्षा करते हैं।", "तक्रार दाखल करताच आपल्या मोबाईलवर SMS पोचपावती पाठवली जाते. नियुक्त अधिकारी २ तासांच्या आत वजन पावती व एस्क्रो कराराची तपासणी करतात."],
     ["Once a buyer accepts or matches your price, 35% advance is deposited instantly into escrow before transport dispatch.", "जैसे ही कोई खरीदार आपके मूल्य को स्वीकार या मैच करता है, परिवहन प्रेषण से पहले 35% अग्रिम राशि तुरंत एस्क्रो में जमा कर दी जाती है।", "खरेदीदाराने आपला दर मान्य करताच, वाहतुकीपूर्वी ३५% आगाऊ रक्कम तात्काळ एस्क्रो खात्यात जमा होते."],
@@ -506,6 +518,16 @@
     ["Direct price offers from verified buyers for your produce", "आपकी फसल के लिए सत्यापित खरीदारों से सीधे मूल्य प्रस्ताव", "आपल्या शेतमालासाठी प्रमाणित खरेदीदारांकडून थेट दर ऑफर"],
     ["Track your crop pickup and truck delivery in real time", "अपनी फसल उठान और ट्रक डिलीवरी को रियल-टाइम में ट्रैक करें", "आपला शेतमाल उचल व वाहतूक थेट ट्रॅक करा"],
     ["Across Maharashtra APMC terminals over next 3–5 days", "अगले 3–5 दिनों में महाराष्ट्र भर की मंडियों में", "पुढील ३–५ दिवसांत महाराष्ट्रभरातील बाजार समित्यांमध्ये"],
+    ["Direct APMC Mandi Rates", "सीधा एपीएमसी मंडी भाव", "थेट एपीएमसी बाजार भाव"],
+    ["Fresh Lots Available", "ताजा लॉट उपलब्ध", "ताजे लॉट्स उपलब्ध"],
+    ["Emergency Sell Desk", "आपातकालीन बिक्री डेस्क", "तातडीची विक्री डेस्क"],
+    ["Reset All Filters", "सभी फ़िल्टर रीसेट करें", "सर्व फिल्टर्स रीसेट करा"],
+    ["Overall Performance", "समग्र प्रदर्शन", "एकूण कामगिरी"],
+    ["Cancellation Policy", "रद्द करने की नीति", "रद्द करण्याचे धोरण"],
+    ["Feedback Form", "प्रतिक्रिया प्रपत्र", "अभिप्राय अर्ज"],
+    ["Available", "उपलब्ध", "उपलब्ध"],
+    ["Direct", "सीधा", "थेट"],
+    ["Rates", "भाव", "दर"],
     ["⚠️ Mandi Yard Commission / Intermediary Cut Issue", "⚠️ मंडी यार्ड कमीशन / बिचौलिया कटौती समस्या", "⚠️ बेकायदेशीर आडत / मध्यस्थ कमिशन कपात"],
     ["Incoming Corporate Bids & Institutional Contracts", "प्राप्त कॉर्पोरेट बोलियां और संस्थात्मक अनुबंध", "प्राप्त खरेदीदार बोली आणि संस्थात्मक करार"],
     ["Agricultural Net Profit & Cost Realization Engine", "कृषि शुद्ध लाभ और लागत प्राप्ति इंजन", "शेतमाल निव्वळ नफा आणि खर्च गणक यंत्र"],
@@ -876,7 +898,7 @@
     ["Patil Rameshwar", "पाटिल रामेश्वर", "पाटील रामेश्वर"],
     ["Rameshwar Patil", "पाटिल रामेश्वर", "पाटील रामेश्वर"],
     ["My Crops & Lots", "मेरी फसलें और लॉट", "माझी पिके आणि लॉट्स"],
-    ["Market Insights", "मंडी अंतर्दृष्टि", "बाजार भाव"],
+    ["Market Insights", "मंडी अंतर्दृष्टि", "बाजार अंतर्दृष्टी"],
     ["Escrow Tracking", "एस्क्रो ट्रैकिंग", "एस्क्रो ट्रॅकिंग"],
     ["Better Tomorrow", "बेहतर कल", "उज्ज्वल भविष्य"],
     ["Acknowledgement", "पावती", "पोचपावती"],
@@ -1658,9 +1680,108 @@
 
   const PHRASE_MAP = RAW_PHRASES;
 
+  // 10. REVERSE DICTIONARIES & BIDIRECTIONAL LOCALIZATION
+  const REVERSE_FARMER_CORE = {};
+  const REVERSE_FARMER_SUBSTRINGS = [];
+
+  function buildFarmerReverseDictionaries() {
+    for (let i = 0; i < PHRASE_MAP.length; i++) {
+      const row = PHRASE_MAP[i];
+      const en = row[0];
+      const hi = row[1];
+      const mr = row[2];
+      if (hi) {
+        REVERSE_FARMER_CORE[hi.toLowerCase().trim()] = en;
+        REVERSE_FARMER_SUBSTRINGS.push({ foreign: hi.trim(), en: en });
+      }
+      if (mr && mr.toLowerCase().trim() !== (hi && hi.toLowerCase().trim())) {
+        REVERSE_FARMER_CORE[mr.toLowerCase().trim()] = en;
+        REVERSE_FARMER_SUBSTRINGS.push({ foreign: mr.trim(), en: en });
+      }
+    }
+
+    function indexMap(sourceMap) {
+      if (!sourceMap) return;
+      for (const [en, v] of Object.entries(sourceMap)) {
+        if (v.hi) {
+          REVERSE_FARMER_CORE[v.hi.toLowerCase().trim()] = en;
+          REVERSE_FARMER_SUBSTRINGS.push({ foreign: v.hi.trim(), en: en });
+        }
+        if (v.mr) {
+          REVERSE_FARMER_CORE[v.mr.toLowerCase().trim()] = en;
+          REVERSE_FARMER_SUBSTRINGS.push({ foreign: v.mr.trim(), en: en });
+        }
+      }
+    }
+
+    indexMap(CROP_MAP);
+    indexMap(VARIETY_MAP);
+    indexMap(MANDI_MAP);
+    indexMap(BUYER_MAP);
+    indexMap(PERSON_MAP);
+    indexMap(CATEGORY_MAP);
+    indexMap(GRADE_MAP);
+    indexMap(STATUS_MAP);
+    indexMap(DISTRICT_MAP);
+
+    REVERSE_FARMER_SUBSTRINGS.sort((a, b) => b.foreign.length - a.foreign.length);
+  }
+
+  buildFarmerReverseDictionaries();
+
+  const SORTED_BUYERS = Object.entries(BUYER_MAP).sort((a, b) => b[0].length - a[0].length);
+  const SORTED_CROPS = Object.entries(CROP_MAP).sort((a, b) => b[0].length - a[0].length);
+  const SORTED_VARIETIES = Object.entries(VARIETY_MAP).sort((a, b) => b[0].length - a[0].length);
+  const SORTED_CATEGORIES = Object.entries(CATEGORY_MAP).sort((a, b) => b[0].length - a[0].length);
+  const SORTED_MANDIS = Object.entries(MANDI_MAP).sort((a, b) => b[0].length - a[0].length);
+  const SORTED_PERSONS = Object.entries(PERSON_MAP).sort((a, b) => b[0].length - a[0].length);
+  const SORTED_DISTRICTS = Object.entries(DISTRICT_MAP).sort((a, b) => b[0].length - a[0].length);
+  const SORTED_GRADES = Object.entries(GRADE_MAP).sort((a, b) => b[0].length - a[0].length);
+  const SORTED_STATUSES = Object.entries(STATUS_MAP).sort((a, b) => b[0].length - a[0].length);
+
+  function escapeRegex(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function replaceWordSafe(text, search, replacement) {
+    if (!text || !search || !replacement || search === replacement) return text;
+    if (!text.includes(search)) return text;
+    if (/^[a-zA-Z0-9]+$/.test(search)) {
+      const regex = new RegExp('\\b' + escapeRegex(search) + '\\b', 'g');
+      return text.replace(regex, replacement);
+    }
+    return text.replaceAll(search, replacement);
+  }
+
+  function translateFarmerToEnglish(str) {
+    if (!str || typeof str !== 'string') return str;
+    if (!/[\u0900-\u097F]/.test(str)) return str;
+
+    const trimmed = str.trim();
+    const lowerTrimmed = trimmed.toLowerCase();
+
+    if (REVERSE_FARMER_CORE[lowerTrimmed]) {
+      return REVERSE_FARMER_CORE[lowerTrimmed];
+    }
+
+    const cleanCore = trimmed.replace(/^[^a-zA-Z0-9\u0900-\u097F]+/, '').replace(/[^a-zA-Z0-9\u0900-\u097F]+$/, '').trim().toLowerCase();
+    if (cleanCore && REVERSE_FARMER_CORE[cleanCore]) {
+      return trimmed.replace(new RegExp(escapeRegex(cleanCore), 'i'), REVERSE_FARMER_CORE[cleanCore]);
+    }
+
+    let translated = trimmed;
+    for (let i = 0; i < REVERSE_FARMER_SUBSTRINGS.length; i++) {
+      const item = REVERSE_FARMER_SUBSTRINGS[i];
+      if (item.foreign.length >= 2 && translated.includes(item.foreign)) {
+        translated = translated.split(item.foreign).join(item.en);
+      }
+    }
+    return translated;
+  }
+
   function getFarmerLanguage() {
     try {
-      return localStorage.getItem(STORAGE_KEY) || localStorage.getItem('agrinex_buyer_language') || 'en';
+      return localStorage.getItem('agrinex_language') || localStorage.getItem(STORAGE_KEY) || 'en';
     } catch (e) {
       return 'en';
     }
@@ -1669,26 +1790,21 @@
   function tCrop(cropName, lang) {
     if (!cropName || typeof cropName !== 'string') return cropName;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return cropName;
+    if (l === 'en') return translateFarmerToEnglish(cropName);
 
-    if (CROP_MAP[cropName] && CROP_MAP[cropName][l]) {
-      return CROP_MAP[cropName][l];
+    let enName = cropName;
+    if (/[\u0900-\u097F]/.test(cropName)) {
+      enName = translateFarmerToEnglish(cropName);
     }
 
-    let res = cropName;
-    for (const [k, v] of Object.entries(CROP_MAP)) {
-      if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
-      }
+    if (CROP_MAP[enName] && CROP_MAP[enName][l]) {
+      return CROP_MAP[enName][l];
     }
-    for (const [k, v] of Object.entries(VARIETY_MAP)) {
+
+    let res = enName;
+    for (const [k, v] of SORTED_CROPS) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
-      }
-    }
-    for (const [k, v] of Object.entries(DISTRICT_MAP)) {
-      if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
     return res;
@@ -1697,16 +1813,21 @@
   function tVariety(varietyName, lang) {
     if (!varietyName || typeof varietyName !== 'string') return varietyName;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return varietyName;
+    if (l === 'en') return translateFarmerToEnglish(varietyName);
 
-    if (VARIETY_MAP[varietyName] && VARIETY_MAP[varietyName][l]) {
-      return VARIETY_MAP[varietyName][l];
+    let enName = varietyName;
+    if (/[\u0900-\u097F]/.test(varietyName)) {
+      enName = translateFarmerToEnglish(varietyName);
     }
 
-    let res = varietyName;
-    for (const [k, v] of Object.entries(VARIETY_MAP)) {
+    if (VARIETY_MAP[enName] && VARIETY_MAP[enName][l]) {
+      return VARIETY_MAP[enName][l];
+    }
+
+    let res = enName;
+    for (const [k, v] of SORTED_VARIETIES) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
     return res;
@@ -1715,15 +1836,21 @@
   function tBuyer(buyerName, lang) {
     if (!buyerName || typeof buyerName !== 'string') return buyerName;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return buyerName;
+    if (l === 'en') return translateFarmerToEnglish(buyerName);
 
-    if (BUYER_MAP[buyerName] && BUYER_MAP[buyerName][l]) {
-      return BUYER_MAP[buyerName][l];
+    let enName = buyerName;
+    if (/[\u0900-\u097F]/.test(buyerName)) {
+      enName = translateFarmerToEnglish(buyerName);
     }
-    let res = buyerName;
-    for (const [k, v] of Object.entries(BUYER_MAP)) {
+
+    if (BUYER_MAP[enName] && BUYER_MAP[enName][l]) {
+      return BUYER_MAP[enName][l];
+    }
+
+    let res = enName;
+    for (const [k, v] of SORTED_BUYERS) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
     return res;
@@ -1732,22 +1859,35 @@
   function tPerson(name, lang) {
     if (!name || typeof name !== 'string') return name;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return name;
-    return (PERSON_MAP[name] && PERSON_MAP[name][l]) || name;
+    if (l === 'en') return translateFarmerToEnglish(name);
+    if (PERSON_MAP[name] && PERSON_MAP[name][l]) return PERSON_MAP[name][l];
+    let enName = name;
+    if (/[\u0900-\u097F]/.test(name)) {
+      enName = translateFarmerToEnglish(name);
+    }
+    return (PERSON_MAP[enName] && PERSON_MAP[enName][l]) || enName;
   }
 
   function tLocation(loc, lang) {
     if (!loc || typeof loc !== 'string') return loc;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return loc;
-    if (MANDI_MAP[loc] && MANDI_MAP[loc][l]) return MANDI_MAP[loc][l];
-    if (DISTRICT_MAP[loc] && DISTRICT_MAP[loc][l]) return DISTRICT_MAP[loc][l];
-    let res = loc;
-    for (const [k, v] of Object.entries(MANDI_MAP)) {
-      if (res.includes(k) && v[l]) res = res.replaceAll(k, v[l]);
+    if (l === 'en') return translateFarmerToEnglish(loc);
+
+    let enLoc = loc;
+    if (/[\u0900-\u097F]/.test(loc)) {
+      enLoc = translateFarmerToEnglish(loc);
     }
-    for (const [k, v] of Object.entries(DISTRICT_MAP)) {
-      if (res.includes(k) && v[l]) res = res.replaceAll(k, v[l]);
+
+    if (MANDI_MAP[enLoc] && MANDI_MAP[enLoc][l]) {
+      return MANDI_MAP[enLoc][l];
+    }
+
+    let res = enLoc;
+    for (const [k, v] of SORTED_MANDIS) {
+      if (res.includes(k) && v[l]) res = replaceWordSafe(res, k, v[l]);
+    }
+    for (const [k, v] of SORTED_DISTRICTS) {
+      if (res.includes(k) && v[l]) res = replaceWordSafe(res, k, v[l]);
     }
     return res;
   }
@@ -1755,18 +1895,18 @@
   function tCategory(cat, lang) {
     if (!cat || typeof cat !== 'string') return cat;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return cat;
+    if (l === 'en') return translateFarmerToEnglish(cat);
     return (CATEGORY_MAP[cat] && CATEGORY_MAP[cat][l]) || cat;
   }
 
   function tGrade(grade, lang) {
     if (!grade || typeof grade !== 'string') return grade;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return grade;
+    if (l === 'en') return translateFarmerToEnglish(grade);
     if (GRADE_MAP[grade] && GRADE_MAP[grade][l]) return GRADE_MAP[grade][l];
     let res = grade;
-    for (const [k, v] of Object.entries(GRADE_MAP)) {
-      if (res.includes(k) && v[l]) res = res.replaceAll(k, v[l]);
+    for (const [k, v] of SORTED_GRADES) {
+      if (res.includes(k) && v[l]) res = replaceWordSafe(res, k, v[l]);
     }
     return res;
   }
@@ -1774,90 +1914,112 @@
   function tStatus(status, lang) {
     if (!status || typeof status !== 'string') return status;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return status;
+    if (l === 'en') return translateFarmerToEnglish(status);
     return (STATUS_MAP[status] && STATUS_MAP[status][l]) || status;
   }
 
   function tText(str, lang) {
     if (!str || typeof str !== 'string') return str;
     const l = lang || getFarmerLanguage();
-    if (l === 'en') return str;
+    if (l === 'en') return translateFarmerToEnglish(str);
+
+    let enText = str;
+    if (/[\u0900-\u097F]/.test(str)) {
+      enText = translateFarmerToEnglish(str);
+    }
+
+    const trimmed = enText.trim();
+
+    // 0. Direct whole-string exact lookup (Instant, 100% accurate, zero collisions)
+    if (CROP_MAP[trimmed] && CROP_MAP[trimmed][l]) return enText.replace(trimmed, CROP_MAP[trimmed][l]);
+    if (BUYER_MAP[trimmed] && BUYER_MAP[trimmed][l]) return enText.replace(trimmed, BUYER_MAP[trimmed][l]);
+    if (VARIETY_MAP[trimmed] && VARIETY_MAP[trimmed][l]) return enText.replace(trimmed, VARIETY_MAP[trimmed][l]);
+    if (CATEGORY_MAP[trimmed] && CATEGORY_MAP[trimmed][l]) return enText.replace(trimmed, CATEGORY_MAP[trimmed][l]);
+    if (MANDI_MAP[trimmed] && MANDI_MAP[trimmed][l]) return enText.replace(trimmed, MANDI_MAP[trimmed][l]);
+    if (PERSON_MAP[trimmed] && PERSON_MAP[trimmed][l]) return enText.replace(trimmed, PERSON_MAP[trimmed][l]);
+    if (DISTRICT_MAP[trimmed] && DISTRICT_MAP[trimmed][l]) return enText.replace(trimmed, DISTRICT_MAP[trimmed][l]);
+    if (GRADE_MAP[trimmed] && GRADE_MAP[trimmed][l]) return enText.replace(trimmed, GRADE_MAP[trimmed][l]);
+    if (STATUS_MAP[trimmed] && STATUS_MAP[trimmed][l]) return enText.replace(trimmed, STATUS_MAP[trimmed][l]);
+
     const colIdx = l === 'hi' ? 1 : 2;
+    let res = enText;
 
-    let res = str;
-
-    // STEP 1: Phrase Map (Longest to shortest)
+    // STEP 1: Phrase Map (Longest to shortest, with safe word-boundary matching)
     for (let i = 0; i < PHRASE_MAP.length; i++) {
       const row = PHRASE_MAP[i];
       if (res.includes(row[0])) {
-        res = res.replaceAll(row[0], row[colIdx]);
+        res = replaceWordSafe(res, row[0], row[colIdx]);
       }
     }
 
     // STEP 2: Buyer Map
-    for (const [k, v] of Object.entries(BUYER_MAP)) {
+    for (const [k, v] of SORTED_BUYERS) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
 
     // STEP 3: Crop Map
-    for (const [k, v] of Object.entries(CROP_MAP)) {
+    for (const [k, v] of SORTED_CROPS) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
 
     // STEP 4: Variety Map
-    for (const [k, v] of Object.entries(VARIETY_MAP)) {
+    for (const [k, v] of SORTED_VARIETIES) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
 
     // STEP 5: Category Map
-    for (const [k, v] of Object.entries(CATEGORY_MAP)) {
+    for (const [k, v] of SORTED_CATEGORIES) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
 
     // STEP 6: Mandi Map
-    for (const [k, v] of Object.entries(MANDI_MAP)) {
+    for (const [k, v] of SORTED_MANDIS) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
 
     // STEP 7: Person Map
-    for (const [k, v] of Object.entries(PERSON_MAP)) {
+    for (const [k, v] of SORTED_PERSONS) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
 
     // STEP 8: District Map
-    for (const [k, v] of Object.entries(DISTRICT_MAP)) {
+    for (const [k, v] of SORTED_DISTRICTS) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
 
     // STEP 9: Grade Map
-    for (const [k, v] of Object.entries(GRADE_MAP)) {
+    for (const [k, v] of SORTED_GRADES) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
 
     // STEP 10: Status Map
-    for (const [k, v] of Object.entries(STATUS_MAP)) {
+    for (const [k, v] of SORTED_STATUSES) {
       if (res.includes(k) && v[l]) {
-        res = res.replaceAll(k, v[l]);
+        res = replaceWordSafe(res, k, v[l]);
       }
     }
 
     return res;
+  }
+
+  function t(key, defaultVal) {
+    return tText(defaultVal || key);
   }
 
   function toggleLanguageMenu() {
@@ -1867,7 +2029,7 @@
     menu.style.display = isShown ? 'none' : 'block';
   }
 
-  // Close dropdown on outside click
+  // Close dropdown when clicked outside
   if (typeof document !== 'undefined') {
     document.addEventListener('click', function (e) {
       const widget = document.querySelector('.lang-selector-widget');
@@ -1882,7 +2044,7 @@
 
   // Universal DOM Translation Walker
   function walkAndTranslateDOM(rootNode, lang) {
-    if (!rootNode || typeof document === 'undefined') return;
+    if (!rootNode || typeof document === 'undefined' || typeof document.createTreeWalker !== 'function') return;
     const l = lang || getFarmerLanguage();
 
     const walker = document.createTreeWalker(
@@ -1894,10 +2056,10 @@
           const parent = node.parentElement;
           if (!parent) return NodeFilter.FILTER_REJECT;
           const tag = parent.tagName.toLowerCase();
-          if (tag === 'script' || tag === 'style' || tag === 'svg' || tag === 'path' || tag === 'code') {
+          if (tag === 'script' || tag === 'style' || tag === 'svg' || tag === 'path' || tag === 'code' || tag === 'pre') {
             return NodeFilter.FILTER_REJECT;
           }
-          if (parent.closest('#language-dropdown-menu') || parent.closest('#btn-language-selector')) {
+          if (parent.closest && (parent.closest('#language-dropdown-menu') || parent.closest('#btn-language-selector'))) {
             return NodeFilter.FILTER_REJECT;
           }
           return NodeFilter.FILTER_ACCEPT;
@@ -1917,40 +2079,97 @@
       const parent = textNode.parentElement;
       if (!parent) return;
 
-      if (!textNode._originalEnglishText) {
-        textNode._originalEnglishText = textNode.nodeValue;
+      const currentVal = textNode.nodeValue;
+      if (!currentVal || !currentVal.trim()) return;
+
+      // Cache pristine original text directly on this specific text node
+      if (textNode.__agxOrigText === undefined) {
+        if (/[a-zA-Z]/.test(currentVal)) {
+          textNode.__agxOrigText = currentVal;
+          if (parent.childNodes.length === 1) {
+            parent.setAttribute('data-agx-orig', currentVal);
+          }
+        } else if (parent.childNodes.length === 1 && parent.getAttribute('data-agx-orig')) {
+          textNode.__agxOrigText = parent.getAttribute('data-agx-orig');
+        } else {
+          const exact = REVERSE_FARMER_CORE[currentVal.trim().toLowerCase()];
+          if (exact) {
+            textNode.__agxOrigText = currentVal.replace(currentVal.trim(), exact);
+          } else {
+            textNode.__agxOrigText = currentVal;
+          }
+        }
       }
 
-      const orig = textNode._originalEnglishText;
+      const orig = textNode.__agxOrigText;
       if (l === 'en') {
-        textNode.nodeValue = orig;
+        if (textNode.nodeValue !== orig) {
+          textNode.nodeValue = orig;
+        }
         return;
       }
 
-      textNode.nodeValue = tText(orig, l);
+      const translated = tText(orig, l);
+      if (translated && textNode.nodeValue !== translated) {
+        textNode.nodeValue = translated;
+      }
     });
 
-    // Translate Inputs placeholders
-    document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(input => {
-      if (!input._origPlaceholder) {
-        input._origPlaceholder = input.getAttribute('placeholder') || '';
+    // Translate Inputs & Textarea placeholders
+    const placeholders = rootNode.querySelectorAll ? rootNode.querySelectorAll('input[placeholder], textarea[placeholder]') : [];
+    placeholders.forEach(input => {
+      let orig = input.getAttribute('data-agx-orig-ph');
+      const curPh = input.getAttribute('placeholder') || '';
+      if (!orig) {
+        if (/[a-zA-Z]/.test(curPh)) {
+          orig = curPh;
+        } else {
+          orig = REVERSE_FARMER_CORE[curPh.trim().toLowerCase()] || curPh;
+        }
+        if (orig) input.setAttribute('data-agx-orig-ph', orig);
       }
-      if (l === 'en') {
-        input.setAttribute('placeholder', input._origPlaceholder);
-      } else {
-        input.setAttribute('placeholder', tText(input._origPlaceholder, l));
+      const newPh = l === 'en' ? orig : tText(orig, l);
+      if (input.getAttribute('placeholder') !== newPh) {
+        input.setAttribute('placeholder', newPh);
       }
     });
 
     // Translate Select Options
-    document.querySelectorAll('select option').forEach(opt => {
-      if (!opt._origText) {
-        opt._origText = opt.text || '';
+    const options = rootNode.querySelectorAll ? rootNode.querySelectorAll('select option') : [];
+    options.forEach(opt => {
+      let orig = opt.getAttribute('data-agx-orig-opt');
+      const curOpt = opt.text || '';
+      if (!orig) {
+        if (/[a-zA-Z]/.test(curOpt)) {
+          orig = curOpt;
+        } else {
+          orig = REVERSE_FARMER_CORE[curOpt.trim().toLowerCase()] || curOpt;
+        }
+        if (orig) opt.setAttribute('data-agx-orig-opt', orig);
       }
-      if (l === 'en') {
-        opt.text = opt._origText;
-      } else {
-        opt.text = tText(opt._origText, l);
+      const newOpt = l === 'en' ? orig : tText(orig, l);
+      if (opt.text !== newOpt) {
+        opt.text = newOpt;
+      }
+    });
+
+    // Translate Titles & Tooltips
+    const titled = rootNode.querySelectorAll ? rootNode.querySelectorAll('[title]') : [];
+    titled.forEach(el => {
+      if (el.closest && (el.closest('#language-dropdown-menu') || el.closest('#btn-language-selector'))) return;
+      let orig = el.getAttribute('data-agx-orig-title');
+      const curTitle = el.getAttribute('title') || '';
+      if (!orig) {
+        if (/[a-zA-Z]/.test(curTitle)) {
+          orig = curTitle;
+        } else {
+          orig = REVERSE_FARMER_CORE[curTitle.trim().toLowerCase()] || curTitle;
+        }
+        if (orig) el.setAttribute('data-agx-orig-title', orig);
+      }
+      const newTitle = l === 'en' ? orig : tText(orig, l);
+      if (el.getAttribute('title') !== newTitle) {
+        el.setAttribute('title', newTitle);
       }
     });
   }
@@ -1958,15 +2177,15 @@
   let domObserver = null;
   function startDOMObserver() {
     if (domObserver || typeof MutationObserver === 'undefined' || typeof document === 'undefined') return;
-    domObserver = new MutationObserver(mutations => {
-      const lang = getFarmerLanguage();
-      if (lang === 'en') return;
-      mutations.forEach(mut => {
-        mut.addedNodes.forEach(node => {
-          if (node.nodeType === Node.ELEMENT_NODE) {
-            walkAndTranslateDOM(node, lang);
-          }
-        });
+    domObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1 && !node.closest('#language-dropdown-menu')) {
+              walkAndTranslateDOM(node);
+            }
+          });
+        }
       });
     });
     if (document.body) {
@@ -1978,9 +2197,11 @@
     if (!['en', 'hi', 'mr'].includes(lang)) lang = 'en';
 
     try {
-      localStorage.setItem(STORAGE_KEY, lang);
-      localStorage.setItem('agrinex_buyer_language', lang);
       localStorage.setItem('agrinex_language', lang);
+      localStorage.setItem('agrinex_farmer_language', lang);
+      localStorage.setItem('agrinex_buyer_language', lang);
+      localStorage.setItem('agrinex_logistics_language', lang);
+      localStorage.setItem('agrinex_admin_language', lang);
     } catch (e) {}
 
     // Update Dropdown UI & Checkmarks
@@ -2006,31 +2227,24 @@
       if (menu) menu.style.display = 'none';
     }
 
-    // Re-render dynamic views
-    if (typeof window.renderDashboard === 'function') {
-      window.renderDashboard();
-    }
-    if (typeof window.renderListings === 'function') {
-      window.renderListings();
-    }
-    if (typeof window.renderFPOHub === 'function') {
-      window.renderFPOHub();
-    }
-    if (typeof window.renderAllCrops === 'function') {
-      window.renderAllCrops();
-    }
-    if (typeof window.renderMandiPrices === 'function') {
-      window.renderMandiPrices();
-    }
-    if (typeof window.renderCropsTable === 'function') {
-      window.renderCropsTable();
-    }
-    if (typeof window.renderLots === 'function') {
-      window.renderLots();
-    }
-    if (typeof window.renderOffers === 'function') {
-      window.renderOffers();
-    }
+    // Re-render dynamic views across all farmer pages
+    if (typeof window.renderDashboard === 'function') window.renderDashboard();
+    if (typeof window.renderListings === 'function') window.renderListings();
+    if (typeof window.renderFPOHub === 'function') window.renderFPOHub();
+    if (typeof window.renderAllCrops === 'function') window.renderAllCrops();
+    if (typeof window.renderMandiPrices === 'function') window.renderMandiPrices();
+    if (typeof window.renderCropsTable === 'function') window.renderCropsTable();
+    if (typeof window.renderLots === 'function') window.renderLots();
+    if (typeof window.renderOffers === 'function') window.renderOffers();
+    if (typeof window.renderBids === 'function') window.renderBids();
+    if (typeof window.loadBids === 'function') window.loadBids();
+    if (typeof window.renderEscrow === 'function') window.renderEscrow();
+    if (typeof window.loadEscrows === 'function') window.loadEscrows();
+    if (typeof window.renderOrders === 'function') window.renderOrders();
+    if (typeof window.loadShipments === 'function') window.loadShipments();
+    if (typeof window.renderChatSidebar === 'function') window.renderChatSidebar();
+    if (typeof window.calculateProfit === 'function') window.calculateProfit();
+
     // Translate entire DOM immediately including newly rendered dynamic content
     if (typeof document !== 'undefined' && document.body) {
       walkAndTranslateDOM(document.body, lang);
@@ -2038,61 +2252,111 @@
     }
 
     // Trigger toast notification if showNotificationToast exists
+    const toastMsgs = {
+      en: 'Language set to English',
+      hi: 'भाषा बदलकर हिन्दी कर दी गई है',
+      mr: 'भाषा मराठीमध्ये बदलण्यात आली आहे'
+    };
     if (typeof window.showNotificationToast === 'function') {
-      window.showNotificationToast(TRANSLATIONS[lang].toast_lang_updated);
+      window.showNotificationToast(toastMsgs[lang] || toastMsgs.en, 'success');
     }
+
+    // Cross-tab and module broadcast
+    if (typeof window !== 'undefined') {
+      try {
+        window.dispatchEvent(new CustomEvent('agrinex_language_changed', { detail: { lang: lang } }));
+      } catch (e) {}
+    }
+
+    try {
+      if (typeof BroadcastChannel !== 'undefined') {
+        const ch = new BroadcastChannel('agrinex_language_sync');
+        ch.postMessage({ lang: lang });
+        ch.close();
+      }
+    } catch (e) {}
   }
 
   function initFarmerI18n() {
-    let saved = 'en';
-    try {
-      saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('agrinex_buyer_language') || localStorage.getItem('agrinex_language') || 'en';
-    } catch (e) {}
+    const saved = getFarmerLanguage();
     setFarmerLanguage(saved);
   }
 
-  // Export to global window object
+  // Cross-module and cross-tab real-time sync listeners
+  if (typeof BroadcastChannel !== 'undefined') {
+    try {
+      const syncCh = new BroadcastChannel('agrinex_language_sync');
+      syncCh.onmessage = (e) => {
+        if (e && e.data && e.data.lang && ['en', 'hi', 'mr'].includes(e.data.lang)) {
+          if (e.data.lang !== getFarmerLanguage()) {
+            setFarmerLanguage(e.data.lang);
+          }
+        }
+      };
+    } catch (e) {}
+  }
+
+  if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'agrinex_language' || e.key === 'agrinex_farmer_language') {
+        if (e.newValue && ['en', 'hi', 'mr'].includes(e.newValue)) {
+          if (e.newValue !== getFarmerLanguage()) {
+            setFarmerLanguage(e.newValue);
+          }
+        }
+      }
+    });
+  }
+
+  // Exports
   if (typeof window !== 'undefined') {
     window.AgriNexFarmerI18n = {
+      t,
+      tText,
       tCrop,
-      tBuyer,
       tVariety,
-      tCategory,
+      tBuyer,
       tPerson,
       tLocation,
+      tCategory,
       tGrade,
       tStatus,
-      tText,
       setFarmerLanguage,
       getFarmerLanguage,
       toggleLanguageMenu,
       walkAndTranslateDOM
     };
 
-    window.tCrop = tCrop;
-    window.tBuyer = tBuyer;
-    window.tVariety = tVariety;
-    window.tCategory = tCategory;
-    window.tPerson = tPerson;
-    window.tLocation = tLocation;
-    window.tGrade = tGrade;
-    window.tStatus = tStatus;
-    window.tText = tText;
     window.setFarmerLanguage = setFarmerLanguage;
     window.getFarmerLanguage = getFarmerLanguage;
     window.toggleLanguageMenu = toggleLanguageMenu;
+    window.tFarmer = tText;
 
-    // Listen for storage events across modules and tabs
-    if (typeof window.addEventListener === 'function') {
-      window.addEventListener('storage', function (e) {
-        if (e.key === 'agrinex_buyer_language' || e.key === 'agrinex_farmer_language' || e.key === 'agrinex_language') {
-          const newLang = e.newValue;
-          if (newLang && ['en', 'hi', 'mr'].includes(newLang) && newLang !== getFarmerLanguage()) {
-            setFarmerLanguage(newLang);
-          }
-        }
-      });
+    if (typeof window.toggleFarmerLiteMode !== 'function') {
+      window.toggleFarmerLiteMode = function () {
+        const current = localStorage.getItem('agrinex_farmer_lite_mode') === 'true';
+        localStorage.setItem('agrinex_farmer_lite_mode', (!current).toString());
+        window.location.href = 'index.html';
+      };
     }
+  }
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      t,
+      tText,
+      tCrop,
+      tVariety,
+      tBuyer,
+      tPerson,
+      tLocation,
+      tCategory,
+      tGrade,
+      tStatus,
+      setFarmerLanguage,
+      getFarmerLanguage,
+      walkAndTranslateDOM
+    };
   }
 
   if (typeof document !== 'undefined') {

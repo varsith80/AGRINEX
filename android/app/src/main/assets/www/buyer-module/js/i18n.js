@@ -704,7 +704,7 @@
       nav_demands: 'Bulk Demands',
       nav_consignments: 'Orders & Shipments',
       nav_storage: 'Cold Storage & Silos',
-      nav_calculator: 'Landed Cost Calc',
+      nav_calculator: 'AgriCalc',
       nav_messages: 'Messages',
       nav_escrow: 'Escrow Vault',
       nav_grievances: 'Grievances / Claims',
@@ -803,12 +803,17 @@
       calc_header_subtitle: 'Grounded in Maharashtra APMC benchmarks, origin-destination logistics routes, fleet capacities, and zero-intermediary farm gate trade.',
       btn_calc_post_demand: 'Post Procurement Demand',
       btn_calc_view_lots: 'View Matching Lots',
-      btn_print_sheet: 'Print Cost Sheet',
+      btn_print_sheet: '📥 Download PDF Cost Sheet',
+      btn_download_cost_sheet: '📥 Download PDF Cost Sheet',
+      btn_download_payment_receipt: '📥 Download PDF Receipt',
+      btn_download_deposit_receipt: '📥 Download PDF Receipt',
+      btn_download_lr_pdf: '📥 Download Official LR (PDF)',
       
       // Insights View
       insights_header_title: 'Maharashtra APMC Market Insights & AI Hedging',
       insights_header_subtitle: 'Real-time APMC mandi modal rates, direct farm-gate arbitrage spreads, arrival volumes across Maharashtra agricultural belts, and AI forward price forecasting.',
       insights_enam_live: 'e-NAM Live Feed',
+      insights_btn_landed_calc: 'Landed Cost Calculator',
       insights_sync_btn: 'Sync Mandi Rates',
       insights_select_benchmark: 'Select Maharashtra Commodity Benchmark:',
       insights_select_benchmark_sub: 'Click crop to inspect APMC historical curves & AI 7-day projection',
@@ -836,6 +841,10 @@
       insights_mandis_table_title: '🏛️ Maharashtra APMC Mandis Live Auction Benchmark Table',
       insights_mandis_table_sub: 'Compare major regulated mandis (Lasalgaon, Narayangaon, Raver, Latur, Katol, Sangli, Pandharpur, Pimpalgaon, Kolhapur, Solapur) vs Direct Farm Sourcing to maximize institutional arbitrage.',
       insights_quick_districts: 'Quick Districts:',
+      table_mode_top_commodities: '🌾 Top Commodity Benchmarks (28)',
+      table_mode_commodity: 'By Commodity (28)',
+      table_mode_all_mandis: '🏛️ All APMC District Hubs',
+      insights_sort_hint: '💡 Click any column header to sort',
       insights_all_apmcs: '🌾 All APMCs',
       quick_dist_nashik: '🧅 Nashik',
       quick_dist_pune: '🍅 Pune',
@@ -952,6 +961,197 @@
       demand_broadcasting_bids: '● Broadcasting for Bids',
       demand_auto_match: '⚡ Auto-Match Lots →',
       
+      // Consignments View Badges & Headers
+      badge_gps_telemetry: 'AIS-140 GPS Telemetry Active',
+      badge_escrow_disbursal: 'Automated Escrow Disbursal',
+      btn_book_dedicated_reefer: '+ Book Dedicated Reefer / Truck',
+      hdr_consignments_title: 'Active Consignments & In-Transit Telemetry',
+      hdr_consignments_sub: 'Live Cold-Chain Monitoring, GPS Waypoints & Automated Tranche Release upon Quality Gate Clearance.',
+      btn_refresh_telemetry: 'Refresh GPS Pings',
+      consignments_summary_sub: 'Live Telemetry & Milestones',
+      th_tracking_id: 'TRACKING ID & ROUTE',
+      th_origin_farmer: 'ORIGIN & FARMER',
+      th_dest_hub: 'DESTINATION HUB',
+      th_commodity_vol: 'COMMODITY & VOL',
+      th_temp_humidity: 'TEMP & HUMIDITY',
+      th_escrow_stage: 'ESCROW & STAGE',
+      th_est_arrival: 'EST. ARRIVAL',
+      th_live_action: 'LIVE ACTION',
+
+      // Bulk Demands View
+      badge_reverse_auction: 'Reverse Auction & Direct Sourcing',
+      demands_header_title: 'Institutional Bulk Procurement Demands',
+      demands_header_subtitle: 'Broadcast purchase quotas directly to 10,000+ verified Maharashtra farmers & FPOs with zero middleman commissions.',
+      btn_export_pos: '📊 Export Active POs',
+      btn_automatch_refresh: '⚡ Auto-Match Refresh',
+      btn_broadcast_new_quota: '+ Broadcast New Purchase Quota',
+      kpi_active_quota_vol: 'ACTIVE QUOTA VOLUME',
+      kpi_strategic_commodities: 'Across 6 Strategic Commodities',
+      kpi_fulfilled_vol: 'FULFILLED VOLUME',
+      kpi_quality_passed: '100% Quality Passed',
+      kpi_net_sourcing_savings: 'NET SOURCING SAVINGS',
+      kpi_zero_middlemen: 'Zero Middlemen Arbitrage',
+      kpi_live_farmer_bids: 'LIVE FARMER BIDS',
+      kpi_avg_response_time: '< 4h Avg. Response Time',
+      tab_demands_all: 'All Active Demands (4)',
+      tab_demands_automatch: '⚡ Auto-Match Ready (2)',
+      tab_demands_broadcasting: '📡 Broadcasting for Bids (2)',
+      tab_demands_fulfilled: '✅ Fulfilled & In-Transit (2)',
+
+      // Escrow Vault View
+      badge_default_proof: '🛡️ 100% Default-Proof Guarantee',
+      btn_audit_statement: '📄 Audit Statement (PDF)',
+      btn_deposit_escrow: '+ Deposit Escrow Capital',
+      kpi_active_contracts: 'ACTIVE ESCROW CONTRACTS',
+      kpi_committed_pool: 'Committed in Secure Pool',
+      kpi_advance_in_escrow: 'ADVANCE IN ESCROW (35%)',
+      kpi_rbi_compliant: 'RBI Compliant Dual-Key Node',
+      kpi_delivery_balances: 'DELIVERY BALANCES (65%)',
+      kpi_disbursed_qc: 'Disbursed Post-QC Clearance',
+      kpi_liquid_reserves: 'LIQUID ESCROW RESERVES',
+      kpi_unallocated_buffer: 'Unallocated Working Buffer',
+      escrow_safeguard_callout: 'Safeguard Activated: All transactions are secured under RBI-monitored dual-key smart escrow contracts. 35% advance is locked at farm-gate weighment, and 65% balance tranche releases automatically within 12 hours of destination QC gate clearance.',
+      btn_raise_qc_hold: '⚠️ Raise QC Hold',
+      escrow_active_contracts_title: '🔒 Active Tri-Party Escrow Contracts & Milestone Disbursal',
+      escrow_ledger_title: '📜 Immutable Transaction Audit Ledger',
+      escrow_ledger_sub: 'Cryptographically signed audit logs with banking UTR references & real-time webhook sync.',
+      tab_ledger_all: 'All Records (24)',
+      tab_ledger_advances: '35% Advances (12)',
+      tab_ledger_finals: '65% Final Disbursals (8)',
+      tab_ledger_completed: 'Completed (24)',
+      th_txn_ref: 'TXN REFERENCE',
+      th_contract_ref: 'CONTRACT REF',
+      th_farmer: 'FARMER / BENEFICIARY',
+      th_produce_lot: 'PRODUCE LOT',
+      th_tranche_type: 'TRANCHE TYPE',
+      th_amount: 'AMOUNT',
+      th_bank_utr: 'BANK UTR / GATEWAY',
+      th_status: 'STATUS',
+      th_action: 'AUDIT ACTION',
+
+      // AgriCalc Calculator View
+      hero_calc_title: 'AgriCalc™ — Direct Farm Sourcing vs Mandi Landed Cost Arbitrage Engine',
+      badge_landed_cost: 'Direct Farm Landed Cost Engine',
+      hero_calc_subtitle: 'Calculate institutional procurement economics in real time. Compare transparent direct farm-gate sourcing against traditional 4-layer APMC middleman cost stacks.',
+      btn_download_cost_sheet: '📄 Download Itemized Cost Sheet',
+      btn_find_matching_lots: '🔍 Find Matching Farm Lots',
+      btn_view_matching_lots: '🌾 View Matching Lots',
+      quick_presets_label: 'Quick Procurement Presets:',
+      calc_params_header: 'Procurement Parameters',
+      calc_3step_setup: '3-Step Landed Cost Setup',
+      calc_step1_title: '1. Select Commodity & Grade',
+      calc_step1_label: '1. Select Commodity & Grade',
+      calc_procurement_volume: 'Procurement Volume',
+      calc_step2_title: '2. Sourcing Route & Logistics Corridor',
+      calc_origin_mandi_label: 'Origin Mandi / Cluster',
+      calc_receiving_terminal_label: 'Buyer Receiving Terminal',
+      calc_auto_calc_route: 'Auto-calculated route',
+      calc_step3_title: '3. Price & Arbitrage (₹/kg)',
+      calc_direct_farm_ask: 'Direct Farm Ask',
+      calc_mandi_modal_rate: 'APMC Mandi Modal Rate',
+      btn_customize_fleet: '⚙️ Customize Fleet & Handling',
+      hero_direct_landed_rate: 'AgriNex Direct Landed Rate',
+      badge_zero_middlemen: 'Zero Middlemen',
+      lbl_delivered: 'Delivered',
+      lbl_total_order_val: 'Total Order Value:',
+      lbl_trad_mandi: 'Traditional Mandi:',
+      lbl_net_sourcing_savings: 'Net Sourcing Savings:',
+      btn_broadcast_demand_rate: 'Broadcast Direct Demand at this Rate',
+      btn_explore_matching_lots: 'Explore Matching Farm Lots',
+      title_cost_stack_composition: 'Cost Stack Composition',
+      bucket_farm_produce: 'Farm Produce Harvest:',
+      bucket_logistics_freight: 'Logistics Freight & Tolls:',
+      bucket_handling_crates: 'Handling, Crates & Escrow:',
+      summary_adv_logistics_ledger: 'Advanced Logistics Controls & 16-Point Procurement Cost Audit Ledger',
+      btn_click_expand: 'Click to Expand & Customize',
+      hdr_vehicle_fleet_controls: 'Vehicle Fleet, Packaging Mode & Loading Charges',
+      lbl_hauler_fleet_type: 'Hauler Fleet Type',
+      lbl_packaging_crate_mode: 'Packaging & Crate Mode',
+      lbl_loading_hamali: 'Loading / Hamali (₹/Qt)',
+      lbl_route_distance: 'Route Distance (km)',
+      hdr_agrinex_direct_cost_stack: 'AgriNex Direct Sourcing Cost Stack',
+      badge_zero_intermediary: 'Zero Intermediary',
+      cost_item_farmgate: 'Farm-Gate Base Harvest:',
+      cost_item_packaging: 'Returnable Packaging / Crates:',
+      cost_item_freight: 'Logistics Freight & Fuel:',
+      cost_item_tolls: 'Highway Tolls & State Permits:',
+      cost_item_hamali: 'Farm Gate Loading & Hamali:',
+      cost_item_escrow_fee: 'AgriNex Smart Escrow Fee (0.75%):',
+      cost_item_qc_slip: 'Digital Quality QC & Gate Slip:',
+      cost_item_transit_loss: 'Calibrated Transit Loss Protection:',
+      cost_item_total_direct: 'Total Direct Landed Cost:',
+      hdr_mandi_cost_stack: 'Traditional Mandi Middleman Stack',
+      badge_4layer_brokers: '4-Layer Brokers',
+      cost_item_apmc_modal: 'APMC Mandi Modal Value:',
+      cost_item_apmc_cess: 'APMC Market Cess / Tax (2.0%):',
+      cost_item_mandi_arhatiya: 'Commission Agent / Arhatiya Cut (6.0%):',
+      cost_item_mandi_brokerage: 'Secondary Trader Brokerage Spread (3.5%):',
+      cost_item_mandi_hamali: 'Mandi Hamali & Gate Weighment:',
+      cost_item_mandi_freight: 'Traditional Unmonitored Freight:',
+      cost_item_mandi_tolls: 'Highway Tolls & Permits:',
+      cost_item_mandi_spoilage: 'Ambient Transit Spoilage / Shrinkage:',
+      cost_item_total_mandi: 'Total Traditional Landed:',
+
+      // Messages View
+      badge_negotiation_room: 'Direct Farmer Negotiation Room',
+      badge_escrow_protected: 'Escrow Protected Contracts',
+      messages_header_title: 'Farmer Negotiations & Quality Chat',
+      messages_header_subtitle: 'Real-time multi-party trade negotiation, counter-bidding, assay slip exchanges & instant escrow commitment.',
+      signal_encrypted: '🔒 Signal E2E Encrypted',
+      farmer_contacts_label: 'Direct Farmer Contacts',
+      quick_replies_label: '⚡ 1-Click Institutional Quick Replies:',
+      chip_moisture_slip: '📄 Request Assay & Moisture Slip',
+      chip_dispatch_ready: '🚚 Confirm Reefer Dispatch Time',
+      chip_counter_rate: '💬 Offer Counter-Rate ₹12.50/kg',
+      chip_confirm_escrow: '🔒 35% Advance Escrow Ready',
+
+      // Grievances View
+      badge_resolution_sla: '48h Binding Resolution SLA',
+      btn_file_new_grievance: '+ File New Quality / Weight Grievance',
+      kpi_active_disputes: 'ACTIVE DISPUTES',
+      kpi_assigned_arbitrator: 'Assigned to APMC Arbitrator',
+      kpi_escrow_frozen: 'ESCROW FUNDS FROZEN',
+      kpi_protected_safe_vault: 'Protected in Safe Vault',
+      kpi_claims_resolved: 'CLAIMS RESOLVED',
+      kpi_credited_wallet: '100% Credited to Wallet',
+      kpi_avg_turnaround: 'AVG TURNAROUND',
+      kpi_guaranteed_sla: 'Within Guaranteed SLA',
+      grv_guarantee_title: 'MSAMB Arbitrated Buyer Protection Guarantee',
+      grv_guarantee_desc: 'Every purchase on AgriNex is backed by automatic escrow retention. If delivery weight variance exceeds 1.5% or digital quality parameters differ from farm-gate assay reports, the 65% balance tranche is frozen immediately and resolved within 48 hours by an accredited MSAMB quality inspector.',
+      grv_auto_freeze_pill: '🔒 65% Balance Auto-Frozen',
+      grv_toggle_protocol: 'View 3-Step Protocol ▾',
+      btn_view_dispute_policy: '📜 View Dispute Resolution Policy',
+      msamb_tribunal_title: '🏛️ MSAMB Fast-Track Dispute Resolution Process',
+      msamb_tribunal_subtitle: 'Legally binding 3-step arbitration backed by Maharashtra Agricultural Produce Marketing (Regulation) Act, 1963.',
+      badge_legal_binding: '⚖️ Legally Binding Protocol',
+      tribunal_step1_title: 'Step 1: Automated Escrow Freeze',
+      tribunal_step1_desc: 'When a claim is logged, the 65% balance tranche in the ICICI/Axis escrow account is instantly locked. Zero capital risk to buyer.',
+      tribunal_step2_title: 'Step 2: Joint QC Re-Inspection',
+      tribunal_step2_desc: 'An independent MSAMB/NABL certified inspector conducts unboxing assay testing at destination within 24 hours.',
+      tribunal_step3_title: 'Step 3: Binding Settlement',
+      tribunal_step3_desc: 'Pro-rata price adjustment, partial lot rejection refund, or full batch salvage buyout executed in under 48 hours.',
+      filter_claims_label: 'Filter Claims:',
+      tab_grv_all: 'All Grievances (4)',
+      tab_grv_review: 'Under Review (2)',
+      tab_grv_settled: 'Settled & Refunded (2)',
+      showing_claims_records: 'Showing 4 of 4 Claims Records',
+      status_under_review: 'Under Review',
+      status_frozen: 'Frozen',
+      status_locked: 'Locked',
+      status_on_hold: 'On-Hold',
+      status_ready: 'Ready',
+      kpi_sla_badge: '⚡ SLA',
+      kpi_turnaround_val: '18.4 Hrs',
+      vault_tracks_count: '3 Active Milestone Tracks',
+      demands_active_badge: '6 Active Quotas',
+      stat_trucks_on_road: '2 On Road',
+      stat_gate_passes_verified: '2 Verified',
+      tab_shipments_all: 'All Orders (3)',
+      tab_shipments_transit: 'On The Road (3)',
+      tab_shipments_scheduled: 'Pickup Scheduled (0)',
+      tab_shipments_delivered: 'Delivered (0)',
+      tab_shipments_drivers: 'Driver & Vehicle Details (3)',
+
       // Common UI & Toast
       btn_cancel: 'Cancel',
       btn_submit: 'Submit',
@@ -972,7 +1172,7 @@
       nav_demands: 'थोक मांग',
       nav_consignments: 'ऑर्डर और खेप',
       nav_storage: 'शीतगृह और सायलो',
-      nav_calculator: 'लागत कैलकुलेटर',
+      nav_calculator: 'एग्रीकॅल्क (AgriCalc)',
       nav_messages: 'संदेश',
       nav_escrow: 'एस्क्रो सुरक्षित तिजोरी',
       nav_grievances: 'दावे और शिकायतें',
@@ -1071,12 +1271,17 @@
       calc_header_subtitle: 'महाराष्ट्र एपीएमसी बेंचमार्क, मूल-गंतव्य लॉजिस्टिक्स मार्गों और शून्य-मध्यस्थ फार्म गेट व्यापार पर आधारित।',
       btn_calc_post_demand: 'खरीद मांग दर्ज करें',
       btn_calc_view_lots: 'मिलान वाले लॉट देखें',
-      btn_print_sheet: 'लागत पत्रक प्रिंट करें',
+      btn_print_sheet: '📥 लागत पत्रक PDF डाउनलोड करें',
+      btn_download_cost_sheet: '📥 लागत पत्रक PDF डाउनलोड करें',
+      btn_download_payment_receipt: '📥 भुगतान रसीद PDF डाउनलोड करें',
+      btn_download_deposit_receipt: '📥 जमा रसीद PDF डाउनलोड करें',
+      btn_download_lr_pdf: '📥 आधिकारिक LR (PDF) डाउनलोड करें',
       
       // Insights View
       insights_header_title: 'महाराष्ट्र एपीएमसी बाजार विश्लेषण और एआई हेजिंग',
       insights_header_subtitle: 'महाराष्ट्र के प्रमुख उत्पादक क्षेत्रों के वास्तविक एपीएमसी मॉडल भाव, सीधी खरीद बचत और 7-दिवसीय एआई मूल्य पूर्वानुमान।',
       insights_enam_live: 'ई-नाम लाइव फीड',
+      insights_btn_landed_calc: 'लागत कैलकुलेटर',
       insights_sync_btn: 'मंडी भाव सिंक करें',
       insights_select_benchmark: 'महाराष्ट्र कृषि बेंचमार्क चुनें:',
       insights_select_benchmark_sub: 'मंडी के ऐतिहासिक भाव और 7-दिवसीय एआई अनुमान देखने के लिए फसल पर क्लिक करें',
@@ -1104,6 +1309,10 @@
       insights_mandis_table_title: '🏛️ महाराष्ट्र एपीएमसी मंडियों की लाइव नीलामी बेंचमार्क तालिका',
       insights_mandis_table_sub: 'प्रमुख मंडियों की तुलना सीधे खेत से खरीद से करें और अधिकतम संस्थागत लाभ प्राप्त करें।',
       insights_quick_districts: 'प्रमुख जिले:',
+      table_mode_top_commodities: '🌾 शीर्ष फसल बेंचमार्क (28)',
+      table_mode_commodity: 'फसलों के अनुसार (28)',
+      table_mode_all_mandis: '🏛️ सभी एपीएमसी मंडी केंद्र',
+      insights_sort_hint: '💡 क्रमबद्ध करने के लिए किसी भी कॉलम हेडर पर क्लिक करें',
       insights_all_apmcs: '🌾 सभी मंडियां',
       quick_dist_nashik: '🧅 नासिक',
       quick_dist_pune: '🍅 पुणे',
@@ -1220,6 +1429,197 @@
       demand_broadcasting_bids: '● बोलियों हेतु सक्रिय प्रसारण',
       demand_auto_match: '⚡ स्वतः लॉट मैच करें →',
       
+      // Consignments View Badges & Headers
+      badge_gps_telemetry: 'AIS-140 जीपीएस टेलीमेट्री सक्रिय',
+      badge_escrow_disbursal: 'स्वचालित एस्क्रो वितरण',
+      btn_book_dedicated_reefer: '+ समर्पित रीफर / ट्रक बुक करें',
+      hdr_consignments_title: 'सक्रिय खेप एवं पारगमन टेलीमेट्री',
+      hdr_consignments_sub: 'लाइव कोल्ड-चेन निगरानी, जीपीएस वेपॉइंट्स और गुणवत्ता जांच पास होने पर स्वचालित किश्त भुगतान।',
+      btn_refresh_telemetry: 'जीपीएस पिंग रीफ्रेश करें',
+      consignments_summary_sub: 'लाइव टेलीमेट्री एवं माइलस्टोन',
+      th_tracking_id: 'ट्रैकिंग आईडी और मार्ग',
+      th_origin_farmer: 'उत्पत्ति और किसान',
+      th_dest_hub: 'गंतव्य हब',
+      th_commodity_vol: 'फसल और मात्रा',
+      th_temp_humidity: 'तापमान व नमी',
+      th_escrow_stage: 'एस्क्रो और चरण',
+      th_est_arrival: 'अनुमानित आगमन',
+      th_live_action: 'लाइव कार्रवाई',
+
+      // Bulk Demands View
+      badge_reverse_auction: 'रिवर्स ऑक्शन एवं प्रत्यक्ष खरीद',
+      demands_header_title: 'संस्थागत थोक खरीद मांग',
+      demands_header_subtitle: 'शून्य बिचौलिया कमीशन के साथ 10,000+ सत्यापित महाराष्ट्र किसानों और FPO को सीधे खरीद कोटा प्रसारित करें।',
+      btn_export_pos: '📊 सक्रिय पीओ निर्यात करें',
+      btn_automatch_refresh: '⚡ ऑटो-मैच रीफ्रेश',
+      btn_broadcast_new_quota: '+ नया खरीद कोटा प्रसारित करें',
+      kpi_active_quota_vol: 'सक्रिय कोटा मात्रा',
+      kpi_strategic_commodities: '6 प्रमुख फसलों में',
+      kpi_fulfilled_vol: 'आपूर्ति की गई मात्रा',
+      kpi_quality_passed: '100% गुणवत्ता प्रमाणित',
+      kpi_net_sourcing_savings: 'कुल प्रत्यक्ष बचत',
+      kpi_zero_middlemen: 'बिचौलिया-मुक्त लाभ',
+      kpi_live_farmer_bids: 'लाइव किसान बोलियां',
+      kpi_avg_response_time: '< 4 घंटे औसत प्रतिक्रिया समय',
+      tab_demands_all: 'सभी सक्रिय मांगें (4)',
+      tab_demands_automatch: '⚡ ऑटो-मैच तैयार (2)',
+      tab_demands_broadcasting: '📡 बोलियों हेतु प्रसारित (2)',
+      tab_demands_fulfilled: '✅ पूर्ण व पारगमन में (2)',
+
+      // Escrow Vault View
+      badge_default_proof: '🛡️ 100% डिफ़ॉल्ट-मुक्त सुरक्षा गारंटी',
+      btn_audit_statement: '📄 ऑडिट विवरण (PDF)',
+      btn_deposit_escrow: '+ एस्क्रो राशि जमा करें',
+      kpi_active_contracts: 'सक्रिय एस्क्रो अनुबंध',
+      kpi_committed_pool: 'सुरक्षित पूल में लॉक',
+      kpi_advance_in_escrow: 'एस्क्रो में अग्रिम राशि (35%)',
+      kpi_rbi_compliant: 'आरबीआई अनुपालन दोहरी-कुंजी नोड',
+      kpi_delivery_balances: 'वितरण शेष राशि (65%)',
+      kpi_disbursed_qc: 'गुणवत्ता जांच उपरांत वितरित',
+      kpi_liquid_reserves: 'तरल एस्क्रो सुरक्षित भंडार',
+      kpi_unallocated_buffer: 'गैर-आवंटित कार्यशील बफर',
+      escrow_safeguard_callout: 'सुरक्षा प्रोटोकॉल सक्रिय: सभी लेनदेन आरबीआई-निगरानी वाले दोहरी-कुंजी स्मार्ट एस्क्रो अनुबंधों के तहत सुरक्षित हैं। 35% अग्रिम खेत के तौल पर लॉक होता है, और 65% शेष राशि गंतव्य गुणवत्ता जांच पास होने के 12 घंटे के भीतर स्वचालित रूप से जारी होती है।',
+      btn_raise_qc_hold: '⚠️ गुणवत्ता रोक दर्ज करें',
+      escrow_active_contracts_title: '🔒 सक्रिय त्रिपक्षीय एस्क्रो अनुबंध और चरणबद्ध भुगतान',
+      escrow_ledger_title: '📜 अपरिवर्तनीय लेनदेन ऑडिट बहीखाता',
+      escrow_ledger_sub: 'बैंकिंग यूटीआर संदर्भ और रीयल-टाइम वेबहुक सिंक के साथ क्रिप्टोग्राफिक रूप से हस्ताक्षरित ऑडिट लॉग।',
+      tab_ledger_all: 'सभी रिकॉर्ड (24)',
+      tab_ledger_advances: '35% अग्रिम (12)',
+      tab_ledger_finals: '65% अंतिम वितरण (8)',
+      tab_ledger_completed: 'पूर्ण (24)',
+      th_txn_ref: 'लेनदेन संदर्भ',
+      th_contract_ref: 'अनुबंध संदर्भ',
+      th_farmer: 'किसान / लाभार्थी',
+      th_produce_lot: 'फसल लॉट',
+      th_tranche_type: 'किश्त प्रकार',
+      th_amount: 'राशि',
+      th_bank_utr: 'बैंक यूटीआर / गेटवे',
+      th_status: 'स्थिति',
+      th_action: 'ऑडिट कार्रवाई',
+
+      // AgriCalc Calculator View
+      hero_calc_title: 'AgriCalc™ — खेत से सीधी खरीद बनाम मंडी लागत बचत कैलकुलेटर',
+      badge_landed_cost: 'प्रत्यक्ष खेत लैंडेड लागत इंजन',
+      hero_calc_subtitle: 'वास्तविक समय में संस्थागत खरीद अर्थशास्त्र की गणना करें। पारंपरिक 4-स्तरीय एपीएमसी बिचौलिया लागत की तुलना में पारदर्शी प्रत्यक्ष खेत खरीद का विश्लेषण करें।',
+      btn_download_cost_sheet: '📄 विस्तृत लागत पत्रक डाउनलोड करें',
+      btn_find_matching_lots: '🔍 उपयुक्त किसान लॉट खोजें',
+      btn_view_matching_lots: '🌾 उपयुक्त किसान लॉट देखें',
+      quick_presets_label: 'त्वरित खरीद प्रीसेट:',
+      calc_params_header: 'खरीद पैरामीटर',
+      calc_3step_setup: '3-चरणीय लैंडेड लागत सेटअप',
+      calc_step1_title: '1. फसल और ग्रेड चुनें',
+      calc_step1_label: '1. फसल और ग्रेड चुनें',
+      calc_procurement_volume: 'खरीद मात्रा',
+      calc_step2_title: '2. सोर्सिंग रूट और लॉजिस्टिक्स कॉरिडोर',
+      calc_origin_mandi_label: 'उत्पत्ति मंडी / क्लस्टर',
+      calc_receiving_terminal_label: 'क्रेता प्राप्ति टर्मिनल',
+      calc_auto_calc_route: 'स्वतः-परिकलित मार्ग',
+      calc_step3_title: '3. मूल्य और आर्बिट्रेज (₹/किग्रा)',
+      calc_direct_farm_ask: 'प्रत्यक्ष खेत मूल्य',
+      calc_mandi_modal_rate: 'एपीएमसी मंडी मॉडल दर',
+      btn_customize_fleet: '⚙️ फ्लीट व हैंडलिंग कस्टमाइज़ करें',
+      hero_direct_landed_rate: 'एग्रीनेक्स प्रत्यक्ष लैंडेड दर',
+      badge_zero_middlemen: 'शून्य बिचौलिए',
+      lbl_delivered: 'पहुंच दर',
+      lbl_total_order_val: 'कुल ऑर्डर मूल्य:',
+      lbl_trad_mandi: 'पारंपरिक मंडी:',
+      lbl_net_sourcing_savings: 'शुद्ध खरीद बचत:',
+      btn_broadcast_demand_rate: 'इस दर पर प्रत्यक्ष मांग प्रसारित करें',
+      btn_explore_matching_lots: 'अनुकूल किसान लॉट देखें',
+      title_cost_stack_composition: 'लागत संरचना संरचना',
+      bucket_farm_produce: 'खेत फसल कटाई लागत:',
+      bucket_logistics_freight: 'लॉजिस्टिक्स भाड़ा व टोल:',
+      bucket_handling_crates: 'हैंडलिंग, क्रेट्स व एस्क्रो:',
+      summary_adv_logistics_ledger: 'उन्नत लॉजिस्टिक्स नियंत्रण और 16-बिंदु खरीद लागत ऑडिट बहीखाता',
+      btn_click_expand: 'विस्तार व कस्टमाइज़ करने के लिए क्लिक करें',
+      hdr_vehicle_fleet_controls: 'वाहन फ्लीट, पैकेजिंग मोड एवं लोडिंग शुल्क',
+      lbl_hauler_fleet_type: 'वाहन फ्लीट प्रकार',
+      lbl_packaging_crate_mode: 'पैकेजिंग एवं क्रेट मोड',
+      lbl_loading_hamali: 'लोडिंग / हमाली (₹/क्विंटल)',
+      lbl_route_distance: 'मार्ग दूरी (किमी)',
+      hdr_agrinex_direct_cost_stack: 'एग्रीनेक्स प्रत्यक्ष खरीद लागत संरचना',
+      badge_zero_intermediary: 'शून्य बिचौलिया',
+      cost_item_farmgate: 'खेत मूल्य आधार उपज:',
+      cost_item_packaging: 'पुन: प्रयोज्य पैकेजिंग / क्रेट्स:',
+      cost_item_freight: 'लॉजिस्टिक्स मालभाड़ा एवं ईंधन:',
+      cost_item_tolls: 'हाईवे टोल व राज्य परमिट:',
+      cost_item_hamali: 'खेत पर लोडिंग एवं हमाली:',
+      cost_item_escrow_fee: 'एग्रीनेक्स स्मार्ट एस्क्रो शुल्क (0.75%):',
+      cost_item_qc_slip: 'डिजिटल गुणवत्ता जांच एवं गेट पर्ची:',
+      cost_item_transit_loss: 'कैलिब्रेटेड पारगमन हानि सुरक्षा:',
+      cost_item_total_direct: 'कुल प्रत्यक्ष लैंडेड लागत:',
+      hdr_mandi_cost_stack: 'पारंपरिक मंडी बिचौलिया लागत संरचना',
+      badge_4layer_brokers: '4-स्तरीय दलाल',
+      cost_item_apmc_modal: 'एपीएमसी मंडी मॉडल मूल्य:',
+      cost_item_apmc_cess: 'एपीएमसी बाजार उपकर / सेस (2.0%):',
+      cost_item_mandi_arhatiya: 'कमीशन एजेंट / आढ़तिया कमीशन (6.0%):',
+      cost_item_mandi_brokerage: 'द्वितीयक व्यापारी ब्रोकरेज स्प्रेड (3.5%):',
+      cost_item_mandi_hamali: 'मंडी हमाली एवं गेट तौल शुल्क:',
+      cost_item_mandi_freight: 'पारंपरिक अनियंत्रित भाड़ा:',
+      cost_item_mandi_tolls: 'हाईवे टोल एवं परमिट:',
+      cost_item_mandi_spoilage: 'वातावरणीय पारगमन क्षति / संकोचन:',
+      cost_item_total_mandi: 'कुल पारंपरिक मंडी लागत:',
+
+      // Messages View
+      badge_negotiation_room: 'प्रत्यक्ष किसान बातचीत कक्ष',
+      badge_escrow_protected: 'एस्क्रो सुरक्षित अनुबंध',
+      messages_header_title: 'किसान बातचीत एवं गुणवत्ता चैट',
+      messages_header_subtitle: 'रीयल-टाइम बहु-पक्षीय व्यापार बातचीत, प्रति-बोली, परख पर्ची साझाकरण और त्वरित एस्क्रो कमिटमेंट।',
+      signal_encrypted: '🔒 सिग्नल ई2ई एन्क्रिप्टेड',
+      farmer_contacts_label: 'प्रत्यक्ष किसान संपर्क',
+      quick_replies_label: '⚡ 1-क्लिक त्वरित उत्तर:',
+      chip_moisture_slip: '📄 परख एवं नमी पर्ची भेजें',
+      chip_dispatch_ready: '🚚 रीफर वाहन प्रस्थान समय बताएं',
+      chip_counter_rate: '💬 प्रति-प्रस्ताव ₹12.50/किग्रा दें',
+      chip_confirm_escrow: '🔒 35% अग्रिम एस्क्रो तैयार है',
+
+      // Grievances View
+      badge_resolution_sla: '48 घंटे बाध्यकारी समाधान SLA',
+      btn_file_new_grievance: '+ नई गुणवत्ता / वजन शिकायत दर्ज करें',
+      kpi_active_disputes: 'सक्रिय विवाद',
+      kpi_assigned_arbitrator: 'एपीएमसी मध्यस्थ को सौंपा गया',
+      kpi_escrow_frozen: 'एस्क्रो फंड फ्रीज',
+      kpi_protected_safe_vault: 'सुरक्षित तिजोरी में संरक्षित',
+      kpi_claims_resolved: 'दावे हल हुए',
+      kpi_credited_wallet: '100% वॉलेट में वापस जमा',
+      kpi_avg_turnaround: 'औसत समाधान समय',
+      kpi_guaranteed_sla: 'गारंटीकृत SLA के भीतर',
+      grv_guarantee_title: 'पणन महामंडळ मध्यस्थता क्रेता सुरक्षा गारंटी',
+      grv_guarantee_desc: 'एग्रीनेक्स पर हर खरीद स्वचालित एस्क्रो सुरक्षा द्वारा समर्थित है। यदि डिलीवरी वजन में 1.5% से अधिक अंतर है या डिजिटल गुणवत्ता खेत की रिपोर्ट से भिन्न है, तो 65% शेष राशि तुरंत रोक दी जाती है और पणन महामंडळ गुणवत्ता निरीक्षक द्वारा 48 घंटे के भीतर निपटारा किया जाता है।',
+      grv_auto_freeze_pill: '🔒 65% शेष राशि स्वतः फ्रीज',
+      grv_toggle_protocol: '3-चरणीय प्रोटोकॉल देखें ▾',
+      btn_view_dispute_policy: '📜 विवाद समाधान नीति देखें',
+      msamb_tribunal_title: '🏛️ पणन महामंडळ फास्ट-ट्रैक विवाद समाधान प्रक्रिया',
+      msamb_tribunal_subtitle: 'महाराष्ट्र कृषि उपज विपणन (विनियमन) अधिनियम, 1963 द्वारा समर्थित कानूनी रूप से बाध्यकारी 3-चरणीय मध्यस्थता।',
+      badge_legal_binding: '⚖️ कानूनी रूप से बाध्यकारी प्रोटोकॉल',
+      tribunal_step1_title: 'चरण 1: स्वचालित एस्क्रो रोक',
+      tribunal_step1_desc: 'दावा दर्ज होते ही ICICI/Axis एस्क्रो खाते में 65% शेष राशि तुरंत फ्रीज हो जाती है। खरीदार को शून्य पूंजीगत जोखिम।',
+      tribunal_step2_title: 'चरण 2: संयुक्त गुणवत्ता पुनर्निरीक्षण',
+      tribunal_step2_desc: 'स्वतंत्र MSAMB/NABL प्रमाणित निरीक्षक 24 घंटे के भीतर गंतव्य पर अनबॉक्सिंग परख परीक्षण करता है।',
+      tribunal_step3_title: 'चरण 3: बाध्यकारी निपटान',
+      tribunal_step3_desc: 'समानुपातिक मूल्य समायोजन, आंशिक अस्वीकृति रिफंड, या पूरा बैच साल्वैज बायआउट 48 घंटे में निष्पादित।',
+      filter_claims_label: 'दावे फ़िल्टर करें:',
+      tab_grv_all: 'सभी शिकायतें (4)',
+      tab_grv_review: 'समीक्षाधीन (2)',
+      tab_grv_settled: 'निपटाए गए एवं रिफंडेड (2)',
+      showing_claims_records: '4 में से 4 दावा रिकॉर्ड दिखाए जा रहे हैं',
+      status_under_review: 'समीक्षाधीन',
+      status_frozen: 'रोका गया',
+      status_locked: 'सुरक्षित / लॉक',
+      status_on_hold: 'रोका हुआ',
+      status_ready: 'तैयार',
+      kpi_sla_badge: '⚡ एसएलए',
+      kpi_turnaround_val: '18.4 घंटे',
+      vault_tracks_count: '3 सक्रिय प्रगति ट्रैक',
+      demands_active_badge: '6 सक्रिय कोटा',
+      stat_trucks_on_road: '2 मार्ग पर',
+      stat_gate_passes_verified: '2 सत्यापित',
+      tab_shipments_all: 'सभी ऑर्डर (3)',
+      tab_shipments_transit: 'मार्ग पर (3)',
+      tab_shipments_scheduled: 'पिकअप निर्धारित (0)',
+      tab_shipments_delivered: 'डिलीवर (0)',
+      tab_shipments_drivers: 'चालक व वाहन विवरण (3)',
+
       // Common UI & Toast
       btn_cancel: 'रद्द करें',
       btn_submit: 'जमा करें',
@@ -1240,7 +1640,7 @@
       nav_demands: 'मोठ्या प्रमाणातील मागणी',
       nav_consignments: 'ऑर्डर्स आणि वाहतूक',
       nav_storage: 'शीतगृह आणि सायलो',
-      nav_calculator: 'खर्च कॅल्क्युलेटर',
+      nav_calculator: 'अ‍ॅग्रीकॅल्क (AgriCalc)',
       nav_messages: 'संदेश',
       nav_escrow: 'एस्क्रो सुरक्षित तिजोरी',
       nav_grievances: 'तक्रारी आणि दावे',
@@ -1339,12 +1739,17 @@
       calc_header_subtitle: 'महाराष्ट्र बाजार समिती भाव, थेट शेतावरून खरेदी आणि थेट वाहतूक मार्गांवर आधारित.',
       btn_calc_post_demand: 'खरेदी मागणी नोंदवा',
       btn_calc_view_lots: 'जुळणारे लॉट्स पहा',
-      btn_print_sheet: 'खर्च पत्रक प्रिंट करा',
+      btn_print_sheet: '📥 खर्च पत्रक PDF डाऊनलोड करा',
+      btn_download_cost_sheet: '📥 खर्च पत्रक PDF डाऊनलोड करा',
+      btn_download_payment_receipt: '📥 पेमेंट पावती PDF डाऊनलोड करा',
+      btn_download_deposit_receipt: '📥 एस्क्रो ठेव पावती PDF डाऊनलोड करा',
+      btn_download_lr_pdf: '📥 अधिकृत LR (PDF) डाऊनलोड करा',
       
       // Insights View
       insights_header_title: 'महाराष्ट्र बाजार समित्यांमधील थेट लिलाव दर तक्ता',
       insights_header_subtitle: 'प्रमुख बाजार समित्यांची (लासलगाव, नारायणगाव, रावेर, लातूर इत्यादी) थेट शेतीमाल खरेदीशी तुलना करा आणि कमाल नफा मिळवा.',
       insights_enam_live: 'e-NAM थेट प्रक्षेपण',
+      insights_btn_landed_calc: 'पोहोच खर्च विश्लेषण',
       insights_sync_btn: 'बाजार भाव सिंक करा',
       insights_select_benchmark: 'महाराष्ट्र शेतमाल निर्देशांक निवडा:',
       insights_select_benchmark_sub: 'बाजार समितीचे ऐतिहासिक दर आणि ७ दिवसांचा AI अंदाज पाहण्यासाठी पिकावर क्लिक करा',
@@ -1372,6 +1777,10 @@
       insights_mandis_table_title: '🏛️ महाराष्ट्र बाजार समित्यांमधील थेट लिलाव दर तक्ता',
       insights_mandis_table_sub: 'प्रमुख बाजार समित्यांची (लासलगाव, नारायणगाव, रावेर, लातूर इत्यादी) थेट शेतीमाल खरेदीशी तुलना करा आणि कमाल नफा मिळवा.',
       insights_quick_districts: 'प्रमुख जिल्हे:',
+      table_mode_top_commodities: '🌾 प्रमुख शेतमाल दर (२८ पिके)',
+      table_mode_commodity: 'शेतमालानुसार (२८)',
+      table_mode_all_mandis: '🏛️ सर्व बाजार समिती केंद्रे',
+      insights_sort_hint: '💡 क्रमवारी लावण्यासाठी कोणत्याही शीर्षकावर क्लिक करा',
       insights_all_apmcs: '🌾 सर्व बाजार समित्या',
       quick_dist_nashik: '🧅 नाशिक',
       quick_dist_pune: '🍅 पुणे',
@@ -1488,6 +1897,197 @@
       demand_broadcasting_bids: '● बोल्यांसाठी थेट प्रसारण सुरू',
       demand_auto_match: '⚡ स्वयंचलित लॉट जुळवा →',
       
+      // Consignments View Badges & Headers
+      badge_gps_telemetry: 'AIS-140 जीपीएस टेलिमेट्री सक्रिय',
+      badge_escrow_disbursal: 'स्वयंचलित एस्क्रो वितरण',
+      btn_book_dedicated_reefer: '+ समर्पित रीफर / ट्रक बुक करा',
+      hdr_consignments_title: 'सक्रिय शेतीमाल वाहतूक व जीपीएस ट्रॅकिंग',
+      hdr_consignments_sub: 'थेट शीतकरण यंत्रणा देखरेख, जीपीएस वेपॉइंट्स आणि गुणवत्ता मंजुरीनंतर स्वयंचलित किश्त वाटप.',
+      btn_refresh_telemetry: 'जीपीएस पिंग रिफ्रेश करा',
+      consignments_summary_sub: 'थेट टेलिमेट्री व टप्पे',
+      th_tracking_id: 'ट्रॅकिंग आयडी आणि मार्ग',
+      th_origin_farmer: 'उत्पत्ती आणि शेतकरी',
+      th_dest_hub: 'गंतव्य हब',
+      th_commodity_vol: 'शेतीमाल आणि प्रमाण',
+      th_temp_humidity: 'तापमान व आर्द्रता',
+      th_escrow_stage: 'एस्क्रो व टप्पा',
+      th_est_arrival: 'अपेक्षित आगमन',
+      th_live_action: 'थेट कृती',
+
+      // Bulk Demands View
+      badge_reverse_auction: 'रिव्हर्स ऑक्शन व थेट खरेदी',
+      demands_header_title: 'संस्थात्मक मोठ्या प्रमाणातील खरेदी मागण्या',
+      demands_header_subtitle: 'शून्य मध्यस्थ कमिशनसह १०,०००+ प्रमाणित महाराष्ट्र शेतकरी आणि FPOs ना थेट खरेदी कोटा प्रसारित करा.',
+      btn_export_pos: '📊 सक्रिय POs एक्सपोर्ट करा',
+      btn_automatch_refresh: '⚡ ऑटो-मॅच रिफ्रेश',
+      btn_broadcast_new_quota: '+ नवीन खरेदी कोटा प्रसारित करा',
+      kpi_active_quota_vol: 'सक्रिय कोटा प्रमाण',
+      kpi_strategic_commodities: '६ प्रमुख शेतीमालांमध्ये',
+      kpi_fulfilled_vol: 'पूर्ण झालेले प्रमाण',
+      kpi_quality_passed: '१००% गुणवत्ता प्रमाणित',
+      kpi_net_sourcing_savings: 'एकूण थेट बचत',
+      kpi_zero_middlemen: 'मध्यस्थ-मुक्त नफा',
+      kpi_live_farmer_bids: 'थेट शेतकरी बोल्या',
+      kpi_avg_response_time: '< ४ तास सरासरी प्रतिसाद वेळ',
+      tab_demands_all: 'सर्व सक्रिय मागण्या (४)',
+      tab_demands_automatch: '⚡ ऑटो-मॅच तयार (२)',
+      tab_demands_broadcasting: '📡 बोल्यांसाठी प्रसारित (२)',
+      tab_demands_fulfilled: '✅ पूर्ण व वाहतुकीत (२)',
+
+      // Escrow Vault View
+      badge_default_proof: '🛡️ १००% सुरक्षितता हमी',
+      btn_audit_statement: '📄 ऑडिट विवरण (PDF)',
+      btn_deposit_escrow: '+ एस्क्रो रक्कम जमा करा',
+      kpi_active_contracts: 'सक्रिय एस्क्रो करार',
+      kpi_committed_pool: 'सुरक्षित निधीमध्ये जमा',
+      kpi_advance_in_escrow: 'एस्क्रो आगाऊ रक्कम (३५%)',
+      kpi_rbi_compliant: 'आरबीआय सुसंगत दुहेरी-चावी नोड',
+      kpi_delivery_balances: 'वितरण उर्वरित रक्कम (६५%)',
+      kpi_disbursed_qc: 'गुणवत्ता तपासणीनंतर वाटप',
+      kpi_liquid_reserves: 'उपलब्ध एस्क्रो राखीव निधी',
+      kpi_unallocated_buffer: 'अराखीव कार्यशील निधी',
+      escrow_safeguard_callout: 'सुरक्षा यंत्रणा सक्रिय: सर्व व्यवहार आरबीआय-नियंत्रित दुहेरी-चावी स्मार्ट एस्क्रो करारांतर्गत सुरक्षित आहेत. शेतात वजनावेळी ३५% आगाऊ रक्कम लॉक होते आणि गंतव्य ठिकाणी गुणवत्ता तपासणी मंजूर झाल्यानंतर १२ तासांच्या आत ६५% उर्वरित रक्कम थेट जमा केली जाते.',
+      btn_raise_qc_hold: '⚠️ गुणवत्ता आक्षेप नोंदवा',
+      escrow_active_contracts_title: '🔒 सक्रिय त्रिपक्षीय एस्क्रो करार व टप्प्याटप्प्याने वाटप',
+      escrow_ledger_title: '📜 अपरिवर्तनीय व्यवहार ऑडिट खातेवही',
+      escrow_ledger_sub: 'बँकिंग UTR संदर्भ आणि रिअल-टाइम वेबहुक सिंकसह डिजिटल स्वाक्षरीकृत ऑडिट नोंदी.',
+      tab_ledger_all: 'सर्व नोंदी (२४)',
+      tab_ledger_advances: '३५% आगाऊ (१२)',
+      tab_ledger_finals: '६५% अंतिम वाटप (८)',
+      tab_ledger_completed: 'पूर्ण (२४)',
+      th_txn_ref: 'व्यवहार संदर्भ',
+      th_contract_ref: 'करार संदर्भ',
+      th_farmer: 'शेतकरी / लाभार्थी',
+      th_produce_lot: 'शेतीमाल लॉट',
+      th_tranche_type: 'किश्त प्रकार',
+      th_amount: 'रक्कम',
+      th_bank_utr: 'बँक UTR / गेटवे',
+      th_status: 'स्थिती',
+      th_action: 'ऑडिट कृती',
+
+      // AgriCalc Calculator View
+      hero_calc_title: 'AgriCalc™ — शेतावरून थेट खरेदी विरुद्ध बाजार समिती पोहोच खर्च विश्लेषण प्रणाली',
+      badge_landed_cost: 'थेट शेत पोहोच खर्च विश्लेषण',
+      hero_calc_subtitle: 'संस्थात्मक खरेदी अर्थशास्त्राचे थेट विश्लेषण करा. पारदर्शक थेट शेतातील खरेदीची पारंपारिक ४-स्तरीय बाजार समिती मध्यस्थ खर्चाशी तुलना करा.',
+      btn_download_cost_sheet: '📄 तपशीलवार खर्च पत्रक डाऊनलोड करा',
+      btn_find_matching_lots: '🔍 जुळणारे शेतकरी लॉट्स शोधा',
+      btn_view_matching_lots: '🌾 जुळणारे शेतकरी लॉट्स पहा',
+      quick_presets_label: 'जलद खरेदी पर्याय:',
+      calc_params_header: 'खरेदी निकष',
+      calc_3step_setup: '३-टप्प्यांची पोहोच खर्च रचना',
+      calc_step1_title: '१. शेतीमाल व प्रतवारी निवडा',
+      calc_step1_label: '१. शेतीमाल व प्रतवारी निवडा',
+      calc_procurement_volume: 'खरेदी प्रमाण',
+      calc_step2_title: '२. खरेदी मार्ग व वाहतूक कॉरिडॉर',
+      calc_origin_mandi_label: 'उत्पत्ती बाजार समिती / पट्टा',
+      calc_receiving_terminal_label: 'खरेदीदार स्वीकृती केंद्र',
+      calc_auto_calc_route: 'स्वयंचलित मोजलेला मार्ग',
+      calc_step3_title: '३. दर आणि नफा फरक (₹/किलो)',
+      calc_direct_farm_ask: 'थेट शेतातील दर',
+      calc_mandi_modal_rate: 'बाजार समिती सरासरी दर',
+      btn_customize_fleet: '⚙️ वाहतूक व हाताळणी सानुकूल करा',
+      hero_direct_landed_rate: 'एग्रीनेक्स थेट पोहोच दर',
+      badge_zero_middlemen: 'शून्य मध्यस्थ',
+      lbl_delivered: 'पोहोच दर',
+      lbl_total_order_val: 'एकूण ऑर्डर मूल्य:',
+      lbl_trad_mandi: 'पारंपारिक बाजार समिती:',
+      lbl_net_sourcing_savings: 'निव्वळ खरेदी बचत:',
+      btn_broadcast_demand_rate: 'या दराने थेट मागणी प्रसारित करा',
+      btn_explore_matching_lots: 'जुळणारे शेतकरी लॉट्स पहा',
+      title_cost_stack_composition: 'खर्च रचना विश्लेषण',
+      bucket_farm_produce: 'थेट शेतातील शेतीमाल खर्च:',
+      bucket_logistics_freight: 'वाहतूक भाडे व टोल:',
+      bucket_handling_crates: 'हाताळणी, क्रेट्स व एस्क्रो:',
+      summary_adv_logistics_ledger: 'प्रगत वाहतूक नियंत्रणे आणि १६-मुद्द्यांचे खरेदी खर्च ऑडिट खातेवही',
+      btn_click_expand: 'पाहण्यासाठी व बदलण्यासाठी क्लिक करा',
+      hdr_vehicle_fleet_controls: 'वाहतूक ताफा, पॅकेजिंग प्रकार व हमाली दर',
+      lbl_hauler_fleet_type: 'वाहन प्रकार',
+      lbl_packaging_crate_mode: 'पॅकेजिंग व क्रेट पद्धत',
+      lbl_loading_hamali: 'हमाली / तोलाई (₹/क्विंटल)',
+      lbl_route_distance: 'मार्ग अंतर (किमी)',
+      hdr_agrinex_direct_cost_stack: 'एग्रीनेक्स थेट खरेदी खर्च रचना',
+      badge_zero_intermediary: 'शून्य मध्यस्थ',
+      cost_item_farmgate: 'शेतातील मूळ पीक दर:',
+      cost_item_packaging: 'पुन्हा वापरण्यायोग्य क्रेट्स / पॅकिंग:',
+      cost_item_freight: 'वाहतूक भाडे व इंधन:',
+      cost_item_tolls: 'महामार्ग टोल व परवाने:',
+      cost_item_hamali: 'शेतातील हमाली व तोलाई:',
+      cost_item_escrow_fee: 'एग्रीनेक्स स्मार्ट एस्क्रो शुल्क (०.७५%):',
+      cost_item_qc_slip: 'डिजिटल गुणवत्ता तपासणी व पावती:',
+      cost_item_transit_loss: 'वाहतूक घट संरक्षण:',
+      cost_item_total_direct: 'एकूण थेट पोहोच खर्च:',
+      hdr_mandi_cost_stack: 'पारंपारिक बाजार समिती मध्यस्थ खर्च रचना',
+      badge_4layer_brokers: '४-स्तरीय मध्यस्थ',
+      cost_item_apmc_modal: 'बाजार समिती सरासरी भाव:',
+      cost_item_apmc_cess: 'बाजार समिती कर / सेस (२.०%):',
+      cost_item_mandi_arhatiya: 'आडत्या / कमिशन एजंट (६.०%):',
+      cost_item_mandi_brokerage: 'दुय्यम दलाल नफा (३.५%):',
+      cost_item_mandi_hamali: 'बाजार समिती हमाली व तोलाई:',
+      cost_item_mandi_freight: 'पारंपारिक अनियंत्रित वाहतूक:',
+      cost_item_mandi_tolls: 'महामार्ग टोल व परवाने:',
+      cost_item_mandi_spoilage: 'वाहतुकीदरम्यान मालाचे नुकसान / घट:',
+      cost_item_total_mandi: 'एकूण पारंपारिक बाजार समिती खर्च:',
+
+      // Messages View
+      badge_negotiation_room: 'थेट शेतकरी वाटाघाटी कक्ष',
+      badge_escrow_protected: 'एस्क्रो सुरक्षित करार',
+      messages_header_title: 'शेतकरी वाटाघाटी आणि गुणवत्ता संवाद',
+      messages_header_subtitle: 'थेट बहुपक्षीय व्यापार वाटाघाटी, प्रति-बोली, गुणवत्ता चाचणी पावत्या देवाणघेवाण व त्वरित एस्क्रो हमी.',
+      signal_encrypted: '🔒 सिग्नल E2E एन्क्रिप्टेड',
+      farmer_contacts_label: 'थेट शेतकरी संपर्क',
+      quick_replies_label: '⚡ १-क्लिक संस्थात्मक जलद उत्तरे:',
+      chip_moisture_slip: '📄 गुणवत्ता व ओलावा चाचणी पावती पाठवा',
+      chip_dispatch_ready: '🚚 रीफर वाहन प्रस्थान वेळ निश्चित करा',
+      chip_counter_rate: '💬 प्रति-दर ₹१२.५०/किलो ऑफर करा',
+      chip_confirm_escrow: '🔒 ३५% आगाऊ एस्क्रो तयार आहे',
+
+      // Grievances View
+      badge_resolution_sla: '४८ तास निवारण हमी (SLA)',
+      btn_file_new_grievance: '+ नवीन गुणवत्ता / वजन तक्रार नोंदवा',
+      kpi_active_disputes: 'सक्रिय तक्रारी',
+      kpi_assigned_arbitrator: 'बाजार समिती मध्यस्थांकडे वर्ग',
+      kpi_escrow_frozen: 'एस्क्रो रक्कम तात्पुरती रोखली',
+      kpi_protected_safe_vault: 'सुरक्षित तिजोरीत संरक्षित',
+      kpi_claims_resolved: 'तक्रारी निवारण पूर्ण',
+      kpi_credited_wallet: '१००% खात्यात परतावा जमा',
+      kpi_avg_turnaround: 'सरासरी निवारण कालावधी',
+      kpi_guaranteed_sla: 'हमी वेळेत निवारण',
+      grv_guarantee_title: 'पणन महामंडळ मध्यस्थी खरेदीदार संरक्षण हमी',
+      grv_guarantee_desc: 'एग्रीनेक्सवरील प्रत्येक खरेदी स्वयंचलित एस्क्रो संरक्षणाने सुसज्ज आहे. जर डिलिव्हरी वजनात १.५% पेक्षा जास्त तफावत आढळली किंवा गुणवत्ता शेतावरील रिपोर्टपेक्षा वेगळी निघाली, तर ६५% उर्वरित रक्कम त्वरित थांबवली जाते आणि पणन महामंडळाच्या अधिकृत निरीक्षकाद्वारे ४८ तासांच्या आत सोडवली जाते.',
+      grv_auto_freeze_pill: '🔒 ६५% उर्वरित रक्कम स्वयंचलित रोख',
+      grv_toggle_protocol: '३-टप्प्यांची प्रक्रिया पहा ▾',
+      btn_view_dispute_policy: '📜 तक्रार निवारण धोरण पहा',
+      msamb_tribunal_title: '🏛️ पणन महामंडळ जलद तक्रार निवारण प्रक्रिया',
+      msamb_tribunal_subtitle: 'महाराष्ट्र कृषी उत्पन्न खरेदी-विक्री (नियमन) अधिनियम, १९६३ अंतर्गत कायदेशीररित्या बंधनकारक ३-टप्प्यांची लवाद प्रक्रिया.',
+      badge_legal_binding: '⚖️ कायदेशीर बंधनकारक नियम',
+      tribunal_step1_title: 'टप्पा १: स्वयंचलित एस्क्रो रोक',
+      tribunal_step1_desc: 'तक्रार नोंदवताच ICICI/Axis एस्क्रो खात्यातील ६५% उर्वरित रक्कम लगेच गोठवली जाते. खरेदीदाराला शून्य आर्थिक धोका.',
+      tribunal_step2_title: 'टप्पा २: संयुक्त गुणवत्ता पुनर्निरीक्षण',
+      tribunal_step2_desc: 'स्वतंत्र MSAMB/NABL प्रमाणित निरीक्षक २४ तासांच्या आत पोहोच ठिकाणी शेतीमालाची प्रत्यक्ष तपासणी करतो.',
+      tribunal_step3_title: 'टप्पा ३: बंधनकारक तोडगा व परतावा',
+      tribunal_step3_desc: 'प्रमाणानुसार दर समायोजन, आंशिक माल नाकारल्यास परतावा किंवा पूर्ण बॅचचा तात्काळ पुनर्निपटारा ४८ तासांत पूर्ण केला जातो.',
+      filter_claims_label: 'तक्रारी फिल्टर करा:',
+      tab_grv_all: 'सर्व तक्रारी (४)',
+      tab_grv_review: 'पुनरावलोकनाधीन (२)',
+      tab_grv_settled: 'निकाली व परतावा पूर्ण (२)',
+      showing_claims_records: '४ पैकी ४ तक्रार नोंदी दर्शवित आहे',
+      status_under_review: 'चौकशी सुरू',
+      status_frozen: 'गोठवले',
+      status_locked: 'सुरक्षित / लॉक',
+      status_on_hold: 'तात्पुरते रोखलेले',
+      status_ready: 'सज्ज',
+      kpi_sla_badge: '⚡ हमी वेळ',
+      kpi_turnaround_val: '१८.४ तास',
+      vault_tracks_count: '३ सक्रिय टप्पे ट्रॅक',
+      demands_active_badge: '६ सक्रिय कोटा',
+      stat_trucks_on_road: '२ रस्त्यावर / प्रवासात',
+      stat_gate_passes_verified: '२ पडताळलेले',
+      tab_shipments_all: 'सर्व ऑर्डर्स (३)',
+      tab_shipments_transit: 'प्रवासात (३)',
+      tab_shipments_scheduled: 'पिकअप नियोजित (०)',
+      tab_shipments_delivered: 'पोहोचवले (०)',
+      tab_shipments_drivers: 'चालक व वाहन तपशील (३)',
+
       // Common UI & Toast
       btn_cancel: 'रद्द करा',
       btn_submit: 'सादर करा',
@@ -1510,8 +2110,7 @@
     { sel: 'li[data-view="view-bulk-demands"] .nav-label', key: 'nav_demands' },
     { sel: 'li[data-view="view-consignments"] .nav-item-left span', key: 'nav_consignments' },
     { sel: 'li[data-view="view-consignments"] .nav-label', key: 'nav_consignments' },
-    { sel: 'li[data-view="view-storage"] .nav-item-left span', key: 'nav_storage' },
-    { sel: 'li[data-view="view-storage"] .nav-label', key: 'nav_storage' },
+
     { sel: 'li[data-view="view-calculator"] .nav-item-left span', key: 'nav_calculator' },
     { sel: 'li[data-view="view-calculator"] .nav-label', key: 'nav_calculator' },
     { sel: 'li[data-view="view-messages"] .nav-item-left span', key: 'nav_messages' },
@@ -1569,7 +2168,7 @@
     { sel: '#view-calculator .dash-title', key: 'calc_header_title' },
     { sel: '#view-calculator .dash-subtitle', key: 'calc_header_subtitle' },
     { sel: '#btn-calc-post-demand', key: 'btn_calc_post_demand' },
-    { sel: '#view-calculator .btn-outline[onclick*="printProcurementCostSheet"]', key: 'btn_print_sheet' },
+    { sel: '#view-calculator .btn-outline[onclick*="downloadProcurementCostSheetPdf"], #view-calculator .btn-outline[onclick*="printProcurementCostSheet"]', key: 'btn_print_sheet' },
     { sel: '#view-calculator .btn-primary[onclick*="filterMarketplaceFromCalculator"]', key: 'btn_calc_view_lots' },
     
     // Insights View Header & Benchmark Controls
@@ -1622,8 +2221,7 @@
     { sel: '#view-grievance .dash-subtitle', key: 'grv_header_subtitle' },
     
     // Storage & Logistics Views
-    { sel: '#view-storage .dash-title', key: 'storage_header_title' },
-    { sel: '#view-storage .dash-subtitle', key: 'storage_header_subtitle' },
+
     { sel: '#view-logistics .dash-title', key: 'logistics_header_title' },
     { sel: '#view-logistics .dash-subtitle', key: 'logistics_header_subtitle' }
   ];
@@ -1853,6 +2451,38 @@
 
   const PHRASE_REPLACEMENTS = {
     mr: [
+      // Direct Farmer Messages & Negotiations (Highest Priority)
+      [/Namaste\s+Karthik\s+sir!\s*I\s+have\s+10,000\s*kg\s+export-graded\s+Garwa\s+red\s+onions\s+cured\s+and\s+ready\s+at\s+Lasalgaon\s+APMC\s+yard\./gi, 'नमस्कार कार्तिक सर! माझ्याकडे लासलगाव बाजार समितीत १०,००० किलो निर्यात दर्जाचा गरवा लाल कांदा विक्रीसाठी तयार आहे.'],
+      [/Hello\s+Patil\s+ji!\s*We\s+are\s+looking\s+for\s+immediate\s+institutional\s+dispatch\s+to\s+Navi\s+Mumbai\s+Terminal\.\s*Can\s+you\s+load\s+today\?/gi, 'नमस्कार पाटील जी! आम्हाला नवी मुंबई टर्मिनलसाठी तातडीने माल पाठवायचा आहे. आपण आज माल भरू शकता का?'],
+      [/Yes\s+sir,\s*weighing\s+is\s+completed\s+on\s+electronic\s+weighbridge\.\s*Once\s+35%\s+advance\s+escrow\s+is\s+locked,\s*truck\s+can\s+move\s+immediately\s+via\s+Samruddhi\s+Expressway\./gi, 'होय सर, इलेक्ट्रॉनिक वजनकाट्यावर वजन पूर्ण झाले आहे. ३५% आगाऊ एस्क्रो जमा होताच समृद्धी महामार्गाने गाडी तात्काळ रवाना होईल.'],
+      [/Hello\s+sir,\s*my\s+6,000\s*kg\s+Narayangaon\s+hybrid\s+tomato\s+harvest\s+has\s+82%\s+firmness\s+index,\s*packed\s+in\s+sanitized\s+returnable\s+crates\./gi, 'नमस्कार सर, माझा ६,००० किलो नारायणगाव संकरित टोमॅटो ८२% गुणवत्ता निर्देशांकासह स्वच्छ क्रेट्समध्ये पॅक आहे.'],
+      [/Hi\s+Sanjay\s+ji,\s*what\s+is\s+your\s+best\s+floor\s+price\s+for\s+the\s+entire\s+lot\?/gi, 'नमस्कार संजय जी, संपूर्ण लॉटसाठी आपला अंतिम सर्वोत्तम दर काय आहे?'],
+      [/I\s+can\s+offer\s*₹?\s*13(?:\.00)?\/kg\s+direct\s+farm-gate\s+price\s+if\s+payment\s+is\s+routed\s+through\s+AgriNex\s+Smart\s+Escrow\./gi, 'पेमेंट एग्रीनेक्स स्मार्ट एस्क्रोद्वारे झाल्यास मी थेट शेतातील ₹ १३.००/किलो दर देऊ शकतो.'],
+      [/Namaskar!\s*12,000\s*kg\s+Grand\s+Naine\s+bananas\s+harvested\s+at\s+mature\s+green\s+stage\s+with\s+7-8\s+hands\s+per\s+bunch\s+ready\s+for\s+reefer\s+transport\./gi, 'नमस्कार! १२,००० किलो ग्रँड नैन केळी ७-८ फण्यांच्या घडांसह रीफर वाहतुकीसाठी तयार आहेत.'],
+      [/Excellent\s+quality!\s*We\s+need\s+temperature-logged\s+reefer\s+transport\s+at\s+13\.5°C\s+to\s+Navi\s+Mumbai\./gi, 'उत्कृष्ट प्रत! आम्हाला १३.५°C तापमानावर रीफर वाहतुकीद्वारे नवी मुंबईत माल हवा आहे.'],
+      [/All\s+pre-cooling\s+and\s+foam\s+pad\s+packaging\s+done\.\s*Ready\s+for\s+loading\s+at\s+Raver\s+hub\./gi, 'प्री-कूलिंग आणि फोम पॅड पॅकेजिंग पूर्ण झाले आहे. रावेर केंद्रावर लोडिंगसाठी माल सज्ज आहे.'],
+      [/Greetings\s+Karthik!\s*Latur\s+FPO\s+has\s+150\s*Qt\s+clean\s+JS-335\s+soybean\s+with\s+19%\s+oil\s+content\s+ready\s+in\s+50kg\s+jute\s+bags\./gi, 'नमस्कार कार्तिक! लातूर शेतकरी कंपनीकडे ५० किलो जूट पोत्यांमध्ये १९% तेल प्रमाण असलेला १५० क्विंटल स्वच्छ JS-३३५ सोयाबीन तयार आहे.'],
+      [/Namaste\s+sir,\s*50\s*Qt\s+double-polished\s+Rajapuri\s+turmeric\s+fingers\s+available\s+for\s+direct\s+institutional\s+spice\s+procurement\./gi, 'नमस्कार सर, थेट संस्थात्मक मसाला खरेदीसाठी ५० क्विंटल डबल-पॉलिश राजापुरी हळद उपलब्ध आहे.'],
+      [/Hello\s+Karthik\s+sir,\s*fresh\s+harvest\s+Nagpur\s+mandarins\s+graded\s+by\s+electronic\s+weight\s+sizer\s+ready\s+at\s+Katol\s+packhouse\./gi, 'नमस्कार कार्तिक सर, इलेक्ट्रॉनिक ग्रेडरने निवडलेली ताजी नागपूर संत्री काटोल पॅकहाऊसमध्ये तयार आहेत.'],
+      [/Namaskar!\s*40\s*Qt\s+export-grade\s+Bhagwa\s+pomegranates\s*\(250g\+\s*fruit\s*weight\)\s+boxed\s+in\s+10kg\s+corrugated\s+cartons\./gi, 'नमस्कार! १० किलो बॉक्समध्ये ४० क्विंटल निर्यात दर्जाचे भगवा डाळिंब (२५० ग्रॅम+ वजन) उपलब्ध आहेत.'],
+      [/Greetings!\s*90\s*Qt\s+long\s+staple\s+cotton\s+pressed\s+bales\s+ready\s+for\s+institutional\s+textile\s+&\s+ginning\s+delivery\./gi, 'नमस्कार! कापड व जिनिंग गिरण्यांच्या थेट वितरणासाठी ९० क्विंटल लांब धाग्याच्या कापसाच्या गाठी सज्ज आहेत.'],
+      [/Thank\s+you\s+for\s+your\s+message!\s*As\s+agreed\s+for\s+.*?,?\s*we\s+will\s+prepare\s+the\s+vehicle\s+weighing\s+pass\s+once\s+escrow\s+advance\s+is\s+initiated\./gi, 'आपल्या संदेशाबद्दल धन्यवाद! ठरल्याप्रमाणे, एस्क्रो आगाऊ रक्कम जमा होताच आम्ही वाहन वजन पास तयार करू.'],
+      [/Understood\s+Karthik\s+sir\.\s*I\s+can\s+offer\s+an\s+instant\s+discount\s+of\s*₹?\s*1\.50\/kg\s+if\s+you\s+confirm\s+bulk\s+lifting\s+with\s+verified\s+lorry\s+receipt\s+today!/gi, 'समजले कार्तिक सर. आपण आजच प्रमाणित लॉरी पावतीसह माल उचल निश्चित केल्यास मी ₹ १.५०/किलो त्वरित सूट देऊ शकतो!'],
+      [/Digital\s+moisture\s+and\s+assay\s+report\s+is\s+verified\s+at\s+.*?\.\s*Quality\s+is\s+100%\s+guaranteed\s+Grade\s+A\./gi, 'डिजिटल आर्द्रता व प्रयोगशाळा तपासणी अहवाल प्रमाणित आहे. १००% ग्रेड अ गुणवत्तेची हमी आहे.'],
+      [/Please\s+share\s+electronic\s+weighbridge\s+slip\s+and\s+moisture\s+report\./gi, 'कृपया इलेक्ट्रॉनिक वजन पावती आणि आर्द्रता अहवाल पाठवा.'],
+      [/Is\s+immediate\s+loading\s+available\s+today\s+at\s+Samruddhi\s+hub\?/gi, 'समृद्धी केंद्रावर आजच तातडीने लोडिंग उपलब्ध आहे का?'],
+      [/Can\s+you\s+offer\s*₹?\s*1(?:\.00)?\/kg\s+discount\s+for\s+100%\s+upfront\s+escrow\?/gi, '१००% तत्काळ एस्क्रो पेमेंटसाठी आपण ₹ १.००/किलो सूट देऊ शकता का?'],
+      [/35%\s*Escrow\s+advance\s+initiated\s+in\s+AgriNex\s+Vault\./gi, 'एग्रीनेक्स वॉल्टमध्ये ३५% आगाऊ एस्क्रो रक्कम जमा केली आहे.'],
+      [/Farmer\s+Ask\s+Rate:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*kg\s*\((.*?)\)/gi, 'शेतकरी मागणी दर: <strong style="color: #0c5a36;">₹ $1 /किलो</strong> $2 किलोसाठी ($3)'],
+      [/Farmer\s+countered\s+at\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*kg\s*\((.*?)\)/gi, 'शेतकरी प्रति-दर: <strong style="color: #0c5a36;">₹ $1 /किलो</strong> $2 किलोसाठी ($3)'],
+      [/GI\s+Certified\s+Khandesh:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*kg/gi, 'GI प्रमाणित खानदेश: <strong style="color: #0c5a36;">₹ $1 /किलो</strong> $2 किलोसाठी'],
+      [/FPO\s+Bulk\s+Single-Origin:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*Qt/gi, 'शेतकरी कंपनी घाऊक: <strong style="color: #0c5a36;">₹ $1 /किलो</strong> $2 क्विंटलसाठी'],
+      [/Lab\s+Tested\s+Curcumin\s+([0-9.]+%)?:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*Qt/gi, 'लॅब प्रमाणित करक्युमिन: <strong style="color: #0c5a36;">₹ $2 /किलो</strong> $3 क्विंटलसाठी'],
+      [/GI\s+Table\s+Fruit:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*Qt/gi, 'GI टेबल फळ: <strong style="color: #0c5a36;">₹ $1 /किलो</strong> $2 क्विंटलसाठी'],
+      [/Deep\s+Red\s+Arils:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*Qt/gi, 'गडद लाल डाळिंब: <strong style="color: #0c5a36;">₹ $1 /किलो</strong> $2 क्विंटलसाठी'],
+      [/Staple\s+>29mm:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*Qt/gi, 'लांब धागा >२९मिमी: <strong style="color: #0c5a36;">₹ $1 /किलो</strong> $2 क्विंटलसाठी'],
+      [/Lock\s+35%\s+Escrow\s*\(\s*₹\s*([0-9.]+)\s*\/\s*(?:kg|किग्रा|किलो)\s*\)/gi, '३५% एस्क्रो सुरक्षित करा (₹ $1/किलो)'],
+
       // Grievances & MSAMB Tribunal Arbitration Section (Highest Priority)
       [/\bMSAMB\s+Fast-Track\s+Dispute\s+Tribunal\s+Arbitration\b/gi, 'MSAMB जलद-गती विवाद न्यायाधिकरण लवाद'],
       [/\bStatutory\s+resolution\s+protocol\s+for\s+quality\s+assay\s+variations\s*&\s*weighbridge\s+shortages\b/gi, 'गुणवत्ता तपासणी तफावत आणि वजन घट यांसाठी वैधानिक निवारण प्रोटोकॉल'],
@@ -2189,6 +2819,9 @@
       [/\bAsk AI\b/gi, 'AI ला विचारा'],
       [/\bPrint \/ Save PDF\b/gi, 'प्रिंट / PDF जतन करा'],
       [/\bPrint Receipt\b/gi, 'पावती प्रिंट करा'],
+      [/\bDownload PDF Cost Sheet\b/gi, 'खर्च पत्रक PDF डाऊनलोड करा'],
+      [/\bDownload PDF Receipt\b/gi, 'पावती PDF डाऊनलोड करा'],
+      [/\bDownload Official LR \(PDF\)\b/gi, 'अधिकृत LR (PDF) डाऊनलोड करा'],
       [/\bDone & Return to Portal\b/gi, 'पूर्ण झाले, पोर्टलवर परत जा'],
       [/\bDownload Stamped PDF\b/gi, 'स्वाक्षरी केलेला PDF करार डाऊनलोड करा'],
       [/\bPrint \/ Download Official LR PDF\b/gi, 'अधिकृत LR पावती प्रिंट / डाऊनलोड करा (PDF)'],
@@ -2472,6 +3105,38 @@
       [/\bFarmer:/gi, 'शेतकरी:']
     ],
     hi: [
+      // Direct Farmer Messages & Negotiations (Highest Priority)
+      [/Namaste\s+Karthik\s+sir!\s*I\s+have\s+10,000\s*kg\s+export-graded\s+Garwa\s+red\s+onions\s+cured\s+and\s+ready\s+at\s+Lasalgaon\s+APMC\s+yard\./gi, 'नमस्ते कार्तिक सर! मेरे पास लासलगांव मंडी प्रांगण में 10,000 किग्रा निर्यात-ग्रेड गरवा लाल प्याज तैयार और उपलब्ध है।'],
+      [/Hello\s+Patil\s+ji!\s*We\s+are\s+looking\s+for\s+immediate\s+institutional\s+dispatch\s+to\s+Navi\s+Mumbai\s+Terminal\.\s*Can\s+you\s+load\s+today\?/gi, 'नमस्ते पाटिल जी! हम नवी मुंबई टर्मिनल के लिए तत्काल संस्थागत डिलीवरी चाहते हैं। क्या आप आज लोड कर सकते हैं?'],
+      [/Yes\s+sir,\s*weighing\s+is\s+completed\s+on\s+electronic\s+weighbridge\.\s*Once\s+35%\s+advance\s+escrow\s+is\s+locked,\s*truck\s+can\s+move\s+immediately\s+via\s+Samruddhi\s+Expressway\./gi, 'जी हाँ सर, इलेक्ट्रॉनिक धर्मकांटे पर वजन पूरा हो चुका है। 35% अग्रिम एस्क्रो जमा होते ही ट्रक समृद्धि एक्सप्रेसवे से रवाना हो जाएगा।'],
+      [/Hello\s+sir,\s*my\s+6,000\s*kg\s+Narayangaon\s+hybrid\s+tomato\s+harvest\s+has\s+82%\s+firmness\s+index,\s*packed\s+in\s+sanitized\s+returnable\s+crates\./gi, 'नमस्ते सर, मेरी 6,000 किग्रा नारायणगांव हाइब्रिड टमाटर की फसल 82% गुणवत्ता सूचकांक के साथ स्वच्छ क्रेट्स में पैक है।'],
+      [/Hi\s+Sanjay\s+ji,\s*what\s+is\s+your\s+best\s+floor\s+price\s+for\s+the\s+entire\s+lot\?/gi, 'नमस्ते संजय जी, पूरे लॉट के लिए आपका न्यूनतम अंतिम भाव क्या है?'],
+      [/I\s+can\s+offer\s*₹?\s*13(?:\.00)?\/kg\s+direct\s+farm-gate\s+price\s+if\s+payment\s+is\s+routed\s+through\s+AgriNex\s+Smart\s+Escrow\./gi, 'यदि भुगतान एग्रीनेक्स स्मार्ट एस्क्रो के माध्यम से हो, तो मैं ₹ 13.00/किग्रा का सीधा खेत भाव दे सकता हूँ।'],
+      [/Namaskar!\s*12,000\s*kg\s+Grand\s+Naine\s+bananas\s+harvested\s+at\s+mature\s+green\s+stage\s+with\s+7-8\s+hands\s+per\s+bunch\s+ready\s+for\s+reefer\s+transport\./gi, 'नमस्कार! 12,000 किग्रा ग्रैंड नैन केला 7-8 घहर प्रति गुच्छा के साथ रीफर वैन परिवहन के लिए तैयार है।'],
+      [/Excellent\s+quality!\s*We\s+need\s+temperature-logged\s+reefer\s+transport\s+at\s+13\.5°C\s+to\s+Navi\s+Mumbai\./gi, 'उत्कृष्ट गुणवत्ता! हमें 13.5°C पर तापमान-नियंत्रित रीफर परिवहन द्वारा नवी मुंबई माल चाहिए।'],
+      [/All\s+pre-cooling\s+and\s+foam\s+pad\s+packaging\s+done\.\s*Ready\s+for\s+loading\s+at\s+Raver\s+hub\./gi, 'प्री-कूलिंग और फोम पैड पैकेजिंग पूरी हो चुकी है। रावेर केंद्र पर लोडिंग के लिए तैयार है।'],
+      [/Greetings\s+Karthik!\s*Latur\s+FPO\s+has\s+150\s*Qt\s+clean\s+JS-335\s+soybean\s+with\s+19%\s+oil\s+content\s+ready\s+in\s+50kg\s+jute\s+bags\./gi, 'नमस्ते कार्तिक! लातूर एफपीओ के पास 50 किग्रा जूट बोरियों में 19% तेल मात्रा वाला 150 क्विंटल साफ JS-335 सोयाबीन तैयार है।'],
+      [/Namaste\s+sir,\s*50\s*Qt\s+double-polished\s+Rajapuri\s+turmeric\s+fingers\s+available\s+for\s+direct\s+institutional\s+spice\s+procurement\./gi, 'नमस्ते सर, मसालों की सीधी संस्थागत खरीद के लिए 50 क्विंटल डबल-पॉलिश राजापुरी हल्दी उपलब्ध है।'],
+      [/Hello\s+Karthik\s+sir,\s*fresh\s+harvest\s+Nagpur\s+mandarins\s+graded\s+by\s+electronic\s+weight\s+sizer\s+ready\s+at\s+Katol\s+packhouse\./gi, 'नमस्ते कार्तिक सर, इलेक्ट्रॉनिक ग्रेडर से छांटे गए ताजा नागपुर संतरे काटोल पैकहाउस में तैयार हैं।'],
+      [/Namaskar!\s*40\s*Qt\s+export-grade\s+Bhagwa\s+pomegranates\s*\(250g\+\s*fruit\s*weight\)\s+boxed\s+in\s+10kg\s+corrugated\s+cartons\./gi, 'नमस्कार! 10 किग्रा कार्टन बॉक्स में 40 क्विंटल निर्यात-ग्रेड भगवा अनार (250 ग्राम+ वजन) तैयार हैं।'],
+      [/Greetings!\s*90\s*Qt\s+long\s+staple\s+cotton\s+pressed\s+bales\s+ready\s+for\s+institutional\s+textile\s+&\s+ginning\s+delivery\./gi, 'नमस्ते! कपड़ा और जिनिंग मिलों की सीधी डिलीवरी के लिए 90 क्विंटल लंबे रेशे की कपास गांठें तैयार हैं।'],
+      [/Thank\s+you\s+for\s+your\s+message!\s*As\s+agreed\s+for\s+.*?,?\s*we\s+will\s+prepare\s+the\s+vehicle\s+weighing\s+pass\s+once\s+escrow\s+advance\s+is\s+initiated\./gi, 'आपके संदेश के लिए धन्यवाद! जैसा कि सहमति हुई है, एस्क्रो अग्रिम जमा होते ही हम वाहन वजन पास तैयार कर देंगे।'],
+      [/Understood\s+Karthik\s+sir\.\s*I\s+can\s+offer\s+an\s+instant\s+discount\s+of\s*₹?\s*1\.50\/kg\s+if\s+you\s+confirm\s+bulk\s+lifting\s+with\s+verified\s+lorry\s+receipt\s+today!/gi, 'समझ गया कार्तिक सर। यदि आप आज ही सत्यापित लॉरी रसीद के साथ थोक उठाव की पुष्टि करते हैं, तो मैं ₹ 1.50/किग्रा की त्वरित छूट दे सकता हूँ!'],
+      [/Digital\s+moisture\s+and\s+assay\s+report\s+is\s+verified\s+at\s+.*?\.\s*Quality\s+is\s+100%\s+guaranteed\s+Grade\s+A\./gi, 'डिजिटल नमी और प्रयोगशाला जांच रिपोर्ट सत्यापित है। गुणवत्ता 100% गारंटीकृत ग्रेड ए है।'],
+      [/Please\s+share\s+electronic\s+weighbridge\s+slip\s+and\s+moisture\s+report\./gi, 'कृपया इलेक्ट्रॉनिक वजन पर्ची और नमी रिपोर्ट साझा करें।'],
+      [/Is\s+immediate\s+loading\s+available\s+today\s+at\s+Samruddhi\s+hub\?/gi, 'क्या आज समृद्धि हब पर तत्काल लोडिंग उपलब्ध है?'],
+      [/Can\s+you\s+offer\s*₹?\s*1(?:\.00)?\/kg\s+discount\s+for\s+100%\s+upfront\s+escrow\?/gi, 'क्या आप 100% अग्रिम एस्क्रो भुगतान पर ₹ 1.00/किग्रा की छूट दे सकते हैं?'],
+      [/35%\s*Escrow\s+advance\s+initiated\s+in\s+AgriNex\s+Vault\./gi, 'एग्रीनेक्स वॉल्ट में 35% अग्रिम एस्क्रो शुरू कर दिया गया है।'],
+      [/Farmer\s+Ask\s+Rate:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*kg\s*\((.*?)\)/gi, 'किसान मांग दर: <strong style="color: #0c5a36;">₹ $1 /किग्रा</strong> $2 किग्रा के लिए ($3)'],
+      [/Farmer\s+countered\s+at\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*kg\s*\((.*?)\)/gi, 'किसान प्रति-प्रस्ताव: <strong style="color: #0c5a36;">₹ $1 /किग्रा</strong> $2 किग्रा के लिए ($3)'],
+      [/GI\s+Certified\s+Khandesh:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*kg/gi, 'जीआई प्रमाणित खानदेश: <strong style="color: #0c5a36;">₹ $1 /किग्रा</strong> $2 किग्रा के लिए'],
+      [/FPO\s+Bulk\s+Single-Origin:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*Qt/gi, 'एफपीओ थोक: <strong style="color: #0c5a36;">₹ $1 /किग्रा</strong> $2 क्विंटल के लिए'],
+      [/Lab\s+Tested\s+Curcumin\s+([0-9.]+%)?:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*Qt/gi, 'प्रयोगशाला प्रमाणित करक्यूमिन: <strong style="color: #0c5a36;">₹ $2 /किग्रा</strong> $3 क्विंटल के लिए'],
+      [/GI\s+Table\s+Fruit:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*Qt/gi, 'जीआई टेबल फल: <strong style="color: #0c5a36;">₹ $1 /किग्रा</strong> $2 क्विंटल के लिए'],
+      [/Deep\s+Red\s+Arils:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*Qt/gi, 'गहरे लाल दाने: <strong style="color: #0c5a36;">₹ $1 /किग्रा</strong> $2 क्विंटल के लिए'],
+      [/Staple\s+>29mm:\s*<strong style="color: #0c5a36;">₹\s*([0-9.]+)\s*\/kg<\/strong>\s*for\s*([\d,]+)\s*Qt/gi, 'लंबा रेशा >29मिमी: <strong style="color: #0c5a36;">₹ $1 /किग्रा</strong> $2 क्विंटल के लिए'],
+      [/Lock\s+35%\s+Escrow\s*\(\s*₹\s*([0-9.]+)\s*\/\s*(?:kg|किग्रा|किलो)\s*\)/gi, '35% एस्क्रो लॉक करें (₹ $1/किग्रा)'],
+
       // Grievances & MSAMB Tribunal Arbitration Section (Highest Priority)
       [/\bMSAMB\s+Fast-Track\s+Dispute\s+Tribunal\s+Arbitration\b/gi, 'MSAMB त्वरित विवाद न्यायाधिकरण मध्यस्थता'],
       [/\bStatutory\s+resolution\s+protocol\s+for\s+quality\s+assay\s+variations\s*&\s*weighbridge\s+shortages\b/gi, 'गुणवत्ता परख भिन्नता एवं धर्मकांटा वजन कमी के लिए वैधानिक समाधान प्रोटोकॉल'],
@@ -2807,6 +3472,9 @@
       [/\bAsk AI\b/gi, 'एआई से पूछें'],
       [/\bPrint \/ Save PDF\b/gi, 'प्रिंट / पीडीएफ सहेजें'],
       [/\bPrint Receipt\b/gi, 'रसीद प्रिंट करें'],
+      [/\bDownload PDF Cost Sheet\b/gi, 'लागत पत्रक PDF डाउनलोड करें'],
+      [/\bDownload PDF Receipt\b/gi, 'रसीद PDF डाउनलोड करें'],
+      [/\bDownload Official LR \(PDF\)\b/gi, 'आधिकारिक LR (PDF) डाउनलोड करें'],
       [/\bDone & Return to Portal\b/gi, 'पूर्ण, पोर्टल पर वापस जाएं'],
       [/\bDownload Stamped PDF\b/gi, 'हस्ताक्षरित पीडीएफ डाउनलोड करें'],
       [/\bPrint \/ Download Official LR PDF\b/gi, 'आधिकारिक LR रसीद प्रिंट / डाउनलोड करें (PDF)'],
@@ -6370,6 +7038,8 @@
         keys.push(escapeRegex(w));
       }
     }
+    // Sort keys by length descending so longer words/phrases are matched first
+    keys.sort((a, b) => b.length - a.length);
     if (keys.length > 0) {
       WORD_REGEX[lang] = new RegExp('\\b(' + keys.join('|') + ')\\b', 'g');
     }
@@ -6379,6 +7049,64 @@
     if (!key) return fallback || '';
     const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
     return dict[key] || fallback || key;
+  }
+
+  function tPerson(name, lang = currentLang) {
+    if (!name || lang === 'en') return name;
+    if (PERSON_MAP[name] && PERSON_MAP[name][lang]) return PERSON_MAP[name][lang];
+    for (const [k, v] of Object.entries(PERSON_MAP)) {
+      if (name.includes(k) && v[lang]) name = name.replaceAll(k, v[lang]);
+    }
+    return name;
+  }
+
+  function tCrop(crop, lang = currentLang) {
+    if (!crop || lang === 'en') return crop;
+    if (CROP_MAP[crop] && CROP_MAP[crop][lang]) return CROP_MAP[crop][lang];
+    for (const [k, v] of Object.entries(CROP_MAP)) {
+      if (crop.includes(k) && v[lang]) crop = crop.replaceAll(k, v[lang]);
+    }
+    return crop;
+  }
+
+  function tLocation(loc, lang = currentLang) {
+    if (!loc || lang === 'en') return loc;
+    if (LOCATION_MAP[loc] && LOCATION_MAP[loc][lang]) return LOCATION_MAP[loc][lang];
+    for (const [k, v] of Object.entries(LOCATION_MAP)) {
+      if (loc.includes(k) && v[lang]) loc = loc.replaceAll(k, v[lang]);
+    }
+    return loc;
+  }
+
+  function tGrade(grade, lang = currentLang) {
+    if (!grade || lang === 'en') return grade;
+    if (GRADE_MAP[grade] && GRADE_MAP[grade][lang]) return GRADE_MAP[grade][lang];
+    for (const [k, v] of Object.entries(GRADE_MAP)) {
+      if (grade.includes(k) && v[lang]) grade = grade.replaceAll(k, v[lang]);
+    }
+    return grade;
+  }
+
+  function tVehicle(veh, lang = currentLang) {
+    if (!veh || lang === 'en') return veh;
+    if (typeof VEHICLE_MAP !== 'undefined' && VEHICLE_MAP[veh] && VEHICLE_MAP[veh][lang]) return VEHICLE_MAP[veh][lang];
+    if (typeof VEHICLE_MAP !== 'undefined') {
+      for (const [k, v] of Object.entries(VEHICLE_MAP)) {
+        if (veh.includes(k) && v[lang]) veh = veh.replaceAll(k, v[lang]);
+      }
+    }
+    return veh;
+  }
+
+  function tWarehouse(wh, lang = currentLang) {
+    if (!wh || lang === 'en') return wh;
+    if (typeof WAREHOUSE_MAP !== 'undefined' && WAREHOUSE_MAP[wh] && WAREHOUSE_MAP[wh][lang]) return WAREHOUSE_MAP[wh][lang];
+    if (typeof WAREHOUSE_MAP !== 'undefined') {
+      for (const [k, v] of Object.entries(WAREHOUSE_MAP)) {
+        if (wh.includes(k) && v[lang]) wh = wh.replaceAll(k, v[lang]);
+      }
+    }
+    return wh;
   }
 
   // Universal High-Performance Text Translation Function (O(1) Cached / Single-Pass)
@@ -6443,14 +7171,20 @@
     // Unescape HTML entities
     res = res.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ');
 
-    // 1. Apply comprehensive phrase replacements (Tier 1: Multi-word phrases & Regex rules) FIRST
-    const rules = PHRASE_REPLACEMENTS[currentLang] || [];
-    for (let i = 0; i < rules.length; i++) {
-      const [pattern, replacement] = rules[i];
-      if (pattern instanceof RegExp) {
-        res = res.replace(pattern, replacement);
-      } else if (typeof pattern === 'string' && res.includes(pattern)) {
-        res = res.replaceAll(pattern, replacement);
+    // 1. Apply comprehensive phrase replacements (Tier 1: Multi-word phrases & Regex rules)
+    const rules = PHRASE_REPLACEMENTS[currentLang];
+    if (rules && res.length > 2 && /[a-zA-Z]/.test(res)) {
+      for (let i = 0; i < rules.length; i++) {
+        const rule = rules[i];
+        const pattern = rule[0];
+        const replacement = rule[1];
+        if (pattern instanceof RegExp) {
+          res = res.replace(pattern, replacement);
+        } else if (typeof pattern === 'string') {
+          if (res.includes(pattern)) {
+            res = res.replaceAll(pattern, replacement);
+          }
+        }
       }
     }
 
@@ -6498,13 +7232,15 @@
   }
 
   // Close dropdown on outside click
-  document.addEventListener('click', function (e) {
-    const selectorWidget = document.querySelector('.lang-selector-widget');
-    const menu = document.getElementById('language-dropdown-menu');
-    if (menu && selectorWidget && !selectorWidget.contains(e.target)) {
-      menu.style.display = 'none';
-    }
-  });
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', function (e) {
+      const selectorWidget = document.querySelector('.lang-selector-widget');
+      const menu = document.getElementById('language-dropdown-menu');
+      if (menu && selectorWidget && !selectorWidget.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  }
 
   let isTranslating = false;
   let observerTimer = null;
@@ -6611,22 +7347,29 @@
 
     let textNode;
     while ((textNode = walker.nextNode())) {
-      if (!textNode.__origValue) {
-        if (/[a-zA-Z]/.test(textNode.nodeValue)) {
-          textNode.__origValue = textNode.nodeValue;
+      const currentVal = textNode.nodeValue;
+      if (!currentVal || !currentVal.trim()) continue;
+
+      if (/[a-zA-Z]/.test(currentVal)) {
+        if (currentVal !== textNode.__lastTranslated) {
+          textNode.__origValue = currentVal;
         }
       }
+
       if (currentLang === 'en') {
         if (textNode.__origValue && textNode.nodeValue !== textNode.__origValue) {
           textNode.nodeValue = textNode.__origValue;
+          textNode.__lastTranslated = textNode.__origValue;
         }
         continue;
       }
-      const sourceText = textNode.__origValue || textNode.nodeValue;
+
+      const sourceText = textNode.__origValue || currentVal;
       if (sourceText && sourceText.trim().length > 1 && /[a-zA-Z]/.test(sourceText)) {
         const translated = tText(sourceText);
-        if (translated !== textNode.nodeValue) {
+        if (translated && translated !== textNode.nodeValue) {
           textNode.nodeValue = translated;
+          textNode.__lastTranslated = translated;
         }
       }
     }
@@ -6696,6 +7439,7 @@
     while ((textNode = walker.nextNode())) {
       if (textNode.__origValue) {
         textNode.nodeValue = textNode.__origValue;
+        textNode.__lastTranslated = textNode.__origValue;
       }
     }
   }
@@ -6773,7 +7517,7 @@
     }
   }
 
-  // Universal DOM Tree Walker: Scans entire DOM tree and applies language localization immediately
+  // Universal DOM Tree Walker: Translates all DOM containers and views immediately
   function walkAndTranslateDOM(root) {
     if (currentLang === 'en') {
       restoreEnglishDOM(root);
@@ -6818,14 +7562,15 @@
       if (nodesToTranslate.length > 0) {
         if (observerTimer) clearTimeout(observerTimer);
         observerTimer = setTimeout(() => {
+          if (isTranslating) return;
           nodesToTranslate.forEach(n => {
-            if (n.isConnected) walkSubtree(n);
+            if (n.isConnected && !n.closest('[data-i18n]')) walkSubtree(n);
           });
-        }, 30);
+        }, 80);
       }
     });
 
-    const targetEl = document.querySelector('.main-wrapper') || document.body;
+    const targetEl = document.querySelector('.main-wrapper') || document.querySelector('#views-container') || document.body;
     domObserver.observe(targetEl, {
       childList: true,
       subtree: true
@@ -6840,223 +7585,250 @@
     currentLang = lang;
     try {
       localStorage.setItem(STORAGE_KEY, lang);
+      localStorage.setItem('agrinex_buyer_language', lang);
       localStorage.setItem('agrinex_farmer_language', lang);
+      localStorage.setItem('agrinex_logistics_language', lang);
+      localStorage.setItem('agrinex_admin_language', lang);
       localStorage.setItem('agrinex_language', lang);
+      if (typeof BroadcastChannel !== 'undefined') {
+        const bc = new BroadcastChannel('agrinex_language_sync');
+        bc.postMessage({ lang: lang, source: 'buyer' });
+      }
     } catch (e) {}
 
     // 1. Update Dropdown Checkmarks & Header Label
     const dict = TRANSLATIONS[lang];
-    const labelEl = document.getElementById('current-language-label');
-    if (labelEl) {
-      labelEl.textContent = `${dict.flag} ${dict.lang_name}`;
-    }
 
-    ['en', 'hi', 'mr'].forEach(l => {
-      const opt = document.getElementById(`lang-opt-${l}`);
-      if (opt) {
-        const check = opt.querySelector('.lang-check');
-        if (check) {
-          check.style.display = l === lang ? 'inline-block' : 'none';
-        }
-        if (l === lang) {
-          opt.style.background = '#e8f5ed';
-          opt.style.color = '#0c5a36';
-        } else {
-          opt.style.background = 'transparent';
-          opt.style.color = '#0f172a';
-        }
+    if (typeof document !== 'undefined') {
+      const labelEl = document.getElementById('current-language-label');
+      if (labelEl) {
+        labelEl.textContent = `${dict.flag} ${dict.lang_name}`;
       }
-    });
 
-    const menu = document.getElementById('language-dropdown-menu');
-    if (menu) menu.style.display = 'none';
-
-    // 2. Translate Selector-mapped static DOM elements
-    SELECTOR_MAP.forEach(({ sel, key }) => {
-      try {
-        const el = document.querySelector(sel);
-        if (el && dict[key]) {
-          el.textContent = dict[key];
+      ['en', 'hi', 'mr'].forEach(l => {
+        const opt = document.getElementById(`lang-opt-${l}`);
+        if (opt) {
+          const check = opt.querySelector('.lang-check');
+          if (check) {
+            check.style.display = l === lang ? 'inline-block' : 'none';
+          }
+          if (l === lang) {
+            opt.style.background = '#e8f5ed';
+            opt.style.color = '#0c5a36';
+          } else {
+            opt.style.background = 'transparent';
+            opt.style.color = '#0f172a';
+          }
         }
-      } catch (e) {}
-    });
-
-    // 3. Translate elements explicitly decorated with data-i18n attributes
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const k = el.getAttribute('data-i18n');
-      if (k && dict[k]) {
-        el.textContent = dict[k];
-      }
-    });
-
-    // Translate placeholder attributes
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      const k = el.getAttribute('data-i18n-placeholder');
-      if (k && dict[k]) {
-        el.placeholder = dict[k];
-      }
-    });
-
-    // Update global and marketplace search input placeholders
-    const globalSearch = document.getElementById('buyer-global-search');
-    if (globalSearch && dict.search_placeholder) {
-      globalSearch.placeholder = dict.search_placeholder;
-    }
-    const marketSearch = document.getElementById('marketplace-search-input');
-    if (marketSearch && dict.search_produce_placeholder) {
-      marketSearch.placeholder = dict.search_produce_placeholder;
-    }
-    const mandiSearch = document.getElementById('mandis-table-search');
-    if (mandiSearch && dict.insights_search_mandi_ph) {
-      mandiSearch.placeholder = dict.insights_search_mandi_ph;
-    }
-
-    // 4. Update Sort Dropdown Options
-    const sortSelect = document.getElementById('filter-sort');
-    if (sortSelect && sortSelect.options.length >= 5) {
-      sortSelect.options[0].text = dict.sort_default;
-      sortSelect.options[1].text = dict.sort_price_low;
-      sortSelect.options[2].text = dict.sort_price_high;
-      sortSelect.options[3].text = dict.sort_rating;
-      sortSelect.options[4].text = dict.sort_savings;
-    }
-
-    // Update District Dropdown in Mandis Benchmark Table
-    const distSelect = document.getElementById('mandis-table-district');
-    if (distSelect && distSelect.options) {
-      const DISTRICT_SELECT_MAP = {
-        en: {
-          'all': '📍 All Districts (Maharashtra APMCs)',
-          'Nashik': 'Nashik (Lasalgaon / Pimpalgaon / Malegaon)',
-          'Pune': 'Pune (Narayangaon / Manchar / Indapur)',
-          'Jalgaon': 'Jalgaon (Raver / Pachora / Chopda)',
-          'Latur': 'Latur (Mega Silos / Pulses Yard)',
-          'Nagpur': 'Nagpur (Kalamna / Bhiwapur)',
-          'Sangli': 'Sangli (Spices APMC / Tasgaon)',
-          'Solapur': 'Solapur (Sangola / Barshi / Pandharpur)',
-          'Ahmednagar': 'Ahmednagar (Rahata / Rahuri / Sangamner)',
-          'Amravati': 'Amravati (Warud / Dhamangaon)',
-          'Akola': 'Akola (Grain & Pulses Hub)',
-          'Nanded': 'Nanded (Ardhapur / Degloor)',
-          'Satara': 'Satara (Karad / Phaltan)',
-          'Kolhapur': 'Kolhapur (Vadgaon / Shirol)',
-          'Dhule': 'Dhule (Shirpur / Sakri)',
-          'Nandurbar': 'Nandurbar (Chilli Yard / Shahada)',
-          'Beed': 'Beed (Kaij / Dharur / Majalgaon)',
-          'Washim': 'Washim (Washim & Karanja APMC)',
-          'Palghar': 'Palghar (Wada Paddy Hub)',
-          'Dharashiv': 'Dharashiv (Omerga / Kalamb)',
-          'Chhatrapati Sambhajinagar': 'Chhatrapati Sambhajinagar (Paithan / Kannad)',
-          'Hingoli': 'Hingoli (Basmat Turmeric Hub)',
-          'Wardha': 'Wardha (Hinganghat Cotton APMC)',
-          'Ratnagiri': 'Ratnagiri (Alphonso Mango Hub)',
-          'Sindhudurg': 'Sindhudurg (Devgad Hapus Yard)',
-          'Raigad': 'Raigad (Alibaug APMC)'
-        },
-        hi: {
-          'all': '📍 सभी जिले (महाराष्ट्र मंडियां)',
-          'Nashik': 'नासिक (लासलगांव / पिंपलगांव / मालेगांव)',
-          'Pune': 'पुणे (नारायणगांव / मंचर / इंदापुर)',
-          'Jalgaon': 'जलगांव (रावेर / पाचोरा / चोपड़ा)',
-          'Latur': 'लातूर (मुख्य सायलो / दलहन यार्ड)',
-          'Nagpur': 'नागपुर (कलमना / भिवापुर)',
-          'Sangli': 'सांगली (मसाला मंडी / तासगांव)',
-          'Solapur': 'सोलापुर (सांगोला / बार्शी / पंढरपुर)',
-          'Ahmednagar': 'अहमदनगर (राहाता / राहुरी / संगमनेर)',
-          'Amravati': 'अमरावती (वरुड / धामनगांव)',
-          'Akola': 'अकोला (अनाज व दलहन केंद्र)',
-          'Nanded': 'नांदेड (अर्धापुर / देगलूर)',
-          'Satara': 'सातारा (कराड / फलटण)',
-          'Kolhapur': 'कोल्हापुर (वडगांव / शिरोल)',
-          'Dhule': 'धुले (शिरपुर / साक्री)',
-          'Nandurbar': 'नंदुरबार (मिर्च यार्ड / शहादा)',
-          'Beed': 'बीड (केज / धारूर / माजलगांव)',
-          'Washim': 'वाशिम (वाशिम व कारंजा मंडी)',
-          'Palghar': 'पालघर (वाडा धान केंद्र)',
-          'Dharashiv': 'धाराशिव (उमरगा / कलंब)',
-          'Chhatrapati Sambhajinagar': 'छत्रपति संभाजीनगर (पैठन / कन्नड़)',
-          'Hingoli': 'हिंगोली (बसमत हल्दी केंद्र)',
-          'Wardha': 'वर्धा (हिंगणघाट कपास मंडी)',
-          'Ratnagiri': 'रत्नागिरी (हापुस आम केंद्र)',
-          'Sindhudurg': 'सिंधुदुर्ग (देवगढ़ हापुस यार्ड)',
-          'Raigad': 'रायगढ़ (अलिबाग मंडी)'
-        },
-        mr: {
-          'all': '📍 सर्व जिल्हे (महाराष्ट्र बाजार समित्या)',
-          'Nashik': 'नाशिक (लासलगाव / पिंपळगाव / मालेगाव)',
-          'Pune': 'पुणे (नारायणगाव / मंचर / इंदापूर)',
-          'Jalgaon': 'जळगाव (रावेर / पाचोरा / चोपडा)',
-          'Latur': 'लातूर (मुख्य सायलो / कडधान्य यार्ड)',
-          'Nagpur': 'नागपूर (कळमना / भिवापूर)',
-          'Sangli': 'सांगली (मसाला बाजार / तासगाव)',
-          'Solapur': 'सोलापूर (सांगोला / बार्शी / पंढरपूर)',
-          'Ahmednagar': 'अहमदनगर (राहाता / राहुरी / संगमनेर)',
-          'Amravati': 'अमरावती (वरुड / धामणगाव)',
-          'Akola': 'अकोला (अन्नधान्य व कडधान्य केंद्र)',
-          'Nanded': 'नांदेड (अर्धापूर / देगलूर)',
-          'Satara': 'सातारा (कराड / फलटण)',
-          'Kolhapur': 'कोल्हापूर (वडगाव / शिरोळ)',
-          'Dhule': 'धुळे (शिरपूर / साक्री)',
-          'Nandurbar': 'नंदुरबार (मिरची यार्ड / शहादा)',
-          'Beed': 'बीड (केज / धारूर / माजलगाव)',
-          'Washim': 'वाशीम (वाशीम व कारंजा बाजार समिती)',
-          'Palghar': 'पालघर (वाडा भात खरेदी केंद्र)',
-          'Dharashiv': 'धाराशिव (उमरगा / कळंब)',
-          'Chhatrapati Sambhajinagar': 'छत्रपती संभाजीनगर (पैठण / कन्नड)',
-          'Hingoli': 'हिंगोली (वसमत हळद केंद्र)',
-          'Wardha': 'वर्धा (हिंगणघाट कापूस बाजार)',
-          'Ratnagiri': 'रत्नागिरी (हापूस आंबा केंद्र)',
-          'Sindhudurg': 'सिंधुदुर्ग (देवगड हापूस यार्ड)',
-          'Raigad': 'रायगड (अलिबाग बाजार समिती)'
-        }
-      };
-      const map = DISTRICT_SELECT_MAP[lang] || DISTRICT_SELECT_MAP.en;
-      Array.from(distSelect.options).forEach(opt => {
-        if (map[opt.value]) {
-          opt.text = map[opt.value];
+        const liteBtn = document.getElementById(`lite-lang-${l}`);
+        if (liteBtn) {
+          if (l === lang) {
+            liteBtn.style.background = '#0c5a36';
+            liteBtn.style.color = '#ffffff';
+            liteBtn.classList.add('active');
+          } else {
+            liteBtn.style.background = 'transparent';
+            liteBtn.style.color = '#475569';
+            liteBtn.classList.remove('active');
+          }
         }
       });
-    }
 
-    // 5. Re-render ALL Views and Components for 100% Instant Full-App Updates
-    if (typeof window.updateLiteModeLanguage === 'function') {
-      window.updateLiteModeLanguage(lang);
-    }
-    if (typeof window.updateBuyerMarketStats === 'function') window.updateBuyerMarketStats();
-    if (typeof window.renderVerifiedLots === 'function') window.renderVerifiedLots();
-    if (typeof window.renderBuyerEmergencyDesk === 'function') window.renderBuyerEmergencyDesk();
-    if (typeof window.renderProduceSelectorChips === 'function') window.renderProduceSelectorChips();
-    if (typeof window.renderInsightChart === 'function') window.renderInsightChart();
-    if (typeof window.renderInsightSummaryCards === 'function') window.renderInsightSummaryCards();
-    if (typeof window.renderSupplyInflowHeatmap === 'function') window.renderSupplyInflowHeatmap();
-    if (typeof window.renderAiProcurementAdvisories === 'function') window.renderAiProcurementAdvisories();
-    if (typeof window.renderMaharashtraMandisTable === 'function') window.renderMaharashtraMandisTable();
-    if (typeof window.renderBuyerConsignments === 'function') window.renderBuyerConsignments();
-    if (typeof window.renderBuyerDemands === 'function') window.renderBuyerDemands();
-    if (typeof window.renderBuyerEscrowVault === 'function') window.renderBuyerEscrowVault();
-    if (typeof window.renderGrievances === 'function') window.renderGrievances();
-    if (typeof window.recalculateBuyerCosts === 'function') window.recalculateBuyerCosts();
-    if (typeof window.renderStorageFacilities === 'function') window.renderStorageFacilities();
-    if (typeof window.renderStorageBookings === 'function') window.renderStorageBookings();
-    if (typeof window.renderChatSidebar === 'function') window.renderChatSidebar();
-    if (typeof window.selectChatContact === 'function') {
-      const currentKey = typeof window.getActiveChatKey === 'function' ? window.getActiveChatKey() : 'patil';
-      window.selectChatContact(currentKey);
-    }
+      const menu = document.getElementById('language-dropdown-menu');
+      if (menu) menu.style.display = 'none';
 
-    // 6. Complete DOM Walk: Translates 100% of entire DOM tree instantly
-    walkAndTranslateDOM(document.body);
-    startDOMObserver();
+      // 2. Translate Selector-mapped static DOM elements
+      SELECTOR_MAP.forEach(({ sel, key }) => {
+        try {
+          const el = document.querySelector(sel);
+          if (el && dict[key]) {
+            el.textContent = dict[key];
+          }
+        } catch (e) {}
+      });
+
+      // 3. Translate elements explicitly decorated with data-i18n attributes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (k && dict[k]) {
+          el.textContent = dict[k];
+        }
+      });
+
+      // Translate placeholder attributes
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const k = el.getAttribute('data-i18n-placeholder');
+        if (k && dict[k]) {
+          el.placeholder = dict[k];
+        }
+      });
+
+      // Update global and marketplace search input placeholders
+      const globalSearch = document.getElementById('buyer-global-search');
+      if (globalSearch && dict.search_placeholder) {
+        globalSearch.placeholder = dict.search_placeholder;
+      }
+      const marketSearch = document.getElementById('marketplace-search-input');
+      if (marketSearch && dict.search_produce_placeholder) {
+        marketSearch.placeholder = dict.search_produce_placeholder;
+      }
+      const mandiSearch = document.getElementById('mandis-table-search');
+      if (mandiSearch && dict.insights_search_mandi_ph) {
+        mandiSearch.placeholder = dict.insights_search_mandi_ph;
+      }
+
+      // 4. Update Sort Dropdown Options
+      const sortSelect = document.getElementById('filter-sort');
+      if (sortSelect && sortSelect.options.length >= 5) {
+        sortSelect.options[0].text = dict.sort_default;
+        sortSelect.options[1].text = dict.sort_price_low;
+        sortSelect.options[2].text = dict.sort_price_high;
+        sortSelect.options[3].text = dict.sort_rating;
+        sortSelect.options[4].text = dict.sort_savings;
+      }
+
+      // Update District Dropdown in Mandis Benchmark Table
+      const distSelect = document.getElementById('mandis-table-district');
+      if (distSelect && distSelect.options) {
+        const DISTRICT_SELECT_MAP = {
+          en: {
+            'all': '📍 All Districts (Maharashtra APMCs)',
+            'Nashik': 'Nashik (Lasalgaon / Pimpalgaon / Malegaon)',
+            'Pune': 'Pune (Narayangaon / Manchar / Indapur)',
+            'Jalgaon': 'Jalgaon (Raver / Pachora / Chopda)',
+            'Latur': 'Latur (Mega Silos / Pulses Yard)',
+            'Nagpur': 'Nagpur (Kalamna / Bhiwapur)',
+            'Sangli': 'Sangli (Spices APMC / Tasgaon)',
+            'Solapur': 'Solapur (Sangola / Barshi / Pandharpur)',
+            'Ahmednagar': 'Ahmednagar (Rahata / Rahuri / Sangamner)',
+            'Amravati': 'Amravati (Warud / Dhamangaon)',
+            'Akola': 'Akola (Grain & Pulses Hub)',
+            'Nanded': 'Nanded (Ardhapur / Degloor)',
+            'Satara': 'Satara (Karad / Phaltan)',
+            'Kolhapur': 'Kolhapur (Vadgaon / Shirol)',
+            'Dhule': 'Dhule (Shirpur / Sakri)',
+            'Nandurbar': 'Nandurbar (Chilli Yard / Shahada)',
+            'Beed': 'Beed (Kaij / Dharur / Majalgaon)',
+            'Washim': 'Washim (Washim & Karanja APMC)',
+            'Palghar': 'Palghar (Wada Paddy Hub)',
+            'Dharashiv': 'Dharashiv (Omerga / Kalamb)',
+            'Chhatrapati Sambhajinagar': 'Chhatrapati Sambhajinagar (Paithan / Kannad)',
+            'Hingoli': 'Hingoli (Basmat Turmeric Hub)',
+            'Wardha': 'Wardha (Hinganghat Cotton APMC)',
+            'Ratnagiri': 'Ratnagiri (Alphonso Mango Hub)',
+            'Sindhudurg': 'Sindhudurg (Devgad Hapus Yard)',
+            'Raigad': 'Raigad (Alibaug APMC)'
+          },
+          hi: {
+            'all': '📍 सभी जिले (महाराष्ट्र मंडियां)',
+            'Nashik': 'नासिक (लासलगांव / पिंपलगांव / मालेगांव)',
+            'Pune': 'पुणे (नारायणगांव / मंचर / इंदापुर)',
+            'Jalgaon': 'जलगांव (रावेर / पाचोरा / चोपड़ा)',
+            'Latur': 'लातूर (मुख्य सायलो / दलहन यार्ड)',
+            'Nagpur': 'नागपुर (कलमना / भिवापुर)',
+            'Sangli': 'सांगली (मसाला मंडी / तासगांव)',
+            'Solapur': 'सोलापुर (सांगोला / बार्शी / पंढरपुर)',
+            'Ahmednagar': 'अहमदनगर (राहाता / राहुरी / संगमनेर)',
+            'Amravati': 'अमरावती (वरुड / धामनगांव)',
+            'Akola': 'अकोला (अनाज व दलहन केंद्र)',
+            'Nanded': 'नांदेड (अर्धापुर / देगलूर)',
+            'Satara': 'सातारा (कराड / फलटण)',
+            'Kolhapur': 'कोल्हापुर (वडगांव / शिरोल)',
+            'Dhule': 'धुले (शिरपुर / साक्री)',
+            'Nandurbar': 'नंदुरबार (मिर्च यार्ड / शहादा)',
+            'Beed': 'बीड (केज / धारूर / माजलगांव)',
+            'Washim': 'वाशिम (वाशिम व कारंजा मंडी)',
+            'Palghar': 'पालघर (वाडा धान केंद्र)',
+            'Dharashiv': 'धाराशिव (उमरगा / कलंब)',
+            'Chhatrapati Sambhajinagar': 'छत्रपति संभाजीनगर (पैठन / कन्नड़)',
+            'Hingoli': 'हिंगोली (बसमत हल्दी केंद्र)',
+            'Wardha': 'वर्धा (हिंगणघाट कपास मंडी)',
+            'Ratnagiri': 'रत्नागिरी (हापुस आम केंद्र)',
+            'Sindhudurg': 'सिंधुदुर्ग (देवगढ़ हापुस यार्ड)',
+            'Raigad': 'रायगढ़ (अलिबाग मंडी)'
+          },
+          mr: {
+            'all': '📍 सर्व जिल्हे (महाराष्ट्र बाजार समित्या)',
+            'Nashik': 'नाशिक (लासलगाव / पिंपळगाव / मालेगाव)',
+            'Pune': 'पुणे (नारायणगाव / मंचर / इंदापूर)',
+            'Jalgaon': 'जळगाव (रावेर / पाचोरा / चोपडा)',
+            'Latur': 'लातूर (मुख्य सायलो / कडधान्य यार्ड)',
+            'Nagpur': 'नागपूर (कळमना / भिवापूर)',
+            'Sangli': 'सांगली (मसाला बाजार / तासगाव)',
+            'Solapur': 'सोलापूर (सांगोला / बार्शी / पंढरपूर)',
+            'Ahmednagar': 'अहमदनगर (राहाता / राहुरी / संगमनेर)',
+            'Amravati': 'अमरावती (वरुड / धामणगाव)',
+            'Akola': 'अकोला (अन्नधान्य व कडधान्य केंद्र)',
+            'Nanded': 'नांदेड (अर्धापूर / देगलूर)',
+            'Satara': 'सातारा (कराड / फलटण)',
+            'Kolhapur': 'कोल्हापूर (वडगाव / शिरोळ)',
+            'Dhule': 'धुळे (शिरपूर / साक्री)',
+            'Nandurbar': 'नंदुरबार (मिरची यार्ड / शहादा)',
+            'Beed': 'बीड (केज / धारूर / माजलगाव)',
+            'Washim': 'वाशीम (वाशीम व कारंजा बाजार समिती)',
+            'Palghar': 'पालघर (वाडा भात खरेदी केंद्र)',
+            'Dharashiv': 'धाराशिव (उमरगा / कळंब)',
+            'Chhatrapati Sambhajinagar': 'छत्रपती संभाजीनगर (पैठण / कन्नड)',
+            'Hingoli': 'हिंगोली (वसमत हळद केंद्र)',
+            'Wardha': 'वर्धा (हिंगणघाट कापूस बाजार)',
+            'Ratnagiri': 'रत्नागिरी (हापूस आंबा केंद्र)',
+            'Sindhudurg': 'सिंधुदुर्ग (देवगड हापूस यार्ड)',
+            'Raigad': 'रायगड (अलिबाग बाजार समिती)'
+          }
+        };
+        const map = DISTRICT_SELECT_MAP[lang] || DISTRICT_SELECT_MAP.en;
+        Array.from(distSelect.options).forEach(opt => {
+          if (map[opt.value]) {
+            opt.text = map[opt.value];
+          }
+        });
+      }
+
+      // 5. Re-render ALL Views and Components for 100% Instant Full-App Updates
+      const renderers = [
+        () => typeof window.updateLiteModeLanguage === 'function' && window.updateLiteModeLanguage(lang),
+        () => typeof window.updateBuyerMarketStats === 'function' && window.updateBuyerMarketStats(),
+        () => typeof window.renderVerifiedLots === 'function' && window.renderVerifiedLots(),
+        () => typeof window.renderBuyerEmergencyDesk === 'function' && window.renderBuyerEmergencyDesk(),
+        () => typeof window.renderProduceSelectorChips === 'function' && window.renderProduceSelectorChips(),
+        () => typeof window.renderInsightChart === 'function' && window.renderInsightChart(),
+        () => typeof window.renderInsightSummaryCards === 'function' && window.renderInsightSummaryCards(),
+        () => typeof window.renderSupplyInflowHeatmap === 'function' && window.renderSupplyInflowHeatmap(),
+        () => typeof window.renderAiProcurementAdvisories === 'function' && window.renderAiProcurementAdvisories(),
+        () => typeof window.renderMaharashtraMandisTable === 'function' && window.renderMaharashtraMandisTable(),
+        () => typeof window.renderBuyerConsignments === 'function' && window.renderBuyerConsignments(),
+        () => typeof window.renderBuyerDemands === 'function' && window.renderBuyerDemands(),
+        () => typeof window.renderBuyerEscrowVault === 'function' && window.renderBuyerEscrowVault(),
+        () => typeof window.renderGrievances === 'function' && window.renderGrievances(),
+        () => typeof window.recalculateBuyerCosts === 'function' && window.recalculateBuyerCosts(),
+        () => typeof window.updateLandedCostCalculation === 'function' && window.updateLandedCostCalculation(),
+        () => typeof window.renderChatSidebar === 'function' && window.renderChatSidebar(),
+        () => {
+          if (typeof window.selectChatContact === 'function') {
+            const currentKey = typeof window.getActiveChatKey === 'function' ? window.getActiveChatKey() : 'patil';
+            window.selectChatContact(currentKey);
+          }
+        }
+      ];
+
+      renderers.forEach(fn => {
+        try { fn(); } catch (e) {}
+      });
+
+      // 6. Complete DOM Walk: Translates 100% of entire DOM tree instantly
+      walkAndTranslateDOM(document.body);
+      startDOMObserver();
+    }
 
     // Dispatch global custom event for other listeners
-    if (typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') {
+    if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') {
       try {
         window.dispatchEvent(new CustomEvent('agrinex_language_changed', { detail: { lang: lang } }));
       } catch (e) {}
     }
 
     // 7. User Feedback Notification Toast
-    if (typeof window.showToast === 'function') {
+    if (typeof window !== 'undefined' && typeof window.showToast === 'function') {
       window.showToast(dict.toast_lang_updated, 'success');
     }
   }
@@ -7097,52 +7869,104 @@
   }
 
   // Export to Global Scope for Buyer Module
-  window.AgriNexI18n = {
-    t,
-    tCrop,
-    tPerson,
-    tLocation,
-    tGrade,
-    tVehicle,
-    tWarehouse,
-    tStatus,
-    tText,
-    setBuyerLanguage,
-    getBuyerLanguage,
-    toggleLanguageMenu,
-    walkAndTranslateDOM,
-    TRANSLATIONS
-  };
+  if (typeof window !== 'undefined') {
+    window.AgriNexI18n = {
+      t,
+      tCrop,
+      tPerson,
+      tLocation,
+      tGrade,
+      tVehicle,
+      tWarehouse,
+      tStatus,
+      tText,
+      setBuyerLanguage,
+      getBuyerLanguage,
+      toggleLanguageMenu,
+      walkAndTranslateDOM,
+      TRANSLATIONS
+    };
 
-  window.t = t;
-  window.tCrop = tCrop;
-  window.tPerson = tPerson;
-  window.tLocation = tLocation;
-  window.tGrade = tGrade;
-  window.tVehicle = tVehicle;
-  window.tWarehouse = tWarehouse;
-  window.tStatus = tStatus;
-  window.tText = tText;
-  window.setBuyerLanguage = setBuyerLanguage;
-  window.getBuyerLanguage = getBuyerLanguage;
-  window.toggleLanguageMenu = toggleLanguageMenu;
-  window.walkAndTranslateDOM = walkAndTranslateDOM;
+    window.t = t;
+    window.tCrop = tCrop;
+    window.tPerson = tPerson;
+    window.tLocation = tLocation;
+    window.tGrade = tGrade;
+    window.tVehicle = tVehicle;
+    window.tWarehouse = tWarehouse;
+    window.tStatus = tStatus;
+    window.tText = tText;
+    window.setBuyerLanguage = setBuyerLanguage;
+    window.getBuyerLanguage = getBuyerLanguage;
+    window.toggleLanguageMenu = toggleLanguageMenu;
+    window.walkAndTranslateDOM = walkAndTranslateDOM;
+  }
 
   // Listen for storage events across modules and browser tabs for instantaneous sync
   if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
     window.addEventListener('storage', function (e) {
-      if (e.key === 'agrinex_buyer_language' || e.key === 'agrinex_farmer_language' || e.key === 'agrinex_language') {
+      if (e.key === 'agrinex_buyer_language' || e.key === 'agrinex_farmer_language' || e.key === 'agrinex_logistics_language' || e.key === 'agrinex_admin_language' || e.key === 'agrinex_language') {
         const newLang = e.newValue;
         if (newLang && ['en', 'hi', 'mr'].includes(newLang) && newLang !== currentLang) {
           setBuyerLanguage(newLang);
         }
       }
     });
+
+    // Cross-module BroadcastChannel real-time sync
+    try {
+      if (typeof BroadcastChannel !== 'undefined') {
+        const bc = new BroadcastChannel('agrinex_language_sync');
+        bc.onmessage = function (ev) {
+          if (ev.data && ev.data.lang && ['en', 'hi', 'mr'].includes(ev.data.lang) && ev.data.lang !== currentLang) {
+            setBuyerLanguage(ev.data.lang);
+          }
+        };
+      }
+    } catch (e) {}
+
+    // When partial views and modals finish loading asynchronously, re-apply active language
+    document.addEventListener('agrinex:partials-ready', function () {
+      const savedLang = getBuyerLanguage();
+      if (savedLang) {
+        setBuyerLanguage(savedLang);
+      }
+    });
+
+    // Auto-translate any modal overlay when triggered
+    document.addEventListener('click', function () {
+      if (currentLang !== 'en') {
+        setTimeout(() => {
+          const activeModals = document.querySelectorAll('.modal-overlay.active, .modal.active, .modal.show');
+          activeModals.forEach(m => walkSubtree(m));
+        }, 50);
+      }
+    });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBuyerI18n);
-  } else {
-    initBuyerI18n();
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      t,
+      tCrop,
+      tPerson,
+      tLocation,
+      tGrade,
+      tVehicle,
+      tWarehouse,
+      tStatus,
+      tText,
+      setBuyerLanguage,
+      getBuyerLanguage,
+      walkAndTranslateDOM,
+      TRANSLATIONS
+    };
+  }
+
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBuyerI18n);
+    } else {
+      initBuyerI18n();
+    }
   }
 })();

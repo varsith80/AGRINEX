@@ -7585,8 +7585,15 @@
     currentLang = lang;
     try {
       localStorage.setItem(STORAGE_KEY, lang);
+      localStorage.setItem('agrinex_buyer_language', lang);
       localStorage.setItem('agrinex_farmer_language', lang);
+      localStorage.setItem('agrinex_logistics_language', lang);
+      localStorage.setItem('agrinex_admin_language', lang);
       localStorage.setItem('agrinex_language', lang);
+      if (typeof BroadcastChannel !== 'undefined') {
+        const bc = new BroadcastChannel('agrinex_language_sync');
+        bc.postMessage({ lang: lang, source: 'buyer' });
+      }
     } catch (e) {}
 
     // 1. Update Dropdown Checkmarks & Header Label
@@ -7898,13 +7905,25 @@
   // Listen for storage events across modules and browser tabs for instantaneous sync
   if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
     window.addEventListener('storage', function (e) {
-      if (e.key === 'agrinex_buyer_language' || e.key === 'agrinex_farmer_language' || e.key === 'agrinex_language') {
+      if (e.key === 'agrinex_buyer_language' || e.key === 'agrinex_farmer_language' || e.key === 'agrinex_logistics_language' || e.key === 'agrinex_admin_language' || e.key === 'agrinex_language') {
         const newLang = e.newValue;
         if (newLang && ['en', 'hi', 'mr'].includes(newLang) && newLang !== currentLang) {
           setBuyerLanguage(newLang);
         }
       }
     });
+
+    // Cross-module BroadcastChannel real-time sync
+    try {
+      if (typeof BroadcastChannel !== 'undefined') {
+        const bc = new BroadcastChannel('agrinex_language_sync');
+        bc.onmessage = function (ev) {
+          if (ev.data && ev.data.lang && ['en', 'hi', 'mr'].includes(ev.data.lang) && ev.data.lang !== currentLang) {
+            setBuyerLanguage(ev.data.lang);
+          }
+        };
+      }
+    } catch (e) {}
 
     // When partial views and modals finish loading asynchronously, re-apply active language
     document.addEventListener('agrinex:partials-ready', function () {
