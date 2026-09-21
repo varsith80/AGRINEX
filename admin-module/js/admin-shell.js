@@ -135,11 +135,28 @@ class AgriNexEventBus {
         });
         break;
       case 'kyc:approved':
+      case 'user:reactivated':
         AgriNexToast.show({
           icon: '🛡️',
-          title: prefix + 'User Verified & Compliance Sanctioned',
-          message: `${data.userName || 'Producer'} verified via Satbara 7/12 & GSTIN.`,
+          title: prefix + 'User Access Active & Sanctioned',
+          message: `${data.userName || 'User'} (${data.userId || ''}) active with verified credentials.`,
           type: 'info'
+        });
+        break;
+      case 'user:removed':
+        AgriNexToast.show({
+          icon: '🗑️',
+          title: prefix + 'User De-listed & Removed',
+          message: `${data.userName || 'User'} (${data.userId || ''}) de-listed. Reason: ${data.reason || 'Admin Action'}.`,
+          type: 'warning'
+        });
+        break;
+      case 'user:suspended':
+        AgriNexToast.show({
+          icon: '⛔',
+          title: prefix + 'User Trading Access Suspended',
+          message: `${data.userName || 'User'} (${data.userId || ''}) frozen. Reason: ${data.reason || 'Compliance Hold'}.`,
+          type: 'warning'
         });
         break;
       case 'advisory:broadcast':

@@ -523,7 +523,7 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Lasalgaon, Nashik",
       crops: "Tomato (Shivam), Red Onion",
       kycDoc: "Satbara 7/12 Land Record #4412",
-      status: "Verified",
+      status: "Active",
       riskScore: "Low Risk (98/100)",
       joinedDate: "12-Jan-2026",
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80"
@@ -536,7 +536,7 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Nashik - Mumbai Expressway Hub",
       crops: "45 Reefer Cold Trucks (IoT GPS & Temp)",
       kycDoc: "National Transport Permit & VAHAN Commercial Fleet RC #MH-15-TC-8890",
-      status: "Verified",
+      status: "Active",
       riskScore: "Verified (100/100)",
       joinedDate: "05-Nov-2025",
       avatar: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=80&auto=format&fit=crop&q=80"
@@ -549,7 +549,7 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Latur Mega Yard, Marathwada",
       crops: "Yellow Soybean, Chana",
       kycDoc: "Satbara 7/12 Land Record #1088",
-      status: "Verified",
+      status: "Active",
       riskScore: "Low Risk (95/100)",
       joinedDate: "18-Feb-2026",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop&q=80"
@@ -561,9 +561,9 @@ const ADMIN_GOVERNANCE_DATA = {
       phone: "+91 98229 33011",
       location: "Tasgaon, Sangli",
       crops: "Turmeric, Raisins",
-      kycDoc: "Satbara 7/12 Uploaded (Pending Land OCR)",
-      status: "Pending Verification",
-      riskScore: "Review Required",
+      kycDoc: "Satbara 7/12 Record #8821",
+      status: "Active",
+      riskScore: "Moderate (84/100)",
       joinedDate: "Yesterday",
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80"
     },
@@ -574,9 +574,9 @@ const ADMIN_GOVERNANCE_DATA = {
       phone: "+91 97631 88450",
       location: "Pandharpur, Solapur",
       crops: "Bhagwa Pomegranate, Jowar",
-      kycDoc: "Aadhaar e-KYC Pending Biometric Match",
-      status: "Pending Verification",
-      riskScore: "Review Required",
+      kycDoc: "Aadhaar e-KYC Verified",
+      status: "Suspended",
+      riskScore: "High Risk Flag (42/100)",
       joinedDate: "Today, 08:30 AM",
       avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&auto=format&fit=crop&q=80"
     },
@@ -588,8 +588,8 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Pune - Latur Transit Yard",
       crops: "28 Heavy Multi-Axle Freight Carriers",
       kycDoc: "All-India Goods Permit & Fastag Fleet KYC",
-      status: "Pending Verification",
-      riskScore: "Review Required",
+      status: "Active",
+      riskScore: "Verified (92/100)",
       joinedDate: "Today, 09:15 AM",
       avatar: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=80&auto=format&fit=crop&q=80"
     },
@@ -601,7 +601,7 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Navi Mumbai APMC Terminal",
       crops: "16 Temperature-Controlled Reefer Vans",
       kycDoc: "APMC Transporter License & Commercial Insurance",
-      status: "Verified",
+      status: "Active",
       riskScore: "Verified (99/100)",
       joinedDate: "14-Jan-2026",
       avatar: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=80&auto=format&fit=crop&q=80"
@@ -616,7 +616,7 @@ const ADMIN_GOVERNANCE_DATA = {
       gstin: "27AABCB9812M1ZK",
       kycDoc: "APMC State Wholesale License #MH-APMC-8821",
       creditLimit: "₹ 75,00,000",
-      status: "Verified",
+      status: "Active",
       riskScore: "Verified (100/100)",
       joinedDate: "10-Oct-2025",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80"
@@ -631,7 +631,7 @@ const ADMIN_GOVERNANCE_DATA = {
       gstin: "27AACCA5541L1Z2",
       kycDoc: "Corporate ROC & Mandi Direct Purchase License",
       creditLimit: "₹ 2,50,00,000",
-      status: "Verified",
+      status: "Active",
       riskScore: "Verified (100/100)",
       joinedDate: "15-Aug-2025",
       avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&auto=format&fit=crop&q=80"
@@ -646,7 +646,7 @@ const ADMIN_GOVERNANCE_DATA = {
       gstin: "27AAACK1234F1Z8",
       kycDoc: "FSSAI Mega License & APMC Compliance Bond",
       creditLimit: "₹ 1,20,00,000",
-      status: "Verified",
+      status: "Active",
       riskScore: "Verified (100/100)",
       joinedDate: "01-Sep-2025",
       avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&auto=format&fit=crop&q=80"
@@ -659,10 +659,10 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Nashik Export Hub",
       businessType: "Export Merchant",
       gstin: "27AAACS8841F1ZL",
-      kycDoc: "APEDA Export Certification (Awaiting Mandi Guarantee)",
+      kycDoc: "APEDA Export Certification #EXP-9921",
       creditLimit: "₹ 40,00,000",
-      status: "Pending Verification",
-      riskScore: "Review Required",
+      status: "Active",
+      riskScore: "Verified (96/100)",
       joinedDate: "Today, 07:45 AM",
       avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&auto=format&fit=crop&q=80"
     },
@@ -674,10 +674,10 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Pune Market Yard",
       businessType: "Wholesale Supermarket",
       gstin: "27AABCM3312R1ZZ",
-      kycDoc: "GSTIN Tax Clearance Certificate Pending",
+      kycDoc: "APMC License #MH-PUN-99",
       creditLimit: "₹ 25,00,000",
-      status: "Pending Verification",
-      riskScore: "Review Required",
+      status: "Active",
+      riskScore: "Verified (94/100)",
       joinedDate: "Today, 08:10 AM",
       avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=80&auto=format&fit=crop&q=80"
     }
@@ -924,57 +924,35 @@ const ADMIN_GOVERNANCE_DATA = {
     },
     {
       id: "ACT-07",
-      category: "User KYC",
-      badgeClass: "badge-gov-pending",
-      title: "Farmer Land Record Approval: Ganesh Khot",
-      entity: "Satbara 7/12 Tasgaon, Sangli (#4412)",
-      amount: "Crop: Turmeric",
-      urgency: "Awaiting Admin Sign",
-      targetAction: "approve-user",
-      targetId: "USR-FRM-03"
-    },
-    {
-      id: "ACT-08",
-      category: "User KYC",
-      badgeClass: "badge-gov-pending",
-      title: "Farmer Aadhaar Verification: Tukaram Jadhav",
-      entity: "Pandharpur, Solapur Land Holding 4.5 Ha",
-      amount: "Crop: Pomegranate",
-      urgency: "Biometric Uploaded",
-      targetAction: "approve-user",
+      category: "Security & Fraud",
+      badgeClass: "badge-gov-hold",
+      title: "Duplicate GSTIN Inward Flag: Tukaram Jadhav",
+      entity: "Pandharpur, Solapur (#USR-FRM-04)",
+      amount: "Risk Score: 42/100",
+      urgency: "Immediate Action Required",
+      targetAction: "suspend-user",
       targetId: "USR-FRM-04"
     },
     {
+      id: "ACT-08",
+      category: "Compliance Check",
+      badgeClass: "badge-gov-pending",
+      title: "Repeated Transit Delay Flag: Vashi Express Agro",
+      entity: "Reefer Fleet Transporter (#USR-LOG-03)",
+      amount: "3 Transit Late Flags",
+      urgency: "Notice Issued",
+      targetAction: "suspend-user",
+      targetId: "USR-LOG-03"
+    },
+    {
       id: "ACT-09",
-      category: "Logistics KYC",
+      category: "Market Integrity",
       badgeClass: "badge-gov-pending",
-      title: "Logistics Fleet Clearance: Sahyadri Agro Transporters",
-      entity: "Pune Transit Yard (28 Multi-Axle Fleet, VAHAN Verified)",
-      amount: "Heavy Freight Fleet",
-      urgency: "All-India Goods Permit Verification",
-      targetAction: "approve-user",
-      targetId: "USR-LOG-02"
-    },
-    {
-      id: "ACT-10",
-      category: "Buyer KYC",
-      badgeClass: "badge-gov-pending",
-      title: "Buyer Trade License: Sahyadri Fresh Agro Exports",
-      entity: "APEDA Export License & Mandi Guarantee Bond",
-      amount: "Credit Limit: ₹ 40L",
-      urgency: "Pending License Seal",
-      targetAction: "approve-user",
-      targetId: "USR-BYR-04"
-    },
-    {
-      id: "ACT-11",
-      category: "Buyer KYC",
-      badgeClass: "badge-gov-pending",
-      title: "Buyer Corporate Clearance: Mahamandi Retailers",
-      entity: "GSTIN Verification & APMC License #MH-PUN-99",
-      amount: "Credit Limit: ₹ 25L",
-      urgency: "Tax Clearance Verified",
-      targetAction: "approve-user",
+      title: "Unusual Bid Cancellation Audit: Mahamandi Retailers",
+      entity: "Pune Market Yard (#USR-BYR-05)",
+      amount: "High Cancel Rate",
+      urgency: "Under Trade Audit",
+      targetAction: "suspend-user",
       targetId: "USR-BYR-05"
     },
     {
@@ -1461,17 +1439,50 @@ class AgriNexAdminGovernance {
     } catch(e) {}
   }
 
-  static approveUser(userId) {
+  static removeUser(userId, reason = "Admin Enforcement / De-listed") {
     const users = this.getUsers();
     const u = users.find(x => x.id === userId);
     if (!u) return { success: false, message: "User not found" };
 
-    u.status = "Verified";
-    u.riskScore = "Verified (100/100)";
+    // Mark as Removed / De-listed (Soft delete to protect financial audit trail)
+    u.status = "Removed";
+    u.riskScore = "De-listed (0/100)";
+    u.isRemoved = true;
     this.saveUsers(users);
 
-    this.addAuditLog(`KYC Verification Approved`, `${u.name} (${u.id})`, u.category, "Dr. R. K. Shinde (IAS)");
-    return { success: true, message: `Successfully verified and approved ${u.name}!`, user: u };
+    this.addAuditLog(`User Account De-listed & Removed`, `${u.name} (${u.id})`, `Reason: ${reason}`, "Dr. R. K. Shinde (IAS)");
+    return { success: true, message: `Successfully de-listed and removed ${u.name} from active platform trading.`, user: u };
+  }
+
+  static suspendUser(userId, reason = "Compliance Hold / Anti-Fraud Enforcement") {
+    const users = this.getUsers();
+    const u = users.find(x => x.id === userId);
+    if (!u) return { success: false, message: "User not found" };
+
+    u.status = "Suspended";
+    u.riskScore = "Suspended (Flagged)";
+    this.saveUsers(users);
+
+    this.addAuditLog(`User Account Suspended`, `${u.name} (${u.id})`, `Reason: ${reason}`, "Dr. R. K. Shinde (IAS)");
+    return { success: true, message: `Suspended trading account for ${u.name}.`, user: u };
+  }
+
+  static reactivateUser(userId) {
+    const users = this.getUsers();
+    const u = users.find(x => x.id === userId);
+    if (!u) return { success: false, message: "User not found" };
+
+    u.status = "Active";
+    u.riskScore = "Verified (100/100)";
+    delete u.isRemoved;
+    this.saveUsers(users);
+
+    this.addAuditLog(`User Account Re-activated`, `${u.name} (${u.id})`, u.category, "Dr. R. K. Shinde (IAS)");
+    return { success: true, message: `Re-activated account for ${u.name}!`, user: u };
+  }
+
+  static approveUser(userId) {
+    return this.reactivateUser(userId);
   }
 
   static getActiveDeals() {
@@ -1544,8 +1555,12 @@ class AgriNexAdminGovernance {
       this.approveEscrow(item.targetId);
     } else if (item.targetAction === "resolve-dispute") {
       this.evaluateFastTrackAutoArbitration(item.targetId);
-    } else if (item.targetAction === "approve-user") {
-      this.approveUser(item.targetId);
+    } else if (item.targetAction === "suspend-user") {
+      this.suspendUser(item.targetId, "Priority Action Enforcement");
+    } else if (item.targetAction === "remove-user") {
+      this.removeUser(item.targetId, "Admin Enforcement");
+    } else if (item.targetAction === "approve-user" || item.targetAction === "reactivate-user") {
+      this.reactivateUser(item.targetId);
     } else if (item.targetAction === "broadcast-emergency") {
       this.broadcastEmergencyLot(item.targetId);
     }

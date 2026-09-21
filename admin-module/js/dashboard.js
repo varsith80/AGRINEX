@@ -405,7 +405,7 @@ function handleInspectPriorityAction(actionId, targetAction, targetId, event) {
     openEscrowInspectModal(targetId);
   } else if (targetAction === 'resolve-dispute') {
     switchSection('grievances');
-  } else if (targetAction === 'approve-user') {
+  } else if (targetAction === 'approve-user' || targetAction === 'suspend-user' || targetAction === 'remove-user' || targetAction === 'review-user') {
     openUserKycModal(targetId);
   } else {
     openPendingActionsModal();
@@ -580,7 +580,9 @@ function renderDashboardDeliveries() {
    4. USERS DIRECTORY & FPO FEDERATIONS MANAGEMENT
    ========================================================================= */
 function renderUserRowHtml(u) {
-  const isPending = u.status.includes("Pending");
+  const isSuspended = u.status === "Suspended" || u.status.includes("Suspended");
+  const isRemoved = u.status === "Removed" || u.status.includes("Removed") || u.isRemoved;
+
   let categoryBadge = "";
   if (u.category === "Farmer") {
     categoryBadge = `<span class="badge" style="background: #dcfce7; color: #166534; font-size: 0.72rem; font-weight: 800;">👨🌾 Farmer</span>`;
@@ -592,12 +594,17 @@ function renderUserRowHtml(u) {
     categoryBadge = `<span class="badge" style="background: #f1f5f9; color: #334155; font-size: 0.72rem; font-weight: 800;">${u.category}</span>`;
   }
 
-  const statusBadge = isPending
-    ? `<span class="badge-gov-pending">⚠️ ${u.status}</span>`
-    : `<span class="badge-gov-clear">✓ Verified</span>`;
+  let statusBadge = "";
+  if (isRemoved) {
+    statusBadge = `<span class="badge" style="background: #f1f5f9; color: #64748b; font-size: 0.72rem; font-weight: 800; border: 1px solid #cbd5e1;">🗑️ De-listed</span>`;
+  } else if (isSuspended) {
+    statusBadge = `<span class="badge-gov-hold" style="font-size: 0.72rem; font-weight: 800;">⛔ Suspended</span>`;
+  } else {
+    statusBadge = `<span class="badge-gov-clear" style="font-size: 0.72rem; font-weight: 800;">✓ Active</span>`;
+  }
 
   return `
-    <tr>
+    <tr style="${isRemoved ? 'opacity: 0.55; background: #fafafa;' : isSuspended ? 'background: #fffbeb;' : ''}">
       <td>
         <div style="display: flex; align-items: center; gap: 10px;">
           <img src="${u.avatar}" alt="${u.name}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1;" onerror="this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80'" />
@@ -626,15 +633,27 @@ function renderUserRowHtml(u) {
       </td>
       <td>
         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-          ${isPending ? `
-            <button class="btn-gov-approve" onclick="handleApproveUser('${u.id}')" title="Approve KYC Authentication">
-              ✓ Approve
+          ${isRemoved ? `
+            <button class="btn-gov-approve" onclick="handleReactivateUser('${u.id}')" title="Re-list & Restore User Access">
+              ✓ Restore
+            </button>
+          ` : isSuspended ? `
+            <button class="btn-gov-approve" onclick="handleReactivateUser('${u.id}')" title="Unsuspend & Reactivate User Trading">
+              ✓ Unsuspend
+            </button>
+            <button class="btn-gov-remove" onclick="handleRemoveUser('${u.id}')" title="De-list & Remove User Account">
+              🗑️ Remove
             </button>
           ` : `
-            <span style="font-size: 0.74rem; color: #059669; font-weight: 800;">✓ Active</span>
+            <button class="btn-gov-suspend" onclick="handleSuspendUser('${u.id}')" title="Temporarily Suspend Trading & Access">
+              ⛔ Suspend
+            </button>
+            <button class="btn-gov-remove" onclick="handleRemoveUser('${u.id}')" title="De-list & Remove User Account">
+              🗑️ Remove
+            </button>
           `}
-          <button class="btn-gov-inspect" onclick="openUserKycModal('${u.id}')">
-            🔍 Inspect
+          <button class="btn-gov-inspect" onclick="openUserKycModal('${u.id}')" title="View Full Legal Credentials">
+            🔍 Details
           </button>
         </div>
       </td>
@@ -746,8 +765,12 @@ function renderUsersTable(filterCategory = currentUsersFilter, searchQuery = cur
 
   let users = AgriNexAdminGovernance.getUsers();
 
-  if (filterCategory === "Pending") {
-    users = users.filter(u => u.status.includes("Pending"));
+  if (filterCategory === "Suspended") {
+    users = users.filter(u => u.status === "Suspended" || u.status.includes("Suspended"));
+  } else if (filterCategory === "Removed") {
+    users = users.filter(u => u.status === "Removed" || u.status.includes("Removed") || u.isRemoved);
+  } else if (filterCategory === "Pending") {
+    users = users.filter(u => u.status.includes("Pending") || u.status === "Suspended");
   } else if (filterCategory !== "all") {
     users = users.filter(u => u.category === filterCategory);
   }
@@ -795,6 +818,7 @@ function filterUsers(category, el = null) {
           (category === "Buyer" && text.includes("buyer")) ||
           (category === "Logistics" && text.includes("logistic")) ||
           (category === "FPO" && text.includes("fpo")) ||
+          (category === "Suspended" && (text.includes("suspended") || text.includes("flagged"))) ||
           (category === "Pending" && text.includes("pending"))) {
         p.classList.add("active");
       } else {
@@ -811,16 +835,70 @@ function filterUsersBySearch(query) {
   renderUsersTable(currentUsersFilter, query);
 }
 
-function handleApproveUser(userId) {
-  if (confirm(`Approve KYC & authorize trading credentials for ${userId}?`)) {
-    const res = AgriNexAdminGovernance.approveUser(userId);
+function handleRemoveUser(userId) {
+  const users = AgriNexAdminGovernance.getUsers();
+  const u = users.find(x => x.id === userId);
+  const name = u ? u.name : userId;
+
+  const reason = prompt(`Specify mandatory de-listing & removal rationale for ${name} (${userId}):`, "Regulatory compliance violation / False KYC credentials");
+  if (reason !== null && reason.trim() !== "") {
+    const res = AgriNexAdminGovernance.removeUser(userId, reason.trim());
     if (res.success) {
       renderUsersTable();
       renderOverviewStats();
       renderAuditLogs();
 
       if (window.AgriNexBus) {
-        window.AgriNexBus.emit('kyc:approved', {
+        window.AgriNexBus.emit('user:removed', {
+          userId: userId,
+          userName: res.user ? res.user.name : userId,
+          reason: reason.trim(),
+          timestamp: Date.now()
+        });
+      }
+    } else {
+      alert(res.message);
+    }
+  }
+}
+
+function handleSuspendUser(userId) {
+  const users = AgriNexAdminGovernance.getUsers();
+  const u = users.find(x => x.id === userId);
+  const name = u ? u.name : userId;
+
+  const reason = prompt(`Reason for suspending trading access of ${name} (${userId}):`, "Investigation pending / Suspicious transaction activity");
+  if (reason !== null && reason.trim() !== "") {
+    const res = AgriNexAdminGovernance.suspendUser(userId, reason.trim());
+    if (res.success) {
+      renderUsersTable();
+      renderOverviewStats();
+      renderAuditLogs();
+
+      if (window.AgriNexBus) {
+        window.AgriNexBus.emit('user:suspended', {
+          userId: userId,
+          userName: res.user ? res.user.name : userId,
+          reason: reason.trim(),
+          timestamp: Date.now()
+        });
+      }
+    } else {
+      alert(res.message);
+    }
+  }
+}
+
+function handleReactivateUser(userId) {
+  if (confirm(`Re-activate full trading & market access for ${userId}?`)) {
+    const res = AgriNexAdminGovernance.reactivateUser(userId);
+    if (res.success) {
+      renderUsersTable();
+      renderOverviewStats();
+      renderAuditLogs();
+
+      if (window.AgriNexBus) {
+        window.AgriNexBus.emit('user:reactivated', {
           userId: userId,
           userName: res.user ? res.user.name : userId,
           timestamp: Date.now()
@@ -832,6 +910,10 @@ function handleApproveUser(userId) {
   }
 }
 
+function handleApproveUser(userId) {
+  return handleReactivateUser(userId);
+}
+
 function openUserKycModal(userId) {
   const users = AgriNexAdminGovernance.getUsers();
   const u = users.find(x => x.id === userId);
@@ -841,11 +923,14 @@ function openUserKycModal(userId) {
   const content = document.getElementById("modal-user-content");
   if (!modal || !content) return;
 
+  const isSuspended = u.status === "Suspended" || u.status.includes("Suspended");
+  const isRemoved = u.status === "Removed" || u.status.includes("Removed") || u.isRemoved;
+
   content.innerHTML = `
     <div style="padding: 20px 24px; background: linear-gradient(135deg, #0c5a36 0%, #063c22 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
       <div>
         <span style="background: rgba(255,255,255,0.2); color: #ffffff; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">
-          KYC Compliance Record
+          User Compliance & Governance Dossier
         </span>
         <h3 style="font-size: 1.25rem; font-weight: 800; margin-top: 4px; color: #ffffff;">${u.name}</h3>
       </div>
@@ -858,24 +943,32 @@ function openUserKycModal(userId) {
         <div>
           <div style="font-size: 1.1rem; font-weight: 800; color: #0f172a;">${u.name}</div>
           <div style="font-size: 0.8rem; color: #64748b;">${u.category} • ${u.location} • ID: ${u.id}</div>
+          <div style="font-size: 0.8rem; color: #334155; margin-top: 2px;">📞 ${u.phone}</div>
         </div>
       </div>
 
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 16px; font-size: 0.82rem;">
-        <div style="font-weight: 800; color: #0f172a; margin-bottom: 6px;">📑 Uploaded Legal Credentials:</div>
-        <div style="color: #334155; margin-bottom: 4px;">Verified Record: <strong>${u.kycDoc}</strong></div>
+        <div style="font-weight: 800; color: #0f172a; margin-bottom: 6px;">📑 Uploaded Legal & Operating Credentials:</div>
+        <div style="color: #334155; margin-bottom: 4px;">Registered Record: <strong>${u.kycDoc}</strong></div>
         ${u.gstin ? `<div style="color: #334155; margin-bottom: 4px;">Registered GSTIN: <strong>${u.gstin}</strong></div>` : ''}
         ${u.creditLimit ? `<div style="color: #059669; font-weight: 700;">Approved Working Credit: ${u.creditLimit}</div>` : ''}
-        <div style="color: #64748b; margin-top: 4px;">Current Status: <strong>${u.status}</strong> (Risk: ${u.riskScore})</div>
+        <div style="color: #64748b; margin-top: 4px;">Current Status: <strong style="color: ${isRemoved ? '#991b1b' : isSuspended ? '#b45309' : '#059669'};">${u.status}</strong> (Risk: ${u.riskScore})</div>
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <div style="display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap;">
         <button class="btn btn-outline" onclick="closeUserKycModal()">Close</button>
-        ${u.status.includes("Pending") ? `
-          <button class="btn btn-primary" onclick="handleApproveUser('${u.id}'); closeUserKycModal();">
-            ✓ Approve KYC Document
+        ${isRemoved || isSuspended ? `
+          <button class="btn btn-primary" onclick="handleReactivateUser('${u.id}'); closeUserKycModal();">
+            ✓ Re-activate Account
           </button>
-        ` : ''}
+        ` : `
+          <button class="btn-gov-suspend" style="padding: 8px 14px; font-size: 0.82rem;" onclick="handleSuspendUser('${u.id}'); closeUserKycModal();">
+            ⛔ Suspend Account
+          </button>
+          <button class="btn-gov-remove" style="padding: 8px 14px; font-size: 0.82rem;" onclick="handleRemoveUser('${u.id}'); closeUserKycModal();">
+            🗑️ De-list & Remove
+          </button>
+        `}
       </div>
     </div>
   `;
@@ -2530,6 +2623,9 @@ if (typeof window !== "undefined") {
   window.openUserKycModal = openUserKycModal;
   window.closeUserKycModal = closeUserKycModal;
   window.handleApproveUser = handleApproveUser;
+  window.handleRemoveUser = handleRemoveUser;
+  window.handleSuspendUser = handleSuspendUser;
+  window.handleReactivateUser = handleReactivateUser;
   window.renderUsersTable = renderUsersTable;
   window.renderMarketDataTable = renderMarketDataTable;
   window.renderDealsPaymentsTable = renderDealsPaymentsTable;
