@@ -15,7 +15,33 @@
   const STORAGE_KEY = 'agrinex_logistics_language';
 
   // 1. EXACT & PARTIAL PHRASE TRANSLATION DICTIONARY
-  const PHRASE_MAP = {
+  const PHRASE_MAP = {    "AgriNex - Logistics Dashboard | Direct Trade · Better Tomorrow": { hi: "एग्रीनेक्स - लॉजिस्टिक्स डैशबोर्ड | सीधा व्यापार · बेहतर कल", mr: "अ‍ॅग्रीनेक्स - वाहतूक डॅशबोर्ड | थेट व्यापार · चांगले भविष्य" },
+    "Fleet Dashboard": { hi: "फ्लीट डैशबोर्ड", mr: "वाहतूक ताफा डॅशबोर्ड" },
+    "Available Pickups (5)": { hi: "उपलब्ध पिकअप (5)", mr: "उपलब्ध पिकअप्स (५)" },
+    "Status & Delivery Time": { hi: "स्थिति और डिलीवरी समय", mr: "स्थिती आणि पोहोच वेळ" },
+    "AgriNex Driver & Fleet Console | Live Navigation & Telemetry": { hi: "एग्रीनेक्स ड्राइवर और फ्लीट कंसोल | लाइव नेविगेशन और टेलीमेट्री", mr: "अ‍ॅग्रीनेक्स चालक व वाहतूक कन्सोल | थेट दिशादर्शन व टेलिमेट्री" },
+    "← Fleet Dashboard": { hi: "← फ्लीट डैशबोर्ड", mr: "← वाहतूक डॅशबोर्ड" },
+    "AgriNex Driver & Fleet Console": { hi: "एग्रीनेक्स ड्राइवर और फ्लीट कंसोल", mr: "अ‍ॅग्रीनेक्स चालक आणि वाहतूक कन्सोल" },
+    "CLUSTER-AGX-801 • 3-Village Tomato Collection": { hi: "क्लस्टर-एजीएक्स-801 • 3-गांव टमाटर संग्रह", mr: "क्लस्टर-एजीएक्स-८०१ • ३-गाव टोमॅटो संकलन" },
+    "🔐 Proof of Delivery (POD) & Gate Pass": { hi: "🔐 डिलीवरी प्रमाण (पीओडी) और गेट पास", mr: "🔐 पोहोच पावती (पीओडी) आणि गेट पास" },
+    "📑 View e-Gate Pass": { hi: "📑 ई-गेट पास देखें", mr: "📑 ई-गेट पास पहा" },
+    "✍️ Receiver Digital Signature (On-Screen Touch / Mouse):": { hi: "✍️ प्राप्तकर्ता के डिजिटल हस्ताक्षर (स्क्रीन स्पर्श / माउस):", mr: "✍️ स्वीकारणाऱ्याची डिजिटल स्वाक्षरी (स्क्रीन स्पर्श / माउस):" },
+    "✓ Save Digital Signature & Record POD": { hi: "✓ डिजिटल हस्ताक्षर सहेजें और पीओडी दर्ज करें", mr: "✓ डिजिटल स्वाक्षरी जतन करा आणि पीओडी नोंदवा" },
+    "Grievance Redressal Desk - AgriNex Logistics Portal": { hi: "शिकायत निवारण डेस्क - एग्रीनेक्स लॉजिस्टिक्स पोर्टल", mr: "तक्रार निवारण कक्ष - अ‍ॅग्रीनेक्स वाहतूक पोर्टल" },
+    "(Tomato - 50 Qt) • Vehicle:": { hi: "(टमाटर - 50 क्विंटल) • वाहन:", mr: "(टोमॅटो - ५० क्विंटल) • वाहन:" },
+    "AgriNex Logistics - Fleet Command & Telematics Operations": { hi: "एग्रीनेक्स लॉजिस्टिक्स - फ्लीट कमांड और टेलीमैटिक्स संचालन", mr: "अ‍ॅग्रीनेक्स वाहतूक - ताफा नियंत्रण व टेलिमेटिक्स कामकाज" },
+    "100% Locked & Settled": { hi: "100% एस्क्रो सुरक्षित और भुगतान पूर्ण", mr: "१००% एस्क्रो सुरक्षित आणि जमा झाले" },
+    "CLUSTER-AGX-801 • 3-Village Tomato Milk-Run": { hi: "क्लस्टर-एजीएक्स-801 • 3-गांव टमाटर संकलन फेरी", mr: "क्लस्टर-एजीएक्स-८०१ • ३-गाव टोमॅटो संकलन फेरी" },
+    "Available for Pickup": { hi: "उठान के लिए उपलब्ध", mr: "उचलण्यासाठी उपलब्ध" },
+    "⚡ Express Farm-to-Buyer Orders": { hi: "⚡ एक्सप्रेस खेत-से-खरीदार ऑर्डर", mr: "⚡ एक्स्प्रेस शेत-ते-खरेदीदार ऑर्डर्स" },
+    "Buyer Destination": { hi: "खरीदार का गंतव्य", mr: "खरेदीदाराचे पोहोच ठिकाण" },
+    "AgriNex - Logistics Passbook & Profile | Direct Trade · Better Tomorrow": { hi: "एग्रीनेक्स - लॉजिस्टिक्स पासबुक और प्रोफ़ाइल | सीधा व्यापार · बेहतर कल", mr: "अ‍ॅग्रीनेक्स - वाहतूक पासबुक आणि प्रोफाइल | थेट व्यापार · चांगले भविष्य" },
+    "Fleet Captain • GreenWays Transit, Nashik Hub": { hi: "फ्लीट कैप्टन • ग्रीनवेज ट्रांजिट, नासिक केंद्र", mr: "वाहतूक कॅप्टन • ग्रीनवेज ट्रान्सिट, नाशिक केंद्र" },
+    "📑 Print Passbook": { hi: "📑 पासबुक प्रिंट करें", mr: "📑 पासबुक प्रिंट करा" },
+    "Crop & Quantity": { hi: "फसल और मात्रा", mr: "शेतमाल आणि प्रमाण" },
+    "Print Passbook": { hi: "पासबुक प्रिंट करें", mr: "पासबुक प्रिंट करा" },
+    "Print Pass": { hi: "पास प्रिंट करें", mr: "पास प्रिंट करा" },
+
     // Brand & Top Navigation
     "AgriNex": { hi: "एग्रीनेक्स", mr: "अ‍ॅग्रीनेक्स" },
     "Direct Trade · Better Tomorrow": { hi: "सीधा व्यापार · बेहतर कल", mr: "थेट व्यापार · चांगले भविष्य" },

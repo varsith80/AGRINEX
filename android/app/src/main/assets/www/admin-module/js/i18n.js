@@ -200,7 +200,52 @@
   };
 
   // 6. CORE PHRASE DICTIONARY FOR ADMIN MODULE
-  const RAW_PHRASES = [
+  const RAW_PHRASES = [    ["QC Cleared","गुणवत्ता नियंत्रण स्वीकृत (QC)","गुणवत्ता तपासणी मंजूर (QC)"],
+    ["🏢 Destination: DC Intake Receiving","🏢 गंतव्य: वितरण केंद्र (DC) आवक","🏢 गंतव्य: वितरण केंद्र (DC) आवक"],
+    ["AgriNex - Escrow Clearances & Dual-Key Payouts","एग्रीनेक्स - एस्क्रो निकासी और दोहरी-चाबी भुगतान","अ‍ॅग्रीनेक्स - एस्क्रो मंजुरी आणि ड्युअल-की देयके वितरण"],
+    ["Trigger Batch RTGS Payout","एकमुश्त आरटीजीएस भुगतान जारी करें","एकत्रित आरटीजीएस देयके वितरित करा"],
+    ["35% Advance Releases","35% अग्रिम भुगतान निकासी","३५% उचल (अ‍ॅडव्हान्स) मंजुरी"],
+    ["⚡ 35% Advance Releases (","⚡ 35% अग्रिम भुगतान निकासी (","⚡ ३५% उचल (अ‍ॅडव्हान्स) मंजुरी ("],
+    ["Proof of Delivery","डिलीवरी प्रमाण (पीओडी)","पोहोच पावती पुरावा (पीओडी)"],
+    ["⚖️ Statutory Fast-Track APMC Tribunal Bench","⚖️ वैधानिक फास्ट-ट्रैक एपीएमसी न्यायाधिकरण पीठ","⚖️ वैधानिक फास्ट-ट्रॅक बाजार समिती लवाद खंडपीठ"],
+    ["Verified Geotagged","सत्यापित जियोटैग्ड","प्रमाणित जिओटॅग्ड"],
+    ["Stamp Verified","मुहर सत्यापित","शिक्का प्रमाणित"],
+    ["Gross Vehicle Weight:","कुल वाहन भार (सकल):","वाहनाचे एकूण वजन:"],
+    ["Tare Unladen Weight:","खाली वाहन भार (खाली वजन):","वाहनाचे रिकामे वजन:"],
+    ["Certified Net Weight:","प्रमाणित शुद्ध वजन:","प्रमाणित निव्वळ वजन:"],
+    ["Adjust percentages to allocate disputed funds based on evidence findings","साक्ष्य के आधार पर विवादित राशि आवंटित करने के लिए प्रतिशत समायोजित करें","पुराव्यांच्या आधारे विवादित निधी वाटप करण्यासाठी टक्केवारी बदला"],
+    ["🧑‍🌾 Producer Farmer Payout:","🧑‍🌾 उत्पादक किसान भुगतान:","🧑‍🌾 उत्पादक शेतकरी देयक:"],
+    ["🏢 Enterprise Buyer Refund:","🏢 कॉर्पोरेट खरीदार वापसी:","🏢 कॉर्पोरेट खरेदीदार परतावा:"],
+    ["🛡️ Logistics Transit Cargo Insurance Claim:","🛡️ लॉजिस्टिक्स परिवहन कार्गो बीमा दावा:","🛡️ वाहतूक कार्गो विमा दावा:"],
+    ["Seal: MSAMB-ARB-2026","मुहर: एमएसएएमबी-मध्यस्थता-2026","शिक्का: MSAMB-लवाद-२०२६"],
+    ["Instant RTGS Release Trigger","तत्काल आरटीजीएस निकासी शुरू करें","त्वरीत आरटीजीएस देयक वितरण सुरू करा"],
+    ["🔬 Verified Evidence Vault Highlights:","🔬 सत्यापित साक्ष्य तिजोरी मुख्य अंश:","🔬 प्रमाणित पुरावे दालन प्रमुख मुद्दे:"],
+    ["MPKV & APEDA NABL Verified","एमपीकेवी और एपीडा एनएबीएल सत्यापित","एमपीकेव्ही आणि अपेडा एनएबीएल प्रमाणित"],
+    ["RTGS / NSDL Escrow Vault","आरटीजीएस / एनएसडीएल एस्क्रो वॉल्ट","आरटीजीएस / एनएसडीएल एस्क्रो तिजोरी"],
+    ["Narayangaon Hub (Pune)","नारायणगांव केंद्र (पुणे)","नारायणगाव केंद्र (पुणे)"],
+    ["Tomato & Exotic Greens","टमाटर और हरी सब्जियां","टोमॅटो आणि हिरव्या पालेभाज्या"],
+    ["Vashi Terminal (Navi Mumbai)","वाशी टर्मिनल (नवी मुंबई)","वाशी टर्मिनल (नवी मुंबई)"],
+    ["🗺️ Open Full State GIS Command Map (305 Mandis)","🗺️ राज्य स्तरीय जीआईएस कमांड मानचित्र खोलें (305 मंडियां)","🗺️ संपूर्ण राज्य जीआयएस कमांड नकाशा उघडा (३०५ बाजार समित्या)"],
+    ["View All 312 Fleets in Logistics Hub","लॉजिस्टिक्स हब में सभी 312 फ्लीट देखें","वाहतूक केंद्रातील सर्व ३१२ वाहने पहा"],
+    ["🚚 Logistics Fleet Telemetry & MSWC Storage Hubs","🚚 लॉजिस्टिक्स फ्लीट टेलीमेट्री और एमएसडब्ल्यूसी गोदाम केंद्र","🚚 वाहतूक ताफा टेलिमेट्री आणि MSWC वखार केंद्रे"],
+    ["Occupancy, humidity & cold-storage telemetry monitoring","भंडारण क्षमता, आर्द्रता और कोल्ड-स्टोरेज टेलीमेट्री निगरानी","वखार क्षमता, आर्द्रता आणि कोल्ड-स्टोरेज टेलिमेट्री देखरेख"],
+    ["Emergency Public Advisory & Voice Broadcaster","आपातकालीन सार्वजनिक परामर्श और वॉइस प्रसारण","तातडीची सार्वजनिक मार्गदर्शक सूचना आणि व्हॉईस प्रसारण"],
+    ["✏️ Custom Advisory","✏️ कस्टम परामर्श","✏️ विशेष सूचना"],
+    ["🚀 Dispatch Multilingual Blast (IVR + SMS)","🚀 बहुभाषी संदेश प्रसारण भेजें (आईवीआर + एसएमएस)","🚀 बहुभाषिक संदेश प्रसारण पाठवा (आयव्हीआर + एसएमएस)"],
+    ["AgriNex Admin - Manage Fleet Dispatches & Transport Governance","एग्रीनेक्स एडमिन - फ्लीट प्रेषण और परिवहन नियंत्रण प्रबंधन","अ‍ॅग्रीनेक्स अ‍ॅडमिन - वाहतूक फेऱ्या आणि प्रशासन व्यवस्थापन"],
+    ["🚚 Manage Fleet Dispatches & Transport Governance","🚚 फ्लीट प्रेषण और परिवहन नियंत्रण प्रबंधन","🚚 वाहतूक फेऱ्या आणि प्रशासन व्यवस्थापन"],
+    ["✓ Active IoT GPS Connected","✓ सक्रिय आईओटी जीपीएस कनेक्टेड","✓ सक्रिय IoT GPS जोडलेले"],
+    ["All Dispatches (7)","सभी प्रेषण (7)","सर्व वाहतूक फेऱ्या (७)"],
+    ["Delivered & Settled","वितरित और भुगतान पूर्ण","पोहोचले आणि जमा झाले"],
+    ["Nashik & Erode Regional Hubs","नासिक और इरोड क्षेत्रीय केंद्र","नाशिक व इरोड प्रादेशिक केंद्रे"],
+    ["Pickup Location & Farmer","पिकअप स्थान और किसान","पिकअप ठिकाण आणि शेतकरी"],
+    ["Status & Driver","स्थिति और चालक","स्थिती आणि चालक"],
+    ["🔐 Verify Delivery & Release Escrow","🔐 डिलीवरी सत्यापित करें और एस्क्रो जारी करें","🔐 पोहोच प्रमाणित करा आणि एस्क्रो जमा करा"],
+    ["📈 28 APMC Commodity Mandi Benchmarks Active","📈 28 एपीएमसी मंडी मानक दरें सक्रिय","📈 २८ कृषी उत्पन्न बाजार समिती दर निर्देशांक सक्रिय"],
+    ["Maharashtra State APMC Mandi Price Indices & MSP Controls","महाराष्ट्र राज्य एपीएमसी मंडी मूल्य सूचकांक और एमएसपी नियंत्रण","महाराष्ट्र राज्य कृषी उत्पन्न बाजार समिती भाव निर्देशांक व हमीभाव नियंत्रण"],
+    ["Active Price Spike Warnings","सक्रिय मूल्य उछाल चेतावनी","सक्रिय भाव वाढ इशारे"],
+    ["Regulatory Ceiling Cap","नियामक अधिकतम सीमा","नियामक कमाल मर्यादा"],
+
     // Navigation & General Brand
     ['Marketplace Control Center', 'मार्केटप्लेस नियंत्रण केंद्र', 'बाजारपेठ नियंत्रण केंद्र'],
     ['Control Center', 'नियंत्रण केंद्र', 'नियंत्रण केंद्र'],
@@ -216,6 +261,7 @@
     ['Emergency Sell', 'आपातकालीन बिक्री', 'तातडीची विक्री'],
     ['Grievances', 'शिकायत निवारण', 'तक्रार निवारण'],
     ['Reports', 'ऑडिट रिपोर्ट', 'अहवाल व तपासणी'],
+    ['Manage Dispatches', 'डिस्पैच प्रबंधन', 'वाहतूक व्यवस्थापन'],
     ['Governance Desks', 'प्रशासन डेस्क', 'प्रशासन डेस्क'],
     ['Escrow Clearances', 'एस्क्रो निकासी', 'एस्क्रो मंजुरी'],
     ['Mandi MSP Desk', 'मंडी एमएसपी डेस्क', 'बाजार समिती हमीभाव डेस्क'],
@@ -330,12 +376,14 @@
     // Users Section
     ['User Directory & Management System', 'उपयोगकर्ता निर्देशिका और प्रबंधन प्रणाली', 'वापरकर्ते निर्देशिका व व्यवस्थापन प्रणाली'],
     ['Manage verified & pending Farmers, Enterprise Buyers, and Logistics Fleet Partners', 'सत्यापित और लंबित किसानों, खरीदारों और लॉजिस्टिक्स भागीदारों का प्रबंधन करें', 'प्रमाणित व प्रलंबित शेतकरी, खरेदीदार आणि वाहतूकदारांचे व्यवस्थापन करा'],
+    ['Monitor verified Farmers, Enterprise Buyers, and Logistics Partners with instant suspension and removal controls', 'सत्यापित किसानों, खरीदारों और लॉजिस्टिक्स भागीदारों की निगरानी करें और तत्काल निलंबन या निष्कासन नियंत्रण लागू करें', 'प्रमाणित शेतकरी, खरेदीदार व वाहतूकदारांवर देखरेख ठेवा आणि तातडीने निलंबन किंवा निष्कासन कारवाई करा'],
     ['All Users', 'सभी उपयोगकर्ता', 'सर्व वापरकर्ते'],
     ['Farmers', 'किसान', 'शेतकरी'],
     ['Buyers', 'खरीदार', 'खरेदीदार'],
     ['Logistics', 'लॉजिस्टिक्स', 'वाहतूकदार'],
     ['FPO Federations', 'एफपीओ महासंघ', 'शेतकरी उत्पादक संस्था (FPO)'],
     ['Pending Verification', 'सत्यापन लंबित', 'प्रमाणन प्रलंबित'],
+    ['Suspended / Flagged', 'निलंबित / चिह्नित', 'निलंबित / संशयित'],
     ['Live Verification & Compliance Audit Active', 'लाइव सत्यापन और अनुपालन ऑडिट सक्रिय', 'थेट पडताळणी व कायदेशीर तपासणी सुरू'],
     ['Showing real-time KYC & compliance records', 'वास्तविक समय के केवाईसी व अनुपालन रिकॉर्ड प्रदर्शित', 'थेट केवायसी व कायदेशीर नोंदी दर्शवित आहे'],
     ['User & ID', 'उपयोगकर्ता और आईडी', 'वापरकर्ता व ओळख क्रमांक'],
@@ -348,14 +396,29 @@
     ['Verify KYC', 'केवाईसी सत्यापित करें', 'केवायसी प्रमाणित करा'],
     ['Approved ✓', 'स्वीकृत ✓', 'मंजूर ✓'],
     ['Verified', 'सत्यापित', 'प्रमाणित'],
+    ['Active', 'सक्रिय', 'सक्रिय'],
+    ['Suspended', 'निलंबित', 'निलंबित'],
+    ['De-listed', 'सूची से हटाया गया', 'यादीतून वगळले'],
+    ['Suspend', 'निलंबित करें', 'निलंबित करा'],
+    ['Remove', 'हटाएं', 'काढून टाका'],
+    ['De-list', 'सूची से हटाएं', 'यादीतून वगळा'],
+    ['Restore', 'पुनर्स्थापित करें', 'पूर्ववत करा'],
+    ['Unsuspend', 'निलंबन हटाएं', 'निलंबन मागे घ्या'],
+    ['Details', 'विवरण', 'तपशील'],
     ['Under Review', 'समीक्षाधीन', 'पुनरावलोकन सुरू'],
     ['Cluster Hub', 'क्लस्टर हब', 'मुख्य केंद्र'],
     ['Credit Desk', 'क्रेडिट डेस्क', 'पतपुरवठा डेस्क'],
     ['No users found matching current filters.', 'वर्तमान फ़िल्टर से मेल खाने वाले कोई उपयोगकर्ता नहीं मिले।', 'सध्याच्या फिल्टरनुसार कोणतेही वापरकर्ते आढळले नाहीत.'],
     ['KYC Compliance Record', 'केवाईसी अनुपालन रिकॉर्ड', 'केवायसी कायदेशीर नोंद'],
+    ['User Compliance & Governance Dossier', 'उपयोगकर्ता अनुपालन और शासन दस्तावेज़', 'वापरकर्ता कायदेशीर व प्रशासकीय नोंद'],
     ['Uploaded Legal Credentials:', 'अपलोड किए गए कानूनी दस्तावेज:', 'अपलोड केलेली कायदेशीर कागदपत्रे:'],
+    ['Uploaded Legal & Operating Credentials:', 'अपलोड किए गए कानूनी और परिचालन प्रमाण पत्र:', 'अपलोड केलेली कायदेशीर व कामकाजाची कागदपत्रे:'],
     ['Registered GSTIN:', 'पंजीकृत जीएसटी:', 'नोंदणीकृत जीएसटी:'],
+    ['Registered Record:', 'पंजीकृत रिकॉर्ड:', 'नोंदणीकृत माहिती:'],
     ['Current Status:', 'वर्तमान स्थिति:', 'सध्याची स्थिती:'],
+    ['Suspend Account', 'खाता निलंबित करें', 'खाते निलंबित करा'],
+    ['De-list & Remove', 'सूची से हटाएं व निष्कासित करें', 'यादीतून वगळा व काढून टाका'],
+    ['Re-activate Account', 'खाता पुनः सक्रिय करें', 'खाते पुन्हा सक्रिय करा'],
     ['Farmer', 'किसान', 'शेतकरी'],
     ['Buyer', 'खरीदार', 'खरेदीदार'],
     ['Risk:', 'जोखिम:', 'जोखीम:'],
@@ -1228,7 +1291,7 @@
     const connectedPortalsHeading = document.querySelector('.connected-portals-box div:first-child');
     if (connectedPortalsHeading) connectedPortalsHeading.textContent = tText('Connected Portals:', l);
 
-    // 2. Sidebar Navigation Items
+    // 2. Sidebar Navigation Items (Unified 9 Items across SPA and dedicated desk pages)
     const navItemMap = [
       { sec: 'dashboard', en: 'Dashboard' },
       { sec: 'users', en: 'Users' },
@@ -1237,34 +1300,38 @@
       { sec: 'logistics-storage', en: 'Logistics & Storage' },
       { sec: 'emergency-sell', en: 'Emergency Sell' },
       { sec: 'grievances', en: 'Grievances' },
+      { sec: 'manage-dispatches', en: 'Manage Dispatches' },
       { sec: 'reports', en: 'Reports' }
     ];
 
     navItemMap.forEach(({ sec, en }) => {
-      const item = document.querySelector(`.sidebar-nav .nav-item[data-section="${sec}"] a span:last-child`);
-      if (item) {
+      const items = document.querySelectorAll(
+        `.sidebar-nav .nav-item[data-section="${sec}"] a span:last-child, ` +
+        `.sidebar-nav .nav-item a[href*="${sec}"] span:last-child`
+      );
+      items.forEach(item => {
         item.textContent = tText(en, l);
         if (item.parentElement) item.parentElement.setAttribute('data-agx-orig', en);
-      }
+      });
     });
 
-    // Governance Desks Links
-    const deskEscrow = document.querySelector('.sidebar-nav .nav-item[data-tooltip*="Escrow"] a span:last-child');
+    // Governance Desks Links (if standalone pages have desk links)
+    const deskEscrow = document.querySelector('.sidebar-nav .nav-item a[href*="escrow"] span:last-child');
     if (deskEscrow) {
-      deskEscrow.textContent = tText('Escrow Clearances', l);
-      if (deskEscrow.parentElement) deskEscrow.parentElement.setAttribute('data-agx-orig', 'Escrow Clearances');
+      deskEscrow.textContent = tText('Deals & Payments', l);
+      if (deskEscrow.parentElement) deskEscrow.parentElement.setAttribute('data-agx-orig', 'Deals & Payments');
     }
 
-    const deskMandi = document.querySelector('.sidebar-nav .nav-item[data-tooltip*="Mandi"] a span:last-child');
+    const deskMandi = document.querySelector('.sidebar-nav .nav-item a[href*="mandi"] span:last-child');
     if (deskMandi) {
-      deskMandi.textContent = tText('Mandi MSP Desk', l);
-      if (deskMandi.parentElement) deskMandi.parentElement.setAttribute('data-agx-orig', 'Mandi MSP Desk');
+      deskMandi.textContent = tText('Market Data', l);
+      if (deskMandi.parentElement) deskMandi.parentElement.setAttribute('data-agx-orig', 'Market Data');
     }
 
-    const deskTribunal = document.querySelector('.sidebar-nav .nav-item[data-tooltip*="Tribunal"] a span:last-child');
+    const deskTribunal = document.querySelector('.sidebar-nav .nav-item a[href*="grievance"] span:last-child');
     if (deskTribunal) {
-      deskTribunal.textContent = tText('Tribunal Bench', l);
-      if (deskTribunal.parentElement) deskTribunal.parentElement.setAttribute('data-agx-orig', 'Tribunal Bench');
+      deskTribunal.textContent = tText('Grievances', l);
+      if (deskTribunal.parentElement) deskTribunal.parentElement.setAttribute('data-agx-orig', 'Grievances');
     }
 
     // Connected Portals Links

@@ -1162,6 +1162,9 @@
     },
 
     hi: {
+      'सरल / सुलभ मोड (Simple Mode)': 'सरल मोड (Simple Mode)',
+      'बोलून शोधा (Speak)': 'बोलकर खोजें (Speak)',
+
       lang_name: 'हिन्दी',
       flag: '🇮🇳',
       
@@ -1630,6 +1633,9 @@
     },
 
     mr: {
+      'सरल / सुलभ मोड (Simple Mode)': 'सुलभ मोड (Simple Mode)',
+      'बोलून शोधा (Speak)': 'बोलून शोधा (Speak)',
+
       lang_name: 'मराठी',
       flag: '🚩',
       
