@@ -88,6 +88,8 @@
           };
           localStorage.setItem('agrinex_active_session', JSON.stringify(session));
         }
+        localStorage.setItem('agrinex_token', session.token);
+        localStorage.setItem('agrinex_user', JSON.stringify(session.user));
         this.session = session;
       } catch (e) {
         this.session = { user: DEFAULT_ROLES.farmer, token: 'DEFAULT' };
@@ -112,6 +114,10 @@
         loginTime: new Date().toISOString()
       };
       localStorage.setItem('agrinex_active_session', JSON.stringify(this.session));
+      localStorage.setItem('agrinex_token', this.session.token);
+      localStorage.setItem('agrinex_user', JSON.stringify(this.session.user));
+      sessionStorage.setItem('agrinex_token', this.session.token);
+      sessionStorage.setItem('agrinex_user', JSON.stringify(this.session.user));
 
       try {
         await fetch('/api/auth/demo-login', {
@@ -126,6 +132,10 @@
 
     logout() {
       localStorage.removeItem('agrinex_active_session');
+      localStorage.removeItem('agrinex_token');
+      localStorage.removeItem('agrinex_user');
+      sessionStorage.removeItem('agrinex_token');
+      sessionStorage.removeItem('agrinex_user');
       const root = this.getRootPrefix();
       window.location.href = `${root}index.html`;
     }

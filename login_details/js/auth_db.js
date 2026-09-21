@@ -152,6 +152,10 @@ class AgriNexAuth {
       loginTime: new Date().toISOString()
     };
     localStorage.setItem("agrinex_active_session", JSON.stringify(session));
+    localStorage.setItem("agrinex_token", session.token);
+    localStorage.setItem("agrinex_user", JSON.stringify(session.user));
+    sessionStorage.setItem("agrinex_token", session.token);
+    sessionStorage.setItem("agrinex_user", JSON.stringify(session.user));
 
     return {
       success: true,
@@ -173,7 +177,8 @@ class AgriNexAuth {
       if (targetRole) {
         const matchesRole = (acc.roleId && acc.roleId.toLowerCase().includes(targetRole.toLowerCase())) || 
                             (acc.moduleDir && acc.moduleDir.includes(targetRole)) ||
-                            (key === targetRole);
+                            (key === targetRole) ||
+                            (targetRole === 'admin' && (acc.roleId === 'ROLE_ADMIN' || acc.moduleDir === 'admin-module'));
         if (!matchesRole) continue;
       }
 
@@ -190,6 +195,10 @@ class AgriNexAuth {
           loginTime: new Date().toISOString()
         };
         localStorage.setItem("agrinex_active_session", JSON.stringify(session));
+        localStorage.setItem("agrinex_token", session.token);
+        localStorage.setItem("agrinex_user", JSON.stringify(session.user));
+        sessionStorage.setItem("agrinex_token", session.token);
+        sessionStorage.setItem("agrinex_user", JSON.stringify(session.user));
         return { success: true, user: acc, redirectUrl: redirect };
       }
     }
@@ -212,6 +221,10 @@ class AgriNexAuth {
         loginTime: new Date().toISOString()
       };
       localStorage.setItem("agrinex_active_session", JSON.stringify(session));
+      localStorage.setItem("agrinex_token", session.token);
+      localStorage.setItem("agrinex_user", JSON.stringify(session.user));
+      sessionStorage.setItem("agrinex_token", session.token);
+      sessionStorage.setItem("agrinex_user", JSON.stringify(session.user));
       const isRoot = !window.location.pathname.includes("login_details");
       const targetPath = isRoot ? `${acc.moduleDir}/index.html` : (acc.redirectUrl || `../${acc.moduleDir}/index.html`);
       window.location.href = targetPath;
@@ -225,6 +238,10 @@ class AgriNexAuth {
 
   static logout() {
     localStorage.removeItem("agrinex_active_session");
+    localStorage.removeItem("agrinex_token");
+    localStorage.removeItem("agrinex_user");
+    sessionStorage.removeItem("agrinex_token");
+    sessionStorage.removeItem("agrinex_user");
     const isInsideLogin = window.location.pathname.includes("login_details");
     const isRoot = window.location.pathname.endsWith("index.html") && !isInsideLogin;
     window.location.href = isInsideLogin ? "../index.html" : (isRoot ? "index.html" : "../index.html");

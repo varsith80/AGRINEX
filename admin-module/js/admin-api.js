@@ -10,13 +10,23 @@
   const AdminAPI = {
     // 1. Token & Session Management
     getAuthToken() {
-      return localStorage.getItem('agrinex_token') || sessionStorage.getItem('agrinex_token') || '';
+      let token = localStorage.getItem('agrinex_token') || sessionStorage.getItem('agrinex_token');
+      if (!token) {
+        try {
+          const sess = JSON.parse(localStorage.getItem('agrinex_active_session') || '{}');
+          if (sess && sess.token) token = sess.token;
+        } catch(e) {}
+      }
+      return token || '';
     },
 
     getCurrentUser() {
       try {
         const userStr = localStorage.getItem('agrinex_user') || sessionStorage.getItem('agrinex_user');
-        return userStr ? JSON.parse(userStr) : null;
+        if (userStr) return JSON.parse(userStr);
+        const sess = JSON.parse(localStorage.getItem('agrinex_active_session') || '{}');
+        if (sess && sess.user) return sess.user;
+        return null;
       } catch (e) {
         return null;
       }
@@ -30,6 +40,7 @@
     clearSession() {
       localStorage.removeItem('agrinex_token');
       localStorage.removeItem('agrinex_user');
+      localStorage.removeItem('agrinex_active_session');
       sessionStorage.removeItem('agrinex_token');
       sessionStorage.removeItem('agrinex_user');
     },
