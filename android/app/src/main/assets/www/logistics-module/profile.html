@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Logistics Passbook & Profile | Direct Trade · Better Tomorrow</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- LEFT SIDEBAR NAVIGATION (Full-Height Sticky) -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header (Golden Wheat Logo) -->
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <img src="../assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" onerror="this.src='../farmer-module/assets/images/wheat-logo.png'" />
+          </div>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+            <div class="brand-tagline">Direct Trade · Better Tomorrow</div>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="sidebar-nav">
+          <li class="nav-item " onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span>Dashboard</span>
+            </div>
+          </li>
+          <li class="nav-item " onclick="window.location.href='fpo-hauls.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              <span>Bulk FPO Hauls</span>
+            </div>
+          </li>
+          <li class="nav-item " onclick="window.location.href='individual-orders.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+              <span>Express Orders</span>
+            </div>
+          </li>
+          <li class="nav-item active" onclick="window.location.href='profile.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+              <span>Passbook & Profile</span>
+            </div>
+          </li>
+
+          <!-- RED GRIEVANCE MODULE LINK (Identical across all modules) -->
+          <li class="nav-item nav-item-grievance" onclick="window.location.href='grievance.html'" title="File transit complaints & payment redressal">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span style="font-weight: 800;">Grievance Module</span>
+            </div>
+            <span class="grv-badge-red">Support</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- User Profile at bottom -->
+      <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
+        <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80" alt="Dinesh Yadav" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" />
+          <div style="min-width:0; flex:1;">
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Dinesh Yadav</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Fleet Partner • Nashik</div>
+          </div>
+          <a href="../login_details/logistics_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <!-- Top Extended Navbar Header (Identical across Farmer & Buyer modules) -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="navbar-search" style="min-width: 320px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" placeholder="Search orders, crops, buyer locations..." oninput="handleSearch(this.value)" />
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1px solid #bbf7d0; cursor: pointer; white-space: nowrap;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Nashik Mandi Hub, Maharashtra</span>
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <!-- Red Grievance Desk Top Quick Action -->
+          <a href="grievance.html" class="navbar-btn-grievance" title="Direct Redressal Desk">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>Grievance Module</span>
+          </a>
+
+          <div class="profile-widget">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80" alt="Dinesh Yadav" class="profile-avatar" />
+            <div class="profile-info">
+              <span class="profile-name">Dinesh Yadav</span>
+              <span class="profile-role">Logistics Partner</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard-content">
+        
+        <!-- Driver Profile Card -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:22px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+          <div style="display:flex; gap:18px; align-items:center; flex-wrap:wrap;">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=160&auto=format&fit=crop&q=80" alt="Dinesh Yadav" style="width:72px; height:72px; border-radius:50%; border:3px solid #0c5a36; object-fit:cover;" />
+            <div>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <h2 style="font-size:1.3rem; font-weight:800; color:#0f172a; margin:0;">Dinesh Yadav</h2>
+                <span class="badge badge-grade-a">✓ Verified Partner</span>
+              </div>
+              <div style="font-size:0.82rem; color:#475569; margin-top:3px;">Fleet Captain • GreenWays Transit, Nashik Hub</div>
+              <div style="font-size:0.78rem; color:#64748b;">Vehicle: <strong>MH-15-AQ-9011</strong> • Rating: <strong style="color:#d97706;">4.95 ★★★★★</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settlements Passbook -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+            <div>
+              <h3 style="font-size:1.15rem; font-weight:800; color:#0f172a; margin:0;">Bank Payout Passbook</h3>
+              <div style="font-size:0.78rem; color:#64748b; margin-top:2px;">All payments transferred directly to your bank account upon delivery</div>
+            </div>
+            <button class="btn btn-outline" style="font-size:0.78rem;" onclick="window.print()">📑 Print Passbook</button>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Transaction ID</th>
+                  <th>Order Code</th>
+                  <th>Crop & Quantity</th>
+                  <th>Buyer Terminal</th>
+                  <th>Payment Amount</th>
+                  <th>Date & Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="passbook-tbody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- DIGITAL GATE PASS MODAL -->
+  <div class="modal-overlay" id="modal-gate-pass">
+    <div class="modal-card" style="max-width: 500px; padding: 0;" id="modal-gate-pass-body">
+      <!-- Injected via JS -->
+    </div>
+  </div>
+
+  <!-- 4-DIGIT PIN VERIFICATION MODAL -->
+  <div class="modal-overlay" id="modal-verify-pin">
+    <div class="modal-card" style="max-width: 440px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">
+        <h3 style="font-size:1.15rem; font-weight:800; color:#0f172a;">🔐 Complete Delivery</h3>
+        <button onclick="closePinModal()" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:#64748b;">&times;</button>
+      </div>
+      <p style="font-size:0.85rem; color:#475569; line-height:1.5; margin-bottom:16px;">
+        Ask the buyer receiving manager for their <strong>4-digit PIN</strong> to confirm delivery and receive your freight payout.
+      </p>
+      <div style="margin-bottom:18px;">
+        <label style="display:block; font-size:0.8rem; font-weight:700; color:#334155; margin-bottom:6px;">Enter 4-Digit Delivery PIN</label>
+        <input type="text" id="delivery-pin-input" maxlength="4" placeholder="e.g. 5519" style="width:100%; font-size:1.4rem; letter-spacing:6px; text-align:center; font-weight:800; color:#0c5a36; padding:10px; border:2px solid #cbd5e1; border-radius:10px;" />
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitDeliveryPin()" style="background:#0c5a36;">✓ Verify & Complete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/logistics.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderPassbook();
+    });
+
+    function renderPassbook() {
+      const tbody = document.getElementById("passbook-tbody");
+      if (!tbody || !logisticsData.passbook) return;
+
+      tbody.innerHTML = logisticsData.passbook.map(p => `
+        <tr>
+          <td><strong style="color:#0f172a; font-size:0.85rem;">${p.txId}</strong></td>
+          <td><span style="color:#0c5a36; font-weight:700;">${p.orderCode}</span></td>
+          <td>${p.crop}</td>
+          <td>${p.buyer}</td>
+          <td><strong style="color:#0c5a36; font-size:0.95rem;">${p.amount}</strong></td>
+          <td><span style="font-size:0.75rem; color:#64748b;">${p.date}</span></td>
+          <td><span class="badge badge-status-open">✓ Settled</span></td>
+        </tr>
+      `).join("");
+    }
+  </script>
+</body>
+</html>

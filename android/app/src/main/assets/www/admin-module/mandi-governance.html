@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriNex - Maharashtra APMC Mandi Price Governance & MSP Controls</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <img src="../farmer-module/assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" onerror="this.src='../assets/images/wheat-logo.png'" />
+          </div>
+          <div>
+            <h1 class="brand-title">AGRINEX <span class="brand-accent">ADMIN</span></h1>
+            <span class="brand-tagline">Marketplace Control Center</span>
+          </div>
+        </div>
+
+        <div style="font-size: 0.68rem; font-weight: 800; text-transform: uppercase; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; margin: 4px 0 8px 6px;">Main Menu</div>
+        <ul class="sidebar-nav">
+          <li class="nav-item">
+            <a href="index.html#dashboard" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 9px; width: 100%;">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="index.html#users" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 9px; width: 100%;">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Users</span>
+            </a>
+          </li>
+
+          <li class="nav-item active">
+            <a href="mandi-governance.html" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 9px; width: 100%;">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                <polyline points="16 7 22 7 22 13"></polyline>
+              </svg>
+              <span>Market Data</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="escrow-governance.html" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 9px; width: 100%;">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+              <span>Deals & Payments</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="index.html#logistics-storage" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 9px; width: 100%;">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+              <span>Logistics & Storage</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="index.html#emergency-sell" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 9px; width: 100%;">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              <span>Emergency Sell</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="grievance-arbitration.html" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 9px; width: 100%;">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Grievances</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="index.html#reports" class="nav-item-left" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 9px; width: 100%;">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <span>Reports</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div style="border-top: 1px solid rgba(255,255,255,0.12); padding-top: 12px; font-size: 0.76rem; color: rgba(255,255,255,0.7);">
+        <div style="margin-bottom: 6px; font-weight: 700;">Switch Module:</div>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <a href="../farmer-module/index.html" style="color: #86efac; text-decoration: none; font-weight: 600;">🌾 Farmer Dashboard</a>
+          <a href="../buyer-module/index.html" style="color: #93c5fd; text-decoration: none; font-weight: 600;">🏢 Buyer Terminal</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT AREA -->
+    <main class="main-wrapper">
+      
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="navbar-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="mandi-search" placeholder="Search 28 Maharashtra commodities, APMC mandis (Lasalgaon, Latur, Vashi)..." oninput="renderMandiTable(this.value)" />
+          </div>
+          <div style="font-size: 0.82rem; font-weight: 700; color: #b45309; background: #fef3c7; padding: 6px 14px; border-radius: 999px; border: 1px solid #fde68a;">
+            <span>📈 28 APMC Commodity Mandi Benchmarks Active</span>
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <a href="index.html" class="btn btn-outline" style="font-size: 0.78rem;">&larr; Back to HQ</a>
+          <div class="profile-widget">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Dr. R. K. Shinde" class="profile-avatar" />
+            <div class="profile-info">
+              <span class="profile-name">Dr. R. K. Shinde, IAS</span>
+              <span class="profile-role">Price Committee Chair</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard-content">
+        
+        <!-- Executive Glass Hero Banner -->
+        <div class="gov-hero-banner" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+          <div>
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 999px; font-size: 0.75rem; font-weight: 700; color: #fbbf24; margin-bottom: 8px;">
+              <span>📈 Statutory MSP & Benchmark Control Desk</span>
+            </div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0 0 6px 0;">Maharashtra State APMC Mandi Price Indices & MSP Controls</h2>
+            <p style="font-size: 0.84rem; color: #94a3b8; margin: 0; max-width: 780px;">
+              Statutory MSP floor price enforcement, modal rate calibrations, and anti-hoarding ceiling monitoring across 305 APMC mandis.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-primary" style="background: #d97706;" onclick="alert('Broadcasting latest MSAMB daily mandi bulletin to all 305 APMC Yards...')">
+              📢 Broadcast APMC Advisory
+            </button>
+            <button class="btn btn-outline" style="border-color: rgba(255,255,255,0.2); color: #ffffff;" onclick="alert('Downloading 28-Crop MSAMB Mandi Price Index Report (PDF/Excel)...')">
+              📊 Download MSP Index
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 KPI Summary Cards -->
+        <div class="gov-kpi-grid">
+          <div class="gov-kpi-card kpi-gov-green">
+            <div class="gov-kpi-icon">🌾</div>
+            <div class="gov-kpi-value">28 Commodities</div>
+            <div class="gov-kpi-label">Statutory Benchmarks Tracked</div>
+          </div>
+          <div class="gov-kpi-card kpi-gov-blue">
+            <div class="gov-kpi-icon">🛡️</div>
+            <div class="gov-kpi-value">₹38.50 /kg</div>
+            <div class="gov-kpi-label">Avg MSP Floor Protection</div>
+          </div>
+          <div class="gov-kpi-card kpi-gov-purple">
+            <div class="gov-kpi-icon">🏛️</div>
+            <div class="gov-kpi-value">96.4%</div>
+            <div class="gov-kpi-label">APMC Mandi Compliance Index</div>
+          </div>
+          <div class="gov-kpi-card kpi-gov-gold">
+            <div class="gov-kpi-icon">⚡</div>
+            <div class="gov-kpi-value">2 Volatility Alerts</div>
+            <div class="gov-kpi-label">Active Price Spike Warnings</div>
+          </div>
+        </div>
+
+        <!-- 28 Crop Mandi Price Benchmarking Table -->
+        <section class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                <polyline points="16 7 22 7 22 13"></polyline>
+              </svg>
+              28 Maharashtra Commodity Mandi Benchmark Indices (₹/kg & ₹/Qt)
+            </h3>
+            <span style="font-size: 0.8rem; color: #64748b;">Live MSAMB Feed • Standardized in ₹/kg</span>
+          </div>
+
+          <div class="listings-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Commodity Name</th>
+                  <th>MSP Floor Price</th>
+                  <th>Modal APMC Price (₹/kg)</th>
+                  <th>Regulatory Ceiling Cap</th>
+                  <th>Market Trend</th>
+                  <th>Primary APMC Mandis</th>
+                  <th>Governance Alert</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="mandi-page-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderMandiTable();
+    });
+
+    function renderMandiTable(filterQuery = '') {
+      const tbody = document.getElementById('mandi-page-tbody');
+      if (!tbody) return;
+
+      let prices = AgriNexAdminGovernance.getMandiPrices();
+
+      if (filterQuery) {
+        const q = filterQuery.toLowerCase();
+        prices = prices.filter(p => 
+          p.crop.toLowerCase().includes(q) || 
+          p.keyMandis.toLowerCase().includes(q) ||
+          p.marketTrend.toLowerCase().includes(q)
+        );
+      }
+
+      tbody.innerHTML = prices.map(p => {
+        const isSpike = p.alert.includes('Spike') || p.alert.includes('Hoarding');
+        const isMspAlert = p.alert.includes('MSP');
+        
+        let alertBadge = 'badge-gov-clear';
+        if (isSpike) alertBadge = 'badge-gov-hold';
+        if (isMspAlert) alertBadge = 'badge-gov-pending';
+
+        return `
+          <tr>
+            <td>
+              <strong style="color: #0f172a; font-size: 0.92rem;">${p.crop}</strong>
+              <div style="font-size: 0.72rem; color: #64748b;">ID: ${p.id}</div>
+            </td>
+            <td>
+              <strong style="color: #0c5a36;">₹ ${p.msp.toFixed(2)} /kg</strong>
+              <div style="font-size: 0.72rem; color: #64748b;">₹ ${(p.msp * 100).toLocaleString('en-IN')}/Qt</div>
+            </td>
+            <td>
+              <strong style="font-size: 1.05rem; color: #15803d;">₹ ${p.modalPrice.toFixed(2)} /kg</strong>
+              <div style="font-size: 0.72rem; color: #64748b;">₹ ${(p.modalPrice * 100).toLocaleString('en-IN')}/Qt</div>
+            </td>
+            <td>
+              <strong style="color: #dc2626;">₹ ${p.ceilingCap.toFixed(2)} /kg</strong>
+              <div style="font-size: 0.72rem; color: #64748b;">Cap Limit</div>
+            </td>
+            <td>
+              <span style="font-weight: 700; color: #334155; font-size: 0.8rem;">${p.marketTrend}</span>
+            </td>
+            <td>
+              <div style="font-size: 0.78rem; color: #475569;">📍 ${p.keyMandis}</div>
+            </td>
+            <td>
+              <span class="${alertBadge}">${p.alert}</span>
+            </td>
+            <td>
+              <button class="btn-gov-inspect" onclick="handlePriceAdjustment('${p.id}', '${p.crop}', ${p.modalPrice})">
+                ⚙️ Adjust
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function handlePriceAdjustment(cropId, cropName, currentPrice) {
+      const val = prompt(`Enter calibrated APMC Modal Benchmark Price (in ₹/kg) for ${cropName}:`, currentPrice);
+      if (val !== null && val.trim() !== "") {
+        const res = AgriNexAdminGovernance.updateMandiPrice(cropId, val);
+        if (res.success) {
+          renderMandiTable(document.getElementById('mandi-search')?.value || '');
+          alert(`🎉 ${res.message}`);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <title>AgriNex - Orders & Shipments</title>
+  <style>
+    .simple-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 1024px) {
+      .simple-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .stat-card-compact {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .stat-icon-sq {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .filter-tabs-row {
+      display: flex;
+      gap: 8px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+    .filter-tab {
+      background: none;
+      border: none;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      border-radius: 6px 6px 0 0;
+      white-space: nowrap;
+    }
+    .filter-tab.active {
+      color: #0c5a36;
+      background: #ffffff;
+      border-bottom: 3px solid #0c5a36;
+      font-weight: 800;
+    }
+
+    .order-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .order-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* 4-Step Clean Progress Line */
+    .step-track {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin: 16px 0 18px;
+      gap: 8px;
+      text-align: center;
+      position: relative;
+    }
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #64748b;
+    }
+    .step-dot.done { background: #059669; border-color: #059669; color: #ffffff; }
+    .step-dot.active { background: #0284c7; border-color: #0284c7; color: #ffffff; }
+
+    .info-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.82rem;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 800px) {
+      .info-strip { grid-template-columns: 1fr; }
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #ffffff;
+      border-radius: 14px;
+      max-width: 500px;
+      width: 100%;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- LEFT SIDEBAR NAVIGATION (Full-Height Sticky) -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header (Golden Wheat Logo) -->
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <img src="assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" />
+          </div>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+            <div class="brand-tagline">FARMER PORTAL</div>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="sidebar-nav">
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span>Dashboard</span>
+            </div>
+            
+          </li>
+          <li class="nav-item" onclick="window.location.href='my-crops.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
+              <span>My Crops & Lots</span>
+            </div>
+            
+          </li>
+          <li class="nav-item" onclick="window.location.href='market-insights.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              <span>Market Insights</span>
+            </div>
+            
+          </li>
+          <li class="nav-item" onclick="window.location.href='fpo-hub.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              <span>FPO Hub</span>
+            </div>
+            
+          </li>
+          <li class="nav-item" onclick="window.location.href='bids-offers.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m14 12 6-6"></path><path d="M9 17 3 23"></path><path d="m15.5 10.5 2 2"></path><path d="m7.5 18.5 2 2"></path><path d="M10 6 6 10l5 5 4-4-5-5z"></path><path d="m14 16 4 4 4-4-4-4-4 4z"></path></svg>
+              <span>Bids & Offers</span>
+            </div>
+            
+          </li>
+          <li class="nav-item active" onclick="window.location.href='orders-shipments.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+              <span>Orders & Shipments</span>
+            </div>
+            
+          </li>
+          <li class="nav-item" onclick="window.location.href='escrow-tracking.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+              <span>Escrow Tracking</span>
+            </div>
+            
+          </li>
+          <li class="nav-item" onclick="window.location.href='profit-calculator.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+              <span>Profit Calculator</span>
+            </div>
+            
+          </li>
+
+          <!-- RED GRIEVANCE MODULE LINK -->
+          <li class="nav-item nav-item-grievance" onclick="window.location.href='grievance.html'" title="File complaints, payment delays & dispute redressal">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span style="font-weight: 800;">Grievance Module</span>
+            </div>
+            <span class="grv-badge-red">Support</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- User Profile at bottom -->
+      <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
+        <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
+          <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+          <div style="min-width:0; flex:1;">
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Ramesh Patel</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Nashik, MH</div>
+          </div>
+          <a href="../login_details/farmer_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      <!-- Top Extended Navbar Header -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="navbar-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="page-search-input" placeholder="Search tracking ID, truck plate, driver..." oninput="handleSearch(this.value)" />
+          </div>
+          <div class="navbar-location-pill" title="Change Mandi Location">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Nashik Mandi Hub, MH</span>
+          </div>
+        </div>
+
+        <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
+          <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
+          <div class="lang-selector-widget" style="position: relative;">
+            <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
+              <span id="current-language-label">🇬🇧 English</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div id="language-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 12px 28px -4px rgba(0,0,0,0.15), 0 8px 12px -6px rgba(0,0,0,0.08); width: 185px; z-index: 1100; overflow: hidden; font-size: 0.82rem;">
+              <div style="padding: 8px 12px; font-size: 0.7rem; font-weight: 800; color: #64748b; background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; justify-content: space-between;">
+                <span>🌐 Select Language</span>
+              </div>
+              <button type="button" id="lang-opt-en" onclick="setFarmerLanguage('en')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: #e8f5ed; color: #0c5a36; cursor: pointer; text-align: left; font-weight: 700; transition: background 0.15s ease;">
+                <span style="display: flex; align-items: center; gap: 8px;">🇬🇧 English</span>
+                <span class="lang-check" style="font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+              <button type="button" id="lang-opt-hi" onclick="setFarmerLanguage('hi')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;" onmouseover="if(window.getFarmerLanguage && window.getFarmerLanguage()!=='hi')this.style.background='#f8fafc'" onmouseout="if(window.getFarmerLanguage && window.getFarmerLanguage()!=='hi')this.style.background='transparent'">
+                <span style="display: flex; align-items: center; gap: 8px;">🇮🇳 हिन्दी</span>
+                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+              <button type="button" id="lang-opt-mr" onclick="setFarmerLanguage('mr')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;" onmouseover="if(window.getFarmerLanguage && window.getFarmerLanguage()!=='mr')this.style.background='#f8fafc'" onmouseout="if(window.getFarmerLanguage && window.getFarmerLanguage()!=='mr')this.style.background='transparent'">
+                <span style="display: flex; align-items: center; gap: 8px;">🚩 मराठी</span>
+                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+            </div>
+          </div>
+          <!-- Red Grievance Desk Top Quick Action -->
+          <a href="grievance.html" class="navbar-btn-grievance" title="Direct Redressal Desk">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>Grievance Desk</span>
+          </a>
+          <button class="btn btn-outline btn-sm" onclick="window.location.href='index.html'" style="font-weight: 700;">
+            &larr; Dashboard
+          </button>
+          <button class="notif-btn" title="Notifications" onclick="alert('Notification: Reliance Retail placed a new bid of ₹ 24.50 /kg on your Tomato lot!')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            </svg>
+          </button>
+          <div class="profile-widget" style="cursor: pointer;" onclick="window.location.href='my-crops.html'">
+            <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+            <div>
+              <div class="profile-name">Ramesh Patel</div>
+              <div class="profile-role">ID: FARM-88210</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard-content" style="padding: 20px 24px;">
+        
+        <!-- HEADER -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <h1 style="font-size:1.3rem; font-weight:800; color:#0f172a; margin:0;">Orders & Shipments</h1>
+            <p style="font-size:0.8rem; color:#64748b; margin:2px 0 0;">Track your crop pickup and truck delivery in real time</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="loadShipments()">↻ Refresh</button>
+        </div>
+
+        <!-- 4 STATS -->
+        <div class="simple-stats-grid">
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#e0f2fe; color:#0284c7;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+            </div>
+            <div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Active Trucks</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#0f172a;">2 On Road</div>
+            </div>
+          </div>
+
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#e8f5ed; color:#10b981;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            </div>
+            <div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Volume in Transit</div>
+              <div style="font-size:1.1rem; font-weight:800; color:#0c5a36;">160 Qt <span style="font-size:0.72rem; color:#64748b; font-weight:600;">(16,000 kg)</span></div>
+            </div>
+          </div>
+
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#f3e8ff; color:#a855f7;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18"></path><path d="m14 9 3 3-3 3"></path></svg>
+            </div>
+            <div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Gate Passes</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#0f172a;">2 Ready</div>
+            </div>
+          </div>
+
+          <div class="stat-card-compact">
+            <div class="stat-icon-sq" style="background:#ffedd5; color:#f97316;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div>
+              <div style="font-size:0.72rem; font-weight:600; color:#64748b;">Delivery Success</div>
+              <div style="font-size:1.15rem; font-weight:800; color:#059669;">99.4%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="filter-tabs-row">
+          <button class="filter-tab active" onclick="setTab('all', this)">All Orders</button>
+          <button class="filter-tab" onclick="setTab('transit', this)">On The Road (2)</button>
+          <button class="filter-tab" onclick="setTab('scheduled', this)">Pickup Scheduled (1)</button>
+          <button class="filter-tab" onclick="setTab('delivered', this)">Delivered (1)</button>
+        </div>
+
+        <!-- ORDERS LIST -->
+        <div id="shipments-container">
+          <!-- Rendered via JS -->
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- SIMPLE GATE PASS MODAL -->
+  <div class="modal-overlay" id="gatePassModal">
+    <div class="modal-box">
+      <div style="padding:16px 20px; background:#064e3b; color:#ffffff; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:800; font-size:1rem;">Digital Gate Pass</div>
+          <div style="font-size:0.72rem; color:#86efac;">Valid for Tolls & Mandi Checkposts</div>
+        </div>
+        <button onclick="closeModal('gatePassModal')" style="background:none; border:none; font-size:1.3rem; color:#ffffff; cursor:pointer;">&times;</button>
+      </div>
+      <div style="padding:18px 20px;">
+        <div style="border:1.5px dashed #059669; border-radius:10px; padding:14px; background:#f0fdf4; margin-bottom:14px; font-size:0.82rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <strong style="color:#064e3b; font-size:1.1rem;" id="gp-id">GP-2026-9884</strong>
+            <span style="background:#064e3b; color:#ffffff; padding:3px 8px; border-radius:4px; font-size:0.65rem; font-weight:800;">VERIFIED QR</span>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+            <div><span style="color:#64748b;">Farmer:</span> <strong>Ramesh Patel</strong></div>
+            <div><span style="color:#64748b;">Driver:</span> <strong id="gp-drv">Dinesh Yadav</strong></div>
+            <div><span style="color:#64748b;">Truck No:</span> <strong id="gp-veh">MH-12-AQ-9011</strong></div>
+            <div><span style="color:#64748b;">Produce:</span> <strong id="gp-crop">Tomato (40 Qt)</strong></div>
+            <div><span style="color:#64748b;">Net Weight:</span> <strong id="gp-wt">4,000 kg</strong></div>
+            <div><span style="color:#64748b;">Destination:</span> <strong id="gp-dst">Swiggy DC</strong></div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button class="btn btn-outline btn-sm" onclick="closeModal('gatePassModal')">Close</button>
+          <button class="btn btn-primary btn-sm" onclick="printCurrentGatePass()">🖨️ Print / Save as PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMPLE GPS MODAL -->
+  <div class="modal-overlay" id="gpsModal">
+    <div class="modal-box">
+      <div style="padding:16px 20px; background:#0f172a; color:#ffffff; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:800; font-size:1rem;" id="gps-title">Live Truck Location</div>
+          <div style="font-size:0.72rem; color:#94a3b8;" id="gps-veh">MH-12-AQ-9011</div>
+        </div>
+        <button onclick="closeModal('gpsModal')" style="background:none; border:none; font-size:1.3rem; color:#ffffff; cursor:pointer;">&times;</button>
+      </div>
+      <div style="padding:18px 20px;">
+        <div style="background:#1e293b; color:#ffffff; border-radius:10px; padding:24px; text-align:center; margin-bottom:14px;">
+          <div style="font-size:2.2rem; margin-bottom:6px;">🚛</div>
+          <div style="font-weight:800; font-size:1rem; color:#38bdf8;" id="gps-loc">Surat-Mumbai Highway KM 84</div>
+          <div style="font-size:0.8rem; color:#94a3b8; margin-top:4px;" id="gps-eta">Speed: 54 km/h • ETA: Tomorrow 8:00 AM</div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.82rem; color:#334155;">Driver: <strong id="gps-drv">Dinesh Yadav</strong></span>
+          <a href="tel:+919723044819" class="btn btn-primary btn-sm" style="text-decoration:none;">📞 Call Driver</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    let SHIPMENTS = [
+      { tracking_id: 'TRK-9884', gate_pass: 'GP-2026-9884', crop: 'Tomato (Hybrid Red)', quantity_qt: 40, quantity_kg: 4000, buyer: 'Swiggy Instamart Agri', destination: 'Swiggy DC, Bhiwandi', driver: 'Dinesh Yadav', phone: '+91 97230 44819', vehicle: 'MH-12-AQ-9011', status: 'transit', step: 3, loc: 'Surat-Mumbai Highway KM 84', eta: 'Tomorrow 8:00 AM', total_val: 96000, adv_paid: 33600 },
+      { tracking_id: 'TRK-9921', gate_pass: 'GP-2026-9921', crop: 'Potato (Jyoti Grade A)', quantity_qt: 120, quantity_kg: 12000, buyer: 'Balaji Wafers Procurement', destination: 'Balaji Factory, Valsad', driver: 'Sukhdev Singh', phone: '+91 98450 11992', vehicle: 'GJ-05-BX-4412', status: 'scheduled', step: 2, loc: 'Truck arriving at farm at 2:00 PM', eta: 'Today 4:30 PM', total_val: 222000, adv_paid: 77700 },
+      { tracking_id: 'TRK-9710', gate_pass: 'GP-2026-9710', crop: 'Wheat (Sharbati)', quantity_qt: 100, quantity_kg: 10000, buyer: 'Aashirvaad ITC Foods', destination: 'ITC Depot, Vadodara', driver: 'Mohan Lal', phone: '+91 98110 55432', vehicle: 'GJ-06-TT-1904', status: 'delivered', step: 4, loc: 'Delivered & Accepted', eta: 'Completed', total_val: 260000, adv_paid: 91000 }
+    ];
+
+    let currentTab = 'all';
+
+    async function loadShipments() {
+      try {
+        if (window.AgriNexAPI) {
+          const res = await AgriNexAPI.getShipments();
+          if (res && res.length > 0) {
+            SHIPMENTS = res.map(s => ({
+              tracking_id: s.tracking_id,
+              gate_pass: s.gate_pass,
+              crop: `${s.crop} (${s.variety || ''})`,
+              quantity_qt: s.quantity_qt,
+              quantity_kg: s.quantity_kg || (s.quantity_qt * 100),
+              buyer: s.buyer || s.buyer_name,
+              destination: s.destination,
+              driver: s.driver || s.driver_name,
+              phone: s.phone || s.driver_phone,
+              vehicle: s.vehicle || s.vehicle_no,
+              status: s.status,
+              step: s.step || 3,
+              loc: s.current_loc || 'In Transit',
+              eta: s.eta || 'On Schedule',
+              total_val: s.total_value || s.total_amount,
+              adv_paid: s.advance_paid || s.advance_amount
+            }));
+          }
+        }
+      } catch (e) {}
+      renderOrders();
+    }
+
+    function renderOrders() {
+      const container = document.getElementById('shipments-container');
+      const filtered = SHIPMENTS.filter(s => {
+        if (currentTab === 'all') return true;
+        return s.status === currentTab;
+      });
+
+      container.innerHTML = filtered.map(s => `
+        <div class="order-box">
+          <div class="order-header-row">
+            <div>
+              <strong style="font-size:1rem; color:#0f172a;">${s.tracking_id}</strong>
+              <span style="margin:0 8px; color:#cbd5e1;">|</span>
+              <span style="font-size:0.8rem; color:#059669; font-weight:700;">Gate Pass: ${s.gate_pass}</span>
+            </div>
+            <span style="background:${s.status === 'transit' ? '#eff6ff' : (s.status === 'delivered' ? '#ecfdf5' : '#fefce8')}; color:${s.status === 'transit' ? '#1d4ed8' : (s.status === 'delivered' ? '#047857' : '#a16207')}; border:1px solid ${s.status === 'transit' ? '#bfdbfe' : (s.status === 'delivered' ? '#a7f3d0' : '#fef08a')}; padding:3px 10px; border-radius:999px; font-size:0.75rem; font-weight:800;">
+              ● ${s.status === 'transit' ? 'On The Road' : (s.status === 'delivered' ? 'Delivered' : 'Pickup Scheduled')}
+            </span>
+          </div>
+
+          <!-- Progress -->
+          <div class="step-track">
+            <div>
+              <div class="step-dot done">✓</div>
+              <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">Confirmed</div>
+            </div>
+            <div>
+              <div class="step-dot ${s.step >= 2 ? 'done' : ''}">${s.step >= 2 ? '✓' : '2'}</div>
+              <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">35% Advance Paid</div>
+            </div>
+            <div>
+              <div class="step-dot ${s.step >= 3 ? (s.step === 3 ? 'active' : 'done') : ''}">${s.step > 3 ? '✓' : '3'}</div>
+              <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">In Truck</div>
+            </div>
+            <div>
+              <div class="step-dot ${s.step >= 4 ? 'done' : ''}">${s.step === 4 ? '✓' : '4'}</div>
+              <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">Delivered</div>
+            </div>
+          </div>
+
+          <!-- Info Strip -->
+          <div class="info-strip">
+            <div>
+              <div style="font-size:0.7rem; color:#64748b; font-weight:700;">PRODUCE & BUYER</div>
+              <div style="font-weight:800; font-size:0.95rem; color:#0f172a;">${s.crop}</div>
+              <div style="color:#059669; font-weight:700;">${s.quantity_qt} Qt (${s.quantity_kg.toLocaleString()} kg)</div>
+              <div style="color:#64748b;">${s.buyer}</div>
+            </div>
+            <div>
+              <div style="font-size:0.7rem; color:#64748b; font-weight:700;">DRIVER & TRUCK</div>
+              <div style="font-weight:800; color:#0f172a;">${s.driver}</div>
+              <div style="color:#334155;">${s.vehicle}</div>
+              <div style="color:#0284c7; font-weight:700;"><a href="tel:${s.phone}" style="color:#0284c7; text-decoration:none;">${s.phone}</a></div>
+            </div>
+            <div>
+              <div style="font-size:0.7rem; color:#64748b; font-weight:700;">DELIVERY STATUS</div>
+              <div style="color:#0f172a; font-weight:700;">${s.destination}</div>
+              <div style="color:#0284c7; font-weight:700;">📍 ${s.loc}</div>
+              <div style="color:#d97706; font-weight:700;">⏱️ ${s.eta}</div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="font-size:0.8rem; color:#475569;">
+              Total: <strong>₹ ${s.total_val.toLocaleString()}</strong> • <span style="color:#059669; font-weight:700;">35% Advance ₹ ${s.adv_paid.toLocaleString()} in bank</span>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-outline btn-sm" onclick="openGatePass('${s.tracking_id}')">📑 Gate Pass</button>
+              ${s.status === 'transit' ? `
+                <button class="btn btn-primary btn-sm" onclick="openGps('${s.tracking_id}')">📍 Track Location</button>
+              ` : `
+                <a href="tel:${s.phone}" class="btn btn-primary btn-sm" style="text-decoration:none;">📞 Call</a>
+              `}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setTab(tab, btn) {
+      currentTab = tab;
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderOrders();
+    }
+
+    
+    function printCurrentGatePass() {
+      const gpId = document.getElementById('gp-id').innerText;
+      const gpDrv = document.getElementById('gp-drv').innerText;
+      const gpVeh = document.getElementById('gp-veh').innerText;
+      const gpCrop = document.getElementById('gp-crop').innerText;
+      const gpWt = document.getElementById('gp-wt').innerText;
+      const gpDst = document.getElementById('gp-dst').innerText;
+
+      const html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gate Pass ' + gpId + '</title>' +
+        '<style>body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:30px;color:#0f172a;background:#f8fafc;}' +
+        '.box{border:2px solid #064e3b;border-radius:12px;padding:24px;max-width:600px;margin:0 auto;background:#fff;box-shadow:0 8px 24px rgba(0,0,0,0.06);}' +
+        '.hdr{background:#064e3b;color:#fff;padding:16px;border-radius:8px;text-align:center;margin-bottom:20px;}' +
+        '.row{display:flex;justify-content:space-between;margin-bottom:10px;font-size:15px;}' +
+        '@media print{.no-print{display:none !important;}.box{box-shadow:none;border-color:#000;}}</style></head><body>' +
+        '<div class="no-print" style="text-align:center;margin-bottom:16px;"><button onclick="window.print()" style="padding:8px 18px;font-weight:bold;background:#064e3b;color:#fff;border:none;border-radius:6px;cursor:pointer;">🖨️ Print / Save as PDF</button></div>' +
+        '<div class="box"><div class="hdr"><h2 style="margin:0;">AGRINEX DIGITAL MANDI GATE PASS</h2><p style="margin:4px 0 0 0;font-size:13px;color:#a7f3d0;">Official APMC E-Transit Permit</p></div>' +
+        '<div class="row"><span>Gate Pass No:</span><strong>' + gpId + '</strong></div>' +
+        '<div class="row"><span>Farmer Name:</span><strong>Ramesh Patel</strong></div>' +
+        '<div class="row"><span>Driver Name:</span><strong>' + gpDrv + '</strong></div>' +
+        '<div class="row"><span>Vehicle No:</span><strong>' + gpVeh + '</strong></div>' +
+        '<div class="row"><span>Produce:</span><strong>' + gpCrop + '</strong></div>' +
+        '<div class="row"><span>Net Weight:</span><strong>' + gpWt + '</strong></div>' +
+        '<div class="row"><span>Destination:</span><strong>' + gpDst + '</strong></div>' +
+        '<div style="text-align:center;margin-top:24px;color:#64748b;font-size:12px;border-top:1px solid #e2e8f0;padding-top:12px;">100% Escrow Protected &bull; Verified APMC Clearance</div></div>' +
+        '<script>window.onload=function(){setTimeout(function(){window.print();},350);};<\/script></body></html>';
+
+      const win = window.open('', '_blank', 'width=720,height=850');
+      if (win) {
+        win.document.open();
+        win.document.write(html);
+        win.document.close();
+      }
+    }
+
+    function openGatePass(id) {
+      const s = SHIPMENTS.find(x => x.tracking_id === id);
+      if (!s) return;
+      document.getElementById('gp-id').innerText = s.gate_pass;
+      document.getElementById('gp-drv').innerText = s.driver;
+      document.getElementById('gp-veh').innerText = s.vehicle;
+      document.getElementById('gp-crop').innerText = `${s.crop} (${s.quantity_qt} Qt)`;
+      document.getElementById('gp-wt').innerText = `${s.quantity_kg.toLocaleString()} kg`;
+      document.getElementById('gp-dst').innerText = s.destination;
+      document.getElementById('gatePassModal').classList.add('active');
+    }
+
+    function openGps(id) {
+      const s = SHIPMENTS.find(x => x.tracking_id === id);
+      if (!s) return;
+      document.getElementById('gps-title').innerText = `Track: ${s.tracking_id}`;
+      document.getElementById('gps-veh').innerText = s.vehicle;
+      document.getElementById('gps-loc').innerText = s.loc;
+      document.getElementById('gps-eta').innerText = `ETA: ${s.eta}`;
+      document.getElementById('gps-drv').innerText = `${s.driver} (${s.phone})`;
+      document.getElementById('gpsModal').classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    loadShipments();
+  </script>
+  <script src="js/i18n.js"></script>
+</body>
+</html>

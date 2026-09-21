@@ -2168,6 +2168,14 @@
     window.getFarmerLanguage = getFarmerLanguage;
     window.toggleLanguageMenu = toggleLanguageMenu;
     window.tFarmer = tText;
+
+    if (typeof window.toggleFarmerLiteMode !== 'function') {
+      window.toggleFarmerLiteMode = function () {
+        const current = localStorage.getItem('agrinex_farmer_lite_mode') === 'true';
+        localStorage.setItem('agrinex_farmer_lite_mode', (!current).toString());
+        window.location.href = 'index.html';
+      };
+    }
   }
 
   if (typeof module !== 'undefined' && module.exports) {

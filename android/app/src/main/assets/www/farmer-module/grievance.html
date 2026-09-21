@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grievance Redressal Desk - AgriNex Farmer Portal</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+  <style>
+    .grv-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .grv-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .grv-card.under-review {
+      border-left: 5px solid #dc2626;
+      background: #fffdfd;
+    }
+    .grv-card.resolved {
+      border-left: 5px solid #16a34a;
+      background: #fdfdfd;
+    }
+
+    .grv-step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      flex: 1;
+      text-align: center;
+    }
+    .grv-step-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #64748b;
+      font-weight: 700;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+      z-index: 2;
+    }
+    .grv-step-circle.done {
+      background: #15803d;
+      color: #ffffff;
+    }
+    .grv-step-circle.active {
+      background: #dc2626;
+      color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.2);
+    }
+    .grv-step-line {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      width: 100%;
+      height: 2px;
+      background: #e2e8f0;
+      z-index: 1;
+    }
+    .grv-step-line.done {
+      background: #15803d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header (Golden Wheat Logo) -->
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <img src="assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" />
+          </div>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+            <div class="brand-tagline">FARMER PORTAL</div>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="sidebar-nav">
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span>Dashboard</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='my-crops.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
+              <span>My Crops & Lots</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='market-insights.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              <span>Market Insights</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='fpo-hub.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              <span>FPO Hub</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='bids-offers.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m14 12 6-6"></path><path d="M9 17 3 23"></path><path d="m15.5 10.5 2 2"></path><path d="m7.5 18.5 2 2"></path><path d="M10 6 6 10l5 5 4-4-5-5z"></path><path d="m14 16 4 4 4-4-4-4-4 4z"></path></svg>
+              <span>Bids & Offers</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='orders-shipments.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14v10Z"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+              <span>Orders & Shipments</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='escrow-tracking.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+              <span>Escrow Tracking</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='profit-calculator.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+              <span>Profit Calculator</span>
+            </div>
+          </li>
+
+          <!-- RED GRIEVANCE MODULE LINK -->
+          <li class="nav-item nav-item-grievance active" onclick="window.location.href='grievance.html'" title="File complaints, payment delays & dispute redressal">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span style="font-weight: 800;">Grievance Module</span>
+            </div>
+            <span class="grv-badge-red">Support</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- User Profile at bottom -->
+      <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
+        <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
+          <img src="assets/images/farmer-avatar.png" alt="Patil Rameshwar" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+          <div style="min-width:0; flex:1;">
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Patil Rameshwar</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Farmer • Nashik</div>
+          </div>
+          <a href="../login_details/farmer_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-wrapper">
+      
+      <!-- Top Navbar Header -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="navbar-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="grv-search-input" placeholder="Search grievance ID, crop lot, or issue type..." oninput="filterGrievancesSearch(this.value)" />
+          </div>
+          <div class="navbar-location-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Lasalgaon APMC Mandi, Nashik</span>
+          </div>
+        </div>
+
+        <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
+          <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
+          <div class="lang-selector-widget" style="position: relative;">
+            <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
+              <span id="current-language-label">🇬🇧 English</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div id="language-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 12px 28px -4px rgba(0,0,0,0.15), 0 8px 12px -6px rgba(0,0,0,0.08); width: 185px; z-index: 1100; overflow: hidden; font-size: 0.82rem;">
+              <div style="padding: 8px 12px; font-size: 0.7rem; font-weight: 800; color: #64748b; background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; justify-content: space-between;">
+                <span>🌐 Select Language</span>
+              </div>
+              <button type="button" id="lang-opt-en" onclick="setFarmerLanguage('en')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: #e8f5ed; color: #0c5a36; cursor: pointer; text-align: left; font-weight: 700; transition: background 0.15s ease;">
+                <span style="display: flex; align-items: center; gap: 8px;">🇬🇧 English</span>
+                <span class="lang-check" style="font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+              <button type="button" id="lang-opt-hi" onclick="setFarmerLanguage('hi')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;" onmouseover="if(window.getFarmerLanguage && window.getFarmerLanguage()!=='hi')this.style.background='#f8fafc'" onmouseout="if(window.getFarmerLanguage && window.getFarmerLanguage()!=='hi')this.style.background='transparent'">
+                <span style="display: flex; align-items: center; gap: 8px;">🇮🇳 हिन्दी</span>
+                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+              <button type="button" id="lang-opt-mr" onclick="setFarmerLanguage('mr')" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: none; background: transparent; color: #0f172a; cursor: pointer; text-align: left; font-weight: 600; transition: background 0.15s ease;" onmouseover="if(window.getFarmerLanguage && window.getFarmerLanguage()!=='mr')this.style.background='#f8fafc'" onmouseout="if(window.getFarmerLanguage && window.getFarmerLanguage()!=='mr')this.style.background='transparent'">
+                <span style="display: flex; align-items: center; gap: 8px;">🚩 मराठी</span>
+                <span class="lang-check" style="display: none; font-weight: 900; color: #16a34a;">✓</span>
+              </button>
+            </div>
+          </div>
+          <!-- Red Grievance Desk Top Quick Action -->
+          <a href="grievance.html" class="navbar-btn-grievance" title="Direct Redressal Desk">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>Grievance Desk</span>
+          </a>
+
+          <!-- Toll-Free Helpline Button -->
+          <a href="tel:18008892474" style="text-decoration: none; display: flex; align-items: center; gap: 6px; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; font-size: 0.78rem; font-weight: 700; padding: 6px 12px; border-radius: 8px;">
+            <span>📞</span> 1800-889-AGRI
+          </a>
+
+          <!-- Profile Widget -->
+          <div class="profile-widget" onclick="window.location.href='index.html'" style="cursor: pointer;">
+            <img src="assets/images/farmer-avatar.png" alt="Ramesh Patel" class="profile-avatar" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'" />
+            <div class="profile-info">
+              <span class="profile-name">Ramesh Patel</span>
+              <span class="profile-role">Verified Farmer</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="dashboard-content">
+        
+        <!-- Grievance Hero Banner -->
+        <section style="background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #b91c1c 100%); border-radius: 14px; padding: 22px 26px; color: #ffffff; margin-bottom: 22px; display: flex; align-items: center; justify-content: space-between; gap: 20px; box-shadow: 0 4px 18px rgba(185, 28, 28, 0.25); flex-wrap: wrap;">
+          <div style="max-width: 650px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <span style="background: rgba(255,255,255,0.2); font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em;">
+                🛡️ Government Mandi & Escrow Ombudsman
+              </span>
+              <span style="background: #ef4444; color: #ffffff; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px;">
+                24-Hour SLA
+              </span>
+            </div>
+            <h2 style="font-size: 1.55rem; font-weight: 800; color: #ffffff; margin-bottom: 6px;">
+              Farmer Grievance & Dispute Redressal Portal
+            </h2>
+            <p style="font-size: 0.85rem; color: #fecaca; line-height: 1.5;">
+              Facing payment delays, quality contestations, gate pass issues, or weighbridge discrepancies? Every crop transaction is 100% Escrow protected. Submit your grievance below for instant APMC Mandi Officer intervention.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button class="btn" style="background: #ffffff; color: #991b1b; font-weight: 800; font-size: 0.88rem; padding: 10px 18px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" onclick="openFileGrievanceModal()">
+              <span>🚨</span> Lodge New Grievance
+            </button>
+            <a href="https://wa.me/919842188390?text=Hello%20AgriNex%20Grievance%20Desk%2C%20I%20need%20assistance%20with%20my%20crop%20consignment" target="_blank" class="btn" style="background: #25d366; color: #ffffff; font-weight: 700; font-size: 0.86rem; padding: 10px 16px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+              <span>💬</span> WhatsApp Desk
+            </a>
+          </div>
+        </section>
+
+        <!-- KPI Summary Cards -->
+        <section class="stat-grid" style="margin-bottom: 22px;">
+          <!-- 1. Total Claims -->
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper" style="background: #fee2e2; color: #dc2626;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Total Claims Lodged</span>
+                <span class="stat-value" id="kpi-total-grv">2</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>All recorded issues</span>
+            </div>
+          </div>
+
+          <!-- 2. Under Review -->
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper orange">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Under Review</span>
+                <span class="stat-value" style="color: #dc2626;" id="kpi-open-grv">1</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span style="color: #dc2626; font-weight: 700;">Active investigation</span>
+            </div>
+          </div>
+
+          <!-- 3. Settled & Closed -->
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper green">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Resolved & Settled</span>
+                <span class="stat-value" style="color: #15803d;" id="kpi-resolved-grv">1</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span style="color: #15803d; font-weight: 700;">100% Payout cleared</span>
+            </div>
+          </div>
+
+          <!-- 4. Escrow Protected -->
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper purple">
+                <span style="font-weight: 800; font-size: 1.3rem;">₹</span>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Protected Escrow</span>
+                <span class="stat-value">₹ 1,34,587</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>Zero-loss guarantee</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Main Grievances Container -->
+        <section class="card">
+          <div class="card-header" style="flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <h3 class="card-title" style="color: #991b1b;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                Registered Grievances & Redressal Timeline
+              </h3>
+            </div>
+            
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button class="btn btn-primary" style="padding: 7px 14px; font-size: 0.82rem; background: #dc2626; border-color: #dc2626;" onclick="openFileGrievanceModal()">
+                <span>+</span> Lodge Grievance
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button class="btn-filter-tab active" id="grv-tab-all" onclick="filterGrievanceList('all')">All Claims (<span id="tab-count-all">2</span>)</button>
+              <button class="btn-filter-tab emergency-tab" id="grv-tab-open" onclick="filterGrievanceList('open')">🚨 Under Review (<span id="tab-count-open">1</span>)</button>
+              <button class="btn-filter-tab" id="grv-tab-resolved" onclick="filterGrievanceList('resolved')">✅ Resolved (<span id="tab-count-resolved">1</span>)</button>
+            </div>
+            <div style="font-size: 0.78rem; color: #64748b;">
+              Mandatory Resolution SLA: <strong>24 Hours</strong> under APMC Mandi Protection Rule
+            </div>
+          </div>
+
+          <!-- Grievance Items List -->
+          <div style="padding: 20px;" id="grievances-container">
+            <!-- Dynamically populated via JavaScript -->
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL: LODGE NEW GRIEVANCE -->
+  <div class="modal-overlay" id="modal-file-grievance">
+    <div class="modal-content" style="max-width: 580px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+            🚨
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #991b1b;">Lodge Farmer Grievance / Claim</h3>
+        </div>
+        <button onclick="closeFileGrievanceModal()" style="font-size: 1.5rem; color: #64748b; background: none; border: none; cursor: pointer;">&times;</button>
+      </div>
+
+      <form id="form-file-grievance" onsubmit="submitNewGrievance(event)">
+        <div class="form-group">
+          <label class="form-label">Grievance Category *</label>
+          <select id="grv-category" class="form-select" required>
+            <option value="Payment / Escrow Advance Delay">💰 Payment / 35% Advance Escrow Delay</option>
+            <option value="Quality Grade Contest by Buyer">⚖️ Quality Grade Dispute by Buyer</option>
+            <option value="Logistics Pickup Schedule Delay">🚛 Mandi Logistics / Truck Pickup Delay</option>
+            <option value="Weighbridge Discrepancy">⚖️ Weighbridge / Net Weight Discrepancy</option>
+            <option value="Mandi Yard Fee & Intermediary Dispute">⚠️ Mandi Yard Commission / Intermediary Cut Issue</option>
+            <option value="Other Mandi Redressal">📝 Other Farmer Support Issue</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Related Crop Lot / Contract Ref</label>
+            <select id="grv-lot-ref" class="form-select">
+              <option value="LOT-TOM-01 (Tomato - Reliance Retail)">LOT-TOM-01 (Tomato - Reliance)</option>
+              <option value="LOT-ONI-02 (Red Onion - Nashik Lot)">LOT-ONI-02 (Red Onion - Nashik)</option>
+              <option value="LOT-POT-03 (Potato - Balaji Chip)">LOT-POT-03 (Potato - Balaji)</option>
+              <option value="LOT-CHI-05 (Green Chilli)">LOT-CHI-05 (Green Chilli)</option>
+              <option value="General Mandi Issue">General Mandi Inquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Urgency Level</label>
+            <select id="grv-priority" class="form-select">
+              <option value="High">🚨 High (Immediate Mandi Officer)</option>
+              <option value="Critical">⚡ Critical (Escrow Freeze Needed)</option>
+              <option value="Medium">Medium (General Query)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Issue Subject *</label>
+          <input type="text" id="grv-subject" class="form-input" placeholder="e.g. Weighbridge weight 200kg lower than farm harvest receipt" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Detailed Explanation *</label>
+          <textarea id="grv-description" class="form-input" rows="4" placeholder="Describe what happened, location, driver name, or bank account reference..." required></textarea>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 18px; font-size: 0.78rem; color: #475569;">
+          🛡️ <strong>AgriNex Redressal Commitment:</strong> Once submitted, an SMS acknowledgement is sent to your mobile. The designated APMC Mandi Officer reviews the consignment telemetry, weighbridge slip & escrow contract within 2 hours.
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" class="btn btn-outline" onclick="closeFileGrievanceModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="background: #dc2626; border-color: #dc2626;">
+            Submit Grievance to Mandi Desk →
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script>
+    let grievancesData = [];
+    let currentFilter = 'all';
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      await loadGrievances();
+    });
+
+    async function loadGrievances() {
+      try {
+        if (window.AgriNexAPI) {
+          grievancesData = await AgriNexAPI.getGrievances();
+        }
+      } catch (e) {
+        console.warn("Using local grievances fallback:", e.message);
+      }
+
+      if (!grievancesData || grievancesData.length === 0) {
+        grievancesData = [
+          {
+            id: "GRV-2026-104",
+            farmer_name: "Patil Rameshwar",
+            category: "Logistics Pickup Schedule",
+            lot_ref: "LOT-ONI-01 (Nashik Garwa Red Onion)",
+            subject: "Truck gate pass delay at Lasalgaon APMC Yard Gate 2",
+            description: "Produce has been packed and weighed. Logistics truck driver requested an updated digital gate pass for weighbridge clearance.",
+            priority: "High",
+            status: "Under Review",
+            status_badge: "badge-status-emergency",
+            filed_date: "Today, 10:15 AM",
+            assigned_officer: "Nashik APMC Mandi Officer - K. Mehta",
+            sla_hours: 24,
+            steps: [
+              { title: "Grievance Logged", done: true, time: "10:15 AM" },
+              { title: "Mandi Officer Assigned", done: true, time: "10:45 AM" },
+              { title: "Escrow & Logistics Audit", done: false, time: "In Progress" },
+              { title: "Gate Pass Clearance", done: false, time: "Target: 02:00 PM" }
+            ]
+          },
+          {
+            id: "GRV-2026-081",
+            farmer_name: "Ramesh Patel",
+            category: "Payment / Escrow Advance",
+            lot_ref: "LOT-TOM-01 (Reliance Retail Hub)",
+            subject: "Verification of 35% Advance Escrow Release",
+            description: "Consignment dispatched yesterday. Requesting confirmation of 35% advance deposit in linked HDFC bank account.",
+            priority: "Medium",
+            status: "Resolved & Credited",
+            status_badge: "badge-status-open",
+            filed_date: "12 Sep 2026",
+            assigned_officer: "AgriNex Nodal Escrow Desk - P. Sharma",
+            sla_hours: 12,
+            steps: [
+              { title: "Grievance Logged", done: true, time: "12 Sep, 09:30 AM" },
+              { title: "Nodal Desk Verified", done: true, time: "12 Sep, 10:00 AM" },
+              { title: "Bank IMPS Release", done: true, time: "12 Sep, 11:15 AM" },
+              { title: "Disbursed to Farmer A/C", done: true, time: "12 Sep, 11:20 AM" }
+            ],
+            resolution_note: "₹38,587 advance credited via IMPS (UTR: HDFC9901824). Remaining 65% locked under escrow."
+          }
+        ];
+      }
+
+      renderGrievances();
+      updateKPICounters();
+    }
+
+    function updateKPICounters() {
+      const total = grievancesData.length;
+      const open = grievancesData.filter(g => g.status === 'Under Review').length;
+      const resolved = grievancesData.filter(g => g.status.includes('Resolved')).length;
+
+      const kpiTotal = document.getElementById("kpi-total-grv");
+      if (kpiTotal) kpiTotal.textContent = total;
+
+      const kpiOpen = document.getElementById("kpi-open-grv");
+      if (kpiOpen) kpiOpen.textContent = open;
+
+      const kpiResolved = document.getElementById("kpi-resolved-grv");
+      if (kpiResolved) kpiResolved.textContent = resolved;
+
+      const tabCountAll = document.getElementById("tab-count-all");
+      if (tabCountAll) tabCountAll.textContent = total;
+
+      const tabCountOpen = document.getElementById("tab-count-open");
+      if (tabCountOpen) tabCountOpen.textContent = open;
+
+      const tabCountResolved = document.getElementById("tab-count-resolved");
+      if (tabCountResolved) tabCountResolved.textContent = resolved;
+    }
+
+    function filterGrievanceList(filterType) {
+      currentFilter = filterType;
+
+      const tabAll = document.getElementById("grv-tab-all");
+      const tabOpen = document.getElementById("grv-tab-open");
+      const tabResolved = document.getElementById("grv-tab-resolved");
+
+      if (tabAll) tabAll.classList.toggle("active", filterType === 'all');
+      if (tabOpen) tabOpen.classList.toggle("active", filterType === 'open');
+      if (tabResolved) tabResolved.classList.toggle("active", filterType === 'resolved');
+
+      renderGrievances();
+    }
+
+    function filterGrievancesSearch(query) {
+      const q = query.toLowerCase().trim();
+      renderGrievances(q);
+    }
+
+    function renderGrievances(searchQuery = "") {
+      const container = document.getElementById("grievances-container");
+      if (!container) return;
+
+      let list = [...grievancesData];
+      if (currentFilter === 'open') {
+        list = list.filter(g => g.status === 'Under Review');
+      } else if (currentFilter === 'resolved') {
+        list = list.filter(g => g.status.includes('Resolved'));
+      }
+
+      if (searchQuery) {
+        list = list.filter(g => 
+          g.id.toLowerCase().includes(searchQuery) ||
+          g.subject.toLowerCase().includes(searchQuery) ||
+          g.category.toLowerCase().includes(searchQuery) ||
+          (g.lot_ref && g.lot_ref.toLowerCase().includes(searchQuery))
+        );
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px 20px; color: #64748b;">
+            <div style="font-size: 32px; margin-bottom: 8px;">🛡️</div>
+            <h4 style="font-size: 1.1rem; font-weight: 700; color: #0f172a;">No Grievances Found</h4>
+            <p style="font-size: 0.85rem; margin-top: 4px;">No active claims matching this filter. Need assistance? Click "Lodge Grievance" above.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(g => {
+        const isResolved = g.status.includes('Resolved');
+        return `
+          <div class="grv-card ${isResolved ? 'resolved' : 'under-review'}">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                  <span style="font-size: 0.74rem; font-weight: 800; background: #0f172a; color: #ffffff; padding: 2px 8px; border-radius: 4px;">
+                    ${g.id}
+                  </span>
+                  <span style="font-size: 0.74rem; font-weight: 700; color: #991b1b; background: #fee2e2; padding: 2px 8px; border-radius: 4px;">
+                    ${g.category}
+                  </span>
+                  <span style="font-size: 0.74rem; color: #64748b;">• Filed: <strong>${g.filed_date}</strong></span>
+                </div>
+                <h4 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 4px 0;">${g.subject}</h4>
+                <div style="font-size: 0.78rem; color: #475569;">
+                  Consignment Ref: <strong>${g.lot_ref || 'General'}</strong> · Priority: <strong style="color: #dc2626;">${g.priority}</strong>
+                </div>
+              </div>
+              
+              <div style="text-align: right;">
+                <span class="badge ${isResolved ? 'badge-grade-a' : 'badge-status-emergency'}" style="font-size: 0.82rem; padding: 4px 10px;">
+                  ${isResolved ? '✅ ' + g.status : '🚨 ' + g.status}
+                </span>
+                <div style="font-size: 0.72rem; color: #64748b; margin-top: 4px;">Officer: <strong>${g.assigned_officer}</strong></div>
+              </div>
+            </div>
+
+            <p style="font-size: 0.84rem; color: #334155; line-height: 1.5; background: #f8fafc; border: 1px solid #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+              ${g.description}
+            </p>
+
+            ${g.resolution_note ? `
+              <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; color: #166534; margin-bottom: 16px;">
+                <strong>✅ Resolution & Settlement Note:</strong> ${g.resolution_note}
+              </div>
+            ` : ''}
+
+            <!-- 4-Step Resolution Progress -->
+            <div style="display: flex; justify-content: space-between; margin: 18px 0 10px; position: relative; padding: 0 10px;">
+              ${(g.steps || []).map((s, idx, arr) => `
+                <div class="grv-step-item">
+                  ${idx < arr.length - 1 ? `<div class="grv-step-line ${s.done ? 'done' : ''}"></div>` : ''}
+                  <div class="grv-step-circle ${s.done ? 'done' : (idx === 2 ? 'active' : '')}">
+                    ${s.done ? '✓' : idx + 1}
+                  </div>
+                  <div style="font-size: 0.72rem; font-weight: 700; color: ${s.done ? '#15803d' : '#475569'};">${s.title}</div>
+                  <div style="font-size: 0.65rem; color: #64748b;">${s.time}</div>
+                </div>
+              `).join("")}
+            </div>
+
+            <!-- Action Controls -->
+            <div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 14px; flex-wrap: wrap;">
+              <a href="https://wa.me/919842188390?text=Hello%20Mandi%20Officer%2C%20regarding%20my%20grievance%20${g.id}" target="_blank" class="btn btn-outline" style="padding: 5px 12px; font-size: 0.76rem; border-color: #25d366; color: #15803d;">
+                💬 Contact Mandi Officer
+              </a>
+              ${!isResolved ? `
+                <button class="btn btn-primary" style="padding: 6px 14px; font-size: 0.78rem; background: #15803d; border-color: #15803d;" onclick="resolveGrievanceAction('${g.id}')">
+                  ✓ Mark Settle & Close
+                </button>
+              ` : `
+                <span style="font-size: 0.74rem; color: #166534; font-weight: 700;">🔒 Case Settled & Closed</span>
+              `}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openFileGrievanceModal() {
+      const modal = document.getElementById("modal-file-grievance");
+      if (modal) modal.classList.add("active");
+    }
+
+    function closeFileGrievanceModal() {
+      const modal = document.getElementById("modal-file-grievance");
+      if (modal) modal.classList.remove("active");
+    }
+
+    async function submitNewGrievance(e) {
+      e.preventDefault();
+      const category = document.getElementById("grv-category").value;
+      const lotRef = document.getElementById("grv-lot-ref").value;
+      const priority = document.getElementById("grv-priority").value;
+      const subject = document.getElementById("grv-subject").value;
+      const description = document.getElementById("grv-description").value;
+
+      const payload = {
+        category,
+        lot_ref: lotRef,
+        priority,
+        subject,
+        description
+      };
+
+      try {
+        if (window.AgriNexAPI) {
+          const res = await AgriNexAPI.fileGrievance(payload);
+          if (res && res.grievance) {
+            grievancesData.unshift(res.grievance);
+          }
+        }
+      } catch (err) {
+        console.warn("Backend API fallback for grievance:", err.message);
+        const fallback = {
+          id: "GRV-2026-" + Math.floor(100 + Math.random() * 900),
+          farmer_name: "Ramesh Patel",
+          category,
+          lot_ref: lotRef,
+          subject,
+          description,
+          priority,
+          status: "Under Review",
+          status_badge: "badge-status-emergency",
+          filed_date: "Today, " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          assigned_officer: "Nashik APMC Mandi Officer - K. Mehta",
+          steps: [
+            { title: "Grievance Logged", done: true, time: "Just now" },
+            { title: "Mandi Officer Assigned", done: true, time: "Within 2 Hours" },
+            { title: "Escrow & Logistics Audit", done: false, time: "Pending Review" },
+            { title: "Resolution & Payout Settle", done: false, time: "Target: 24h" }
+          ]
+        };
+        grievancesData.unshift(fallback);
+      }
+
+      closeFileGrievanceModal();
+      document.getElementById("form-file-grievance").reset();
+      updateKPICounters();
+      renderGrievances();
+      showToast("🚨 Grievance lodged successfully! Mandi Officer assigned.");
+    }
+
+    async function resolveGrievanceAction(grvId) {
+      try {
+        if (window.AgriNexAPI) {
+          await AgriNexAPI.resolveGrievance(grvId);
+        }
+      } catch (e) {
+        console.warn(e.message);
+      }
+
+      const g = grievancesData.find(item => item.id === grvId);
+      if (g) {
+        g.status = "Resolved & Settled";
+        g.resolution_note = "Dispute settled via APMC Mandi verification. Payment adjusted and released.";
+        if (g.steps) g.steps.forEach(s => s.done = true);
+      }
+
+      updateKPICounters();
+      renderGrievances();
+      showToast(`✅ Grievance ${grvId} resolved and settled successfully!`);
+    }
+
+    function showToast(message) {
+      let toast = document.getElementById("app-toast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "app-toast";
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 24px;
+          right: 24px;
+          background: #0c5a36;
+          color: #ffffff;
+          padding: 14px 22px;
+          border-radius: 12px;
+          font-weight: 600;
+          font-size: 0.88rem;
+          box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+          z-index: 99999;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          opacity: 0;
+          transform: translateY(12px);
+        `;
+        document.body.appendChild(toast);
+      }
+
+      toast.innerHTML = `<span style="background: #ffffff; color: #0c5a36; width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;">✓</span> <span>${message}</span>`;
+      toast.style.opacity = "1";
+      toast.style.transform = "translateY(0)";
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(12px)";
+      }, 3500);
+    }
+  </script>
+  <script src="js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grievance Redressal Desk - AgriNex Logistics Portal</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+  <style>
+    .grv-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .grv-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .grv-card.under-review {
+      border-left: 5px solid #dc2626;
+      background: #fffdfd;
+    }
+    .grv-card.resolved {
+      border-left: 5px solid #16a34a;
+      background: #fdfdfd;
+    }
+
+    .grv-step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      flex: 1;
+      text-align: center;
+    }
+    .grv-step-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #64748b;
+      font-weight: 700;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+      z-index: 2;
+    }
+    .grv-step-circle.done {
+      background: #15803d;
+      color: #ffffff;
+    }
+    .grv-step-circle.active {
+      background: #dc2626;
+      color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.2);
+    }
+    .grv-step-line {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      width: 100%;
+      height: 2px;
+      background: #e2e8f0;
+      z-index: 1;
+    }
+    .grv-step-line.done {
+      background: #15803d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header (Golden Wheat Logo) -->
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <img src="../assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" onerror="this.src='../farmer-module/assets/images/wheat-logo.png'" />
+          </div>
+          <div>
+            <h1 class="brand-title">Agri<span class="brand-accent">Nex</span></h1>
+            <div class="brand-tagline">Direct Trade · Better Tomorrow</div>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="sidebar-nav">
+          <li class="nav-item" onclick="window.location.href='index.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span>Dashboard</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='fpo-hauls.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              <span>Bulk FPO Hauls</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='individual-orders.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+              <span>Express Orders</span>
+            </div>
+          </li>
+          <li class="nav-item" onclick="window.location.href='profile.html'">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+              <span>Passbook & Profile</span>
+            </div>
+          </li>
+
+          <!-- RED GRIEVANCE MODULE LINK (Active) -->
+          <li class="nav-item nav-item-grievance active" onclick="window.location.href='grievance.html'" title="File transit complaints & payment redressal">
+            <div class="nav-item-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span style="font-weight: 800;">Grievance Module</span>
+            </div>
+            <span class="grv-badge-red">Support</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- User Profile at bottom -->
+      <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
+        <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80" alt="Dinesh Yadav" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" />
+          <div style="min-width:0; flex:1;">
+            <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Dinesh Yadav</div>
+            <div style="font-size:0.65rem; color:#86efac;">Verified Fleet Partner • Nashik</div>
+          </div>
+          <a href="../login_details/logistics_login.html" title="Logout" style="color:rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT AREA -->
+    <main class="main-wrapper">
+      
+      <!-- Top Extended Navbar Header -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="navbar-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" placeholder="Search grievance tickets, consignment IDs..." />
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: #dc2626; background: #fef2f2; padding: 6px 14px; border-radius: 999px; border: 1px solid #fecaca; white-space: nowrap;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>Logistics Nodal Redressal Desk</span>
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <div class="profile-widget">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80" alt="Dinesh Yadav" class="profile-avatar" />
+            <div class="profile-info">
+              <span class="profile-name">Dinesh Yadav</span>
+              <span class="profile-role">Fleet Captain</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Main Content -->
+      <div class="dashboard-content">
+        
+        <!-- Emergency Redressal Banner -->
+        <div style="background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #b91c1c 100%); color: #ffffff; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(185, 28, 28, 0.25); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <span style="background: #ef4444; color: #ffffff; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+                Fleet Support Desk
+              </span>
+              <span style="font-size: 0.78rem; opacity: 0.9;">Maharashtra Highway Logistics Redressal</span>
+            </div>
+            <h2 style="font-size: 1.45rem; font-weight: 800; line-height: 1.2; margin: 0 0 6px 0;">Logistics & Highway Transit Redressal</h2>
+            <p style="font-size: 0.85rem; opacity: 0.92; margin: 0; max-width: 650px; line-height: 1.45;">
+              File urgent disputes for buyer PIN refusal, loading dock detentions, tare weight discrepancies, or transit toll delays with instant APMC nodal escalation.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-outline" style="color: #ffffff; border-color: rgba(255,255,255,0.4); background: rgba(0,0,0,0.15);" onclick="openTollHelpline()">
+              📞 Highway Helpline: 1800-425-4490
+            </button>
+            <button class="btn btn-primary" style="background: #ffffff; color: #991b1b; font-weight: 800;" onclick="openNewGrievanceModal()">
+              + Raise New Ticket
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <section class="stat-cards-grid">
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper red">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Active Disputes</span>
+                <span class="stat-value">1 Ticket</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>Under Review</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper amber">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Avg. Resolution</span>
+                <span class="stat-value">4.2 Hours</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>Fast Track Highway Redressal</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper green">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Settled Tickets</span>
+                <span class="stat-value">18 Resolved</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>100% Freight Recovered</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <div class="stat-icon-wrapper blue">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-title">Escrow Compensation</span>
+                <span class="stat-value">₹ 34,500</span>
+              </div>
+            </div>
+            <div class="stat-card-bottom">
+              <span>Detention & waiting fees paid</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Grievance Tickets List -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:20px; margin-top:20px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+            <div>
+              <h3 style="font-size:1.15rem; font-weight:800; color:#0f172a; margin:0;">Your Filed Grievance Tickets</h3>
+              <div style="font-size:0.78rem; color:#64748b; margin-top:3px;">Track live escalation status with APMC Highway Arbitration Team</div>
+            </div>
+            <button class="btn btn-primary" style="background:#dc2626; font-size:0.8rem;" onclick="openNewGrievanceModal()">+ File New Complaint</button>
+          </div>
+
+          <div id="grievance-list-container">
+            <!-- Ticket 1: Active PIN Delay -->
+            <div class="grv-card under-review">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                <div>
+                  <span style="background:#fee2e2; color:#b91c1c; font-size:0.72rem; font-weight:800; padding:2px 8px; border-radius:4px; border:1px solid #fecaca;">
+                    TICKET #LOG-GRV-8819 • UNDER INVESTIGATION
+                  </span>
+                  <h4 style="font-size:1.05rem; font-weight:800; color:#0f172a; margin:6px 0 2px 0;">
+                    Receiving Dock Detention & PIN Delay at Thane DC
+                  </h4>
+                  <div style="font-size:0.78rem; color:#64748b;">Consignment: <strong>IND-MH-401</strong> (Tomato - 50 Qt) • Vehicle: <strong>MH-15-AQ-9011</strong></div>
+                </div>
+                <div style="text-align:right;">
+                  <strong style="color:#b91c1c; font-size:0.95rem;">Pending Escrow Payout: ₹ 4,200</strong>
+                  <div style="font-size:0.72rem; color:#64748b;">Filed 45 mins ago</div>
+                </div>
+              </div>
+
+              <!-- 4-Step Redressal Flow -->
+              <div style="display:flex; margin:16px 0 12px 0; position:relative;">
+                <div class="grv-step-item">
+                  <div class="grv-step-circle done">✓</div>
+                  <div style="font-size:0.72rem; font-weight:700; color:#0f172a;">Submitted</div>
+                  <div class="grv-step-line done"></div>
+                </div>
+                <div class="grv-step-item">
+                  <div class="grv-step-circle active">2</div>
+                  <div style="font-size:0.72rem; font-weight:700; color:#dc2626;">APMC Nodal Review</div>
+                  <div class="grv-step-line"></div>
+                </div>
+                <div class="grv-step-item">
+                  <div class="grv-step-circle">3</div>
+                  <div style="font-size:0.72rem; font-weight:700; color:#64748b;">Dock Manager Notice</div>
+                  <div class="grv-step-line"></div>
+                </div>
+                <div class="grv-step-item">
+                  <div class="grv-step-circle">4</div>
+                  <div style="font-size:0.72rem; font-weight:700; color:#64748b;">Escrow Auto-Release</div>
+                </div>
+              </div>
+
+              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 14px; font-size:0.8rem; color:#475569; line-height:1.45; margin-bottom:12px;">
+                <strong>Latest Nodal Action (10 mins ago):</strong> APMC Officer <em>Sunil More</em> has issued an automated 30-minute notice to AgriFoods receiving manager. If the PIN is not confirmed or unloading completed within 30 mins, 100% freight payout plus ₹ 500/hr detention fee will be released automatically.
+              </div>
+
+              <div style="display:flex; justify-content:flex-end; gap:8px;">
+                <button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem;" onclick="alert('Connected to Nodal Officer: +91 94222 10982')">📞 Call Nodal Officer</button>
+                <button class="btn btn-primary" style="padding:4px 12px; font-size:0.75rem; background:#dc2626;" onclick="alert('Evidence updated with GPS timestamp log.')">Add Photo Evidence</button>
+              </div>
+            </div>
+
+            <!-- Ticket 2: Resolved Tare Weight -->
+            <div class="grv-card resolved">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                <div>
+                  <span style="background:#ecfdf5; color:#047857; font-size:0.72rem; font-weight:800; padding:2px 8px; border-radius:4px; border:1px solid #a7f3d0;">
+                    TICKET #LOG-GRV-8410 • RESOLVED & PAID
+                  </span>
+                  <h4 style="font-size:1.02rem; font-weight:800; color:#0f172a; margin:6px 0 2px 0;">
+                    Weighbridge Calibration Discrepancy (Lasalgaon Yard)
+                  </h4>
+                  <div style="font-size:0.78rem; color:#64748b;">Consignment: <strong>FPO-MH-889</strong> • Resolved on 14 Sep 2026</div>
+                </div>
+                <div style="text-align:right;">
+                  <strong style="color:#047857; font-size:0.95rem;">Compensated: ₹ 11,200</strong>
+                  <div style="font-size:0.72rem; color:#047857; font-weight:700;">✓ Settled to UPI</div>
+                </div>
+              </div>
+              <p style="font-size:0.8rem; color:#475569; margin:0;">
+                Mandi Tare weighbridge slip verified against certified digital scale. Full freight released to driver account within 2 hours.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- NEW GRIEVANCE MODAL -->
+  <div class="modal-overlay" id="modal-new-grievance">
+    <div class="modal-card" style="max-width: 520px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">
+        <h3 style="font-size:1.2rem; font-weight:800; color:#991b1b;">🚨 File Logistics Grievance Ticket</h3>
+        <button onclick="closeNewGrievanceModal()" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:#64748b;">&times;</button>
+      </div>
+
+      <form onsubmit="handleGrievanceSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Grievance Category *</label>
+          <select id="grv-category" class="form-select" required>
+            <option value="Buyer PIN Refusal">Buyer Refusal / Delay to Share 4-Digit Delivery PIN</option>
+            <option value="Dock Detention">Loading Dock Detention (>3 Hours Unloading Delay)</option>
+            <option value="Weighbridge Error">Weighbridge / Tare Weight Discrepancy</option>
+            <option value="Transit Breakdown">Highway Breakdown / Mechanical Assistance</option>
+            <option value="Escrow Freight Dispute">Freight Escrow Payout Delay</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Consignment / Order ID *</label>
+          <input type="text" id="grv-order-id" class="form-input" placeholder="e.g. IND-MH-401 or FPO-MH-901" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Details of Issue & Location *</label>
+          <textarea id="grv-desc" class="form-textarea" rows="3" placeholder="Describe what happened, dock location, buyer name, delay hours..." required></textarea>
+        </div>
+
+        <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:10px 12px; font-size:0.78rem; color:#991b1b; margin-bottom:16px;">
+          ⚡ Urgent priority tickets are routed directly to the Maharashtra APMC Highway Flying Squad.
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button type="button" class="btn btn-outline" onclick="closeNewGrievanceModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="background:#dc2626;">Submit Emergency Ticket</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openNewGrievanceModal() {
+      document.getElementById("modal-new-grievance").classList.add("active");
+    }
+    function closeNewGrievanceModal() {
+      document.getElementById("modal-new-grievance").classList.remove("active");
+    }
+    function openTollHelpline() {
+      alert("📞 Maharashtra Highway Logistics Helpline: 1800-425-4490 (Toll-Free, 24/7 Redressal)");
+    }
+    function handleGrievanceSubmit(e) {
+      e.preventDefault();
+      const cat = document.getElementById("grv-category").value;
+      const id = document.getElementById("grv-order-id").value;
+      const desc = document.getElementById("grv-desc").value;
+
+      const newTicketCode = "LOG-GRV-" + Math.floor(1000 + Math.random() * 9000);
+
+      const container = document.getElementById("grievance-list-container");
+      const newCard = document.createElement("div");
+      newCard.className = "grv-card under-review";
+      newCard.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <span style="background:#fee2e2; color:#b91c1c; font-size:0.72rem; font-weight:800; padding:2px 8px; border-radius:4px; border:1px solid #fecaca;">
+              TICKET #${newTicketCode} • UNDER INVESTIGATION
+            </span>
+            <h4 style="font-size:1.05rem; font-weight:800; color:#0f172a; margin:6px 0 2px 0;">${cat}</h4>
+            <div style="font-size:0.78rem; color:#64748b;">Consignment: <strong>${id}</strong> • Driver: <strong>Dinesh Yadav</strong></div>
+          </div>
+          <div style="text-align:right;">
+            <strong style="color:#b91c1c; font-size:0.95rem;">Escrow Protection Active</strong>
+            <div style="font-size:0.72rem; color:#64748b;">Just now</div>
+          </div>
+        </div>
+        <p style="font-size:0.82rem; color:#475569; margin-bottom:10px;">${desc}</p>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:8px 12px; font-size:0.78rem; color:#0c5a36;">
+          ✓ Ticket forwarded to APMC Nodal Redressal Desk. Expected response within 1 hour.
+        </div>
+      `;
+      container.prepend(newCard);
+
+      closeNewGrievanceModal();
+      alert(`🎉 Ticket #${newTicketCode} registered! APMC Nodal Officer has been notified.`);
+    }
+  </script>
+</body>
+</html>

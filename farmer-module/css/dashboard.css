@@ -359,6 +359,29 @@
   transform: translateY(-1px);
 }
 
+.btn-toggle-lite-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #15803d 0%, #0c5a36 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  border: 2px solid #86efac;
+  box-shadow: 0 4px 12px rgba(12, 90, 54, 0.25);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-toggle-lite-mode:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(12, 90, 54, 0.35);
+  filter: brightness(1.05);
+}
+
 .user-profile-bar {
   display: flex;
   align-items: center;

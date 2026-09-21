@@ -1,0 +1,1111 @@
+{
+  "metadata": {
+    "generated_at": "2026-09-17 22:08:43",
+    "data_source": "Maharashtra State Agricultural Marketing Board (MSAMB Live API) & Agmarknet Verified",
+    "model_version": "AgriNex AI/ML TimeSeries-HoltWinters v3.0 (Maharashtra APMC Feed)",
+    "total_mandi_volume_qt": 718017,
+    "avg_modal_price": 6575,
+    "overall_market_trend": "Stable",
+    "top_gainer": {
+      "commodity": "Orange",
+      "gain_pct": 2.6,
+      "current_price": 4898
+    },
+    "chart_days": [
+      "Sep 11",
+      "Sep 12",
+      "Sep 13",
+      "Sep 14",
+      "Sep 15",
+      "Sep 16",
+      "Sep 17"
+    ],
+    "forecast_days": [
+      "Sep 18",
+      "Sep 19",
+      "Sep 20",
+      "Sep 21",
+      "Sep 22",
+      "Sep 23",
+      "Sep 24"
+    ]
+  },
+  "commodities": [
+    {
+      "id": "tomato-nashik-apmc",
+      "commodity": "Tomato",
+      "variety": "Shivam / Abhinav Hybrid",
+      "market": "Pimpalgaon Baswant APMC",
+      "district": "Nashik",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A Export Calibrated",
+      "modal_price": 1830,
+      "arrivals_qt": 80605,
+      "history_7d": [
+        1865,
+        1850,
+        1882,
+        1825,
+        1825,
+        1808,
+        1830
+      ],
+      "change_1w_pct": -1.9,
+      "forecast": {
+        "target_price_7d": 1762,
+        "pct_change_7d": -3.7,
+        "confidence_pct": 79,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 1812,
+            "lower_bound": 1774,
+            "upper_bound": 1850
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 1804,
+            "lower_bound": 1750,
+            "upper_bound": 1858
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 1795,
+            "lower_bound": 1729,
+            "upper_bound": 1861
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 1787,
+            "lower_bound": 1711,
+            "upper_bound": 1863
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 1779,
+            "lower_bound": 1694,
+            "upper_bound": 1864
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 1770,
+            "lower_bound": 1677,
+            "upper_bound": 1863
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 1762,
+            "lower_bound": 1661,
+            "upper_bound": 1863
+          }
+        ],
+        "signal": "BEARISH"
+      },
+      "advisory": {
+        "verdict": "SELL IMMEDIATELY — SUPPLY PRESSURE",
+        "rationale": "Surplus arrivals from Junnar and Sangamner belts. Wholesale inventory clearing in Pimpalgaon yard."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Vashi Wholesale APMC",
+          "state": "Maharashtra",
+          "distance_km": 195,
+          "mandi_modal_price": 2050,
+          "freight_cost_qt": 180,
+          "net_gain_qt": 40,
+          "roi_pct": 2.2,
+          "is_viable": true
+        },
+        {
+          "target_mandi": "Gultekdi APMC",
+          "state": "Maharashtra",
+          "distance_km": 210,
+          "mandi_modal_price": 1970,
+          "freight_cost_qt": 190,
+          "net_gain_qt": 0,
+          "roi_pct": 0,
+          "is_viable": false
+        }
+      ]
+    },
+    {
+      "id": "onion-lasalgaon-apmc",
+      "commodity": "Red Onion",
+      "variety": "Garwa Quality (Export Grade)",
+      "market": "Lasalgaon APMC Yard",
+      "district": "Nashik",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A 55mm+ Bold",
+      "modal_price": 2139,
+      "arrivals_qt": 122888,
+      "history_7d": [
+        2114,
+        2138,
+        2120,
+        2104,
+        2126,
+        2129,
+        2139
+      ],
+      "change_1w_pct": 1.2,
+      "forecast": {
+        "target_price_7d": 2145,
+        "pct_change_7d": 0.3,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 2133,
+            "lower_bound": 2089,
+            "upper_bound": 2177
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 2135,
+            "lower_bound": 2072,
+            "upper_bound": 2198
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 2137,
+            "lower_bound": 2060,
+            "upper_bound": 2214
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 2139,
+            "lower_bound": 2050,
+            "upper_bound": 2228
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 2141,
+            "lower_bound": 2042,
+            "upper_bound": 2240
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 2143,
+            "lower_bound": 2034,
+            "upper_bound": 2252
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 2145,
+            "lower_bound": 2027,
+            "upper_bound": 2263
+          }
+        ],
+        "signal": "NEUTRAL"
+      },
+      "advisory": {
+        "verdict": "HOLD / REGULAR DISPATCH",
+        "rationale": "Stable buffer stock operations and balanced pan-India freight dispatches maintain steady pricing."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Vashi APMC Market",
+          "state": "Maharashtra",
+          "distance_km": 220,
+          "mandi_modal_price": 2419,
+          "freight_cost_qt": 220,
+          "net_gain_qt": 60,
+          "roi_pct": 2.8,
+          "is_viable": true
+        },
+        {
+          "target_mandi": "Surat APMC",
+          "state": "Gujarat",
+          "distance_km": 260,
+          "mandi_modal_price": 2449,
+          "freight_cost_qt": 250,
+          "net_gain_qt": 60,
+          "roi_pct": 2.8,
+          "is_viable": true
+        }
+      ]
+    },
+    {
+      "id": "chilli-sinnar-apmc",
+      "commodity": "Green Chilli",
+      "variety": "G4 Spicy Dark Green",
+      "market": "Sinnar Agro Hub",
+      "district": "Nashik",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A Export Quality",
+      "modal_price": 3550,
+      "arrivals_qt": 29333,
+      "history_7d": [
+        3610,
+        3575,
+        3559,
+        3668,
+        3590,
+        3537,
+        3550
+      ],
+      "change_1w_pct": -1.7,
+      "forecast": {
+        "target_price_7d": 3510,
+        "pct_change_7d": -1.1,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 3555,
+            "lower_bound": 3481,
+            "upper_bound": 3629
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 3548,
+            "lower_bound": 3444,
+            "upper_bound": 3652
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 3540,
+            "lower_bound": 3412,
+            "upper_bound": 3668
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 3533,
+            "lower_bound": 3385,
+            "upper_bound": 3681
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 3525,
+            "lower_bound": 3360,
+            "upper_bound": 3690
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 3517,
+            "lower_bound": 3336,
+            "upper_bound": 3698
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 3510,
+            "lower_bound": 3315,
+            "upper_bound": 3705
+          }
+        ],
+        "signal": "NEUTRAL"
+      },
+      "advisory": {
+        "verdict": "HOLD / REGULAR DISPATCH",
+        "rationale": "Consistent daily despatches to Mumbai and Thane suburban retail markets."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Vashi Spices Terminal",
+          "state": "Maharashtra",
+          "distance_km": 190,
+          "mandi_modal_price": 3840,
+          "freight_cost_qt": 180,
+          "net_gain_qt": 110,
+          "roi_pct": 3.1,
+          "is_viable": true
+        }
+      ]
+    },
+    {
+      "id": "cotton-amravati-apmc",
+      "commodity": "Raw Cotton",
+      "variety": "MCU-5 Long Staple",
+      "market": "Amravati Textile APMC",
+      "district": "Amravati",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A 29mm+ Staple",
+      "modal_price": 7262,
+      "arrivals_qt": 84655,
+      "history_7d": [
+        7159,
+        7197,
+        7245,
+        7163,
+        7304,
+        7222,
+        7262
+      ],
+      "change_1w_pct": 1.4,
+      "forecast": {
+        "target_price_7d": 7355,
+        "pct_change_7d": 1.3,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 7271,
+            "lower_bound": 7120,
+            "upper_bound": 7422
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 7285,
+            "lower_bound": 7071,
+            "upper_bound": 7499
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 7299,
+            "lower_bound": 7038,
+            "upper_bound": 7560
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 7313,
+            "lower_bound": 7011,
+            "upper_bound": 7615
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 7327,
+            "lower_bound": 6989,
+            "upper_bound": 7665
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 7341,
+            "lower_bound": 6971,
+            "upper_bound": 7711
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 7355,
+            "lower_bound": 6956,
+            "upper_bound": 7754
+          }
+        ],
+        "signal": "NEUTRAL"
+      },
+      "advisory": {
+        "verdict": "HOLD / REGULAR DISPATCH",
+        "rationale": "Government MSP procurement centers maintaining standard floor price equilibrium."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Rajkot APMC",
+          "state": "Gujarat",
+          "distance_km": 740,
+          "mandi_modal_price": 7782,
+          "freight_cost_qt": 450,
+          "net_gain_qt": 70,
+          "roi_pct": 1,
+          "is_viable": true
+        }
+      ]
+    },
+    {
+      "id": "grapes-pimpalgaon-apmc",
+      "commodity": "Grapes",
+      "variety": "Thompson Seedless Export Grade",
+      "market": "Pimpalgaon Baswant APMC",
+      "district": "Nashik",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A Export Calibrated",
+      "modal_price": 8188,
+      "arrivals_qt": 32895,
+      "history_7d": [
+        8135,
+        8118,
+        8020,
+        8229,
+        8243,
+        8323,
+        8188
+      ],
+      "change_1w_pct": 0.7,
+      "forecast": {
+        "target_price_7d": 8432,
+        "pct_change_7d": 3,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 8273,
+            "lower_bound": 8103,
+            "upper_bound": 8443
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 8299,
+            "lower_bound": 8058,
+            "upper_bound": 8540
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 8326,
+            "lower_bound": 8031,
+            "upper_bound": 8621
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 8352,
+            "lower_bound": 8012,
+            "upper_bound": 8692
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 8379,
+            "lower_bound": 7998,
+            "upper_bound": 8760
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 8406,
+            "lower_bound": 7989,
+            "upper_bound": 8823
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 8432,
+            "lower_bound": 7982,
+            "upper_bound": 8882
+          }
+        ],
+        "signal": "BULLISH"
+      },
+      "advisory": {
+        "verdict": "STRONG HOLD — PRICE FIRMING UP",
+        "rationale": "High brix export grade lots witnessing intense bidding by European and UK export consignors."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "APMC Vashi Cold Storage",
+          "state": "Maharashtra",
+          "distance_km": 195,
+          "mandi_modal_price": 8788,
+          "freight_cost_qt": 250,
+          "net_gain_qt": 350,
+          "roi_pct": 4.3,
+          "is_viable": true
+        }
+      ]
+    },
+    {
+      "id": "pomegranate-solapur-apmc",
+      "commodity": "Pomegranate",
+      "variety": "Bhagwa Ruby Red",
+      "market": "Sangola APMC Yard",
+      "district": "Solapur",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A 250g+ Calibrated",
+      "modal_price": 10966,
+      "arrivals_qt": 17981,
+      "history_7d": [
+        11037,
+        11085,
+        10943,
+        10631,
+        10627,
+        10732,
+        10966
+      ],
+      "change_1w_pct": -0.6,
+      "forecast": {
+        "target_price_7d": 10482,
+        "pct_change_7d": -4.4,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 10730,
+            "lower_bound": 10498,
+            "upper_bound": 10962
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 10689,
+            "lower_bound": 10360,
+            "upper_bound": 11018
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 10647,
+            "lower_bound": 10244,
+            "upper_bound": 11050
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 10606,
+            "lower_bound": 10141,
+            "upper_bound": 11071
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 10565,
+            "lower_bound": 10045,
+            "upper_bound": 11085
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 10523,
+            "lower_bound": 9954,
+            "upper_bound": 11092
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 10482,
+            "lower_bound": 9867,
+            "upper_bound": 11097
+          }
+        ],
+        "signal": "BEARISH"
+      },
+      "advisory": {
+        "verdict": "SELL IMMEDIATELY — SUPPLY PRESSURE",
+        "rationale": "Higher arrivals of medium-grade fruit from Solapur and Sangola orchards."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Bengaluru APMC Yard",
+          "state": "Karnataka",
+          "distance_km": 480,
+          "mandi_modal_price": 11816,
+          "freight_cost_qt": 380,
+          "net_gain_qt": 470,
+          "roi_pct": 4.3,
+          "is_viable": true
+        }
+      ]
+    },
+    {
+      "id": "soybean-latur-apmc",
+      "commodity": "Soybean",
+      "variety": "JS 335 High Oil",
+      "market": "Latur APMC Yard",
+      "district": "Latur",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A Cleaned Yellow",
+      "modal_price": 4585,
+      "arrivals_qt": 85529,
+      "history_7d": [
+        4598,
+        4578,
+        4503,
+        4513,
+        4567,
+        4517,
+        4585
+      ],
+      "change_1w_pct": -0.3,
+      "forecast": {
+        "target_price_7d": 4524,
+        "pct_change_7d": -1.3,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 4544,
+            "lower_bound": 4449,
+            "upper_bound": 4639
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 4541,
+            "lower_bound": 4406,
+            "upper_bound": 4676
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 4537,
+            "lower_bound": 4372,
+            "upper_bound": 4702
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 4534,
+            "lower_bound": 4343,
+            "upper_bound": 4725
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 4531,
+            "lower_bound": 4318,
+            "upper_bound": 4744
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 4528,
+            "lower_bound": 4295,
+            "upper_bound": 4761
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 4524,
+            "lower_bound": 4272,
+            "upper_bound": 4776
+          }
+        ],
+        "signal": "NEUTRAL"
+      },
+      "advisory": {
+        "verdict": "HOLD / REGULAR DISPATCH",
+        "rationale": "Crushing plant demand matches current farmgate arrivals smoothly."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Indore Mandi Terminal",
+          "state": "Madhya Pradesh",
+          "distance_km": 560,
+          "mandi_modal_price": 4995,
+          "freight_cost_qt": 340,
+          "net_gain_qt": 70,
+          "roi_pct": 1.5,
+          "is_viable": true
+        }
+      ]
+    },
+    {
+      "id": "mango-ratnagiri-apmc",
+      "commodity": "Mango",
+      "variety": "Ratnagiri Alphonso (GI Tagged)",
+      "market": "Devgad Coastal APMC",
+      "district": "Ratnagiri",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A Export Calibrated",
+      "modal_price": 14099,
+      "arrivals_qt": 21771,
+      "history_7d": [
+        14178,
+        13954,
+        13869,
+        13700,
+        13842,
+        14080,
+        14099
+      ],
+      "change_1w_pct": -0.6,
+      "forecast": {
+        "target_price_7d": 13977,
+        "pct_change_7d": -0.9,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 13979,
+            "lower_bound": 13686,
+            "upper_bound": 14272
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 13979,
+            "lower_bound": 13564,
+            "upper_bound": 14394
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 13978,
+            "lower_bound": 13470,
+            "upper_bound": 14486
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 13978,
+            "lower_bound": 13392,
+            "upper_bound": 14564
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 13977,
+            "lower_bound": 13322,
+            "upper_bound": 14632
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 13977,
+            "lower_bound": 13259,
+            "upper_bound": 14695
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 13977,
+            "lower_bound": 13202,
+            "upper_bound": 14752
+          }
+        ],
+        "signal": "NEUTRAL"
+      },
+      "advisory": {
+        "verdict": "HOLD / REGULAR DISPATCH",
+        "rationale": "Steady high-end domestic gifting and retail demand."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Crawford Market Mumbai",
+          "state": "Maharashtra",
+          "distance_km": 340,
+          "mandi_modal_price": 15199,
+          "freight_cost_qt": 420,
+          "net_gain_qt": 680,
+          "roi_pct": 4.8,
+          "is_viable": true
+        }
+      ]
+    },
+    {
+      "id": "chana-akola-apmc",
+      "commodity": "Chana (Bengal Gram)",
+      "variety": "Digvijay Bold Grade A",
+      "market": "Akola APMC Market",
+      "district": "Akola",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A Bold Grain",
+      "modal_price": 5464,
+      "arrivals_qt": 42096,
+      "history_7d": [
+        5466,
+        5509,
+        5381,
+        5449,
+        5507,
+        5456,
+        5464
+      ],
+      "change_1w_pct": 0,
+      "forecast": {
+        "target_price_7d": 5467,
+        "pct_change_7d": 0.1,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 5464,
+            "lower_bound": 5350,
+            "upper_bound": 5578
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 5465,
+            "lower_bound": 5304,
+            "upper_bound": 5626
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 5465,
+            "lower_bound": 5268,
+            "upper_bound": 5662
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 5465,
+            "lower_bound": 5238,
+            "upper_bound": 5692
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 5466,
+            "lower_bound": 5212,
+            "upper_bound": 5720
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 5466,
+            "lower_bound": 5188,
+            "upper_bound": 5744
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 5467,
+            "lower_bound": 5166,
+            "upper_bound": 5768
+          }
+        ],
+        "signal": "NEUTRAL"
+      },
+      "advisory": {
+        "verdict": "HOLD / REGULAR DISPATCH",
+        "rationale": "Balanced miller off-take and regulated procurement keeping prices range-bound."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Gultekdi Pune APMC",
+          "state": "Maharashtra",
+          "distance_km": 440,
+          "mandi_modal_price": 5844,
+          "freight_cost_qt": 310,
+          "net_gain_qt": 70,
+          "roi_pct": 1.3,
+          "is_viable": true
+        }
+      ]
+    },
+    {
+      "id": "turmeric-sangli-apmc",
+      "commodity": "Turmeric",
+      "variety": "Salem Finger (High Curcumin)",
+      "market": "Sangli Spices APMC",
+      "district": "Sangli",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A Double Polished",
+      "modal_price": 14003,
+      "arrivals_qt": 32997,
+      "history_7d": [
+        13998,
+        14105,
+        13993,
+        14193,
+        14207,
+        14053,
+        14003
+      ],
+      "change_1w_pct": 0,
+      "forecast": {
+        "target_price_7d": 14110,
+        "pct_change_7d": 0.8,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 14085,
+            "lower_bound": 13794,
+            "upper_bound": 14376
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 14089,
+            "lower_bound": 13677,
+            "upper_bound": 14501
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 14093,
+            "lower_bound": 13589,
+            "upper_bound": 14597
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 14097,
+            "lower_bound": 13515,
+            "upper_bound": 14679
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 14102,
+            "lower_bound": 13451,
+            "upper_bound": 14753
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 14106,
+            "lower_bound": 13393,
+            "upper_bound": 14819
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 14110,
+            "lower_bound": 13340,
+            "upper_bound": 14880
+          }
+        ],
+        "signal": "NEUTRAL"
+      },
+      "advisory": {
+        "verdict": "HOLD / REGULAR DISPATCH",
+        "rationale": "Steady industrial demand sustaining spot market rates."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Erode Spices Market",
+          "state": "Tamil Nadu",
+          "distance_km": 780,
+          "mandi_modal_price": 14653,
+          "freight_cost_qt": 450,
+          "net_gain_qt": 200,
+          "roi_pct": 1.4,
+          "is_viable": true
+        }
+      ]
+    },
+    {
+      "id": "orange-nagpur-apmc",
+      "commodity": "Orange",
+      "variety": "Nagpur Santra Juicy Grade A",
+      "market": "Nagpur APMC Central Market",
+      "district": "Nagpur",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A Juicy Calibrated",
+      "modal_price": 4898,
+      "arrivals_qt": 50146,
+      "history_7d": [
+        4773,
+        4877,
+        4929,
+        4958,
+        4967,
+        5001,
+        4898
+      ],
+      "change_1w_pct": 2.6,
+      "forecast": {
+        "target_price_7d": 5120,
+        "pct_change_7d": 4.5,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 4987,
+            "lower_bound": 4885,
+            "upper_bound": 5089
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 5009,
+            "lower_bound": 4865,
+            "upper_bound": 5153
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 5031,
+            "lower_bound": 4855,
+            "upper_bound": 5207
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 5053,
+            "lower_bound": 4849,
+            "upper_bound": 5257
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 5075,
+            "lower_bound": 4847,
+            "upper_bound": 5303
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 5098,
+            "lower_bound": 4849,
+            "upper_bound": 5347
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 5120,
+            "lower_bound": 4851,
+            "upper_bound": 5389
+          }
+        ],
+        "signal": "BULLISH"
+      },
+      "advisory": {
+        "verdict": "STRONG HOLD — PRICE FIRMING UP",
+        "rationale": "Strong juice processing plant demand and north Indian wholesale dispatches from Nagpur."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Bhopal Mandi Yard",
+          "state": "Madhya Pradesh",
+          "distance_km": 350,
+          "mandi_modal_price": 5288,
+          "freight_cost_qt": 280,
+          "net_gain_qt": 110,
+          "roi_pct": 2.2,
+          "is_viable": true
+        }
+      ]
+    },
+    {
+      "id": "banana-jalgaon-apmc",
+      "commodity": "Banana",
+      "variety": "Grand Naine Tissue Culture",
+      "market": "Raver APMC Yard",
+      "district": "Jalgaon",
+      "state": "Maharashtra",
+      "source": "MSAMB & e-NAM Verified",
+      "grade": "Grade A Export Calibrated",
+      "modal_price": 1917,
+      "arrivals_qt": 117121,
+      "history_7d": [
+        1874,
+        1879,
+        1833,
+        1861,
+        1883,
+        1916,
+        1917
+      ],
+      "change_1w_pct": 2.3,
+      "forecast": {
+        "target_price_7d": 1964,
+        "pct_change_7d": 2.5,
+        "confidence_pct": 78,
+        "forecast_points": [
+          {
+            "day_offset": 1,
+            "forecast_price": 1913,
+            "lower_bound": 1873,
+            "upper_bound": 1953
+          },
+          {
+            "day_offset": 2,
+            "forecast_price": 1921,
+            "lower_bound": 1865,
+            "upper_bound": 1977
+          },
+          {
+            "day_offset": 3,
+            "forecast_price": 1930,
+            "lower_bound": 1861,
+            "upper_bound": 1999
+          },
+          {
+            "day_offset": 4,
+            "forecast_price": 1938,
+            "lower_bound": 1858,
+            "upper_bound": 2018
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 1947,
+            "lower_bound": 1858,
+            "upper_bound": 2036
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 1955,
+            "lower_bound": 1857,
+            "upper_bound": 2053
+          },
+          {
+            "day_offset": 7,
+            "forecast_price": 1964,
+            "lower_bound": 1859,
+            "upper_bound": 2069
+          }
+        ],
+        "signal": "BULLISH"
+      },
+      "advisory": {
+        "verdict": "STRONG HOLD — PRICE FIRMING UP",
+        "rationale": "Grand Naine export packaging for Middle East reefers maintaining strong procurement price."
+      },
+      "arbitrage_matrix": [
+        {
+          "target_mandi": "Surat APMC",
+          "state": "Gujarat",
+          "distance_km": 290,
+          "mandi_modal_price": 2187,
+          "freight_cost_qt": 210,
+          "net_gain_qt": 60,
+          "roi_pct": 3.1,
+          "is_viable": true
+        }
+      ]
+    }
+  ]
+}

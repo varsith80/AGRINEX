@@ -5,3 +5,12 @@ node_modules/
 .env
 scratch/
 .vscode/
+
+# Android
+*.apk
+*.aab
+.gradle/
+**/build/
+local.properties
+android/.gradle/
+android/local.properties
