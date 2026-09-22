@@ -1,0 +1,76 @@
+  <div class="modal-overlay" id="modal-post-demand" role="dialog" aria-modal="true" aria-labelledby="post-demand-modal-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge icon-green">📢</div>
+          <div class="modal-title-group">
+            <h3 class="modal-title" id="post-demand-modal-title">Post Bulk Sourcing Demand</h3>
+            <span class="modal-subtitle">Broadcast Demand Directly to Verified Farmer Clusters</span>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closePostDemandModal()" title="Close">✕</button>
+      </div>
+
+      <form id="form-new-demand" onsubmit="handleNewDemandSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Crop / Commodity Required</label>
+          <select id="demand-crop" class="form-select" required>
+            <option value="Red Onion (Lasalgaon Garwa)">Red Onion (Lasalgaon Garwa)</option>
+            <option value="Tomato (Narayangaon Hybrid)">Tomato (Narayangaon Hybrid)</option>
+            <option value="Jalgaon Banana (Grand Naine)">Jalgaon Banana (Grand Naine)</option>
+            <option value="Latur Soybean (JS-335)">Latur Soybean (JS-335)</option>
+            <option value="Nagpur Mandarin Orange">Nagpur Mandarin Orange</option>
+            <option value="Sangli Turmeric Finger">Sangli Turmeric Finger</option>
+            <option value="Solapur Bhagwa Pomegranate">Solapur Bhagwa Pomegranate</option>
+            <option value="Vidarbha Raw Cotton">Vidarbha Raw Cotton</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Procurement Volume</label>
+            <div style="display: flex; gap: 6px;">
+              <input type="number" id="demand-tonnage" class="form-input" value="50" min="1" step="1" required style="flex: 1;" />
+              <select id="demand-unit" class="form-select" style="width: 110px; padding: 9px 8px;">
+                <option value="Qt" selected>Qt (Quintal)</option>
+                <option value="kg">kg (Kilogram)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label" style="margin-bottom: 0;">Target Price</label>
+              <select id="demand-price-unit" class="form-select" onchange="updateDemandPricePreview()" style="width: 80px; padding: 2px 6px; font-size: 0.72rem; height: 26px;">
+                <option value="kg" selected>₹/kg</option>
+                <option value="qt">₹/Qt</option>
+              </select>
+            </div>
+            <input type="number" id="demand-price" class="form-input" value="18.00" step="0.10" oninput="updateDemandPricePreview()" required />
+            <div id="demand-price-preview" style="font-size: 0.74rem; color: #166534; font-weight: 700; margin-top: 4px;">= ₹ 18.00 /kg</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Destination Warehouse Location</label>
+          <input type="text" class="form-input" value="Vashi APMC Central Terminal, Navi Mumbai, MH" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Quality Grade Expectation</label>
+          <select class="form-select">
+            <option>Grade A (Export / Supermarket &gt;= 70%)</option>
+            <option>Grade B (Standard Retail Pack)</option>
+            <option>Grade C (Food Processing)</option>
+          </select>
+        </div>
+
+        <div class="modal-actions-row">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Broadcast to Farmers</button>
+          <button type="button" class="btn btn-outline" onclick="closePostDemandModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 1B: REVIEW MATCHING FARMER BIDS FOR DEMAND -->

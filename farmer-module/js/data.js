@@ -4,7 +4,7 @@
 
 const farmerData = {
   "profile": {
-    "name": "Patil Rameshwar",
+    "name": "Perumal",
     "role": "Progressive Farmer & FPO Director",
     "location": "Lasalgaon APMC Yard, Nashik, Maharashtra",
     "avatar": "assets/images/farmer-avatar.jpg",

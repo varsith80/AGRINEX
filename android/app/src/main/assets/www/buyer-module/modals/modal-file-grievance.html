@@ -1,0 +1,71 @@
+  <div class="modal-overlay" id="modal-file-grievance" role="dialog" aria-modal="true" aria-labelledby="grv-modal-title">
+    <div class="modal-content" style="max-width: 580px;">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge icon-red">⚠️</div>
+          <div class="modal-title-group">
+            <h3 class="modal-title title-danger" id="grv-modal-title">File Quality / Delivery Claim</h3>
+            <span class="modal-subtitle">AgriNex Escrow Redressal Cell</span>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeGrievanceModal()" title="Close">✕</button>
+      </div>
+
+      <div class="modal-alert-box alert-amber">
+        <strong>🔒 Automated Escrow Freeze:</strong> Filing this complaint triggers an instant hold on the remaining 65% settlement escrow in the smart contract until resolved.
+      </div>
+
+      <form id="form-new-grievance" onsubmit="submitGrievance(event)">
+        <div class="form-group">
+          <label class="form-label">Select Disputed Order / Lot</label>
+          <select id="grv-lot-select" class="form-select" required>
+            <option value="LOT-ONI-01|Red Onion (Garwa Export)|Patil Rameshwar">LOT-ONI-01 — Red Onion (Garwa Export) • Patil Rameshwar (80 Qt)</option>
+            <option value="LOT-TOM-02|Tomato (Shivam Hybrid)|Sanjay Deshmukh">LOT-TOM-02 — Tomato (Shivam Hybrid) • Sanjay Deshmukh (60 Qt)</option>
+            <option value="LOT-BAN-03|Grand Naine Banana|Rajesh Shinde">LOT-BAN-03 — Grand Naine Banana • Rajesh Shinde (100 Qt)</option>
+            <option value="LOT-SOY-04|Soybean (Yellow JS-335)|Anandrao Jadhav">LOT-SOY-04 — Soybean (Yellow JS-335) • Anandrao Jadhav (120 Qt)</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Grievance Category</label>
+            <select id="grv-category" class="form-select" required>
+              <option value="Quality Assay Deviation">Quality Assay Deviation (Grade / Moisture)</option>
+              <option value="Weighbridge Shortage">Weighbridge Shortage (&gt; 2% Loss)</option>
+              <option value="Transit Spoilage / Damage">Transit Spoilage / Physical Damage</option>
+              <option value="Critical Delivery Delay">Critical Delivery Delay Breach</option>
+              <option value="Foreign Matter / Infestation">Foreign Matter / Pest Infestation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Claim Amount (₹)</label>
+            <input type="number" id="grv-claim-amount" class="form-input" placeholder="e.g. 15000" min="500" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Discrepancy Details / Evidence Summary</label>
+          <textarea id="grv-description" class="form-textarea" placeholder="Explain the specific issue e.g., Moisture tested at 87% vs certified 82%, 1.8 Qt missing on digital weighbridge slip, rotten crates..." rows="3" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Attach Supporting Evidence (Weighbridge Slip, Assay Report or Photo)</label>
+          <div class="modal-upload-dropzone" onclick="document.getElementById('grv-file-input').click()">
+            <input type="file" id="grv-file-input" style="display: none;" onchange="handleGrievanceFileUpload(this)" />
+            <span id="grv-upload-label" style="font-size: 0.8rem; color: #64748b;">
+              📄 Click to upload Digital Assay Slip / Weight Receipt / Photo Proof
+            </span>
+          </div>
+        </div>
+
+        <div class="modal-actions-row">
+          <button type="button" class="btn btn-outline" onclick="closeGrievanceModal()" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 2; background: #dc2626; border-color: #dc2626;">
+            Freeze Escrow &amp; Submit Claim
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 7: DIGITAL LORRY RECEIPT (LR) -->

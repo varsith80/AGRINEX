@@ -3,23 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgriNex - Direct Trade Agricultural Ecosystem</title>
+  <title>AgriNex — Direct-Trade Agricultural Infrastructure & Stakeholder Gateway</title>
   
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   
   <style>
     :root {
-      --primary-dark: #063c22;
-      --primary: #0c5a36;
-      --primary-hover: #084c2d;
-      --primary-accent: #4ade80;
-      --bg-page: #f8fafc;
-      --text-main: #0f172a;
+      --primary-forest: #0d4a2b;
+      --primary-deep: #07381e;
+      --primary-green: #15803d;
+      --primary-leaf: #16a34a;
+      --accent-gold: #d97706;
+      --accent-amber: #f59e0b;
+      --accent-warm: #fef3c7;
+      
+      --bg-warm: #fbfbf9;
+      --bg-canvas: #f4f6f2;
+      --bg-white: #ffffff;
+      
+      --text-dark: #0f172a;
+      --text-body: #334155;
       --text-muted: #64748b;
-      --border-default: #e2e8f0;
+      
+      --border-light: #e2e8f0;
+      --border-warm: #e6e9e2;
+      
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+      --shadow-hover: 0 16px 32px -6px rgba(15, 23, 42, 0.1), 0 6px 12px -2px rgba(15, 23, 42, 0.04);
+      
       --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
@@ -29,456 +44,1998 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: var(--font-family);
-      background-color: var(--bg-page);
-      color: var(--text-main);
+      background-color: var(--bg-warm);
+      color: var(--text-dark);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Top Master Navbar */
-    .master-navbar {
-      height: 68px;
-      background: linear-gradient(180deg, #063c22 0%, #0a4d2c 100%);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    /* -------------------------------------------------------------
+       Top Regulatory & Helpline Utility Strip
+       ------------------------------------------------------------- */
+    .top-utility-bar {
+      background: #082d19;
+      color: #cbd5e1;
+      font-size: 0.76rem;
+      padding: 6px 32px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 0 40px;
-      color: #ffffff;
-      box-shadow: 0 2px 12px rgba(6, 60, 34, 0.2);
-    }
-
-    .master-brand {
-      display: flex;
       align-items: center;
-      gap: 12px;
-      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .brand-logo-box {
-      width: 38px;
-      height: 38px;
-      border-radius: 9px;
-      background: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 3px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-
-    .brand-logo-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .brand-title {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.02em;
-    }
-
-    .brand-accent {
-      color: var(--primary-accent);
-    }
-
-    .nav-actions {
+    .top-utility-left {
       display: flex;
       align-items: center;
       gap: 16px;
     }
 
-    .btn-portal-entry {
+    .gov-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #a7f3d0;
+      font-weight: 700;
+    }
+
+    .top-utility-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .kisan-hotline-link {
+      color: #fef08a;
+      text-decoration: none;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .kisan-hotline-link:hover {
+      text-decoration: underline;
+    }
+
+    /* -------------------------------------------------------------
+       1. Master Deep-Green Brand Header
+       ------------------------------------------------------------- */
+    .site-header {
+      background: #0d4a2b;
+      color: #ffffff;
+      padding: 0 32px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 14px rgba(13, 74, 43, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .brand-logo-card {
+      width: 42px;
+      height: 42px;
       background: #ffffff;
-      color: #064e3b;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .brand-logo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand-heading {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .brand-heading span {
+      color: #86efac;
+    }
+
+    .brand-subtitle {
+      font-size: 0.7rem;
+      color: #a7f3d0;
+      font-weight: 600;
+      margin-top: 2px;
+      letter-spacing: 0.04em;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-nav a {
+      color: #f1f5f9;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+    }
+
+    .header-nav a:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-header-register {
+      background: transparent;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.35);
       font-size: 0.85rem;
-      font-weight: 800;
+      font-weight: 700;
       padding: 8px 18px;
       border-radius: 999px;
       text-decoration: none;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
     }
 
-    .btn-portal-entry:hover {
-      background: #f0fdf4;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    .btn-header-register:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #ffffff;
     }
 
-    /* Hero Section */
-    .master-hero {
-      padding: 48px 40px 32px 40px;
-      text-align: center;
-      max-width: 900px;
+    .btn-header-login {
+      background: #fef08a;
+      color: #082d19;
+      font-size: 0.86rem;
+      font-weight: 800;
+      padding: 9px 20px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-header-login:hover {
+      background: #fde047;
+      transform: translateY(-1px);
+    }
+
+    /* -------------------------------------------------------------
+       2. Real-Time APMC Mandi Ticker Ribbon
+       ------------------------------------------------------------- */
+    .mandi-ticker-strip {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-warm);
+      height: 44px;
+      display: flex;
+      align-items: center;
+      font-size: 0.82rem;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    }
+
+    .ticker-badge-wrap {
+      position: relative;
+      z-index: 10;
+      background: #ffffff;
+      padding: 0 16px 0 24px;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      box-shadow: 14px 0 18px -4px #ffffff;
+      flex-shrink: 0;
+    }
+
+    .ticker-tag {
+      background: #e8f5ed;
+      color: #0d4a2b;
+      border: 1px solid #bbf7d0;
+      font-weight: 800;
+      font-size: 0.72rem;
+      padding: 5px 12px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      letter-spacing: 0.04em;
+    }
+
+    .ticker-tag span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
+      animation: pulseGreenDot 2s infinite cubic-bezier(0.66, 0, 0, 1);
+    }
+
+    @keyframes pulseGreenDot {
+      0% {
+        box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 7px rgba(22, 163, 74, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
+      }
+    }
+
+    .ticker-track {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 24px), transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 24px), transparent);
+    }
+
+    .ticker-marquee {
+      display: inline-flex;
+      align-items: center;
+      animation: tickerRun 40s linear infinite;
+      gap: 36px;
+      white-space: nowrap;
+      will-change: transform;
+      padding-left: 12px;
+      transition: animation-play-state 0.2s ease;
+    }
+
+    .ticker-marquee:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes tickerRun {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #475569;
+      transition: transform 0.2s ease;
+    }
+
+    .ticker-item:hover {
+      transform: scale(1.04);
+    }
+
+    .ticker-item strong {
+      color: var(--text-dark);
+      font-weight: 700;
+    }
+
+    .price-gain {
+      color: #15803d;
+      font-weight: 800;
+      background: #ecfdf5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+
+    .price-drop {
+      color: #b91c1c;
+      font-weight: 800;
+      background: #fef2f2;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+
+    /* -------------------------------------------------------------
+       3. Warm Agricultural Hero Section (Authentic Two-Column)
+       ------------------------------------------------------------- */
+    .hero-wrap {
+      max-width: 1280px;
       margin: 0 auto;
+      padding: 48px 24px 36px 24px;
+      width: 100%;
     }
 
-    .hero-badge {
+    .hero-split-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.95fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-left-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    @keyframes heroFadeInUp {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 24px, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    .hero-pill-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       background: #e8f5ed;
-      color: #0c5a36;
-      border: 1px solid #bbf7d0;
-      padding: 5px 14px;
+      color: var(--primary-forest);
+      border: 1px solid #a7f3d0;
+      padding: 6px 16px;
       border-radius: 999px;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 700;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
+      animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
     }
 
-    .hero-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: #064e3b;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
+    .hero-main-title {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #072a18;
+      line-height: 1.16;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+      animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
     }
 
-    .hero-subtitle {
-      font-size: 1.05rem;
-      color: #475569;
-      line-height: 1.6;
+    .hero-main-title span.highlight {
+      color: var(--primary-green);
+      position: relative;
+      display: inline-block;
     }
 
-    /* 4-Module Cards Grid */
-    .modules-container {
-      max-width: 1280px;
-      width: 100%;
-      margin: 0 auto 50px auto;
-      padding: 0 40px;
+    .hero-description {
+      font-size: 1.08rem;
+      color: var(--text-body);
+      line-height: 1.65;
+      margin-bottom: 28px;
+      max-width: 620px;
+      animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
     }
 
-    .modules-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 22px;
-    }
-
-    .module-card {
-      background: #ffffff;
-      border: 1px solid var(--border-default);
-      border-radius: 16px;
-      padding: 24px 20px;
+    .hero-actions-row {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 20px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s backwards;
+    }
+
+    .btn-primary-green {
+      background: var(--primary-forest);
+      color: #ffffff;
+      font-size: 0.96rem;
+      font-weight: 800;
+      padding: 13px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(13, 74, 43, 0.25);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
       overflow: hidden;
     }
 
-    .module-card:hover {
+    .btn-primary-green::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -80%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+      transform: rotate(25deg);
+      transition: all 0.75s ease;
+    }
+
+    .btn-primary-green:hover::after {
+      left: 140%;
+    }
+
+    .btn-primary-green:hover {
+      background: #07381e;
+      box-shadow: 0 8px 22px rgba(13, 74, 43, 0.38);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary-green:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .btn-secondary-white {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      color: #334155;
+      font-size: 0.96rem;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-secondary-white:hover {
+      border-color: #0d4a2b;
+      color: #0d4a2b;
+      background: #f8fafc;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    }
+
+    .btn-secondary-white:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .hero-trust-chips {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-warm);
+      width: 100%;
+      animation: heroFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards;
+    }
+
+    .trust-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #475569;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .trust-chip:hover {
+      transform: translateY(-1px);
+      color: #0f172a;
+    }
+
+    .trust-chip span.chk {
+      color: var(--primary-green);
+      font-weight: 900;
+    }
+
+    /* Hero Right Visual: Floating Photorealistic Showcase */
+    .hero-right-visual {
+      position: relative;
+      animation: heroFadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
+    }
+
+    @keyframes subtleHeroCardFloat {
+      0%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      50% {
+        transform: translate3d(0, -8px, 0);
+      }
+    }
+
+    .hero-photo-card {
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 24px;
+      box-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.12), 0 6px 16px -2px rgba(15, 23, 42, 0.04);
+      border: 1px solid var(--border-warm);
+      position: relative;
+      animation: subtleHeroCardFloat 6s ease-in-out infinite;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    .hero-photo-card:hover {
+      animation-play-state: paused;
+      transform: translate3d(0, -10px, 0) scale(1.01);
+      box-shadow: 0 24px 48px -8px rgba(13, 74, 43, 0.18), 0 8px 20px -2px rgba(15, 23, 42, 0.06);
+    }
+
+    .hero-photo-card img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 18px;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    @keyframes floatBadgeTop {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, -5px, 0); }
+    }
+
+    @keyframes floatBadgeBottom {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, 5px, 0); }
+    }
+
+    .photo-floating-badge-top {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid #bbf7d0;
+      color: #065f46;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: floatBadgeTop 5s ease-in-out infinite;
+    }
+
+    .photo-floating-badge-bottom {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid #cbd5e1;
+      padding: 12px 18px;
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      animation: floatBadgeBottom 6s ease-in-out infinite 0.6s;
+    }
+
+    .badge-crop-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-crop-meta {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #059669;
+    }
+
+    /* -------------------------------------------------------------
+       4. Key Platform Metrics Strip (Clean & Trustworthy)
+       ------------------------------------------------------------- */
+    .metrics-container {
+      max-width: 1280px;
+      margin: 0 auto 56px auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .metrics-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .metric-card-clean {
+      background: #ffffff;
+      border: 1px solid var(--border-warm);
+      border-radius: 18px;
+      padding: 24px 20px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-top: 4px solid var(--primary-forest);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+      will-change: transform;
+    }
+
+    .metric-card-clean:hover {
       transform: translateY(-6px);
-      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.1);
+      box-shadow: 0 16px 32px -6px rgba(15, 23, 42, 0.1), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+    }
+
+    .metric-card-clean:nth-child(2) { border-top-color: #1d4ed8; }
+    .metric-card-clean:nth-child(3) { border-top-color: #d97706; }
+    .metric-card-clean:nth-child(4) { border-top-color: #dc2626; }
+
+    .metric-big-number {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--text-dark);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-clean-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #334155;
+    }
+
+    .metric-clean-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* -------------------------------------------------------------
+       5. Stakeholder Portals (4 Clean Functional Cockpits)
+       ------------------------------------------------------------- */
+    .portals-section-wrap {
+      max-width: 1280px;
+      margin: 0 auto 60px auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .section-header-center {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 36px auto;
+    }
+
+    .section-tag {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--primary-forest);
+      background: #e8f5ed;
+      border: 1px solid #bbf7d0;
+      padding: 4px 14px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .section-heading {
+      font-size: 2.3rem;
+      font-weight: 900;
+      color: #072a18;
+      letter-spacing: -0.025em;
+      margin-bottom: 10px;
+    }
+
+    .section-subtext {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .portals-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .portal-cockpit-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-warm);
+      border-radius: 20px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+      position: relative;
+      will-change: transform, box-shadow;
+    }
+
+    .portal-cockpit-card:hover {
+      transform: translateY(-8px) scale(1.015);
+      box-shadow: 0 20px 38px -8px rgba(13, 74, 43, 0.12), 0 8px 16px -4px rgba(15, 23, 42, 0.05);
       border-color: #cbd5e1;
     }
 
-    .module-card-top {
+    .portal-card-top {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
-    .module-icon-wrap {
-      width: 52px;
-      height: 52px;
+    .portal-icon-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .portal-icon-circle {
+      width: 48px;
+      height: 48px;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .module-card.farmer .module-icon-wrap { background: #dcfce7; color: #15803d; }
-    .module-card.buyer .module-icon-wrap { background: #dbeafe; color: #1d4ed8; }
-    .module-card.logistics .module-icon-wrap { background: #f3e8ff; color: #7e22ce; }
-    .module-card.admin .module-icon-wrap { background: #fee2e2; color: #b91c1c; }
+    .portal-cockpit-card:hover .portal-icon-circle {
+      transform: scale(1.15) rotate(4deg);
+    }
 
-    .module-tag {
+    .portal-cockpit-card.farmer .portal-icon-circle { background: #e8f5ed; color: #15803d; }
+    .portal-cockpit-card.buyer .portal-icon-circle { background: #eff6ff; color: #1d4ed8; }
+    .portal-cockpit-card.logistics .portal-icon-circle { background: #faf5ff; color: #7e22ce; }
+    .portal-cockpit-card.admin .portal-icon-circle { background: #fef2f2; color: #b91c1c; }
+
+    .portal-module-tag {
       font-size: 0.72rem;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.04em;
+      color: var(--text-muted);
     }
 
-    .module-card.farmer .module-tag { color: #15803d; }
-    .module-card.buyer .module-tag { color: #1d4ed8; }
-    .module-card.logistics .module-tag { color: #7e22ce; }
-    .module-card.admin .module-tag { color: #b91c1c; }
-
-    .module-name {
-      font-size: 1.2rem;
+    .portal-title {
+      font-size: 1.3rem;
       font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.25;
+      color: var(--text-dark);
+      letter-spacing: -0.01em;
     }
 
-    .module-desc {
+    .portal-description {
       font-size: 0.84rem;
       color: var(--text-muted);
       line-height: 1.5;
+      min-height: 52px;
     }
 
-    .module-actions {
+    .portal-bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border-light);
+    }
+
+    .portal-bullet-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .portal-bullet-list li span.chk {
+      color: var(--primary-green);
+      font-weight: 900;
+    }
+
+    .portal-card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .btn-portal-enter {
+      width: 100%;
+      padding: 11px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.15s ease;
+    }
+
+    .portal-cockpit-card.farmer .btn-portal-enter { background: #0d4a2b; }
+    .portal-cockpit-card.farmer .btn-portal-enter:hover { background: #07381e; }
+
+    .portal-cockpit-card.buyer .btn-portal-enter { background: #1d4ed8; }
+    .portal-cockpit-card.buyer .btn-portal-enter:hover { background: #1e3a8a; }
+
+    .portal-cockpit-card.logistics .btn-portal-enter { background: #7e22ce; }
+    .portal-cockpit-card.logistics .btn-portal-enter:hover { background: #581c87; }
+
+    .portal-cockpit-card.admin .btn-portal-enter { background: #b91c1c; }
+    .portal-cockpit-card.admin .btn-portal-enter:hover { background: #7f1d1d; }
+
+    .btn-portal-demo {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #475569;
+      background: #f8fafc;
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-portal-demo:hover {
+      background: #ffffff;
+      color: var(--text-dark);
+      border-color: #cbd5e1;
+    }
+
+    /* -------------------------------------------------------------
+       6. Live Mandi Commodity Benchmark Widget (Clean Interactive)
+       ------------------------------------------------------------- */
+    .mandi-widget-section {
+      max-width: 1280px;
+      margin: 0 auto 60px auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .mandi-clean-card {
+      background: #ffffff;
+      border: 1px solid var(--border-warm);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .widget-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .widget-title-row h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #072a18;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .crop-selector-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .crop-tab-btn {
+      padding: 7px 16px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .crop-tab-btn:hover {
+      background: #e2e8f0;
+      color: var(--text-dark);
+    }
+
+    .crop-tab-btn.active {
+      background: #0d4a2b;
+      color: #ffffff;
+      border-color: #0d4a2b;
+    }
+
+    .mandi-details-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.9fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .crop-price-box {
+      background: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .crop-badge-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .crop-name-large {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .crop-rate-value {
+      font-size: 2.3rem;
+      font-weight: 900;
+      color: var(--primary-forest);
+      line-height: 1;
+    }
+
+    .crop-rate-value span {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .crop-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 1px dashed #cbd5e1;
+    }
+
+    .c-stat .l {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .c-stat .v {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .arbitrage-explanation-box {
+      background: #e8f5ed;
+      border: 1px solid #bbf7d0;
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .arbitrage-explanation-box h4 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary-forest);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .arbitrage-explanation-box p {
+      font-size: 0.88rem;
+      color: #1e3a29;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .arbitrage-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-trade-action {
+      background: var(--primary-forest);
+      color: #ffffff;
+      font-size: 0.86rem;
+      font-weight: 800;
+      padding: 9px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-trade-action:hover {
+      background: #07381e;
+    }
+
+    .btn-procure-action {
+      background: #ffffff;
+      border: 1px solid #0d4a2b;
+      color: #0d4a2b;
+      font-size: 0.86rem;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-procure-action:hover {
+      background: #f0fdf4;
+    }
+
+    /* -------------------------------------------------------------
+       7. Value Chain Media Showcase (Clean Photos)
+       ------------------------------------------------------------- */
+    .showcase-media-section {
+      max-width: 1280px;
+      margin: 0 auto 60px auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .media-split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .media-card-wrap {
+      background: #ffffff;
+      border: 1px solid var(--border-warm);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+      will-change: transform;
+    }
+
+    .media-card-wrap:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 36px -8px rgba(15, 23, 42, 0.12);
+    }
+
+    .media-img-holder {
+      height: 240px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .media-img-holder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .media-card-wrap:hover .media-img-holder img {
+      transform: scale(1.05);
+    }
+
+    .media-card-body {
+      padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
 
-    .btn-module-primary {
-      width: 100%;
-      padding: 10px 14px;
-      border-radius: 8px;
+    .media-card-body h4 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .media-card-body p {
       font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* -------------------------------------------------------------
+       8. Call to Action Banner
+       ------------------------------------------------------------- */
+    .cta-banner-wrap {
+      max-width: 1280px;
+      margin: 0 auto 60px auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .cta-clean-box {
+      background: #0d4a2b;
+      color: #ffffff;
+      border-radius: 24px;
+      padding: 50px 36px;
+      text-align: center;
+      box-shadow: 0 16px 36px rgba(13, 74, 43, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-clean-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .cta-clean-box h2 {
+      font-size: 2.4rem;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+    }
+
+    .cta-clean-box p {
+      font-size: 1.02rem;
+      color: #cbd5e1;
+      max-width: 680px;
+      margin: 0 auto 28px auto;
+      line-height: 1.6;
+    }
+
+    .cta-clean-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn-cta-gold {
+      background: #fef08a;
+      color: #082d19;
+      font-size: 0.95rem;
+      font-weight: 900;
+      padding: 13px 30px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-cta-gold:hover {
+      background: #fde047;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+    }
+
+    .btn-cta-outline {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      color: #ffffff;
+      font-size: 0.95rem;
       font-weight: 700;
+      padding: 12px 26px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-cta-outline:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    /* -------------------------------------------------------------
+       Global Scroll Reveal & Stagger Animation Utilities
+       ------------------------------------------------------------- */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translate3d(0, 26px, 0);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .stagger-group > * {
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .stagger-group.is-visible > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translate3d(0, 0, 0); }
+    .stagger-group.is-visible > *:nth-child(2) { transition-delay: 0.15s; opacity: 1; transform: translate3d(0, 0, 0); }
+    .stagger-group.is-visible > *:nth-child(3) { transition-delay: 0.25s; opacity: 1; transform: translate3d(0, 0, 0); }
+    .stagger-group.is-visible > *:nth-child(4) { transition-delay: 0.35s; opacity: 1; transform: translate3d(0, 0, 0); }
+
+    .mandi-animating {
+      animation: mandiCrossFade 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes mandiCrossFade {
+      0% {
+        opacity: 0.2;
+        transform: translate3d(0, 8px, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    /* -------------------------------------------------------------
+       9. Master Footer (Dark Pine Green)
+       ------------------------------------------------------------- */
+    .master-footer {
+      background: #082d19;
+      color: #cbd5e1;
+      padding: 56px 32px 28px 32px;
+      font-size: 0.88rem;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1280px;
+      margin: 0 auto 40px auto;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand h4 {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      text-decoration: none;
-      transition: all 0.15s ease;
+      gap: 8px;
     }
 
-    .module-card.farmer .btn-module-primary { background: #0c5a36; color: #ffffff; }
-    .module-card.farmer .btn-module-primary:hover { background: #063c22; }
-
-    .module-card.buyer .btn-module-primary { background: #1d4ed8; color: #ffffff; }
-    .module-card.buyer .btn-module-primary:hover { background: #1e3a8a; }
-
-    .module-card.logistics .btn-module-primary { background: #7e22ce; color: #ffffff; }
-    .module-card.logistics .btn-module-primary:hover { background: #581c87; }
-
-    .module-card.admin .btn-module-primary { background: #b91c1c; color: #ffffff; }
-    .module-card.admin .btn-module-primary:hover { background: #7f1d1d; }
-
-    .btn-quick-demo {
-      width: 100%;
-      background: #f8fafc;
-      border: 1px solid var(--border-default);
-      color: var(--text-secondary);
-      padding: 7px 12px;
-      border-radius: 6px;
-      font-size: 0.76rem;
-      font-weight: 600;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.15s;
+    .footer-brand p {
+      color: #94a3b8;
+      line-height: 1.6;
+      max-width: 360px;
+      margin-bottom: 16px;
+      font-size: 0.86rem;
     }
 
-    .btn-quick-demo:hover {
-      background: #f1f5f9;
-      color: var(--text-main);
-    }
-
-    /* Live Platform Metrics Bar */
-    .metrics-strip {
-      background: #ffffff;
-      border-top: 1px solid var(--border-default);
-      border-bottom: 1px solid var(--border-default);
-      padding: 24px 40px;
-      margin-bottom: 40px;
-    }
-
-    .metrics-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      text-align: center;
-    }
-
-    .metric-value {
-      font-size: 1.7rem;
+    .footer-phone-badge {
+      color: #fef08a;
       font-weight: 800;
-      color: #0c5a36;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .metric-label {
+    .footer-column h5 {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-column a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.15s ease;
+      font-size: 0.86rem;
+    }
+
+    .footer-column a:hover {
+      color: #86efac;
+    }
+
+    .footer-legal-row {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
       font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-muted);
+      color: #94a3b8;
     }
 
+    /* -------------------------------------------------------------
+       Responsive Breakpoints
+       ------------------------------------------------------------- */
     @media (max-width: 1100px) {
-      .modules-grid {
+      .hero-split-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .portals-grid-4 {
         grid-template-columns: repeat(2, 1fr);
       }
-      .metrics-grid {
+      .metrics-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .media-split-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-container {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 650px) {
-      .modules-grid {
+    @media (max-width: 768px) {
+      .top-utility-bar {
+        display: none;
+      }
+      .site-header {
+        padding: 0 16px;
+      }
+      .header-nav {
+        display: none;
+      }
+      .hero-main-title {
+        font-size: 2.3rem;
+      }
+      .portals-grid-4 {
         grid-template-columns: 1fr;
       }
-      .metrics-grid {
+      .metrics-grid-4 {
         grid-template-columns: 1fr;
       }
-      .master-navbar {
-        padding: 0 20px;
+      .mandi-details-grid {
+        grid-template-columns: 1fr;
       }
-      .modules-container {
-        padding: 0 20px;
+      .footer-container {
+        grid-template-columns: 1fr;
       }
-      .hero-title {
-        font-size: 1.8rem;
+      .cta-clean-box {
+        padding: 36px 20px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Master Navigation Header -->
-  <header class="master-navbar">
-    <a href="index.html" class="master-brand">
-      <div class="brand-logo-box">
-        <img src="farmer-module/assets/images/wheat-logo.png" alt="AgriNex Wheat" class="brand-wheat-img" onerror="this.src='assets/images/wheat-logo.png'" />
+  <!-- Master Site Header -->
+  <header class="site-header">
+    <a href="index.html" class="brand-area">
+      <div class="brand-logo-card">
+        <img src="farmer-module/assets/images/wheat-logo.png" alt="AgriNex Wheat" onerror="this.src='assets/images/wheat-logo.png'" />
       </div>
-      <span class="brand-title">Agri<span class="brand-accent">Nex</span></span>
+      <div>
+        <div class="brand-heading">Agri<span>Nex</span></div>
+        <div class="brand-subtitle">Direct Agriculture Value Chain</div>
+      </div>
     </a>
 
-    <div class="nav-actions">
-      <a href="login_details/register.html" class="btn-portal-entry" style="background: transparent; color: #ffffff; border: 1px solid rgba(255,255,255,0.3);">✨ Create Account</a>
-      <a href="login_details/index.html" class="btn-portal-entry">Login Gateway →</a>
+    <nav class="header-nav">
+      <a href="#portals">Stakeholder Portals</a>
+      <a href="#mandi-rates">Mandi Benchmarks</a>
+      <a href="#infrastructure">Cold-Chain Fleet</a>
+      <a href="#about">About AgriNex</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="login_details/register.html" class="btn-header-register">Register</a>
+      <a href="login_details/index.html" class="btn-header-login">
+        <span>Login Gateway</span>
+        <span>→</span>
+      </a>
     </div>
   </header>
 
-  <!-- Hero Header -->
-  <section class="master-hero">
-    <div class="hero-badge">
-      <span>🌾</span> Direct-Trade Agricultural Infrastructure
+  <!-- Real-Time APMC Mandi Ticker -->
+  <div class="mandi-ticker-strip">
+    <div class="ticker-badge-wrap">
+      <div class="ticker-tag">
+        <span class="dot"></span> 305 APMC LIVE BENCHMARKS
+      </div>
     </div>
-    <h1 class="hero-title">Unified Multi-Module Gateway</h1>
-    <p class="hero-subtitle">
-      Connecting Farmers, Enterprise Buyers, Fleet Logistics, and Mandi Administrators on a single secure escrow trade network.
-    </p>
-  </section>
+    <div class="ticker-track">
+      <div class="ticker-marquee">
+        <div class="ticker-item">🍅 <strong>Tomato (Nashik):</strong> ₹1,300/Qtl <span class="price-gain">▲ +4.2%</span></div>
+        <div class="ticker-item">🧅 <strong>Red Onion (Lasalgaon):</strong> ₹1,850/Qtl <span class="price-drop">▼ -1.1%</span></div>
+        <div class="ticker-item">🌾 <strong>Yellow Soybean (Latur):</strong> ₹4,650/Qtl <span class="price-gain">▲ +0.8%</span></div>
+        <div class="ticker-item">🍇 <strong>Grapes (Dindori):</strong> ₹6,200/Qtl <span class="price-gain">▲ +6.5%</span></div>
+        <div class="ticker-item">🌽 <strong>Maize (Ahmednagar):</strong> ₹2,100/Qtl <span class="price-gain">▲ +1.4%</span></div>
+        <div class="ticker-item">🫘 <strong>Chana (Solapur):</strong> ₹5,800/Qtl <span class="price-gain">▲ +2.0%</span></div>
+        <div class="ticker-item">🥔 <strong>Potato (Pune):</strong> ₹1,450/Qtl <span class="price-drop">▼ -0.5%</span></div>
+        <div class="ticker-item">🌾 <strong>Wheat Lokwan (Akola):</strong> ₹2,620/Qtl <span class="price-gain">▲ +1.2%</span></div>
 
-  <!-- Platform Metrics Strip -->
-  <div class="metrics-strip">
-    <div class="metrics-grid">
-      <div>
-        <div class="metric-value">₹ 4.8 Cr+</div>
-        <div class="metric-label">Escrow Trade Settled</div>
-      </div>
-      <div>
-        <div class="metric-value">14,200+</div>
-        <div class="metric-label">Verified Farmers</div>
-      </div>
-      <div>
-        <div class="metric-value">850+</div>
-        <div class="metric-label">Buyers & Processing Plants</div>
-      </div>
-      <div>
-        <div class="metric-value" style="color: #dc2626;">Zero Loss</div>
-        <div class="metric-label">Emergency Breakeven Salvage</div>
+        <!-- Loop Duplicate -->
+        <div class="ticker-item">🍅 <strong>Tomato (Nashik):</strong> ₹1,300/Qtl <span class="price-gain">▲ +4.2%</span></div>
+        <div class="ticker-item">🧅 <strong>Red Onion (Lasalgaon):</strong> ₹1,850/Qtl <span class="price-drop">▼ -1.1%</span></div>
+        <div class="ticker-item">🌾 <strong>Yellow Soybean (Latur):</strong> ₹4,650/Qtl <span class="price-gain">▲ +0.8%</span></div>
+        <div class="ticker-item">🍇 <strong>Grapes (Dindori):</strong> ₹6,200/Qtl <span class="price-gain">▲ +6.5%</span></div>
+        <div class="ticker-item">🌽 <strong>Maize (Ahmednagar):</strong> ₹2,100/Qtl <span class="price-gain">▲ +1.4%</span></div>
       </div>
     </div>
   </div>
 
-  <!-- 4 Module Access Cards -->
-  <main class="modules-container">
-    <div class="modules-grid">
+  <!-- Warm Agricultural Hero Section -->
+  <section class="hero-wrap">
+    <div class="hero-split-grid">
       
-      <!-- 1. FARMER MODULE -->
-      <div class="module-card farmer">
-        <div class="module-card-top">
-          <div class="module-icon-wrap">🌾</div>
-          <div>
-            <span class="module-tag">Module 01</span>
-            <h2 class="module-name">Farmer Portal</h2>
-          </div>
-          <p class="module-desc">
-            Direct market access, lot creation with grade & quantity, real-time buyer bids, Mandi trend analytics, and instant escrow settlements.
-          </p>
+      <!-- Left Column: Mission & Trust -->
+      <div class="hero-left-content">
+        <div class="hero-pill-badge">
+          <span>🌾</span> Direct Market Linkage for Indian Agriculture
         </div>
-        <div class="module-actions">
-          <a href="login_details/farmer_login.html" class="btn-module-primary">
-            <span>Enter Farmer Module</span>
+
+        <h1 class="hero-main-title">
+          Fair Prices for Farmers,<br />
+          <span class="highlight">Verified Produce</span> for Buyers.
+        </h1>
+
+        <p class="hero-description">
+          Eliminating intermediary markups and supply chain friction. AgriNex connects verified farmers directly with institutional buyers, food processors, and cold-chain logistics with transparent escrow settlements.
+        </p>
+
+        <div class="hero-actions-row">
+          <a href="login_details/farmer_login.html" class="btn-primary-green">
+            <span>Farmer Sign In & Portal</span>
             <span>→</span>
           </a>
-          <button class="btn-quick-demo" onclick="AgriNexAuth.quickLogin('farmer')">⚡ Demo Auto-Login (Ramesh Kumar)</button>
+          <a href="login_details/buyer_login.html" class="btn-secondary-white">
+            <span>Enterprise Buyer Login</span>
+          </a>
+        </div>
+
+        <div class="hero-trust-chips">
+          <div class="trust-chip"><span class="chk">✓</span> 100% Dual-Key Bank Escrow</div>
+          <div class="trust-chip"><span class="chk">✓</span> 305 APMC Mandi Benchmarks</div>
+          <div class="trust-chip"><span class="chk">✓</span> Satbara 7/12 Land-Verified</div>
+          <div class="trust-chip"><span class="chk">✓</span> Direct Trade Transparency</div>
         </div>
       </div>
 
-      <!-- 2. BUYER MODULE -->
-      <div class="module-card buyer">
-        <div class="module-card-top">
-          <div class="module-icon-wrap">🏢</div>
-          <div>
-            <span class="module-tag">Module 02</span>
-            <h2 class="module-name">Buyer & Mill Portal</h2>
+      <!-- Right Column: Authentic Photography Showcase -->
+      <div class="hero-right-visual">
+        <div class="hero-photo-card">
+          <img src="assets/images/hero-kisan.jpg" alt="Indian Farmer Empowered by AgriNex" onerror="this.src='assets/images/farmgate-grading.jpg'" />
+          
+          <div class="photo-floating-badge-top">
+            <span>🌱</span> Satbara 7/12 Land Title Verified
           </div>
-          <p class="module-desc">
-            Bulk commodity procurement, direct lot bidding, verified farmer contracts, transparent quality grading, and automated escrow deposit.
-          </p>
-        </div>
-        <div class="module-actions">
-          <a href="login_details/buyer_login.html" class="btn-module-primary">
-            <span>Enter Buyer Module</span>
-            <span>→</span>
-          </a>
-          <button class="btn-quick-demo" onclick="AgriNexAuth.quickLogin('buyer')">⚡ Demo Auto-Login (AgriFoods Ltd.)</button>
-        </div>
-      </div>
 
-      <!-- 3. LOGISTICS MODULE -->
-      <div class="module-card logistics">
-        <div class="module-card-top">
-          <div class="module-icon-wrap">🚚</div>
-          <div>
-            <span class="module-tag">Module 03</span>
-            <h2 class="module-name">Logistics & Fleet</h2>
+          <div class="photo-floating-badge-bottom">
+            <div class="badge-crop-title">
+              <span>🍅</span> Grade A Nashik Tomato
+            </div>
+            <div class="badge-crop-meta">
+              Live Bid: ₹1,350/Qtl • Dual-Key Escrow Protected
+            </div>
           </div>
-          <p class="module-desc">
-            Fleet assignment, GPS route optimization, cold-chain temperature telemetry, consignment verification, and digital Proof of Delivery.
-          </p>
-        </div>
-        <div class="module-actions">
-          <a href="login_details/logistics_login.html" class="btn-module-primary">
-            <span>Enter Logistics Module</span>
-            <span>→</span>
-          </a>
-          <button class="btn-quick-demo" onclick="AgriNexAuth.quickLogin('logistics')">⚡ Demo Auto-Login (GreenWays Transit)</button>
-        </div>
-      </div>
-
-      <!-- 4. ADMIN MODULE -->
-      <div class="module-card admin">
-        <div class="module-card-top">
-          <div class="module-icon-wrap">🛡️</div>
-          <div>
-            <span class="module-tag">Module 04</span>
-            <h2 class="module-name">Admin & Governance</h2>
-          </div>
-          <p class="module-desc">
-            State-wide Mandi price index tracking, KYC farmer/buyer authorizations, dispute resolution, escrow release triggers, and system audit logs.
-          </p>
-        </div>
-        <div class="module-actions">
-          <a href="login_details/admin_login.html" class="btn-module-primary">
-            <span>Enter Admin Module</span>
-            <span>→</span>
-          </a>
-          <button class="btn-quick-demo" onclick="AgriNexAuth.quickLogin('admin')">⚡ Demo Auto-Login (Dr. A. Venkatesh)</button>
         </div>
       </div>
 
     </div>
-  </main>
+  </section>
 
+  <!-- Stakeholder Cockpits -->
+  <section class="portals-section-wrap scroll-reveal" id="portals">
+    <div class="section-header-center">
+      <span class="section-tag">Role-Based Workspaces</span>
+      <h2 class="section-heading">Dedicated Stakeholder Cockpits</h2>
+      <p class="section-subtext">
+        Tailored digital interfaces built specifically for farmers, food buyers, logistics operators, and mandi administrators.
+      </p>
+    </div>
+
+    <div class="portals-grid-4 stagger-group">
+      
+      <!-- 1. FARMER PORTAL -->
+      <div class="portal-cockpit-card farmer">
+        <div class="portal-card-top">
+          <div class="portal-icon-header">
+            <div class="portal-icon-circle">🌾</div>
+            <span class="portal-module-tag">Module 01</span>
+          </div>
+
+          <h3 class="portal-title">Farmer Portal</h3>
+          <p class="portal-description">
+            Direct farmgate lot creation, real-time buyer bidding, 305 APMC modal rates, and instant escrow settlements.
+          </p>
+
+          <ul class="portal-bullet-list">
+            <li><span class="chk">✓</span> Create lot with grade & photos</li>
+            <li><span class="chk">✓</span> Review live buyer bids & counter</li>
+            <li><span class="chk">✓</span> Instant 35% advance escrow locking</li>
+          </ul>
+        </div>
+
+        <div class="portal-card-actions">
+          <a href="login_details/farmer_login.html" class="btn-portal-enter">
+            <span>Sign In / Enter Portal</span>
+            <span>→</span>
+          </a>
+          <button class="btn-portal-demo" onclick="AgriNexAuth.quickLogin('farmer')">
+            <span>⚡ Quick Demo (Perumal)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. BUYER & MILL PORTAL -->
+      <div class="portal-cockpit-card buyer">
+        <div class="portal-card-top">
+          <div class="portal-icon-header">
+            <div class="portal-icon-circle">🏢</div>
+            <span class="portal-module-tag">Module 02</span>
+          </div>
+
+          <h3 class="portal-title">Buyer & Mill Portal</h3>
+          <p class="portal-description">
+            Bulk commodity procurement, direct lot bidding, verified farmer contracts, and transparent quality assaying.
+          </p>
+
+          <ul class="portal-bullet-list">
+            <li><span class="chk">✓</span> Pan-Mandi direct bulk discovery</li>
+            <li><span class="chk">✓</span> Verified Satbara farmer contracts</li>
+            <li><span class="chk">✓</span> Automated escrow advance deposit</li>
+          </ul>
+        </div>
+
+        <div class="portal-card-actions">
+          <a href="login_details/buyer_login.html" class="btn-portal-enter">
+            <span>Sign In / Enter Portal</span>
+            <span>→</span>
+          </a>
+          <button class="btn-portal-demo" onclick="AgriNexAuth.quickLogin('buyer')">
+            <span>⚡ Quick Demo (AgriFoods Ltd.)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. LOGISTICS & FLEET -->
+      <div class="portal-cockpit-card logistics">
+        <div class="portal-card-top">
+          <div class="portal-icon-header">
+            <div class="portal-icon-circle">🚚</div>
+            <span class="portal-module-tag">Module 03</span>
+          </div>
+
+          <h3 class="portal-title">Logistics & Fleet</h3>
+          <p class="portal-description">
+            Fleet assignment, GPS route optimization, cold-chain temperature telemetry (2°C–8°C), and digital e-PoD signoff.
+          </p>
+
+          <ul class="portal-bullet-list">
+            <li><span class="chk">✓</span> Live IoT temperature monitoring</li>
+            <li><span class="chk">✓</span> Automated trip manifest & gatepass</li>
+            <li><span class="chk">✓</span> Digital e-PoD delivery release</li>
+          </ul>
+        </div>
+
+        <div class="portal-card-actions">
+          <a href="login_details/logistics_login.html" class="btn-portal-enter">
+            <span>Sign In / Enter Portal</span>
+            <span>→</span>
+          </a>
+          <button class="btn-portal-demo" onclick="AgriNexAuth.quickLogin('logistics')">
+            <span>⚡ Quick Demo (GreenWays Transit)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4. MANDI ADMIN & GOVERNANCE -->
+      <div class="portal-cockpit-card admin">
+        <div class="portal-card-top">
+          <div class="portal-icon-header">
+            <div class="portal-icon-circle">🛡️</div>
+            <span class="portal-module-tag">Module 04</span>
+          </div>
+
+          <h3 class="portal-title">Admin & Governance</h3>
+          <p class="portal-description">
+            305 APMC modal rate oversight, statutory escrow triggers, grievance tribunal, and system audit logs.
+          </p>
+
+          <ul class="portal-bullet-list">
+            <li><span class="chk">✓</span> State-wide 305 APMC modal rates</li>
+            <li><span class="chk">✓</span> Dual-key escrow release oversight</li>
+            <li><span class="chk">✓</span> Statutory grievance arbitration</li>
+          </ul>
+        </div>
+
+        <div class="portal-card-actions">
+          <a href="login_details/admin_login.html" class="btn-portal-enter">
+            <span>Sign In / Enter Portal</span>
+            <span>→</span>
+          </a>
+          <button class="btn-portal-demo" onclick="AgriNexAuth.quickLogin('admin')">
+            <span>⚡ Quick Demo (Dr. A. Venkatesh)</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Live Mandi Rates Benchmark Widget -->
+  <section class="mandi-widget-section scroll-reveal" id="mandi-rates">
+    <div class="mandi-clean-card">
+      <div class="widget-title-row">
+        <h3><span>📈</span> APMC Live Market Benchmark</h3>
+
+        <div class="crop-selector-tabs">
+          <button class="crop-tab-btn active" onclick="setMandiCrop('tomato')">🍅 Tomato</button>
+          <button class="crop-tab-btn" onclick="setMandiCrop('onion')">🧅 Red Onion</button>
+          <button class="crop-tab-btn" onclick="setMandiCrop('soybean')">🌾 Soybean</button>
+          <button class="crop-tab-btn" onclick="setMandiCrop('grapes')">🍇 Grapes</button>
+          <button class="crop-tab-btn" onclick="setMandiCrop('maize')">🌽 Maize</button>
+        </div>
+      </div>
+
+      <div class="mandi-details-grid" id="mandiDetailsGrid">
+        
+        <div class="crop-price-box">
+          <div class="crop-badge-top">
+            <span style="color: #15803d; font-weight:800;" id="wGrade">Grade A Perishable</span>
+            <span id="wYard">Narayangaon APMC Yard, Junnar</span>
+          </div>
+
+          <div class="crop-name-large" id="wTitle">Tomato (Shivam Hybrid)</div>
+          <div class="crop-rate-value" id="wRate">₹ 1,300 <span>/ Qtl</span></div>
+
+          <div class="crop-stats-grid">
+            <div class="c-stat">
+              <div class="l">Mandi Arrival Today:</div>
+              <div class="v" id="wArrival">420 Tonnes</div>
+            </div>
+            <div class="c-stat">
+              <div class="l">Day Price Range:</div>
+              <div class="v" id="wRange">₹1,150 — ₹1,420</div>
+            </div>
+            <div class="c-stat">
+              <div class="l">Active Bulk Buyers:</div>
+              <div class="v" id="wBuyers">Reliance, Sahyadri</div>
+            </div>
+            <div class="c-stat">
+              <div class="l">Transit Protocol:</div>
+              <div class="v" id="wTransit">Reefer Cold Chain (4°C)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arbitrage-explanation-box">
+          <h4><span>💡</span> Direct-Trade Arbitrage Advantage</h4>
+          <p id="wInsight">
+            Local village aggregators typically purchase farmgate produce at ₹13.00/kg. Wholesale terminal realization in Mumbai averages ₹22.50/kg. Listing directly on AgriNex secures farmers ₹17.50/kg with guaranteed escrow settlement and zero middleman deductions.
+          </p>
+          <div class="arbitrage-buttons">
+            <a href="farmer-module/my-crops.html" class="btn-trade-action">🌾 List Lot on AgriNex</a>
+            <a href="buyer-module/index.html" class="btn-procure-action">🏢 Bulk Procure Commodity</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Physical Infrastructure Media Showcase -->
+  <section class="showcase-media-section scroll-reveal" id="infrastructure">
+    <div class="section-header-center">
+      <span class="section-tag">Value Chain Infrastructure</span>
+      <h2 class="section-heading">Built on Genuine Rural Infrastructure</h2>
+      <p class="section-subtext">
+        From automated collection and NIR optical assaying to temperature-monitored refrigerated transit fleets.
+      </p>
+    </div>
+
+    <div class="media-split-grid stagger-group">
+      
+      <div class="media-card-wrap">
+        <div class="media-img-holder">
+          <img src="assets/images/farmgate-grading.jpg" alt="Farmgate Collection Center" loading="lazy" />
+        </div>
+        <div class="media-card-body">
+          <h4>Farmgate Collection & NIR Optical Assaying</h4>
+          <p>
+            Rural collection hubs equipped with rapid NIR spectroscopy for sugar Brix indexing, moisture checking, and transparent digital lot classification before loading.
+          </p>
+        </div>
+      </div>
+
+      <div class="media-card-wrap">
+        <div class="media-img-holder">
+          <img src="assets/images/logistics-truck.jpg" alt="Reefer Logistics Fleet" loading="lazy" />
+        </div>
+        <div class="media-card-body">
+          <h4>Temperature-Monitored Reefer Logistics</h4>
+          <p>
+            Fleet transport for perishables maintaining continuous 2°C to 8°C thermal tracking to prevent weight loss and transit spoilage between farmgate and terminal.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Call to Action Banner -->
+  <section class="cta-banner-wrap scroll-reveal">
+    <div class="cta-clean-box">
+      <h2>Ready to Experience Transparent Direct Agricultural Trade?</h2>
+      <p>
+        Join over 14,000 farmers and 850 corporate buyers benefiting from direct contracts, real-time APMC benchmarks, and guaranteed escrow payments.
+      </p>
+      <div class="cta-clean-buttons">
+        <a href="login_details/register.html" class="btn-cta-gold">
+          <span>✨ Create Free Account</span>
+          <span>→</span>
+        </a>
+        <a href="login_details/index.html" class="btn-cta-outline">
+          <span>🔐 Open Stakeholder Login Gateway</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Master Pine Green Footer -->
+  <footer class="master-footer" id="about">
+    <div class="footer-container">
+      
+      <div class="footer-brand">
+        <h4>🌾 AgriNex Platform</h4>
+        <p>
+          Institutional Direct-Trade Agricultural Infrastructure connecting rural cultivators, food processing enterprises, and logistics fleets across India.
+        </p>
+        <div class="footer-phone-badge">
+          📞 Kisan Support Desk: 1800-180-1551 (Toll-Free)
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h5>Stakeholder Portals</h5>
+        <ul>
+          <li><a href="farmer-module/index.html">🌾 Farmer Portal</a></li>
+          <li><a href="buyer-module/index.html">🏢 Buyer & Mill Portal</a></li>
+          <li><a href="logistics-module/index.html">🚚 Logistics & Fleet</a></li>
+          <li><a href="admin-module/index.html">🛡️ Admin & Governance</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h5>Governance & APMC</h5>
+        <ul>
+          <li><a href="admin-module/mandi-governance.html">📈 Live Mandi Index</a></li>
+          <li><a href="admin-module/grievance-arbitration.html">⚖️ Dispute Tribunal</a></li>
+          <li><a href="admin-module/index.html#emergency-sell">⚡ Emergency Clearance</a></li>
+          <li><a href="admin-module/index.html#users">👥 User Directory</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h5>Quick Access</h5>
+        <ul>
+          <li><a href="login_details/index.html">🔐 Unified Login Gateway</a></li>
+          <li><a href="login_details/register.html">✨ Stakeholder Registration</a></li>
+          <li><a href="#portals">↑ Back to Top</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-legal-row">
+      <div>© 2026 AgriNex India Platform. Empowering Indian Agriculture via Direct Market Linkage & Real-Time Mandi Intelligence.</div>
+      <div style="display: flex; gap: 20px;">
+        <span>Satbara 7/12 Verified</span>
+        <span>Dual-Key Escrow Protocol</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Mandi Widget & Animation Controller Script -->
+  <script>
+    const MANDI_DATA = {
+      tomato: {
+        grade: "Grade A Perishable",
+        yard: "Narayangaon APMC Yard, Junnar",
+        title: "Tomato (Shivam / Abhinav Hybrid)",
+        rate: "₹ 1,300",
+        arrival: "420 Tonnes",
+        range: "₹1,150 — ₹1,420",
+        buyers: "Reliance Retail, Sahyadri",
+        transit: "Reefer Cold Chain (4°C)",
+        insight: "Local village aggregators typically purchase farmgate produce at ₹13.00/kg. Wholesale terminal realization in Mumbai averages ₹22.50/kg. Listing directly on AgriNex secures farmers ₹17.50/kg with guaranteed escrow settlement and zero middleman deductions."
+      },
+      onion: {
+        grade: "Kharif Red Bulk",
+        yard: "Lasalgaon Mandi Yard, Nashik",
+        title: "Red Onion (Garwa Export)",
+        rate: "₹ 1,850",
+        arrival: "1,250 Tonnes",
+        range: "₹1,650 — ₹2,050",
+        buyers: "BigBasket, ITC Foods, NAFED",
+        transit: "Ventilated Heavy Haul (22°C)",
+        insight: "Lasalgaon modal rate is ₹18.50/kg. Southern consumption hubs in Bengaluru & Chennai are trading at ₹26.00/kg. Direct dispatch via AgriNex logistics cuts handling damage by 18%."
+      },
+      soybean: {
+        grade: "Industrial Oilseed Grade",
+        yard: "Latur APMC Yard, Marathwada",
+        title: "Yellow Soybean (JS-335)",
+        rate: "₹ 4,650",
+        arrival: "850 Tonnes",
+        range: "₹4,450 — ₹4,800",
+        buyers: "Adani Wilmar, Ruchi Soya",
+        transit: "Covered Bulk Hauler (16T)",
+        insight: "Solvent extraction mills provide automated 35% advance escrow locking on certified moisture < 10%. Farmers gain ₹250/Qtl over local village aggregators."
+      },
+      grapes: {
+        grade: "Export Quality (Brix 17+)",
+        yard: "Dindori APMC Sub-Yard, Nashik",
+        title: "Thompson Seedless Table Grapes",
+        rate: "₹ 6,200",
+        arrival: "310 Tonnes",
+        range: "₹5,800 — ₹6,900",
+        buyers: "Mahagrapes, Allana Exports",
+        transit: "Pre-cooled Reefer (0.5°C to 2°C)",
+        insight: "Direct contracts with retail supermarket chains and exporters eliminate typical 45-day payment delays, settling full payments through dual-key escrow upon delivery verification."
+      },
+      maize: {
+        grade: "Feed & Starch Grade",
+        yard: "Ahmednagar APMC Yard",
+        title: "Yellow Maize (Pioneer Hybrid)",
+        rate: "₹ 2,100",
+        arrival: "680 Tonnes",
+        range: "₹1,950 — ₹2,220",
+        buyers: "Cargill, Godrej Agrovet",
+        transit: "Standard High-Deck 20T",
+        insight: "Steady demand from poultry feed manufacturers and starch processing units. Direct contract pickup saves farmers ₹80/bag in mandi handling and commission charges."
+      }
+    };
+
+    function setMandiCrop(key) {
+      const d = MANDI_DATA[key];
+      if (!d) return;
+
+      document.querySelectorAll('.crop-tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      const grid = document.getElementById('mandiDetailsGrid');
+      if (grid) {
+        grid.classList.remove('mandi-animating');
+        void grid.offsetWidth; // Trigger reflow
+        grid.classList.add('mandi-animating');
+      }
+
+      document.getElementById('wGrade').innerText = d.grade;
+      document.getElementById('wYard').innerText = d.yard;
+      document.getElementById('wTitle').innerText = d.title;
+      document.getElementById('wRate').innerHTML = `${d.rate} <span>/ Qtl</span>`;
+      document.getElementById('wArrival').innerText = d.arrival;
+      document.getElementById('wRange').innerText = d.range;
+      document.getElementById('wBuyers').innerText = d.buyers;
+      document.getElementById('wTransit').innerText = d.transit;
+      document.getElementById('wInsight').innerText = d.insight;
+    }
+
+    // Scroll Reveal & Animated Metric Counters Engine
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Intersection Observer for Scroll Animations
+      const revealElements = document.querySelectorAll('.scroll-reveal, .stagger-group');
+      
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            
+            // Check if this entry contains metric numbers to count up
+            if (entry.target.classList.contains('metrics-container') || entry.target.querySelector('.metric-big-number')) {
+              animateCounters(entry.target);
+            }
+            
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: null,
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // 2. Smooth Number Roll-Up Counter
+      let countersAnimated = false;
+      function animateCounters(container) {
+        if (countersAnimated) return;
+        countersAnimated = true;
+
+        const countEls = container.querySelectorAll('.metric-big-number[data-target-num]');
+        countEls.forEach(el => {
+          const target = parseFloat(el.getAttribute('data-target-num'));
+          const prefix = el.getAttribute('data-prefix') || '';
+          const suffix = el.getAttribute('data-suffix') || '';
+          const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+          const duration = 1600; // ms
+          const startTime = performance.now();
+
+          function updateCounter(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Ease out cubic
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            const currentVal = (target * easeProgress).toFixed(decimals);
+            
+            const formattedVal = decimals > 0 
+              ? currentVal 
+              : parseInt(currentVal, 10).toLocaleString('en-IN');
+
+            el.innerText = `${prefix}${formattedVal}${suffix}`;
+
+            if (progress < 1) {
+              requestAnimationFrame(updateCounter);
+            } else {
+              const finalFormatted = decimals > 0 
+                ? target.toFixed(decimals) 
+                : target.toLocaleString('en-IN');
+              el.innerText = `${prefix}${finalFormatted}${suffix}`;
+            }
+          }
+
+          requestAnimationFrame(updateCounter);
+        });
+      }
+    });
+  </script>
+
+  <!-- Global Authentication Database & Session Engine -->
   <script src="login_details/js/auth_db.js"></script>
+  <script src="assets/js/agrinex-auth-bridge.js"></script>
 </body>
 </html>

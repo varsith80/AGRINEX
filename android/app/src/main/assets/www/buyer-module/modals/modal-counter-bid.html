@@ -1,0 +1,142 @@
+  <div class="modal-overlay" id="modal-counter-bid" role="dialog" aria-modal="true" aria-labelledby="counter-bid-modal-title">
+    <div class="modal-content" style="max-width: 560px; max-height: 90vh; overflow-y: auto;">
+      <!-- Header -->
+      <div class="modal-header" style="padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.06);">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge icon-amber" style="background: #fef3c7; color: #b45309; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">⚖️</div>
+          <div class="modal-title-group">
+            <h3 class="modal-title" id="counter-bid-modal-title" style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #0f172a;">Submit Counter-Offer Bid</h3>
+            <span class="modal-subtitle" style="font-size: 0.78rem; color: #64748b;">Farm-Gate Dynamic Price & Profit Margin Engine</span>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeBidModal()" title="Close" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: #94a3b8;">✕</button>
+      </div>
+
+      <!-- Lot Summary Banner -->
+      <div class="modal-alert-box alert-gold" style="margin: 14px 0 16px 0; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border: 1px solid #fde68a; border-radius: 12px; padding: 12px 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+          <div>
+            <h4 id="bid-modal-crop" style="font-size: 0.98rem; font-weight: 800; color: #78350f; margin: 0 0 4px 0;">Crop Name</h4>
+            <div id="bid-modal-farmer-info" style="font-size: 0.78rem; color: #92400e; font-weight: 500;">Farmer: -- • 📍 --</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: #b45309; font-weight: 700;">Farmer Ask Price</div>
+            <div id="bid-modal-ask-badge" style="font-size: 1.05rem; font-weight: 800; color: #0c5a36;">₹ 0.00 /kg</div>
+          </div>
+        </div>
+      </div>
+
+      <form id="form-counter-bid" onsubmit="submitCounterBid(event)">
+        <input type="hidden" id="bid-modal-lot-id" />
+        <input type="hidden" id="bid-modal-base-ask-rate" value="18.0" />
+        <input type="hidden" id="bid-modal-total-kg" value="5000" />
+
+        <!-- Quantity Selection Mode -->
+        <div class="form-group" style="margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label class="form-label" style="margin: 0; font-size: 0.82rem; font-weight: 700; color: #334155;">Procurement Volume</label>
+            <span id="bid-modal-avail-badge" style="font-size: 0.74rem; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-weight: 700;">Available: 5,000 kg</span>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <label style="flex: 1; display: flex; align-items: center; gap: 6px; padding: 8px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; background: #ffffff;" id="label-bid-qty-all">
+              <input type="radio" name="bid-qty-mode" id="bid-mode-all" value="all" checked onchange="toggleBidQtyMode('all')" />
+              <span>Full Lot (<strong id="bid-modal-full-qty-label">5,000 kg</strong>)</span>
+            </label>
+            <label style="flex: 1; display: flex; align-items: center; gap: 6px; padding: 8px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; background: #ffffff;" id="label-bid-qty-custom">
+              <input type="radio" name="bid-qty-mode" id="bid-mode-custom" value="custom" onchange="toggleBidQtyMode('custom')" />
+              <span>Partial Volume</span>
+            </label>
+          </div>
+          <div id="bid-custom-qty-wrapper" style="display: none; margin-top: 8px;">
+            <div style="position: relative;">
+              <input type="number" id="bid-custom-qty-input" class="form-input" style="padding-right: 50px;" placeholder="e.g. 2000" min="100" step="50" oninput="onBidQtyInputChange(this.value)" />
+              <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; font-weight: 700; color: #64748b;">kg</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Bid Price & Range Slider -->
+        <div class="form-group" style="margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label class="form-label" style="margin: 0; font-size: 0.82rem; font-weight: 700; color: #334155;">Your Counter-Bid Rate (₹ / kg)</label>
+            <span id="bid-discount-indicator" style="font-size: 0.76rem; font-weight: 700; color: #0c5a36; background: #dcfce7; padding: 2px 8px; border-radius: 6px;">-6.0% vs Ask</span>
+          </div>
+
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <div style="position: relative; flex: 1;">
+              <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-weight: 800; color: #0c5a36; font-size: 0.95rem;">₹</span>
+              <input type="number" id="counter-bid-price" class="form-input" value="16.90" step="0.10" min="1" max="1000" style="padding-left: 28px; font-size: 1.05rem; font-weight: 800; color: #0f172a;" oninput="onCounterBidPriceInput(this.value)" required />
+            </div>
+            <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">/ kg</div>
+          </div>
+
+          <!-- Interactive Range Slider -->
+          <div style="margin-top: 10px; padding: 0 4px;">
+            <input type="range" id="counter-bid-slider" min="10" max="30" step="0.1" value="16.9" style="width: 100%; accent-color: #0c5a36; cursor: pointer;" oninput="onCounterBidSliderChange(this.value)" />
+            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #94a3b8; margin-top: 2px;">
+              <span id="slider-min-label">₹ 12.00 (-33%)</span>
+              <span style="color: #64748b; font-weight: 600;">Drag to Adjust Rate</span>
+              <span id="slider-max-label">₹ 22.00 (+22%)</span>
+            </div>
+          </div>
+
+          <!-- Quick Discount Preset Pills -->
+          <div style="display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;">
+            <button type="button" class="btn-preset-pill" onclick="applyBidPreset(-0.03)" style="background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 20px; padding: 4px 10px; font-size: 0.74rem; font-weight: 700; color: #334155; cursor: pointer; transition: all 0.15s ease;">-3% Fast Deal</button>
+            <button type="button" class="btn-preset-pill active-pill" onclick="applyBidPreset(-0.06)" style="background: #e8f5ed; border: 1px solid #86efac; border-radius: 20px; padding: 4px 10px; font-size: 0.74rem; font-weight: 700; color: #0c5a36; cursor: pointer; transition: all 0.15s ease;">-6% Optimal</button>
+            <button type="button" class="btn-preset-pill" onclick="applyBidPreset(-0.10)" style="background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 20px; padding: 4px 10px; font-size: 0.74rem; font-weight: 700; color: #334155; cursor: pointer; transition: all 0.15s ease;">-10% Bulk Saver</button>
+            <button type="button" class="btn-preset-pill" onclick="applyBidPreset(0.0)" style="background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 20px; padding: 4px 10px; font-size: 0.74rem; font-weight: 700; color: #334155; cursor: pointer; transition: all 0.15s ease;">Ask Price (₹/kg)</button>
+          </div>
+        </div>
+
+        <!-- AI Farmer Acceptance Probability & Margin Card -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 14px;">
+          <!-- Acceptance Probability Meter -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #475569; display: flex; align-items: center; gap: 5px;">
+              <span>🤖 Farmer Acceptance Probability:</span>
+            </span>
+            <span id="bid-acceptance-badge" style="font-size: 0.76rem; font-weight: 800; color: #15803d; background: #dcfce7; padding: 2px 8px; border-radius: 6px; border: 1px solid #bbf7d0;">
+              🟢 High (~82% Chance)
+            </span>
+          </div>
+
+          <!-- Financial Breakdown Matrix -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e1;">
+            <div style="background: #ffffff; padding: 8px 10px; border-radius: 8px; border: 1px solid #f1f5f9;">
+              <div style="font-size: 0.7rem; color: #64748b; font-weight: 600;">Total Counter Value</div>
+              <div id="bid-card-total-val" style="font-size: 0.95rem; font-weight: 800; color: #0f172a;">₹ 84,500</div>
+            </div>
+            <div style="background: #ffffff; padding: 8px 10px; border-radius: 8px; border: 1px solid #f1f5f9;">
+              <div style="font-size: 0.7rem; color: #64748b; font-weight: 600;">Procurement Savings</div>
+              <div id="bid-card-savings" style="font-size: 0.95rem; font-weight: 800; color: #16a34a;">₹ 5,500 (6.1%)</div>
+            </div>
+            <div style="background: #ffffff; padding: 8px 10px; border-radius: 8px; border: 1px solid #f1f5f9;">
+              <div style="font-size: 0.7rem; color: #64748b; font-weight: 600;">🔒 35% Escrow Advance</div>
+              <div id="bid-card-adv" style="font-size: 0.95rem; font-weight: 800; color: #0c5a36;">₹ 29,575</div>
+            </div>
+            <div style="background: #ffffff; padding: 8px 10px; border-radius: 8px; border: 1px solid #f1f5f9;">
+              <div style="font-size: 0.7rem; color: #64748b; font-weight: 600;">Est. Gross Margin</div>
+              <div id="bid-card-margin" style="font-size: 0.95rem; font-weight: 800; color: #2563eb;">29.6% (₹ 7.10/kg)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Requested Delivery Date -->
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label class="form-label" style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Requested Delivery Date</label>
+          <input type="date" id="counter-bid-delivery-date" class="form-input" value="2026-09-23" required />
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="modal-actions-row" style="display: flex; gap: 10px;">
+          <button type="submit" id="btn-submit-counter-bid" class="btn btn-primary" style="flex: 1; padding: 11px; font-weight: 800; font-size: 0.9rem; background: #0c5a36; border: none; border-radius: 8px; color: #ffffff; cursor: pointer; box-shadow: 0 2px 6px rgba(12,90,54,0.3);">
+            ⚖️ Submit Counter-Bid (₹ <span id="btn-bid-rate-preview">16.90</span> /kg)
+          </button>
+          <button type="button" class="btn btn-outline" onclick="closeBidModal()" style="padding: 11px 18px; font-weight: 700; font-size: 0.85rem; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; color: #475569; cursor: pointer;">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

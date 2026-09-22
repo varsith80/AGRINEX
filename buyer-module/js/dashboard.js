@@ -6,6 +6,65 @@
 // -------------------------------------------------------------
 // REAL-TIME BUYER MODULE SYNCHRONIZATION ENGINE
 // -------------------------------------------------------------
+
+// Sync APMC Benchmark Prices calibrated by State Admin / Mandi Regulators
+function syncAdminMandiPricesToBuyerData() {
+  try {
+    const adminPricesStr = localStorage.getItem('agrinex_admin_mandi_prices');
+    if (!adminPricesStr) return;
+    const adminPrices = JSON.parse(adminPricesStr);
+    if (!Array.isArray(adminPrices) || adminPrices.length === 0) return;
+
+    let hasChanges = false;
+    if (buyerData && Array.isArray(buyerData.verifiedLots)) {
+      buyerData.verifiedLots.forEach(lot => {
+        const lotCrop = (lot.crop || '').toLowerCase();
+        // find matching admin item
+        const adminItem = adminPrices.find(p => {
+          const pCrop = (p.crop || '').toLowerCase();
+          return lotCrop.includes(pCrop) || pCrop.includes(lotCrop) ||
+            (lotCrop.includes('onion') && pCrop.includes('onion')) ||
+            (lotCrop.includes('tomato') && pCrop.includes('tomato')) ||
+            (lotCrop.includes('banana') && pCrop.includes('banana')) ||
+            (lotCrop.includes('soybean') && pCrop.includes('soybean')) ||
+            (lotCrop.includes('turmeric') && pCrop.includes('turmeric')) ||
+            (lotCrop.includes('orange') && pCrop.includes('orange')) ||
+            (lotCrop.includes('pomegranate') && pCrop.includes('pomegranate')) ||
+            (lotCrop.includes('cotton') && pCrop.includes('cotton')) ||
+            (lotCrop.includes('grapes') && pCrop.includes('grapes')) ||
+            (lotCrop.includes('chilli') && pCrop.includes('chilli')) ||
+            (lotCrop.includes('wheat') && pCrop.includes('wheat')) ||
+            (lotCrop.includes('rice') && pCrop.includes('rice')) ||
+            (lotCrop.includes('jowar') && pCrop.includes('jowar')) ||
+            (lotCrop.includes('mango') && pCrop.includes('mango'));
+        });
+
+        if (adminItem && adminItem.modalPrice) {
+          const mandiModalKg = parseFloat(adminItem.modalPrice);
+          if (!isNaN(mandiModalKg) && mandiModalKg > 0) {
+            lot.mandiRate = `₹ ${mandiModalKg.toFixed(2)} /kg`;
+            lot.mandiRateNum = mandiModalKg;
+            const myKgPrice = parseFloat(lot.pricePerKg) || (lot.priceNum ? lot.priceNum / 100 : 0);
+            if (myKgPrice > 0) {
+              const diffPct = ((mandiModalKg - myKgPrice) / mandiModalKg) * 100;
+              lot.savings = diffPct > 0 ? `${diffPct.toFixed(1)}% Lower` : `${Math.abs(diffPct).toFixed(1)}% Premium`;
+            }
+            hasChanges = true;
+          }
+        }
+      });
+    }
+
+    if (hasChanges) {
+      try {
+        localStorage.setItem('agrinex_verified_lots', JSON.stringify(buyerData.verifiedLots));
+      } catch(e) {}
+    }
+  } catch(e) {
+    console.warn('Error syncing admin mandi prices:', e);
+  }
+}
+
 function loadPersistedBuyerState() {
   try {
     const savedLots = localStorage.getItem('agrinex_verified_lots');
@@ -15,6 +74,7 @@ function loadPersistedBuyerState() {
         buyerData.verifiedLots = parsed;
       }
     }
+    syncAdminMandiPricesToBuyerData();
   } catch(e) {}
 
   try {
@@ -418,12 +478,13 @@ function bootBuyerDashboard() {
 
   // Listen for Cross-Tab / Cross-Module live events
   window.addEventListener('storage', (e) => {
-    if (e.key === 'agrinex_verified_lots' || e.key === 'agrinex_crops_updated' || e.key === 'agrinex_buyer_demands') {
+    if (e.key === 'agrinex_verified_lots' || e.key === 'agrinex_crops_updated' || e.key === 'agrinex_buyer_demands' || e.key === 'agrinex_admin_mandi_prices') {
       try {
         loadPersistedBuyerState();
         if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
         if (typeof renderBuyerDemands === 'function') renderBuyerDemands();
         if (typeof updateBuyerMarketStats === 'function') updateBuyerMarketStats();
+        if (typeof window.refreshBuyerMarketInsights === 'function') window.refreshBuyerMarketInsights();
       } catch(err) {}
     }
   });
@@ -445,7 +506,20 @@ function bootBuyerDashboard() {
         loadPersistedBuyerState();
         if (typeof renderBuyerDemands === 'function') renderBuyerDemands();
       }
+      if (event.data && (event.data.type === 'MANDI_PRICE_UPDATED' || event.data.type === 'CROPS_UPDATED')) {
+        loadPersistedBuyerState();
+        if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
+        if (typeof window.refreshBuyerMarketInsights === 'function') window.refreshBuyerMarketInsights();
+      }
     };
+  }
+
+  if (window.AgriNexBus && typeof window.AgriNexBus.on === 'function') {
+    window.AgriNexBus.on('mandi:price_calibrated', () => {
+      loadPersistedBuyerState();
+      if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
+      if (typeof window.refreshBuyerMarketInsights === 'function') window.refreshBuyerMarketInsights();
+    });
   }
 
 

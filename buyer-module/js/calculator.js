@@ -721,6 +721,21 @@ function updateMandiPriceForSelection() {
 
   let baseMandiPerKg = (mandiData.mandiPrices && mandiData.mandiPrices[prodKey]) || prodData.defaultMandi;
 
+  // Real-time synchronization with Admin calibrated APMC Mandi Benchmark Prices
+  try {
+    const adminPricesStr = localStorage.getItem('agrinex_admin_mandi_prices');
+    if (adminPricesStr) {
+      const adminPrices = JSON.parse(adminPricesStr);
+      const match = adminPrices.find(p => (p.crop && p.crop.toLowerCase().includes(prodKey)) || (p.id && p.id.toLowerCase().includes(prodKey.substring(0, 3))));
+      if (match && match.modalPrice) {
+        const pNum = parseFloat(match.modalPrice);
+        if (!isNaN(pNum) && pNum > 0) {
+          baseMandiPerKg = pNum;
+        }
+      }
+    }
+  } catch(e) {}
+
   // Grade adjustments: Grade A (+5%), Grade B (Base), Grade C (-15%)
   if (comprehensiveCalcState.selectedGrade === 'grade_a') {
     baseMandiPerKg = baseMandiPerKg * 1.05;

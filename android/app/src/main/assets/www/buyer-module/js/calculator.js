@@ -721,6 +721,21 @@ function updateMandiPriceForSelection() {
 
   let baseMandiPerKg = (mandiData.mandiPrices && mandiData.mandiPrices[prodKey]) || prodData.defaultMandi;
 
+  // Real-time synchronization with Admin calibrated APMC Mandi Benchmark Prices
+  try {
+    const adminPricesStr = localStorage.getItem('agrinex_admin_mandi_prices');
+    if (adminPricesStr) {
+      const adminPrices = JSON.parse(adminPricesStr);
+      const match = adminPrices.find(p => (p.crop && p.crop.toLowerCase().includes(prodKey)) || (p.id && p.id.toLowerCase().includes(prodKey.substring(0, 3))));
+      if (match && match.modalPrice) {
+        const pNum = parseFloat(match.modalPrice);
+        if (!isNaN(pNum) && pNum > 0) {
+          baseMandiPerKg = pNum;
+        }
+      }
+    }
+  } catch(e) {}
+
   // Grade adjustments: Grade A (+5%), Grade B (Base), Grade C (-15%)
   if (comprehensiveCalcState.selectedGrade === 'grade_a') {
     baseMandiPerKg = baseMandiPerKg * 1.05;
@@ -761,14 +776,9 @@ function recalculateBuyerCosts() {
   const rawQty = parseFloat(quantityInput.value) || 50;
   const rawFarmPrice = parseFloat(farmPriceInput.value) || 1200;
   const distanceKm = parseFloat(distanceInput.value) || 80;
-  const vehicleKey = vehicleSelect.value;
-  const packagingKey = (packagingSelect && packagingSelect.value) || 'crates';
-  const hamaliRatePerQt = parseFloat((hamaliInput && hamaliInput.value) || 15);
 
   const productKey = comprehensiveCalcState.selectedProductKey || 'tomato';
   const prodData = COMMODITY_CATALOG[productKey] || COMMODITY_CATALOG.tomato;
-  const fleetData = FLEET_TYPES[vehicleKey] || FLEET_TYPES.tata;
-  const packData = PACKAGING_MODES[packagingKey] || PACKAGING_MODES.crates;
 
   // 1. Normalize Quantity into Quintals (Qt), kg, and MT
   let qtyInQt = rawQty;
@@ -783,6 +793,34 @@ function recalculateBuyerCosts() {
     qtyInKg = rawQty * 1000;
     qtyInQt = rawQty * 10;
   }
+
+  // Smart Auto-Fleet Recommendation if not manually overridden
+  if (!comprehensiveCalcState.manualFleetOverride && vehicleSelect) {
+    let recommendedVehicle = 'tata';
+    if (prodData.isPerishable && qtyInKg >= 3000 && FLEET_TYPES.reefer) {
+      recommendedVehicle = 'reefer';
+    } else if (qtyInKg > 7500) {
+      recommendedVehicle = 'bharatbenz';
+    } else if (qtyInKg > 3000) {
+      recommendedVehicle = 'eicher';
+    } else if (qtyInKg > 2000) {
+      recommendedVehicle = 'bolero';
+    } else if (qtyInKg > 1200) {
+      recommendedVehicle = 'dost';
+    } else {
+      recommendedVehicle = 'tata';
+    }
+    if (vehicleSelect.value !== recommendedVehicle) {
+      vehicleSelect.value = recommendedVehicle;
+    }
+  }
+
+  const vehicleKey = vehicleSelect.value;
+  const packagingKey = (packagingSelect && packagingSelect.value) || 'crates';
+  const hamaliRatePerQt = parseFloat((hamaliInput && hamaliInput.value) || 15);
+
+  const fleetData = FLEET_TYPES[vehicleKey] || FLEET_TYPES.tata;
+  const packData = PACKAGING_MODES[packagingKey] || PACKAGING_MODES.crates;
 
   // 2. Normalize Direct Farm Gate Price (₹/Qt & ₹/kg)
   let farmPricePerQt = rawFarmPrice;
@@ -812,18 +850,19 @@ function recalculateBuyerCosts() {
     discountTag.textContent = `${discPct.toFixed(1)}% Direct Farm Discount`;
   }
 
+  const numVehicles = Math.max(Math.ceil(qtyInKg / fleetData.capacityKg), 1);
+
   // Fleet Capacity Warning
   const fleetWarning = document.getElementById('calc-fleet-capacity-warning');
   if (fleetWarning) {
     if (qtyInKg > fleetData.capacityKg * 1.05) {
       const vehName = (window.AgriNexI18n && typeof window.AgriNexI18n.tVehicle === 'function') ? window.AgriNexI18n.tVehicle(fleetData.name) : (window.tVehicle ? window.tVehicle(fleetData.name) : fleetData.name);
-      fleetWarning.innerHTML = `⚠️ Total volume (<strong>${qtyInKg.toLocaleString('en-IN')} kg</strong>) exceeds single ${vehName} capacity (<strong>${fleetData.capacityKg.toLocaleString('en-IN')} kg</strong>). Requires <strong>${neededTrucks} vehicles</strong> or larger fleet.`;
+      fleetWarning.style.display = 'block';
+      fleetWarning.innerHTML = `⚠️ Total volume (<strong>${qtyInKg.toLocaleString('en-IN')} kg</strong>) exceeds single ${vehName} capacity (<strong>${fleetData.capacityKg.toLocaleString('en-IN')} kg</strong>). Requires <strong>${numVehicles} vehicles</strong> or larger fleet.`;
     } else {
       fleetWarning.style.display = 'none';
     }
   }
-
-  const numVehicles = Math.max(Math.ceil(qtyInKg / fleetData.capacityKg), 1);
 
   // -------------------------------------------------------------------------
   // CALCULATION 1: DIRECT FARM-GATE PROCUREMENT (AgriNex Ecosystem)
@@ -961,6 +1000,32 @@ function recalculateBuyerCosts() {
   if (barPack) { barPack.style.width = `${packPct}%`; barPack.title = `Packaging & Crates: ${packPct}%`; }
   if (barService) { barService.style.width = `${servicePct}%`; barService.title = `Escrow, QC & Hamali: ${servicePct}%`; }
 
+  // Update 3 Simplified Cost Buckets
+  const handlingTotal = directPackagingCost + directHamaliCost + directEscrowFee + directQcFee + directTransitLoss;
+  const freightTotal = directFreightCost + directTollsCost;
+  const producePctStr = directTotalLandedCost > 0 ? ((directProduceCost / directTotalLandedCost) * 100).toFixed(1) : '85.5';
+  const freightPctStr = directTotalLandedCost > 0 ? ((freightTotal / directTotalLandedCost) * 100).toFixed(1) : '7.5';
+  const handlingPctStr = directTotalLandedCost > 0 ? ((handlingTotal / directTotalLandedCost) * 100).toFixed(1) : '7.0';
+
+  setText('calc-bucket-produce', `₹ ${directProduceCost.toLocaleString('en-IN')} (${producePctStr}%)`);
+  setText('calc-bucket-freight', `₹ ${freightTotal.toLocaleString('en-IN')} (${freightPctStr}%)`);
+  setText('calc-bucket-handling', `₹ ${handlingTotal.toLocaleString('en-IN')} (${handlingPctStr}%)`);
+
+  // Update Route Distance Badge
+  const routeKmBadge = document.getElementById('calc-route-km-badge');
+  if (routeKmBadge) {
+    routeKmBadge.textContent = `${distanceKm} km`;
+  }
+
+  // Update Smart Auto-Logistics Summary Pill
+  const autoSummaryEl = document.getElementById('calc-auto-logistics-summary');
+  if (autoSummaryEl) {
+    const packLabel = packData && packData.name ? packData.name.split('(')[0].trim() : 'Returnable Crates';
+    const fleetShort = fleetData && fleetData.name ? fleetData.name.split('(')[0].trim() : 'Eicher Pro';
+    const capStr = fleetData && fleetData.capacityKg ? `${Math.round(fleetData.capacityKg / 1000)} MT` : '7.5 MT';
+    autoSummaryEl.textContent = `Auto-Configured: ${fleetShort} (${capStr}) • ${packLabel} • ₹${hamaliRatePerQt}/Qt Hamali`;
+  }
+
   // Action Button Context
   const btnPostDemand = document.getElementById('btn-calc-post-demand');
   if (btnPostDemand) {
@@ -1037,9 +1102,142 @@ function filterMarketplaceFromCalculator() {
   }
 }
 
-// Action: Print / Export Procurement Cost Sheet
+// Action: Download Procurement Cost Sheet PDF
+function downloadProcurementCostSheetPdf() {
+  const curLang = (window.AgriNexI18n && typeof window.AgriNexI18n.getBuyerLanguage === 'function') ? window.AgriNexI18n.getBuyerLanguage() : 'en';
+  const isMr = curLang === 'mr';
+  const isHi = curLang === 'hi';
+
+  const produceEl = document.getElementById('calc-buyer-produce');
+  const gradeEl = document.getElementById('calc-buyer-grade');
+  const originEl = document.getElementById('calc-buyer-origin') || document.getElementById('calc-mandi-origin');
+  const destEl = document.getElementById('calc-buyer-destination') || document.getElementById('calc-buyer-hub');
+  const qtyEl = document.getElementById('calc-buyer-qty');
+  const farmPriceEl = document.getElementById('calc-buyer-price');
+  const mandiPriceEl = document.getElementById('calc-mandi-benchmark-price');
+  const distEl = document.getElementById('calc-buyer-distance');
+
+  const produceName = produceEl ? (produceEl.options[produceEl.selectedIndex]?.text || produceEl.value) : 'Fresh Produce';
+  const gradeName = gradeEl ? (gradeEl.options[gradeEl.selectedIndex]?.text || gradeEl.value) : 'Grade A';
+  const origin = originEl ? (originEl.options[originEl.selectedIndex]?.text || originEl.value) : 'Farm Origin';
+  const dest = destEl ? (destEl.options[destEl.selectedIndex]?.text || destEl.value) : 'Central Hub';
+  const qty = qtyEl ? qtyEl.value : '50';
+  const farmPrice = farmPriceEl ? farmPriceEl.value : '18';
+  const mandiPrice = mandiPriceEl ? mandiPriceEl.value : '25';
+  const distance = distEl ? distEl.value : '210';
+
+  const directTotal = document.getElementById('calc-summary-direct-total')?.textContent || '₹ 94,800';
+  const directPerKg = document.getElementById('calc-summary-direct-perkg')?.textContent || '₹ 18.96 /kg';
+  const mandiTotal = document.getElementById('calc-summary-mandi-total')?.textContent || '₹ 1,37,500';
+  const mandiPerKg = document.getElementById('calc-summary-mandi-perkg')?.textContent || '₹ 27.50 /kg';
+  const netSavings = document.getElementById('calc-summary-net-savings')?.textContent || '₹ 42,700';
+  const netSavingsPct = document.getElementById('calc-summary-savings-pct')?.textContent || '31.1% Lower Cost';
+
+  const dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  const sheetDocId = `COST-AGRI-${Math.floor(10000 + Math.random() * 90000)}`;
+
+  const pdfHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${sheetDocId} - AgriCalc Procurement Cost Sheet & Landed Arbitrage Analysis</title>
+  <style>
+    body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; padding: 36px; color: #0f172a; background: #ffffff; margin: 0; }
+    .sheet-card { max-width: 840px; margin: auto; border: 2px solid #0c5a36; border-radius: 12px; padding: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0c5a36; padding-bottom: 14px; margin-bottom: 18px; }
+    .title { font-size: 22px; font-weight: 800; color: #0c5a36; }
+    .subtitle { font-size: 12px; color: #64748b; margin-top: 2px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .box { background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 13px; }
+    .box-title { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 6px; }
+    .highlight-card { background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: 8px; padding: 16px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .hl-title { font-size: 11px; font-weight: 700; color: #065f46; text-transform: uppercase; }
+    .hl-val { font-size: 18px; font-weight: 800; color: #0c5a36; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 12.5px; }
+    th { background: #0c5a36; color: #ffffff; padding: 9px 12px; text-align: left; }
+    td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; }
+    .footer { border-top: 1px solid #e2e8f0; padding-top: 12px; display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="sheet-card">
+    <div class="header">
+      <div>
+        <div class="title">AGRINEX ENTERPRISE • AGRICALC COST SHEET</div>
+        <div class="subtitle">Direct Farm-Gate Sourcing vs Traditional APMC Mandi Landed Cost Benchmark</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-weight: 800; font-size: 14px; color: #0f172a;">${sheetDocId}</div>
+        <div style="font-size: 11px; color: #64748b;">Generated: ${dateStr}</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="box">
+        <div class="box-title">Procurement Commodity & Scope</div>
+        <div style="font-size: 14px; font-weight: 800; color: #0f172a;">${produceName} (${gradeName})</div>
+        <div>Volume: <strong>${qty} Qt (${parseInt(qty, 10) * 100} kg)</strong></div>
+        <div>Farm Base Ask: <strong>₹ ${farmPrice} / kg</strong></div>
+      </div>
+      <div class="box">
+        <div class="box-title">Freight Logistics & Routing</div>
+        <div>Origin: <strong>${origin}</strong></div>
+        <div>Destination: <strong>${dest}</strong></div>
+        <div>Transit Distance: <strong>${distance} km</strong></div>
+      </div>
+    </div>
+
+    <div class="highlight-card">
+      <div>
+        <div class="hl-title">Direct Delivered Landed Cost</div>
+        <div class="hl-val">${directTotal}</div>
+        <div style="font-size: 12px; color: #047857;">(${directPerKg})</div>
+      </div>
+      <div>
+        <div class="hl-title">Mandi Benchmark Cost</div>
+        <div class="hl-val" style="color: #991b1b;">${mandiTotal}</div>
+        <div style="font-size: 12px; color: #991b1b;">(${mandiPerKg})</div>
+      </div>
+      <div>
+        <div class="hl-title">Total Buyer Arbitrage</div>
+        <div class="hl-val" style="color: #15803d;">${netSavings}</div>
+        <div style="font-size: 12px; color: #15803d; font-weight: 700;">${netSavingsPct}</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Audited by AgriNex Transparent Landed Cost Engine • GST & FSSAI Compliant</div>
+      <div>www.agrinex.in</div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  const blob = new Blob([pdfHtml], { type: 'application/pdf;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${sheetDocId}.pdf`;
+  document.body.appendChild(link);
+  link.click();
+  setTimeout(() => {
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, 200);
+
+  const toastMsg = isMr
+    ? `✓ AgriCalc खर्च पत्रक (${sheetDocId}.pdf) डाऊनलोड झाले!`
+    : isHi
+    ? `✓ AgriCalc लागत पत्रक (${sheetDocId}.pdf) डाउनलोड हो गया!`
+    : `✓ AgriCalc Cost Sheet (${sheetDocId}.pdf) downloaded successfully!`;
+
+  if (typeof showToast === 'function') {
+    showToast(toastMsg, 'success');
+  }
+}
+
 function printProcurementCostSheet() {
-  window.print();
+  downloadProcurementCostSheetPdf();
 }
 
 // Initialize Interactive Events
@@ -1087,7 +1285,12 @@ function initComprehensiveCalculator() {
       recalculateBuyerCosts();
     });
   }
-  if (vehicleSelect) vehicleSelect.addEventListener('change', recalculateBuyerCosts);
+  if (vehicleSelect) {
+    vehicleSelect.addEventListener('change', () => {
+      comprehensiveCalcState.manualFleetOverride = true;
+      recalculateBuyerCosts();
+    });
+  }
   if (hamaliInput) hamaliInput.addEventListener('input', recalculateBuyerCosts);
 
   // Initial calculation trigger
@@ -1095,8 +1298,96 @@ function initComprehensiveCalculator() {
   recalculateBuyerCosts();
 }
 
+// 1-Click Popular Procurement Preset Loader
+function applyCalcPreset(crop, qty, unit, origin, dest, vehicle, packaging) {
+  const prodSelect = document.getElementById('calc-buyer-produce');
+  const qtyInput = document.getElementById('calc-buyer-qty');
+  const originSelect = document.getElementById('calc-buyer-origin');
+  const destSelect = document.getElementById('calc-buyer-destination');
+  const vehSelect = document.getElementById('calc-buyer-vehicle');
+  const packSelect = document.getElementById('calc-packaging-mode');
+
+  if (prodSelect) {
+    prodSelect.value = crop;
+    comprehensiveCalcState.selectedProductKey = crop;
+  }
+  if (qtyInput) qtyInput.value = qty;
+  setCalcUnit(unit || 'mt');
+
+  if (originSelect) originSelect.value = origin;
+  if (destSelect) destSelect.value = dest;
+  onMandiOrHubChange();
+
+  if (vehicle && vehSelect) {
+    vehSelect.value = vehicle;
+    comprehensiveCalcState.manualFleetOverride = true;
+  }
+  if (packaging && packSelect) {
+    packSelect.value = packaging;
+    comprehensiveCalcState.manualPackagingOverride = true;
+  }
+
+  // Update preset chip styling
+  const chips = document.querySelectorAll('.btn-calc-preset, .calc-preset-chip');
+  chips.forEach(c => {
+    c.classList.remove('active');
+    c.style.background = '#f8fafc';
+    c.style.borderColor = '#cbd5e1';
+    c.style.color = '#334155';
+  });
+
+  if (typeof window !== 'undefined' && window.event && window.event.currentTarget) {
+    const chip = window.event.currentTarget;
+    chip.classList.add('active');
+    chip.style.background = '#e8f5ed';
+    chip.style.borderColor = '#10b981';
+    chip.style.color = '#0c5a36';
+  }
+
+  recalculateBuyerCosts();
+
+  if (typeof showToast === 'function') {
+    showToast(`✓ Loaded ${qty} ${unit.toUpperCase()} ${crop.toUpperCase()} Procurement Preset!`);
+  }
+}
+
+// Alias for quick scenario preset
+function applyQuickCalcScenario(crop, qty, unit, origin, dest, vehicle, packaging) {
+  applyCalcPreset(crop, qty, unit, origin, dest, vehicle, packaging);
+}
+
+// Toggle or scroll to advanced logistics drawer
+function toggleAdvancedCalcDrivers() {
+  const details = document.getElementById('calc-audit-details');
+  if (details) {
+    details.open = !details.open;
+    const chevron = document.getElementById('advanced-calc-chevron');
+    if (chevron) {
+      chevron.textContent = details.open ? 'Click to Collapse' : 'Click to Expand & Customize';
+    }
+    if (details.open) {
+      details.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+}
+
+// Bind to window global scope
+window.setCalcUnit = setCalcUnit;
+window.setCalcPriceUnit = setCalcPriceUnit;
+window.onMandiOrHubChange = onMandiOrHubChange;
+window.onProductOrGradeChange = onProductOrGradeChange;
+window.recalculateBuyerCosts = recalculateBuyerCosts;
+window.prefillDemandFromCalculator = prefillDemandFromCalculator;
+window.filterMarketplaceFromCalculator = filterMarketplaceFromCalculator;
+window.printProcurementCostSheet = printProcurementCostSheet;
+window.downloadProcurementCostSheetPdf = downloadProcurementCostSheetPdf;
+window.applyCalcPreset = applyCalcPreset;
+window.applyQuickCalcScenario = applyQuickCalcScenario;
+window.toggleAdvancedCalcDrivers = toggleAdvancedCalcDrivers;
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initComprehensiveCalculator);
 } else {
   initComprehensiveCalculator();
 }
+document.addEventListener('agrinex:partials-ready', initComprehensiveCalculator);

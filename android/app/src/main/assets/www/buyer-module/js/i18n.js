@@ -3111,65 +3111,6 @@
       [/\bFarmer:/gi, 'शेतकरी:']
     ],
     hi: [
-      ["Redirecting to AgriNex Grievance Desk...", "एग्रीनेक्स शिकायत निवारण डेस्क पर पुनर्निर्देशित किया जा रहा है..."],
-      ["Connecting to Grievances & Escrow Protection Desk...", "शिकायत और एस्क्रो सुरक्षा डेस्क से जोड़ा जा रहा है..."],
-      ["Click here if not redirected", "यदि पुनर्निर्देशित नहीं किया गया है तो यहां क्लिक करें"],
-      ["Vashi Hub (MH)", "वाशी हब (महाराष्ट्र)"],
-      ["Simple Mode", "सरल मोड"],
-      ["Sunlight Mode", "धूप मोड"],
-      ["My Orders & Trucks", "मेरे ऑर्डर और ट्रक"],
-      ["Tap any large crop photo, listen to voice details in your language, and buy directly from farmers in 1-click.", "किसी भी बड़े फसल फोटो पर टैप करें, अपनी भाषा में आवाज विवरण सुनें, और 1-क्लिक में सीधे किसानों से खरीदें।"],
-      ["Voice Search", "आवाज से खोजें"],
-      ["\"Show Tomatoes\" / \"Onion\"", "\"टमाटर दिखाएं\" / \"प्याज\""],
-      ["Emergency Sales", "आपातकालीन बिक्री"],
-      ["Discounted direct lots", "रियायती सीधे लॉट"],
-      ["Emergency Sale", "आपातकालीन बिक्री"],
-      ["⚡ 1-Tap Post Bulk Requirement", "⚡ 1-टैप में थोक मांग पोस्ट करें"],
-      ["Broadcast your bulk buying demand (e.g., 500 Bags Onion, 1,000 Bags Wheat) directly to verified Maharashtra farmers & FPOs.", "अपनी थोक खरीद मांग (उदा. 500 बोरी प्याज, 1,000 बोरी गेहूं) सीधे महाराष्ट्र के सत्यापित किसानों और एफपीओ को प्रसारित करें।"],
-      ["Speak Demand", "मांग बोलकर दर्ज करें"],
-      ["📝 1-Tap Procurement Quota Details", "📝 1-टैप खरीद कोटा विवरण"],
-      ["3. Target Max Buying Price:", "3. लक्षित अधिकतम खरीद मूल्य:"],
-      ["Total Estimated Budget:", "कुल अनुमानित बजट:"],
-      ["💰 Approx ~15% Lower than APMC middlemen", "💰 मंडी बिचौलियों से लगभग ~15% कम"],
-      ["Publish Bulk Quota Now", "अब थोक कोटा प्रकाशित करें"],
-      ["📋 Active Posted Quotas & Farmer Bids", "📋 सक्रिय पोस्ट किए गए कोटा और किसान बोलियां"],
-      ["Real-time farmer lots and FPO bids responding to your quotas", "आपके कोटा पर प्रतिक्रिया देने वाले वास्तविक समय के किसान लॉट और एफपीओ बोलियां"],
-      ["⚡ AI Mandi Intelligence", "⚡ एआई मंडी इंटेलिजेंस"],
-      ["📊 Simple Market Insights & Buy Signals", "📊 सरल बाजार अंतर्दृष्टि और खरीद संकेत"],
-      ["Compare current Mandi rates with direct farm prices, view 7-day price trends, and listen to voice buy/wait signals.", "मौजूदा मंडी दरों की तुलना सीधे खेत भावों से करें, 7 दिनों के रुझान देखें, और आवाज से खरीदें/प्रतीक्षा करें संकेत सुनें।"],
-      ["Listen Market Advisory", "बाजार सलाह सुनें"],
-      ["📈 Today's Mandi vs Farm-Gate Comparison", "📈 आज का मंडी बनाम खेत-गेट तुलना"],
-      ["Tap any crop to view direct lots or listen to price forecast", "सीधे लॉट देखने या मूल्य पूर्वानुमान सुनने के लिए किसी भी फसल पर टैप करें"],
-      ["⏳ Wait / Hold", "⏳ प्रतीक्षा करें / रोकें"],
-      ["🚚 Live Shipments & Booked Trucks", "🚚 लाइव खेप और बुक किए गए ट्रक"],
-      ["Track your delivery trucks on live GPS with 1-tap call to driver", "लाइव जीपीएस पर अपने डिलीवरी ट्रकों को ट्रैक करें और 1-टैप में ड्राइवर को कॉल करें"],
-      ["Voice Dispute / Grievance", "आवाज द्वारा विवाद / शिकायत"],
-      ["Listen Status", "स्थिति सुनें"],
-      ["🚨 1-Tap Voice Dispute & Grievance", "🚨 1-टैप आवाज विवाद और शिकायत"],
-      ["Encountered quality issues, moisture mismatch, or weight shortage? Record a 15-second voice note. Smart escrow immediately freezes payout to farmer until resolution.", "गुणवत्ता समस्या, नमी में अंतर या वजन में कमी आई है? 15 सेकंड का वॉयस नोट रिकॉर्ड करें। समाधान होने तक स्मार्ट एस्क्रो तुरंत किसान के भुगतान को रोक देता है।"],
-      ["Speak Voice Dispute", "बोलकर विवाद दर्ज करें"],
-      ["🎙️ Lodge Instant Quality Dispute", "🎙️ तत्काल गुणवत्ता विवाद दर्ज करें"],
-      ["1. Select Dispute Reason:", "1. विवाद का कारण चुनें:"],
-      ["🍂 Quality / Grade Mismatch", "🍂 गुणवत्ता / ग्रेड में अंतर"],
-      ["🚚 Transit Delay", "🚚 परिवहन में देरी"],
-      ["2. Select In-Transit Shipment:", "2. मार्ग में स्थित खेप चुनें:"],
-      ["✓ Photo attached: moisture_defect_assay_sample.jpg", "✓ फोटो संलग्न: moisture_defect_assay_sample.jpg"],
-      ["Track real-time field surveyor investigations and escrow rebate settlements", "वास्तविक समय में फील्ड सर्वेक्षक जांच और एस्क्रो छूट निपटान को ट्रैक करें"],
-      ["Your money is kept in a government-supervised escrow account until your produce arrives at your warehouse.", "आपका पैसा आपके गोदाम में उपज पहुंचने तक सरकारी देखरेख वाले एस्क्रो खाते में सुरक्षित रखा जाता है।"],
-      ["Money stays secure in the bank escrow account during truck transit.", "ट्रक परिवहन के दौरान पैसा बैंक एस्क्रो खाते में पूरी तरह सुरक्षित रहता है।"],
-      ["Inspect moisture, grade, and weight at your warehouse upon arrival.", "आगमन पर अपने गोदाम में नमी, ग्रेड और वजन का निरीक्षण करें।"],
-      ["💸 Payment Released", "💸 भुगतान जारी हुआ"],
-      ["Farmer receives final balance instantly after your 1-tap approval.", "आपके 1-टैप अनुमोदन के तुरंत बाद किसान को अंतिम शेष राशि प्राप्त होती है।"],
-      ["Logout & Switch Role", "लॉगआउट और भूमिका बदलें"],
-      ["Open Menu", "मेनू खोलें"],
-      ["Procurement Hub: Vashi Terminal, Navi Mumbai (MH) — Click to switch", "खरीद केंद्र: वाशी टर्मिनल, नवी मुंबई (महाराष्ट्र) — बदलने के लिए क्लिक करें"],
-      ["Corporate GSTIN & FSSAI Verified Identity — Click to view JWT credentials", "कॉर्पोरेट जीएसटी और एफएसएसएआई सत्यापित पहचान — विवरण देखने के लिए क्लिक करें"],
-      ["Switch Simple / Enterprise View", "सरल / उद्यम दृश्य बदलें"],
-      ["Font Size", "अक्षर आकार (फ़ॉन्ट)"],
-      ["Audio Voice Speed", "आवाज गति"],
-      ["High Contrast for Mandi Sunlight", "धूप के लिए उच्च कंट्रास्ट"],
-      ["Speak Voice Command / बोलून आदेश द्या", "बोलकर आदेश दें"],
-      ["More Navigation Menu", "अधिक नेविगेशन मेनू"],
       // Direct Farmer Messages & Negotiations (Highest Priority)
       [/Namaste\s+Karthik\s+sir!\s*I\s+have\s+10,000\s*kg\s+export-graded\s+Garwa\s+red\s+onions\s+cured\s+and\s+ready\s+at\s+Lasalgaon\s+APMC\s+yard\./gi, 'नमस्ते कार्तिक सर! मेरे पास लासलगांव मंडी प्रांगण में 10,000 किग्रा निर्यात-ग्रेड गरवा लाल प्याज तैयार और उपलब्ध है।'],
       [/Hello\s+Patil\s+ji!\s*We\s+are\s+looking\s+for\s+immediate\s+institutional\s+dispatch\s+to\s+Navi\s+Mumbai\s+Terminal\.\s*Can\s+you\s+load\s+today\?/gi, 'नमस्ते पाटिल जी! हम नवी मुंबई टर्मिनल के लिए तत्काल संस्थागत डिलीवरी चाहते हैं। क्या आप आज लोड कर सकते हैं?'],
@@ -7176,17 +7117,6 @@
 
   // Universal High-Performance Text Translation Function (O(1) Cached / Single-Pass)
   function tText(text) {
-    if (!text || currentLang === 'en') return text;
-    const str = String(text);
-
-    // Direct exact check against final phrases
-    const finalBuyerPhrases = [["Redirecting to AgriNex Grievance Desk...","एग्रीनेक्स शिकायत निवारण डेस्क पर पुनर्निर्देशित किया जा रहा है...","अ‍ॅग्रीनेक्स तक्रार निवारण कक्षाकडे पाठवले जात आहे..."],["Connecting to Grievances & Escrow Protection Desk...","शिकायत और एस्क्रो सुरक्षा डेस्क से जोड़ा जा रहा है...","तक्रार व एस्क्रो संरक्षण कक्षाशी जोडत आहे..."],["Click here if not redirected","यदि पुनर्निर्देशित नहीं किया गया है तो यहां क्लिक करें","पुनर्निर्देशित न झाल्यास येथे क्लिक करा"],["Vashi Hub (MH)","वाशी हब (महाराष्ट्र)","वाशी केंद्र (महा.)"],["Simple Mode","सरल मोड","सुलभ मोड"],["Sunlight Mode","धूप मोड","सूर्यप्रकाश मोड"],["My Orders & Trucks","मेरे ऑर्डर और ट्रक","माझ्या ऑर्डर्स व ट्रक्स"],["Tap any large crop photo, listen to voice details in your language, and buy directly from farmers in 1-click.","किसी भी बड़े फसल फोटो पर टैप करें, अपनी भाषा में आवाज विवरण सुनें, और 1-क्लिक में सीधे किसानों से खरीदें।","कोणत्याही मोठ्या शेतमाल फोटोवर टॅप करा, आपल्या भाषेत माहिती ऐका आणि १-क्लिकमध्ये थेट शेतकऱ्यांकडून खरेदी करा."],["Voice Search","आवाज से खोजें","बोलून शोधा"],["\"Show Tomatoes\" / \"Onion\"","\"टमाटर दिखाएं\" / \"प्याज\"","\"टोमॅटो दाखवा\" / \"कांदा\""],["Emergency Sales","आपातकालीन बिक्री","तातडीची संकट विक्री"],["Discounted direct lots","रियायती सीधे लॉट","सवलतीचे थेट लॉट्स"],["Emergency Sale","आपातकालीन बिक्री","तातडीची विक्री"],["⚡ 1-Tap Post Bulk Requirement","⚡ 1-टैप में थोक मांग पोस्ट करें","⚡ १-टॅपमध्ये घाऊक मागणी नोंदवा"],["Broadcast your bulk buying demand (e.g., 500 Bags Onion, 1,000 Bags Wheat) directly to verified Maharashtra farmers & FPOs.","अपनी थोक खरीद मांग (उदा. 500 बोरी प्याज, 1,000 बोरी गेहूं) सीधे महाराष्ट्र के सत्यापित किसानों और एफपीओ को प्रसारित करें।","आपली घाऊक खरेदी मागणी (उदा. ५०० पोती कांदा, १,००० पोती गहू) थेट महाराष्ट्रातील प्रमाणित शेतकरी व शेतकरी उत्पादक कंपन्यांना पाठवा."],["Speak Demand","मांग बोलकर दर्ज करें","मागणी बोलून नोंदवा"],["📝 1-Tap Procurement Quota Details","📝 1-टैप खरीद कोटा विवरण","📝 १-टॅप खरेदी कोटा तपशील"],["3. Target Max Buying Price:","3. लक्षित अधिकतम खरीद मूल्य:","३. लक्षित कमाल खरेदी दर:"],["Total Estimated Budget:","कुल अनुमानित बजट:","एकूण अंदाजित बजेट:"],["💰 Approx ~15% Lower than APMC middlemen","💰 मंडी बिचौलियों से लगभग ~15% कम","💰 बाजार समिती दलालांपेक्षा सुमारे ~१५% कमी"],["Publish Bulk Quota Now","अब थोक कोटा प्रकाशित करें","घाऊक कोटा आत्ताच प्रसिद्ध करा"],["📋 Active Posted Quotas & Farmer Bids","📋 सक्रिय पोस्ट किए गए कोटा और किसान बोलियां","📋 सक्रिय नोंदवलेला कोटा आणि शेतकरी बोली"],["Real-time farmer lots and FPO bids responding to your quotas","आपके कोटा पर प्रतिक्रिया देने वाले वास्तविक समय के किसान लॉट और एफपीओ बोलियां","आपल्या कोट्याला प्रतिसाद देणारे थेट शेतकरी लॉट्स व शेतकरी कंपन्यांच्या बोली"],["⚡ AI Mandi Intelligence","⚡ एआई मंडी इंटेलिजेंस","⚡ एआय कृषी बाजार विश्लेषण"],["📊 Simple Market Insights & Buy Signals","📊 सरल बाजार अंतर्दृष्टि और खरीद संकेत","📊 सुलभ बाजार माहिती आणि खरेदी संकेत"],["Compare current Mandi rates with direct farm prices, view 7-day price trends, and listen to voice buy/wait signals.","मौजूदा मंडी दरों की तुलना सीधे खेत भावों से करें, 7 दिनों के रुझान देखें, और आवाज से खरीदें/प्रतीक्षा करें संकेत सुनें।","चालू बाजारभावाची तुलना थेट शेतातील दरांशी करा, ७ दिवसांचे दर कल पहा आणि बोलून खरेदी/प्रतीक्षा संकेत ऐका."],["Listen Market Advisory","बाजार सलाह सुनें","बाजार सल्ला ऐका"],["📈 Today's Mandi vs Farm-Gate Comparison","📈 आज का मंडी बनाम खेत-गेट तुलना","📈 आजचा बाजार समिती विरुद्ध शेतबांध तुलना"],["Tap any crop to view direct lots or listen to price forecast","सीधे लॉट देखने या मूल्य पूर्वानुमान सुनने के लिए किसी भी फसल पर टैप करें","थेट लॉट्स पाहण्यासाठी किंवा दर अंदाज ऐकण्यासाठी कोणत्याही पिकावर टॅप करा"],["⏳ Wait / Hold","⏳ प्रतीक्षा करें / रोकें","⏳ प्रतीक्षा करा / थांबा"],["🚚 Live Shipments & Booked Trucks","🚚 लाइव खेप और बुक किए गए ट्रक","🚚 थेट माल वाहतूक व बुक केलेले ट्रक्स"],["Track your delivery trucks on live GPS with 1-tap call to driver","लाइव जीपीएस पर अपने डिलीवरी ट्रकों को ट्रैक करें और 1-टैप में ड्राइवर को कॉल करें","थेट जीपीएसवर आपल्या वाहतूक ट्रक्सचा मागोवा घ्या आणि १-टॅपमध्ये चालकाला कॉल करा"],["Voice Dispute / Grievance","आवाज द्वारा विवाद / शिकायत","बोलून तक्रार नोंदवा"],["Listen Status","स्थिति सुनें","स्थिती ऐका"],["🚨 1-Tap Voice Dispute & Grievance","🚨 1-टैप आवाज विवाद और शिकायत","🚨 १-टॅप व्हॉइस वाद व तक्रार निवारण"],["Encountered quality issues, moisture mismatch, or weight shortage? Record a 15-second voice note. Smart escrow immediately freezes payout to farmer until resolution.","गुणवत्ता समस्या, नमी में अंतर या वजन में कमी आई है? 15 सेकंड का वॉयस नोट रिकॉर्ड करें। समाधान होने तक स्मार्ट एस्क्रो तुरंत किसान के भुगतान को रोक देता है।","दर्जा वाद, ओलावा तफावत किंवा वजनात घट झाली आहे का? १५ सेकंदांची व्हॉइस नोट रेकॉर्ड करा. तोडगा निघेपर्यंत स्मार्ट एस्क्रो तात्काळ रक्कम रोखून ठेवते."],["Speak Voice Dispute","बोलकर विवाद दर्ज करें","बोलून तक्रार नोंदवा"],["🎙️ Lodge Instant Quality Dispute","🎙️ तत्काल गुणवत्ता विवाद दर्ज करें","🎙️ तात्काळ गुणवत्ता तक्रार नोंदवा"],["1. Select Dispute Reason:","1. विवाद का कारण चुनें:","१. तक्रारीचे कारण निवडा:"],["🍂 Quality / Grade Mismatch","🍂 गुणवत्ता / ग्रेड में अंतर","🍂 गुणवत्ता / प्रत तफावत"],["🚚 Transit Delay","🚚 परिवहन में देरी","🚚 वाहतुकीत विलंब"],["2. Select In-Transit Shipment:","2. मार्ग में स्थित खेप चुनें:","२. मार्गावरील माल खेप निवडा:"],["✓ Photo attached: moisture_defect_assay_sample.jpg","✓ फोटो संलग्न: moisture_defect_assay_sample.jpg","✓ छायाचित्र जोडले: moisture_defect_assay_sample.jpg"],["Track real-time field surveyor investigations and escrow rebate settlements","वास्तविक समय में फील्ड सर्वेक्षक जांच और एस्क्रो छूट निपटान को ट्रैक करें","थेट क्षेत्रीय सर्वेक्षक तपासणी आणि एस्क्रो सूट निकाली व्यवहार तपासा"],["Your money is kept in a government-supervised escrow account until your produce arrives at your warehouse.","आपका पैसा आपके गोदाम में उपज पहुंचने तक सरकारी देखरेख वाले एस्क्रो खाते में सुरक्षित रखा जाता है।","आपला शेतमाल गोदामात पोहोचेपर्यंत आपले पैसे सरकारी नियंत्रणाखालील एस्क्रो खात्यात सुरक्षित ठेवले जातात."],["Money stays secure in the bank escrow account during truck transit.","ट्रक परिवहन के दौरान पैसा बैंक एस्क्रो खाते में पूरी तरह सुरक्षित रहता है।","ट्रक वाहतुकीदरम्यान पैसे बँक एस्क्रो खात्यात पूर्णपणे सुरक्षित राहतात."],["Inspect moisture, grade, and weight at your warehouse upon arrival.","आगमन पर अपने गोदाम में नमी, ग्रेड और वजन का निरीक्षण करें।","माल पोहोचल्यावर गोदामात ओलावा, प्रत आणि वजनाची तपासणी करा."],["💸 Payment Released","💸 भुगतान जारी हुआ","💸 रक्कम वर्ग झाली"],["Farmer receives final balance instantly after your 1-tap approval.","आपके 1-टैप अनुमोदन के तुरंत बाद किसान को अंतिम शेष राशि प्राप्त होती है।","आपल्या १-टॅप मंजुरीनंतर लगेच शेतकऱ्याला उर्वरित रक्कम मिळते."],["Logout & Switch Role","लॉगआउट और भूमिका बदलें","बाहेर पडा आणि भूमिका बदला"],["Open Menu","मेनू खोलें","मेनू उघडा"],["Procurement Hub: Vashi Terminal, Navi Mumbai (MH) — Click to switch","खरीद केंद्र: वाशी टर्मिनल, नवी मुंबई (महाराष्ट्र) — बदलने के लिए क्लिक करें","खरेदी केंद्र: वाशी टर्मिनल, नवी मुंबई (महा.) — बदलण्यासाठी क्लिक करा"],["Corporate GSTIN & FSSAI Verified Identity — Click to view JWT credentials","कॉर्पोरेट जीएसटी और एफएसएसएआई सत्यापित पहचान — विवरण देखने के लिए क्लिक करें","कॉर्पोरेट GSTIN व FSSAI प्रमाणित ओळख — ओळखपत्र पाहण्यासाठी क्लिक करा"],["Switch Simple / Enterprise View","सरल / उद्यम दृश्य बदलें","सुलभ / संस्थात्मक दृश्य बदला"],["Font Size","अक्षर आकार (फ़ॉन्ट)","अक्षरांचा आकार"],["Audio Voice Speed","आवाज गति","व्हॉइस गती"],["High Contrast for Mandi Sunlight","धूप के लिए उच्च कंट्रास्ट","सूर्यप्रकाशासाठी हाय कॉन्ट्रास्ट"],["Speak Voice Command / बोलून आदेश द्या","बोलकर आदेश दें","बोलून आदेश द्या"],["More Navigation Menu","अधिक नेविगेशन मेनू","अधिक पर्याय मेनू"]];
-    for (let i = 0; i < finalBuyerPhrases.length; i++) {
-      if (str === finalBuyerPhrases[i][0]) {
-        return currentLang === 'hi' ? finalBuyerPhrases[i][1] : finalBuyerPhrases[i][2];
-      }
-    }
-
     if (!text || currentLang === 'en') return text;
     const str = String(text);
     if (!str || str.trim().length < 2 || !/[a-zA-Z]/.test(str)) return text;

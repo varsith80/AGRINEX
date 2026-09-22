@@ -1,0 +1,101 @@
+  <div class="modal-overlay" id="modal-direct-buy" role="dialog" aria-modal="true" aria-labelledby="direct-buy-modal-title">
+    <div class="modal-content" style="max-width: 530px; border-radius: 16px;">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge icon-green">🛒</div>
+          <div class="modal-title-group">
+            <h3 class="modal-title" id="direct-buy-modal-title">Direct Escrow Procurement</h3>
+            <span class="modal-subtitle">Farm-Direct Quality Assayed Sourcing</span>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeDirectBuyModal()" title="Close">✕</button>
+      </div>
+
+      <!-- Lot Meta Box -->
+      <div class="modal-alert-box alert-green">
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <img id="buy-modal-thumb" src="assets/images/tomato.jpg" alt="Crop" style="width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 1.5px solid #86efac;" onerror="this.src='assets/images/tomato.jpg'" />
+          <div style="flex: 1;">
+            <h4 id="buy-modal-crop" style="font-size: 1.02rem; font-weight: 800; color: #064e3b; margin: 0 0 3px 0;">Crop</h4>
+            <div id="buy-modal-farmer" style="font-size: 0.78rem; color: #166534; font-weight: 600;">Farmer details</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-size: 0.85rem;">
+              <span style="color: #475569; font-weight: 600;">Ask Rate:</span>
+              <span id="buy-modal-price" style="color: #0c5a36; font-weight: 800;">₹ 12.00 /kg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form id="form-direct-buy" onsubmit="submitDirectBuy(event)">
+        <input type="hidden" id="buy-modal-lot-id" />
+
+        <!-- Quantity Selection Options -->
+        <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+            <span>Procurement Volume</span>
+            <span id="buy-modal-avail-badge" style="font-size: 0.72rem; color: #0c5a36; background: #e8f5ed; padding: 2px 8px; border-radius: 6px; border: 1px solid #bbf7d0; font-weight: 800;">Available: 5,000 kg</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Option 1: Buy 100% / All Harvest -->
+            <label class="modal-radio-option active">
+              <input type="radio" name="buy_qty_mode" id="buy-mode-all" value="all" checked onchange="updateDirectBuyCalculations()" style="margin-top: 3px; accent-color: #0c5a36; cursor: pointer;" />
+              <div style="flex: 1;">
+                <div style="font-weight: 800; font-size: 0.88rem; color: #064e3b; display: flex; justify-content: space-between;">
+                  <span>Procure Entire Harvest (100% Volume)</span>
+                  <span id="buy-modal-all-kg-label" style="color: #0c5a36; font-weight: 800;">5,000 kg</span>
+                </div>
+                <div style="font-size: 0.72rem; color: #166534; margin-top: 2px;">
+                  ✨ Buys all available crop. Lot status will be marked <strong>SOLD OUT</strong> for all other buyers.
+                </div>
+              </div>
+            </label>
+
+            <!-- Option 2: Custom Partial Quantity -->
+            <label class="modal-radio-option">
+              <input type="radio" name="buy_qty_mode" id="buy-mode-partial" value="partial" onchange="updateDirectBuyCalculations()" style="margin-top: 3px; accent-color: #0c5a36; cursor: pointer;" />
+              <div style="flex: 1;">
+                <div style="font-weight: 700; font-size: 0.88rem; color: #334155;">
+                  Procure Partial Harvest Volume (kg)
+                </div>
+                <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px;" id="buy-custom-input-container">
+                  <input type="number" id="buy-custom-qty-kg" min="100" step="50" class="form-input" style="flex: 1; padding: 7px 12px; font-weight: 700;" placeholder="Enter quantity in kg" oninput="updateDirectBuyCalculations()" />
+                  <span style="font-size: 0.8rem; font-weight: 700; color: #64748b;">kg</span>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Escrow Financial Breakdown -->
+        <div class="modal-summary-strip">
+          <div class="modal-summary-row">
+            <span>Procured Volume:</span>
+            <strong id="buy-modal-calc-qty" style="color: #0f172a;">5,000 kg (50 Qt)</strong>
+          </div>
+          <div class="modal-summary-row">
+            <span>Total Contract Value:</span>
+            <strong id="buy-modal-calc-total" style="color: #0f172a;">₹ 60,000</strong>
+          </div>
+          <div class="modal-summary-row highlight-green">
+            <span>🔒 35% Advance Escrow to Lock:</span>
+            <strong id="buy-modal-calc-advance" style="font-size: 0.95rem;">₹ 21,000</strong>
+          </div>
+          <div class="modal-summary-divider"></div>
+          <div class="modal-summary-row" style="font-size: 0.75rem; color: #64748b;">
+            <span>Remaining for Other Buyers:</span>
+            <strong id="buy-modal-calc-remaining" style="color: #ef4444; font-weight: 800;">0 kg (🚫 Will be SOLD OUT)</strong>
+          </div>
+        </div>
+
+        <div class="modal-actions-row">
+          <button type="submit" id="btn-submit-direct-buy" onclick="submitDirectBuy(event)" class="btn btn-primary" style="flex: 1; background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); font-weight: 800; font-size: 0.9rem; padding: 11px; box-shadow: 0 4px 12px rgba(12,90,54,0.25);">
+            🔒 Lock 35% Escrow &amp; Procure All
+          </button>
+          <button type="button" class="btn btn-outline" onclick="closeDirectBuyModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: EMERGENCY SALVAGE BUYOUT CONFIRMATION -->

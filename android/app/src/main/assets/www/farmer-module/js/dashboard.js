@@ -187,7 +187,7 @@ function submitFPOContribution(e, demandId) {
   const qtyInput = document.getElementById("fpo-contrib-qty");
   const qty = qtyInput ? qtyInput.value : 20;
 
-  const result = AgriNexFPOHub.contributeToPool(demandId, "Ramesh Kumar", qty);
+  const result = AgriNexFPOHub.contributeToPool(demandId, "Perumal", qty);
   if (result.success) {
     renderFPOHub();
     closeDetailModal();

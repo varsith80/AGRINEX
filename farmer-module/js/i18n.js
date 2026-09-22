@@ -15,9 +15,11 @@
   // 1. PERSON / FARMER / DRIVER / BUYER TRANSLATIONS
   const PERSON_MAP = {
     'Patil Rameshwar': { hi: 'पाटिल रामेश्वर', mr: 'पाटील रामेश्वर' },
+    'Perumal': { hi: 'पेरुमल', mr: 'पेरुमल' },
     'Rameshwar Patil': { hi: 'पाटिल रामेश्वर', mr: 'पाटील रामेश्वर' },
     'Ramesh Patel': { hi: 'रमेश पटेल', mr: 'रमेश पटेल' },
     'Ramesh Kumar': { hi: 'रमेश कुमार', mr: 'रमेश कुमार' },
+    'Perumal': { hi: 'पेरुमल', mr: 'पेरुमल' },
     'Karthik Sundaram': { hi: 'कार्तिक सुंदरम', mr: 'कार्तिक सुंदरम' },
     'Sanjay Deshmukh': { hi: 'संजय देशमुख', mr: 'संजय देशमुख' },
     'Rajesh Shinde': { hi: 'राजेश शिंदे', mr: 'राजेश शिंदे' },

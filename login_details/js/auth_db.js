@@ -11,7 +11,7 @@ const DEFAULT_AGRINEX_ACCOUNTS = {
     email: "farmer@agrinex.in",
     phone: "9876543210",
     password: "Farmer@123",
-    name: "Ramesh Kumar",
+    name: "Perumal",
     avatar: "../farmer-module/assets/images/farmer-avatar.jpg",
     location: "Erode, Tamil Nadu",
     moduleDir: "farmer-module",

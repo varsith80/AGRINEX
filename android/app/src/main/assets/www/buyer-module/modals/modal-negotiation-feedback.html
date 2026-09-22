@@ -1,0 +1,53 @@
+  <div class="modal-overlay" id="modal-negotiation-feedback">
+    <div class="modal-content" style="max-width: 540px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 800; font-size: 16px;">
+            💬
+          </div>
+          <h3 style="font-size: 1.18rem; font-weight: 800; color: #0c5a36;">Direct Farmer Bid Dispatch</h3>
+        </div>
+        <button onclick="closeNegotiationModal()" style="font-size: 1.4rem; color: #64748b; font-weight: 700; background: none; border: none; cursor: pointer;">&times;</button>
+      </div>
+
+      <!-- WhatsApp Simulation Card -->
+      <div style="background: #e5ddd5; border-radius: 12px; padding: 16px; margin-bottom: 18px; position: relative;">
+        <div style="font-size: 0.72rem; color: #54656f; text-align: center; margin-bottom: 10px; font-weight: 600;">
+          🔒 End-to-end encrypted • AgriNex Direct Farmer Channel
+        </div>
+        
+        <div style="background: #ffffff; border-radius: 8px 8px 8px 0; padding: 10px 14px; max-width: 85%; font-size: 0.82rem; color: #111b21; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.15);">
+          <strong style="color: #0c5a36; display: block; font-size: 0.85rem;" id="sim-farmer-name">Patil Rameshwar</strong>
+          <span id="sim-farmer-phone" style="font-size: 0.72rem; color: #64748b;">+91 98220-44911 • Lasalgaon, Nashik, MH</span>
+          <div style="margin-top: 6px; line-height: 1.4;" id="sim-farmer-msg">
+            "Hello! I received your counter-bid of ₹ 18.20/kg for 8,000 kg Garwa Red Onion. I am willing to accept if you lock the 35% advance escrow (₹ 50,960) today."
+          </div>
+          <span style="font-size: 0.65rem; color: #8696a0; float: right; margin-top: 4px;">Just now ✓✓</span>
+          <div style="clear: both;"></div>
+        </div>
+      </div>
+
+      <!-- Next Step Action Grid -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.82rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: #64748b;">Agreed Price:</span>
+          <strong style="color: #0c5a36;" id="sim-agreed-rate">₹ 18.20 /kg</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: #64748b;">Required 35% Advance Escrow:</span>
+          <strong style="color: #0c5a36;" id="sim-escrow-amount">₹ 50,960</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: #64748b;">Estimated Dispatch:</span>
+          <strong style="color: #0f172a;" id="sim-delivery-date">22 Sep 2026</strong>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeNegotiationModal()" style="flex: 1;">Close</button>
+        <button class="btn btn-primary" onclick="confirmEscrowFromCounter()" style="flex: 2;">Lock 35% Escrow & Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 6: FILE GRIEVANCE / QUALITY DISPUTE -->

@@ -1,0 +1,187 @@
+  <!-- MODAL: LANDED COST & FREIGHT ARBITRAGE CALCULATOR -->
+  <div class="modal-overlay" id="modal-landed-cost" role="dialog" aria-modal="true" aria-labelledby="landed-cost-modal-title" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); z-index: 1200; align-items: center; justify-content: center; padding: 16px;">
+    <div class="modal-container" style="background: #ffffff; border-radius: 20px; width: 100%; max-width: 780px; max-height: 92vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: 1px solid #e2e8f0; font-family: inherit;">
+      
+      <!-- Modal Header -->
+      <div style="background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); color: #ffffff; padding: 20px 24px; border-top-left-radius: 20px; border-top-right-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255, 255, 255, 0.15); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+            🚚
+          </div>
+          <div>
+            <h3 id="landed-cost-modal-title" style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #ffffff;" data-i18n="landed_calc_title">
+              Landed Cost & Freight Arbitrage Calculator
+            </h3>
+            <p style="margin: 2px 0 0 0; font-size: 0.78rem; color: #a7f3d0;" data-i18n="landed_calc_subtitle">
+              Calculate total cost of ownership (TCO), multi-axle freight, APMC cess, and net arbitrage vs wholesale terminals.
+            </p>
+          </div>
+        </div>
+        <button type="button" onclick="closeLandedCostModal()" style="background: rgba(255, 255, 255, 0.15); border: none; color: #ffffff; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div style="padding: 24px;">
+        
+        <!-- Top Input Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
+          
+          <!-- Commodity Select -->
+          <div>
+            <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 6px;" data-i18n="label_select_commodity">Commodity Benchmark</label>
+            <select id="calc-crop-select" onchange="onLandedCostCropChange(this.value)" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.86rem; font-weight: 600; color: #0f172a; outline: none; background: #ffffff;">
+              <!-- Options populated dynamically by insights.js -->
+            </select>
+          </div>
+
+          <!-- Sourcing Origin District -->
+          <div>
+            <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 6px;" data-i18n="label_source_district">Sourcing Mandi / Origin District</label>
+            <select id="calc-source-district" onchange="updateLandedCostCalculation()" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.86rem; font-weight: 600; color: #0f172a; outline: none; background: #ffffff;">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+
+          <!-- Destination Receiving Terminal -->
+          <div>
+            <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 6px;" data-i18n="label_dest_terminal">Destination Receiving Terminal</label>
+            <select id="calc-dest-terminal" onchange="updateLandedCostCalculation()" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.86rem; font-weight: 600; color: #0f172a; outline: none; background: #ffffff;">
+              <option value="vashi" data-km-from-nashik="210" data-name="Vashi Terminal (Navi Mumbai)">🏢 Vashi Terminal APMC (Navi Mumbai)</option>
+              <option value="pune" data-km-from-nashik="215" data-name="Pune Bhosari Distribution Hub">🏢 Pune Bhosari APMC Hub</option>
+              <option value="nagpur" data-km-from-nashik="620" data-name="Nagpur Kalamna Terminal">🏢 Nagpur Kalamna Mega APMC</option>
+              <option value="sambhajinagar" data-km-from-nashik="175" data-name="Chhatrapati Sambhajinagar Hub">🏢 Sambhajinagar Distribution Hub</option>
+              <option value="kolhapur" data-km-from-nashik="420" data-name="Kolhapur Shirol Hub">🏢 Kolhapur Shirol Market Yard</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Secondary Input Grid (Quantity & Base Price) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 22px; background: #f8fafc; padding: 16px; border-radius: 14px; border: 1px solid #e2e8f0;">
+          
+          <!-- Quantity in Kg -->
+          <div>
+            <label style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 6px;">
+              <span data-i18n="label_procure_qty">Procurement Volume</span>
+              <span id="calc-qty-qt-badge" style="color: #0c5a36; font-weight: 800;">50.0 Qt</span>
+            </label>
+            <div style="position: relative;">
+              <input type="number" id="calc-qty-kg" value="5000" min="500" step="100" oninput="updateLandedCostCalculation()" style="width: 100%; padding: 9px 45px 9px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.9rem; font-weight: 700; color: #0f172a; outline: none;" />
+              <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; font-weight: 700; color: #64748b;">kg</span>
+            </div>
+          </div>
+
+          <!-- Base Sourcing Rate -->
+          <div>
+            <label style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 6px;">
+              <span data-i18n="label_base_rate">Farmgate / Mandi Rate</span>
+              <span id="calc-base-qt-badge" style="color: #0c5a36; font-weight: 800;">₹ 1,800 /Qt</span>
+            </label>
+            <div style="position: relative;">
+              <input type="number" id="calc-rate-kg" value="18.00" min="1" step="0.5" oninput="updateLandedCostCalculation()" style="width: 100%; padding: 9px 45px 9px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.9rem; font-weight: 700; color: #0c5a36; outline: none;" />
+              <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; font-weight: 700; color: #64748b;">₹/kg</span>
+            </div>
+          </div>
+
+          <!-- Vehicle / Logistics Mode -->
+          <div>
+            <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 6px;" data-i18n="label_vehicle_mode">Vehicle & Freight Tier</label>
+            <select id="calc-vehicle-type" onchange="updateLandedCostCalculation()" style="width: 100%; padding: 9px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.86rem; font-weight: 600; color: #0f172a; outline: none; background: #ffffff;">
+              <option value="eicher14" data-eff="4.5" data-tolls="850">🚛 Eicher Pro 14ft (Up to 5 MT)</option>
+              <option value="taurus10" data-eff="3.5" data-tolls="1400">🚛 10-Wheeler Taurus (Up to 16 MT)</option>
+              <option value="multiaxle32" data-eff="2.8" data-tolls="2200">🚛 32ft Multi-Axle Trailer (Up to 25 MT)</option>
+              <option value="reefer" data-eff="3.8" data-tolls="1200">❄️ Reefer Cold-Chain (4°C - 8 MT)</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Dynamic Calculation Results Card -->
+        <div style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border: 1.5px solid #a7f3d0; border-radius: 16px; padding: 20px; margin-bottom: 22px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; border-bottom: 1px solid #bbf7d0; padding-bottom: 12px;">
+            <div>
+              <span style="font-size: 0.72rem; font-weight: 800; color: #065f46; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="landed_calc_net_header">
+                Net Landed Cost & Wholesale Arbitrage Breakdown
+              </span>
+              <div id="calc-route-summary" style="font-size: 0.84rem; font-weight: 700; color: #047857; margin-top: 2px;">
+                Lasalgaon APMC (Nashik) ➔ Vashi Terminal (210 km)
+              </div>
+            </div>
+
+            <!-- Big Arbitrage Highlight Badge -->
+            <div style="background: #0c5a36; color: #ffffff; padding: 6px 14px; border-radius: 10px; text-align: right; box-shadow: 0 4px 10px rgba(12, 90, 54, 0.2);">
+              <span style="font-size: 0.68rem; opacity: 0.9; text-transform: uppercase; display: block;" data-i18n="arbitrage_savings_spread">Net Sourcing Spread</span>
+              <strong id="calc-arbitrage-pct" style="font-size: 1.25rem; font-weight: 800;">+14.8%</strong>
+            </div>
+          </div>
+
+          <!-- Breakdown Cost Table Grid -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; font-size: 0.82rem; margin-bottom: 16px;">
+            
+            <div style="background: #ffffff; padding: 10px 12px; border-radius: 10px; border: 1px solid #e2e8f0;">
+              <span style="font-size: 0.72rem; color: #64748b; display: block;" data-i18n="calc_farmgate_cost">Farmgate Sourcing Base</span>
+              <strong id="calc-farmgate-val" style="font-size: 1rem; color: #0f172a;">₹ 90,000</strong>
+              <div id="calc-farmgate-unit" style="font-size: 0.7rem; color: #64748b;">(₹ 18.00 /kg)</div>
+            </div>
+
+            <div style="background: #ffffff; padding: 10px 12px; border-radius: 10px; border: 1px solid #e2e8f0;">
+              <span style="font-size: 0.72rem; color: #64748b; display: block;" data-i18n="calc_freight_cost">Freight, Diesel & Tolls</span>
+              <strong id="calc-freight-val" style="font-size: 1rem; color: #1e40af;">₹ 5,167</strong>
+              <div id="calc-freight-unit" style="font-size: 0.7rem; color: #64748b;">(₹ 1.03 /kg)</div>
+            </div>
+
+            <div style="background: #ffffff; padding: 10px 12px; border-radius: 10px; border: 1px solid #e2e8f0;">
+              <span style="font-size: 0.72rem; color: #64748b; display: block;" data-i18n="calc_statutory_cess">APMC Cess (1%) + Handling</span>
+              <strong id="calc-statutory-val" style="font-size: 1rem; color: #854d0e;">₹ 2,900</strong>
+              <div id="calc-statutory-unit" style="font-size: 0.7rem; color: #64748b;">(₹ 0.58 /kg)</div>
+            </div>
+
+            <div style="background: #ffffff; padding: 10px 12px; border-radius: 10px; border: 1px solid #e2e8f0;">
+              <span style="font-size: 0.72rem; color: #64748b; display: block;" data-i18n="calc_escrow_trust">Escrow & Assay Fee (1.2%)</span>
+              <strong id="calc-escrow-val" style="font-size: 1rem; color: #6b21a8;">₹ 1,080</strong>
+              <div id="calc-escrow-unit" style="font-size: 0.7rem; color: #64748b;">(₹ 0.22 /kg)</div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Summary Row with Big Numbers -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding-top: 12px; border-top: 1.5px dashed #86efac;">
+            
+            <div style="background: #ffffff; border: 1.5px solid #0c5a36; border-radius: 12px; padding: 12px 14px;">
+              <span style="font-size: 0.72rem; font-weight: 700; color: #0c5a36; text-transform: uppercase;" data-i18n="calc_total_landed">Total Net Landed Cost</span>
+              <div style="display: flex; align-items: baseline; gap: 6px; margin-top: 2px;">
+                <strong id="calc-landed-rate-kg" style="font-size: 1.4rem; color: #0c5a36; font-weight: 800;">₹ 19.83</strong>
+                <span style="font-size: 0.8rem; color: #0c5a36; font-weight: 700;">/kg</span>
+                <span id="calc-landed-total" style="font-size: 0.82rem; color: #64748b; margin-left: auto;">(Total: ₹ 99,147)</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; border: 1.5px solid #2563eb; border-radius: 12px; padding: 12px 14px;">
+              <span style="font-size: 0.72rem; font-weight: 700; color: #1e40af; text-transform: uppercase;" data-i18n="calc_terminal_comp">Terminal Middleman Comparison</span>
+              <div style="display: flex; align-items: baseline; gap: 6px; margin-top: 2px;">
+                <strong id="calc-savings-total" style="font-size: 1.4rem; color: #166534; font-weight: 800;">Save ₹ 13,353</strong>
+                <span id="calc-savings-per-kg" style="font-size: 0.8rem; color: #166534; font-weight: 700;">(₹ 2.67 /kg)</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap;">
+          <button type="button" class="btn btn-outline" onclick="closeLandedCostModal()" style="font-weight: 700; padding: 10px 20px;" data-i18n="btn_close">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" onclick="proceedFromLandedCalculator()" style="background: #0c5a36; border-color: #0c5a36; font-weight: 800; padding: 10px 24px; box-shadow: 0 4px 12px rgba(12, 90, 54, 0.25);" data-i18n="btn_procure_lot_now">
+            🌾 Sourced Verified Lot at This Rate →
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>

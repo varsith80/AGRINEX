@@ -801,7 +801,7 @@ const buyerData = {
         {
           "bidId": "BID-ONI-901",
           "farmerName": "Patil Rameshwar",
-          "farmerAvatar": "assets/images/onion.jpg",
+          "farmerAvatar": "assets/images/farmer-avatar.jpg",
           "farmerPhone": "+91 98220-44911",
           "location": "Lasalgaon, Nashik (Direct Mandi Lot)",
           "rating": "4.92 ⭐",
@@ -816,7 +816,7 @@ const buyerData = {
         {
           "bidId": "BID-ONI-902",
           "farmerName": "Nitin Shinde",
-          "farmerAvatar": "assets/images/onion.jpg",
+          "farmerAvatar": "assets/images/farmer-avatar.jpg",
           "farmerPhone": "+91 98221-55440",
           "location": "Pimpalgaon Baswant, Nashik (22 km away)",
           "rating": "4.88 ⭐",
@@ -834,7 +834,7 @@ const buyerData = {
       "id": "DEM-BB-102",
       "crop": "Tomato (Pune Junnar / Narayangaon Hybrid)",
       "category": "Vegetables",
-      "image": "assets/images/tomato.jpg?v=2",
+      "image": "assets/images/tomato.jpg",
       "tonnage": "15,000 kg (150 Qt)",
       "tonnageNum": 150,
       "totalQuantityKg": 15000,
@@ -862,7 +862,7 @@ const buyerData = {
         {
           "bidId": "BID-TOM-801",
           "farmerName": "Sanjay Deshmukh",
-          "farmerAvatar": "assets/images/tomato.jpg?v=2",
+          "farmerAvatar": "assets/images/farmer-avatar.jpg",
           "farmerPhone": "+91 98224-33100",
           "location": "Manchar, Pune (18 km away)",
           "rating": "4.9 ⭐",
@@ -877,7 +877,7 @@ const buyerData = {
         {
           "bidId": "BID-TOM-802",
           "farmerName": "Ganesh Walke",
-          "farmerAvatar": "assets/images/tomato.jpg?v=2",
+          "farmerAvatar": "assets/images/farmer-avatar.jpg",
           "farmerPhone": "+91 98225-88190",
           "location": "Narayangaon, Junnar (24 km away)",
           "rating": "4.85 ⭐",
@@ -895,7 +895,7 @@ const buyerData = {
       "id": "DEM-BB-103",
       "crop": "Grand Naine Banana (Khandesh Export Pack)",
       "category": "Fruits",
-      "image": "assets/images/banana.jpg?v=2",
+      "image": "assets/images/banana.jpg",
       "tonnage": "20,000 kg (200 Qt)",
       "tonnageNum": 200,
       "totalQuantityKg": 20000,
@@ -923,7 +923,7 @@ const buyerData = {
         {
           "bidId": "BID-BAN-701",
           "farmerName": "Rajesh Shinde",
-          "farmerAvatar": "assets/images/banana.jpg?v=2",
+          "farmerAvatar": "assets/images/farmer-avatar.jpg",
           "farmerPhone": "+91 98500-11234",
           "location": "Raver, Jalgaon (Direct Agro Hub)",
           "rating": "4.95 ⭐",
@@ -941,7 +941,7 @@ const buyerData = {
       "id": "DEM-BB-104",
       "crop": "Yellow Soybean (JS 335 / High Oil Content)",
       "category": "Grains & Cereals",
-      "image": "assets/images/soybean.jpg?v=3",
+      "image": "assets/images/soybean.jpg",
       "tonnage": "30,000 kg (300 Qt)",
       "tonnageNum": 300,
       "totalQuantityKg": 30000,
@@ -969,7 +969,7 @@ const buyerData = {
         {
           "bidId": "BID-SOY-601",
           "farmerName": "Anandrao Jadhav (Latur FPO)",
-          "farmerAvatar": "assets/images/soybean.jpg?v=3",
+          "farmerAvatar": "assets/images/farmer-avatar.jpg",
           "farmerPhone": "+91 98231-55890",
           "location": "Latur Mega APMC Silo, MH",
           "rating": "4.88 ⭐",
@@ -987,7 +987,7 @@ const buyerData = {
       "id": "DEM-BB-105",
       "crop": "Nagpur Orange / Santra (Table Export Grade)",
       "category": "Fruits",
-      "image": "assets/images/orange.jpg?v=2",
+      "image": "assets/images/orange.jpg",
       "tonnage": "18,000 kg (180 Qt)",
       "tonnageNum": 180,
       "totalQuantityKg": 18000,
@@ -1045,7 +1045,7 @@ const buyerData = {
         {
           "bidId": "BID-TUR-501",
           "farmerName": "Kavita Thorat",
-          "farmerAvatar": "assets/images/turmeric.jpg",
+          "farmerAvatar": "assets/images/farmer-avatar.jpg",
           "farmerPhone": "+91 98228-88190",
           "location": "Sangli APMC Yard, MH",
           "rating": "4.95 ⭐",
@@ -1597,133 +1597,10 @@ const buyerData = {
         }
       ]
     }
-  ],
-  "storageFacilities": [
-    {
-      "id": "WH-NSK-01",
-      "name": "Lasalgaon-Nashik Solar Controlled Agro Complex & Cold Store",
-      "type": "Solar Onion Controlled Atmosphere (CA) & Cold Storage (0°C – 4°C)",
-      "typeKey": "solar-onion",
-      "location": "Lasalgaon Agro Industrial Park, Nashik, MH ~ 2.0 km from Mandi",
-      "totalCapacity": "2,000,000 kg (20,000 Qt)",
-      "availableCapacity": "620,000 kg (6,200 Qt)",
-      "availablePct": 31,
-      "suitableCrops": [
-        "Red Onion",
-        "Garlic",
-        "Thompson Grapes",
-        "Tomato"
-      ],
-      "tempRange": "Solar Forced Air Ventilation (25°C) & Cold Chambers (2-4°C)",
-      "humidity": "65% RH Anti-Sprouting",
-      "tariff": "₹ 0.40 /kg /month",
-      "tariffPerDay": "₹ 0.013 /kg /day",
-      "isWdraAccredited": true,
-      "hasENwrPledge": true,
-      "rating": "4.92 ⭐",
-      "manager": "Patil Balasaheb (+91 98221-44780)",
-      "image": "assets/images/onion.jpg"
-    },
-    {
-      "id": "WH-PUN-02",
-      "name": "Talegaon-Pune CA Cold Chain & Perishables Agro Logistics Park",
-      "type": "Controlled Atmosphere (CA) Hub & Reefer Park (0°C – 4°C)",
-      "typeKey": "cold-storage",
-      "location": "Talegaon Floriculture & Agro Park, Pune, MH ~ Near Mumbai-Pune Expressway",
-      "totalCapacity": "1,500,000 kg (15,000 Qt)",
-      "availableCapacity": "540,000 kg (5,400 Qt)",
-      "availablePct": 36,
-      "suitableCrops": [
-        "Tomato",
-        "Pomegranate",
-        "Exotic Vegetables",
-        "Green Chilli",
-        "Grapes"
-      ],
-      "tempRange": "0°C to 4°C (Gas Regulated O2/CO2)",
-      "humidity": "90% - 94% Ultra-High Freshness",
-      "tariff": "₹ 0.50 /kg /month",
-      "tariffPerDay": "₹ 0.016 /kg /day",
-      "isWdraAccredited": true,
-      "hasENwrPledge": true,
-      "rating": "4.95 ⭐",
-      "manager": "Sanjay Thorat (+91 98224-55102)",
-      "image": "assets/images/tomato.jpg?v=2"
-    },
-    {
-      "id": "WH-LAT-03",
-      "name": "Latur Mega Hermetic Grain & Pulse Silos (WDRA Accredited)",
-      "type": "Hermetic Aerated Dry Silo & Pulse Complex",
-      "typeKey": "dry-silo",
-      "location": "Latur Industrial Growth Centre, Marathwada, MH ~ 3.5 km from APMC",
-      "totalCapacity": "3,500,000 kg (35,000 Qt)",
-      "availableCapacity": "1,180,000 kg (11,800 Qt)",
-      "availablePct": 34,
-      "suitableCrops": [
-        "Yellow Soybean",
-        "Tur Dal",
-        "Chana",
-        "Wheat",
-        "Jowar"
-      ],
-      "tempRange": "Ambient Aerated Silo (18°C – 22°C)",
-      "humidity": "Max 10% Moisture Guarantee",
-      "tariff": "₹ 0.35 /kg /month",
-      "tariffPerDay": "₹ 0.011 /kg /day",
-      "isWdraAccredited": true,
-      "hasENwrPledge": true,
-      "rating": "4.88 ⭐",
-      "manager": "Anand Solanke (+91 98230-88901)",
-      "image": "assets/images/wheat-logo.png"
-    },
-    {
-      "id": "WH-NGP-04",
-      "name": "Nagpur Integrated Cold Storage & Citrus Packhouse (Butibori MIDC)",
-      "type": "Multi-Chamber Fruit Cold Chain & Packhouse",
-      "typeKey": "cold-storage",
-      "location": "Butibori MIDC Agro Zone, Nagpur, MH ~ Near Wardha Corridor",
-      "totalCapacity": "1,800,000 kg (18,000 Qt)",
-      "availableCapacity": "710,000 kg (7,100 Qt)",
-      "availablePct": 39,
-      "suitableCrops": [
-        "Nagpur Orange",
-        "Pomegranate",
-        "Banana",
-        "Ginger",
-        "Turmeric"
-      ],
-      "tempRange": "2°C to 8°C (Multi-Chamber)",
-      "humidity": "88% - 92% RH Controlled",
-      "tariff": "₹ 0.45 /kg /month",
-      "tariffPerDay": "₹ 0.015 /kg /day",
-      "isWdraAccredited": true,
-      "hasENwrPledge": true,
-      "rating": "4.9 ⭐",
-      "manager": "Pravin Wankhede (+91 98222-33104)",
-      "image": "assets/images/orange.jpg?v=2"
-    }
-  ],
-  "activeStorageBookings": [
-    {
-      "id": "STR-2026-MH01",
-      "warehouseId": "WH-NSK-01",
-      "warehouseName": "Lasalgaon-Nashik Solar Storage Complex",
-      "crop": "Red Onion (Nashik Garwa Quality)",
-      "quantity": "10,000 kg (100 Qt)",
-      "lotRef": "LOT-ONI-01",
-      "chamberNo": "Chamber #2-A (Ventilated)",
-      "tempCurrent": "24.5°C (Solar Aerated)",
-      "humidityCurrent": "64% RH",
-      "bookingDate": "10 Sep 2026",
-      "expiryDate": "25 Sep 2026 (12 Days Remaining)",
-      "monthlyCost": "₹ 4,000",
-      "status": "In Storage (Active)",
-      "statusBadgeClass": "badge-status-open",
-      "eNwrReceiptNo": "eNWR-MH-2026-99120",
-      "pledgeLoanEligible": "₹ 1,26,000 (70% Value at ₹ 18.00 /kg)"
-    }
   ]
 };
+buyerData.demands = buyerData.buyerDemands;
+buyerData.activeGrievances = buyerData.grievances;
 
 if (typeof window !== 'undefined') {
   window.buyerData = buyerData;

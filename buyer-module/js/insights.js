@@ -111,9 +111,89 @@
     });
   }
 
+  // Apply real-time APMC Mandi Price overrides calibrated by Admin / State Governance
+  function applyAdminMandiPriceOverrides() {
+    try {
+      const adminPricesStr = localStorage.getItem('agrinex_admin_mandi_prices');
+      if (!adminPricesStr) return;
+      const adminPrices = JSON.parse(adminPricesStr);
+      if (!Array.isArray(adminPrices) || adminPrices.length === 0) return;
+
+      const idToKeyMap = {
+        'CROP-ONI': 'onion',
+        'CROP-TOM': 'tomato',
+        'CROP-BAN': 'banana',
+        'CROP-SOY': 'soybean',
+        'CROP-ORG': 'orange',
+        'CROP-TUR-FNG': 'turmeric',
+        'CROP-POM': 'pomegranate',
+        'CROP-COT': 'cotton',
+        'CROP-RIC': 'rice',
+        'CROP-JOW': 'jowar',
+        'CROP-BAJ': 'bajra',
+        'CROP-WHT': 'wheat',
+        'CROP-TUR': 'tur',
+        'CROP-CHA': 'chana',
+        'CROP-MOO': 'mung',
+        'CROP-URA': 'urad',
+        'CROP-GND': 'groundnut',
+        'CROP-SUN': 'sunflower',
+        'CROP-SUG': 'sugarcane',
+        'CROP-MAN': 'mango',
+        'CROP-GRP': 'grapes',
+        'CROP-MOS': 'mosambi',
+        'CROP-CUS': 'sitaphal',
+        'CROP-MAZ': 'maize',
+        'CROP-SAF': 'safflower',
+        'CROP-SES': 'sesame',
+        'CROP-CHL': 'chilli',
+        'CROP-GUA': 'guava'
+      };
+
+      adminPrices.forEach(item => {
+        let matchedKey = idToKeyMap[item.id];
+        if (!matchedKey && item.crop) {
+          const lower = item.crop.toLowerCase();
+          for (const [k, v] of Object.entries(idToKeyMap)) {
+            if (lower.includes(v)) {
+              matchedKey = v;
+              break;
+            }
+          }
+        }
+
+        if (matchedKey && COMMODITY_INSIGHTS[matchedKey]) {
+          const c = COMMODITY_INSIGHTS[matchedKey];
+          const modalKg = parseFloat(item.modalPrice);
+          if (!isNaN(modalKg) && modalKg > 0) {
+            const modalQt = Math.round(modalKg * 100);
+            c.currentModalQt = modalQt;
+            c.currentMinQt = Math.round(modalQt * 0.78);
+            c.currentMaxQt = Math.round(modalQt * 1.22);
+            c.farmGateQt = Math.round(modalQt * 0.95);
+            c.terminalVashiQt = Math.round(modalQt * 1.18);
+            if (Array.isArray(c.districtHubs)) {
+              c.districtHubs.forEach((hub, idx) => {
+                const factor = hub.factor || (idx === 0 ? 1.0 : (1.0 - idx * 0.02));
+                hub.modalQt = Math.round(modalQt * factor);
+                hub.minQt = Math.round(hub.modalQt * 0.78);
+                hub.maxQt = Math.round(hub.modalQt * 1.22);
+              });
+            }
+          }
+        }
+      });
+
+      rebuildMandisTableData();
+    } catch(e) {
+      console.warn('Error applying admin price overrides to insights:', e);
+    }
+  }
+
   // Load Commodity Insights Data from Backend API or static JSON fallback
   async function loadCommodityInsightsData() {
     if (isDataLoaded && Object.keys(COMMODITY_INSIGHTS).length > 0) {
+      applyAdminMandiPriceOverrides();
       return COMMODITY_INSIGHTS;
     }
     if (dataLoadingPromise) {
@@ -130,6 +210,7 @@
             COMMODITY_INSIGHTS = json.data;
             window.COMMODITY_INSIGHTS = COMMODITY_INSIGHTS;
             isDataLoaded = true;
+            applyAdminMandiPriceOverrides();
             rebuildMandisTableData();
             return COMMODITY_INSIGHTS;
           }
@@ -145,6 +226,7 @@
           COMMODITY_INSIGHTS = await staticRes.json();
           window.COMMODITY_INSIGHTS = COMMODITY_INSIGHTS;
           isDataLoaded = true;
+          applyAdminMandiPriceOverrides();
           rebuildMandisTableData();
           return COMMODITY_INSIGHTS;
         }
@@ -152,6 +234,7 @@
         console.error('Failed to load commodity insights data:', err);
       }
 
+      applyAdminMandiPriceOverrides();
       return COMMODITY_INSIGHTS;
     })();
 
@@ -171,6 +254,31 @@
   let tableSortKey = 'default'; // 'default', 'crop', 'arrivals', 'minPrice', 'modalPrice', 'maxPrice', 'arbitrage'
   let tableSortDir = 'desc'; // 'asc', 'desc'
 
+  // Automatic live market ticker sync every 45s if page is active
+  let _liveSyncInterval = null;
+  function startLiveMandiTicker() {
+    if (_liveSyncInterval) clearInterval(_liveSyncInterval);
+    _liveSyncInterval = setInterval(async () => {
+      if (document.hidden) return;
+      try {
+        const res = await fetch('/api/buyer/mandi-sync', { method: 'POST' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.data) {
+            COMMODITY_INSIGHTS = json.data;
+            window.COMMODITY_INSIGHTS = COMMODITY_INSIGHTS;
+            applyAdminMandiPriceOverrides();
+            rebuildMandisTableData();
+            updateLiveTimestamp();
+            renderInsightChart();
+            renderInsightSummaryCards();
+            renderMaharashtraMandisTable();
+          }
+        }
+      } catch(e) {}
+    }, 45000);
+  }
+
   // Initialize View
   async function initBuyerMarketInsights() {
     await loadCommodityInsightsData();
@@ -182,6 +290,7 @@
     renderMaharashtraMandisTable();
     updateLiveTimestamp();
     initLandedCostDropdowns();
+    startLiveMandiTicker();
   }
 
   // Category Filtering Handler
@@ -293,6 +402,104 @@
     renderMaharashtraMandisTable();
   }
 
+  // Dynamic X-Axis Date Generator based on current date
+  function getDynamicChartLabels(timeframe, staticLabels) {
+    const now = new Date();
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    if (timeframe === '7D') {
+      // 6 historical daily steps back + Today + 3 forward AI forecast points (+2d, +4d, +6d)
+      const labels = [];
+      for (let i = 6; i >= 1; i--) {
+        const d = new Date(now);
+        d.setDate(now.getDate() - i);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = months[d.getMonth()];
+        labels.push(`${day} ${month}`);
+      }
+      const todayDay = String(now.getDate()).padStart(2, '0');
+      const todayMonth = months[now.getMonth()];
+      labels.push(`${todayDay} ${todayMonth} (Today)`);
+
+      for (const offset of [2, 4, 6]) {
+        const d = new Date(now);
+        d.setDate(now.getDate() + offset);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = months[d.getMonth()];
+        labels.push(`${day} ${month} (AI)`);
+      }
+      return labels;
+    }
+    
+    if (timeframe === '1M') {
+      // 5 weekly steps back + Today + 2 forward AI weeks
+      const labels = [];
+      for (let i = 5; i >= 1; i--) {
+        const d = new Date(now);
+        d.setDate(now.getDate() - i * 5);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = months[d.getMonth()];
+        labels.push(`${day} ${month}`);
+      }
+      const todayDay = String(now.getDate()).padStart(2, '0');
+      const todayMonth = months[now.getMonth()];
+      labels.push(`${todayDay} ${todayMonth} (Today)`);
+
+      for (const offset of [7, 14]) {
+        const d = new Date(now);
+        d.setDate(now.getDate() + offset);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = months[d.getMonth()];
+        labels.push(`${day} ${month} (AI)`);
+      }
+      return labels;
+    }
+    
+    if (timeframe === '3M') {
+      const labels = [];
+      for (let i = 3; i >= 1; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const month = months[d.getMonth()];
+        const yr = String(d.getFullYear()).slice(-2);
+        labels.push(`${month} ${yr}`);
+      }
+      const currMonth = months[now.getMonth()];
+      const currYr = String(now.getFullYear()).slice(-2);
+      labels.push(`${currMonth} ${currYr} (Now)`);
+
+      for (let i = 1; i <= 2; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+        const month = months[d.getMonth()];
+        const yr = String(d.getFullYear()).slice(-2);
+        labels.push(`${month} ${yr} (AI)`);
+      }
+      return labels;
+    }
+    
+    if (timeframe === '1Y') {
+      const labels = [];
+      for (let i = 5; i >= 1; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i * 2, 1);
+        const month = months[d.getMonth()];
+        const yr = String(d.getFullYear()).slice(-2);
+        labels.push(`${month} ${yr}`);
+      }
+      const currMonth = months[now.getMonth()];
+      const currYr = String(now.getFullYear()).slice(-2);
+      labels.push(`${currMonth} ${currYr} (Now)`);
+
+      for (let i = 1; i <= 2; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth() + i * 2, 1);
+        const month = months[d.getMonth()];
+        const yr = String(d.getFullYear()).slice(-2);
+        labels.push(`${month} ${yr} (AI)`);
+      }
+      return labels;
+    }
+
+    return staticLabels || [];
+  }
+
   // Render High-DPI Chart.js Interactive Graph
   let chartRetryAttempts = 0;
   function renderInsightChart() {
@@ -311,6 +518,7 @@
     if (!commodity || !commodity.history || !commodity.history[activeTimeframe]) return;
 
     const dataObj = commodity.history[activeTimeframe];
+    const dynamicLabels = getDynamicChartLabels(activeTimeframe, dataObj.labels);
     const multiplier = activePriceUnit === 'kg' ? 0.01 : 1;
     const unitLabel = activePriceUnit === 'kg' ? '₹ /kg' : '₹ /Qt';
 
@@ -327,7 +535,7 @@
     // Smooth In-Place Chart Data Transition if Instance Exists
     if (priceChartInstance && priceChartInstance.data && priceChartInstance.data.datasets && priceChartInstance.data.datasets.length >= 4) {
       try {
-        priceChartInstance.data.labels = dataObj.labels;
+        priceChartInstance.data.labels = dynamicLabels;
         priceChartInstance.data.datasets[0].label = `${lblModal} (${unitLabel})`;
         priceChartInstance.data.datasets[0].data = histData;
         priceChartInstance.data.datasets[1].label = `${lblForecast} (${unitLabel})`;
@@ -358,7 +566,7 @@
     priceChartInstance = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: dataObj.labels,
+        labels: dynamicLabels,
         datasets: [
           {
             label: `${lblModal} (${unitLabel})`,
@@ -1703,5 +1911,16 @@
   window.proceedFromLandedCalculator = proceedFromLandedCalculator;
   window.setMandisTableViewMode = setMandisTableViewMode;
   window.sortMandisTable = sortMandisTable;
+  window.applyAdminMandiPriceOverrides = applyAdminMandiPriceOverrides;
+  window.refreshBuyerMarketInsights = function() {
+    applyAdminMandiPriceOverrides();
+    renderProduceSelectorChips();
+    renderInsightChart();
+    renderInsightSummaryCards();
+    renderSupplyInflowHeatmap();
+    renderAiProcurementAdvisories();
+    renderMaharashtraMandisTable();
+    updateLiveTimestamp();
+  };
   window.MAHARASHTRA_DISTRICTS_DATA = MAHARASHTRA_DISTRICTS_DATA;
 })();

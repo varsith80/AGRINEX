@@ -1,0 +1,77 @@
+  <div class="modal-overlay" id="modal-emergency-buyout">
+    <div class="modal-content" style="max-width: 540px; border-radius: 16px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1.5px solid #fee2e2; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; box-shadow: 0 2px 6px rgba(220,38,38,0.15);">
+            ⚡
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #991b1b; margin: 0;">Emergency Salvage Buyout</h3>
+            <span style="font-size: 0.75rem; color: #78350f;">Breakeven Procurement • Immediate Reefer Transit Dispatch</span>
+          </div>
+        </div>
+        <button onclick="closeEmergencyBuyoutModal()" style="font-size: 1.3rem; color: #64748b; background: transparent; border: none; cursor: pointer; font-weight: 700;">✕</button>
+      </div>
+
+      <!-- Lot Summary Box -->
+      <div style="background: #fffdfa; border: 1.5px solid #fecdd3; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;">
+        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px;">
+          <img id="emg-modal-img" src="assets/images/tomato.jpg" alt="Crop" style="width: 58px; height: 58px; border-radius: 10px; object-fit: cover; border: 1.5px solid #fca5a5;" onerror="this.src='assets/images/tomato.jpg'" />
+          <div style="flex: 1;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap;">
+              <strong id="emg-modal-crop" style="font-size: 1.05rem; font-weight: 800; color: #0f172a;">Narayangaon Tomatoes</strong>
+              <span id="emg-modal-urgency" class="badge badge-status-emergency" style="font-size: 0.7rem; padding: 2px 8px;">⚡ 24-36 Hours Left</span>
+            </div>
+            <div style="font-size: 0.78rem; color: #64748b; margin-top: 3px;" id="emg-modal-farmer">Farmer: Sanjay Deshmukh • 📍 Pune, MH</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #ffffff; border: 1px solid #fee2e2; border-radius: 8px; padding: 10px 12px; font-size: 0.82rem;">
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block; text-transform: uppercase; font-weight: 700;">Certified Quantity</span>
+            <strong id="emg-modal-qty" style="color: #0f172a; font-size: 0.95rem;">4,500 kg (45 Qt)</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block; text-transform: uppercase; font-weight: 700;">Breakeven Buyout Rate</span>
+            <div style="display: flex; align-items: baseline; gap: 6px;">
+              <strong id="emg-modal-rate" style="color: #15803d; font-size: 1.05rem; font-weight: 800;">₹ 8.90 /kg</strong>
+              <span id="emg-modal-orig-rate" style="font-size: 0.72rem; color: #94a3b8; text-decoration: line-through;">Orig: ₹ 12.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Escrow Breakdown -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 0.84rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="color: #475569;">Total Contract Value:</span>
+          <strong id="emg-modal-total-val" style="color: #0f172a; font-size: 0.95rem;">₹ 40,050</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #0c5a36;">
+          <span>🔒 <strong>35% Immediate Advance Escrow:</strong></span>
+          <strong id="emg-modal-adv-val" style="font-size: 1rem; color: #0c5a36;">₹ 14,018</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; color: #64748b; font-size: 0.78rem; border-top: 1px dashed #cbd5e1; padding-top: 8px;">
+          <span>65% Balance on Delivery &amp; QC Pass:</span>
+          <span id="emg-modal-bal-val" style="font-weight: 700;">₹ 26,032</span>
+        </div>
+      </div>
+
+      <!-- Instant Dispatch Guarantee -->
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 12px; margin-bottom: 18px; font-size: 0.78rem; color: #166534; display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.3rem;">🚚</span>
+        <div>
+          <strong>Express Reefer Logistics Assigned:</strong> Eicher Pro 2049 Reefer auto-assigned with AIS-140 GPS beacon &amp; 14.5°C cold-chain monitoring.
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn btn-outline" onclick="closeEmergencyBuyoutModal()" style="flex: 1; font-weight: 700;">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-confirm-emergency-buyout" onclick="executeEmergencyBuyoutConfirmed()" style="flex: 2; background: #dc2626; border-color: #dc2626; font-weight: 800; font-size: 0.92rem; box-shadow: 0 4px 12px rgba(220,38,38,0.25); border-radius: 8px;">
+          ⚡ Confirm Buyout &amp; Lock Escrow
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: PLACE COUNTER-OFFER BID -->
