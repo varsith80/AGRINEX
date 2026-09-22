@@ -469,7 +469,169 @@
 
 
   // 8. UI PHRASE REPLACEMENTS (High Precision Ordering - Longest Strings First)
-  const RAW_PHRASES = [    ["View Shipment →","खेप विवरण देखें →","वाहतूक तपशील पहा →"],
+  const RAW_PHRASES = [
+    ["File complaints, payment delays & dispute redressal","शिकायतें, भुगतान में देरी और विवाद निवारण दर्ज करें","तक्रारी, पेमेंट विलंब आणि वाद निवारण दाखल करा"],
+    ["Filter lots needing immediate emergency salvage","तत्काल आपातकालीन बिक्री की आवश्यकता वाले लॉट फ़िल्टर करें","तातडीच्या संकट विक्रीची आवश्यकता असलेले लॉट्स फिल्टर करा"],
+    ["🔒 35% ADVANCE ESCROW PROTECTED","🔒 35% अग्रिम एस्क्रो सुरक्षित","🔒 ३५% आगाऊ एस्क्रो सुरक्षित"],
+    ["⚡ ZERO BROKERAGE DIRECT APMC","⚡ शून्य दलाली सीधा एपीएमसी","⚡ शून्य दलाली थेट एपीएमसी"],
+    ["Search company, crop or manager...","कंपनी, फसल या प्रबंधक खोजें...","कंपनी, शेतमाल किंवा व्यवस्थापक शोधा..."],
+    ["Voice Dictation (Speak in Marathi / Hindi / English)","आवाज श्रुतलेख (मराठी / हिन्दी / अंग्रेजी में बोलें)","व्हॉइस डिक्टेशन (मराठी / हिन्दी / इंग्रजीमध्ये बोला)"],
+    ["Try clearing your filters or search keyword to see all your harvest lots.","अपने सभी फसल लॉट देखने के लिए फ़िल्टर या खोज शब्द साफ़ करें।","आपले सर्व शेतमाल लॉट्स पाहण्यासाठी फिल्टर्स किंवा शोध शब्द पूर्ववत करा."],
+    ["food processing units, compost manufacturers, and industrial caterers","खाद्य प्रसंस्करण इकाइयां, कंपोस्ट निर्माता और औद्योगिक कैटरर्स","अन्न प्रक्रिया उद्योग, खत उत्पादक आणि औद्योगिक केटरर्स"],
+    ["AGRINEX DIGITAL MANDI GATE PASS","एग्रीनेक्स डिजिटल मंडी गेट पास","अ‍ॅग्रीनेक्स डिजिटल बाजार समिती गेट पास"],
+    ["No offers found in this tab.","इस टैब में कोई प्रस्ताव नहीं मिला।","या टॅबमध्ये कोणतीही ऑफर सापडली नाही."],
+    ["No offers found","कोई प्रस्ताव नहीं मिला","कोणतीही ऑफर सापडली नाही"],
+    ["QUANTITY & TOTAL","मात्रा और कुल राशि","प्रमाण आणि एकूण रक्कम"],
+    ["No escrow contracts found","कोई एस्क्रो अनुबंध नहीं मिला","कोणताही एस्क्रो करार सापडला नाही"],
+    ["CROP & BUYER","फसल और खरीदार","शेतमाल आणि खरेदीदार"],
+    ["TOTAL DEAL VALUE","कुल सौदा मूल्य","एकूण व्यवहार मूल्य"],
+    ["65% BALANCE (DELIVERY)","65% शेष राशि (डिलीवरी पर)","६५% शिल्लक रक्कम (पोहोचल्यावर)"],
+    ["No active enterprise bulk orders matching your criteria.","आपके मानदंडों से मेल खाने वाला कोई सक्रिय थोक ऑर्डर नहीं मिला।","आपल्या निकषांशी जुळणारी कोणतीही सक्रिय घाऊक ऑर्डर सापडली नाही."],
+    ["No Grievances Found","कोई शिकायत नहीं मिली","कोणतीही तक्रार आढळली नाही"],
+    ["Dhule Hybrid Pearl Millet (Bajra)","धुले हाइब्रिड बाजरा","धुळे संकरित बाजरी"],
+    ["Latur Red Tur (Pigeon Pea / Arhar)","लातूर लाल तूर (अरहर दाल)","लातूर लाल तूर (अरहर)"],
+    ["Latur, Solapur, Nanded","लातूर, सोलापुर, नांदेड़","लातूर, सोलापूर, नांदेड"],
+    ["Wada Kolam Rice (Palghar GI)","वाडा कोलम चावल (पालघर जीआई)","वाडा कोलम तांदूळ (पालघर जीआय)"],
+    ["[AgriNex Admin] Overview API hydration fallback:","[AgriNex प्रशासक] एपीआई बैकअप डेटा:","[AgriNex प्रशासक] एपीआय पर्यायी डेटा:"],
+    ["🌾 Wada Kolam Rice (Palghar GI)","🌾 वाडा कोलम चावल (पालघर जीआई)","🌾 वाडा कोलम तांदूळ (पालघर जीआय)"],
+    ["e.g. Ready in crates for immediate pickup","उदा. तत्काल उठान हेतु क्रेट में तैयार","उदा. तातडीच्या वाहतुकीसाठी क्रेट्समध्ये सज्ज"],
+    ["Logout & Switch Role","लॉगआउट और भूमिका बदलें","बाहेर पडा आणि भूमिका बदला"],
+    ["Change Language / भाषा बदला / भाषा बदलें","भाषा बदलें","भाषा बदला"],
+    ["Click to view & edit farmer profile","किसान प्रोफ़ाइल देखने और संपादित करने के लिए क्लिक करें","शेतकरी प्रोफाइल पाहण्यासाठी आणि संपादित करण्यासाठी क्लिक करा"],
+    ["e.g. Weighbridge weight 200kg lower than farm harvest receipt","उदा. धर्मकांटा वजन खेत कटाई रसीद से 200 किग्रा कम है","उदा. वजन काटा वजन शेत काढणी पावतीपेक्षा 200 किलो कमी आहे"],
+    ["Describe what happened, location, driver name, or bank account reference...","क्या हुआ, स्थान, चालक का नाम या बैंक खाता संदर्भ का विवरण दें...","काय घडले, ठिकाण, चालकाचे नाव किंवा बँक खाते संदर्भाचे वर्णन करा..."],
+    ["e.g. Tomato (Shimla Red), Onion, Paddy","उदा. टमाटर (शिमला लाल), प्याज, धान / चावल","उदा. टोमॅटो (शिमला लाल), कांदा, भात / तांदूळ"],
+    ["Open AGRIFLEX Krishi AI","एग्रीफ्लेक्स कृषि एआई खोलें","अ‍ॅग्रीफ्लेक्स कृषी एआय उघडा"],
+    ["Simple Farmer Mode","सरल किसान मोड","सरल शेतकरी मोड"],
+    ["Simple Mode","सरल मोड","सरल शेतकरी मोड"],
+    ["Enterprise Mode","एंटरप्राइज मोड","प्रो डॅशबोर्ड"],
+    ["Speak Command","बोलकर आदेश दें","बोलून सांगा"],
+    ["Type message or rate counter to buyer (Press Enter to send)...","खरीदार को संदेश या दर का प्रति-प्रस्ताव लिखें (भेजने के लिए Enter दबाएं)...","खरेदीदाराला संदेश किंवा प्रति-दर लिहा (पाठवण्यासाठी Enter दाबा)..."],
+    ["e.g. 100% Grade A sorted in crates, ready for 8:00 AM loading","उदा. 100% ग्रेड ए क्रेट में छांटा गया, सुबह 8:00 बजे लोडिंग हेतु तैयार","उदा. 100% ग्रेड ए क्रेट्समध्ये वर्गवारी, सकाळी 8:00 वाजता लोडिंगसाठी सज्ज"],
+    ["Attach Electronic Weigh Slip or Quality Assay Photo","इलेक्ट्रॉनिक वजन पर्ची या गुणवत्ता जांच फोटो संलग्न करें","इलेक्ट्रॉनिक वजन पावती किंवा गुणवत्ता तपासणी छायाचित्र जोडा"],
+    ["Breakeven Salvage for perishable/unsold lots","नाशवान/अबिना बिके लॉट हेतु लागत वसूली बिक्री","नाशवंत/न विकलेल्या लॉटसाठी खर्च वसुली विक्री"],
+    ["Next 2–3 Days","अगले 2–3 दिन","पुढील २–३ दिवस"],
+    ["बोलून प्रश्न विचारा (Speak in your language)","बोलकर प्रश्न पूछें (अपनी भाषा में बोलें)","बोलून प्रश्न विचारा (आपल्या भाषेत बोला)"],
+    ["🎉 Crop lot published to marketplace!","🎉 फसल लॉट बाजार में सफलतापूर्वक प्रकाशित हो गया!","🎉 शेतमाल लॉट बाजारपेठेत यशस्वीरीत्या नोंदवला गेला!"],
+    ["No buyers? Activate instant breakeven sale with food processors, composters & caterers","खरीदार नहीं मिले? खाद्य प्रसंस्करणकर्ताओं, कंपोस्टरों और कैटरर्स के साथ तत्काल लागत वसूली बिक्री सक्रिय करें","खरेदीदार नाहीत? अन्न प्रक्रियादार, खत उत्पादक आणि केटरर्ससह तात्काळ खर्च वसुली विक्री सुरू करा"],
+    ["Review live salvage bids","लाइव बचाव बोलियों की समीक्षा करें","थेट संकट विक्री बोली तपासा"],
+    ["Farmer Profile & KYC Information updated successfully!","किसान प्रोफ़ाइल और केवाईसी जानकारी सफलतापूर्वक अपडेट हो गई!","शेतकरी प्रोफाइल आणि केवायसी माहिती यशस्वीरीत्या अद्ययावत झाली!"],
+    ["Dispatched (Escrow Locked)","प्रेषित (एस्क्रो सुरक्षित)","रवाना (एस्क्रो सुरक्षित)"],
+    ["✅ Emergency contract locked via Escrow!","✅ एस्क्रो के माध्यम से आपातकालीन अनुबंध सुरक्षित!","✅ एस्क्रो द्वारे तातडीचा करार सुरक्षित!"],
+    ["Enter your Mandi Location / Region:","अपनी मंडी का स्थान / क्षेत्र दर्ज करें:","आपले बाजार समिती ठिकाण / परिसर प्रविष्ट करा:"],
+    ["3 Days (Perishable)","3 दिन (नाशवान)","३ दिवस (नाशवंत)"],
+    ["4 Days (Perishable)","4 दिन (नाशवान)","४ दिवस (नाशवंत)"],
+    ["5 Days (Perishable)","5 दिन (नाशवान)","५ दिवस (नाशवंत)"],
+    ["6 Days (Perishable)","6 दिन (नाशवान)","६ दिवस (नाशवंत)"],
+    ["180 Days","180 दिन","१८० दिवस"],
+    ["60 Qt (6,000 kg)","60 क्विंटल (6,000 किलो)","६० क्विंटल (६,००० किलो)"],
+    ["150 Qt (15,000 kg)","150 क्विंटल (15,000 किलो)","१५० क्विंटल (१५,००० किलो)"],
+    ["₹ 13.00 /kg (₹ 1,300 /Qt)","₹ 13.00 /किलो (₹ 1,300 /क्विंटल)","₹ १३.०० /किलो (₹ १,३०० /क्विंटल)"],
+    ["₹ 13.91 /kg (₹ 1,391 /Qt)","₹ 13.91 /किलो (₹ 1,391 /क्विंटल)","₹ १३.९१ /किलो (₹ १,३९१ /क्विंटल)"],
+    ["₹ 42.00 /kg (₹ 4,200 /Qt)","₹ 42.00 /किलो (₹ 4,200 /क्विंटल)","₹ ४२.०० /किलो (₹ ४,२०० /क्विंटल)"],
+    ["₹ 46.62 /kg (₹ 4,662 /Qt)","₹ 46.62 /किलो (₹ 4,662 /क्विंटल)","₹ ४६.६२ /किलो (₹ ४,६६२ /क्विंटल)"],
+    ["Buyers interested across Maharashtra","महाराष्ट्र भर में इच्छुक सत्यापित खरीदार","महाराष्ट्रभरातील इच्छुक प्रमाणित खरेदीदार"],
+    ["In transit to Vashi & Pune APMC","वाशी और पुणे मंडी के रास्ते में","वाशी व पुणे बाजार समितीच्या मार्गावर"],
+    ["(Expected gross value)","(अपेक्षित सकल मूल्य)","(अपेक्षित एकूण मूल्य)"],
+    ["Active verified listings","सक्रिय सत्यापित फसल सूचियां","सक्रिय प्रमाणित शेतमाल नोंदी"],
+    ["Current Farmer Contributions (3 Farmers):","वर्तमान किसान योगदान (3 किसान):","चालू शेतकरी योगदान (३ शेतकरी):"],
+    ["+20 Qt (Confirmed)","+20 क्विंटल (पुष्टि की गई)","+२० क्विंटल (पुष्टी झाली)"],
+    ["Direct pickup arranged by AgriNex Logistics from your nearest mandi.","आपकी निकटतम मंडी से एग्रीनेक्स लॉजिस्टिक्स द्वारा सीधा उठाव।","आपल्या जवळच्या बाजार समितीमधून अ‍ॅग्रीनेक्स वाहतूक द्वारे थेट उचल."],
+    ["35% Advance Escrow locked immediately upon pool completion.","पूल पूरा होने पर तुरंत 35% अग्रिम एस्क्रो सुरक्षित।","पूल पूर्ण होताच ३५% आगाऊ रक्कम एस्क्रोमध्ये सुरक्षित."],
+    ["No intermediary middleman cuts — 100% contract rate paid to your bank account.","कोई बिचौलिया कटौती नहीं — आपके बैंक खाते में 100% अनुबंध दर का भुगतान।","कोणतीही मध्यस्थ दलाली कपात नाही — आपल्या बँक खात्यात १००% करार दर जमा."],
+    ["Current Season","वर्तमान मौसम","चालू हंगाम"],
+    ["Progressive Farmer & FPO Director","प्रगतिशील किसान और एफपीओ निदेशक","प्रगतिशील शेतकरी आणि एफपीओ संचालक"],
+    ["Narayangaon Mandi Yard, Junnar, Pune","नारायणगांव मंडी यार्ड, जुन्नर, पुणे","नारायणगाव बाजार समिती यार्ड, जुन्नर, पुणे"],
+    ["Latur Mega APMC Yard, Marathwada","लातूर मेगा एपीएमसी यार्ड, मराठवाड़ा","लातूर मेगा बाजार समिती यार्ड, मराठवाडा"],
+    ["Pandharpur Yard, Solapur","पंढरपुर यार्ड, सोलापुर","पंढरपूर यार्ड, सोलापूर"],
+    ["Wada Kolam Rice (Palghar GI Quality)","वाडा कोलम चावल (पालघर जीआई गुणवत्ता)","वाडा कोलम तांदूळ (पालघर जीआय प्रत)"],
+    ["Wada APMC Yard, Palghar","वाडा एपीएमसी यार्ड, पालघर","वाडा बाजार समिती यार्ड, पालघर"],
+    ["Niphad APMC Hub, Nashik","निफाड एपीएमसी हब, नासिक","निफाड बाजार समिती केंद्र, नाशिक"],
+    ["Vadgaon APMC, Kolhapur","वडगांव एपीएमसी, कोल्हापुर","वडगाव बाजार समिती, कोल्हापूर"],
+    ["Shirol Sugar Belt, Kolhapur","शिरोल शुगर बेल्ट, कोल्हापुर","शिरोळ साखर पट्टा, कोल्हापूर"],
+    ["GI Tagged Export Grade (220g+)","जीआई टैग निर्यात ग्रेड (220 ग्राम+)","जीआय मानांकित निर्यात प्रत (२२० ग्रॅम+)"],
+    ["Devgad Coastal Belt, Ratnagiri","देवगड तटीय क्षेत्र, रत्नागिरी","देवगड सागरी पट्टा, रत्नागिरी"],
+    ["Pimpalgaon Baswant, Nashik","पिंपलगांव बसवंत, नासिक","पिंपळगाव बसवंत, नाशिक"],
+    ["Badnapur Mandi, Jalna","बदनापुर मंडी, जालना","बदनापूर बाजार समिती, जालना"],
+    ["Dharur Hill Belt, Beed","धारूर पहाड़ी क्षेत्र, बीड","धारूर डोंगरी पट्टा, बीड"],
+    ["Tomato (Narayangaon)","टमाटर (नारायणगांव)","टोमॅटो (नारायणगाव)"],
+    ["Malegaon APMC Yard, Nashik","मालेगांव एपीएमसी यार्ड, नासिक","मालेगाव बाजार समिती यार्ड, नाशिक"],
+    ["Rahata APMC Market, Ahmednagar","रहाता एपीएमसी बाजार, अहमदनगर","राहाता बाजार समिती, अहमदनगर"],
+    ["Market trend is positive. Prices expected to rise across Lasalgaon & Vashi APMC mandis due to strong export demand.","बाजार का रुख सकारात्मक है। मजबूत निर्यात मांग के कारण लासलगांव और वाशी मंडियों में कीमतें बढ़ने की उम्मीद है।","बाजाराचा कल सकारात्मक आहे. जोरदार निर्यात मागणीमुळे लासलगाव आणि वाशी बाजार समित्यांमध्ये भाव वाढण्याची शक्यता आहे."],
+    ["In Transit to Vashi Terminal","वाशी टर्मिनल के रास्ते में","वाशी टर्मिनलच्या मार्गावर"],
+    ["Food Processing Unit","खाद्य प्रसंस्करण इकाई","अन्न प्रक्रिया केंद्र"],
+    ["Commercial Caterers","व्यावसायिक कैटरर्स","व्यावसायिक केटरर्स"],
+    ["Instant 30-Min Escrow","तत्काल 30-मिनट एस्क्रो","तातडीने ३०-मिनिटांत एस्क्रो"],
+    ["All Perishables","सभी नाशवान फसलें","सर्व नाशवंत शेतमाल"],
+    ["Instant Mandi Clearance","तत्काल मंडी निकासी","तातडीची बाजार समिती मंजुरी"],
+    ["Lasalgaon APMC Terminal, Nashik, Maharashtra","लासलगांव एपीएमसी टर्मिनल, नासिक, महाराष्ट्र","लासलगाव बाजार समिती टर्मिनल, नाशिक, महाराष्ट्र"],
+    ["NABARD & SFAC Grade-A Certified","नाबार्ड और एसएफएसी ग्रेड-ए प्रमाणित","नाबार्ड आणि एसएफएसी ग्रेड-ए प्रमाणित"],
+    ["BigBasket Direct Procurement","बिगबास्केट सीधी खरीद","बिगबास्केट थेट खरेदी"],
+    ["Vashi APMC Central Terminal, Navi Mumbai","वाशी एपीएमसी केंद्रीय टर्मिनल, नवी मुंबई","वाशी बाजार समिती मुख्य टर्मिनल, नवी मुंबई"],
+    ["Pooling Active (0% Filled)","पूलिंग सक्रिय (0% पूर्ण)","एकत्रीकरण सुरू (०% पूर्ण)"],
+    ["Standard Farm Gate Grade A, Escrow Guaranteed","मानक खेत गेट ग्रेड ए, एस्क्रो गारंटीकृत","दर्जेदार शेतबांध प्रत ए, एस्क्रो हमी"],
+    ["Ramesh Patil (You)","रमेश पाटिल (आप)","रमेश पाटील (तुम्ही)"],
+    ["Committed (Escrow Locked)","प्रतिबद्ध (एस्क्रो सुरक्षित)","नोंदवले (एस्क्रो सुरक्षित)"],
+    ["Pool Fulfilled (100%)","पूल पूर्ण हुआ (100%)","पूल पूर्ण झाला (१००%)"],
+    ["⚡ Enterprise Mode","⚡ उद्यम मोड","⚡ संस्थात्मक मोड"],
+    ["🌾 My Crops & Sell","🌾 मेरी फसलें और बिक्री","🌾 माझी पिके व विक्री"],
+    ["🚚 Shipments & Trucks","🚚 खेप और ट्रक","🚚 माल वाहतूक व ट्रक्स"],
+    ["🟢 Direct Farm Commerce • 0% Brokerage","🟢 सीधा खेत व्यापार • 0% दलाली","🟢 थेट शेतमाल व्यापार • ०% दलाली"],
+    ["🌾 Farmer Direct Selling Market","🌾 किसान सीधा बिक्री बाजार","🌾 शेतकरी थेट विक्री बाजार"],
+    ["+ 1-Tap List Fresh Crop","+ 1-टैप में नई फसल जोड़ें","+ १-टॅपमध्ये नवीन पीक जोडा"],
+    ["Grains & Pulses","अनाज और दालें","धान्य व कडधान्ये"],
+    ["EXPECTED RATE","अपेक्षित दर","अपेक्षित दर"],
+    ["✏️ Change Rate","✏️ दर बदलें","✏️ दर बदला"],
+    ["🚨 Quick Salvage Sale","🚨 त्वरित बचाव बिक्री","🚨 जलद संकट विक्री"],
+    ["💰 Direct Incoming Buyer Offers","💰 खरीदारों से सीधे प्राप्त प्रस्ताव","💰 खरेदीदारांकडून थेट आलेले प्रस्ताव"],
+    ["Review genuine corporate and wholesale bids. Accept in 1-tap to lock 35% advance escrow immediately.","वास्तविक कॉर्पोरेट और थोक बोलियों की समीक्षा करें। तुरंत 35% अग्रिम एस्क्रो लॉक करने के लिए 1-टैप में स्वीकार करें।","विश्वासार्ह संस्थात्मक आणि घाऊक बोली तपासा. तात्काळ ३५% आगाऊ एस्क्रो सुरक्षित करण्यासाठी १-टॅपमध्ये स्वीकारा."],
+    ["Listen Offers","प्रस्ताव सुनें","ऑफर ऐका"],
+    ["🟢 1-Tap Accept Offer","🟢 1-टैप में प्रस्ताव स्वीकारें","🟢 १-टॅपमध्ये ऑफर स्वीकारा"],
+    ["🤝 Counter-Offer / Bargain","🤝 प्रति-प्रस्ताव / मोलभाव","🤝 प्रति-ऑफर / घासाघिस"],
+    ["OFFERED RATE","प्रस्तावित दर","दिलेला दर"],
+    ["🚚 Booked Trucks & Live Shipments","🚚 बुक किए गए ट्रक और लाइव खेप","🚚 बुक केलेले ट्रक्स व थेट माल वाहतूक"],
+    ["Track your produce transport on live GPS with 1-tap call to the truck driver.","लाइव जीपीएस पर अपनी उपज परिवहन को ट्रैक करें और 1-टैप में ट्रक ड्राइवर को कॉल करें।","थेट जीपीएसवर आपल्या शेतमाल वाहतुकीचा मागोवा घ्या आणि १-टॅपमध्ये ट्रक चालकाला कॉल करा."],
+    ["Listen Transit Status","परिवहन स्थिति सुनें","वाहतूक स्थिती ऐका"],
+    ["Destination Terminal","गंतव्य टर्मिनल","पोहोच ठिकाण टर्मिनल"],
+    ["Estimated Arrival (ETA)","अनुमानित आगमन (ईटीए)","अंदाजे पोहोच वेळ (ईटीए)"],
+    ["🚚 On The Highway (In Transit)","🚚 हाईवे पर (मार्ग में)","🚚 महामार्गावर (वाहतुकीत)"],
+    ["✅ Successfully Delivered","✅ सफलतापूर्वक वितरित","✅ यशस्वीरीत्या पोहोचवले"],
+    ["🛡️ 100% Guaranteed Escrow & Bank Vault","🛡️ 100% गारंटीकृत एस्क्रो और बैंक वॉल्ट","🛡️ १००% हमीयुक्त एस्क्रो व बँक सुरक्षा"],
+    ["Latur Mega APMC Yard","लातूर मेगा एपीएमसी यार्ड","लातूर मेगा बाजार समिती यार्ड"],
+    ["Solapur Terminal Yard","सोलापुर टर्मिनल यार्ड","सोलापूर टर्मिनल यार्ड"],
+    ["Niphad Mandi Yard","निफाड मंडी यार्ड","निफाड बाजार समिती यार्ड"],
+    ["Vashi APMC Terminal, Navi Mumbai","वाशी एपीएमसी टर्मिनल, नवी मुंबई","वाशी बाजार समिती टर्मिनल, नवी मुंबई"],
+    ["Today, 6:30 PM (2 hrs 15 mins)","आज, शाम 6:30 बजे (2 घंटे 15 मिनट)","आज, संध्याकाळी ६:३० वाजता (२ तास १५ मिनिटे)"],
+    ["Thane Central Fulfillment Hub","ठाणे केंद्रीय आपूर्ति केंद्र","ठाणे मध्यवर्ती पूर्तता केंद्र"],
+    ["Surplus arrivals from Junnar and Sangamner. Wholesale inventory clearing in Pimpalgaon yard.","जुन्नर और संगमनेर से अतिरिक्त आवक। पिंपलगांव यार्ड में थोक स्टॉक की निकासी जारी।","जुन्नर व संगमनेरमधून अतिरिक्त आवक. पिंपळगाव यार्डमध्ये घाऊक साठ्याचा निपटारा सुरू."],
+    ["HOLD / STEADY HARVEST","रोकें / स्थिर कटाई","थांबवा / नियमित काढणी"],
+    ["Stable buffer stock operations and balanced pan-India freight dispatches maintain steady pricing.","स्थिर बफर स्टॉक संचालन और संतुलित अखिल भारतीय माल ढुलाई से कीमतें स्थिर हैं।","स्थिर राखीव साठा आणि संतुलित देशव्यापी वाहतुकीमुळे दर स्थिर आहेत."],
+    ["SELL TODAY (High Premium)","आज ही बेचें (उच्च प्रीमियम भाव)","आजच विक्री करा (उच्च दर)"],
+    ["Direct retail chains paying premium over mandi baseline.","सीधी रिटेल चेन मंडी आधार मूल्य से अधिक प्रीमियम का भुगतान कर रही हैं।","थेट किरकोळ साखळी कंपन्या बाजारभावापेक्षा जास्त दर देत आहेत."],
+    ["BT Cotton Super Fine","बीटी कपास सुपर फाइन","बीटी कापूस सुपर फाईन"],
+    ["Grade A Extra Long Staple","ग्रेड ए अतिरिक्त लंबा रेशा","ग्रेड ए लांब धागा"],
+    ["HOLD (Prices Rising)","रोकें (कीमतें बढ़ रही हैं)","थांबवा (भाव वाढत आहेत)"],
+    ["Thomson Seedless Export","थॉमसन बीजहीन निर्यात","थॉमसन बिनबियांची द्राक्षे (निर्यात)"],
+    ["Dindori APMC Yard","दिंडोरी मंडी यार्ड","दिंडोरी बाजार समिती यार्ड"],
+    ["HOLD / PARTIAL HARVEST","रोकें / आंशिक कटाई","थांबवा / अंशतः काढणी"],
+    ["Bhagwa Super Red","भगवा सुपर रेड अनार","भगवा सुपर रेड डाळिंब"],
+    ["Grade A Bold 300g+","ग्रेड ए बोल्ड 300 ग्राम+","ग्रेड ए मोठे दाणे ३०० ग्रॅम+"],
+    ["Export packing houses aggressively buying high-brix Bhagwa lots.","निर्यात पैकिंग हाउस उच्च मिठास वाले भगवा लॉट तेजी से खरीद रहे हैं।","निर्यात पॅकिंग केंद्रे उच्च गोडीच्या भगवा लॉट्सची जोरदार खरेदी करत आहेत."],
+    ["Latur Mega APMC","लातूर मेगा एपीएमसी","लातूर मेगा बाजार समिती"],
+    ["Grade A Cleaned & Machine Screened","ग्रेड ए साफ और मशीन से छांटा गया","ग्रेड ए स्वच्छ व यंत्राने चाळलेले"],
+    ["HOLD / STORE (Oil Mill Demand)","रोकें / भंडारण करें (तेल मिल मांग)","थांबवा / साठवणूक करा (तेल गिरणी मागणी)"],
+    ["Rajapuri Whole Finger","राजापुरी साबुत गांठ हल्दी","राजापुरी अख्खी हळद कांड्या"],
+    ["Grade A High Curcumin (3.8%+)","ग्रेड ए उच्च करक्यूमिन (3.8%+)","ग्रेड ए उच्च कर्क्युमिन (३.८%+)"],
+    ["Grand Naine Export Calibrated","ग्रैंड नैन निर्यात कैलिब्रेटेड","ग्रँड नैन निर्यात वर्गवारी"],
+    ["Grade A 7-8 Inch Hands","ग्रेड ए 7-8 इंच घड़","ग्रेड ए ७-८ इंच फण्या"],
+    ["MSAMB Live API & Agmarknet Verified","एमएसएएमबी लाइव एपीआई और एग्मार्कनेट सत्यापित","एमएसएएमबी थेट एपीआय व अ‍ॅगमार्कनेट प्रमाणित"],
+    ["Listen Market Advice","बाजार सलाह सुनें","बाजार सल्ला ऐका"],
+    ["₹ 4,85,000 transferred instantly to your HDFC bank account!","₹ 4,85,000 आपके एचडीएफसी बैंक खाते में तुरंत स्थानांतरित किए गए!","₹ ४,८५,००० आपल्या एचडीएफसी बँक खात्यात तात्काळ वर्ग झाले आहेत!"],
+    ["+8.9% over Mandi","मंडी से +8.9% अधिक","बाजारभावापेक्षा +८.९% जास्त"],
+    ["● Online • Mumbai & Pune Direct Fulfilment","● ऑनलाइन • मुंबई और पुणे सीधी आपूर्ति","● ऑनलाइन • मुंबई व पुणे थेट पूर्तता"],
+    ["📋 [Attachment: Electronic Weighbridge Slip #WB-9941 - 4,500 kg Gross Weight]","📋 [संलग्नक: इलेक्ट्रॉनिक धर्मकांटा पर्ची #WB-9941 - 4,500 किग्रा सकल वजन]","📋 [जोडपत्र: इलेक्ट्रॉनिक वजन पावती #WB-9941 - ४,५०० किलो एकूण वजन]"],
+    ["🔬 [Attachment: NABL Digital Quality Assay Certificate - Grade A+ (11.2% Moisture)]","🔬 [संलग्नक: एनएबीएल डिजिटल गुणवत्ता जांच प्रमाणपत्र - ग्रेड ए+ (11.2% नमी)]","🔬 [जोडपत्र: एनएबीएल डिजिटल गुणवत्ता तपासणी प्रमाणपत्र - ग्रेड ए+ (११.२% ओलावा)]"],
+    ["📷 [Attachment: Live Farm Gate Loading Photo - 150 Crates Standard CFB Pack]","📷 [संलग्नक: लाइव खेत गेट लोडिंग फोटो - 150 क्रेट मानक सीएफबी पैक]","📷 [जोडपत्र: थेट शेतबांध लोडिंग छायाचित्र - १५० क्रेट्स दर्जेदार सीएफबी पॅक]"],    ["View Shipment →","खेप विवरण देखें →","वाहतूक तपशील पहा →"],
     ["💬 Live Chat","💬 लाइव चैट","💬 थेट संवाद"],
     ["Total Guaranteed","कुल गारंटीड राशि","एकूण हमी रक्कम"],
     ["HDFC-ESC-908123","एचडीएफसी-एस्क्रो-908123","एचडीएफसी-एस्क्रो-९०८१२३"],
@@ -1793,6 +1955,10 @@
     indexMap(DISTRICT_MAP);
 
     REVERSE_FARMER_SUBSTRINGS.sort((a, b) => b.foreign.length - a.foreign.length);
+    REVERSE_FARMER_CORE['सरल शेतकरी मोड'] = 'Simple Farmer Mode';
+    REVERSE_FARMER_CORE['सरल किसान मोड'] = 'Simple Farmer Mode';
+    REVERSE_FARMER_CORE['बोलून सांगा'] = 'Speak Command';
+    REVERSE_FARMER_CORE['बोलकर आदेश दें'] = 'Speak Command';
   }
 
   buildFarmerReverseDictionaries();
@@ -1989,3238 +2155,14599 @@
   }
 
   const WORD_REPLACEMENTS = {
-    mr: [
-      ["insights_search_mandi_ph", "बाजार समिती, जिल्हा किंवा पीक शोधा..."],
-      ["ph_search_dist_mandi", "जिल्हा किंवा बाजार समिती प्रांगण शोधा..."],
-      ["Quotas Displayed", "कोटा प्रदर्शित"],
-      ["Active Quotas", "सक्रिय कोटा"],
-      ["Displayed", "प्रदर्शित"],
-      ["displayed", "प्रदर्शित"],
-      ["Navi Mumbai", "नवी मुंबई"],
-      ["navi mumbai", "नवी मुंबई"],
-      ["Marathwada", "मराठवाडा"],
-      ["marathwada", "मराठवाडा"],
-      ["Mumbai", "मुंबई"],
-      ["mumbai", "मुंबई"],
-      ["Recommendation", "खरेदी शिफारस"],
-      ["recommendation", "शिफारस"],
-      ["Specifications", "तांत्रिक तपशील"],
-      ["specifications", "तपशील"],
-      ["Intermediaries", "मध्यस्थ दलाल"],
-      ["Institutional", "संस्थात्मक"],
-      ["Manufacturers", "प्रक्रियादार उत्पादक"],
-      ["Authorization", "अधिकृतता"],
-      ["authorization", "अधिकृतता"],
-      ["Notifications", "सूचना"],
-      ["Cryptographic", "क्रिप्टोग्राफिक सुरक्षित"],
-      ["institutional", "संस्थात्मक"],
-      ["Certification", "प्रमाणपत्र"],
-      ["certification", "प्रमाणपत्र"],
-      ["Agricultural", "कृषी शेती"],
-      ["agricultural", "कृषी"],
-      ["Consignments", "माल खेपा"],
-      ["Verification", "पडताळणी सत्यता"],
-      ["Certificates", "प्रमाणपत्रे"],
-      ["certificates", "प्रमाणपत्रे"],
-      ["Broadcasting", "प्रसारण सुरू आहे"],
-      ["Intermediary", "मध्यस्थ"],
-      ["Commodities", "शेतीमाल प्रकार"],
-      ["Pomegranate", "डाळिंब"],
-      ["Supermarket", "सुपरमार्केट"],
-      ["Marketplace", "बाजारपेठ"],
-      ["Procurement", "खरेदी"],
-      ["procurement", "खरेदी"],
-      ["Negotiation", "दर वाटाघाटी"],
-      ["NEGOTIATION", "दर वाटाघाटी"],
-      ["negotiation", "वाटाघाटी"],
-      ["Arbitration", "लवाद मध्यस्थता"],
-      ["Settlements", "निकाली व्यवहार"],
-      ["settlements", "निकाली व्यवहार"],
-      ["Consignment", "माल खेप (कन्सॉइनमेंट)"],
-      ["Weighbridge", "इलेक्ट्रॉनिक धर्मकाटा"],
-      ["weighbridge", "धर्मकाटा"],
-      ["Temperature", "तापमान"],
-      ["Forecasting", "अंदाज वर्तवणे"],
-      ["forecasting", "अंदाज"],
-      ["Recommended", "शिफारस केलेले"],
-      ["Description", "वर्णन"],
-      ["description", "वर्णन"],
-      ["Perspective", "दृष्टिकोन"],
-      ["Information", "माहिती"],
-      ["Destination", "गंतव्य पोहोच ठिकाण"],
-      ["destination", "गंतव्य"],
-      ["Unallocated", "वाटप न केलेले"],
-      ["Unmonitored", "निरीक्षणाशिवाय"],
-      ["Checkpoints", "तपासणी नाके"],
-      ["Interactive", "परस्परसंवादी थेट"],
-      ["interactive", "थेट संवादी"],
-      ["Traditional", "पारंपारिक जुना"],
-      ["traditional", "पारंपारिक"],
-      ["Maharashtra", "महाराष्ट्र"],
-      ["BENEFICIARY", "लाभार्थी शेतकरी"],
-      ["Composition", "रचना घटक"],
-      ["immediately", "त्वरीत लगेच"],
-      ["perspective", "दृष्टिकोन"],
-      ["transaction", "व्यवहार"],
-      ["Narayangaon", "नारायणगाव"],
-      ["Chikalthana", "चिकलठाणा"],
-      ["marketplace", "बाजारपेठ"],
-      ["supermarket", "सुपरमार्केट"],
-      ["Comparative", "तुलनात्मक"],
-      ["comparative", "तुलनात्मक"],
-      ["Vegetables", "भाजीपाला"],
-      ["Enterprise", "संस्थात्मक खरेदीदार"],
-      ["ENTERPRISE", "संस्थात्मक खरेदीदार"],
-      ["Commercial", "व्यावसायिक"],
-      ["Processors", "अन्न प्रक्रियादार"],
-      ["Processing", "प्रक्रिया"],
-      ["purchasing", "खरेदी करत आहे"],
-      ["Purchasing", "खरेदी"],
-      ["Arbitrator", "लवाद मध्यस्थ"],
-      ["Authorized", "अधिकृत"],
-      ["Settlement", "निकाली व्यवहार"],
-      ["settlement", "निकाली व्यवहार"],
-      ["Collateral", "तारण हमी"],
-      ["Commission", "कमिशन आडत"],
-      ["calculated", "हिशोब केलेला"],
-      ["Calculator", "कॅल्क्युलेटर हिशोब"],
-      ["Dispatched", "रवाना झाले"],
-      ["Atmosphere", "नियंत्रित वातावरण"],
-      ["Controlled", "नियंत्रित"],
-      ["CONTROLLED", "नियंत्रित"],
-      ["controlled", "नियंत्रित"],
-      ["Corrugated", "पुठ्ठ्याचे बॉक्स"],
-      ["Inspection", "निरीक्षण पाहणी"],
-      ["Accredited", "मान्यताप्राप्त"],
-      ["Mismatches", "विसंगती तफावत"],
-      ["mismatches", "तफावत"],
-      ["Grievances", "तक्रारी"],
-      ["Resolution", "निवारण तोडगा"],
-      ["Visualizer", "दृश्य आलेख चार्ट"],
-      ["Projection", "भविष्यवेध अंदाज"],
-      ["projection", "अंदाज"],
-      ["Divergence", "दर तफावत"],
-      ["divergence", "तफावत"],
-      ["Advisories", "सल्ले"],
-      ["Successful", "यशस्वी"],
-      ["Protection", "संरक्षण"],
-      ["Guaranteed", "हमी दिलेली"],
-      ["Electronic", "इलेक्ट्रॉनिक"],
-      ["Percentage", "टक्केवारी"],
-      ["Undertakes", "हमी घेतो"],
-      ["undertakes", "हमी घेतो"],
-      ["Conforming", "निकषांनुसार"],
-      ["conforming", "सुसंगत"],
-      ["Mechanisms", "यंत्रणा"],
-      ["Monitoring", "थेट निरीक्षण"],
-      ["monitoring", "निरीक्षण"],
-      ["Turnaround", "पूर्तता वेळ (टर्नअराउंड)"],
-      ["turnaround", "पूर्तता वेळ"],
-      ["Historical", "ऐतिहासिक नोंदी"],
-      ["historical", "ऐतिहासिक"],
-      ["Facilities", "सुविधा केंद्रे"],
-      ["facilities", "सुविधा"],
-      ["Innovative", "नावीन्यपूर्ण आधुनिक"],
-      ["innovative", "नावीन्यपूर्ण"],
-      ["Supporting", "सहाय्यक"],
-      ["supporting", "सहाय्यक"],
-      ["Calibrated", "कॅलिब्रेट अचूक तपासलेले"],
-      ["calibrated", "तपासलेले"],
-      ["Variations", "फरक तफावती"],
-      ["variations", "फरक"],
-      ["Minimizing", "किमान कमी करणे"],
-      ["minimizing", "कमी करणे"],
-      ["Background", "पार्श्वभूमी"],
-      ["background", "पार्श्वभूमी"],
-      ["Simulating", "सिम्युलेशन करत आहे"],
-      ["simulating", "सिम्युलेशन करत आहे"],
-      ["acceptance", "स्वीकृती"],
-      ["Industrial", "औद्योगिक"],
-      ["Negotiable", "वाटाघाटीयोग्य"],
-      ["NetBanking", "नेटबँकिंग"],
-      ["Perishable", "नाशवंत शेतीमाल"],
-      ["Returnable", "परत करण्यायोग्य"],
-      ["Technology", "तंत्रज्ञान"],
-      ["designated", "नियुक्त"],
-      ["electronic", "इलेक्ट्रॉनिक"],
-      ["individual", "वैयक्तिक"],
-      ["resolution", "निवारण"],
-      ["Pimpalgaon", "पिंपळगाव"],
-      ["Pandharpur", "पंढरपूर"],
-      ["Dhamangaon", "धामणगाव"],
-      ["Hinganghat", "हिंगणघाट"],
-      ["Commodity", "कृषी शेतीमाल"],
-      ["Mandarins", "संत्री मोसंबी"],
-      ["harvested", "काढणी झालेली"],
-      ["Wholesale", "घाऊक बाजार"],
-      ["WHOLESALE", "घाऊक बाजार"],
-      ["Corporate", "कॉर्पोरेट संस्थात्मक"],
-      ["Negotiate", "वाटाघाटी करा"],
-      ["Agreement", "करार"],
-      ["Contracts", "करार"],
-      ["Statutory", "वैधानिक अधिकृत"],
-      ["Signatory", "स्वाक्षरीकर्ता"],
-      ["Signature", "स्वाक्षरी"],
-      ["signature", "स्वाक्षरी"],
-      ["Authorize", "अधिकृत करा"],
-      ["Compliant", "मानक सुसंगत"],
-      ["Deposited", "जमा केले"],
-      ["deposited", "जमा केले"],
-      ["Disbursal", "रक्कम वितरण"],
-      ["DISBURSAL", "रक्कम वितरण"],
-      ["disbursed", "वितरीत केले"],
-      ["Financing", "वित्तपुरवठा"],
-      ["financing", "वित्तपुरवठा"],
-      ["Repayment", "परतफेड"],
-      ["Liquidity", "तरलता निधी"],
-      ["Brokerage", "दलाली कमिशन"],
-      ["brokerage", "दलाली कमिशन"],
-      ["Shrinkage", "वजन घट नुकसान"],
-      ["shrinkage", "वजन घट नुकसान"],
-      ["Valuation", "एकूण मूल्य"],
-      ["VALUATION", "एकूण मूल्य"],
-      ["valuation", "मूल्यांकन"],
-      ["Benchmark", "बाजार मानक दर"],
-      ["benchmark", "मानक दर"],
-      ["Arbitrage", "किंमत नफा फरक"],
-      ["arbitrage", "किंमत नफा फरक"],
-      ["Breakeven", "किमान ब्रेक-इव्हन दर"],
-      ["Calculate", "हिशोब करा"],
-      ["Logistics", "वाहतूक व पुरवठा साखळी"],
-      ["logistics", "वाहतूक व पुरवठा"],
-      ["Transport", "वाहतूक"],
-      ["transport", "वाहतूक"],
-      ["Consignor", "माल पाठवणारा (शेतकरी)"],
-      ["Consignee", "माल स्वीकारणारा (खरेदीदार)"],
-      ["Shipments", "माल खेपा वहन"],
-      ["Weighment", "वजन तपासणी"],
-      ["Telemetry", "थेट सेन्सर टेलिमेट्री"],
-      ["TELEMETRY", "थेट टेलिमेट्री"],
-      ["telemetry", "टेलिमेट्री"],
-      ["Satellite", "उपग्रह ट्रॅकिंग"],
-      ["Warehouse", "वेअरहाऊस गोदाम"],
-      ["warehouse", "गोदाम"],
-      ["Packaging", "पॅकेजिंग बारदाना"],
-      ["Tolerance", "सहनशीलता मर्यादा"],
-      ["tolerance", "सहनशीलता मर्यादा"],
-      ["Inspected", "पाहणी केलेले"],
-      ["Certified", "प्रमाणित"],
-      ["Defective", "दोषी"],
-      ["Shortages", "तूट"],
-      ["shortages", "तूट"],
-      ["Deviation", "मापदंड फरक विचलन"],
-      ["Grievance", "तक्रार निवारण"],
-      ["grievance", "तक्रार"],
-      ["Redressal", "निवारण मंच"],
-      ["Complaint", "तक्रार"],
-      ["complaint", "तक्रार"],
-      ["Releasing", "रक्कम मुक्त करत आहे"],
-      ["Analytics", "डेटा विश्लेषण"],
-      ["Available", "उपलब्ध"],
-      ["available", "उपलब्ध"],
-      ["Statement", "विवरण पत्रक"],
-      ["Dashboard", "डॅशबोर्ड"],
-      ["Broadcast", "प्रसारित करा"],
-      ["Emergency", "आपत्कालीन"],
-      ["Important", "महत्त्वाचे"],
-      ["Automated", "स्वयंचलित"],
-      ["Instantly", "त्वरीत"],
-      ["Connected", "जोडले गेले"],
-      ["Protected", "संरक्षित"],
-      ["PROTECTED", "संरक्षित"],
-      ["Guarantee", "हमी"],
-      ["Assurance", "खात्री"],
-      ["Digitally", "डिजिटल पद्धतीने"],
-      ["Encrypted", "एनक्रिप्टेड सुरक्षित"],
-      ["Immutable", "अपरिवर्तनीय कायमस्वरूपी"],
-      ["Timestamp", "वेळ नोंद"],
-      ["Yesterday", "काल"],
-      ["Quarterly", "त्रैमासिक"],
-      ["Locations", "ठिकाणे"],
-      ["Districts", "जिल्हे"],
-      ["Breakdown", "सविस्तर तपशीलवार वर्गीकरण"],
-      ["Checklist", "तपासणी यादी"],
-      ["Readiness", "सज्जता"],
-      ["Milestone", "टप्पा उद्दिष्ट"],
-      ["Receiving", "स्वीकारत आहे"],
-      ["Requested", "विनंती केलेली"],
-      ["Exceeding", "मर्यादेपेक्षा जास्त"],
-      ["exceeding", "जास्त"],
-      ["Protocols", "नियम नियमावली"],
-      ["Mechanism", "यंत्रणा"],
-      ["mechanism", "यंत्रणा"],
-      ["Oversight", "देखरेख देखरेख"],
-      ["oversight", "देखरेख"],
-      ["Supported", "समर्थित"],
-      ["supported", "समर्थित"],
-      ["Remaining", "उर्वरित शिल्लक"],
-      ["remaining", "उर्वरित"],
-      ["Fulfilled", "पूर्ण झालेले"],
-      ["fulfilled", "पूर्ण"],
-      ["Discounts", "सूट"],
-      ["Secondary", "दुय्यम"],
-      ["secondary", "दुय्यम"],
-      ["Samruddhi", "समृद्धी महामार्ग"],
-      ["BIGBASKET", "बिगबास्केट"],
-      ["BigBasket", "बिगबास्केट"],
-      ["CERTIFIED", "प्रमाणित"],
-      ["certified", "प्रमाणित"],
-      ["Completed", "पूर्ण झाले"],
-      ["Dedicated", "समर्पित विशेष"],
-      ["Estimated", "अंदाजित"],
-      ["Immediate", "तात्काळ तात्काळ"],
-      ["immediate", "तात्काळ"],
-      ["Insurance", "विमा संरक्षण"],
-      ["Middleman", "मध्यस्थ दलाल"],
-      ["middleman", "मध्यस्थ"],
-      ["REGULATED", "नियमन केलेले"],
-      ["regulated", "नियमन केलेले"],
-      ["Rameshwar", "रामेश्वर"],
-      ["Reference", "संदर्भ क्रमांक"],
-      ["transfers", "हस्तांतरणे"],
-      ["automated", "स्वयंचलित"],
-      ["commodity", "शेतीमाल"],
-      ["corporate", "संस्थात्मक"],
-      ["digitally", "डिजिटल पद्धतीने"],
-      ["discovery", "दर शोध प्रक्रिया"],
-      ["emergency", "आपत्कालीन"],
-      ["instantly", "त्वरीत"],
-      ["inventory", "साठा शिल्लक"],
-      ["packaging", "पॅकेजिंग"],
-      ["varieties", "वाण प्रकार"],
-      ["Lasalgaon", "लासलगाव"],
-      ["Sangamner", "संगमनेर"],
-      ["Majalgaon", "माजलगाव"],
-      ["Regulated", "नियमन केलेले"],
-      ["icicibank", "ICICI बँक"],
-      ["Purchased", "खरेदी केलेले"],
-      ["purchased", "खरेदी केलेले"],
-      ["districts", "जिल्हे"],
-      ["Oilseeds", "गळीत धान्य (तेलबिया)"],
-      ["tomatoes", "टोमॅटो"],
-      ["Tomatoes", "टोमॅटो"],
-      ["Mandarin", "संत्री"],
-      ["Turmeric", "हळद"],
-      ["Alphonso", "हापूस आंबा"],
-      ["Maldandi", "मालदांडी"],
-      ["Thompson", "थॉमसन"],
-      ["Seedless", "बिनबियांची"],
-      ["harvests", "काढणी"],
-      ["Caterers", "कॅटरर्स अन्नपुरवठादार"],
-      ["Catering", "कॅटरिंग"],
-      ["Exchange", "कृषी बाजार केंद्र"],
-      ["Terminal", "टर्मिनल मुख्य आवार"],
-      ["Corridor", "महामार्ग कॉरिडॉर"],
-      ["Procured", "खरेदी केलेले"],
-      ["PROCURED", "खरेदी केलेले"],
-      ["procured", "खरेदी केलेले"],
-      ["Sourced", "खरेदी पूर्ण"],
-      ["sourced", "खरेदी पूर्ण"],
-      ["Review", "तपासणी करा"],
-      ["review", "तपासणी"],
-      ["BENCHMARK", "संदर्भ दर"],
-      ["benchmark", "संदर्भ दर"],
-      ["CEILING", "कमाल मर्यादा"],
-      ["ceiling", "कमाल मर्यादा"],
-      ["QUOTA", "कोटा"],
-      ["quota", "कोटा"],
-      ["Purchase", "खरेदी"],
-      ["purchase", "खरेदी"],
-      ["Contract", "खरेदी करार"],
-      ["contract", "करार"],
-      ["Tribunal", "न्यायाधिकरण"],
-      ["Ratified", "मंजूर अधिकृत"],
-      ["ratified", "मंजूर"],
-      ["Deposits", "ठेवी"],
-      ["deposits", "ठेवी"],
-      ["Advances", "आगाऊ रकमा"],
-      ["Disburse", "रक्कम वितरीत करा"],
-      ["Payments", "पेमेंट्स"],
-      ["Credited", "खात्यात जमा झाले"],
-      ["credited", "जमा झाले"],
-      ["Discount", "सूट"],
-      ["Interest", "व्याजदर"],
-      ["Reserves", "राखीव निधी"],
-      ["reserves", "राखीव निधी"],
-      ["Arhatiya", "आडत्या कमिशन"],
-      ["Dispatch", "रवाना करा"],
-      ["dispatch", "रवाना"],
-      ["Delivery", "डिलिव्हरी पोहोच"],
-      ["DELIVERY", "डिलिव्हरी पोहोच"],
-      ["delivery", "डिलिव्हरी"],
-      ["Distance", "अंतर"],
-      ["Tracking", "थेट ट्रॅकिंग"],
-      ["tracking", "ट्रॅकिंग"],
-      ["Readings", "सेन्सर नोंदी"],
-      ["readings", "नोंदी"],
-      ["Chambers", "शीत कक्ष"],
-      ["chambers", "शीत कक्ष"],
-      ["Humidity", "आद्रता"],
-      ["Capacity", "क्षमता"],
-      ["Hermetic", "हवाबंद हर्मेटिक"],
-      ["Moisture", "ओलावा प्रमाण"],
-      ["moisture", "ओलावा प्रमाण"],
-      ["Verified", "सत्यापित पडताळणी झालेले"],
-      ["verified", "सत्यापित"],
-      ["Spoilage", "नासाडी नुकसान"],
-      ["Shortage", "वजन तूट घट"],
-      ["Disputes", "वाद"],
-      ["Resolved", "निवारण झाले"],
-      ["resolved", "निकाली"],
-      ["Releases", "मुक्त रकमा"],
-      ["Evidence", "पुरावा दस्तऐवज"],
-      ["evidence", "पुरावा"],
-      ["Insights", "बाजार विश्लेषण"],
-      ["insights", "विश्लेषण"],
-      ["Forecast", "अंदाज"],
-      ["forecast", "अंदाज"],
-      ["Arrivals", "आवक प्रमाण"],
-      ["arrivals", "आवक"],
-      ["Advisory", "सल्ला मार्गदर्शन"],
-      ["advisory", "सल्ला"],
-      ["Strategy", "खरेदी धोरण"],
-      ["Velocity", "खरेदी गती"],
-      ["Awaiting", "प्रतीक्षेत"],
-      ["awaiting", "प्रतीक्षेत"],
-      ["Download", "डाउनलोड करा"],
-      ["download", "डाउनलोड करा"],
-      ["Receipts", "पावत्या"],
-      ["receipts", "पावत्या"],
-      ["Settings", "सेटिंग्ज"],
-      ["Overview", "विहंगावलोकन"],
-      ["Previous", "मागील"],
-      ["Messages", "संदेश"],
-      ["Contacts", "संपर्क यादी"],
-      ["Feedback", "अभिप्राय"],
-      ["Language", "भाषा"],
-      ["Distress", "संकटातील शेतीमाल"],
-      ["Critical", "महत्त्वाचे"],
-      ["Required", "आवश्यक"],
-      ["Optional", "ऐच्छिक"],
-      ["Standard", "मानक"],
-      ["Realtime", "थेट रीअल-टाईम"],
-      ["Security", "सुरक्षा"],
-      ["Tomorrow", "उद्या"],
-      ["Location", "ठिकाण स्थान"],
-      ["location", "ठिकाण"],
-      ["District", "जिल्हा"],
-      ["district", "जिल्हा"],
-      ["Regional", "प्रादेशिक"],
-      ["Cheapest", "सर्वात स्वस्त"],
-      ["Kilogram", "किलोग्रॅम"],
-      ["Passbook", "पासबुक"],
-      ["Steppers", "टप्पे"],
-      ["Whenever", "जेव्हा केव्हा"],
-      ["Received", "प्राप्त झाले"],
-      ["received", "मिळाले"],
-      ["Response", "प्रतिसाद"],
-      ["response", "प्रतिसाद"],
-      ["Initiate", "सुरू करा"],
-      ["initiate", "सुरू करा"],
-      ["Assigned", "नियुक्त केले"],
-      ["assigned", "नियुक्त"],
-      ["Withheld", "रोखून धरलेले"],
-      ["withheld", "रोखून धरलेले"],
-      ["Specific", "विशिष्ट"],
-      ["specific", "विशिष्ट"],
-      ["Protocol", "नियमावली प्रोटोकॉल"],
-      ["protocol", "नियमावली"],
-      ["Triggers", "ट्रिगर्स सक्रिय"],
-      ["triggers", "सक्रिय करते"],
-      ["Keywords", "शोध शब्द (कीवर्ड्स)"],
-      ["keywords", "कीवर्ड्स"],
-      ["Position", "स्थान स्थिती"],
-      ["position", "स्थिती"],
-      ["Seasonal", "हंगामी"],
-      ["seasonal", "हंगामी"],
-      ["corridor", "कॉरिडॉर"],
-      ["Facility", "सुविधा केंद्र"],
-      ["Flexible", "लवचिक"],
-      ["flexible", "लवचिक"],
-      ["Strictly", "काटेकोरपणे"],
-      ["strictly", "काटेकोरपणे"],
-      ["Registry", "नोंदणी रजिस्टर"],
-      ["registry", "रजिस्टर"],
-      ["Internet", "इंटरनेट"],
-      ["Executed", "अंमलबजावणी पूर्ण"],
-      ["executed", "पूर्ण"],
-      ["Realized", "प्राप्त झालेले नफा"],
-      ["realized", "प्राप्त"],
-      ["Maximize", "कमाल नफा मिळवा"],
-      ["maximize", "कमाल करा"],
-      ["Directly", "थेट थेट"],
-      ["directly", "थेट"],
-      ["Pressure", "हवामान दाब"],
-      ["pressure", "दाब"],
-      ["Matching", "योग्य जुळणी"],
-      ["matching", "जुळणारे"],
-      ["Vidarbha", "विदर्भ"],
-      ["Khandesh", "खानदेश"],
-      ["Sahyadri", "सह्याद्री"],
-      ["Shivneri", "शिवनेरी"],
-      ["Business", "व्यवसाय व्यापार"],
-      ["CONTRACT", "करार"],
-      ["Concepts", "संकल्पना"],
-      ["Deshmukh", "देशमुख"],
-      ["Division", "विभाग"],
-      ["External", "बाह्य इतर"],
-      ["Holdings", "राखून ठेवलेली शिल्लक"],
-      ["Physical", "प्रत्यक्ष प्रत्यक्ष"],
-      ["physical", "प्रत्यक्ष"],
-      ["Quantity", "प्रमाण वजन"],
-      ["quantity", "प्रमाण"],
-      ["Reliance", "रिलायन्स"],
-      ["Scheduled", "नियोजित"],
-      ["scheduled", "नियोजित"],
-      ["SCHEDULED", "नियोजित"],
-      ["Schedule", "वेळापत्रक"],
-      ["schedule", "वेळापत्रक"],
-      ["SCHEDULE", "वेळापत्रक"],
-      ["Mature", "परिपक्व"],
-      ["mature", "परिपक्व"],
-      ["MATURE", "परिपक्व"],
-      ["Packed", "पॅक केलेले"],
-      ["packed", "पॅक केलेले"],
-      ["PACKED", "पॅक केलेले"],
-      ["Packing", "पॅकिंग"],
-      ["packing", "पॅकिंग"],
-      ["RH", "सापेक्ष आर्द्रता"],
-      ["Chilled", "शीतकरण"],
-      ["chilled", "शीतकरण"],
-      ["Cleaned", "स्वच्छ केलेले"],
-      ["cleaned", "स्वच्छ केलेले"],
-      ["Brix", "ब्रिक्स"],
-      ["brix", "ब्रिक्स"],
-      ["HDPE", "HDPE"],
-      ["Plastic", "प्लास्टिक"],
-      ["plastic", "प्लास्टिक"],
-      ["Crates", "क्रेट्स"],
-      ["crates", "क्रेट्स"],
-      ["Gunny", "बारदान पोती"],
-      ["gunny", "बारदान"],
-      ["Jute", "जूट"],
-      ["jute", "जूट"],
-      ["Bags", "पोती"],
-      ["bags", "पोती"],
-      ["Origin", "उगम"],
-      ["origin", "उगम"],
-      ["Hands", "घड"],
-      ["hands", "घड"],
-      ["Skin", "साल"],
-      ["skin", "साल"],
-      ["Bulbs", "गाठी"],
-      ["bulbs", "गाठी"],
-      ["Polished", "पॉलिश केलेले"],
-      ["polished", "पॉलिश केलेले"],
-      ["Curcumin", "करक्युमिन"],
-      ["curcumin", "करक्युमिन"],
-      ["Ventilated", "हवेशीर"],
-      ["ventilated", "हवेशीर"],
-      ["Lined", "अस्तरयुक्त"],
-      ["lined", "अस्तरयुक्त"],
-      ["Services", "सेवा"],
-      ["Simulate", "सिम्युलेट करा"],
-      ["Sourcing", "थेट खरेदी प्रक्रिया"],
-      ["sourcing", "खरेदी"],
-      ["Transfer", "हस्तांतरण वर्ग"],
-      ["capacity", "क्षमता"],
-      ["disabled", "अक्षम केलेले"],
-      ["hermetic", "हवाबंद"],
-      ["tribunal", "न्यायाधिकरण"],
-      ["Malegaon", "मालेगाव"],
-      ["Bhiwapur", "भिवापूर"],
-      ["Gultekdi", "गुलटेकडी"],
-      ["Hadapsar", "हडपसर"],
-      ["Ardhapur", "अर्धापूर"],
-      ["Sambhaji", "संभाजीनगर"],
-      ["Anandrao", "आनंदराव"],
-      ["releases", "रक्कम मुक्ती"],
-      ["Rajapuri", "राजापुरी"],
-      ["Disputed", "वादग्रस्त"],
-      ["disputed", "वादग्रस्त"],
-      ["Farmgate", "शेत-शिवार"],
-      ["farmgate", "शेत-शिवार"],
-      ["Produce", "शेतीमाल"],
-      ["PRODUCE", "शेतीमाल"],
-      ["produce", "शेतीमाल"],
-      ["Millets", "भरड धान्य (मिलेट्स)"],
-      ["Cereals", "तृणधान्ये"],
-      ["Legumes", "शेंगा कडधान्य"],
-      ["Soybean", "सोयाबीन"],
-      ["soybean", "सोयाबीन"],
-      ["Compost", "खत कंपोस्ट"],
-      ["Harvest", "काढणी"],
-      ["harvest", "काढणी"],
-      ["Sellers", "विक्रेते"],
-      ["Farmers", "शेतकरी"],
-      ["farmers", "शेतकरी"],
-      ["Kitchen", "क्लाउड किचन"],
-      ["Network", "नेटवर्क जाळे"],
-      ["Demands", "मागण्या"],
-      ["Procure", "खरेदी करा"],
-      ["Counter", "प्रति-प्रस्ताव"],
-      ["counter", "प्रति-प्रस्ताव"],
-      ["Binding", "बंधनकारक"],
-      ["Trustee", "विश्वस्त"],
-      ["TRUSTEE", "विश्वस्त"],
-      ["Signoff", "मंजुरी स्वाक्षरी"],
-      ["signoff", "मंजुरी स्वाक्षरी"],
-      ["Deposit", "जमा रक्कम"],
-      ["deposit", "जमा"],
-      ["Advance", "आगाऊ अ‍ॅडव्हान्स"],
-      ["advance", "आगाऊ"],
-      ["Tranche", "हप्ता टप्पा"],
-      ["TRANCHE", "हप्ता टप्पा"],
-      ["tranche", "हप्ता"],
-      ["Balance", "उर्वरित शिल्लक"],
-      ["balance", "शिल्लक"],
-      ["Settled", "निकाली पूर्ण"],
-      ["Payment", "पेमेंट"],
-      ["payment", "पेमेंट"],
-      ["Payable", "देय रक्कम"],
-      ["Pledges", "तारण पावत्या"],
-      ["Lending", "कर्ज वाटप"],
-      ["lending", "कर्ज वाटप"],
-      ["Capital", "भांडवल"],
-      ["capital", "भांडवल"],
-      ["Hedging", "किंमत सुरक्षितता (हेजिंग)"],
-      ["spreads", "दर फरक"],
-      ["Savings", "बचत"],
-      ["SAVINGS", "बचत"],
-      ["savings", "बचत"],
-      ["Average", "सरासरी"],
-      ["Minimum", "किमान"],
-      ["minimum", "किमान"],
-      ["Maximum", "कमाल"],
-      ["maximum", "कमाल"],
-      ["Ceiling", "कमाल मर्यादा"],
-      ["Freight", "वाहतूक भाडे"],
-      ["freight", "वाहतूक भाडे"],
-      ["Haulage", "वाहतूक ओढाई"],
-      ["Transit", "वाहतुकीत मार्गावर"],
-      ["TRANSIT", "वाहतुकीत मार्गावर"],
-      ["transit", "वाहतुकीत"],
-      ["Vehicle", "वाहन"],
-      ["Payload", "वहन क्षमता पेलोड"],
-      ["Highway", "महामार्ग"],
-      ["Storage", "शीतगृह साठवणूक"],
-      ["storage", "साठवणूक"],
-      ["Chamber", "शीत कक्ष"],
-      ["chamber", "कक्ष"],
-      ["Climate", "हवामान"],
-      ["CLIMATE", "नियंत्रित हवामान"],
-      ["Cooling", "शीतकरण"],
-      ["Plastic", "प्लॅस्टिक"],
-      ["Loading", "माल चढवणे (लोडिंग)"],
-      ["Quality", "गुणवत्ता प्रत"],
-      ["Assayed", "तपासणी केलेले"],
-      ["inspect", "पाहणी करा"],
-      ["Spoiled", "खराब झालेला"],
-      ["Damaged", "नुकसानग्रस्त"],
-      ["Missing", "गहाळ कमी भरलेले"],
-      ["missing", "कमी"],
-      ["Dispute", "वाद तक्रार"],
-      ["Release", "रक्कम मुक्त करा"],
-      ["Dossier", "तक्रार संचिका (डोसियर)"],
-      ["Insight", "विश्लेषण"],
-      ["Bullish", "तेजी (दर वाढ)"],
-      ["Bearish", "मंदी (दर घट)"],
-      ["Neutral", "स्थिर बाजार"],
-      ["Arrival", "आवक"],
-      ["arrival", "आवक"],
-      ["Volumes", "आवक प्रमाण"],
-      ["volumes", "प्रमाण"],
-      ["Tonnage", "टन भार"],
-      ["tonnage", "टन भार"],
-      ["Heatmap", "आवक हीटमॅप नकाशा"],
-      ["Indices", "बाजार निर्देशांक"],
-      ["indices", "निर्देशांक"],
-      ["Copilot", "एआय खरेदी सल्लागार"],
-      ["copilot", "सल्लागार"],
-      ["Filters", "फिल्टर्स"],
-      ["Actions", "कृती"],
-      ["Pending", "प्रलंबित"],
-      ["pending", "प्रलंबित"],
-      ["Booking", "बुकिंग"],
-      ["Confirmed", "निश्चित"],
-      ["confirmed", "निश्चित"],
-      ["CONFIRMED", "निश्चित"],
-      ["Confirm", "निश्चित करा"],
-      ["confirm", "निश्चित करा"],
-      ["Details", "तपशील"],
-      ["details", "तपशील"],
-      ["Receipt", "पावती"],
-      ["receipt", "पावती"],
-      ["Invoice", "बीजक बिल"],
-      ["Voucher", "व्हाउचर पावती"],
-      ["Summary", "सारांश"],
-      ["summary", "सारांश"],
-      ["Reports", "अहवाल"],
-      ["reports", "अहवाल"],
-      ["History", "इतिहास नोंदी"],
-      ["Profile", "प्रोफाइल"],
-      ["profile", "प्रोफाइल"],
-      ["Showing", "दाखवत आहे"],
-      ["Message", "संदेश"],
-      ["message", "संदेश"],
-      ["Contact", "संपर्क"],
-      ["Explain", "स्पष्टीकरण द्या"],
-      ["Morning", "प्रभात सकाळ"],
-      ["Evening", "संध्याकाळ"],
-      ["Salvage", "मदत खरेदी"],
-      ["Urgency", "तातडी"],
-      ["Warning", "सावधानता"],
-      ["Success", "यशस्वी"],
-      ["Instant", "तात्काळ झटपट"],
-      ["Refresh", "ताजे करा"],
-      ["Offline", "ऑफलाइन"],
-      ["Digital", "डिजिटल"],
-      ["Minutes", "मिनिटे"],
-      ["minutes", "मिनिटे"],
-      ["Seconds", "सेकंद"],
-      ["seconds", "सेकंद"],
-      ["Central", "मध्यवर्ती"],
-      ["Highest", "सर्वाधिक"],
-      ["Nearest", "सर्वात जवळचे"],
-      ["Optimal", "उत्कृष्ट योग्य"],
-      ["Quintal", "क्विंटल"],
-      ["quintal", "क्विंटल"],
-      ["Partial", "अंशतः"],
-      ["Checker", "तपासणी साधन"],
-      ["Channel", "वाहिनी चॅनेल"],
-      ["Banking", "बँकिंग"],
-      ["Account", "खाते"],
-      ["Privacy", "गोपनीयता"],
-      ["Without", "शिवाय"],
-      ["without", "शिवाय"],
-      ["Against", "विरोधात"],
-      ["against", "विरुद्ध"],
-      ["Another", "दुसरे"],
-      ["another", "दुसरे"],
-      ["Explore", "एक्सप्लोर करा"],
-      ["explore", "एक्सप्लोर करा"],
-      ["Receive", "स्वीकारा मिळवा"],
-      ["receive", "मिळवा"],
-      ["replies", "उत्तरे"],
-      ["Replies", "उत्तरे"],
-      ["Request", "विनंती"],
-      ["request", "विनंती"],
-      ["Holding", "राखून ठेवलेली रक्कम"],
-      ["Jointly", "संयुक्तपणे"],
-      ["jointly", "संयुक्तपणे"],
-      ["Partner", "भागीदार"],
-      ["partner", "भागीदार"],
-      ["Weather", "हवामान अंदाज"],
-      ["weather", "हवामान"],
-      ["Complex", "संकुल आवार"],
-      ["complex", "संकुल"],
-      ["Cluster", "शेतकरी समूह (क्लस्टर)"],
-      ["cluster", "समूह"],
-      ["Marking", "गुणवत्ता चिन्हांकन"],
-      ["marking", "चिन्हांकन"],
-      ["Reflect", "दर्शवते"],
-      ["reflect", "दर्शवते"],
-      ["Records", "अधिकृत नोंदी"],
-      ["records", "नोंदी"],
-      ["Remains", "उरलेले राहते"],
-      ["remains", "राहते"],
-      ["Willing", "इच्छुक"],
-      ["willing", "इच्छुक"],
-      ["Premium", "प्रीमियम दर्जेदार"],
-      ["premium", "प्रीमियम"],
-      ["Primary", "प्राथमिक"],
-      ["primary", "प्राथमिक"],
-      ["Padding", "पॅडिंग अंतर"],
-      ["padding", "अंतर"],
-      ["Trained", "प्रशिक्षित"],
-      ["trained", "प्रशिक्षित"],
-      ["Appears", "दिसते"],
-      ["appears", "दिसते"],
-      ["English", "English"],
-      ["Marathi", "मराठी"],
-      ["ACCOUNT", "खाते"],
-      ["AUCTION", "लिलाव बोली"],
-      ["Auction", "लिलाव बोली"],
-      ["auction", "लिलाव"],
-      ["Already", "आधीच"],
-      ["Ambient", "सामान्य हवेतील"],
-      ["account", "खाते"],
-      ["Compare", "तुलना करा"],
-      ["Created", "तयार केले"],
-      ["Current", "सध्याचे चालू"],
-      ["DEPOSIT", "जमा करा"],
-      ["Express", "जलद एक्सप्रेस"],
-      ["Forward", "पुढे पाठवा"],
-      ["forward", "पुढे"],
-      ["Gateway", "पेमेंट गेटवे"],
-      ["Insured", "विमा उतरवलेले"],
-      ["Kishore", "किशोर"],
-      ["locking", "लॉक करत आहे"],
-      ["NETWORK", "नेटवर्क"],
-      ["Permits", "परवाने"],
-      ["REVERSE", "उलटी लिलाव प्रक्रिया"],
-      ["reverse", "रिव्हर्स"],
-      ["Secured", "सुरक्षित संरक्षित"],
-      ["VIRTUAL", "व्हर्च्युअल डिजिटल"],
-      ["climate", "हवामान"],
-      ["instant", "तात्काळ"],
-      ["procure", "खरेदी करा"],
-      ["quality", "गुणवत्ता"],
-      ["salvage", "मदत खरेदी"],
-      ["updated", "अद्ययावत केलेले"],
-      ["variety", "वाण"],
-      ["Manchar", "मंचर"],
-      ["Kalamna", "कळमना"],
-      ["Indapur", "इंदापूर"],
-      ["Pachora", "पाचोरा"],
-      ["Tasgaon", "तासगाव"],
-      ["Sangola", "सांगोला"],
-      ["Phaltan", "फलटण"],
-      ["Vadgaon", "वडगाव"],
-      ["Shiroli", "शिरोली"],
-      ["Shirpur", "शिरपूर"],
-      ["Shahada", "शहादा"],
-      ["Karanja", "कारंजा"],
-      ["Degloor", "देगलूर"],
-      ["Paithan", "पैठण"],
-      ["Alibaug", "अलिबाग"],
-      ["digital", "डिजिटल"],
-      ["DIGITAL", "डिजिटल"],
-      ["trustee", "विश्वस्त"],
-      ["Officer", "अधिकारी"],
-      ["officer", "अधिकारी"],
-      ["Grains", "अन्नधान्ये"],
-      ["Pulses", "कडधान्ये"],
-      ["pulses", "कडधान्ये"],
-      ["Fruits", "फळे"],
-      ["Spices", "मसाले"],
-      ["Cotton", "कापूस"],
-      ["Tomato", "टोमॅटो"],
-      ["Potato", "बटाटा"],
-      ["Banana", "केळी"],
-      ["Grapes", "द्राक्षे"],
-      ["Orange", "संत्री"],
-      ["Chilli", "मिरची"],
-      ["Bhagwa", "भगवा डाळिंब"],
-      ["Shivam", "शिवम"],
-      ["Hybrid", "संकरित"],
-      ["Curing", "क्युरिंग सुकवणे"],
-      ["Finger", "हळद कांडी"],
-      ["Buyers", "खरेदीदार"],
-      ["buyers", "खरेदीदार"],
-      ["Seller", "विक्रेता"],
-      ["SELLER", "विक्रेता"],
-      ["seller", "विक्रेता"],
-      ["Farmer", "शेतकरी"],
-      ["FARMER", "शेतकरी"],
-      ["farmer", "शेतकरी"],
-      ["Trader", "व्यापारी"],
-      ["Retail", "किरकोळ"],
-      ["Makers", "उत्पादक"],
-      ["Market", "बाजारपेठ"],
-      ["Mandis", "बाजार समित्या"],
-      ["Portal", "पोर्टल"],
-      ["PORTAL", "पोर्टल"],
-      ["Demand", "मागणी कोटा"],
-      ["Quotas", "कोटा"],
-      ["quotas", "कोटा"],
-      ["Buyout", "तातडीची खरेदी"],
-      ["Offers", "प्रस्ताव"],
-      ["Clause", "कलम अट"],
-      ["Escrow", "एस्क्रो सुरक्षित ठेव"],
-      ["ESCROW", "एस्क्रो सुरक्षित ठेव"],
-      ["escrow", "एस्क्रो"],
-      ["Payout", "रक्कम वाटप"],
-      ["payout", "वाटप"],
-      ["Credit", "जमा पत"],
-      ["credit", "जमा पत"],
-      ["Refund", "रक्कम परतावा"],
-      ["refund", "परतावा"],
-      ["Rebate", "सूट रिबेट"],
-      ["rebate", "सूट"],
-      ["Pledge", "तारण पावती"],
-      ["pledge", "तारण"],
-      ["Tenure", "कालावधी मुदत"],
-      ["Liquid", "तरल रोकड"],
-      ["Prices", "दर"],
-      ["prices", "दर"],
-      ["Tariff", "दर पत्रक"],
-      ["Hamali", "हमाली तोलाई"],
-      ["hamali", "हमाली"],
-      ["Broker", "दलाल मध्यस्थ"],
-      ["Spread", "दर फरक मार्जिन"],
-      ["Losses", "नुकसान"],
-      ["losses", "नुकसान"],
-      ["Saving", "बचत"],
-      ["Values", "मूल्ये"],
-      ["Landed", "गोदाम पोहोच"],
-      ["landed", "गोदाम पोहोच"],
-      ["Amount", "रक्कम"],
-      ["AMOUNT", "रक्कम"],
-      ["Hauler", "वाहतूकदार ट्रान्सपोर्टर"],
-      ["Delays", "विलंब खोळंबा"],
-      ["delays", "विलंब"],
-      ["Reefer", "शीतगृह रेफ्रिजरेटेड ट्रक"],
-      ["Driver", "चालक"],
-      ["driver", "चालक"],
-      ["Sealed", "सील बंद"],
-      ["Sensor", "आयओटी सेन्सर"],
-      ["Beacon", "जीपीएस बीकन"],
-      ["Stored", "साठवले"],
-      ["Crates", "क्रॅट्स पेट्या"],
-      ["crates", "क्रॅट्स पेट्या"],
-      ["Inward", "आवक माल नोंद"],
-      ["Pickup", "माल उचलणे पिकअप"],
-      ["pickup", "पिकअप"],
-      ["Grades", "प्रतवारी"],
-      ["Assays", "प्रयोगशाळा अहवाल"],
-      ["assays", "तपासणी"],
-      ["Rotten", "सडलेला शेतीमाल"],
-      ["rotten", "सडलेला"],
-      ["Claims", "दावे"],
-      ["Freeze", "रक्कम गोठवा (फ्रीझ)"],
-      ["Frozen", "गोठवलेले"],
-      ["Ruling", "न्यायिक निर्णय"],
-      ["ruling", "निर्णय"],
-      ["Trends", "बाजार प्रवाह कल"],
-      ["trends", "प्रवाह कल"],
-      ["Inflow", "आवक प्रवाह"],
-      ["Volume", "आवक प्रमाण"],
-      ["Curves", "किंमत वक्र"],
-      ["curves", "वक्र"],
-      ["Search", "शोधा"],
-      ["search", "शोधा"],
-      ["Filter", "फिल्टर करा"],
-      ["filter", "फिल्टर"],
-      ["Action", "कृती"],
-      ["ACTION", "कृती"],
-      ["Status", "स्थिती"],
-      ["STATUS", "स्थिती"],
-      ["status", "स्थिती"],
-      ["Active", "सक्रिय"],
-      ["active", "सक्रिय"],
-      ["Booked", "बुक केलेले"],
-      ["Cancel", "रद्द करा"],
-      ["cancel", "रद्द करा"],
-      ["Submit", "सादर करा"],
-      ["submit", "सादर करा"],
-      ["Delete", "हटवा"],
-      ["Ledger", "खातेवही (लेजर)"],
-      ["Report", "अहवाल"],
-      ["Logout", "लॉगआउट"],
-      ["Select", "निवडा"],
-      ["select", "निवडा"],
-      ["Choose", "निवडा"],
-      ["Create", "तयार करा"],
-      ["Change", "बदला"],
-      ["Switch", "बदला"],
-      ["Urgent", "तातडीचे"],
-      ["Custom", "पसंतीचे"],
-      ["Manual", "मॅन्युअल"],
-      ["Synced", "सिंक झाले"],
-      ["Online", "ऑनलाइन"],
-      ["Number", "क्रमांक"],
-      ["NUMBER", "क्रमांक"],
-      ["Months", "महिने"],
-      ["Origin", "उगम मूळ स्थान"],
-      ["origin", "उगम स्थान"],
-      ["Higher", "जास्त"],
-      ["Lowest", "किमान"],
-      ["Better", "अधिक चांगले"],
-      ["Branch", "शाखा"],
-      ["Holder", "खातेधारक"],
-      ["Wallet", "सुरक्षित वॉलेट"],
-      ["Engine", "इंजिन यंत्रणा"],
-      ["ENGINE", "यंत्रणा"],
-      ["System", "प्रणाली"],
-      ["Policy", "धोरण"],
-      ["Within", "च्या आत"],
-      ["within", "च्या आत"],
-      ["Across", "राज्यभरात"],
-      ["across", "भर"],
-      ["During", "दरम्यान"],
-      ["during", "दरम्यान"],
-      ["Browse", "ब्राउज करा"],
-      ["browse", "ब्राउज करा"],
-      ["Unlock", "अनलॉक करा"],
-      ["unlock", "अनलॉक करा"],
-      ["Mutual", "परस्पर संमतीने"],
-      ["mutual", "परस्पर"],
-      ["Stream", "थेट प्रवाह"],
-      ["stream", "प्रवाह"],
-      ["Attach", "जोडा संलग्न करा"],
-      ["attach", "जोडा"],
-      ["Upload", "अपलोड करा"],
-      ["upload", "अपलोड करा"],
-      ["Filing", "दाखल करणे"],
-      ["filing", "दाखल करणे"],
-      ["Radius", "त्रिज्या परिसर"],
-      ["radius", "परिसर"],
-      ["Marked", "चिन्हांकित केलेले"],
-      ["marked", "चिन्हांकित"],
-      ["Mapped", "मॅप केलेले जोडलेले"],
-      ["mapped", "जोडलेले"],
-      ["Signal", "सिग्नल"],
-      ["signal", "सिग्नल"],
-      ["Bypass", "मध्यस्थ वगळा (बायपास)"],
-      ["bypass", "वगळा"],
-      ["Direct", "थेट खरेदी"],
-      ["direct", "थेट"],
-      ["DIRECT", "थेट"],
-      ["Yellow", "पिवळा"],
-      ["yellow", "पिवळा"],
-      ["Border", "सीमा रेषा"],
-      ["border", "सीमा"],
-      ["Orders", "खरेदी ऑर्डर्स"],
-      ["orders", "ऑर्डर्स"],
-      ["ORDERS", "ऑर्डर्स"],
-      ["Appear", "दिसते"],
-      ["appear", "दिसते"],
-      ["Indian", "भारतीय"],
-      ["Konkan", "कोकण"],
-      ["ACTIVE", "सक्रिय"],
-      ["Accept", "स्वीकारा"],
-      ["accept", "स्वीकारा"],
-      ["Agreed", "संमत ठरलेले"],
-      ["BRANCH", "शाखा"],
-      ["Buffer", "राखीव बफर साठा"],
-      ["Client", "ग्राहक खरेदीदार"],
-      ["client", "ग्राहक"],
-      ["EICHER", "आयशर"],
-      ["Entire", "संपूर्ण"],
-      ["Export", "निर्यात दर्जा"],
-      ["export", "निर्यात"],
-      ["Google", "गुगल"],
-      ["ISSUED", "जारी केले"],
-      ["Jadhav", "जाधव"],
-      ["Locked", "सुरक्षित लॉक केलेले"],
-      ["locked", "सुरक्षित लॉक"],
-      ["Rajesh", "राजेश"],
-      ["Rating", "विश्वासार्हता रेटिंग"],
-      ["rating", "रेटिंग"],
-      ["return", "परत"],
-      ["Selvam", "सेल्वम"],
-      ["Shinde", "शिंदे"],
-      ["Source", "उगम खरेदी स्रोत"],
-      ["Target", "लक्षित दर / प्रमाण"],
-      ["target", "लक्षित"],
-      ["Thorat", "थोरात"],
-      ["VOLUME", "आवक प्रमाण"],
-      ["Weight", "वजन"],
-      ["weight", "वजन"],
-      ["beacon", "बीकन"],
-      ["change", "बदला"],
-      ["demand", "मागणी"],
-      ["diesel", "डिझेल"],
-      ["frozen", "गोठवलेले"],
-      ["higher", "जास्त"],
-      ["linked", "जोडलेले"],
-      ["mandis", "बाजार समित्या"],
-      ["market", "बाजारपेठ"],
-      ["portal", "पोर्टल"],
-      ["report", "अहवाल"],
-      ["sensor", "सेन्सर"],
-      ["tested", "तपासणी झालेले"],
-      ["Junnar", "जुन्नर"],
-      ["Rahata", "राहाता"],
-      ["Rahuri", "राहुरी"],
-      ["Hingna", "हिंगणा"],
-      ["Chopda", "चोपडा"],
-      ["Barshi", "बार्शी"],
-      ["Shirol", "शिरोळ"],
-      ["Kannad", "कन्नड"],
-      ["Basmat", "वसमत"],
-      ["Dharur", "धारूर"],
-      ["Omerga", "उमरगा"],
-      ["Kalamb", "कळंब"],
-      ["Devgad", "देवगड"],
-      ["Kavita", "कविता"],
-      ["Sanjay", "संजय"],
-      ["Sangli", "सांगली"],
-      ["Matrix", "तक्ता मॅट्रिक्स"],
-      ["matrix", "मॅट्रिक्स"],
-      ["Hunter", "शोधक साधन"],
-      ["hunter", "शोधक"],
-      ["Crops", "पिके"],
-      ["crops", "पिके"],
-      ["Grain", "अन्नधान्य"],
-      ["grain", "धान्य"],
-      ["Spice", "मसाला"],
-      ["Onion", "कांदा"],
-      ["onion", "कांदा"],
-      ["Mango", "आंबा"],
-      ["Jowar", "ज्वारी"],
-      ["Paddy", "भात (धान)"],
-      ["Hapus", "हापूस"],
-      ["Garwa", "गरवा कांदा"],
-      ["Naine", "ग्रँड नैन"],
-      ["Grand", "ग्रँड"],
-      ["Fresh", "ताजा"],
-      ["Puree", "प्युरी गर"],
-      ["Sauce", "सॉस"],
-      ["Gluts", "अतिरिक्त आवक"],
-      ["gluts", "अतिरिक्त आवक"],
-      ["Buyer", "खरेदीदार"],
-      ["BUYER", "खरेदीदार"],
-      ["buyer", "खरेदीदार"],
-      ["Trade", "व्यापार व्यवहार"],
-      ["Maker", "उत्पादक"],
-      ["Mandi", "बाजार समिती"],
-      ["Quota", "कोटा"],
-      ["Offer", "प्रस्ताव ऑफर"],
-      ["offer", "प्रस्ताव"],
-      ["Legal", "कायदेशीर"],
-      ["Vault", "सुरक्षित व्हॉल्ट"],
-      ["Loans", "कर्जे"],
-      ["loans", "कर्जे"],
-      ["Funds", "निधी"],
-      ["funds", "निधी"],
-      ["Costs", "खर्च"],
-      ["costs", "खर्च"],
-      ["Price", "दर किंमत"],
-      ["PRICE", "दर किंमत"],
-      ["price", "दर"],
-      ["Rates", "दर"],
-      ["rates", "दर"],
-      ["Taxes", "कर"],
-      ["Tolls", "टोल कर"],
-      ["tolls", "टोल कर"],
-      ["Saved", "बचत"],
-      ["saved", "बचत"],
-      ["Value", "मूल्य"],
-      ["value", "मूल्य"],
-      ["Total", "एकूण"],
-      ["TOTAL", "एकूण"],
-      ["total", "एकूण"],
-      ["Modal", "सरासरी लिलाव दर"],
-      ["MODAL", "सरासरी दर"],
-      ["modal", "सरासरी दर"],
-      ["Floor", "तळ किमान दर"],
-      ["Truck", "मालवाहू ट्रक"],
-      ["truck", "ट्रक"],
-      ["Fleet", "वाहन ताफा"],
-      ["fleet", "वाहन ताफा"],
-      ["Cargo", "माल कार्गो"],
-      ["Route", "वाहतूक मार्ग"],
-      ["Gross", "स्थूल एकूण वजन"],
-      ["Slips", "पावत्या"],
-      ["slips", "पावत्या"],
-      ["Track", "ट्रॅक करा"],
-      ["Store", "साठवा"],
-      ["Silos", "सायलो"],
-      ["silos", "सायलो"],
-      ["Solar", "सौर ऊर्जा"],
-      ["Stack", "पोत्यांची थप्पी (स्टॅक)"],
-      ["Slots", "स्लॉट्स"],
-      ["slots", "स्लॉट्स"],
-      ["Space", "जागा जागा"],
-      ["space", "जागा"],
-      ["Boxes", "खोके बॉक्सेस"],
-      ["Crate", "क्रॅट"],
-      ["Gunny", "तागाची पोती"],
-      ["Loose", "सुटा माल"],
-      ["Grade", "प्रतवारी"],
-      ["Assay", "गुणवत्ता तपासणी"],
-      ["Score", "गुणवत्ता स्कोअर"],
-      ["Claim", "दावा तक्रार"],
-      ["Proof", "पुरावा"],
-      ["Trend", "कल"],
-      ["Close", "बंद करा"],
-      ["close", "बंद करा"],
-      ["Print", "प्रिंट करा"],
-      ["print", "प्रिंट करा"],
-      ["Audit", "ऑडिट तपासणी"],
-      ["Table", "तक्ता सारणी"],
-      ["Enter", "प्रविष्ट करा"],
-      ["enter", "प्रविष्ट करा"],
-      ["Phone", "फोन नंबर"],
-      ["Guide", "मार्गदर्शक"],
-      ["Night", "रात्र"],
-      ["Hello", "नमस्कार"],
-      ["Click", "क्लिक करा"],
-      ["Alert", "सूचना इशारा"],
-      ["Today", "आज"],
-      ["today", "आज"],
-      ["Hours", "तास"],
-      ["hours", "तास"],
-      ["Month", "महिना"],
-      ["month", "महिना"],
-      ["State", "राज्य"],
-      ["Quick", "झटपट"],
-      ["Lower", "कमी"],
-      ["Units", "एकके"],
-      ["Lakhs", "लाख"],
-      ["Ratio", "प्रमाण गुणोत्तर"],
-      ["Empty", "रिकामे"],
-      ["Fully", "पूर्णपणे"],
-      ["Ready", "सज्ज तयार"],
-      ["Layer", "थर लेयर"],
-      ["Terms", "अटी व शर्ती"],
-      ["terms", "अटी"],
-      ["Shall", "असेल"],
-      ["shall", "असेल"],
-      ["Under", "अंतर्गत"],
-      ["under", "अंतर्गत"],
-      ["Until", "पर्यंत"],
-      ["until", "पर्यंत"],
-      ["While", "दरम्यान"],
-      ["while", "दरम्यान"],
-      ["Other", "इतर"],
-      ["other", "इतर"],
-      ["Every", "प्रत्येक"],
-      ["every", "प्रत्येक"],
-      ["Party", "पक्षकार पक्ष"],
-      ["party", "पक्षकार"],
-      ["Trial", "चाचणी"],
-      ["trial", "चाचणी"],
-      ["Shelf", "टिकवण क्षमता (शेल्फ लाइफ)"],
-      ["shelf", "टिकवण क्षमता"],
-      ["Point", "मुद्दा केंद्र"],
-      ["point", "मुद्दा"],
-      ["Board", "मंडळ बोर्ड"],
-      ["board", "मंडळ"],
-      ["Marks", "खूणा शिक्के"],
-      ["White", "पांढरा"],
-      ["white", "पांढरा"],
-      ["Color", "रंग"],
-      ["color", "रंग"],
-      ["Style", "शैली"],
-      ["style", "शैली"],
-      ["Event", "प्रसंग घटना"],
-      ["event", "घटना"],
-      ["Cards", "कार्ड्स"],
-      ["Order", "ऑर्डर"],
-      ["order", "ऑर्डर"],
-      ["Match", "जुळणारे"],
-      ["match", "जुळणी"],
-      ["Hindi", "हिन्दी"],
-      ["India", "भारत"],
-      ["MIHAN", "मिहान"],
-      ["Agent", "प्रतिनिधी एजंट"],
-      ["Belts", "उत्पादन पट्टे"],
-      ["belts", "पट्टे"],
-      ["Chain", "पुरवठा साखळी"],
-      ["chain", "साखळी"],
-      ["ENTER", "नोंदवा"],
-      ["Final", "अंतिम"],
-      ["final", "अंतिम"],
-      ["Heavy", "अवजड वजनदार"],
-      ["Index", "निर्देशांक"],
-      ["Issue", "तक्रार समस्या"],
-      ["issue", "समस्या"],
-      ["Kisan", "शेतकरी किसान"],
-      ["Model", "मॉडेल नमुना"],
-      ["Multi", "बहुविध"],
-      ["Nodal", "नोडल मुख्य केंद्र"],
-      ["nodal", "नोडल"],
-      ["Patil", "पाटील"],
-      ["Photo", "फोटो छायाचित्र"],
-      ["Plate", "नंबर प्लेट"],
-      ["plate", "नंबर प्लेट"],
-      ["SMART", "स्मार्ट डिजिटल"],
-      ["Smart", "स्मार्ट"],
-      ["smart", "स्मार्ट"],
-      ["Short", "कमी अपुरा"],
-      ["Speed", "वेग गती"],
-      ["Trail", "नोंद ट्रेल"],
-      ["Trust", "विश्वासार्हता"],
-      ["trust", "विश्वास"],
-      ["assay", "गुणवत्ता तपासणी"],
-      ["based", "आधारित"],
-      ["claim", "दावा"],
-      ["favor", "बाजूने"],
-      ["feeds", "थेट अपडेट्स"],
-      ["fully", "पूर्णपणे"],
-      ["major", "प्रमुख मुख्य"],
-      ["mandi", "बाजार समिती"],
-      ["times", "वेळा"],
-      ["Vashi", "वाशी"],
-      ["Katol", "काटोल"],
-      ["Raver", "रावेर"],
-      ["Karad", "कराड"],
-      ["Sakri", "साक्री"],
-      ["Warud", "वरुड"],
-      ["Ambad", "अंबड"],
-      ["Nagar", "अहमदनगर"],
-      ["Shahu", "शाहू"],
-      ["APMCs", "बाजार समित्या"],
-      ["Euler", "ऑयलर"],
-      ["Agro", "कृषी ॲग्रो"],
-      ["Agri", "कृषी"],
-      ["AGRI", "कृषी"],
-      ["Crop", "पीक"],
-      ["Food", "अन्न अन्नप्रक्रिया"],
-      ["Feed", "पशूखाद्य"],
-      ["Yard", "बाजार यार्ड प्रांगण"],
-      ["Hubs", "केंद्रे"],
-      ["Buys", "खरेदी"],
-      ["Bids", "शेतकरी प्रस्ताव"],
-      ["Deed", "करारनामा"],
-      ["Paid", "भरणा केला"],
-      ["paid", "भरणा केला"],
-      ["Lien", "तारण अधिकार"],
-      ["lien", "तारण अधिकार"],
-      ["Loan", "कर्ज"],
-      ["loan", "कर्ज"],
-      ["Pool", "निधी पूल"],
-      ["Cost", "खर्च"],
-      ["cost", "खर्च"],
-      ["Rate", "दर"],
-      ["RATE", "दर"],
-      ["rate", "दर"],
-      ["Fees", "शुल्क"],
-      ["Cess", "सेस कर"],
-      ["cess", "सेस कर"],
-      ["Toll", "टोल"],
-      ["Loss", "नुकसान"],
-      ["loss", "नुकसान"],
-      ["Save", "जतन करा"],
-      ["Maxi", "मॅक्सी"],
-      ["Mini", "मिनी"],
-      ["Calc", "हिशोब"],
-      ["Axle", "ॲक्सल एक्सल"],
-      ["Road", "रस्ता"],
-      ["Tare", "रिकाम्या वाहनाचे वजन (टारे)"],
-      ["Slip", "वजन पावती स्लिप"],
-      ["slip", "पावती स्लिप"],
-      ["Pass", "गेट पास प्रवेशपत्र"],
-      ["pass", "गेट पास"],
-      ["Gate", "प्रवेश द्वार"],
-      ["gate", "प्रवेश द्वार"],
-      ["Seal", "सुरक्षा सील"],
-      ["Silo", "अन्नधान्य सायलो"],
-      ["silo", "सायलो"],
-      ["Temp", "तापमान"],
-      ["Slot", "जागा स्लॉट"],
-      ["Pack", "पॅक करा"],
-      ["Bags", "पोती कट्टे"],
-      ["Jute", "जूट ताग"],
-      ["Book", "बुक करा"],
-      ["book", "बुक करा"],
-      ["Edit", "संपादित करा"],
-      ["edit", "संपादित करा"],
-      ["View", "पहा"],
-      ["view", "पहा"],
-      ["Copy", "कॉपी करा"],
-      ["Logs", "नोंदी"],
-      ["Grid", "ग्रिड मांडणी"],
-      ["List", "यादी"],
-      ["Show", "दाखवा"],
-      ["show", "दाखवा"],
-      ["Hide", "लपवा"],
-      ["More", "अधिक पहा"],
-      ["Less", "कमी पहा"],
-      ["Next", "पुढे"],
-      ["Prev", "मागे"],
-      ["Post", "प्रसारित करा"],
-      ["Send", "पाठवा"],
-      ["send", "पाठवा"],
-      ["Type", "प्रकार / लिहा"],
-      ["TYPE", "प्रकार"],
-      ["type", "लिहा"],
-      ["Chat", "थेट चर्चा चॅट"],
-      ["chat", "चॅट"],
-      ["Call", "कॉल करा"],
-      ["Help", "मदत"],
-      ["Find", "शोधा मिळवा"],
-      ["Best", "सर्वोत्तम"],
-      ["Good", "शुभ"],
-      ["Info", "माहिती"],
-      ["Auto", "स्वयंचलित"],
-      ["Live", "थेट लाइव्ह"],
-      ["live", "थेट"],
-      ["Real", "वास्तविक"],
-      ["REAL", "वास्तविक"],
-      ["Sync", "सिंक करा"],
-      ["sync", "सिंक"],
-      ["Hash", "हॅश कोड"],
-      ["Code", "कोड"],
-      ["CODE", "कोड"],
-      ["Name", "नाव"],
-      ["NAME", "नाव"],
-      ["Date", "दिनांक तारीख"],
-      ["DATE", "तारीख"],
-      ["Time", "वेळ"],
-      ["TIME", "वेळ"],
-      ["time", "वेळ"],
-      ["Days", "दिवस"],
-      ["days", "दिवस"],
-      ["Hour", "तास"],
-      ["Mins", "मिनिटे"],
-      ["mins", "मिनिटे"],
-      ["Year", "वर्ष"],
-      ["year", "वर्ष"],
-      ["Fast", "जलद"],
-      ["High", "उच्च"],
-      ["Unit", "एकक"],
-      ["unit", "एकक"],
-      ["Zero", "शून्य"],
-      ["zero", "शून्य"],
-      ["Free", "मोफत मोफत"],
-      ["Full", "पूर्ण"],
-      ["Bank", "बँक"],
-      ["Card", "कार्ड पत्रक"],
-      ["Step", "टप्पा पायरी"],
-      ["Your", "तुमचे"],
-      ["your", "तुमचे"],
-      ["From", "कडून / येथून"],
-      ["from", "येथून"],
-      ["With", "सह"],
-      ["with", "सह"],
-      ["Will", "होईल"],
-      ["will", "होईल"],
-      ["Upon", "त्यानंतर लगेच"],
-      ["upon", "वर"],
-      ["This", "हे"],
-      ["this", "हे"],
-      ["Just", "फक्त आत्ताच"],
-      ["just", "फक्त"],
-      ["Hold", "राखून ठेवा (होल्ड)"],
-      ["hold", "राखून ठेवा"],
-      ["Wash", "धुलाई क्लिनिंग"],
-      ["wash", "धुलाई"],
-      ["Life", "आयुष्यमान"],
-      ["life", "आयुष्य"],
-      ["Draw", "काढून घेणे"],
-      ["draw", "काढणे"],
-      ["File", "फाइल दाखल करा"],
-      ["file", "फाइल"],
-      ["Govt", "शासकीय अधिकृत"],
-      ["govt", "शासकीय"],
-      ["Apps", "ॲप्स"],
-      ["apps", "ॲप्स"],
-      ["Gold", "सुवर्ण दर्जा (गोल्ड)"],
-      ["gold", "गोल्ड"],
-      ["Font", "फॉन्ट"],
-      ["font", "फॉन्ट"],
-      ["Lots", "लॉट्स"],
-      ["lots", "लॉट्स"],
-      ["Open", "उघडा"],
-      ["open", "उघडा"],
-      ["Sold", "विक्री झाले"],
-      ["sold", "विक्री झाले"],
-      ["MIDC", "एमआयडीसी"],
-      ["BANK", "बँक"],
-      ["bank", "बँक"],
-      ["Back", "मागे"],
-      ["Base", "मूळ आधार"],
-      ["Bulk", "मोठ्या प्रमाणातील (बल्क)"],
-      ["bulk", "घाऊक मोठ्या प्रमाणातील"],
-      ["Case", "प्रकरण"],
-      ["Cash", "रोकड रोख"],
-      ["Cold", "शीतगृह कोल्ड"],
-      ["cold", "शीत"],
-      ["Cred", "क्रेड पत"],
-      ["Dost", "दोस्त पिकअप"],
-      ["Dual", "दुहेरी"],
-      ["dual", "दुहेरी"],
-      ["FPOs", "शेतकरी उत्पादक कंपन्या"],
-      ["Farm", "शेत शिवार"],
-      ["farm", "शेत"],
-      ["Fuel", "इंधन डिझेल"],
-      ["IFSC", "आयएफएससी कोड"],
-      ["IMPS", "आयएमपीएस तात्काळ पे"],
-      ["Lead", "प्रमुख अधिकारी"],
-      ["Lock", "सुरक्षित लॉक करा"],
-      ["lock", "लॉक करा"],
-      ["Mega", "मुख्य भव्य"],
-      ["Mode", "पर्याय पद्धत"],
-      ["mode", "पद्धत"],
-      ["Navi", "नवी"],
-      ["Near", "जवळ"],
-      ["Orig", "मूळ उगम"],
-      ["Park", "पार्क आवार"],
-      ["ROOM", "चर्चा कक्ष"],
-      ["Risk", "जोखीम"],
-      ["Safe", "सुरक्षित"],
-      ["YONO", "योनो"],
-      ["auto", "स्वयंचलित"],
-      ["best", "उत्कृष्ट"],
-      ["code", "कोड"],
-      ["crop", "पीक"],
-      ["data", "डेटा माहिती"],
-      ["dist", "जिल्हा"],
-      ["eNWR", "ई-एनडब्ल्यूआर"],
-      ["held", "राखून ठेवलेले"],
-      ["info", "माहिती"],
-      ["into", "मध्ये"],
-      ["load", "वजन भार"],
-      ["rata", "प्रमाणात"],
-      ["real", "वास्तविक"],
-      ["term", "मुदत"],
-      ["true", "खरे"],
-      ["yard", "बाजार प्रांगण"],
-      ["Kaij", "केज"],
-      ["Wada", "वाडा"],
-      ["name", "नाव"],
-      ["Peak", "उच्चांक शिखर"],
-      ["peak", "उच्चांक"],
-      ["Side", "बाजू"],
-      ["side", "बाजू"],
-      ["SOY", "सोयाबीन"],
-      ["ONI", "कांदा"],
-      ["TOM", "टोमॅटो"],
-      ["Raw", "कच्चा"],
-      ["Dry", "कोरडे"],
-      ["Bio", "सेंद्रिय बायो"],
-      ["Hub", "केंद्र हब"],
-      ["Buy", "खरेदी करा"],
-      ["buy", "खरेदी करा"],
-      ["Bid", "बोली दर"],
-      ["bid", "बोली दर"],
-      ["Pay", "पेमेंट करा"],
-      ["pay", "पेमेंट करा"],
-      ["Fee", "शुल्क"],
-      ["fee", "शुल्क"],
-      ["Tax", "कर"],
-      ["tax", "कर"],
-      ["Avg", "सरासरी"],
-      ["Min", "किमान"],
-      ["Max", "कमाल"],
-      ["Cap", "मर्यादा कॅप"],
-      ["Net", "निव्वळ शेतीमाल वजन"],
-      ["Box", "खोके"],
-      ["box", "खोके"],
-      ["Bag", "गोणी पोते"],
-      ["Lab", "प्रयोगशाळा लॅब"],
-      ["lab", "प्रयोगशाळा"],
-      ["Log", "नोंदवही"],
-      ["All", "सर्व"],
-      ["all", "सर्व"],
-      ["New", "नवीन"],
-      ["new", "नवीन"],
-      ["Add", "जोडा"],
-      ["Top", "अव्वल प्रमुख"],
-      ["Day", "दिवस"],
-      ["day", "दिवस"],
-      ["Hrs", "तास"],
-      ["Low", "कमी"],
-      ["You", "तुम्ही"],
-      ["you", "तुम्ही"],
-      ["For", "साठी"],
-      ["for", "साठी"],
-      ["And", "आणि"],
-      ["and", "आणि"],
-      ["Are", "आहेत"],
-      ["are", "आहेत"],
-      ["Now", "आत्ताच"],
-      ["now", "आत्ताच"],
-      ["Per", "प्रति"],
-      ["per", "प्रति"],
-      ["Has", "झाले आहे"],
-      ["has", "आहे"],
-      ["Any", "कोणतेही"],
-      ["any", "कोणतेही"],
-      ["How", "कसे"],
-      ["how", "कसे"],
-      ["See", "पहा"],
-      ["see", "पहा"],
-      ["Ask", "विचारा"],
-      ["ask", "विचारा"],
-      ["Cut", "कपात कट"],
-      ["cut", "कपात"],
-      ["Key", "मुख्य महत्त्वाचे"],
-      ["key", "मुख्य"],
-      ["App", "ॲप"],
-      ["Web", "वेब पोर्टल"],
-      ["Red", "लाल"],
-      ["red", "लाल"],
-      ["Lot", "लॉट"],
-      ["lot", "लॉट"],
-      ["Out", "संपले"],
-      ["out", "बाहेर"],
-      ["BKC", "बीकेसी"],
-      ["Ace", "छोटा हत्ती (एस)"],
-      ["Act", "कायदा अधिनियम"],
-      ["BAN", "प्रतिबंध"],
-      ["BUY", "खरेदी करा"],
-      ["ERP", "ईआरपी प्रणाली"],
-      ["FPO", "शेतकरी कंपनी"],
-      ["Fix", "निश्चित करा"],
-      ["IoT", "आयओटी सेन्सर"],
-      ["Lic", "परवाना लायसन्स"],
-      ["Ltd", "लिमिटेड"],
-      ["Nex", "नेक्स"],
-      ["POs", "खरेदी आदेश"],
-      ["Pro", "प्रो व्यवसायिक"],
-      ["pro", "प्रो"],
-      ["Pvt", "प्रायव्हेट"],
-      ["Sep", "सप्टेंबर"],
-      ["Tri", "त्रिपक्षीय"],
-      ["Use", "वापर उद्देश"],
-      ["use", "वापर"],
-      ["dry", "कोरडे"],
-      ["hub", "केंद्र"],
-      ["low", "कमी"],
-      ["max", "कमाल"],
-      ["via", "द्वारे"],
-      ["bag", "गोणी"],
-      ["REF", "संदर्भ"],
-      ["JS", "जेएस"],
-      ["No", "क्र."],
-      ["Qt", "क्विंटल"],
-      ["Kg", "कि.ग्रॅ."],
-      ["kg", "कि.ग्रॅ."],
-      ["To", "पर्यंत / कडे"],
-      ["to", "पर्यंत"],
-      ["In", "मध्ये"],
-      ["in", "मध्ये"],
-      ["On", "वर"],
-      ["on", "वर"],
-      ["At", "येथे"],
-      ["at", "येथे"],
-      ["Of", "चे / चा / ची"],
-      ["of", "चे"],
-      ["Or", "किंवा"],
-      ["or", "किंवा"],
-      ["By", "द्वारे"],
-      ["by", "द्वारे"],
-      ["Is", "आहे"],
-      ["is", "आहे"],
-      ["Vs", "विरुद्ध तुलनेत"],
-      ["vs", "विरुद्ध"],
-      ["An", "एक"],
-      ["an", "एक"],
-      ["As", "प्रमाणे"],
-      ["as", "प्रमाणे"],
-      ["If", "जर"],
-      ["if", "जर"],
-      ["AI", "कृत्रिम बुद्धिमत्ता"],
-      ["BB", "बीबी"],
-      ["BY", "द्वारे"],
-      ["EV", "इलेक्ट्रिक वाहन"],
-      ["PM", "दुपारी/रात्री"],
-      ["AM", "सकाळी"],
-      ["PO", "खरेदी आदेश"],
-      ["QA", "गुणवत्ता तपासणी"],
-      ["QC", "गुणवत्ता नियंत्रण"],
-      ["QR", "क्युआर कोड"],
-      ["Re", "पुन्हा"],
-      ["Up", "वाढ वर"],
-      ["up", "वर"],
-      ["be", "असेल"],
-      ["ph", "पीएच / शोधा"],
-      ["am", "आहे"],
-      ["I", "मी"],
-      ["i", "मी"],
-      ["a", "एक"],
-      ["A", "अ"]
+  "mr": [
+    [
+      "insights_search_mandi_ph",
+      "बाजार समिती, जिल्हा किंवा पीक शोधा..."
     ],
-    hi: [
-      ["insights_search_mandi_ph", "मंडी, फसल या जिला खोजें..."],
-      ["ph_search_dist_mandi", "जिला या मंडी यार्ड खोजें..."],
-      ["Recommendation", "सिफारिश"],
-      ["recommendation", "सिफारिश"],
-      ["Specifications", "विनिर्देश"],
-      ["specifications", "विनिर्देश"],
-      ["Intermediaries", "मध्यस्थ"],
-      ["Institutional", "संस्थागत"],
-      ["Manufacturers", "निर्माता"],
-      ["Authorization", "प्राधिकरण"],
-      ["authorization", "प्राधिकरण"],
-      ["Notifications", "अधिसूचनाएं"],
-      ["Cryptographic", "क्रिप्टोग्राफिक"],
-      ["institutional", "संस्थागत"],
-      ["Certification", "प्रमाणन"],
-      ["certification", "प्रमाणन"],
-      ["Agricultural", "कृषि"],
-      ["agricultural", "कृषि"],
-      ["Consignments", "कंसाइनमेंट्स"],
-      ["Verification", "सत्यापन"],
-      ["Certificates", "प्रमाणपत्र"],
-      ["certificates", "प्रमाणपत्र"],
-      ["Broadcasting", "प्रसारण"],
-      ["Intermediary", "मध्यस्थ"],
-      ["Commodities", "कृषि जिंसें"],
-      ["Pomegranate", "अनार"],
-      ["Supermarket", "सुपरमार्केट"],
-      ["Marketplace", "मंडी बाजार"],
-      ["Procurement", "खरीद"],
-      ["procurement", "खरीद"],
-      ["Negotiation", "मूलभाव बातचीत"],
-      ["NEGOTIATION", "बातचीत"],
-      ["negotiation", "बातचीत"],
-      ["Arbitration", "मध्यस्थता"],
-      ["Settlements", "निपटान"],
-      ["settlements", "निपटान"],
-      ["Consignment", "कंसाइनमेंट (माल खेप)"],
-      ["Weighbridge", "धर्मकांटा"],
-      ["weighbridge", "धर्मकांटा"],
-      ["Temperature", "तापमान"],
-      ["Forecasting", "पूर्वानुमान"],
-      ["forecasting", "पूर्वानुमान"],
-      ["Recommended", "अनुशंसित"],
-      ["Description", "विवरण"],
-      ["description", "विवरण"],
-      ["Perspective", "दृष्टिकोण"],
-      ["Information", "जानकारी"],
-      ["Destination", "गंतव्य"],
-      ["destination", "गंतव्य"],
-      ["Unallocated", "अनावंटित"],
-      ["Unmonitored", "गैर-निगरानी"],
-      ["Checkpoints", "चेकपॉइंट्स"],
-      ["Interactive", "संवादात्मक"],
-      ["interactive", "संवादात्मक"],
-      ["Traditional", "पारंपरिक"],
-      ["traditional", "पारंपरिक"],
-      ["Maharashtra", "महाराष्ट्र"],
-      ["BENEFICIARY", "लाभार्थी"],
-      ["Composition", "संरचना"],
-      ["immediately", "तुरंत"],
-      ["perspective", "दृष्टिकोण"],
-      ["transaction", "लेनदेन"],
-      ["Narayangaon", "नारायणगांव"],
-      ["Chikalthana", "चिकलठाणा"],
-      ["marketplace", "मंडी बाजार"],
-      ["supermarket", "सुपरमार्केट"],
-      ["Comparative", "तुलनात्मक"],
-      ["comparative", "तुलनात्मक"],
-      ["Vegetables", "सब्जियां"],
-      ["Enterprise", "संस्थागत"],
-      ["ENTERPRISE", "संस्थागत"],
-      ["Commercial", "व्यावसायिक"],
-      ["Processors", "प्रसंस्करणकर्ता"],
-      ["Processing", "प्रसंस्करण"],
-      ["purchasing", "खरीद"],
-      ["Purchasing", "खरीद"],
-      ["Arbitrator", "मध्यस्थ"],
-      ["Authorized", "अधिकृत"],
-      ["Settlement", "निपटान"],
-      ["settlement", "निपटान"],
-      ["Collateral", "संपार्श्विक"],
-      ["Commission", "कमीशन"],
-      ["calculated", "गणना की गई"],
-      ["Calculator", "कैलकुलेटर"],
-      ["Dispatched", "रवाना किया गया"],
-      ["Atmosphere", "वातावरण"],
-      ["Controlled", "नियंत्रित"],
-      ["CONTROLLED", "नियंत्रित"],
-      ["controlled", "नियंत्रित"],
-      ["Corrugated", "नालीदार बॉक्स"],
-      ["Inspection", "निरीक्षण"],
-      ["Accredited", "मान्यता प्राप्त"],
-      ["Mismatches", "विसंगति"],
-      ["mismatches", "विसंगति"],
-      ["Grievances", "शिकायतें"],
-      ["Resolution", "समाधान"],
-      ["Visualizer", "विजुअलाइजर"],
-      ["Projection", "प्रोजेक्शन"],
-      ["projection", "प्रोजेक्शन"],
-      ["Divergence", "अंतर विचलन"],
-      ["divergence", "विचलन"],
-      ["Advisories", "सलाह"],
-      ["Successful", "सफल"],
-      ["Protection", "सुरक्षा"],
-      ["Guaranteed", "गारंटीकृत"],
-      ["Electronic", "इलेक्ट्रॉनिक"],
-      ["Percentage", "प्रतिशत"],
-      ["Undertakes", "वचनबद्ध है"],
-      ["undertakes", "वचनबद्ध"],
-      ["Conforming", "के अनुसार"],
-      ["conforming", "अनुरूप"],
-      ["Mechanisms", "तंत्र"],
-      ["Monitoring", "निगरानी"],
-      ["monitoring", "निगरानी"],
-      ["Turnaround", "टर्नअराउंड समय"],
-      ["turnaround", "समय"],
-      ["Historical", "ऐतिहासिक"],
-      ["historical", "ऐतिहासिक"],
-      ["Facilities", "सुविधाएं"],
-      ["facilities", "सुविधाएं"],
-      ["Innovative", "नवोन्मेषी"],
-      ["innovative", "नवाचारी"],
-      ["Supporting", "सहायक"],
-      ["supporting", "सहायक"],
-      ["Calibrated", "कैलिब्रेटेड"],
-      ["calibrated", "कैलिब्रेटेड"],
-      ["Variations", "भिन्नताएं"],
-      ["variations", "विविधता"],
-      ["Minimizing", "न्यूनतम करना"],
-      ["minimizing", "कम करना"],
-      ["Background", "पृष्ठभूमि"],
-      ["background", "पृष्ठभूमि"],
-      ["Simulating", "सिम्युलेटिंग"],
-      ["simulating", "सिम्युलेटिंग"],
-      ["acceptance", "स्वीकृति"],
-      ["Industrial", "औद्योगिक"],
-      ["Negotiable", "परक्राम्य"],
-      ["NetBanking", "नेटबैंकिंग"],
-      ["Perishable", "जल्दी खराब होने वाला"],
-      ["Returnable", "वापसी योग्य"],
-      ["Technology", "तकनीक"],
-      ["designated", "नामित"],
-      ["electronic", "इलेक्ट्रॉनिक"],
-      ["individual", "व्यक्तिगत"],
-      ["resolution", "समाधान"],
-      ["Pimpalgaon", "पिंपलगांव"],
-      ["Pandharpur", "पंढरपुर"],
-      ["Dhamangaon", "धामणगांव"],
-      ["Hinganghat", "हिंगणघाट"],
-      ["Commodity", "कृषि जिंस"],
-      ["Mandarins", "संतरे"],
-      ["harvested", "कटाई की गई"],
-      ["Wholesale", "थोक"],
-      ["WHOLESALE", "थोक"],
-      ["Corporate", "कॉर्पोरेट"],
-      ["Negotiate", "बातचीत करें"],
-      ["Agreement", "समझौता"],
-      ["Contracts", "अनुबंध"],
-      ["Statutory", "सांविधिक"],
-      ["Signatory", "हस्ताक्षरकर्ता"],
-      ["Signature", "हस्ताक्षर"],
-      ["signature", "हस्ताक्षर"],
-      ["Authorize", "अधिकृत करें"],
-      ["Compliant", "अनुरूप"],
-      ["Deposited", "जमा किया"],
-      ["deposited", "जमा किया"],
-      ["Disbursal", "वितरण"],
-      ["DISBURSAL", "वितरण"],
-      ["disbursed", "संवितरित"],
-      ["Financing", "वित्तपोषण"],
-      ["financing", "वित्तपोषण"],
-      ["Repayment", "पुनर्भुगतान"],
-      ["Liquidity", "तरलता"],
-      ["Brokerage", "दलाली आढ़त"],
-      ["brokerage", "दलाली"],
-      ["Shrinkage", "वजन कमी नुकसान"],
-      ["shrinkage", "वजन नुकसान"],
-      ["Valuation", "कुल मूल्यांकन"],
-      ["VALUATION", "कुल मूल्यांकन"],
-      ["valuation", "मूल्यांकन"],
-      ["Benchmark", "मंडी बेंचमार्क"],
-      ["benchmark", "बेंचमार्क"],
-      ["Arbitrage", "आर्बिट्राज अंतर"],
-      ["arbitrage", "आर्बिट्राज"],
-      ["Breakeven", "ब्रेक-इवन"],
-      ["Calculate", "गणना करें"],
-      ["Logistics", "लॉजिस्टिक्स व परिवहन"],
-      ["logistics", "परिवहन"],
-      ["Transport", "परिवहन"],
-      ["transport", "परिवहन"],
-      ["Consignor", "प्रेषक"],
-      ["Consignee", "प्राप्तकर्ता"],
-      ["Shipments", "शिपमेंट्स"],
-      ["Weighment", "वजन माप"],
-      ["Telemetry", "टेलीमेट्री"],
-      ["TELEMETRY", "टेलीमेट्री"],
-      ["telemetry", "टेलीमेट्री"],
-      ["Satellite", "उपग्रह ट्रैकिंग"],
-      ["Warehouse", "गोदाम"],
-      ["warehouse", "गोदाम"],
-      ["Packaging", "पैकेजिंग"],
-      ["Tolerance", "सहनशीलता"],
-      ["tolerance", "सहनशीलता"],
-      ["Inspected", "निरीक्षित"],
-      ["Certified", "प्रमाणित"],
-      ["Defective", "दोषयुक्त"],
-      ["Shortages", "कमी"],
-      ["shortages", "कमी"],
-      ["Deviation", "विचलन"],
-      ["Grievance", "शिकायत निवारण"],
-      ["grievance", "शिकायत"],
-      ["Redressal", "निवारण"],
-      ["Complaint", "शिकायत"],
-      ["complaint", "शिकायत"],
-      ["Releasing", "रिलीज"],
-      ["Analytics", "एनालिटिक्स"],
-      ["Available", "उपलब्ध"],
-      ["available", "उपलब्ध"],
-      ["Statement", "स्टेटमेंट"],
-      ["Dashboard", "डैशबोर्ड"],
-      ["Broadcast", "प्रसारित करें"],
-      ["Emergency", "आपातकालीन"],
-      ["Important", "महत्वपूर्ण"],
-      ["Automated", "स्वचालित"],
-      ["Instantly", "तुरंत"],
-      ["Connected", "कनेक्टेड"],
-      ["Protected", "संरक्षित"],
-      ["PROTECTED", "संरक्षित"],
-      ["Guarantee", "गारंटी"],
-      ["Assurance", "आश्वासन"],
-      ["Digitally", "डिजिटल रूप से"],
-      ["Encrypted", "एन्क्रिप्टेड"],
-      ["Immutable", "अपरिवर्तनीय"],
-      ["Timestamp", "टाइमस्टैम्प"],
-      ["Yesterday", "कल"],
-      ["Quarterly", "त्रैमासिक"],
-      ["Locations", "स्थान"],
-      ["Districts", "जिले"],
-      ["Breakdown", "विस्तृत विवरण"],
-      ["Checklist", "चेकलिस्ट"],
-      ["Readiness", "तत्परता"],
-      ["Milestone", "मील का पत्थर"],
-      ["Receiving", "प्राप्त करना"],
-      ["Requested", "अनुरोधित"],
-      ["Exceeding", "से अधिक"],
-      ["exceeding", "से अधिक"],
-      ["Protocols", "प्रोटोकॉल"],
-      ["Mechanism", "प्रणाली"],
-      ["mechanism", "प्रणाली"],
-      ["Oversight", "निगरानी"],
-      ["oversight", "निगरानी"],
-      ["Supported", "समर्थित"],
-      ["supported", "समर्थित"],
-      ["Remaining", "शेष"],
-      ["remaining", "शेष"],
-      ["Fulfilled", "पूर्ण"],
-      ["fulfilled", "पूरा"],
-      ["Discounts", "छूट"],
-      ["Secondary", "द्वितीयक"],
-      ["secondary", "द्वितीयक"],
-      ["Samruddhi", "समृद्धि एक्सप्रेसवे"],
-      ["BIGBASKET", "बिगबास्केट"],
-      ["BigBasket", "बिगबास्केट"],
-      ["CERTIFIED", "प्रमाणित"],
-      ["certified", "प्रमाणित"],
-      ["Completed", "पूर्ण हुआ"],
-      ["Dedicated", "समर्पित"],
-      ["Estimated", "अनुमानित"],
-      ["Quotas Displayed", "कोटा प्रदर्शित"],
-      ["Active Quotas", "सक्रिय कोटा"],
-      ["Displayed", "प्रदर्शित"],
-      ["displayed", "प्रदर्शित"],
-      ["Navi Mumbai", "नवी मुंबई"],
-      ["navi mumbai", "नवी मुंबई"],
-      ["Marathwada", "मराठवाड़ा"],
-      ["marathwada", "मराठवाड़ा"],
-      ["Mumbai", "मुंबई"],
-      ["mumbai", "मुंबई"],
-      ["Immediate", "तत्काल"],
-      ["immediate", "तत्काल"],
-      ["Insurance", "बीमा"],
-      ["Middleman", "बिचौलिया"],
-      ["middleman", "बिचौलिया"],
-      ["REGULATED", "विनियमित"],
-      ["regulated", "विनियमित"],
-      ["Rameshwar", "रामेश्वर"],
-      ["Reference", "संदर्भ"],
-      ["transfers", "स्थानांतरण"],
-      ["automated", "स्वचालित"],
-      ["commodity", "जिंस"],
-      ["corporate", "कॉर्पोरेट"],
-      ["digitally", "डिजिटल रूप से"],
-      ["discovery", "खोज"],
-      ["emergency", "आपातकालीन"],
-      ["instantly", "तुरंत"],
-      ["inventory", "इन्वेंट्री"],
-      ["packaging", "पैकेजिंग"],
-      ["varieties", "किस्में"],
-      ["Lasalgaon", "लासलगांव"],
-      ["Sangamner", "संगमनेर"],
-      ["Majalgaon", "माजलगांव"],
-      ["Regulated", "विनियमित"],
-      ["icicibank", "ICICI बैंक"],
-      ["Purchased", "खरीदा गया"],
-      ["purchased", "खरीदा गया"],
-      ["districts", "जिले"],
-      ["Oilseeds", "तिलहन"],
-      ["tomatoes", "टमाटर"],
-      ["Tomatoes", "टमाटर"],
-      ["Mandarin", "संतरा"],
-      ["Turmeric", "हल्दी"],
-      ["Alphonso", "हापुस आम"],
-      ["Maldandi", "मालदांडी"],
-      ["Thompson", "थॉमसन"],
-      ["Seedless", "बीजरहित"],
-      ["harvests", "फसल कटाई"],
-      ["Caterers", "कैटरर्स"],
-      ["Catering", "कैटरिंग"],
-      ["Exchange", "कृषि विनिमय"],
-      ["Terminal", "टर्मिनल"],
-      ["Corridor", "गलियारा"],
-      ["Procured", "खरीदा गया"],
-      ["PROCURED", "खरीदा गया"],
-      ["procured", "खरीदा गया"],
-      ["Purchase", "खरीद"],
-      ["purchase", "खरीद"],
-      ["Contract", "अनुबंध"],
-      ["contract", "अनुबंध"],
-      ["Tribunal", "न्यायाधिकरण"],
-      ["Ratified", "स्वीकृत"],
-      ["ratified", "स्वीकृत"],
-      ["Deposits", "जमा"],
-      ["deposits", "जमा"],
-      ["Advances", "अग्रिम"],
-      ["Disburse", "संवितरित करें"],
-      ["Payments", "भुगतान"],
-      ["Credited", "क्रेडिट हुआ"],
-      ["credited", "क्रेडिट हुआ"],
-      ["Discount", "छूट"],
-      ["Interest", "ब्याज"],
-      ["Reserves", "आरक्षित निधि"],
-      ["reserves", "आरक्षित निधि"],
-      ["Arhatiya", "आढ़तिया"],
-      ["Dispatch", "रवाना करें"],
-      ["dispatch", "रवाना"],
-      ["Delivery", "डिलीवरी पहुंच"],
-      ["DELIVERY", "डिलीवरी"],
-      ["delivery", "डिलीवरी"],
-      ["Distance", "दूरी"],
-      ["Tracking", "लाइव ट्रैकिंग"],
-      ["tracking", "ट्रैकिंग"],
-      ["Readings", "रीडिंग्स"],
-      ["readings", "रीडिंग्स"],
-      ["Chambers", "कक्ष"],
-      ["chambers", "कक्ष"],
-      ["Humidity", "नमी आर्द्रता"],
-      ["Capacity", "क्षमता"],
-      ["Hermetic", "हवाबंद"],
-      ["Moisture", "नमी"],
-      ["moisture", "नमी"],
-      ["Verified", "सत्यापित"],
-      ["verified", "सत्यापित"],
-      ["Spoilage", "खराबी"],
-      ["Shortage", "कमी"],
-      ["Disputes", "विवाद"],
-      ["Resolved", "हल किया गया"],
-      ["resolved", "हल"],
-      ["Releases", "रिलीज"],
-      ["Evidence", "साक्ष्य सबूत"],
-      ["evidence", "साक्ष्य"],
-      ["Insights", "मंडी अंतर्दृष्टि"],
-      ["insights", "अंतर्दृष्टि"],
-      ["Forecast", "पूर्वानुमान"],
-      ["forecast", "पूर्वानुमान"],
-      ["Arrivals", "आवक"],
-      ["arrivals", "आवक"],
-      ["Advisory", "सलाहकार"],
-      ["advisory", "सलाह"],
-      ["Strategy", "रणनीति"],
-      ["Velocity", "गति वेग"],
-      ["Awaiting", "प्रतीक्षारत"],
-      ["awaiting", "प्रतीक्षारत"],
-      ["Download", "डाउनलोड करें"],
-      ["download", "डाउनलोड करें"],
-      ["Receipts", "रसीदें"],
-      ["receipts", "रसीदें"],
-      ["Settings", "सेटिंग्स"],
-      ["Overview", "अवलोकन"],
-      ["Previous", "पिछला"],
-      ["Messages", "संदेश"],
-      ["Contacts", "संपर्क"],
-      ["Feedback", "प्रतिक्रिया"],
-      ["Language", "भाषा"],
-      ["Distress", "संकटग्रस्त माल"],
-      ["Critical", "गंभीर"],
-      ["Required", "अनिवार्य"],
-      ["Optional", "वैकल्पिक"],
-      ["Standard", "मानक"],
-      ["Realtime", "रियल-टाइम"],
-      ["Security", "सुरक्षा"],
-      ["Tomorrow", "कल"],
-      ["Location", "स्थान"],
-      ["location", "स्थान"],
-      ["District", "जिला"],
-      ["district", "जिला"],
-      ["Regional", "क्षेत्रीय"],
-      ["Cheapest", "सबसे सस्ता"],
-      ["Kilogram", "किलोग्राम"],
-      ["Passbook", "पासबुक"],
-      ["Steppers", "कदम"],
-      ["Whenever", "जब भी"],
-      ["Received", "प्राप्त हुआ"],
-      ["received", "प्राप्त"],
-      ["Response", "प्रतिक्रिया"],
-      ["response", "जवाब"],
-      ["Initiate", "शुरू करें"],
-      ["initiate", "प्रारंभ करें"],
-      ["Assigned", "आवंटित"],
-      ["assigned", "आवंटित"],
-      ["Withheld", "रोका गया"],
-      ["withheld", "रोका गया"],
-      ["Specific", "विशिष्ट"],
-      ["specific", "विशिष्ट"],
-      ["Protocol", "प्रोटोकॉल"],
-      ["protocol", "प्रोटोकॉल"],
-      ["Triggers", "ट्रिगर"],
-      ["triggers", "ट्रिगर"],
-      ["Keywords", "कीवर्ड"],
-      ["keywords", "कीवर्ड"],
-      ["Position", "स्थिति"],
-      ["position", "स्थिति"],
-      ["Seasonal", "मौसमी"],
-      ["seasonal", "मौसमी"],
-      ["corridor", "गलियारा"],
-      ["Facility", "सुविधा"],
-      ["Flexible", "लचीला"],
-      ["flexible", "लचीला"],
-      ["Strictly", "सख्ती से"],
-      ["strictly", "कड़ाई से"],
-      ["Registry", "रजिस्ट्री"],
-      ["registry", "पंजी"],
-      ["Internet", "इंटरनेट"],
-      ["Executed", "निष्पादित"],
-      ["executed", "निष्पादित"],
-      ["Realized", "प्राप्त"],
-      ["realized", "प्राप्त"],
-      ["Maximize", "अधिकतम करें"],
-      ["maximize", "अधिकतम"],
-      ["Directly", "सीधे"],
-      ["directly", "सीधे"],
-      ["Pressure", "दबाव"],
-      ["pressure", "दबाव"],
-      ["Matching", "अनुकूल मिलान"],
-      ["matching", "मिलान"],
-      ["Vidarbha", "विदर्भ"],
-      ["Khandesh", "खानदेश"],
-      ["Sahyadri", "सह्याद्री"],
-      ["Shivneri", "शिवनेरी"],
-      ["Business", "व्यवसाय"],
-      ["CONTRACT", "अनुबंध"],
-      ["Concepts", "संकल्पनाएं"],
-      ["Deshmukh", "देशमुख"],
-      ["Division", "प्रभाग"],
-      ["External", "बाहरी"],
-      ["Holdings", "होल्डिंग्स"],
-      ["Physical", "भौतिक"],
-      ["physical", "भौतिक"],
-      ["Quantity", "मात्रा"],
-      ["quantity", "मात्रा"],
-      ["Reliance", "रिलायंस"],
-      ["Scheduled", "निर्धारित"],
-      ["scheduled", "निर्धारित"],
-      ["SCHEDULED", "निर्धारित"],
-      ["Schedule", "समय सारणी"],
-      ["schedule", "समय सारणी"],
-      ["SCHEDULE", "समय सारणी"],
-      ["Mature", "परिपक्व"],
-      ["mature", "परिपक्व"],
-      ["MATURE", "परिपक्व"],
-      ["Packed", "पैक"],
-      ["packed", "पैक"],
-      ["PACKED", "पैक"],
-      ["Packing", "पैकिंग"],
-      ["packing", "पैकिंग"],
-      ["RH", "सापेक्ष आर्द्रता"],
-      ["Chilled", "चिल्ड"],
-      ["chilled", "चिल्ड"],
-      ["Cleaned", "साफ किया गया"],
-      ["cleaned", "साफ किया गया"],
-      ["Brix", "ब्रिक्स"],
-      ["brix", "ब्रिक्स"],
-      ["Crates", "क्रेट्स"],
-      ["crates", "क्रेट्स"],
-      ["Gunny", "बोरी"],
-      ["gunny", "बोरी"],
-      ["Jute", "जूट"],
-      ["jute", "जूट"],
-      ["Bags", "बोरियां"],
-      ["bags", "बोरियां"],
-      ["Origin", "मूल स्रोत"],
-      ["origin", "स्रोत"],
-      ["Hands", "पंजे"],
-      ["hands", "पंजे"],
-      ["Skin", "छिलका"],
-      ["skin", "छिलका"],
-      ["Bulbs", "गांठ"],
-      ["bulbs", "गांठ"],
-      ["Polished", "पॉलिश"],
-      ["polished", "पॉलिश"],
-      ["Curcumin", "करक्यूमिन"],
-      ["curcumin", "करक्यूमिन"],
-      ["Ventilated", "हवादार"],
-      ["ventilated", "हवादार"],
-      ["Lined", "अस्तरयुक्त"],
-      ["lined", "अस्तरयुक्त"],
-      ["Services", "सेवाएं"],
-      ["Simulate", "सिम्युलेट करें"],
-      ["Sourcing", "सोर्सिंग खरीद"],
-      ["sourcing", "सोर्सिंग"],
-      ["Sourced", "प्राप्त"],
-      ["sourced", "प्राप्त"],
-      ["Review", "समीक्षा करें"],
-      ["review", "समीक्षा"],
-      ["BENCHMARK", "संदर्भ दर"],
-      ["benchmark", "संदर्भ दर"],
-      ["CEILING", "अधिकतम सीमा"],
-      ["ceiling", "अधिकतम सीमा"],
-      ["QUOTA", "कोटा"],
-      ["quota", "कोटा"],
-      ["Transfer", "स्थानांतरण"],
-      ["capacity", "क्षमता"],
-      ["disabled", "अक्षम"],
-      ["hermetic", "हवाबंद"],
-      ["tribunal", "न्यायाधिकरण"],
-      ["Malegaon", "मालेगांव"],
-      ["Bhiwapur", "भिवापुर"],
-      ["Gultekdi", "गुलटेकड़ी"],
-      ["Hadapsar", "हड़पसर"],
-      ["Ardhapur", "अर्धापुर"],
-      ["Sambhaji", "संभाजीनगर"],
-      ["Anandrao", "आनंदराव"],
-      ["releases", "रिलीज"],
-      ["Rajapuri", "राजापुरी"],
-      ["Disputed", "विवादित"],
-      ["disputed", "विवादित"],
-      ["Farmgate", "फार्मगेट"],
-      ["farmgate", "फार्मगेट"],
-      ["Produce", "कृषि उपज"],
-      ["PRODUCE", "कृषि उपज"],
-      ["produce", "कृषि उपज"],
-      ["Millets", "मोटे अनाज (मिलेट्स)"],
-      ["Cereals", "अनाज"],
-      ["Legumes", "फलियां"],
-      ["Soybean", "सोयाबीन"],
-      ["soybean", "सोयाबीन"],
-      ["Compost", "खाद कंपोस्ट"],
-      ["Harvest", "कटाई"],
-      ["harvest", "कटाई"],
-      ["Sellers", "विक्रेता"],
-      ["Farmers", "किसान"],
-      ["farmers", "किसान"],
-      ["Kitchen", "किचन"],
-      ["Network", "नेटवर्क"],
-      ["Demands", "मांगें"],
-      ["Procure", "खरीदें"],
-      ["Counter", "काउंटर ऑफर"],
-      ["counter", "काउंटर ऑफर"],
-      ["Binding", "बाध्यकारी"],
-      ["Trustee", "ट्रस्टी"],
-      ["TRUSTEE", "ट्रस्टी"],
-      ["Signoff", "साइनऑफ"],
-      ["signoff", "साइनऑफ"],
-      ["Deposit", "जमा राशि"],
-      ["deposit", "जमा"],
-      ["Advance", "अग्रिम राशि"],
-      ["advance", "अग्रिम"],
-      ["Tranche", "किस्त चरण"],
-      ["TRANCHE", "किस्त"],
-      ["tranche", "किस्त"],
-      ["Balance", "शेष राशि"],
-      ["balance", "शेष"],
-      ["Settled", "निपटान पूर्ण"],
-      ["Payment", "भुगतान"],
-      ["payment", "भुगतान"],
-      ["Payable", "देय"],
-      ["Pledges", "गिरवी"],
-      ["Lending", "उधार"],
-      ["lending", "उधार"],
-      ["Capital", "पूंजी"],
-      ["capital", "पूंजी"],
-      ["Hedging", "हेजिंग"],
-      ["spreads", "अंतर"],
-      ["Savings", "बचत"],
-      ["SAVINGS", "बचत"],
-      ["savings", "बचत"],
-      ["Average", "औसत"],
-      ["Minimum", "न्यूनतम"],
-      ["minimum", "न्यूनतम"],
-      ["Maximum", "अधिकतम"],
-      ["maximum", "अधिकतम"],
-      ["Ceiling", "अधिकतम सीमा"],
-      ["Freight", "भाड़ा"],
-      ["freight", "भाड़ा"],
-      ["Haulage", "ढुलाई"],
-      ["Transit", "मार्ग में (ट्रांजिट)"],
-      ["TRANSIT", "मार्ग में"],
-      ["transit", "ट्रांजिट"],
-      ["Vehicle", "वाहन"],
-      ["Payload", "पेलोड क्षमता"],
-      ["Highway", "राजमार्ग"],
-      ["Storage", "भंडारण"],
-      ["storage", "भंडारण"],
-      ["Chamber", "शीत कक्ष"],
-      ["chamber", "कक्ष"],
-      ["Climate", "जलवायु"],
-      ["CLIMATE", "जलवायु"],
-      ["Cooling", "शीतलन"],
-      ["Plastic", "प्लास्टिक"],
-      ["Loading", "लोडिंग"],
-      ["Quality", "गुणवत्ता"],
-      ["Assayed", "परखा गया"],
-      ["inspect", "निरीक्षण करें"],
-      ["Spoiled", "खराब"],
-      ["Damaged", "क्षतिग्रस्त"],
-      ["Missing", "लापता/कम"],
-      ["missing", "कम"],
-      ["Dispute", "विवाद"],
-      ["Release", "रिलीज करें"],
-      ["Dossier", "दस्तावेज फाइल"],
-      ["Insight", "विश्लेषण"],
-      ["Bullish", "तेजी (बुलिश)"],
-      ["Bearish", "मंदी (बेयरिश)"],
-      ["Neutral", "स्थिर (न्यूट्रल)"],
-      ["Arrival", "आवक"],
-      ["arrival", "आवक"],
-      ["Volumes", "मात्राएं"],
-      ["volumes", "मात्राएं"],
-      ["Tonnage", "टन भार"],
-      ["tonnage", "टन भार"],
-      ["Heatmap", "हीटमैप"],
-      ["Indices", "सूचकांक"],
-      ["indices", "सूचकांक"],
-      ["Copilot", "एआई कोपायलट"],
-      ["copilot", "कोपायलट"],
-      ["Filters", "फ़िल्टर्स"],
-      ["Actions", "कार्रवाई"],
-      ["Pending", "लंबित"],
-      ["pending", "लंबित"],
-      ["Booking", "बुकिंग"],
-      ["Confirmed", "पुष्ट"],
-      ["confirmed", "पुष्ट"],
-      ["CONFIRMED", "पुष्ट"],
-      ["Confirm", "पुष्टि करें"],
-      ["confirm", "पुष्टि करें"],
-      ["Details", "विवरण"],
-      ["details", "विवरण"],
-      ["Receipt", "रसीद"],
-      ["receipt", "रसीद"],
-      ["Invoice", "चालान बिल"],
-      ["Voucher", "वाउचर"],
-      ["Summary", "सारांश"],
-      ["summary", "सारांश"],
-      ["Reports", "रिपोर्ट्स"],
-      ["reports", "रिपोर्ट्स"],
-      ["History", "इतिहास"],
-      ["Profile", "प्रोफ़ाइल"],
-      ["profile", "प्रोफ़ाइल"],
-      ["Showing", "दिखा रहा है"],
-      ["Message", "संदेश"],
-      ["message", "संदेश"],
-      ["Contact", "संपर्क"],
-      ["Explain", "समझाएं"],
-      ["Morning", "प्रभात"],
-      ["Evening", "संध्या"],
-      ["Salvage", "साल्वैज"],
-      ["Urgency", "तात्कालिकता"],
-      ["Warning", "चेतावनी"],
-      ["Success", "सफल"],
-      ["Instant", "तत्काल"],
-      ["Refresh", "रिफ्रेश करें"],
-      ["Offline", "ऑफलाइन"],
-      ["Digital", "डिजिटल"],
-      ["Minutes", "मिनट"],
-      ["minutes", "मिनट"],
-      ["Seconds", "सेकंड"],
-      ["seconds", "सेकंड"],
-      ["Central", "केंद्रीय"],
-      ["Highest", "उच्चतम"],
-      ["Nearest", "निकटतम"],
-      ["Optimal", "अनुकूल"],
-      ["Quintal", "क्विंटल"],
-      ["quintal", "क्विंटल"],
-      ["Partial", "आंशिक"],
-      ["Checker", "जांचकर्ता"],
-      ["Channel", "चैनल"],
-      ["Banking", "बैंकिंग"],
-      ["Account", "खाता"],
-      ["Privacy", "गोपनीयता"],
-      ["Without", "के बिना"],
-      ["without", "के बिना"],
-      ["Against", "के विरुद्ध"],
-      ["against", "के खिलाफ"],
-      ["Another", "अन्य"],
-      ["another", "दूसरा"],
-      ["Explore", "अन्वेषण करें"],
-      ["explore", "देखें"],
-      ["Receive", "प्राप्त करें"],
-      ["receive", "प्राप्त करें"],
-      ["replies", "उत्तर"],
-      ["Replies", "जवाब"],
-      ["Request", "अनुरोध"],
-      ["request", "अनुरोध"],
-      ["Holding", "होल्डिंग"],
-      ["Jointly", "संयुक्त रूप से"],
-      ["jointly", "संयुक्त रूप से"],
-      ["Partner", "साझेदार"],
-      ["partner", "साझेदार"],
-      ["Weather", "मौसम"],
-      ["weather", "मौसम"],
-      ["Complex", "परिसर"],
-      ["complex", "परिसर"],
-      ["Cluster", "क्लस्टर समूह"],
-      ["cluster", "क्लस्टर"],
-      ["Marking", "चिह्नित करना"],
-      ["marking", "अंकन"],
-      ["Reflect", "दर्शाता है"],
-      ["reflect", "दर्शाता है"],
-      ["Records", "अभिलेख"],
-      ["records", "रिकॉर्ड"],
-      ["Remains", "रहता है"],
-      ["remains", "बचता है"],
-      ["Willing", "इच्छुक"],
-      ["willing", "सहमत"],
-      ["Premium", "प्रीमियम"],
-      ["premium", "प्रीमियम"],
-      ["Primary", "प्राथमिक"],
-      ["primary", "प्राथमिक"],
-      ["Padding", "पैडिंग"],
-      ["padding", "पैडिंग"],
-      ["Trained", "प्रशिक्षित"],
-      ["trained", "प्रशिक्षित"],
-      ["Appears", "दिखता है"],
-      ["appears", "प्रतीत होता है"],
-      ["English", "English"],
-      ["Marathi", "मराठी"],
-      ["ACCOUNT", "खाता"],
-      ["AUCTION", "नीलामी"],
-      ["Auction", "नीलामी"],
-      ["auction", "नीलामी"],
-      ["Already", "पहले से"],
-      ["Ambient", "परिवेशी"],
-      ["account", "खाता"],
-      ["Compare", "तुलना करें"],
-      ["Created", "निर्मित"],
-      ["Current", "वर्तमान"],
-      ["DEPOSIT", "जमा करें"],
-      ["Express", "एक्सप्रेस"],
-      ["Forward", "आगे भेजें"],
-      ["forward", "आगे"],
-      ["Gateway", "गेटवे"],
-      ["Insured", "बीमित"],
-      ["Kishore", "किशोर"],
-      ["locking", "लॉक करना"],
-      ["NETWORK", "नेटवर्क"],
-      ["Permits", "परमिट"],
-      ["REVERSE", "रिवर्स"],
-      ["reverse", "रिवर्स"],
-      ["Secured", "सुरक्षित"],
-      ["VIRTUAL", "वर्चुअल"],
-      ["climate", "जलवायु"],
-      ["instant", "तत्काल"],
-      ["procure", "खरीदें"],
-      ["quality", "गुणवत्ता"],
-      ["salvage", "साल्वैज"],
-      ["updated", "अपडेटेड"],
-      ["variety", "किस्म"],
-      ["Manchar", "मंचर"],
-      ["Kalamna", "कलमना"],
-      ["Indapur", "इंदापुर"],
-      ["Pachora", "पाचोरा"],
-      ["Tasgaon", "तासगांव"],
-      ["Sangola", "सांगोला"],
-      ["Phaltan", "फलटण"],
-      ["Vadgaon", "वडगांव"],
-      ["Shiroli", "शिरोली"],
-      ["Shirpur", "शिरपुर"],
-      ["Shahada", "शहादा"],
-      ["Karanja", "कारंजा"],
-      ["Degloor", "देगलूर"],
-      ["Paithan", "पैठन"],
-      ["Alibaug", "अलिबाग"],
-      ["digital", "डिजिटल"],
-      ["DIGITAL", "डिजिटल"],
-      ["trustee", "ट्रस्टी"],
-      ["Officer", "अधिकारी"],
-      ["officer", "अधिकारी"],
-      ["Grains", "अनाज"],
-      ["Pulses", "दालें"],
-      ["pulses", "दालें"],
-      ["Fruits", "फल"],
-      ["Spices", "मसाले"],
-      ["Cotton", "कपास"],
-      ["Tomato", "टमाटर"],
-      ["Potato", "आलू"],
-      ["Banana", "केला"],
-      ["Grapes", "अंगूर"],
-      ["Orange", "संतरा"],
-      ["Chilli", "मिर्च"],
-      ["Bhagwa", "भगवा अनार"],
-      ["Shivam", "शिवम"],
-      ["Hybrid", "हाइब्रिड"],
-      ["Curing", "क्यूरिंग"],
-      ["Finger", "हल्दी फिंगर"],
-      ["Buyers", "क्रेता"],
-      ["buyers", "क्रेता"],
-      ["Seller", "विक्रेता"],
-      ["SELLER", "विक्रेता"],
-      ["seller", "विक्रेता"],
-      ["Farmer", "किसान"],
-      ["FARMER", "किसान"],
-      ["farmer", "किसान"],
-      ["Trader", "व्यापारी"],
-      ["Retail", "खुदरा"],
-      ["Makers", "निर्माता"],
-      ["Market", "बाजार"],
-      ["Mandis", "मंडियां"],
-      ["Portal", "पोर्टल"],
-      ["PORTAL", "पोर्टल"],
-      ["Demand", "मांग कोटा"],
-      ["Quotas", "कोटा"],
-      ["quotas", "कोटा"],
-      ["Buyout", "बायआउट"],
-      ["Offers", "प्रस्ताव"],
-      ["Clause", "खंड शर्त"],
-      ["Escrow", "एस्क्रो सुरक्षित"],
-      ["ESCROW", "एस्क्रो"],
-      ["escrow", "एस्क्रो"],
-      ["Payout", "भुगतान"],
-      ["payout", "भुगतान"],
-      ["Credit", "क्रेडिट"],
-      ["credit", "क्रेडिट"],
-      ["Refund", "रिफंड"],
-      ["refund", "रिफंड"],
-      ["Rebate", "छूट"],
-      ["rebate", "छूट"],
-      ["Pledge", "गिरवी रसीद"],
-      ["pledge", "गिरवी"],
-      ["Tenure", "अवधि"],
-      ["Liquid", "तरल"],
-      ["Prices", "भाव"],
-      ["prices", "भाव"],
-      ["Tariff", "टैरिफ"],
-      ["Hamali", "हमाली तुलाई"],
-      ["hamali", "हमाली"],
-      ["Broker", "दलाल"],
-      ["Spread", "मार्जिन अंतर"],
-      ["Losses", "नुकसान"],
-      ["losses", "नुकसान"],
-      ["Saving", "बचत"],
-      ["Values", "मान"],
-      ["Landed", "लैंडेड पहुंच"],
-      ["landed", "पहुंच लागत"],
-      ["Amount", "राशि"],
-      ["AMOUNT", "राशि"],
-      ["Hauler", "ट्रांसपोर्टर"],
-      ["Delays", "देरी"],
-      ["delays", "देरी"],
-      ["Reefer", "रीफर वाहन"],
-      ["Driver", "चालक"],
-      ["driver", "चालक"],
-      ["Sealed", "सील बंद"],
-      ["Sensor", "सेंसर"],
-      ["Beacon", "बीकन"],
-      ["Stored", "संग्रहित"],
-      ["Crates", "क्रेट्स"],
-      ["crates", "क्रेट्स"],
-      ["Inward", "आवक"],
-      ["Pickup", "पिकअप"],
-      ["pickup", "पिकअप"],
-      ["Grades", "ग्रेड श्रेणी"],
-      ["Assays", "जांच"],
-      ["assays", "जांच"],
-      ["Rotten", "सड़ा हुआ"],
-      ["rotten", "सड़ा हुआ"],
-      ["Claims", "दावे"],
-      ["Freeze", "फ्रीज करें"],
-      ["Frozen", "फ्रीज"],
-      ["Ruling", "निर्णय"],
-      ["ruling", "निर्णय"],
-      ["Trends", "रुझान ट्रेंड्स"],
-      ["trends", "रुझान"],
-      ["Inflow", "आवक प्रवाह"],
-      ["Volume", "मात्रा आयतन"],
-      ["Curves", "वक्र"],
-      ["curves", "वक्र"],
-      ["Search", "खोजें"],
-      ["search", "खोजें"],
-      ["Filter", "फ़िल्टर करें"],
-      ["filter", "फ़िल्टर"],
-      ["Action", "कार्रवाई"],
-      ["ACTION", "कार्रवाई"],
-      ["Status", "स्थिति"],
-      ["STATUS", "स्थिति"],
-      ["status", "स्थिति"],
-      ["Active", "सक्रिय"],
-      ["active", "सक्रिय"],
-      ["Booked", "बुक किया गया"],
-      ["Cancel", "रद्द करें"],
-      ["cancel", "रद्द करें"],
-      ["Submit", "जमा करें"],
-      ["submit", "जमा करें"],
-      ["Delete", "हटाएं"],
-      ["Ledger", "लेजर बही"],
-      ["Report", "रिपोर्ट"],
-      ["Logout", "लॉगआउट"],
-      ["Select", "चुनें"],
-      ["select", "चुनें"],
-      ["Choose", "चुनें"],
-      ["Create", "बनाएं"],
-      ["Change", "बदलें"],
-      ["Switch", "बदलें"],
-      ["Urgent", "अति आवश्यक"],
-      ["Custom", "कस्टम"],
-      ["Manual", "मैनुअल"],
-      ["Synced", "सिंक हुआ"],
-      ["Online", "ऑनलाइन"],
-      ["Number", "संख्या"],
-      ["NUMBER", "संख्या"],
-      ["Months", "महीने"],
-      ["Origin", "मूल स्थान"],
-      ["origin", "मूल स्थान"],
-      ["Higher", "अधिक"],
-      ["Lowest", "न्यूनतम"],
-      ["Better", "बेहतर"],
-      ["Branch", "शाखा"],
-      ["Holder", "धारक"],
-      ["Wallet", "वॉलेट"],
-      ["Engine", "इंजन प्रणाली"],
-      ["ENGINE", "इंजन"],
-      ["System", "प्रणाली"],
-      ["Policy", "नीति"],
-      ["Within", "के भीतर"],
-      ["within", "के भीतर"],
-      ["Across", "भर में"],
-      ["across", "भर"],
-      ["During", "के दौरान"],
-      ["during", "के दौरान"],
-      ["Browse", "ब्राउज़ करें"],
-      ["browse", "ब्राउज़"],
-      ["Unlock", "अनलॉक करें"],
-      ["unlock", "अनलॉक करें"],
-      ["Mutual", "आपसी"],
-      ["mutual", "आपसी"],
-      ["Stream", "स्ट्रीम"],
-      ["stream", "स्ट्रीम"],
-      ["Attach", "संलग्न करें"],
-      ["attach", "जोड़ें"],
-      ["Upload", "अपलोड करें"],
-      ["upload", "अपलोड करें"],
-      ["Filing", "दाखिल करना"],
-      ["filing", "दाखिल करना"],
-      ["Radius", "दायरा"],
-      ["radius", "दायरा"],
-      ["Marked", "चिह्नित"],
-      ["marked", "चिह्नित"],
-      ["Mapped", "मैप किया गया"],
-      ["mapped", "मैप"],
-      ["Signal", "सिग्नल"],
-      ["signal", "सिग्नल"],
-      ["Bypass", "बायपास करें"],
-      ["bypass", "बायपास"],
-      ["Direct", "सीधे खरीद"],
-      ["direct", "सीधा"],
-      ["DIRECT", "सीधे"],
-      ["Yellow", "पीला"],
-      ["yellow", "पीला"],
-      ["Border", "बॉर्डर"],
-      ["border", "बॉर्डर"],
-      ["Orders", "ऑर्डर्स"],
-      ["orders", "ऑर्डर्स"],
-      ["ORDERS", "ऑर्डर्स"],
-      ["Appear", "दिखता है"],
-      ["appear", "दिखता है"],
-      ["Indian", "भारतीय"],
-      ["Konkan", "कोंकण"],
-      ["ACTIVE", "सक्रिय"],
-      ["Accept", "स्वीकारें"],
-      ["accept", "स्वीकारें"],
-      ["Agreed", "सहमति"],
-      ["BRANCH", "शाखा"],
-      ["Buffer", "बफर स्टॉक"],
-      ["Client", "ग्राहक"],
-      ["client", "ग्राहक"],
-      ["EICHER", "आयशर"],
-      ["Entire", "संपूर्ण"],
-      ["Export", "निर्यात"],
-      ["export", "निर्यात"],
-      ["Google", "गूगल"],
-      ["ISSUED", "जारी किया गया"],
-      ["Jadhav", "जाधव"],
-      ["Locked", "लॉक किया गया"],
-      ["locked", "लॉक"],
-      ["Rajesh", "राजेश"],
-      ["Rating", "रेटिंग"],
-      ["rating", "रेटिंग"],
-      ["return", "वापसी"],
-      ["Selvam", "सेल्वम"],
-      ["Shinde", "शिंदे"],
-      ["Source", "स्रोत"],
-      ["Target", "लक्षित"],
-      ["target", "लक्षित"],
-      ["Thorat", "थोरात"],
-      ["VOLUME", "मात्रा"],
-      ["Weight", "वजन"],
-      ["weight", "वजन"],
-      ["beacon", "बीकन"],
-      ["change", "बदलें"],
-      ["demand", "मांग"],
-      ["diesel", "डीजल"],
-      ["frozen", "फ्रीज"],
-      ["higher", "अधिक"],
-      ["linked", "जुड़ा हुआ"],
-      ["mandis", "मंडियां"],
-      ["market", "बाजार"],
-      ["portal", "पोर्टल"],
-      ["report", "रिपोर्ट"],
-      ["sensor", "सेंसर"],
-      ["tested", "परीक्षित"],
-      ["Junnar", "जुन्नर"],
-      ["Rahata", "राहाता"],
-      ["Rahuri", "राहुरी"],
-      ["Hingna", "हिंगणा"],
-      ["Chopda", "चोपड़ा"],
-      ["Barshi", "बार्शी"],
-      ["Shirol", "शिरोल"],
-      ["Kannad", "कन्नड़"],
-      ["Basmat", "बसमत"],
-      ["Dharur", "धारूर"],
-      ["Omerga", "उमरगा"],
-      ["Kalamb", "कलंब"],
-      ["Devgad", "देवगढ़"],
-      ["Kavita", "कविता"],
-      ["Sanjay", "संजय"],
-      ["Sangli", "सांगली"],
-      ["Matrix", "मैट्रिक्स तालिका"],
-      ["matrix", "मैट्रिक्स"],
-      ["Hunter", "खोजकर्ता"],
-      ["hunter", "खोजकर्ता"],
-      ["Crops", "फसलें"],
-      ["crops", "फसलें"],
-      ["Grain", "अनाज"],
-      ["grain", "अनाज"],
-      ["Spice", "मसाला"],
-      ["Onion", "प्याज"],
-      ["onion", "प्याज"],
-      ["Mango", "आम"],
-      ["Jowar", "ज्वार"],
-      ["Paddy", "धान"],
-      ["Hapus", "हापुस"],
-      ["Garwa", "गरवा प्याज"],
-      ["Naine", "ग्रैंड नैन"],
-      ["Grand", "ग्रैंड"],
-      ["Fresh", "ताजा"],
-      ["Puree", "प्यूरी"],
-      ["Sauce", "सॉस"],
-      ["Gluts", "अत्यधिक आवक"],
-      ["gluts", "अत्यधिक आवक"],
-      ["Buyer", "क्रेता"],
-      ["BUYER", "क्रेता"],
-      ["buyer", "क्रेता"],
-      ["Trade", "व्यापार"],
-      ["Maker", "निर्माता"],
-      ["Mandi", "मंडी"],
-      ["Quota", "कोटा"],
-      ["Offer", "प्रस्ताव"],
-      ["offer", "प्रस्ताव"],
-      ["Legal", "कानूनी"],
-      ["Vault", "वॉल्ट"],
-      ["Loans", "ऋण"],
-      ["loans", "ऋण"],
-      ["Funds", "फंड निधि"],
-      ["funds", "फंड निधि"],
-      ["Costs", "लागत"],
-      ["costs", "लागत"],
-      ["Price", "भाव मूल्य"],
-      ["PRICE", "भाव मूल्य"],
-      ["price", "भाव"],
-      ["Rates", "दर"],
-      ["rates", "दर"],
-      ["Taxes", "कर"],
-      ["Tolls", "टोल टैक्स"],
-      ["tolls", "टोल टैक्स"],
-      ["Saved", "बचत"],
-      ["saved", "बचत"],
-      ["Value", "मूल्य"],
-      ["value", "मूल्य"],
-      ["Total", "कुल"],
-      ["TOTAL", "कुल"],
-      ["total", "कुल"],
-      ["Modal", "मॉडल दर"],
-      ["MODAL", "मॉडल दर"],
-      ["modal", "मॉडल"],
-      ["Floor", "न्यूनतम तल"],
-      ["Truck", "ट्रक"],
-      ["truck", "ट्रक"],
-      ["Fleet", "फ्लीट बेड़ा"],
-      ["fleet", "फ्लीट"],
-      ["Cargo", "कार्गो"],
-      ["Route", "मार्ग"],
-      ["Gross", "सकल वजन"],
-      ["Slips", "पर्चियां"],
-      ["slips", "पर्चियां"],
-      ["Track", "ट्रैक करें"],
-      ["Store", "संग्रहित करें"],
-      ["Silos", "साइलो"],
-      ["silos", "साइलो"],
-      ["Solar", "सौर ऊर्जा"],
-      ["Stack", "चट्टा (स्टैक)"],
-      ["Slots", "स्लॉट्स"],
-      ["slots", "स्लॉट्स"],
-      ["Space", "स्थान"],
-      ["space", "स्थान"],
-      ["Boxes", "डिब्बे"],
-      ["Crate", "क्रेट"],
-      ["Gunny", "सन बोरी"],
-      ["Loose", "खुला माल"],
-      ["Grade", "ग्रेड श्रेणी"],
-      ["Assay", "परख जांच"],
-      ["Score", "स्कोर"],
-      ["Claim", "दावा"],
-      ["Proof", "प्रमाण"],
-      ["Trend", "रुझान"],
-      ["Close", "बंद करें"],
-      ["close", "बंद करें"],
-      ["Print", "प्रिंट करें"],
-      ["print", "प्रिंट करें"],
-      ["Audit", "ऑडिट"],
-      ["Table", "तालिका"],
-      ["Enter", "दर्ज करें"],
-      ["enter", "दर्ज करें"],
-      ["Phone", "फ़ोन नंबर"],
-      ["Guide", "मार्गदर्शिका"],
-      ["Night", "रात्रि"],
-      ["Hello", "नमस्ते"],
-      ["Click", "क्लिक करें"],
-      ["Alert", "अलर्ट"],
-      ["Today", "आज"],
-      ["today", "आज"],
-      ["Hours", "घंटे"],
-      ["hours", "घंटे"],
-      ["Month", "माह"],
-      ["month", "महीना"],
-      ["State", "राज्य"],
-      ["Quick", "त्वरित"],
-      ["Lower", "कम"],
-      ["Units", "इकाइयां"],
-      ["Lakhs", "लाख"],
-      ["Ratio", "अनुपात"],
-      ["Empty", "खाली"],
-      ["Fully", "पूरी तरह से"],
-      ["Ready", "तैयार"],
-      ["Layer", "परत"],
-      ["Terms", "नियम व शर्तें"],
-      ["terms", "शर्तें"],
-      ["Shall", "होगा"],
-      ["shall", "होगा"],
-      ["Under", "के तहत"],
-      ["under", "के अंतर्गत"],
-      ["Until", "तक"],
-      ["until", "तक"],
-      ["While", "जबकि"],
-      ["while", "जबकि"],
-      ["Other", "अन्य"],
-      ["other", "अन्य"],
-      ["Every", "प्रत्येक"],
-      ["every", "हर"],
-      ["Party", "पक्षकार"],
-      ["party", "पक्ष"],
-      ["Trial", "परीक्षण"],
-      ["trial", "ट्रायल"],
-      ["Shelf", "शेल्फ लाइफ"],
-      ["shelf", "शेल्फ लाइफ"],
-      ["Point", "बिंदु"],
-      ["point", "बिंदु"],
-      ["Board", "बोर्ड"],
-      ["board", "बोर्ड"],
-      ["Marks", "अंक"],
-      ["White", "सफेद"],
-      ["white", "सफेद"],
-      ["Color", "रंग"],
-      ["color", "रंग"],
-      ["Style", "शैली"],
-      ["style", "शैली"],
-      ["Event", "घटना"],
-      ["event", "इवेंट"],
-      ["Cards", "कार्ड्स"],
-      ["Order", "ऑर्डर"],
-      ["order", "ऑर्डर"],
-      ["Match", "मिलान"],
-      ["match", "मिलान"],
-      ["Hindi", "हिन्दी"],
-      ["India", "भारत"],
-      ["MIHAN", "मिहान"],
-      ["Agent", "एजेंट"],
-      ["Belts", "क्षेत्र"],
-      ["belts", "क्षेत्र"],
-      ["Chain", "आपूर्ति श्रृंखला"],
-      ["chain", "श्रृंखला"],
-      ["ENTER", "दर्ज करें"],
-      ["Final", "अंतिम"],
-      ["final", "अंतिम"],
-      ["Heavy", "भारी"],
-      ["Index", "सूचकांक"],
-      ["Issue", "मुद्दा/समस्या"],
-      ["issue", "मुद्दा"],
-      ["Kisan", "किसान"],
-      ["Model", "मॉडल"],
-      ["Multi", "मल्टी"],
-      ["Nodal", "नोडल"],
-      ["nodal", "नोडल"],
-      ["Patil", "पाटिल"],
-      ["Photo", "फोटो"],
-      ["Plate", "नंबर प्लेट"],
-      ["plate", "नंबर प्लेट"],
-      ["SMART", "स्मार्ट"],
-      ["Smart", "स्मार्ट"],
-      ["smart", "स्मार्ट"],
-      ["Short", "कम"],
-      ["Speed", "गति"],
-      ["Trail", "ऑडिट ट्रेल"],
-      ["Trust", "विश्वास"],
-      ["trust", "विश्वास"],
-      ["assay", "परख"],
-      ["based", "आधारित"],
-      ["claim", "दावा"],
-      ["favor", "पक्ष में"],
-      ["feeds", "अपडेट्स"],
-      ["fully", "पूरी तरह से"],
-      ["major", "प्रमुख"],
-      ["mandi", "मंडी"],
-      ["times", "बार"],
-      ["Vashi", "वाशी"],
-      ["Katol", "काटोल"],
-      ["Raver", "रावेर"],
-      ["Karad", "कराड"],
-      ["Sakri", "साक्री"],
-      ["Warud", "वरुड"],
-      ["Ambad", "अंबड"],
-      ["Nagar", "अहमदनगर"],
-      ["Shahu", "शाहू"],
-      ["APMCs", "मंडियां"],
-      ["Euler", "ऑयलर"],
-      ["Agro", "कृषि एग्रो"],
-      ["Agri", "कृषि"],
-      ["AGRI", "कृषि"],
-      ["Crop", "फसल"],
-      ["Food", "खाद्य"],
-      ["Feed", "पशु आहार"],
-      ["Yard", "मंडी प्रांगण"],
-      ["Hubs", "हब केंद्र"],
-      ["Buys", "खरीद"],
-      ["Bids", "प्रस्ताव"],
-      ["Deed", "विलेख"],
-      ["Paid", "चुकाया गया"],
-      ["paid", "चुकाया"],
-      ["Lien", "ग्रहणाधिकार"],
-      ["lien", "ग्रहणाधिकार"],
-      ["Loan", "ऋण"],
-      ["loan", "ऋण"],
-      ["Pool", "पूल"],
-      ["Cost", "लागत"],
-      ["cost", "लागत"],
-      ["Rate", "दर भाव"],
-      ["RATE", "दर भाव"],
-      ["rate", "दर"],
-      ["Fees", "शुल्क"],
-      ["Cess", "सेस उपकर"],
-      ["cess", "सेस उपकर"],
-      ["Toll", "टोल"],
-      ["Loss", "नुकसान"],
-      ["loss", "नुकसान"],
-      ["Save", "सहेजें"],
-      ["Maxi", "मैक्सी"],
-      ["Mini", "मिनी"],
-      ["Calc", "गणना"],
-      ["Axle", "एक्सल"],
-      ["Road", "सड़क"],
-      ["Tare", "खाली वाहन वजन (टारे)"],
-      ["Slip", "पर्ची रसीद"],
-      ["slip", "पर्ची"],
-      ["Pass", "गेट पास"],
-      ["pass", "गेट पास"],
-      ["Gate", "गेट द्वार"],
-      ["gate", "गेट"],
-      ["Seal", "सुरक्षा सील"],
-      ["Silo", "साइलो"],
-      ["silo", "साइलो"],
-      ["Temp", "तापमान"],
-      ["Slot", "स्लॉट"],
-      ["Pack", "पैक"],
-      ["Bags", "बोरियां"],
-      ["Jute", "जूट"],
-      ["Book", "बुक करें"],
-      ["book", "बुक करें"],
-      ["Edit", "संपादित करें"],
-      ["edit", "संपादित करें"],
-      ["View", "देखें"],
-      ["view", "देखें"],
-      ["Copy", "कॉपी करें"],
-      ["Logs", "लॉग्स"],
-      ["Grid", "ग्रिड"],
-      ["List", "सूची"],
-      ["Show", "दिखाएं"],
-      ["show", "दिखाएं"],
-      ["Hide", "छिपाएं"],
-      ["More", "अधिक देखें"],
-      ["Less", "कम देखें"],
-      ["Next", "आगे"],
-      ["Prev", "पीछे"],
-      ["Post", "पोस्ट करें"],
-      ["Send", "भेजें"],
-      ["send", "भेजें"],
-      ["Type", "प्रकार / लिखें"],
-      ["TYPE", "प्रकार"],
-      ["type", "लिखें"],
-      ["Chat", "चैट"],
-      ["chat", "चैट"],
-      ["Call", "कॉल करें"],
-      ["Help", "मदद"],
-      ["Find", "खोजें"],
-      ["Best", "सर्वोत्तम"],
-      ["Good", "शुभ"],
-      ["Info", "जानकारी"],
-      ["Auto", "स्वचालित"],
-      ["Live", "लाइव"],
-      ["live", "लाइव"],
-      ["Real", "वास्तविक"],
-      ["REAL", "वास्तविक"],
-      ["Sync", "सिंक करें"],
-      ["sync", "सिंक"],
-      ["Hash", "हैश"],
-      ["Code", "कोड"],
-      ["CODE", "कोड"],
-      ["Name", "नाम"],
-      ["NAME", "नाम"],
-      ["Date", "दिनांक तारीख"],
-      ["DATE", "दिनांक"],
-      ["Time", "समय"],
-      ["TIME", "समय"],
-      ["time", "समय"],
-      ["Days", "दिन"],
-      ["days", "दिन"],
-      ["Hour", "घंटा"],
-      ["Mins", "मिनट"],
-      ["mins", "मिनट"],
-      ["Year", "वर्ष"],
-      ["year", "वर्ष"],
-      ["Fast", "तेज"],
-      ["High", "उच्च"],
-      ["Unit", "इकाई"],
-      ["unit", "इकाई"],
-      ["Zero", "शून्य"],
-      ["zero", "शून्य"],
-      ["Free", "मुफ्त"],
-      ["Full", "पूर्ण"],
-      ["Bank", "बैंक"],
-      ["Card", "कार्ड"],
-      ["Step", "चरण"],
-      ["Your", "आपका"],
-      ["your", "आपका"],
-      ["From", "से"],
-      ["from", "से"],
-      ["With", "के साथ"],
-      ["with", "के साथ"],
-      ["Will", "होगा"],
-      ["will", "होगा"],
-      ["Upon", "पर"],
-      ["upon", "पर"],
-      ["This", "यह"],
-      ["this", "यह"],
-      ["Just", "बस"],
-      ["just", "सिर्फ"],
-      ["Hold", "होल्ड रोकें"],
-      ["hold", "होल्ड"],
-      ["Wash", "धुलाई"],
-      ["wash", "धुलाई"],
-      ["Life", "जीवन काल"],
-      ["life", "आयु"],
-      ["Draw", "आहरण"],
-      ["draw", "निकालना"],
-      ["File", "फ़ाइल"],
-      ["file", "फ़ाइल"],
-      ["Govt", "सरकारी"],
-      ["govt", "सरकारी"],
-      ["Apps", "ऐप्स"],
-      ["apps", "ऐप्स"],
-      ["Gold", "स्वर्ण"],
-      ["gold", "स्वर्ण"],
-      ["Font", "फ़ॉन्ट"],
-      ["font", "फ़ॉन्ट"],
-      ["Lots", "लॉट्स"],
-      ["lots", "लॉट्स"],
-      ["Open", "खुला"],
-      ["open", "खोलें"],
-      ["Sold", "बिक चुका"],
-      ["sold", "बिका"],
-      ["MIDC", "एमआईडीसी"],
-      ["BANK", "बैंक"],
-      ["bank", "बैंक"],
-      ["Back", "वापस"],
-      ["Base", "आधार"],
-      ["Bulk", "थोक बल्क"],
-      ["bulk", "थोक"],
-      ["Case", "मामला"],
-      ["Cash", "नकद"],
-      ["Cold", "शीत कोल्ड"],
-      ["cold", "शीत"],
-      ["Cred", "क्रेड"],
-      ["Dost", "दोस्त पिकअप"],
-      ["Dual", "दोहरा"],
-      ["dual", "दोहरा"],
-      ["FPOs", "एफपीओ"],
-      ["Farm", "खेत"],
-      ["farm", "खेत"],
-      ["Fuel", "ईंधन"],
-      ["IFSC", "आईएफएससी कोड"],
-      ["IMPS", "आईएमपीएस"],
-      ["Lead", "प्रमुख"],
-      ["Lock", "लॉक करें"],
-      ["lock", "लॉक करें"],
-      ["Mega", "मुख्य"],
-      ["Mode", "मोड तरीका"],
-      ["mode", "तरीका"],
-      ["Navi", "नवी"],
-      ["Near", "पास"],
-      ["Orig", "मूल"],
-      ["Park", "पार्क"],
-      ["ROOM", "कक्ष"],
-      ["Risk", "जोखिम"],
-      ["Safe", "सुरक्षित"],
-      ["YONO", "योनो"],
-      ["auto", "स्वचालित"],
-      ["best", "सर्वश्रेष्ठ"],
-      ["code", "कोड"],
-      ["crop", "फसल"],
-      ["data", "डेटा"],
-      ["dist", "जिला"],
-      ["eNWR", "ई-एनडब्ल्यूआर"],
-      ["held", "रोका गया"],
-      ["info", "जानकारी"],
-      ["into", "में"],
-      ["load", "लोड"],
-      ["rata", "अनुपात"],
-      ["real", "वास्तविक"],
-      ["term", "अवधि"],
-      ["true", "सत्य"],
-      ["yard", "मंडी प्रांगण"],
-      ["Kaij", "केज"],
-      ["Wada", "वाडा"],
-      ["name", "नाम"],
-      ["Peak", "शीर्ष स्तर"],
-      ["peak", "शीर्ष स्तर"],
-      ["Side", "पक्ष"],
-      ["side", "तरफ"],
-      ["SOY", "सोयाबीन"],
-      ["ONI", "प्याज"],
-      ["TOM", "टमाटर"],
-      ["Raw", "कच्चा"],
-      ["Dry", "सूखा"],
-      ["Bio", "जैविक बायो"],
-      ["Hub", "हब केंद्र"],
-      ["Buy", "खरीदें"],
-      ["buy", "खरीदें"],
-      ["Bid", "बोली"],
-      ["bid", "बोली"],
-      ["Pay", "भुगतान करें"],
-      ["pay", "भुगतान करें"],
-      ["Fee", "शुल्क"],
-      ["fee", "शुल्क"],
-      ["Tax", "कर"],
-      ["tax", "कर"],
-      ["Avg", "औसत"],
-      ["Min", "न्यूनतम"],
-      ["Max", "अधिकतम"],
-      ["Cap", "कैप सीमा"],
-      ["Net", "शुद्ध वजन"],
-      ["Box", "बॉक्स"],
-      ["box", "डिब्बा"],
-      ["Bag", "बोरी"],
-      ["Lab", "प्रयोगशाला"],
-      ["lab", "प्रयोगशाला"],
-      ["Log", "लॉग"],
-      ["All", "सभी"],
-      ["all", "सभी"],
-      ["New", "नया"],
-      ["new", "नया"],
-      ["Add", "जोड़ें"],
-      ["Top", "शीर्ष"],
-      ["Day", "दिन"],
-      ["day", "दिन"],
-      ["Hrs", "घंटे"],
-      ["Low", "कम"],
-      ["You", "आप"],
-      ["you", "आप"],
-      ["For", "के लिए"],
-      ["for", "के लिए"],
-      ["And", "और"],
-      ["and", "और"],
-      ["Are", "हैं"],
-      ["are", "हैं"],
-      ["Now", "अभी"],
-      ["now", "अभी"],
-      ["Per", "प्रति"],
-      ["per", "प्रति"],
-      ["Has", "है"],
-      ["has", "है"],
-      ["Any", "कोई भी"],
-      ["any", "कोई"],
-      ["How", "कैसे"],
-      ["how", "कैसे"],
-      ["See", "देखें"],
-      ["see", "देखें"],
-      ["Ask", "पूछें"],
-      ["ask", "पूछें"],
-      ["Cut", "कटौती"],
-      ["cut", "कटौती"],
-      ["Key", "मुख्य"],
-      ["key", "प्रमुख"],
-      ["App", "ऐप"],
-      ["Web", "वेब"],
-      ["Red", "लाल"],
-      ["red", "लाल"],
-      ["Lot", "लॉट"],
-      ["lot", "लॉट"],
-      ["Out", "समाप्त"],
-      ["out", "बाहर"],
-      ["BKC", "बीकेसी"],
-      ["Ace", "छोटा हाथी (एस)"],
-      ["Act", "अधिनियम"],
-      ["BAN", "प्रतिबंध"],
-      ["BUY", "खरीदें"],
-      ["ERP", "ईआरपी"],
-      ["FPO", "एफपीओ"],
-      ["Fix", "तय करें"],
-      ["IoT", "आईओटी"],
-      ["Lic", "लाइसेंस"],
-      ["Ltd", "लिमिटेड"],
-      ["Nex", "नेक्स"],
-      ["POs", "खरीद आदेश"],
-      ["Pro", "प्रो"],
-      ["pro", "प्रो"],
-      ["Pvt", "प्राइवेट"],
-      ["Sep", "सितंबर"],
-      ["Tri", "त्रिपक्षीय"],
-      ["Use", "उपयोग"],
-      ["use", "उपयोग"],
-      ["dry", "सूखा"],
-      ["hub", "हब"],
-      ["low", "कम"],
-      ["max", "अधिकतम"],
-      ["via", "के माध्यम से"],
-      ["bag", "बोरी"],
-      ["REF", "संदर्भ"],
-      ["JS", "जेएस"],
-      ["No", "सं."],
-      ["Qt", "क्विंटल"],
-      ["Kg", "किग्रा"],
-      ["kg", "किग्रा"],
-      ["To", "तक / को"],
-      ["to", "तक"],
-      ["In", "में"],
-      ["in", "में"],
-      ["On", "पर"],
-      ["on", "पर"],
-      ["At", "पर"],
-      ["at", "पर"],
-      ["Of", "का / के / की"],
-      ["of", "का"],
-      ["Or", "या"],
-      ["or", "या"],
-      ["By", "द्वारा"],
-      ["by", "द्वारा"],
-      ["Is", "है"],
-      ["is", "है"],
-      ["Vs", "बनाम"],
-      ["vs", "बनाम"],
-      ["An", "एक"],
-      ["an", "एक"],
-      ["As", "के रूप में"],
-      ["as", "जैसे"],
-      ["If", "यदि"],
-      ["if", "यदि"],
-      ["AI", "एआई"],
-      ["BB", "बीबी"],
-      ["BY", "द्वारा"],
-      ["EV", "ईवी"],
-      ["PM", "अपराह्न"],
-      ["AM", "पूर्वाह्न"],
-      ["PO", "खरीद आदेश"],
-      ["QA", "गुणवत्ता जांच"],
-      ["QC", "गुणवत्ता नियंत्रण"],
-      ["QR", "क्यूआर कोड"],
-      ["Re", "पुनः"],
-      ["Up", "ऊपर"],
-      ["up", "ऊपर"],
-      ["be", "हो"],
-      ["ph", "खोजें"],
-      ["am", "हूँ"],
-      ["I", "मैं"],
-      ["i", "मैं"],
-      ["a", "एक"],
-      ["A", "ए"]
+    [
+      "ph_search_dist_mandi",
+      "जिल्हा किंवा बाजार समिती प्रांगण शोधा..."
+    ],
+    [
+      "Quotas Displayed",
+      "कोटा प्रदर्शित"
+    ],
+    [
+      "Recommendation",
+      "खरेदी शिफारस"
+    ],
+    [
+      "recommendation",
+      "शिफारस"
+    ],
+    [
+      "Specifications",
+      "तांत्रिक तपशील"
+    ],
+    [
+      "specifications",
+      "तपशील"
+    ],
+    [
+      "Intermediaries",
+      "मध्यस्थ दलाल"
+    ],
+    [
+      "Active Quotas",
+      "सक्रिय कोटा"
+    ],
+    [
+      "Institutional",
+      "संस्थात्मक"
+    ],
+    [
+      "Manufacturers",
+      "प्रक्रियादार उत्पादक"
+    ],
+    [
+      "Authorization",
+      "अधिकृतता"
+    ],
+    [
+      "authorization",
+      "अधिकृतता"
+    ],
+    [
+      "Notifications",
+      "सूचना"
+    ],
+    [
+      "Cryptographic",
+      "क्रिप्टोग्राफिक सुरक्षित"
+    ],
+    [
+      "institutional",
+      "संस्थात्मक"
+    ],
+    [
+      "Certification",
+      "प्रमाणपत्र"
+    ],
+    [
+      "certification",
+      "प्रमाणपत्र"
+    ],
+    [
+      "Contributions",
+      "योगदान"
+    ],
+    [
+      "contributions",
+      "योगदान"
+    ],
+    [
+      "Agricultural",
+      "कृषी शेती"
+    ],
+    [
+      "agricultural",
+      "कृषी"
+    ],
+    [
+      "Consignments",
+      "माल खेपा"
+    ],
+    [
+      "Verification",
+      "पडताळणी सत्यता"
+    ],
+    [
+      "Certificates",
+      "प्रमाणपत्रे"
+    ],
+    [
+      "certificates",
+      "प्रमाणपत्रे"
+    ],
+    [
+      "Broadcasting",
+      "प्रसारण सुरू आहे"
+    ],
+    [
+      "Intermediary",
+      "मध्यस्थ"
+    ],
+    [
+      "Contribution",
+      "योगदान"
+    ],
+    [
+      "Multilingual",
+      "बहुभाषिक"
+    ],
+    [
+      "multilingual",
+      "बहुभाषिक"
+    ],
+    [
+      "Successfully",
+      "यशस्वीरीत्या"
+    ],
+    [
+      "successfully",
+      "यशस्वीरीत्या"
+    ],
+    [
+      "Navi Mumbai",
+      "नवी मुंबई"
+    ],
+    [
+      "navi mumbai",
+      "नवी मुंबई"
+    ],
+    [
+      "Commodities",
+      "शेतीमाल प्रकार"
+    ],
+    [
+      "Pomegranate",
+      "डाळिंब"
+    ],
+    [
+      "Supermarket",
+      "सुपरमार्केट"
+    ],
+    [
+      "Marketplace",
+      "बाजारपेठ"
+    ],
+    [
+      "Procurement",
+      "खरेदी"
+    ],
+    [
+      "procurement",
+      "खरेदी"
+    ],
+    [
+      "Negotiation",
+      "दर वाटाघाटी"
+    ],
+    [
+      "NEGOTIATION",
+      "दर वाटाघाटी"
+    ],
+    [
+      "negotiation",
+      "वाटाघाटी"
+    ],
+    [
+      "Arbitration",
+      "लवाद मध्यस्थता"
+    ],
+    [
+      "Settlements",
+      "निकाली व्यवहार"
+    ],
+    [
+      "settlements",
+      "निकाली व्यवहार"
+    ],
+    [
+      "Consignment",
+      "माल खेप (कन्सॉइनमेंट)"
+    ],
+    [
+      "Weighbridge",
+      "इलेक्ट्रॉनिक धर्मकाटा"
+    ],
+    [
+      "weighbridge",
+      "धर्मकाटा"
+    ],
+    [
+      "Temperature",
+      "तापमान"
+    ],
+    [
+      "Forecasting",
+      "अंदाज वर्तवणे"
+    ],
+    [
+      "forecasting",
+      "अंदाज"
+    ],
+    [
+      "Recommended",
+      "शिफारस केलेले"
+    ],
+    [
+      "Description",
+      "वर्णन"
+    ],
+    [
+      "description",
+      "वर्णन"
+    ],
+    [
+      "Perspective",
+      "दृष्टिकोन"
+    ],
+    [
+      "Information",
+      "माहिती"
+    ],
+    [
+      "Destination",
+      "गंतव्य पोहोच ठिकाण"
+    ],
+    [
+      "destination",
+      "गंतव्य"
+    ],
+    [
+      "Unallocated",
+      "वाटप न केलेले"
+    ],
+    [
+      "Unmonitored",
+      "निरीक्षणाशिवाय"
+    ],
+    [
+      "Checkpoints",
+      "तपासणी नाके"
+    ],
+    [
+      "Interactive",
+      "परस्परसंवादी थेट"
+    ],
+    [
+      "interactive",
+      "थेट संवादी"
+    ],
+    [
+      "Traditional",
+      "पारंपारिक जुना"
+    ],
+    [
+      "traditional",
+      "पारंपारिक"
+    ],
+    [
+      "Maharashtra",
+      "महाराष्ट्र"
+    ],
+    [
+      "BENEFICIARY",
+      "लाभार्थी शेतकरी"
+    ],
+    [
+      "Composition",
+      "रचना घटक"
+    ],
+    [
+      "immediately",
+      "त्वरीत लगेच"
+    ],
+    [
+      "perspective",
+      "दृष्टिकोन"
+    ],
+    [
+      "transaction",
+      "व्यवहार"
+    ],
+    [
+      "Narayangaon",
+      "नारायणगाव"
+    ],
+    [
+      "Chikalthana",
+      "चिकलठाणा"
+    ],
+    [
+      "marketplace",
+      "बाजारपेठ"
+    ],
+    [
+      "supermarket",
+      "सुपरमार्केट"
+    ],
+    [
+      "Comparative",
+      "तुलनात्मक"
+    ],
+    [
+      "comparative",
+      "तुलनात्मक"
+    ],
+    [
+      "Immediately",
+      "तात्काळ"
+    ],
+    [
+      "transferred",
+      "वर्ग झाले"
+    ],
+    [
+      "Transferred",
+      "वर्ग झाले"
+    ],
+    [
+      "Progressive",
+      "प्रगतिशील"
+    ],
+    [
+      "progressive",
+      "प्रगतिशील"
+    ],
+    [
+      "Perishables",
+      "नाशवंत शेतमाल"
+    ],
+    [
+      "perishables",
+      "नाशवंत शेतमाल"
+    ],
+    [
+      "Temporarily",
+      "तात्पुरते"
+    ],
+    [
+      "temporarily",
+      "तात्पुरते"
+    ],
+    [
+      "Marathwada",
+      "मराठवाडा"
+    ],
+    [
+      "marathwada",
+      "मराठवाडा"
+    ],
+    [
+      "Vegetables",
+      "भाजीपाला"
+    ],
+    [
+      "Enterprise",
+      "संस्थात्मक खरेदीदार"
+    ],
+    [
+      "ENTERPRISE",
+      "संस्थात्मक खरेदीदार"
+    ],
+    [
+      "Commercial",
+      "व्यावसायिक"
+    ],
+    [
+      "Processors",
+      "अन्न प्रक्रियादार"
+    ],
+    [
+      "Processing",
+      "प्रक्रिया"
+    ],
+    [
+      "purchasing",
+      "खरेदी करत आहे"
+    ],
+    [
+      "Purchasing",
+      "खरेदी"
+    ],
+    [
+      "Arbitrator",
+      "लवाद मध्यस्थ"
+    ],
+    [
+      "Authorized",
+      "अधिकृत"
+    ],
+    [
+      "Settlement",
+      "निकाली व्यवहार"
+    ],
+    [
+      "settlement",
+      "निकाली व्यवहार"
+    ],
+    [
+      "Collateral",
+      "तारण हमी"
+    ],
+    [
+      "Commission",
+      "कमिशन आडत"
+    ],
+    [
+      "calculated",
+      "हिशोब केलेला"
+    ],
+    [
+      "Calculator",
+      "कॅल्क्युलेटर हिशोब"
+    ],
+    [
+      "Dispatched",
+      "रवाना झाले"
+    ],
+    [
+      "Atmosphere",
+      "नियंत्रित वातावरण"
+    ],
+    [
+      "Controlled",
+      "नियंत्रित"
+    ],
+    [
+      "CONTROLLED",
+      "नियंत्रित"
+    ],
+    [
+      "controlled",
+      "नियंत्रित"
+    ],
+    [
+      "Corrugated",
+      "पुठ्ठ्याचे बॉक्स"
+    ],
+    [
+      "Inspection",
+      "निरीक्षण पाहणी"
+    ],
+    [
+      "Accredited",
+      "मान्यताप्राप्त"
+    ],
+    [
+      "Mismatches",
+      "विसंगती तफावत"
+    ],
+    [
+      "mismatches",
+      "तफावत"
+    ],
+    [
+      "Grievances",
+      "तक्रारी"
+    ],
+    [
+      "Resolution",
+      "निवारण तोडगा"
+    ],
+    [
+      "Visualizer",
+      "दृश्य आलेख चार्ट"
+    ],
+    [
+      "Projection",
+      "भविष्यवेध अंदाज"
+    ],
+    [
+      "projection",
+      "अंदाज"
+    ],
+    [
+      "Divergence",
+      "दर तफावत"
+    ],
+    [
+      "divergence",
+      "तफावत"
+    ],
+    [
+      "Advisories",
+      "सल्ले"
+    ],
+    [
+      "Successful",
+      "यशस्वी"
+    ],
+    [
+      "Protection",
+      "संरक्षण"
+    ],
+    [
+      "Guaranteed",
+      "हमी दिलेली"
+    ],
+    [
+      "Electronic",
+      "इलेक्ट्रॉनिक"
+    ],
+    [
+      "Percentage",
+      "टक्केवारी"
+    ],
+    [
+      "Undertakes",
+      "हमी घेतो"
+    ],
+    [
+      "undertakes",
+      "हमी घेतो"
+    ],
+    [
+      "Conforming",
+      "निकषांनुसार"
+    ],
+    [
+      "conforming",
+      "सुसंगत"
+    ],
+    [
+      "Mechanisms",
+      "यंत्रणा"
+    ],
+    [
+      "Monitoring",
+      "थेट निरीक्षण"
+    ],
+    [
+      "monitoring",
+      "निरीक्षण"
+    ],
+    [
+      "Turnaround",
+      "पूर्तता वेळ (टर्नअराउंड)"
+    ],
+    [
+      "turnaround",
+      "पूर्तता वेळ"
+    ],
+    [
+      "Historical",
+      "ऐतिहासिक नोंदी"
+    ],
+    [
+      "historical",
+      "ऐतिहासिक"
+    ],
+    [
+      "Facilities",
+      "सुविधा केंद्रे"
+    ],
+    [
+      "facilities",
+      "सुविधा"
+    ],
+    [
+      "Innovative",
+      "नावीन्यपूर्ण आधुनिक"
+    ],
+    [
+      "innovative",
+      "नावीन्यपूर्ण"
+    ],
+    [
+      "Supporting",
+      "सहाय्यक"
+    ],
+    [
+      "supporting",
+      "सहाय्यक"
+    ],
+    [
+      "Calibrated",
+      "कॅलिब्रेट अचूक तपासलेले"
+    ],
+    [
+      "calibrated",
+      "तपासलेले"
+    ],
+    [
+      "Variations",
+      "फरक तफावती"
+    ],
+    [
+      "variations",
+      "फरक"
+    ],
+    [
+      "Minimizing",
+      "किमान कमी करणे"
+    ],
+    [
+      "minimizing",
+      "कमी करणे"
+    ],
+    [
+      "Background",
+      "पार्श्वभूमी"
+    ],
+    [
+      "background",
+      "पार्श्वभूमी"
+    ],
+    [
+      "Simulating",
+      "सिम्युलेशन करत आहे"
+    ],
+    [
+      "simulating",
+      "सिम्युलेशन करत आहे"
+    ],
+    [
+      "acceptance",
+      "स्वीकृती"
+    ],
+    [
+      "Industrial",
+      "औद्योगिक"
+    ],
+    [
+      "Negotiable",
+      "वाटाघाटीयोग्य"
+    ],
+    [
+      "NetBanking",
+      "नेटबँकिंग"
+    ],
+    [
+      "Perishable",
+      "नाशवंत शेतीमाल"
+    ],
+    [
+      "Returnable",
+      "परत करण्यायोग्य"
+    ],
+    [
+      "Technology",
+      "तंत्रज्ञान"
+    ],
+    [
+      "designated",
+      "नियुक्त"
+    ],
+    [
+      "electronic",
+      "इलेक्ट्रॉनिक"
+    ],
+    [
+      "individual",
+      "वैयक्तिक"
+    ],
+    [
+      "resolution",
+      "निवारण"
+    ],
+    [
+      "Pimpalgaon",
+      "पिंपळगाव"
+    ],
+    [
+      "Pandharpur",
+      "पंढरपूर"
+    ],
+    [
+      "Dhamangaon",
+      "धामणगाव"
+    ],
+    [
+      "Hinganghat",
+      "हिंगणघाट"
+    ],
+    [
+      "Ventilated",
+      "हवेशीर"
+    ],
+    [
+      "ventilated",
+      "हवेशीर"
+    ],
+    [
+      "Compliance",
+      "अनुपालन"
+    ],
+    [
+      "compliance",
+      "अनुपालन"
+    ],
+    [
+      "Collection",
+      "संकलन"
+    ],
+    [
+      "guaranteed",
+      "हमी दिलेले"
+    ],
+    [
+      "Fulfilment",
+      "पूर्तता"
+    ],
+    [
+      "fulfilment",
+      "पूर्तता"
+    ],
+    [
+      "Attachment",
+      "जोडपत्र"
+    ],
+    [
+      "attachment",
+      "जोडपत्र"
+    ],
+    [
+      "enterprise",
+      "संस्थात्मक"
+    ],
+    [
+      "dispatched",
+      "रवाना"
+    ],
+    [
+      "Dispatches",
+      "वाहतूक फेऱ्या"
+    ],
+    [
+      "dispatches",
+      "वाहतूक फेऱ्या"
+    ],
+    [
+      "processing",
+      "प्रक्रिया"
+    ],
+    [
+      "commercial",
+      "व्यावसायिक"
+    ],
+    [
+      "perishable",
+      "नाशवंत"
+    ],
+    [
+      "Quarantine",
+      "चौकशी स्थगिती"
+    ],
+    [
+      "quarantine",
+      "चौकशी स्थगिती"
+    ],
+    [
+      "inspection",
+      "तपासणी"
+    ],
+    [
+      "Reactivate",
+      "पुन्हा सुरू करा"
+    ],
+    [
+      "reactivate",
+      "पुन्हा सुरू करा"
+    ],
+    [
+      "Displayed",
+      "प्रदर्शित"
+    ],
+    [
+      "displayed",
+      "प्रदर्शित"
+    ],
+    [
+      "Commodity",
+      "कृषी शेतीमाल"
+    ],
+    [
+      "Mandarins",
+      "संत्री मोसंबी"
+    ],
+    [
+      "harvested",
+      "काढणी झालेली"
+    ],
+    [
+      "Wholesale",
+      "घाऊक बाजार"
+    ],
+    [
+      "WHOLESALE",
+      "घाऊक बाजार"
+    ],
+    [
+      "Corporate",
+      "कॉर्पोरेट संस्थात्मक"
+    ],
+    [
+      "Negotiate",
+      "वाटाघाटी करा"
+    ],
+    [
+      "Agreement",
+      "करार"
+    ],
+    [
+      "Contracts",
+      "करार"
+    ],
+    [
+      "Statutory",
+      "वैधानिक अधिकृत"
+    ],
+    [
+      "Signatory",
+      "स्वाक्षरीकर्ता"
+    ],
+    [
+      "Signature",
+      "स्वाक्षरी"
+    ],
+    [
+      "signature",
+      "स्वाक्षरी"
+    ],
+    [
+      "Authorize",
+      "अधिकृत करा"
+    ],
+    [
+      "Compliant",
+      "मानक सुसंगत"
+    ],
+    [
+      "Deposited",
+      "जमा केले"
+    ],
+    [
+      "deposited",
+      "जमा केले"
+    ],
+    [
+      "Disbursal",
+      "रक्कम वितरण"
+    ],
+    [
+      "DISBURSAL",
+      "रक्कम वितरण"
+    ],
+    [
+      "disbursed",
+      "वितरीत केले"
+    ],
+    [
+      "Financing",
+      "वित्तपुरवठा"
+    ],
+    [
+      "financing",
+      "वित्तपुरवठा"
+    ],
+    [
+      "Repayment",
+      "परतफेड"
+    ],
+    [
+      "Liquidity",
+      "तरलता निधी"
+    ],
+    [
+      "Brokerage",
+      "दलाली कमिशन"
+    ],
+    [
+      "brokerage",
+      "दलाली कमिशन"
+    ],
+    [
+      "Shrinkage",
+      "वजन घट नुकसान"
+    ],
+    [
+      "shrinkage",
+      "वजन घट नुकसान"
+    ],
+    [
+      "Valuation",
+      "एकूण मूल्य"
+    ],
+    [
+      "VALUATION",
+      "एकूण मूल्य"
+    ],
+    [
+      "valuation",
+      "मूल्यांकन"
+    ],
+    [
+      "Benchmark",
+      "बाजार मानक दर"
+    ],
+    [
+      "benchmark",
+      "मानक दर"
+    ],
+    [
+      "Arbitrage",
+      "किंमत नफा फरक"
+    ],
+    [
+      "arbitrage",
+      "किंमत नफा फरक"
+    ],
+    [
+      "Breakeven",
+      "किमान ब्रेक-इव्हन दर"
+    ],
+    [
+      "Calculate",
+      "हिशोब करा"
+    ],
+    [
+      "Logistics",
+      "वाहतूक व पुरवठा साखळी"
+    ],
+    [
+      "logistics",
+      "वाहतूक व पुरवठा"
+    ],
+    [
+      "Transport",
+      "वाहतूक"
+    ],
+    [
+      "transport",
+      "वाहतूक"
+    ],
+    [
+      "Consignor",
+      "माल पाठवणारा (शेतकरी)"
+    ],
+    [
+      "Consignee",
+      "माल स्वीकारणारा (खरेदीदार)"
+    ],
+    [
+      "Shipments",
+      "माल खेपा वहन"
+    ],
+    [
+      "Weighment",
+      "वजन तपासणी"
+    ],
+    [
+      "Telemetry",
+      "थेट सेन्सर टेलिमेट्री"
+    ],
+    [
+      "TELEMETRY",
+      "थेट टेलिमेट्री"
+    ],
+    [
+      "telemetry",
+      "टेलिमेट्री"
+    ],
+    [
+      "Satellite",
+      "उपग्रह ट्रॅकिंग"
+    ],
+    [
+      "Warehouse",
+      "वेअरहाऊस गोदाम"
+    ],
+    [
+      "warehouse",
+      "गोदाम"
+    ],
+    [
+      "Packaging",
+      "पॅकेजिंग बारदाना"
+    ],
+    [
+      "Tolerance",
+      "सहनशीलता मर्यादा"
+    ],
+    [
+      "tolerance",
+      "सहनशीलता मर्यादा"
+    ],
+    [
+      "Inspected",
+      "पाहणी केलेले"
+    ],
+    [
+      "Certified",
+      "प्रमाणित"
+    ],
+    [
+      "Defective",
+      "दोषी"
+    ],
+    [
+      "Shortages",
+      "तूट"
+    ],
+    [
+      "shortages",
+      "तूट"
+    ],
+    [
+      "Deviation",
+      "मापदंड फरक विचलन"
+    ],
+    [
+      "Grievance",
+      "तक्रार निवारण"
+    ],
+    [
+      "grievance",
+      "तक्रार"
+    ],
+    [
+      "Redressal",
+      "निवारण मंच"
+    ],
+    [
+      "Complaint",
+      "तक्रार"
+    ],
+    [
+      "complaint",
+      "तक्रार"
+    ],
+    [
+      "Releasing",
+      "रक्कम मुक्त करत आहे"
+    ],
+    [
+      "Analytics",
+      "डेटा विश्लेषण"
+    ],
+    [
+      "Available",
+      "उपलब्ध"
+    ],
+    [
+      "available",
+      "उपलब्ध"
+    ],
+    [
+      "Statement",
+      "विवरण पत्रक"
+    ],
+    [
+      "Dashboard",
+      "डॅशबोर्ड"
+    ],
+    [
+      "Broadcast",
+      "प्रसारित करा"
+    ],
+    [
+      "Emergency",
+      "आपत्कालीन"
+    ],
+    [
+      "Important",
+      "महत्त्वाचे"
+    ],
+    [
+      "Automated",
+      "स्वयंचलित"
+    ],
+    [
+      "Instantly",
+      "त्वरीत"
+    ],
+    [
+      "Connected",
+      "जोडले गेले"
+    ],
+    [
+      "Protected",
+      "संरक्षित"
+    ],
+    [
+      "PROTECTED",
+      "संरक्षित"
+    ],
+    [
+      "Guarantee",
+      "हमी"
+    ],
+    [
+      "Assurance",
+      "खात्री"
+    ],
+    [
+      "Digitally",
+      "डिजिटल पद्धतीने"
+    ],
+    [
+      "Encrypted",
+      "एनक्रिप्टेड सुरक्षित"
+    ],
+    [
+      "Immutable",
+      "अपरिवर्तनीय कायमस्वरूपी"
+    ],
+    [
+      "Timestamp",
+      "वेळ नोंद"
+    ],
+    [
+      "Yesterday",
+      "काल"
+    ],
+    [
+      "Quarterly",
+      "त्रैमासिक"
+    ],
+    [
+      "Locations",
+      "ठिकाणे"
+    ],
+    [
+      "Districts",
+      "जिल्हे"
+    ],
+    [
+      "Breakdown",
+      "सविस्तर तपशीलवार वर्गीकरण"
+    ],
+    [
+      "Checklist",
+      "तपासणी यादी"
+    ],
+    [
+      "Readiness",
+      "सज्जता"
+    ],
+    [
+      "Milestone",
+      "टप्पा उद्दिष्ट"
+    ],
+    [
+      "Receiving",
+      "स्वीकारत आहे"
+    ],
+    [
+      "Requested",
+      "विनंती केलेली"
+    ],
+    [
+      "Exceeding",
+      "मर्यादेपेक्षा जास्त"
+    ],
+    [
+      "exceeding",
+      "जास्त"
+    ],
+    [
+      "Protocols",
+      "नियम नियमावली"
+    ],
+    [
+      "Mechanism",
+      "यंत्रणा"
+    ],
+    [
+      "mechanism",
+      "यंत्रणा"
+    ],
+    [
+      "Oversight",
+      "देखरेख देखरेख"
+    ],
+    [
+      "oversight",
+      "देखरेख"
+    ],
+    [
+      "Supported",
+      "समर्थित"
+    ],
+    [
+      "supported",
+      "समर्थित"
+    ],
+    [
+      "Remaining",
+      "उर्वरित शिल्लक"
+    ],
+    [
+      "remaining",
+      "उर्वरित"
+    ],
+    [
+      "Fulfilled",
+      "पूर्ण झालेले"
+    ],
+    [
+      "fulfilled",
+      "पूर्ण"
+    ],
+    [
+      "Discounts",
+      "सूट"
+    ],
+    [
+      "Secondary",
+      "दुय्यम"
+    ],
+    [
+      "secondary",
+      "दुय्यम"
+    ],
+    [
+      "Samruddhi",
+      "समृद्धी महामार्ग"
+    ],
+    [
+      "BIGBASKET",
+      "बिगबास्केट"
+    ],
+    [
+      "BigBasket",
+      "बिगबास्केट"
+    ],
+    [
+      "CERTIFIED",
+      "प्रमाणित"
+    ],
+    [
+      "certified",
+      "प्रमाणित"
+    ],
+    [
+      "Completed",
+      "पूर्ण झाले"
+    ],
+    [
+      "Dedicated",
+      "समर्पित विशेष"
+    ],
+    [
+      "Estimated",
+      "अंदाजित"
+    ],
+    [
+      "Immediate",
+      "तात्काळ तात्काळ"
+    ],
+    [
+      "immediate",
+      "तात्काळ"
+    ],
+    [
+      "Insurance",
+      "विमा संरक्षण"
+    ],
+    [
+      "Middleman",
+      "मध्यस्थ दलाल"
+    ],
+    [
+      "middleman",
+      "मध्यस्थ"
+    ],
+    [
+      "REGULATED",
+      "नियमन केलेले"
+    ],
+    [
+      "regulated",
+      "नियमन केलेले"
+    ],
+    [
+      "Rameshwar",
+      "रामेश्वर"
+    ],
+    [
+      "Reference",
+      "संदर्भ क्रमांक"
+    ],
+    [
+      "transfers",
+      "हस्तांतरणे"
+    ],
+    [
+      "automated",
+      "स्वयंचलित"
+    ],
+    [
+      "commodity",
+      "शेतीमाल"
+    ],
+    [
+      "corporate",
+      "संस्थात्मक"
+    ],
+    [
+      "digitally",
+      "डिजिटल पद्धतीने"
+    ],
+    [
+      "discovery",
+      "दर शोध प्रक्रिया"
+    ],
+    [
+      "emergency",
+      "आपत्कालीन"
+    ],
+    [
+      "instantly",
+      "त्वरीत"
+    ],
+    [
+      "inventory",
+      "साठा शिल्लक"
+    ],
+    [
+      "packaging",
+      "पॅकेजिंग"
+    ],
+    [
+      "varieties",
+      "वाण प्रकार"
+    ],
+    [
+      "Lasalgaon",
+      "लासलगाव"
+    ],
+    [
+      "Sangamner",
+      "संगमनेर"
+    ],
+    [
+      "Majalgaon",
+      "माजलगाव"
+    ],
+    [
+      "Regulated",
+      "नियमन केलेले"
+    ],
+    [
+      "icicibank",
+      "ICICI बँक"
+    ],
+    [
+      "Purchased",
+      "खरेदी केलेले"
+    ],
+    [
+      "purchased",
+      "खरेदी केलेले"
+    ],
+    [
+      "districts",
+      "जिल्हे"
+    ],
+    [
+      "BENCHMARK",
+      "संदर्भ दर"
+    ],
+    [
+      "benchmark",
+      "संदर्भ दर"
+    ],
+    [
+      "Scheduled",
+      "नियोजित"
+    ],
+    [
+      "scheduled",
+      "नियोजित"
+    ],
+    [
+      "SCHEDULED",
+      "नियोजित"
+    ],
+    [
+      "Confirmed",
+      "निश्चित"
+    ],
+    [
+      "confirmed",
+      "निश्चित"
+    ],
+    [
+      "CONFIRMED",
+      "निश्चित"
+    ],
+    [
+      "reference",
+      "संदर्भ"
+    ],
+    [
+      "breakeven",
+      "खर्च वसुली"
+    ],
+    [
+      "wholesale",
+      "घाऊक"
+    ],
+    [
+      "Delivered",
+      "पोहोचवले"
+    ],
+    [
+      "delivered",
+      "पोहोचवले"
+    ],
+    [
+      "Committed",
+      "नोंदवले"
+    ],
+    [
+      "committed",
+      "नोंदवले"
+    ],
+    [
+      "estimated",
+      "अंदाजे"
+    ],
+    [
+      "shipments",
+      "माल वाहतूक"
+    ],
+    [
+      "Clearance",
+      "निकाली"
+    ],
+    [
+      "clearance",
+      "निकाली"
+    ],
+    [
+      "statutory",
+      "वैधानिक"
+    ],
+    [
+      "Arbitrate",
+      "लवाद चालवा"
+    ],
+    [
+      "arbitrate",
+      "लवाद चालवा"
+    ],
+    [
+      "Unsuspend",
+      "निलंबन मागे घ्या"
+    ],
+    [
+      "unsuspend",
+      "निलंबन मागे घ्या"
+    ],
+    [
+      "authorize",
+      "मंजूर करा"
+    ],
+    [
+      "Hydration",
+      "डेटा लोड"
+    ],
+    [
+      "hydration",
+      "डेटा लोड"
+    ],
+    [
+      "Oilseeds",
+      "गळीत धान्य (तेलबिया)"
+    ],
+    [
+      "tomatoes",
+      "टोमॅटो"
+    ],
+    [
+      "Tomatoes",
+      "टोमॅटो"
+    ],
+    [
+      "Mandarin",
+      "संत्री"
+    ],
+    [
+      "Turmeric",
+      "हळद"
+    ],
+    [
+      "Alphonso",
+      "हापूस आंबा"
+    ],
+    [
+      "Maldandi",
+      "मालदांडी"
+    ],
+    [
+      "Thompson",
+      "थॉमसन"
+    ],
+    [
+      "Seedless",
+      "बिनबियांची"
+    ],
+    [
+      "harvests",
+      "काढणी"
+    ],
+    [
+      "Caterers",
+      "कॅटरर्स अन्नपुरवठादार"
+    ],
+    [
+      "Catering",
+      "कॅटरिंग"
+    ],
+    [
+      "Exchange",
+      "कृषी बाजार केंद्र"
+    ],
+    [
+      "Terminal",
+      "टर्मिनल मुख्य आवार"
+    ],
+    [
+      "Corridor",
+      "महामार्ग कॉरिडॉर"
+    ],
+    [
+      "Procured",
+      "खरेदी केलेले"
+    ],
+    [
+      "PROCURED",
+      "खरेदी केलेले"
+    ],
+    [
+      "procured",
+      "खरेदी केलेले"
+    ],
+    [
+      "Purchase",
+      "खरेदी"
+    ],
+    [
+      "purchase",
+      "खरेदी"
+    ],
+    [
+      "Contract",
+      "खरेदी करार"
+    ],
+    [
+      "contract",
+      "करार"
+    ],
+    [
+      "Tribunal",
+      "न्यायाधिकरण"
+    ],
+    [
+      "Ratified",
+      "मंजूर अधिकृत"
+    ],
+    [
+      "ratified",
+      "मंजूर"
+    ],
+    [
+      "Deposits",
+      "ठेवी"
+    ],
+    [
+      "deposits",
+      "ठेवी"
+    ],
+    [
+      "Advances",
+      "आगाऊ रकमा"
+    ],
+    [
+      "Disburse",
+      "रक्कम वितरीत करा"
+    ],
+    [
+      "Payments",
+      "पेमेंट्स"
+    ],
+    [
+      "Credited",
+      "खात्यात जमा झाले"
+    ],
+    [
+      "credited",
+      "जमा झाले"
+    ],
+    [
+      "Discount",
+      "सूट"
+    ],
+    [
+      "Interest",
+      "व्याजदर"
+    ],
+    [
+      "Reserves",
+      "राखीव निधी"
+    ],
+    [
+      "reserves",
+      "राखीव निधी"
+    ],
+    [
+      "Arhatiya",
+      "आडत्या कमिशन"
+    ],
+    [
+      "Dispatch",
+      "रवाना करा"
+    ],
+    [
+      "dispatch",
+      "रवाना"
+    ],
+    [
+      "Delivery",
+      "डिलिव्हरी पोहोच"
+    ],
+    [
+      "DELIVERY",
+      "डिलिव्हरी पोहोच"
+    ],
+    [
+      "delivery",
+      "डिलिव्हरी"
+    ],
+    [
+      "Distance",
+      "अंतर"
+    ],
+    [
+      "Tracking",
+      "थेट ट्रॅकिंग"
+    ],
+    [
+      "tracking",
+      "ट्रॅकिंग"
+    ],
+    [
+      "Readings",
+      "सेन्सर नोंदी"
+    ],
+    [
+      "readings",
+      "नोंदी"
+    ],
+    [
+      "Chambers",
+      "शीत कक्ष"
+    ],
+    [
+      "chambers",
+      "शीत कक्ष"
+    ],
+    [
+      "Humidity",
+      "आद्रता"
+    ],
+    [
+      "Capacity",
+      "क्षमता"
+    ],
+    [
+      "Hermetic",
+      "हवाबंद हर्मेटिक"
+    ],
+    [
+      "Moisture",
+      "ओलावा प्रमाण"
+    ],
+    [
+      "moisture",
+      "ओलावा प्रमाण"
+    ],
+    [
+      "Verified",
+      "सत्यापित पडताळणी झालेले"
+    ],
+    [
+      "verified",
+      "सत्यापित"
+    ],
+    [
+      "Spoilage",
+      "नासाडी नुकसान"
+    ],
+    [
+      "Shortage",
+      "वजन तूट घट"
+    ],
+    [
+      "Disputes",
+      "वाद"
+    ],
+    [
+      "Resolved",
+      "निवारण झाले"
+    ],
+    [
+      "resolved",
+      "निकाली"
+    ],
+    [
+      "Releases",
+      "मुक्त रकमा"
+    ],
+    [
+      "Evidence",
+      "पुरावा दस्तऐवज"
+    ],
+    [
+      "evidence",
+      "पुरावा"
+    ],
+    [
+      "Insights",
+      "बाजार विश्लेषण"
+    ],
+    [
+      "insights",
+      "विश्लेषण"
+    ],
+    [
+      "Forecast",
+      "अंदाज"
+    ],
+    [
+      "forecast",
+      "अंदाज"
+    ],
+    [
+      "Arrivals",
+      "आवक प्रमाण"
+    ],
+    [
+      "arrivals",
+      "आवक"
+    ],
+    [
+      "Advisory",
+      "सल्ला मार्गदर्शन"
+    ],
+    [
+      "advisory",
+      "सल्ला"
+    ],
+    [
+      "Strategy",
+      "खरेदी धोरण"
+    ],
+    [
+      "Velocity",
+      "खरेदी गती"
+    ],
+    [
+      "Awaiting",
+      "प्रतीक्षेत"
+    ],
+    [
+      "awaiting",
+      "प्रतीक्षेत"
+    ],
+    [
+      "Download",
+      "डाउनलोड करा"
+    ],
+    [
+      "download",
+      "डाउनलोड करा"
+    ],
+    [
+      "Receipts",
+      "पावत्या"
+    ],
+    [
+      "receipts",
+      "पावत्या"
+    ],
+    [
+      "Settings",
+      "सेटिंग्ज"
+    ],
+    [
+      "Overview",
+      "विहंगावलोकन"
+    ],
+    [
+      "Previous",
+      "मागील"
+    ],
+    [
+      "Messages",
+      "संदेश"
+    ],
+    [
+      "Contacts",
+      "संपर्क यादी"
+    ],
+    [
+      "Feedback",
+      "अभिप्राय"
+    ],
+    [
+      "Language",
+      "भाषा"
+    ],
+    [
+      "Distress",
+      "संकटातील शेतीमाल"
+    ],
+    [
+      "Critical",
+      "महत्त्वाचे"
+    ],
+    [
+      "Required",
+      "आवश्यक"
+    ],
+    [
+      "Optional",
+      "ऐच्छिक"
+    ],
+    [
+      "Standard",
+      "मानक"
+    ],
+    [
+      "Realtime",
+      "थेट रीअल-टाईम"
+    ],
+    [
+      "Security",
+      "सुरक्षा"
+    ],
+    [
+      "Tomorrow",
+      "उद्या"
+    ],
+    [
+      "Location",
+      "ठिकाण स्थान"
+    ],
+    [
+      "location",
+      "ठिकाण"
+    ],
+    [
+      "District",
+      "जिल्हा"
+    ],
+    [
+      "district",
+      "जिल्हा"
+    ],
+    [
+      "Regional",
+      "प्रादेशिक"
+    ],
+    [
+      "Cheapest",
+      "सर्वात स्वस्त"
+    ],
+    [
+      "Kilogram",
+      "किलोग्रॅम"
+    ],
+    [
+      "Passbook",
+      "पासबुक"
+    ],
+    [
+      "Steppers",
+      "टप्पे"
+    ],
+    [
+      "Whenever",
+      "जेव्हा केव्हा"
+    ],
+    [
+      "Received",
+      "प्राप्त झाले"
+    ],
+    [
+      "received",
+      "मिळाले"
+    ],
+    [
+      "Response",
+      "प्रतिसाद"
+    ],
+    [
+      "response",
+      "प्रतिसाद"
+    ],
+    [
+      "Initiate",
+      "सुरू करा"
+    ],
+    [
+      "initiate",
+      "सुरू करा"
+    ],
+    [
+      "Assigned",
+      "नियुक्त केले"
+    ],
+    [
+      "assigned",
+      "नियुक्त"
+    ],
+    [
+      "Withheld",
+      "रोखून धरलेले"
+    ],
+    [
+      "withheld",
+      "रोखून धरलेले"
+    ],
+    [
+      "Specific",
+      "विशिष्ट"
+    ],
+    [
+      "specific",
+      "विशिष्ट"
+    ],
+    [
+      "Protocol",
+      "नियमावली प्रोटोकॉल"
+    ],
+    [
+      "protocol",
+      "नियमावली"
+    ],
+    [
+      "Triggers",
+      "ट्रिगर्स सक्रिय"
+    ],
+    [
+      "triggers",
+      "सक्रिय करते"
+    ],
+    [
+      "Keywords",
+      "शोध शब्द (कीवर्ड्स)"
+    ],
+    [
+      "keywords",
+      "कीवर्ड्स"
+    ],
+    [
+      "Position",
+      "स्थान स्थिती"
+    ],
+    [
+      "position",
+      "स्थिती"
+    ],
+    [
+      "Seasonal",
+      "हंगामी"
+    ],
+    [
+      "seasonal",
+      "हंगामी"
+    ],
+    [
+      "corridor",
+      "कॉरिडॉर"
+    ],
+    [
+      "Facility",
+      "सुविधा केंद्र"
+    ],
+    [
+      "Flexible",
+      "लवचिक"
+    ],
+    [
+      "flexible",
+      "लवचिक"
+    ],
+    [
+      "Strictly",
+      "काटेकोरपणे"
+    ],
+    [
+      "strictly",
+      "काटेकोरपणे"
+    ],
+    [
+      "Registry",
+      "नोंदणी रजिस्टर"
+    ],
+    [
+      "registry",
+      "रजिस्टर"
+    ],
+    [
+      "Internet",
+      "इंटरनेट"
+    ],
+    [
+      "Executed",
+      "अंमलबजावणी पूर्ण"
+    ],
+    [
+      "executed",
+      "पूर्ण"
+    ],
+    [
+      "Realized",
+      "प्राप्त झालेले नफा"
+    ],
+    [
+      "realized",
+      "प्राप्त"
+    ],
+    [
+      "Maximize",
+      "कमाल नफा मिळवा"
+    ],
+    [
+      "maximize",
+      "कमाल करा"
+    ],
+    [
+      "Directly",
+      "थेट थेट"
+    ],
+    [
+      "directly",
+      "थेट"
+    ],
+    [
+      "Pressure",
+      "हवामान दाब"
+    ],
+    [
+      "pressure",
+      "दाब"
+    ],
+    [
+      "Matching",
+      "योग्य जुळणी"
+    ],
+    [
+      "matching",
+      "जुळणारे"
+    ],
+    [
+      "Vidarbha",
+      "विदर्भ"
+    ],
+    [
+      "Khandesh",
+      "खानदेश"
+    ],
+    [
+      "Sahyadri",
+      "सह्याद्री"
+    ],
+    [
+      "Shivneri",
+      "शिवनेरी"
+    ],
+    [
+      "Business",
+      "व्यवसाय व्यापार"
+    ],
+    [
+      "CONTRACT",
+      "करार"
+    ],
+    [
+      "Concepts",
+      "संकल्पना"
+    ],
+    [
+      "Deshmukh",
+      "देशमुख"
+    ],
+    [
+      "Division",
+      "विभाग"
+    ],
+    [
+      "External",
+      "बाह्य इतर"
+    ],
+    [
+      "Holdings",
+      "राखून ठेवलेली शिल्लक"
+    ],
+    [
+      "Physical",
+      "प्रत्यक्ष प्रत्यक्ष"
+    ],
+    [
+      "physical",
+      "प्रत्यक्ष"
+    ],
+    [
+      "Quantity",
+      "प्रमाण वजन"
+    ],
+    [
+      "quantity",
+      "प्रमाण"
+    ],
+    [
+      "Reliance",
+      "रिलायन्स"
+    ],
+    [
+      "Schedule",
+      "वेळापत्रक"
+    ],
+    [
+      "schedule",
+      "वेळापत्रक"
+    ],
+    [
+      "SCHEDULE",
+      "वेळापत्रक"
+    ],
+    [
+      "Polished",
+      "पॉलिश केलेले"
+    ],
+    [
+      "polished",
+      "पॉलिश केलेले"
+    ],
+    [
+      "Curcumin",
+      "करक्युमिन"
+    ],
+    [
+      "curcumin",
+      "करक्युमिन"
+    ],
+    [
+      "Services",
+      "सेवा"
+    ],
+    [
+      "Simulate",
+      "सिम्युलेट करा"
+    ],
+    [
+      "Sourcing",
+      "थेट खरेदी प्रक्रिया"
+    ],
+    [
+      "sourcing",
+      "खरेदी"
+    ],
+    [
+      "Transfer",
+      "हस्तांतरण वर्ग"
+    ],
+    [
+      "capacity",
+      "क्षमता"
+    ],
+    [
+      "disabled",
+      "अक्षम केलेले"
+    ],
+    [
+      "hermetic",
+      "हवाबंद"
+    ],
+    [
+      "tribunal",
+      "न्यायाधिकरण"
+    ],
+    [
+      "Malegaon",
+      "मालेगाव"
+    ],
+    [
+      "Bhiwapur",
+      "भिवापूर"
+    ],
+    [
+      "Gultekdi",
+      "गुलटेकडी"
+    ],
+    [
+      "Hadapsar",
+      "हडपसर"
+    ],
+    [
+      "Ardhapur",
+      "अर्धापूर"
+    ],
+    [
+      "Sambhaji",
+      "संभाजीनगर"
+    ],
+    [
+      "Anandrao",
+      "आनंदराव"
+    ],
+    [
+      "releases",
+      "रक्कम मुक्ती"
+    ],
+    [
+      "Rajapuri",
+      "राजापुरी"
+    ],
+    [
+      "Disputed",
+      "वादग्रस्त"
+    ],
+    [
+      "disputed",
+      "वादग्रस्त"
+    ],
+    [
+      "Farmgate",
+      "शेत-शिवार"
+    ],
+    [
+      "farmgate",
+      "शेत-शिवार"
+    ],
+    [
+      "Describe",
+      "वर्णन करा"
+    ],
+    [
+      "describe",
+      "वर्णन करा"
+    ],
+    [
+      "happened",
+      "घडले"
+    ],
+    [
+      "overview",
+      "आढावा"
+    ],
+    [
+      "terminal",
+      "टर्मिनल"
+    ],
+    [
+      "Released",
+      "वितरित"
+    ],
+    [
+      "released",
+      "वितरित"
+    ],
+    [
+      "Mismatch",
+      "तफावत"
+    ],
+    [
+      "mismatch",
+      "तफावत"
+    ],
+    [
+      "language",
+      "भाषा"
+    ],
+    [
+      "clearing",
+      "निपटारा"
+    ],
+    [
+      "Clearing",
+      "निपटारा"
+    ],
+    [
+      "seedless",
+      "बिनबियांचे"
+    ],
+    [
+      "Screened",
+      "चाळलेले"
+    ],
+    [
+      "screened",
+      "चाळलेले"
+    ],
+    [
+      "standard",
+      "दर्जेदार"
+    ],
+    [
+      "Commerce",
+      "व्यापार"
+    ],
+    [
+      "commerce",
+      "व्यापार"
+    ],
+    [
+      "EXPECTED",
+      "अपेक्षित"
+    ],
+    [
+      "Expected",
+      "अपेक्षित"
+    ],
+    [
+      "expected",
+      "अपेक्षित"
+    ],
+    [
+      "Incoming",
+      "येणारे"
+    ],
+    [
+      "incoming",
+      "येणारे"
+    ],
+    [
+      "Shipment",
+      "माल खेप"
+    ],
+    [
+      "shipment",
+      "माल खेप"
+    ],
+    [
+      "Director",
+      "संचालक"
+    ],
+    [
+      "director",
+      "संचालक"
+    ],
+    [
+      "positive",
+      "सकारात्मक"
+    ],
+    [
+      "Positive",
+      "सकारात्मक"
+    ],
+    [
+      "caterers",
+      "केटरर्स"
+    ],
+    [
+      "Fallback",
+      "पर्यायी"
+    ],
+    [
+      "fallback",
+      "पर्यायी"
+    ],
+    [
+      "Sourced",
+      "खरेदी पूर्ण"
+    ],
+    [
+      "sourced",
+      "खरेदी पूर्ण"
+    ],
+    [
+      "CEILING",
+      "कमाल मर्यादा"
+    ],
+    [
+      "ceiling",
+      "कमाल मर्यादा"
+    ],
+    [
+      "Packing",
+      "पॅकिंग"
+    ],
+    [
+      "packing",
+      "पॅकिंग"
+    ],
+    [
+      "Chilled",
+      "शीतकरण"
+    ],
+    [
+      "chilled",
+      "शीतकरण"
+    ],
+    [
+      "Cleaned",
+      "स्वच्छ केलेले"
+    ],
+    [
+      "cleaned",
+      "स्वच्छ केलेले"
+    ],
+    [
+      "Plastic",
+      "प्लास्टिक"
+    ],
+    [
+      "plastic",
+      "प्लास्टिक"
+    ],
+    [
+      "Produce",
+      "शेतीमाल"
+    ],
+    [
+      "PRODUCE",
+      "शेतीमाल"
+    ],
+    [
+      "produce",
+      "शेतीमाल"
+    ],
+    [
+      "Millets",
+      "भरड धान्य (मिलेट्स)"
+    ],
+    [
+      "Cereals",
+      "तृणधान्ये"
+    ],
+    [
+      "Legumes",
+      "शेंगा कडधान्य"
+    ],
+    [
+      "Soybean",
+      "सोयाबीन"
+    ],
+    [
+      "soybean",
+      "सोयाबीन"
+    ],
+    [
+      "Compost",
+      "खत कंपोस्ट"
+    ],
+    [
+      "Harvest",
+      "काढणी"
+    ],
+    [
+      "harvest",
+      "काढणी"
+    ],
+    [
+      "Sellers",
+      "विक्रेते"
+    ],
+    [
+      "Farmers",
+      "शेतकरी"
+    ],
+    [
+      "farmers",
+      "शेतकरी"
+    ],
+    [
+      "Kitchen",
+      "क्लाउड किचन"
+    ],
+    [
+      "Network",
+      "नेटवर्क जाळे"
+    ],
+    [
+      "Demands",
+      "मागण्या"
+    ],
+    [
+      "Procure",
+      "खरेदी करा"
+    ],
+    [
+      "Counter",
+      "प्रति-प्रस्ताव"
+    ],
+    [
+      "counter",
+      "प्रति-प्रस्ताव"
+    ],
+    [
+      "Binding",
+      "बंधनकारक"
+    ],
+    [
+      "Trustee",
+      "विश्वस्त"
+    ],
+    [
+      "TRUSTEE",
+      "विश्वस्त"
+    ],
+    [
+      "Signoff",
+      "मंजुरी स्वाक्षरी"
+    ],
+    [
+      "signoff",
+      "मंजुरी स्वाक्षरी"
+    ],
+    [
+      "Deposit",
+      "जमा रक्कम"
+    ],
+    [
+      "deposit",
+      "जमा"
+    ],
+    [
+      "Advance",
+      "आगाऊ अ‍ॅडव्हान्स"
+    ],
+    [
+      "advance",
+      "आगाऊ"
+    ],
+    [
+      "Tranche",
+      "हप्ता टप्पा"
+    ],
+    [
+      "TRANCHE",
+      "हप्ता टप्पा"
+    ],
+    [
+      "tranche",
+      "हप्ता"
+    ],
+    [
+      "Balance",
+      "उर्वरित शिल्लक"
+    ],
+    [
+      "balance",
+      "शिल्लक"
+    ],
+    [
+      "Settled",
+      "निकाली पूर्ण"
+    ],
+    [
+      "Payment",
+      "पेमेंट"
+    ],
+    [
+      "payment",
+      "पेमेंट"
+    ],
+    [
+      "Payable",
+      "देय रक्कम"
+    ],
+    [
+      "Pledges",
+      "तारण पावत्या"
+    ],
+    [
+      "Lending",
+      "कर्ज वाटप"
+    ],
+    [
+      "lending",
+      "कर्ज वाटप"
+    ],
+    [
+      "Capital",
+      "भांडवल"
+    ],
+    [
+      "capital",
+      "भांडवल"
+    ],
+    [
+      "Hedging",
+      "किंमत सुरक्षितता (हेजिंग)"
+    ],
+    [
+      "spreads",
+      "दर फरक"
+    ],
+    [
+      "Savings",
+      "बचत"
+    ],
+    [
+      "SAVINGS",
+      "बचत"
+    ],
+    [
+      "savings",
+      "बचत"
+    ],
+    [
+      "Average",
+      "सरासरी"
+    ],
+    [
+      "Minimum",
+      "किमान"
+    ],
+    [
+      "minimum",
+      "किमान"
+    ],
+    [
+      "Maximum",
+      "कमाल"
+    ],
+    [
+      "maximum",
+      "कमाल"
+    ],
+    [
+      "Ceiling",
+      "कमाल मर्यादा"
+    ],
+    [
+      "Freight",
+      "वाहतूक भाडे"
+    ],
+    [
+      "freight",
+      "वाहतूक भाडे"
+    ],
+    [
+      "Haulage",
+      "वाहतूक ओढाई"
+    ],
+    [
+      "Transit",
+      "वाहतुकीत मार्गावर"
+    ],
+    [
+      "TRANSIT",
+      "वाहतुकीत मार्गावर"
+    ],
+    [
+      "transit",
+      "वाहतुकीत"
+    ],
+    [
+      "Vehicle",
+      "वाहन"
+    ],
+    [
+      "Payload",
+      "वहन क्षमता पेलोड"
+    ],
+    [
+      "Highway",
+      "महामार्ग"
+    ],
+    [
+      "Storage",
+      "शीतगृह साठवणूक"
+    ],
+    [
+      "storage",
+      "साठवणूक"
+    ],
+    [
+      "Chamber",
+      "शीत कक्ष"
+    ],
+    [
+      "chamber",
+      "कक्ष"
+    ],
+    [
+      "Climate",
+      "हवामान"
+    ],
+    [
+      "CLIMATE",
+      "नियंत्रित हवामान"
+    ],
+    [
+      "Cooling",
+      "शीतकरण"
+    ],
+    [
+      "Plastic",
+      "प्लॅस्टिक"
+    ],
+    [
+      "Loading",
+      "माल चढवणे (लोडिंग)"
+    ],
+    [
+      "Quality",
+      "गुणवत्ता प्रत"
+    ],
+    [
+      "Assayed",
+      "तपासणी केलेले"
+    ],
+    [
+      "inspect",
+      "पाहणी करा"
+    ],
+    [
+      "Spoiled",
+      "खराब झालेला"
+    ],
+    [
+      "Damaged",
+      "नुकसानग्रस्त"
+    ],
+    [
+      "Missing",
+      "गहाळ कमी भरलेले"
+    ],
+    [
+      "missing",
+      "कमी"
+    ],
+    [
+      "Dispute",
+      "वाद तक्रार"
+    ],
+    [
+      "Release",
+      "रक्कम मुक्त करा"
+    ],
+    [
+      "Dossier",
+      "तक्रार संचिका (डोसियर)"
+    ],
+    [
+      "Insight",
+      "विश्लेषण"
+    ],
+    [
+      "Bullish",
+      "तेजी (दर वाढ)"
+    ],
+    [
+      "Bearish",
+      "मंदी (दर घट)"
+    ],
+    [
+      "Neutral",
+      "स्थिर बाजार"
+    ],
+    [
+      "Arrival",
+      "आवक"
+    ],
+    [
+      "arrival",
+      "आवक"
+    ],
+    [
+      "Volumes",
+      "आवक प्रमाण"
+    ],
+    [
+      "volumes",
+      "प्रमाण"
+    ],
+    [
+      "Tonnage",
+      "टन भार"
+    ],
+    [
+      "tonnage",
+      "टन भार"
+    ],
+    [
+      "Heatmap",
+      "आवक हीटमॅप नकाशा"
+    ],
+    [
+      "Indices",
+      "बाजार निर्देशांक"
+    ],
+    [
+      "indices",
+      "निर्देशांक"
+    ],
+    [
+      "Copilot",
+      "एआय खरेदी सल्लागार"
+    ],
+    [
+      "copilot",
+      "सल्लागार"
+    ],
+    [
+      "Filters",
+      "फिल्टर्स"
+    ],
+    [
+      "Actions",
+      "कृती"
+    ],
+    [
+      "Pending",
+      "प्रलंबित"
+    ],
+    [
+      "pending",
+      "प्रलंबित"
+    ],
+    [
+      "Booking",
+      "बुकिंग"
+    ],
+    [
+      "Confirm",
+      "निश्चित करा"
+    ],
+    [
+      "confirm",
+      "निश्चित करा"
+    ],
+    [
+      "Details",
+      "तपशील"
+    ],
+    [
+      "details",
+      "तपशील"
+    ],
+    [
+      "Receipt",
+      "पावती"
+    ],
+    [
+      "receipt",
+      "पावती"
+    ],
+    [
+      "Invoice",
+      "बीजक बिल"
+    ],
+    [
+      "Voucher",
+      "व्हाउचर पावती"
+    ],
+    [
+      "Summary",
+      "सारांश"
+    ],
+    [
+      "summary",
+      "सारांश"
+    ],
+    [
+      "Reports",
+      "अहवाल"
+    ],
+    [
+      "reports",
+      "अहवाल"
+    ],
+    [
+      "History",
+      "इतिहास नोंदी"
+    ],
+    [
+      "Profile",
+      "प्रोफाइल"
+    ],
+    [
+      "profile",
+      "प्रोफाइल"
+    ],
+    [
+      "Showing",
+      "दाखवत आहे"
+    ],
+    [
+      "Message",
+      "संदेश"
+    ],
+    [
+      "message",
+      "संदेश"
+    ],
+    [
+      "Contact",
+      "संपर्क"
+    ],
+    [
+      "Explain",
+      "स्पष्टीकरण द्या"
+    ],
+    [
+      "Morning",
+      "प्रभात सकाळ"
+    ],
+    [
+      "Evening",
+      "संध्याकाळ"
+    ],
+    [
+      "Salvage",
+      "मदत खरेदी"
+    ],
+    [
+      "Urgency",
+      "तातडी"
+    ],
+    [
+      "Warning",
+      "सावधानता"
+    ],
+    [
+      "Success",
+      "यशस्वी"
+    ],
+    [
+      "Instant",
+      "तात्काळ झटपट"
+    ],
+    [
+      "Refresh",
+      "ताजे करा"
+    ],
+    [
+      "Offline",
+      "ऑफलाइन"
+    ],
+    [
+      "Digital",
+      "डिजिटल"
+    ],
+    [
+      "Minutes",
+      "मिनिटे"
+    ],
+    [
+      "minutes",
+      "मिनिटे"
+    ],
+    [
+      "Seconds",
+      "सेकंद"
+    ],
+    [
+      "seconds",
+      "सेकंद"
+    ],
+    [
+      "Central",
+      "मध्यवर्ती"
+    ],
+    [
+      "Highest",
+      "सर्वाधिक"
+    ],
+    [
+      "Nearest",
+      "सर्वात जवळचे"
+    ],
+    [
+      "Optimal",
+      "उत्कृष्ट योग्य"
+    ],
+    [
+      "Quintal",
+      "क्विंटल"
+    ],
+    [
+      "quintal",
+      "क्विंटल"
+    ],
+    [
+      "Partial",
+      "अंशतः"
+    ],
+    [
+      "Checker",
+      "तपासणी साधन"
+    ],
+    [
+      "Channel",
+      "वाहिनी चॅनेल"
+    ],
+    [
+      "Banking",
+      "बँकिंग"
+    ],
+    [
+      "Account",
+      "खाते"
+    ],
+    [
+      "Privacy",
+      "गोपनीयता"
+    ],
+    [
+      "Without",
+      "शिवाय"
+    ],
+    [
+      "without",
+      "शिवाय"
+    ],
+    [
+      "Against",
+      "विरोधात"
+    ],
+    [
+      "against",
+      "विरुद्ध"
+    ],
+    [
+      "Another",
+      "दुसरे"
+    ],
+    [
+      "another",
+      "दुसरे"
+    ],
+    [
+      "Explore",
+      "एक्सप्लोर करा"
+    ],
+    [
+      "explore",
+      "एक्सप्लोर करा"
+    ],
+    [
+      "Receive",
+      "स्वीकारा मिळवा"
+    ],
+    [
+      "receive",
+      "मिळवा"
+    ],
+    [
+      "replies",
+      "उत्तरे"
+    ],
+    [
+      "Replies",
+      "उत्तरे"
+    ],
+    [
+      "Request",
+      "विनंती"
+    ],
+    [
+      "request",
+      "विनंती"
+    ],
+    [
+      "Holding",
+      "राखून ठेवलेली रक्कम"
+    ],
+    [
+      "Jointly",
+      "संयुक्तपणे"
+    ],
+    [
+      "jointly",
+      "संयुक्तपणे"
+    ],
+    [
+      "Partner",
+      "भागीदार"
+    ],
+    [
+      "partner",
+      "भागीदार"
+    ],
+    [
+      "Weather",
+      "हवामान अंदाज"
+    ],
+    [
+      "weather",
+      "हवामान"
+    ],
+    [
+      "Complex",
+      "संकुल आवार"
+    ],
+    [
+      "complex",
+      "संकुल"
+    ],
+    [
+      "Cluster",
+      "शेतकरी समूह (क्लस्टर)"
+    ],
+    [
+      "cluster",
+      "समूह"
+    ],
+    [
+      "Marking",
+      "गुणवत्ता चिन्हांकन"
+    ],
+    [
+      "marking",
+      "चिन्हांकन"
+    ],
+    [
+      "Reflect",
+      "दर्शवते"
+    ],
+    [
+      "reflect",
+      "दर्शवते"
+    ],
+    [
+      "Records",
+      "अधिकृत नोंदी"
+    ],
+    [
+      "records",
+      "नोंदी"
+    ],
+    [
+      "Remains",
+      "उरलेले राहते"
+    ],
+    [
+      "remains",
+      "राहते"
+    ],
+    [
+      "Willing",
+      "इच्छुक"
+    ],
+    [
+      "willing",
+      "इच्छुक"
+    ],
+    [
+      "Premium",
+      "प्रीमियम दर्जेदार"
+    ],
+    [
+      "premium",
+      "प्रीमियम"
+    ],
+    [
+      "Primary",
+      "प्राथमिक"
+    ],
+    [
+      "primary",
+      "प्राथमिक"
+    ],
+    [
+      "Padding",
+      "पॅडिंग अंतर"
+    ],
+    [
+      "padding",
+      "अंतर"
+    ],
+    [
+      "Trained",
+      "प्रशिक्षित"
+    ],
+    [
+      "trained",
+      "प्रशिक्षित"
+    ],
+    [
+      "Appears",
+      "दिसते"
+    ],
+    [
+      "appears",
+      "दिसते"
+    ],
+    [
+      "English",
+      "English"
+    ],
+    [
+      "Marathi",
+      "मराठी"
+    ],
+    [
+      "ACCOUNT",
+      "खाते"
+    ],
+    [
+      "AUCTION",
+      "लिलाव बोली"
+    ],
+    [
+      "Auction",
+      "लिलाव बोली"
+    ],
+    [
+      "auction",
+      "लिलाव"
+    ],
+    [
+      "Already",
+      "आधीच"
+    ],
+    [
+      "Ambient",
+      "सामान्य हवेतील"
+    ],
+    [
+      "account",
+      "खाते"
+    ],
+    [
+      "Compare",
+      "तुलना करा"
+    ],
+    [
+      "Created",
+      "तयार केले"
+    ],
+    [
+      "Current",
+      "सध्याचे चालू"
+    ],
+    [
+      "DEPOSIT",
+      "जमा करा"
+    ],
+    [
+      "Express",
+      "जलद एक्सप्रेस"
+    ],
+    [
+      "Forward",
+      "पुढे पाठवा"
+    ],
+    [
+      "forward",
+      "पुढे"
+    ],
+    [
+      "Gateway",
+      "पेमेंट गेटवे"
+    ],
+    [
+      "Insured",
+      "विमा उतरवलेले"
+    ],
+    [
+      "Kishore",
+      "किशोर"
+    ],
+    [
+      "locking",
+      "लॉक करत आहे"
+    ],
+    [
+      "NETWORK",
+      "नेटवर्क"
+    ],
+    [
+      "Permits",
+      "परवाने"
+    ],
+    [
+      "REVERSE",
+      "उलटी लिलाव प्रक्रिया"
+    ],
+    [
+      "reverse",
+      "रिव्हर्स"
+    ],
+    [
+      "Secured",
+      "सुरक्षित संरक्षित"
+    ],
+    [
+      "VIRTUAL",
+      "व्हर्च्युअल डिजिटल"
+    ],
+    [
+      "climate",
+      "हवामान"
+    ],
+    [
+      "instant",
+      "तात्काळ"
+    ],
+    [
+      "procure",
+      "खरेदी करा"
+    ],
+    [
+      "quality",
+      "गुणवत्ता"
+    ],
+    [
+      "salvage",
+      "मदत खरेदी"
+    ],
+    [
+      "updated",
+      "अद्ययावत केलेले"
+    ],
+    [
+      "variety",
+      "वाण"
+    ],
+    [
+      "Manchar",
+      "मंचर"
+    ],
+    [
+      "Kalamna",
+      "कळमना"
+    ],
+    [
+      "Indapur",
+      "इंदापूर"
+    ],
+    [
+      "Pachora",
+      "पाचोरा"
+    ],
+    [
+      "Tasgaon",
+      "तासगाव"
+    ],
+    [
+      "Sangola",
+      "सांगोला"
+    ],
+    [
+      "Phaltan",
+      "फलटण"
+    ],
+    [
+      "Vadgaon",
+      "वडगाव"
+    ],
+    [
+      "Shiroli",
+      "शिरोली"
+    ],
+    [
+      "Shirpur",
+      "शिरपूर"
+    ],
+    [
+      "Shahada",
+      "शहादा"
+    ],
+    [
+      "Karanja",
+      "कारंजा"
+    ],
+    [
+      "Degloor",
+      "देगलूर"
+    ],
+    [
+      "Paithan",
+      "पैठण"
+    ],
+    [
+      "Alibaug",
+      "अलिबाग"
+    ],
+    [
+      "digital",
+      "डिजिटल"
+    ],
+    [
+      "DIGITAL",
+      "डिजिटल"
+    ],
+    [
+      "trustee",
+      "विश्वस्त"
+    ],
+    [
+      "Officer",
+      "अधिकारी"
+    ],
+    [
+      "officer",
+      "अधिकारी"
+    ],
+    [
+      "Pickups",
+      "पिकअप्स"
+    ],
+    [
+      "happens",
+      "घडते"
+    ],
+    [
+      "Drivers",
+      "चालक"
+    ],
+    [
+      "Village",
+      "गाव"
+    ],
+    [
+      "village",
+      "गाव"
+    ],
+    [
+      "Command",
+      "आदेश"
+    ],
+    [
+      "command",
+      "आदेश"
+    ],
+    [
+      "genuine",
+      "विश्वासार्ह"
+    ],
+    [
+      "Genuine",
+      "विश्वासार्ह"
+    ],
+    [
+      "Bargain",
+      "घासाघिस"
+    ],
+    [
+      "bargain",
+      "घासाघिस"
+    ],
+    [
+      "highway",
+      "महामार्ग"
+    ],
+    [
+      "Surplus",
+      "अतिरिक्त"
+    ],
+    [
+      "surplus",
+      "अतिरिक्त"
+    ],
+    [
+      "PARTIAL",
+      "अंशतः"
+    ],
+    [
+      "Machine",
+      "यंत्र"
+    ],
+    [
+      "machine",
+      "यंत्र"
+    ],
+    [
+      "loading",
+      "लोडिंग"
+    ],
+    [
+      "Selling",
+      "विक्री"
+    ],
+    [
+      "selling",
+      "विक्री"
+    ],
+    [
+      "OFFERED",
+      "दिलेला"
+    ],
+    [
+      "Offered",
+      "दिलेला"
+    ],
+    [
+      "offered",
+      "दिलेला"
+    ],
+    [
+      "Inspect",
+      "तपासा"
+    ],
+    [
+      "Restore",
+      "पुनर्संचयित करा"
+    ],
+    [
+      "restore",
+      "पुनर्संचयित करा"
+    ],
+    [
+      "Suspend",
+      "निलंबित करा"
+    ],
+    [
+      "suspend",
+      "निलंबित करा"
+    ],
+    [
+      "Trading",
+      "व्यापार"
+    ],
+    [
+      "trading",
+      "व्यापार"
+    ],
+    [
+      "De-list",
+      "नोंद रद्द करा"
+    ],
+    [
+      "de-list",
+      "नोंद रद्द करा"
+    ],
+    [
+      "Re-list",
+      "पुन्हा नोंदवा"
+    ],
+    [
+      "re-list",
+      "पुन्हा नोंदवा"
+    ],
+    [
+      "Payouts",
+      "जमा रकमा"
+    ],
+    [
+      "payouts",
+      "जमा रकमा"
+    ],
+    [
+      "release",
+      "वितरित करा"
+    ],
+    [
+      "Cleared",
+      "मंजूर"
+    ],
+    [
+      "cleared",
+      "मंजूर"
+    ],
+    [
+      "Mumbai",
+      "मुंबई"
+    ],
+    [
+      "mumbai",
+      "मुंबई"
+    ],
+    [
+      "Review",
+      "तपासणी करा"
+    ],
+    [
+      "review",
+      "तपासणी"
+    ],
+    [
+      "Mature",
+      "परिपक्व"
+    ],
+    [
+      "mature",
+      "परिपक्व"
+    ],
+    [
+      "MATURE",
+      "परिपक्व"
+    ],
+    [
+      "Packed",
+      "पॅक केलेले"
+    ],
+    [
+      "packed",
+      "पॅक केलेले"
+    ],
+    [
+      "PACKED",
+      "पॅक केलेले"
+    ],
+    [
+      "Crates",
+      "क्रेट्स"
+    ],
+    [
+      "crates",
+      "क्रेट्स"
+    ],
+    [
+      "Origin",
+      "उगम"
+    ],
+    [
+      "origin",
+      "उगम"
+    ],
+    [
+      "Grains",
+      "अन्नधान्ये"
+    ],
+    [
+      "Pulses",
+      "कडधान्ये"
+    ],
+    [
+      "pulses",
+      "कडधान्ये"
+    ],
+    [
+      "Fruits",
+      "फळे"
+    ],
+    [
+      "Spices",
+      "मसाले"
+    ],
+    [
+      "Cotton",
+      "कापूस"
+    ],
+    [
+      "Tomato",
+      "टोमॅटो"
+    ],
+    [
+      "Potato",
+      "बटाटा"
+    ],
+    [
+      "Banana",
+      "केळी"
+    ],
+    [
+      "Grapes",
+      "द्राक्षे"
+    ],
+    [
+      "Orange",
+      "संत्री"
+    ],
+    [
+      "Chilli",
+      "मिरची"
+    ],
+    [
+      "Bhagwa",
+      "भगवा डाळिंब"
+    ],
+    [
+      "Shivam",
+      "शिवम"
+    ],
+    [
+      "Hybrid",
+      "संकरित"
+    ],
+    [
+      "Curing",
+      "क्युरिंग सुकवणे"
+    ],
+    [
+      "Finger",
+      "हळद कांडी"
+    ],
+    [
+      "Buyers",
+      "खरेदीदार"
+    ],
+    [
+      "buyers",
+      "खरेदीदार"
+    ],
+    [
+      "Seller",
+      "विक्रेता"
+    ],
+    [
+      "SELLER",
+      "विक्रेता"
+    ],
+    [
+      "seller",
+      "विक्रेता"
+    ],
+    [
+      "Farmer",
+      "शेतकरी"
+    ],
+    [
+      "FARMER",
+      "शेतकरी"
+    ],
+    [
+      "farmer",
+      "शेतकरी"
+    ],
+    [
+      "Trader",
+      "व्यापारी"
+    ],
+    [
+      "Retail",
+      "किरकोळ"
+    ],
+    [
+      "Makers",
+      "उत्पादक"
+    ],
+    [
+      "Market",
+      "बाजारपेठ"
+    ],
+    [
+      "Mandis",
+      "बाजार समित्या"
+    ],
+    [
+      "Portal",
+      "पोर्टल"
+    ],
+    [
+      "PORTAL",
+      "पोर्टल"
+    ],
+    [
+      "Demand",
+      "मागणी कोटा"
+    ],
+    [
+      "Quotas",
+      "कोटा"
+    ],
+    [
+      "quotas",
+      "कोटा"
+    ],
+    [
+      "Buyout",
+      "तातडीची खरेदी"
+    ],
+    [
+      "Offers",
+      "प्रस्ताव"
+    ],
+    [
+      "Clause",
+      "कलम अट"
+    ],
+    [
+      "Escrow",
+      "एस्क्रो सुरक्षित ठेव"
+    ],
+    [
+      "ESCROW",
+      "एस्क्रो सुरक्षित ठेव"
+    ],
+    [
+      "escrow",
+      "एस्क्रो"
+    ],
+    [
+      "Payout",
+      "रक्कम वाटप"
+    ],
+    [
+      "payout",
+      "वाटप"
+    ],
+    [
+      "Credit",
+      "जमा पत"
+    ],
+    [
+      "credit",
+      "जमा पत"
+    ],
+    [
+      "Refund",
+      "रक्कम परतावा"
+    ],
+    [
+      "refund",
+      "परतावा"
+    ],
+    [
+      "Rebate",
+      "सूट रिबेट"
+    ],
+    [
+      "rebate",
+      "सूट"
+    ],
+    [
+      "Pledge",
+      "तारण पावती"
+    ],
+    [
+      "pledge",
+      "तारण"
+    ],
+    [
+      "Tenure",
+      "कालावधी मुदत"
+    ],
+    [
+      "Liquid",
+      "तरल रोकड"
+    ],
+    [
+      "Prices",
+      "दर"
+    ],
+    [
+      "prices",
+      "दर"
+    ],
+    [
+      "Tariff",
+      "दर पत्रक"
+    ],
+    [
+      "Hamali",
+      "हमाली तोलाई"
+    ],
+    [
+      "hamali",
+      "हमाली"
+    ],
+    [
+      "Broker",
+      "दलाल मध्यस्थ"
+    ],
+    [
+      "Spread",
+      "दर फरक मार्जिन"
+    ],
+    [
+      "Losses",
+      "नुकसान"
+    ],
+    [
+      "losses",
+      "नुकसान"
+    ],
+    [
+      "Saving",
+      "बचत"
+    ],
+    [
+      "Values",
+      "मूल्ये"
+    ],
+    [
+      "Landed",
+      "गोदाम पोहोच"
+    ],
+    [
+      "landed",
+      "गोदाम पोहोच"
+    ],
+    [
+      "Amount",
+      "रक्कम"
+    ],
+    [
+      "AMOUNT",
+      "रक्कम"
+    ],
+    [
+      "Hauler",
+      "वाहतूकदार ट्रान्सपोर्टर"
+    ],
+    [
+      "Delays",
+      "विलंब खोळंबा"
+    ],
+    [
+      "delays",
+      "विलंब"
+    ],
+    [
+      "Reefer",
+      "शीतगृह रेफ्रिजरेटेड ट्रक"
+    ],
+    [
+      "Driver",
+      "चालक"
+    ],
+    [
+      "driver",
+      "चालक"
+    ],
+    [
+      "Sealed",
+      "सील बंद"
+    ],
+    [
+      "Sensor",
+      "आयओटी सेन्सर"
+    ],
+    [
+      "Beacon",
+      "जीपीएस बीकन"
+    ],
+    [
+      "Stored",
+      "साठवले"
+    ],
+    [
+      "Crates",
+      "क्रॅट्स पेट्या"
+    ],
+    [
+      "crates",
+      "क्रॅट्स पेट्या"
+    ],
+    [
+      "Inward",
+      "आवक माल नोंद"
+    ],
+    [
+      "Pickup",
+      "माल उचलणे पिकअप"
+    ],
+    [
+      "pickup",
+      "पिकअप"
+    ],
+    [
+      "Grades",
+      "प्रतवारी"
+    ],
+    [
+      "Assays",
+      "प्रयोगशाळा अहवाल"
+    ],
+    [
+      "assays",
+      "तपासणी"
+    ],
+    [
+      "Rotten",
+      "सडलेला शेतीमाल"
+    ],
+    [
+      "rotten",
+      "सडलेला"
+    ],
+    [
+      "Claims",
+      "दावे"
+    ],
+    [
+      "Freeze",
+      "रक्कम गोठवा (फ्रीझ)"
+    ],
+    [
+      "Frozen",
+      "गोठवलेले"
+    ],
+    [
+      "Ruling",
+      "न्यायिक निर्णय"
+    ],
+    [
+      "ruling",
+      "निर्णय"
+    ],
+    [
+      "Trends",
+      "बाजार प्रवाह कल"
+    ],
+    [
+      "trends",
+      "प्रवाह कल"
+    ],
+    [
+      "Inflow",
+      "आवक प्रवाह"
+    ],
+    [
+      "Volume",
+      "आवक प्रमाण"
+    ],
+    [
+      "Curves",
+      "किंमत वक्र"
+    ],
+    [
+      "curves",
+      "वक्र"
+    ],
+    [
+      "Search",
+      "शोधा"
+    ],
+    [
+      "search",
+      "शोधा"
+    ],
+    [
+      "Filter",
+      "फिल्टर करा"
+    ],
+    [
+      "filter",
+      "फिल्टर"
+    ],
+    [
+      "Action",
+      "कृती"
+    ],
+    [
+      "ACTION",
+      "कृती"
+    ],
+    [
+      "Status",
+      "स्थिती"
+    ],
+    [
+      "STATUS",
+      "स्थिती"
+    ],
+    [
+      "status",
+      "स्थिती"
+    ],
+    [
+      "Active",
+      "सक्रिय"
+    ],
+    [
+      "active",
+      "सक्रिय"
+    ],
+    [
+      "Booked",
+      "बुक केलेले"
+    ],
+    [
+      "Cancel",
+      "रद्द करा"
+    ],
+    [
+      "cancel",
+      "रद्द करा"
+    ],
+    [
+      "Submit",
+      "सादर करा"
+    ],
+    [
+      "submit",
+      "सादर करा"
+    ],
+    [
+      "Delete",
+      "हटवा"
+    ],
+    [
+      "Ledger",
+      "खातेवही (लेजर)"
+    ],
+    [
+      "Report",
+      "अहवाल"
+    ],
+    [
+      "Logout",
+      "लॉगआउट"
+    ],
+    [
+      "Select",
+      "निवडा"
+    ],
+    [
+      "select",
+      "निवडा"
+    ],
+    [
+      "Choose",
+      "निवडा"
+    ],
+    [
+      "Create",
+      "तयार करा"
+    ],
+    [
+      "Change",
+      "बदला"
+    ],
+    [
+      "Switch",
+      "बदला"
+    ],
+    [
+      "Urgent",
+      "तातडीचे"
+    ],
+    [
+      "Custom",
+      "पसंतीचे"
+    ],
+    [
+      "Manual",
+      "मॅन्युअल"
+    ],
+    [
+      "Synced",
+      "सिंक झाले"
+    ],
+    [
+      "Online",
+      "ऑनलाइन"
+    ],
+    [
+      "Number",
+      "क्रमांक"
+    ],
+    [
+      "NUMBER",
+      "क्रमांक"
+    ],
+    [
+      "Months",
+      "महिने"
+    ],
+    [
+      "Origin",
+      "उगम मूळ स्थान"
+    ],
+    [
+      "origin",
+      "उगम स्थान"
+    ],
+    [
+      "Higher",
+      "जास्त"
+    ],
+    [
+      "Lowest",
+      "किमान"
+    ],
+    [
+      "Better",
+      "अधिक चांगले"
+    ],
+    [
+      "Branch",
+      "शाखा"
+    ],
+    [
+      "Holder",
+      "खातेधारक"
+    ],
+    [
+      "Wallet",
+      "सुरक्षित वॉलेट"
+    ],
+    [
+      "Engine",
+      "इंजिन यंत्रणा"
+    ],
+    [
+      "ENGINE",
+      "यंत्रणा"
+    ],
+    [
+      "System",
+      "प्रणाली"
+    ],
+    [
+      "Policy",
+      "धोरण"
+    ],
+    [
+      "Within",
+      "च्या आत"
+    ],
+    [
+      "within",
+      "च्या आत"
+    ],
+    [
+      "Across",
+      "राज्यभरात"
+    ],
+    [
+      "across",
+      "भर"
+    ],
+    [
+      "During",
+      "दरम्यान"
+    ],
+    [
+      "during",
+      "दरम्यान"
+    ],
+    [
+      "Browse",
+      "ब्राउज करा"
+    ],
+    [
+      "browse",
+      "ब्राउज करा"
+    ],
+    [
+      "Unlock",
+      "अनलॉक करा"
+    ],
+    [
+      "unlock",
+      "अनलॉक करा"
+    ],
+    [
+      "Mutual",
+      "परस्पर संमतीने"
+    ],
+    [
+      "mutual",
+      "परस्पर"
+    ],
+    [
+      "Stream",
+      "थेट प्रवाह"
+    ],
+    [
+      "stream",
+      "प्रवाह"
+    ],
+    [
+      "Attach",
+      "जोडा संलग्न करा"
+    ],
+    [
+      "attach",
+      "जोडा"
+    ],
+    [
+      "Upload",
+      "अपलोड करा"
+    ],
+    [
+      "upload",
+      "अपलोड करा"
+    ],
+    [
+      "Filing",
+      "दाखल करणे"
+    ],
+    [
+      "filing",
+      "दाखल करणे"
+    ],
+    [
+      "Radius",
+      "त्रिज्या परिसर"
+    ],
+    [
+      "radius",
+      "परिसर"
+    ],
+    [
+      "Marked",
+      "चिन्हांकित केलेले"
+    ],
+    [
+      "marked",
+      "चिन्हांकित"
+    ],
+    [
+      "Mapped",
+      "मॅप केलेले जोडलेले"
+    ],
+    [
+      "mapped",
+      "जोडलेले"
+    ],
+    [
+      "Signal",
+      "सिग्नल"
+    ],
+    [
+      "signal",
+      "सिग्नल"
+    ],
+    [
+      "Bypass",
+      "मध्यस्थ वगळा (बायपास)"
+    ],
+    [
+      "bypass",
+      "वगळा"
+    ],
+    [
+      "Direct",
+      "थेट खरेदी"
+    ],
+    [
+      "direct",
+      "थेट"
+    ],
+    [
+      "DIRECT",
+      "थेट"
+    ],
+    [
+      "Yellow",
+      "पिवळा"
+    ],
+    [
+      "yellow",
+      "पिवळा"
+    ],
+    [
+      "Border",
+      "सीमा रेषा"
+    ],
+    [
+      "border",
+      "सीमा"
+    ],
+    [
+      "Orders",
+      "खरेदी ऑर्डर्स"
+    ],
+    [
+      "orders",
+      "ऑर्डर्स"
+    ],
+    [
+      "ORDERS",
+      "ऑर्डर्स"
+    ],
+    [
+      "Appear",
+      "दिसते"
+    ],
+    [
+      "appear",
+      "दिसते"
+    ],
+    [
+      "Indian",
+      "भारतीय"
+    ],
+    [
+      "Konkan",
+      "कोकण"
+    ],
+    [
+      "ACTIVE",
+      "सक्रिय"
+    ],
+    [
+      "Accept",
+      "स्वीकारा"
+    ],
+    [
+      "accept",
+      "स्वीकारा"
+    ],
+    [
+      "Agreed",
+      "संमत ठरलेले"
+    ],
+    [
+      "BRANCH",
+      "शाखा"
+    ],
+    [
+      "Buffer",
+      "राखीव बफर साठा"
+    ],
+    [
+      "Client",
+      "ग्राहक खरेदीदार"
+    ],
+    [
+      "client",
+      "ग्राहक"
+    ],
+    [
+      "EICHER",
+      "आयशर"
+    ],
+    [
+      "Entire",
+      "संपूर्ण"
+    ],
+    [
+      "Export",
+      "निर्यात दर्जा"
+    ],
+    [
+      "export",
+      "निर्यात"
+    ],
+    [
+      "Google",
+      "गुगल"
+    ],
+    [
+      "ISSUED",
+      "जारी केले"
+    ],
+    [
+      "Jadhav",
+      "जाधव"
+    ],
+    [
+      "Locked",
+      "सुरक्षित लॉक केलेले"
+    ],
+    [
+      "locked",
+      "सुरक्षित लॉक"
+    ],
+    [
+      "Rajesh",
+      "राजेश"
+    ],
+    [
+      "Rating",
+      "विश्वासार्हता रेटिंग"
+    ],
+    [
+      "rating",
+      "रेटिंग"
+    ],
+    [
+      "return",
+      "परत"
+    ],
+    [
+      "Selvam",
+      "सेल्वम"
+    ],
+    [
+      "Shinde",
+      "शिंदे"
+    ],
+    [
+      "Source",
+      "उगम खरेदी स्रोत"
+    ],
+    [
+      "Target",
+      "लक्षित दर / प्रमाण"
+    ],
+    [
+      "target",
+      "लक्षित"
+    ],
+    [
+      "Thorat",
+      "थोरात"
+    ],
+    [
+      "VOLUME",
+      "आवक प्रमाण"
+    ],
+    [
+      "Weight",
+      "वजन"
+    ],
+    [
+      "weight",
+      "वजन"
+    ],
+    [
+      "beacon",
+      "बीकन"
+    ],
+    [
+      "change",
+      "बदला"
+    ],
+    [
+      "demand",
+      "मागणी"
+    ],
+    [
+      "diesel",
+      "डिझेल"
+    ],
+    [
+      "frozen",
+      "गोठवलेले"
+    ],
+    [
+      "higher",
+      "जास्त"
+    ],
+    [
+      "linked",
+      "जोडलेले"
+    ],
+    [
+      "mandis",
+      "बाजार समित्या"
+    ],
+    [
+      "market",
+      "बाजारपेठ"
+    ],
+    [
+      "portal",
+      "पोर्टल"
+    ],
+    [
+      "report",
+      "अहवाल"
+    ],
+    [
+      "sensor",
+      "सेन्सर"
+    ],
+    [
+      "tested",
+      "तपासणी झालेले"
+    ],
+    [
+      "Junnar",
+      "जुन्नर"
+    ],
+    [
+      "Rahata",
+      "राहाता"
+    ],
+    [
+      "Rahuri",
+      "राहुरी"
+    ],
+    [
+      "Hingna",
+      "हिंगणा"
+    ],
+    [
+      "Chopda",
+      "चोपडा"
+    ],
+    [
+      "Barshi",
+      "बार्शी"
+    ],
+    [
+      "Shirol",
+      "शिरोळ"
+    ],
+    [
+      "Kannad",
+      "कन्नड"
+    ],
+    [
+      "Basmat",
+      "वसमत"
+    ],
+    [
+      "Dharur",
+      "धारूर"
+    ],
+    [
+      "Omerga",
+      "उमरगा"
+    ],
+    [
+      "Kalamb",
+      "कळंब"
+    ],
+    [
+      "Devgad",
+      "देवगड"
+    ],
+    [
+      "Kavita",
+      "कविता"
+    ],
+    [
+      "Sanjay",
+      "संजय"
+    ],
+    [
+      "Sangli",
+      "सांगली"
+    ],
+    [
+      "Matrix",
+      "तक्ता मॅट्रिक्स"
+    ],
+    [
+      "matrix",
+      "मॅट्रिक्स"
+    ],
+    [
+      "Hunter",
+      "शोधक साधन"
+    ],
+    [
+      "hunter",
+      "शोधक"
+    ],
+    [
+      "logout",
+      "बाहेर पडा"
+    ],
+    [
+      "switch",
+      "बदला"
+    ],
+    [
+      "Launch",
+      "सुरू करा"
+    ],
+    [
+      "launch",
+      "सुरू करा"
+    ],
+    [
+      "Fleets",
+      "वाहतूक ताफा"
+    ],
+    [
+      "Sector",
+      "सेक्टर"
+    ],
+    [
+      "sector",
+      "सेक्टर"
+    ],
+    [
+      "chilli",
+      "मिरची"
+    ],
+    [
+      "reefer",
+      "रीफर"
+    ],
+    [
+      "Global",
+      "ग्लोबल"
+    ],
+    [
+      "global",
+      "ग्लोबल"
+    ],
+    [
+      "grains",
+      "धान्य"
+    ],
+    [
+      "Excess",
+      "जास्त"
+    ],
+    [
+      "excess",
+      "अतिरिक्त"
+    ],
+    [
+      "Shimla",
+      "शिमला"
+    ],
+    [
+      "shimla",
+      "शिमला"
+    ],
+    [
+      "unsold",
+      "न विकलेला"
+    ],
+    [
+      "Unsold",
+      "न विकलेला"
+    ],
+    [
+      "Listen",
+      "ऐका"
+    ],
+    [
+      "listen",
+      "ऐका"
+    ],
+    [
+      "offers",
+      "ऑफर्स"
+    ],
+    [
+      "booked",
+      "बुक केलेले"
+    ],
+    [
+      "Trucks",
+      "ट्रक्स"
+    ],
+    [
+      "trucks",
+      "ट्रक्स"
+    ],
+    [
+      "STEADY",
+      "स्थिर"
+    ],
+    [
+      "Steady",
+      "स्थिर"
+    ],
+    [
+      "steady",
+      "स्थिर"
+    ],
+    [
+      "finger",
+      "कांड्या"
+    ],
+    [
+      "Filled",
+      "पूर्ण"
+    ],
+    [
+      "filled",
+      "पूर्ण"
+    ],
+    [
+      "Season",
+      "हंगाम"
+    ],
+    [
+      "season",
+      "हंगाम"
+    ],
+    [
+      "strong",
+      "जोरदार"
+    ],
+    [
+      "Strong",
+      "जोरदार"
+    ],
+    [
+      "Triage",
+      "तातडीचा निपटारा"
+    ],
+    [
+      "triage",
+      "निपटारा"
+    ],
+    [
+      "Access",
+      "प्रवेश"
+    ],
+    [
+      "access",
+      "प्रवेश"
+    ],
+    [
+      "Remove",
+      "काढून टाका"
+    ],
+    [
+      "remove",
+      "काढून टाका"
+    ],
+    [
+      "QUOTA",
+      "कोटा"
+    ],
+    [
+      "quota",
+      "कोटा"
+    ],
+    [
+      "Gunny",
+      "बारदान पोती"
+    ],
+    [
+      "gunny",
+      "बारदान"
+    ],
+    [
+      "Hands",
+      "घड"
+    ],
+    [
+      "hands",
+      "घड"
+    ],
+    [
+      "Bulbs",
+      "गाठी"
+    ],
+    [
+      "bulbs",
+      "गाठी"
+    ],
+    [
+      "Lined",
+      "अस्तरयुक्त"
+    ],
+    [
+      "lined",
+      "अस्तरयुक्त"
+    ],
+    [
+      "Crops",
+      "पिके"
+    ],
+    [
+      "crops",
+      "पिके"
+    ],
+    [
+      "Grain",
+      "अन्नधान्य"
+    ],
+    [
+      "grain",
+      "धान्य"
+    ],
+    [
+      "Spice",
+      "मसाला"
+    ],
+    [
+      "Onion",
+      "कांदा"
+    ],
+    [
+      "onion",
+      "कांदा"
+    ],
+    [
+      "Mango",
+      "आंबा"
+    ],
+    [
+      "Jowar",
+      "ज्वारी"
+    ],
+    [
+      "Paddy",
+      "भात (धान)"
+    ],
+    [
+      "Hapus",
+      "हापूस"
+    ],
+    [
+      "Garwa",
+      "गरवा कांदा"
+    ],
+    [
+      "Naine",
+      "ग्रँड नैन"
+    ],
+    [
+      "Grand",
+      "ग्रँड"
+    ],
+    [
+      "Fresh",
+      "ताजा"
+    ],
+    [
+      "Puree",
+      "प्युरी गर"
+    ],
+    [
+      "Sauce",
+      "सॉस"
+    ],
+    [
+      "Gluts",
+      "अतिरिक्त आवक"
+    ],
+    [
+      "gluts",
+      "अतिरिक्त आवक"
+    ],
+    [
+      "Buyer",
+      "खरेदीदार"
+    ],
+    [
+      "BUYER",
+      "खरेदीदार"
+    ],
+    [
+      "buyer",
+      "खरेदीदार"
+    ],
+    [
+      "Trade",
+      "व्यापार व्यवहार"
+    ],
+    [
+      "Maker",
+      "उत्पादक"
+    ],
+    [
+      "Mandi",
+      "बाजार समिती"
+    ],
+    [
+      "Quota",
+      "कोटा"
+    ],
+    [
+      "Offer",
+      "प्रस्ताव ऑफर"
+    ],
+    [
+      "offer",
+      "प्रस्ताव"
+    ],
+    [
+      "Legal",
+      "कायदेशीर"
+    ],
+    [
+      "Vault",
+      "सुरक्षित व्हॉल्ट"
+    ],
+    [
+      "Loans",
+      "कर्जे"
+    ],
+    [
+      "loans",
+      "कर्जे"
+    ],
+    [
+      "Funds",
+      "निधी"
+    ],
+    [
+      "funds",
+      "निधी"
+    ],
+    [
+      "Costs",
+      "खर्च"
+    ],
+    [
+      "costs",
+      "खर्च"
+    ],
+    [
+      "Price",
+      "दर किंमत"
+    ],
+    [
+      "PRICE",
+      "दर किंमत"
+    ],
+    [
+      "price",
+      "दर"
+    ],
+    [
+      "Rates",
+      "दर"
+    ],
+    [
+      "rates",
+      "दर"
+    ],
+    [
+      "Taxes",
+      "कर"
+    ],
+    [
+      "Tolls",
+      "टोल कर"
+    ],
+    [
+      "tolls",
+      "टोल कर"
+    ],
+    [
+      "Saved",
+      "बचत"
+    ],
+    [
+      "saved",
+      "बचत"
+    ],
+    [
+      "Value",
+      "मूल्य"
+    ],
+    [
+      "value",
+      "मूल्य"
+    ],
+    [
+      "Total",
+      "एकूण"
+    ],
+    [
+      "TOTAL",
+      "एकूण"
+    ],
+    [
+      "total",
+      "एकूण"
+    ],
+    [
+      "Modal",
+      "सरासरी लिलाव दर"
+    ],
+    [
+      "MODAL",
+      "सरासरी दर"
+    ],
+    [
+      "modal",
+      "सरासरी दर"
+    ],
+    [
+      "Floor",
+      "तळ किमान दर"
+    ],
+    [
+      "Truck",
+      "मालवाहू ट्रक"
+    ],
+    [
+      "truck",
+      "ट्रक"
+    ],
+    [
+      "Fleet",
+      "वाहन ताफा"
+    ],
+    [
+      "fleet",
+      "वाहन ताफा"
+    ],
+    [
+      "Cargo",
+      "माल कार्गो"
+    ],
+    [
+      "Route",
+      "वाहतूक मार्ग"
+    ],
+    [
+      "Gross",
+      "स्थूल एकूण वजन"
+    ],
+    [
+      "Slips",
+      "पावत्या"
+    ],
+    [
+      "slips",
+      "पावत्या"
+    ],
+    [
+      "Track",
+      "ट्रॅक करा"
+    ],
+    [
+      "Store",
+      "साठवा"
+    ],
+    [
+      "Silos",
+      "सायलो"
+    ],
+    [
+      "silos",
+      "सायलो"
+    ],
+    [
+      "Solar",
+      "सौर ऊर्जा"
+    ],
+    [
+      "Stack",
+      "पोत्यांची थप्पी (स्टॅक)"
+    ],
+    [
+      "Slots",
+      "स्लॉट्स"
+    ],
+    [
+      "slots",
+      "स्लॉट्स"
+    ],
+    [
+      "Space",
+      "जागा जागा"
+    ],
+    [
+      "space",
+      "जागा"
+    ],
+    [
+      "Boxes",
+      "खोके बॉक्सेस"
+    ],
+    [
+      "Crate",
+      "क्रॅट"
+    ],
+    [
+      "Gunny",
+      "तागाची पोती"
+    ],
+    [
+      "Loose",
+      "सुटा माल"
+    ],
+    [
+      "Grade",
+      "प्रतवारी"
+    ],
+    [
+      "Assay",
+      "गुणवत्ता तपासणी"
+    ],
+    [
+      "Score",
+      "गुणवत्ता स्कोअर"
+    ],
+    [
+      "Claim",
+      "दावा तक्रार"
+    ],
+    [
+      "Proof",
+      "पुरावा"
+    ],
+    [
+      "Trend",
+      "कल"
+    ],
+    [
+      "Close",
+      "बंद करा"
+    ],
+    [
+      "close",
+      "बंद करा"
+    ],
+    [
+      "Print",
+      "प्रिंट करा"
+    ],
+    [
+      "print",
+      "प्रिंट करा"
+    ],
+    [
+      "Audit",
+      "ऑडिट तपासणी"
+    ],
+    [
+      "Table",
+      "तक्ता सारणी"
+    ],
+    [
+      "Enter",
+      "प्रविष्ट करा"
+    ],
+    [
+      "enter",
+      "प्रविष्ट करा"
+    ],
+    [
+      "Phone",
+      "फोन नंबर"
+    ],
+    [
+      "Guide",
+      "मार्गदर्शक"
+    ],
+    [
+      "Night",
+      "रात्र"
+    ],
+    [
+      "Hello",
+      "नमस्कार"
+    ],
+    [
+      "Click",
+      "क्लिक करा"
+    ],
+    [
+      "Alert",
+      "सूचना इशारा"
+    ],
+    [
+      "Today",
+      "आज"
+    ],
+    [
+      "today",
+      "आज"
+    ],
+    [
+      "Hours",
+      "तास"
+    ],
+    [
+      "hours",
+      "तास"
+    ],
+    [
+      "Month",
+      "महिना"
+    ],
+    [
+      "month",
+      "महिना"
+    ],
+    [
+      "State",
+      "राज्य"
+    ],
+    [
+      "Quick",
+      "झटपट"
+    ],
+    [
+      "Lower",
+      "कमी"
+    ],
+    [
+      "Units",
+      "एकके"
+    ],
+    [
+      "Lakhs",
+      "लाख"
+    ],
+    [
+      "Ratio",
+      "प्रमाण गुणोत्तर"
+    ],
+    [
+      "Empty",
+      "रिकामे"
+    ],
+    [
+      "Fully",
+      "पूर्णपणे"
+    ],
+    [
+      "Ready",
+      "सज्ज तयार"
+    ],
+    [
+      "Layer",
+      "थर लेयर"
+    ],
+    [
+      "Terms",
+      "अटी व शर्ती"
+    ],
+    [
+      "terms",
+      "अटी"
+    ],
+    [
+      "Shall",
+      "असेल"
+    ],
+    [
+      "shall",
+      "असेल"
+    ],
+    [
+      "Under",
+      "अंतर्गत"
+    ],
+    [
+      "under",
+      "अंतर्गत"
+    ],
+    [
+      "Until",
+      "पर्यंत"
+    ],
+    [
+      "until",
+      "पर्यंत"
+    ],
+    [
+      "While",
+      "दरम्यान"
+    ],
+    [
+      "while",
+      "दरम्यान"
+    ],
+    [
+      "Other",
+      "इतर"
+    ],
+    [
+      "other",
+      "इतर"
+    ],
+    [
+      "Every",
+      "प्रत्येक"
+    ],
+    [
+      "every",
+      "प्रत्येक"
+    ],
+    [
+      "Party",
+      "पक्षकार पक्ष"
+    ],
+    [
+      "party",
+      "पक्षकार"
+    ],
+    [
+      "Trial",
+      "चाचणी"
+    ],
+    [
+      "trial",
+      "चाचणी"
+    ],
+    [
+      "Shelf",
+      "टिकवण क्षमता (शेल्फ लाइफ)"
+    ],
+    [
+      "shelf",
+      "टिकवण क्षमता"
+    ],
+    [
+      "Point",
+      "मुद्दा केंद्र"
+    ],
+    [
+      "point",
+      "मुद्दा"
+    ],
+    [
+      "Board",
+      "मंडळ बोर्ड"
+    ],
+    [
+      "board",
+      "मंडळ"
+    ],
+    [
+      "Marks",
+      "खूणा शिक्के"
+    ],
+    [
+      "White",
+      "पांढरा"
+    ],
+    [
+      "white",
+      "पांढरा"
+    ],
+    [
+      "Color",
+      "रंग"
+    ],
+    [
+      "color",
+      "रंग"
+    ],
+    [
+      "Style",
+      "शैली"
+    ],
+    [
+      "style",
+      "शैली"
+    ],
+    [
+      "Event",
+      "प्रसंग घटना"
+    ],
+    [
+      "event",
+      "घटना"
+    ],
+    [
+      "Cards",
+      "कार्ड्स"
+    ],
+    [
+      "Order",
+      "ऑर्डर"
+    ],
+    [
+      "order",
+      "ऑर्डर"
+    ],
+    [
+      "Match",
+      "जुळणारे"
+    ],
+    [
+      "match",
+      "जुळणी"
+    ],
+    [
+      "Hindi",
+      "हिन्दी"
+    ],
+    [
+      "India",
+      "भारत"
+    ],
+    [
+      "MIHAN",
+      "मिहान"
+    ],
+    [
+      "Agent",
+      "प्रतिनिधी एजंट"
+    ],
+    [
+      "Belts",
+      "उत्पादन पट्टे"
+    ],
+    [
+      "belts",
+      "पट्टे"
+    ],
+    [
+      "Chain",
+      "पुरवठा साखळी"
+    ],
+    [
+      "chain",
+      "साखळी"
+    ],
+    [
+      "ENTER",
+      "नोंदवा"
+    ],
+    [
+      "Final",
+      "अंतिम"
+    ],
+    [
+      "final",
+      "अंतिम"
+    ],
+    [
+      "Heavy",
+      "अवजड वजनदार"
+    ],
+    [
+      "Index",
+      "निर्देशांक"
+    ],
+    [
+      "Issue",
+      "तक्रार समस्या"
+    ],
+    [
+      "issue",
+      "समस्या"
+    ],
+    [
+      "Kisan",
+      "शेतकरी किसान"
+    ],
+    [
+      "Model",
+      "मॉडेल नमुना"
+    ],
+    [
+      "Multi",
+      "बहुविध"
+    ],
+    [
+      "Nodal",
+      "नोडल मुख्य केंद्र"
+    ],
+    [
+      "nodal",
+      "नोडल"
+    ],
+    [
+      "Patil",
+      "पाटील"
+    ],
+    [
+      "Photo",
+      "फोटो छायाचित्र"
+    ],
+    [
+      "Plate",
+      "नंबर प्लेट"
+    ],
+    [
+      "plate",
+      "नंबर प्लेट"
+    ],
+    [
+      "SMART",
+      "स्मार्ट डिजिटल"
+    ],
+    [
+      "Smart",
+      "स्मार्ट"
+    ],
+    [
+      "smart",
+      "स्मार्ट"
+    ],
+    [
+      "Short",
+      "कमी अपुरा"
+    ],
+    [
+      "Speed",
+      "वेग गती"
+    ],
+    [
+      "Trail",
+      "नोंद ट्रेल"
+    ],
+    [
+      "Trust",
+      "विश्वासार्हता"
+    ],
+    [
+      "trust",
+      "विश्वास"
+    ],
+    [
+      "assay",
+      "गुणवत्ता तपासणी"
+    ],
+    [
+      "based",
+      "आधारित"
+    ],
+    [
+      "claim",
+      "दावा"
+    ],
+    [
+      "favor",
+      "बाजूने"
+    ],
+    [
+      "feeds",
+      "थेट अपडेट्स"
+    ],
+    [
+      "fully",
+      "पूर्णपणे"
+    ],
+    [
+      "major",
+      "प्रमुख मुख्य"
+    ],
+    [
+      "mandi",
+      "बाजार समिती"
+    ],
+    [
+      "times",
+      "वेळा"
+    ],
+    [
+      "Vashi",
+      "वाशी"
+    ],
+    [
+      "Katol",
+      "काटोल"
+    ],
+    [
+      "Raver",
+      "रावेर"
+    ],
+    [
+      "Karad",
+      "कराड"
+    ],
+    [
+      "Sakri",
+      "साक्री"
+    ],
+    [
+      "Warud",
+      "वरुड"
+    ],
+    [
+      "Ambad",
+      "अंबड"
+    ],
+    [
+      "Nagar",
+      "अहमदनगर"
+    ],
+    [
+      "Shahu",
+      "शाहू"
+    ],
+    [
+      "APMCs",
+      "बाजार समित्या"
+    ],
+    [
+      "Euler",
+      "ऑयलर"
+    ],
+    [
+      "crate",
+      "क्रेट"
+    ],
+    [
+      "ready",
+      "सज्ज"
+    ],
+    [
+      "click",
+      "क्लिक करा"
+    ],
+    [
+      "Names",
+      "नावे"
+    ],
+    [
+      "lower",
+      "कमी"
+    ],
+    [
+      "Voice",
+      "आवाज"
+    ],
+    [
+      "voice",
+      "आवाज"
+    ],
+    [
+      "Green",
+      "हिरवी"
+    ],
+    [
+      "green",
+      "हिरवी"
+    ],
+    [
+      "grade",
+      "प्रत"
+    ],
+    [
+      "Speak",
+      "बोला"
+    ],
+    [
+      "speak",
+      "बोला"
+    ],
+    [
+      "Press",
+      "दाबा"
+    ],
+    [
+      "press",
+      "दाबा"
+    ],
+    [
+      "photo",
+      "छायाचित्र"
+    ],
+    [
+      "track",
+      "मागोवा घ्या"
+    ],
+    [
+      "vault",
+      "सुरक्षित तिजोरी"
+    ],
+    [
+      "TODAY",
+      "आज"
+    ],
+    [
+      "STORE",
+      "साठवा"
+    ],
+    [
+      "store",
+      "साठवणूक"
+    ],
+    [
+      "Whole",
+      "अख्खी"
+    ],
+    [
+      "whole",
+      "अख्खी"
+    ],
+    [
+      "gross",
+      "एकूण"
+    ],
+    [
+      "fresh",
+      "ताजा"
+    ],
+    [
+      "quick",
+      "जलद"
+    ],
+    [
+      "trend",
+      "कल"
+    ],
+    [
+      "Brix",
+      "ब्रिक्स"
+    ],
+    [
+      "brix",
+      "ब्रिक्स"
+    ],
+    [
+      "HDPE",
+      "HDPE"
+    ],
+    [
+      "Jute",
+      "जूट"
+    ],
+    [
+      "jute",
+      "जूट"
+    ],
+    [
+      "Bags",
+      "पोती"
+    ],
+    [
+      "bags",
+      "पोती"
+    ],
+    [
+      "Skin",
+      "साल"
+    ],
+    [
+      "skin",
+      "साल"
+    ],
+    [
+      "Agro",
+      "कृषी ॲग्रो"
+    ],
+    [
+      "Agri",
+      "कृषी"
+    ],
+    [
+      "AGRI",
+      "कृषी"
+    ],
+    [
+      "Crop",
+      "पीक"
+    ],
+    [
+      "Food",
+      "अन्न अन्नप्रक्रिया"
+    ],
+    [
+      "Feed",
+      "पशूखाद्य"
+    ],
+    [
+      "Yard",
+      "बाजार यार्ड प्रांगण"
+    ],
+    [
+      "Hubs",
+      "केंद्रे"
+    ],
+    [
+      "Buys",
+      "खरेदी"
+    ],
+    [
+      "Bids",
+      "शेतकरी प्रस्ताव"
+    ],
+    [
+      "Deed",
+      "करारनामा"
+    ],
+    [
+      "Paid",
+      "भरणा केला"
+    ],
+    [
+      "paid",
+      "भरणा केला"
+    ],
+    [
+      "Lien",
+      "तारण अधिकार"
+    ],
+    [
+      "lien",
+      "तारण अधिकार"
+    ],
+    [
+      "Loan",
+      "कर्ज"
+    ],
+    [
+      "loan",
+      "कर्ज"
+    ],
+    [
+      "Pool",
+      "निधी पूल"
+    ],
+    [
+      "Cost",
+      "खर्च"
+    ],
+    [
+      "cost",
+      "खर्च"
+    ],
+    [
+      "Rate",
+      "दर"
+    ],
+    [
+      "RATE",
+      "दर"
+    ],
+    [
+      "rate",
+      "दर"
+    ],
+    [
+      "Fees",
+      "शुल्क"
+    ],
+    [
+      "Cess",
+      "सेस कर"
+    ],
+    [
+      "cess",
+      "सेस कर"
+    ],
+    [
+      "Toll",
+      "टोल"
+    ],
+    [
+      "Loss",
+      "नुकसान"
+    ],
+    [
+      "loss",
+      "नुकसान"
+    ],
+    [
+      "Save",
+      "जतन करा"
+    ],
+    [
+      "Maxi",
+      "मॅक्सी"
+    ],
+    [
+      "Mini",
+      "मिनी"
+    ],
+    [
+      "Calc",
+      "हिशोब"
+    ],
+    [
+      "Axle",
+      "ॲक्सल एक्सल"
+    ],
+    [
+      "Road",
+      "रस्ता"
+    ],
+    [
+      "Tare",
+      "रिकाम्या वाहनाचे वजन (टारे)"
+    ],
+    [
+      "Slip",
+      "वजन पावती स्लिप"
+    ],
+    [
+      "slip",
+      "पावती स्लिप"
+    ],
+    [
+      "Pass",
+      "गेट पास प्रवेशपत्र"
+    ],
+    [
+      "pass",
+      "गेट पास"
+    ],
+    [
+      "Gate",
+      "प्रवेश द्वार"
+    ],
+    [
+      "gate",
+      "प्रवेश द्वार"
+    ],
+    [
+      "Seal",
+      "सुरक्षा सील"
+    ],
+    [
+      "Silo",
+      "अन्नधान्य सायलो"
+    ],
+    [
+      "silo",
+      "सायलो"
+    ],
+    [
+      "Temp",
+      "तापमान"
+    ],
+    [
+      "Slot",
+      "जागा स्लॉट"
+    ],
+    [
+      "Pack",
+      "पॅक करा"
+    ],
+    [
+      "Bags",
+      "पोती कट्टे"
+    ],
+    [
+      "Jute",
+      "जूट ताग"
+    ],
+    [
+      "Book",
+      "बुक करा"
+    ],
+    [
+      "book",
+      "बुक करा"
+    ],
+    [
+      "Edit",
+      "संपादित करा"
+    ],
+    [
+      "edit",
+      "संपादित करा"
+    ],
+    [
+      "View",
+      "पहा"
+    ],
+    [
+      "view",
+      "पहा"
+    ],
+    [
+      "Copy",
+      "कॉपी करा"
+    ],
+    [
+      "Logs",
+      "नोंदी"
+    ],
+    [
+      "Grid",
+      "ग्रिड मांडणी"
+    ],
+    [
+      "List",
+      "यादी"
+    ],
+    [
+      "Show",
+      "दाखवा"
+    ],
+    [
+      "show",
+      "दाखवा"
+    ],
+    [
+      "Hide",
+      "लपवा"
+    ],
+    [
+      "More",
+      "अधिक पहा"
+    ],
+    [
+      "Less",
+      "कमी पहा"
+    ],
+    [
+      "Next",
+      "पुढे"
+    ],
+    [
+      "Prev",
+      "मागे"
+    ],
+    [
+      "Post",
+      "प्रसारित करा"
+    ],
+    [
+      "Send",
+      "पाठवा"
+    ],
+    [
+      "send",
+      "पाठवा"
+    ],
+    [
+      "Type",
+      "प्रकार / लिहा"
+    ],
+    [
+      "TYPE",
+      "प्रकार"
+    ],
+    [
+      "type",
+      "लिहा"
+    ],
+    [
+      "Chat",
+      "थेट चर्चा चॅट"
+    ],
+    [
+      "chat",
+      "चॅट"
+    ],
+    [
+      "Call",
+      "कॉल करा"
+    ],
+    [
+      "Help",
+      "मदत"
+    ],
+    [
+      "Find",
+      "शोधा मिळवा"
+    ],
+    [
+      "Best",
+      "सर्वोत्तम"
+    ],
+    [
+      "Good",
+      "शुभ"
+    ],
+    [
+      "Info",
+      "माहिती"
+    ],
+    [
+      "Auto",
+      "स्वयंचलित"
+    ],
+    [
+      "Live",
+      "थेट लाइव्ह"
+    ],
+    [
+      "live",
+      "थेट"
+    ],
+    [
+      "Real",
+      "वास्तविक"
+    ],
+    [
+      "REAL",
+      "वास्तविक"
+    ],
+    [
+      "Sync",
+      "सिंक करा"
+    ],
+    [
+      "sync",
+      "सिंक"
+    ],
+    [
+      "Hash",
+      "हॅश कोड"
+    ],
+    [
+      "Code",
+      "कोड"
+    ],
+    [
+      "CODE",
+      "कोड"
+    ],
+    [
+      "Name",
+      "नाव"
+    ],
+    [
+      "NAME",
+      "नाव"
+    ],
+    [
+      "Date",
+      "दिनांक तारीख"
+    ],
+    [
+      "DATE",
+      "तारीख"
+    ],
+    [
+      "Time",
+      "वेळ"
+    ],
+    [
+      "TIME",
+      "वेळ"
+    ],
+    [
+      "time",
+      "वेळ"
+    ],
+    [
+      "Days",
+      "दिवस"
+    ],
+    [
+      "days",
+      "दिवस"
+    ],
+    [
+      "Hour",
+      "तास"
+    ],
+    [
+      "Mins",
+      "मिनिटे"
+    ],
+    [
+      "mins",
+      "मिनिटे"
+    ],
+    [
+      "Year",
+      "वर्ष"
+    ],
+    [
+      "year",
+      "वर्ष"
+    ],
+    [
+      "Fast",
+      "जलद"
+    ],
+    [
+      "High",
+      "उच्च"
+    ],
+    [
+      "Unit",
+      "एकक"
+    ],
+    [
+      "unit",
+      "एकक"
+    ],
+    [
+      "Zero",
+      "शून्य"
+    ],
+    [
+      "zero",
+      "शून्य"
+    ],
+    [
+      "Free",
+      "मोफत मोफत"
+    ],
+    [
+      "Full",
+      "पूर्ण"
+    ],
+    [
+      "Bank",
+      "बँक"
+    ],
+    [
+      "Card",
+      "कार्ड पत्रक"
+    ],
+    [
+      "Step",
+      "टप्पा पायरी"
+    ],
+    [
+      "Your",
+      "तुमचे"
+    ],
+    [
+      "your",
+      "तुमचे"
+    ],
+    [
+      "From",
+      "कडून / येथून"
+    ],
+    [
+      "from",
+      "येथून"
+    ],
+    [
+      "With",
+      "सह"
+    ],
+    [
+      "with",
+      "सह"
+    ],
+    [
+      "Will",
+      "होईल"
+    ],
+    [
+      "will",
+      "होईल"
+    ],
+    [
+      "Upon",
+      "त्यानंतर लगेच"
+    ],
+    [
+      "upon",
+      "वर"
+    ],
+    [
+      "This",
+      "हे"
+    ],
+    [
+      "this",
+      "हे"
+    ],
+    [
+      "Just",
+      "फक्त आत्ताच"
+    ],
+    [
+      "just",
+      "फक्त"
+    ],
+    [
+      "Hold",
+      "राखून ठेवा (होल्ड)"
+    ],
+    [
+      "hold",
+      "राखून ठेवा"
+    ],
+    [
+      "Wash",
+      "धुलाई क्लिनिंग"
+    ],
+    [
+      "wash",
+      "धुलाई"
+    ],
+    [
+      "Life",
+      "आयुष्यमान"
+    ],
+    [
+      "life",
+      "आयुष्य"
+    ],
+    [
+      "Draw",
+      "काढून घेणे"
+    ],
+    [
+      "draw",
+      "काढणे"
+    ],
+    [
+      "File",
+      "फाइल दाखल करा"
+    ],
+    [
+      "file",
+      "फाइल"
+    ],
+    [
+      "Govt",
+      "शासकीय अधिकृत"
+    ],
+    [
+      "govt",
+      "शासकीय"
+    ],
+    [
+      "Apps",
+      "ॲप्स"
+    ],
+    [
+      "apps",
+      "ॲप्स"
+    ],
+    [
+      "Gold",
+      "सुवर्ण दर्जा (गोल्ड)"
+    ],
+    [
+      "gold",
+      "गोल्ड"
+    ],
+    [
+      "Font",
+      "फॉन्ट"
+    ],
+    [
+      "font",
+      "फॉन्ट"
+    ],
+    [
+      "Lots",
+      "लॉट्स"
+    ],
+    [
+      "lots",
+      "लॉट्स"
+    ],
+    [
+      "Open",
+      "उघडा"
+    ],
+    [
+      "open",
+      "उघडा"
+    ],
+    [
+      "Sold",
+      "विक्री झाले"
+    ],
+    [
+      "sold",
+      "विक्री झाले"
+    ],
+    [
+      "MIDC",
+      "एमआयडीसी"
+    ],
+    [
+      "BANK",
+      "बँक"
+    ],
+    [
+      "bank",
+      "बँक"
+    ],
+    [
+      "Back",
+      "मागे"
+    ],
+    [
+      "Base",
+      "मूळ आधार"
+    ],
+    [
+      "Bulk",
+      "मोठ्या प्रमाणातील (बल्क)"
+    ],
+    [
+      "bulk",
+      "घाऊक मोठ्या प्रमाणातील"
+    ],
+    [
+      "Case",
+      "प्रकरण"
+    ],
+    [
+      "Cash",
+      "रोकड रोख"
+    ],
+    [
+      "Cold",
+      "शीतगृह कोल्ड"
+    ],
+    [
+      "cold",
+      "शीत"
+    ],
+    [
+      "Cred",
+      "क्रेड पत"
+    ],
+    [
+      "Dost",
+      "दोस्त पिकअप"
+    ],
+    [
+      "Dual",
+      "दुहेरी"
+    ],
+    [
+      "dual",
+      "दुहेरी"
+    ],
+    [
+      "FPOs",
+      "शेतकरी उत्पादक कंपन्या"
+    ],
+    [
+      "Farm",
+      "शेत शिवार"
+    ],
+    [
+      "farm",
+      "शेत"
+    ],
+    [
+      "Fuel",
+      "इंधन डिझेल"
+    ],
+    [
+      "IFSC",
+      "आयएफएससी कोड"
+    ],
+    [
+      "IMPS",
+      "आयएमपीएस तात्काळ पे"
+    ],
+    [
+      "Lead",
+      "प्रमुख अधिकारी"
+    ],
+    [
+      "Lock",
+      "सुरक्षित लॉक करा"
+    ],
+    [
+      "lock",
+      "लॉक करा"
+    ],
+    [
+      "Mega",
+      "मुख्य भव्य"
+    ],
+    [
+      "Mode",
+      "पर्याय पद्धत"
+    ],
+    [
+      "mode",
+      "पद्धत"
+    ],
+    [
+      "Navi",
+      "नवी"
+    ],
+    [
+      "Near",
+      "जवळ"
+    ],
+    [
+      "Orig",
+      "मूळ उगम"
+    ],
+    [
+      "Park",
+      "पार्क आवार"
+    ],
+    [
+      "ROOM",
+      "चर्चा कक्ष"
+    ],
+    [
+      "Risk",
+      "जोखीम"
+    ],
+    [
+      "Safe",
+      "सुरक्षित"
+    ],
+    [
+      "YONO",
+      "योनो"
+    ],
+    [
+      "auto",
+      "स्वयंचलित"
+    ],
+    [
+      "best",
+      "उत्कृष्ट"
+    ],
+    [
+      "code",
+      "कोड"
+    ],
+    [
+      "crop",
+      "पीक"
+    ],
+    [
+      "data",
+      "डेटा माहिती"
+    ],
+    [
+      "dist",
+      "जिल्हा"
+    ],
+    [
+      "eNWR",
+      "ई-एनडब्ल्यूआर"
+    ],
+    [
+      "held",
+      "राखून ठेवलेले"
+    ],
+    [
+      "info",
+      "माहिती"
+    ],
+    [
+      "into",
+      "मध्ये"
+    ],
+    [
+      "load",
+      "वजन भार"
+    ],
+    [
+      "rata",
+      "प्रमाणात"
+    ],
+    [
+      "real",
+      "वास्तविक"
+    ],
+    [
+      "term",
+      "मुदत"
+    ],
+    [
+      "true",
+      "खरे"
+    ],
+    [
+      "yard",
+      "बाजार प्रांगण"
+    ],
+    [
+      "Kaij",
+      "केज"
+    ],
+    [
+      "Wada",
+      "वाडा"
+    ],
+    [
+      "name",
+      "नाव"
+    ],
+    [
+      "Peak",
+      "उच्चांक शिखर"
+    ],
+    [
+      "peak",
+      "उच्चांक"
+    ],
+    [
+      "Side",
+      "बाजू"
+    ],
+    [
+      "side",
+      "बाजू"
+    ],
+    [
+      "cuts",
+      "कपात"
+    ],
+    [
+      "than",
+      "पेक्षा"
+    ],
+    [
+      "Role",
+      "जबाबदारी"
+    ],
+    [
+      "role",
+      "जबाबदारी"
+    ],
+    [
+      "navi",
+      "नवी"
+    ],
+    [
+      "next",
+      "पुढील"
+    ],
+    [
+      "bids",
+      "बोली"
+    ],
+    [
+      "call",
+      "कॉल करा"
+    ],
+    [
+      "HOLD",
+      "थांबवा"
+    ],
+    [
+      "SELL",
+      "विक्री करा"
+    ],
+    [
+      "Sell",
+      "विक्री करा"
+    ],
+    [
+      "sell",
+      "विक्री करा"
+    ],
+    [
+      "pack",
+      "पॅक"
+    ],
+    [
+      "list",
+      "नोंदवा"
+    ],
+    [
+      "rise",
+      "वाढ"
+    ],
+    [
+      "Rise",
+      "वाढ"
+    ],
+    [
+      "SOY",
+      "सोयाबीन"
+    ],
+    [
+      "ONI",
+      "कांदा"
+    ],
+    [
+      "TOM",
+      "टोमॅटो"
+    ],
+    [
+      "Raw",
+      "कच्चा"
+    ],
+    [
+      "Dry",
+      "कोरडे"
+    ],
+    [
+      "Bio",
+      "सेंद्रिय बायो"
+    ],
+    [
+      "Hub",
+      "केंद्र हब"
+    ],
+    [
+      "Buy",
+      "खरेदी करा"
+    ],
+    [
+      "buy",
+      "खरेदी करा"
+    ],
+    [
+      "Bid",
+      "बोली दर"
+    ],
+    [
+      "bid",
+      "बोली दर"
+    ],
+    [
+      "Pay",
+      "पेमेंट करा"
+    ],
+    [
+      "pay",
+      "पेमेंट करा"
+    ],
+    [
+      "Fee",
+      "शुल्क"
+    ],
+    [
+      "fee",
+      "शुल्क"
+    ],
+    [
+      "Tax",
+      "कर"
+    ],
+    [
+      "tax",
+      "कर"
+    ],
+    [
+      "Avg",
+      "सरासरी"
+    ],
+    [
+      "Min",
+      "किमान"
+    ],
+    [
+      "Max",
+      "कमाल"
+    ],
+    [
+      "Cap",
+      "मर्यादा कॅप"
+    ],
+    [
+      "Net",
+      "निव्वळ शेतीमाल वजन"
+    ],
+    [
+      "Box",
+      "खोके"
+    ],
+    [
+      "box",
+      "खोके"
+    ],
+    [
+      "Bag",
+      "गोणी पोते"
+    ],
+    [
+      "Lab",
+      "प्रयोगशाळा लॅब"
+    ],
+    [
+      "lab",
+      "प्रयोगशाळा"
+    ],
+    [
+      "Log",
+      "नोंदवही"
+    ],
+    [
+      "All",
+      "सर्व"
+    ],
+    [
+      "all",
+      "सर्व"
+    ],
+    [
+      "New",
+      "नवीन"
+    ],
+    [
+      "new",
+      "नवीन"
+    ],
+    [
+      "Add",
+      "जोडा"
+    ],
+    [
+      "Top",
+      "अव्वल प्रमुख"
+    ],
+    [
+      "Day",
+      "दिवस"
+    ],
+    [
+      "day",
+      "दिवस"
+    ],
+    [
+      "Hrs",
+      "तास"
+    ],
+    [
+      "Low",
+      "कमी"
+    ],
+    [
+      "You",
+      "तुम्ही"
+    ],
+    [
+      "you",
+      "तुम्ही"
+    ],
+    [
+      "For",
+      "साठी"
+    ],
+    [
+      "for",
+      "साठी"
+    ],
+    [
+      "And",
+      "आणि"
+    ],
+    [
+      "and",
+      "आणि"
+    ],
+    [
+      "Are",
+      "आहेत"
+    ],
+    [
+      "are",
+      "आहेत"
+    ],
+    [
+      "Now",
+      "आत्ताच"
+    ],
+    [
+      "now",
+      "आत्ताच"
+    ],
+    [
+      "Per",
+      "प्रति"
+    ],
+    [
+      "per",
+      "प्रति"
+    ],
+    [
+      "Has",
+      "झाले आहे"
+    ],
+    [
+      "has",
+      "आहे"
+    ],
+    [
+      "Any",
+      "कोणतेही"
+    ],
+    [
+      "any",
+      "कोणतेही"
+    ],
+    [
+      "How",
+      "कसे"
+    ],
+    [
+      "how",
+      "कसे"
+    ],
+    [
+      "See",
+      "पहा"
+    ],
+    [
+      "see",
+      "पहा"
+    ],
+    [
+      "Ask",
+      "विचारा"
+    ],
+    [
+      "ask",
+      "विचारा"
+    ],
+    [
+      "Cut",
+      "कपात कट"
+    ],
+    [
+      "cut",
+      "कपात"
+    ],
+    [
+      "Key",
+      "मुख्य महत्त्वाचे"
+    ],
+    [
+      "key",
+      "मुख्य"
+    ],
+    [
+      "App",
+      "ॲप"
+    ],
+    [
+      "Web",
+      "वेब पोर्टल"
+    ],
+    [
+      "Red",
+      "लाल"
+    ],
+    [
+      "red",
+      "लाल"
+    ],
+    [
+      "Lot",
+      "लॉट"
+    ],
+    [
+      "lot",
+      "लॉट"
+    ],
+    [
+      "Out",
+      "संपले"
+    ],
+    [
+      "out",
+      "बाहेर"
+    ],
+    [
+      "BKC",
+      "बीकेसी"
+    ],
+    [
+      "Ace",
+      "छोटा हत्ती (एस)"
+    ],
+    [
+      "Act",
+      "कायदा अधिनियम"
+    ],
+    [
+      "BAN",
+      "प्रतिबंध"
+    ],
+    [
+      "BUY",
+      "खरेदी करा"
+    ],
+    [
+      "ERP",
+      "ईआरपी प्रणाली"
+    ],
+    [
+      "FPO",
+      "शेतकरी कंपनी"
+    ],
+    [
+      "Fix",
+      "निश्चित करा"
+    ],
+    [
+      "IoT",
+      "आयओटी सेन्सर"
+    ],
+    [
+      "Lic",
+      "परवाना लायसन्स"
+    ],
+    [
+      "Ltd",
+      "लिमिटेड"
+    ],
+    [
+      "Nex",
+      "नेक्स"
+    ],
+    [
+      "POs",
+      "खरेदी आदेश"
+    ],
+    [
+      "Pro",
+      "प्रो व्यवसायिक"
+    ],
+    [
+      "pro",
+      "प्रो"
+    ],
+    [
+      "Pvt",
+      "प्रायव्हेट"
+    ],
+    [
+      "Sep",
+      "सप्टेंबर"
+    ],
+    [
+      "Tri",
+      "त्रिपक्षीय"
+    ],
+    [
+      "Use",
+      "वापर उद्देश"
+    ],
+    [
+      "use",
+      "वापर"
+    ],
+    [
+      "dry",
+      "कोरडे"
+    ],
+    [
+      "hub",
+      "केंद्र"
+    ],
+    [
+      "low",
+      "कमी"
+    ],
+    [
+      "max",
+      "कमाल"
+    ],
+    [
+      "via",
+      "द्वारे"
+    ],
+    [
+      "bag",
+      "गोणी"
+    ],
+    [
+      "REF",
+      "संदर्भ"
+    ],
+    [
+      "due",
+      "मुळे"
+    ],
+    [
+      "Due",
+      "मुळे"
+    ],
+    [
+      "RH",
+      "सापेक्ष आर्द्रता"
+    ],
+    [
+      "JS",
+      "जेएस"
+    ],
+    [
+      "No",
+      "क्र."
+    ],
+    [
+      "Qt",
+      "क्विंटल"
+    ],
+    [
+      "Kg",
+      "कि.ग्रॅ."
+    ],
+    [
+      "kg",
+      "कि.ग्रॅ."
+    ],
+    [
+      "To",
+      "पर्यंत / कडे"
+    ],
+    [
+      "to",
+      "पर्यंत"
+    ],
+    [
+      "In",
+      "मध्ये"
+    ],
+    [
+      "in",
+      "मध्ये"
+    ],
+    [
+      "On",
+      "वर"
+    ],
+    [
+      "on",
+      "वर"
+    ],
+    [
+      "At",
+      "येथे"
+    ],
+    [
+      "at",
+      "येथे"
+    ],
+    [
+      "Of",
+      "चे / चा / ची"
+    ],
+    [
+      "of",
+      "चे"
+    ],
+    [
+      "Or",
+      "किंवा"
+    ],
+    [
+      "or",
+      "किंवा"
+    ],
+    [
+      "By",
+      "द्वारे"
+    ],
+    [
+      "by",
+      "द्वारे"
+    ],
+    [
+      "Is",
+      "आहे"
+    ],
+    [
+      "is",
+      "आहे"
+    ],
+    [
+      "Vs",
+      "विरुद्ध तुलनेत"
+    ],
+    [
+      "vs",
+      "विरुद्ध"
+    ],
+    [
+      "An",
+      "एक"
+    ],
+    [
+      "an",
+      "एक"
+    ],
+    [
+      "As",
+      "प्रमाणे"
+    ],
+    [
+      "as",
+      "प्रमाणे"
+    ],
+    [
+      "If",
+      "जर"
+    ],
+    [
+      "if",
+      "जर"
+    ],
+    [
+      "AI",
+      "कृत्रिम बुद्धिमत्ता"
+    ],
+    [
+      "BB",
+      "बीबी"
+    ],
+    [
+      "BY",
+      "द्वारे"
+    ],
+    [
+      "EV",
+      "इलेक्ट्रिक वाहन"
+    ],
+    [
+      "PM",
+      "दुपारी/रात्री"
+    ],
+    [
+      "AM",
+      "सकाळी"
+    ],
+    [
+      "PO",
+      "खरेदी आदेश"
+    ],
+    [
+      "QA",
+      "गुणवत्ता तपासणी"
+    ],
+    [
+      "QC",
+      "गुणवत्ता नियंत्रण"
+    ],
+    [
+      "QR",
+      "क्युआर कोड"
+    ],
+    [
+      "Re",
+      "पुन्हा"
+    ],
+    [
+      "Up",
+      "वाढ वर"
+    ],
+    [
+      "up",
+      "वर"
+    ],
+    [
+      "be",
+      "असेल"
+    ],
+    [
+      "ph",
+      "पीएच / शोधा"
+    ],
+    [
+      "am",
+      "आहे"
+    ],
+    [
+      "I",
+      "मी"
+    ],
+    [
+      "i",
+      "मी"
+    ],
+    [
+      "a",
+      "एक"
+    ],
+    [
+      "A",
+      "अ"
     ]
-  };
+  ],
+  "hi": [
+    [
+      "insights_search_mandi_ph",
+      "मंडी, फसल या जिला खोजें..."
+    ],
+    [
+      "ph_search_dist_mandi",
+      "जिला या मंडी यार्ड खोजें..."
+    ],
+    [
+      "Quotas Displayed",
+      "कोटा प्रदर्शित"
+    ],
+    [
+      "Recommendation",
+      "सिफारिश"
+    ],
+    [
+      "recommendation",
+      "सिफारिश"
+    ],
+    [
+      "Specifications",
+      "विनिर्देश"
+    ],
+    [
+      "specifications",
+      "विनिर्देश"
+    ],
+    [
+      "Intermediaries",
+      "मध्यस्थ"
+    ],
+    [
+      "Institutional",
+      "संस्थागत"
+    ],
+    [
+      "Manufacturers",
+      "निर्माता"
+    ],
+    [
+      "Authorization",
+      "प्राधिकरण"
+    ],
+    [
+      "authorization",
+      "प्राधिकरण"
+    ],
+    [
+      "Notifications",
+      "अधिसूचनाएं"
+    ],
+    [
+      "Cryptographic",
+      "क्रिप्टोग्राफिक"
+    ],
+    [
+      "institutional",
+      "संस्थागत"
+    ],
+    [
+      "Certification",
+      "प्रमाणन"
+    ],
+    [
+      "certification",
+      "प्रमाणन"
+    ],
+    [
+      "Active Quotas",
+      "सक्रिय कोटा"
+    ],
+    [
+      "Contributions",
+      "योगदान"
+    ],
+    [
+      "contributions",
+      "योगदान"
+    ],
+    [
+      "Agricultural",
+      "कृषि"
+    ],
+    [
+      "agricultural",
+      "कृषि"
+    ],
+    [
+      "Consignments",
+      "कंसाइनमेंट्स"
+    ],
+    [
+      "Verification",
+      "सत्यापन"
+    ],
+    [
+      "Certificates",
+      "प्रमाणपत्र"
+    ],
+    [
+      "certificates",
+      "प्रमाणपत्र"
+    ],
+    [
+      "Broadcasting",
+      "प्रसारण"
+    ],
+    [
+      "Intermediary",
+      "मध्यस्थ"
+    ],
+    [
+      "Contribution",
+      "योगदान"
+    ],
+    [
+      "Multilingual",
+      "बहुभाषी"
+    ],
+    [
+      "multilingual",
+      "बहुभाषी"
+    ],
+    [
+      "Successfully",
+      "सफलतापूर्वक"
+    ],
+    [
+      "successfully",
+      "सफलतापूर्वक"
+    ],
+    [
+      "Commodities",
+      "कृषि जिंसें"
+    ],
+    [
+      "Pomegranate",
+      "अनार"
+    ],
+    [
+      "Supermarket",
+      "सुपरमार्केट"
+    ],
+    [
+      "Marketplace",
+      "मंडी बाजार"
+    ],
+    [
+      "Procurement",
+      "खरीद"
+    ],
+    [
+      "procurement",
+      "खरीद"
+    ],
+    [
+      "Negotiation",
+      "मूलभाव बातचीत"
+    ],
+    [
+      "NEGOTIATION",
+      "बातचीत"
+    ],
+    [
+      "negotiation",
+      "बातचीत"
+    ],
+    [
+      "Arbitration",
+      "मध्यस्थता"
+    ],
+    [
+      "Settlements",
+      "निपटान"
+    ],
+    [
+      "settlements",
+      "निपटान"
+    ],
+    [
+      "Consignment",
+      "कंसाइनमेंट (माल खेप)"
+    ],
+    [
+      "Weighbridge",
+      "धर्मकांटा"
+    ],
+    [
+      "weighbridge",
+      "धर्मकांटा"
+    ],
+    [
+      "Temperature",
+      "तापमान"
+    ],
+    [
+      "Forecasting",
+      "पूर्वानुमान"
+    ],
+    [
+      "forecasting",
+      "पूर्वानुमान"
+    ],
+    [
+      "Recommended",
+      "अनुशंसित"
+    ],
+    [
+      "Description",
+      "विवरण"
+    ],
+    [
+      "description",
+      "विवरण"
+    ],
+    [
+      "Perspective",
+      "दृष्टिकोण"
+    ],
+    [
+      "Information",
+      "जानकारी"
+    ],
+    [
+      "Destination",
+      "गंतव्य"
+    ],
+    [
+      "destination",
+      "गंतव्य"
+    ],
+    [
+      "Unallocated",
+      "अनावंटित"
+    ],
+    [
+      "Unmonitored",
+      "गैर-निगरानी"
+    ],
+    [
+      "Checkpoints",
+      "चेकपॉइंट्स"
+    ],
+    [
+      "Interactive",
+      "संवादात्मक"
+    ],
+    [
+      "interactive",
+      "संवादात्मक"
+    ],
+    [
+      "Traditional",
+      "पारंपरिक"
+    ],
+    [
+      "traditional",
+      "पारंपरिक"
+    ],
+    [
+      "Maharashtra",
+      "महाराष्ट्र"
+    ],
+    [
+      "BENEFICIARY",
+      "लाभार्थी"
+    ],
+    [
+      "Composition",
+      "संरचना"
+    ],
+    [
+      "immediately",
+      "तुरंत"
+    ],
+    [
+      "perspective",
+      "दृष्टिकोण"
+    ],
+    [
+      "transaction",
+      "लेनदेन"
+    ],
+    [
+      "Narayangaon",
+      "नारायणगांव"
+    ],
+    [
+      "Chikalthana",
+      "चिकलठाणा"
+    ],
+    [
+      "marketplace",
+      "मंडी बाजार"
+    ],
+    [
+      "supermarket",
+      "सुपरमार्केट"
+    ],
+    [
+      "Comparative",
+      "तुलनात्मक"
+    ],
+    [
+      "comparative",
+      "तुलनात्मक"
+    ],
+    [
+      "Navi Mumbai",
+      "नवी मुंबई"
+    ],
+    [
+      "navi mumbai",
+      "नवी मुंबई"
+    ],
+    [
+      "Immediately",
+      "तुरंत"
+    ],
+    [
+      "transferred",
+      "स्थानांतरित"
+    ],
+    [
+      "Transferred",
+      "स्थानांतरित"
+    ],
+    [
+      "Progressive",
+      "प्रगतिशील"
+    ],
+    [
+      "progressive",
+      "प्रगतिशील"
+    ],
+    [
+      "Perishables",
+      "नाशवान वस्तुएं"
+    ],
+    [
+      "perishables",
+      "नाशवान वस्तुएं"
+    ],
+    [
+      "Temporarily",
+      "अस्थायी रूप से"
+    ],
+    [
+      "temporarily",
+      "अस्थायी रूप से"
+    ],
+    [
+      "Vegetables",
+      "सब्जियां"
+    ],
+    [
+      "Enterprise",
+      "संस्थागत"
+    ],
+    [
+      "ENTERPRISE",
+      "संस्थागत"
+    ],
+    [
+      "Commercial",
+      "व्यावसायिक"
+    ],
+    [
+      "Processors",
+      "प्रसंस्करणकर्ता"
+    ],
+    [
+      "Processing",
+      "प्रसंस्करण"
+    ],
+    [
+      "purchasing",
+      "खरीद"
+    ],
+    [
+      "Purchasing",
+      "खरीद"
+    ],
+    [
+      "Arbitrator",
+      "मध्यस्थ"
+    ],
+    [
+      "Authorized",
+      "अधिकृत"
+    ],
+    [
+      "Settlement",
+      "निपटान"
+    ],
+    [
+      "settlement",
+      "निपटान"
+    ],
+    [
+      "Collateral",
+      "संपार्श्विक"
+    ],
+    [
+      "Commission",
+      "कमीशन"
+    ],
+    [
+      "calculated",
+      "गणना की गई"
+    ],
+    [
+      "Calculator",
+      "कैलकुलेटर"
+    ],
+    [
+      "Dispatched",
+      "रवाना किया गया"
+    ],
+    [
+      "Atmosphere",
+      "वातावरण"
+    ],
+    [
+      "Controlled",
+      "नियंत्रित"
+    ],
+    [
+      "CONTROLLED",
+      "नियंत्रित"
+    ],
+    [
+      "controlled",
+      "नियंत्रित"
+    ],
+    [
+      "Corrugated",
+      "नालीदार बॉक्स"
+    ],
+    [
+      "Inspection",
+      "निरीक्षण"
+    ],
+    [
+      "Accredited",
+      "मान्यता प्राप्त"
+    ],
+    [
+      "Mismatches",
+      "विसंगति"
+    ],
+    [
+      "mismatches",
+      "विसंगति"
+    ],
+    [
+      "Grievances",
+      "शिकायतें"
+    ],
+    [
+      "Resolution",
+      "समाधान"
+    ],
+    [
+      "Visualizer",
+      "विजुअलाइजर"
+    ],
+    [
+      "Projection",
+      "प्रोजेक्शन"
+    ],
+    [
+      "projection",
+      "प्रोजेक्शन"
+    ],
+    [
+      "Divergence",
+      "अंतर विचलन"
+    ],
+    [
+      "divergence",
+      "विचलन"
+    ],
+    [
+      "Advisories",
+      "सलाह"
+    ],
+    [
+      "Successful",
+      "सफल"
+    ],
+    [
+      "Protection",
+      "सुरक्षा"
+    ],
+    [
+      "Guaranteed",
+      "गारंटीकृत"
+    ],
+    [
+      "Electronic",
+      "इलेक्ट्रॉनिक"
+    ],
+    [
+      "Percentage",
+      "प्रतिशत"
+    ],
+    [
+      "Undertakes",
+      "वचनबद्ध है"
+    ],
+    [
+      "undertakes",
+      "वचनबद्ध"
+    ],
+    [
+      "Conforming",
+      "के अनुसार"
+    ],
+    [
+      "conforming",
+      "अनुरूप"
+    ],
+    [
+      "Mechanisms",
+      "तंत्र"
+    ],
+    [
+      "Monitoring",
+      "निगरानी"
+    ],
+    [
+      "monitoring",
+      "निगरानी"
+    ],
+    [
+      "Turnaround",
+      "टर्नअराउंड समय"
+    ],
+    [
+      "turnaround",
+      "समय"
+    ],
+    [
+      "Historical",
+      "ऐतिहासिक"
+    ],
+    [
+      "historical",
+      "ऐतिहासिक"
+    ],
+    [
+      "Facilities",
+      "सुविधाएं"
+    ],
+    [
+      "facilities",
+      "सुविधाएं"
+    ],
+    [
+      "Innovative",
+      "नवोन्मेषी"
+    ],
+    [
+      "innovative",
+      "नवाचारी"
+    ],
+    [
+      "Supporting",
+      "सहायक"
+    ],
+    [
+      "supporting",
+      "सहायक"
+    ],
+    [
+      "Calibrated",
+      "कैलिब्रेटेड"
+    ],
+    [
+      "calibrated",
+      "कैलिब्रेटेड"
+    ],
+    [
+      "Variations",
+      "भिन्नताएं"
+    ],
+    [
+      "variations",
+      "विविधता"
+    ],
+    [
+      "Minimizing",
+      "न्यूनतम करना"
+    ],
+    [
+      "minimizing",
+      "कम करना"
+    ],
+    [
+      "Background",
+      "पृष्ठभूमि"
+    ],
+    [
+      "background",
+      "पृष्ठभूमि"
+    ],
+    [
+      "Simulating",
+      "सिम्युलेटिंग"
+    ],
+    [
+      "simulating",
+      "सिम्युलेटिंग"
+    ],
+    [
+      "acceptance",
+      "स्वीकृति"
+    ],
+    [
+      "Industrial",
+      "औद्योगिक"
+    ],
+    [
+      "Negotiable",
+      "परक्राम्य"
+    ],
+    [
+      "NetBanking",
+      "नेटबैंकिंग"
+    ],
+    [
+      "Perishable",
+      "जल्दी खराब होने वाला"
+    ],
+    [
+      "Returnable",
+      "वापसी योग्य"
+    ],
+    [
+      "Technology",
+      "तकनीक"
+    ],
+    [
+      "designated",
+      "नामित"
+    ],
+    [
+      "electronic",
+      "इलेक्ट्रॉनिक"
+    ],
+    [
+      "individual",
+      "व्यक्तिगत"
+    ],
+    [
+      "resolution",
+      "समाधान"
+    ],
+    [
+      "Pimpalgaon",
+      "पिंपलगांव"
+    ],
+    [
+      "Pandharpur",
+      "पंढरपुर"
+    ],
+    [
+      "Dhamangaon",
+      "धामणगांव"
+    ],
+    [
+      "Hinganghat",
+      "हिंगणघाट"
+    ],
+    [
+      "Marathwada",
+      "मराठवाड़ा"
+    ],
+    [
+      "marathwada",
+      "मराठवाड़ा"
+    ],
+    [
+      "Ventilated",
+      "हवादार"
+    ],
+    [
+      "ventilated",
+      "हवादार"
+    ],
+    [
+      "Compliance",
+      "अनुपालन"
+    ],
+    [
+      "compliance",
+      "अनुपालन"
+    ],
+    [
+      "Collection",
+      "संग्रह"
+    ],
+    [
+      "guaranteed",
+      "गारंटीकृत"
+    ],
+    [
+      "Fulfilment",
+      "आपूर्ति"
+    ],
+    [
+      "fulfilment",
+      "आपूर्ति"
+    ],
+    [
+      "Attachment",
+      "संलग्नक"
+    ],
+    [
+      "attachment",
+      "संलग्नक"
+    ],
+    [
+      "enterprise",
+      "उद्यम"
+    ],
+    [
+      "dispatched",
+      "प्रेषित"
+    ],
+    [
+      "Dispatches",
+      "प्रेषण"
+    ],
+    [
+      "dispatches",
+      "प्रेषण"
+    ],
+    [
+      "processing",
+      "प्रसंस्करण"
+    ],
+    [
+      "commercial",
+      "व्यावसायिक"
+    ],
+    [
+      "perishable",
+      "नाशवान"
+    ],
+    [
+      "Quarantine",
+      "संगरोध रोक"
+    ],
+    [
+      "quarantine",
+      "संगरोध"
+    ],
+    [
+      "inspection",
+      "निरीक्षण"
+    ],
+    [
+      "Reactivate",
+      "पुनः सक्रिय करें"
+    ],
+    [
+      "reactivate",
+      "पुनः सक्रिय करें"
+    ],
+    [
+      "Commodity",
+      "कृषि जिंस"
+    ],
+    [
+      "Mandarins",
+      "संतरे"
+    ],
+    [
+      "harvested",
+      "कटाई की गई"
+    ],
+    [
+      "Wholesale",
+      "थोक"
+    ],
+    [
+      "WHOLESALE",
+      "थोक"
+    ],
+    [
+      "Corporate",
+      "कॉर्पोरेट"
+    ],
+    [
+      "Negotiate",
+      "बातचीत करें"
+    ],
+    [
+      "Agreement",
+      "समझौता"
+    ],
+    [
+      "Contracts",
+      "अनुबंध"
+    ],
+    [
+      "Statutory",
+      "सांविधिक"
+    ],
+    [
+      "Signatory",
+      "हस्ताक्षरकर्ता"
+    ],
+    [
+      "Signature",
+      "हस्ताक्षर"
+    ],
+    [
+      "signature",
+      "हस्ताक्षर"
+    ],
+    [
+      "Authorize",
+      "अधिकृत करें"
+    ],
+    [
+      "Compliant",
+      "अनुरूप"
+    ],
+    [
+      "Deposited",
+      "जमा किया"
+    ],
+    [
+      "deposited",
+      "जमा किया"
+    ],
+    [
+      "Disbursal",
+      "वितरण"
+    ],
+    [
+      "DISBURSAL",
+      "वितरण"
+    ],
+    [
+      "disbursed",
+      "संवितरित"
+    ],
+    [
+      "Financing",
+      "वित्तपोषण"
+    ],
+    [
+      "financing",
+      "वित्तपोषण"
+    ],
+    [
+      "Repayment",
+      "पुनर्भुगतान"
+    ],
+    [
+      "Liquidity",
+      "तरलता"
+    ],
+    [
+      "Brokerage",
+      "दलाली आढ़त"
+    ],
+    [
+      "brokerage",
+      "दलाली"
+    ],
+    [
+      "Shrinkage",
+      "वजन कमी नुकसान"
+    ],
+    [
+      "shrinkage",
+      "वजन नुकसान"
+    ],
+    [
+      "Valuation",
+      "कुल मूल्यांकन"
+    ],
+    [
+      "VALUATION",
+      "कुल मूल्यांकन"
+    ],
+    [
+      "valuation",
+      "मूल्यांकन"
+    ],
+    [
+      "Benchmark",
+      "मंडी बेंचमार्क"
+    ],
+    [
+      "benchmark",
+      "बेंचमार्क"
+    ],
+    [
+      "Arbitrage",
+      "आर्बिट्राज अंतर"
+    ],
+    [
+      "arbitrage",
+      "आर्बिट्राज"
+    ],
+    [
+      "Breakeven",
+      "ब्रेक-इवन"
+    ],
+    [
+      "Calculate",
+      "गणना करें"
+    ],
+    [
+      "Logistics",
+      "लॉजिस्टिक्स व परिवहन"
+    ],
+    [
+      "logistics",
+      "परिवहन"
+    ],
+    [
+      "Transport",
+      "परिवहन"
+    ],
+    [
+      "transport",
+      "परिवहन"
+    ],
+    [
+      "Consignor",
+      "प्रेषक"
+    ],
+    [
+      "Consignee",
+      "प्राप्तकर्ता"
+    ],
+    [
+      "Shipments",
+      "शिपमेंट्स"
+    ],
+    [
+      "Weighment",
+      "वजन माप"
+    ],
+    [
+      "Telemetry",
+      "टेलीमेट्री"
+    ],
+    [
+      "TELEMETRY",
+      "टेलीमेट्री"
+    ],
+    [
+      "telemetry",
+      "टेलीमेट्री"
+    ],
+    [
+      "Satellite",
+      "उपग्रह ट्रैकिंग"
+    ],
+    [
+      "Warehouse",
+      "गोदाम"
+    ],
+    [
+      "warehouse",
+      "गोदाम"
+    ],
+    [
+      "Packaging",
+      "पैकेजिंग"
+    ],
+    [
+      "Tolerance",
+      "सहनशीलता"
+    ],
+    [
+      "tolerance",
+      "सहनशीलता"
+    ],
+    [
+      "Inspected",
+      "निरीक्षित"
+    ],
+    [
+      "Certified",
+      "प्रमाणित"
+    ],
+    [
+      "Defective",
+      "दोषयुक्त"
+    ],
+    [
+      "Shortages",
+      "कमी"
+    ],
+    [
+      "shortages",
+      "कमी"
+    ],
+    [
+      "Deviation",
+      "विचलन"
+    ],
+    [
+      "Grievance",
+      "शिकायत निवारण"
+    ],
+    [
+      "grievance",
+      "शिकायत"
+    ],
+    [
+      "Redressal",
+      "निवारण"
+    ],
+    [
+      "Complaint",
+      "शिकायत"
+    ],
+    [
+      "complaint",
+      "शिकायत"
+    ],
+    [
+      "Releasing",
+      "रिलीज"
+    ],
+    [
+      "Analytics",
+      "एनालिटिक्स"
+    ],
+    [
+      "Available",
+      "उपलब्ध"
+    ],
+    [
+      "available",
+      "उपलब्ध"
+    ],
+    [
+      "Statement",
+      "स्टेटमेंट"
+    ],
+    [
+      "Dashboard",
+      "डैशबोर्ड"
+    ],
+    [
+      "Broadcast",
+      "प्रसारित करें"
+    ],
+    [
+      "Emergency",
+      "आपातकालीन"
+    ],
+    [
+      "Important",
+      "महत्वपूर्ण"
+    ],
+    [
+      "Automated",
+      "स्वचालित"
+    ],
+    [
+      "Instantly",
+      "तुरंत"
+    ],
+    [
+      "Connected",
+      "कनेक्टेड"
+    ],
+    [
+      "Protected",
+      "संरक्षित"
+    ],
+    [
+      "PROTECTED",
+      "संरक्षित"
+    ],
+    [
+      "Guarantee",
+      "गारंटी"
+    ],
+    [
+      "Assurance",
+      "आश्वासन"
+    ],
+    [
+      "Digitally",
+      "डिजिटल रूप से"
+    ],
+    [
+      "Encrypted",
+      "एन्क्रिप्टेड"
+    ],
+    [
+      "Immutable",
+      "अपरिवर्तनीय"
+    ],
+    [
+      "Timestamp",
+      "टाइमस्टैम्प"
+    ],
+    [
+      "Yesterday",
+      "कल"
+    ],
+    [
+      "Quarterly",
+      "त्रैमासिक"
+    ],
+    [
+      "Locations",
+      "स्थान"
+    ],
+    [
+      "Districts",
+      "जिले"
+    ],
+    [
+      "Breakdown",
+      "विस्तृत विवरण"
+    ],
+    [
+      "Checklist",
+      "चेकलिस्ट"
+    ],
+    [
+      "Readiness",
+      "तत्परता"
+    ],
+    [
+      "Milestone",
+      "मील का पत्थर"
+    ],
+    [
+      "Receiving",
+      "प्राप्त करना"
+    ],
+    [
+      "Requested",
+      "अनुरोधित"
+    ],
+    [
+      "Exceeding",
+      "से अधिक"
+    ],
+    [
+      "exceeding",
+      "से अधिक"
+    ],
+    [
+      "Protocols",
+      "प्रोटोकॉल"
+    ],
+    [
+      "Mechanism",
+      "प्रणाली"
+    ],
+    [
+      "mechanism",
+      "प्रणाली"
+    ],
+    [
+      "Oversight",
+      "निगरानी"
+    ],
+    [
+      "oversight",
+      "निगरानी"
+    ],
+    [
+      "Supported",
+      "समर्थित"
+    ],
+    [
+      "supported",
+      "समर्थित"
+    ],
+    [
+      "Remaining",
+      "शेष"
+    ],
+    [
+      "remaining",
+      "शेष"
+    ],
+    [
+      "Fulfilled",
+      "पूर्ण"
+    ],
+    [
+      "fulfilled",
+      "पूरा"
+    ],
+    [
+      "Discounts",
+      "छूट"
+    ],
+    [
+      "Secondary",
+      "द्वितीयक"
+    ],
+    [
+      "secondary",
+      "द्वितीयक"
+    ],
+    [
+      "Samruddhi",
+      "समृद्धि एक्सप्रेसवे"
+    ],
+    [
+      "BIGBASKET",
+      "बिगबास्केट"
+    ],
+    [
+      "BigBasket",
+      "बिगबास्केट"
+    ],
+    [
+      "CERTIFIED",
+      "प्रमाणित"
+    ],
+    [
+      "certified",
+      "प्रमाणित"
+    ],
+    [
+      "Completed",
+      "पूर्ण हुआ"
+    ],
+    [
+      "Dedicated",
+      "समर्पित"
+    ],
+    [
+      "Estimated",
+      "अनुमानित"
+    ],
+    [
+      "Displayed",
+      "प्रदर्शित"
+    ],
+    [
+      "displayed",
+      "प्रदर्शित"
+    ],
+    [
+      "Immediate",
+      "तत्काल"
+    ],
+    [
+      "immediate",
+      "तत्काल"
+    ],
+    [
+      "Insurance",
+      "बीमा"
+    ],
+    [
+      "Middleman",
+      "बिचौलिया"
+    ],
+    [
+      "middleman",
+      "बिचौलिया"
+    ],
+    [
+      "REGULATED",
+      "विनियमित"
+    ],
+    [
+      "regulated",
+      "विनियमित"
+    ],
+    [
+      "Rameshwar",
+      "रामेश्वर"
+    ],
+    [
+      "Reference",
+      "संदर्भ"
+    ],
+    [
+      "transfers",
+      "स्थानांतरण"
+    ],
+    [
+      "automated",
+      "स्वचालित"
+    ],
+    [
+      "commodity",
+      "जिंस"
+    ],
+    [
+      "corporate",
+      "कॉर्पोरेट"
+    ],
+    [
+      "digitally",
+      "डिजिटल रूप से"
+    ],
+    [
+      "discovery",
+      "खोज"
+    ],
+    [
+      "emergency",
+      "आपातकालीन"
+    ],
+    [
+      "instantly",
+      "तुरंत"
+    ],
+    [
+      "inventory",
+      "इन्वेंट्री"
+    ],
+    [
+      "packaging",
+      "पैकेजिंग"
+    ],
+    [
+      "varieties",
+      "किस्में"
+    ],
+    [
+      "Lasalgaon",
+      "लासलगांव"
+    ],
+    [
+      "Sangamner",
+      "संगमनेर"
+    ],
+    [
+      "Majalgaon",
+      "माजलगांव"
+    ],
+    [
+      "Regulated",
+      "विनियमित"
+    ],
+    [
+      "icicibank",
+      "ICICI बैंक"
+    ],
+    [
+      "Purchased",
+      "खरीदा गया"
+    ],
+    [
+      "purchased",
+      "खरीदा गया"
+    ],
+    [
+      "districts",
+      "जिले"
+    ],
+    [
+      "Scheduled",
+      "निर्धारित"
+    ],
+    [
+      "scheduled",
+      "निर्धारित"
+    ],
+    [
+      "SCHEDULED",
+      "निर्धारित"
+    ],
+    [
+      "BENCHMARK",
+      "संदर्भ दर"
+    ],
+    [
+      "benchmark",
+      "संदर्भ दर"
+    ],
+    [
+      "Confirmed",
+      "पुष्ट"
+    ],
+    [
+      "confirmed",
+      "पुष्ट"
+    ],
+    [
+      "CONFIRMED",
+      "पुष्ट"
+    ],
+    [
+      "reference",
+      "संदर्भ"
+    ],
+    [
+      "breakeven",
+      "लागत वसूली"
+    ],
+    [
+      "wholesale",
+      "थोक"
+    ],
+    [
+      "Delivered",
+      "वितरित"
+    ],
+    [
+      "delivered",
+      "वितरित"
+    ],
+    [
+      "Committed",
+      "प्रतिबद्ध"
+    ],
+    [
+      "committed",
+      "प्रतिबद्ध"
+    ],
+    [
+      "estimated",
+      "अनुमानित"
+    ],
+    [
+      "shipments",
+      "खेप"
+    ],
+    [
+      "Clearance",
+      "निकासी"
+    ],
+    [
+      "clearance",
+      "निकासी"
+    ],
+    [
+      "statutory",
+      "वैधानिक"
+    ],
+    [
+      "Arbitrate",
+      "मध्यस्थता करें"
+    ],
+    [
+      "arbitrate",
+      "मध्यस्थता करें"
+    ],
+    [
+      "Unsuspend",
+      "निलंबन हटाएं"
+    ],
+    [
+      "unsuspend",
+      "निलंबन हटाएं"
+    ],
+    [
+      "authorize",
+      "अधिकृत करें"
+    ],
+    [
+      "Hydration",
+      "डेटा लोड"
+    ],
+    [
+      "hydration",
+      "डेटा लोड"
+    ],
+    [
+      "Oilseeds",
+      "तिलहन"
+    ],
+    [
+      "tomatoes",
+      "टमाटर"
+    ],
+    [
+      "Tomatoes",
+      "टमाटर"
+    ],
+    [
+      "Mandarin",
+      "संतरा"
+    ],
+    [
+      "Turmeric",
+      "हल्दी"
+    ],
+    [
+      "Alphonso",
+      "हापुस आम"
+    ],
+    [
+      "Maldandi",
+      "मालदांडी"
+    ],
+    [
+      "Thompson",
+      "थॉमसन"
+    ],
+    [
+      "Seedless",
+      "बीजरहित"
+    ],
+    [
+      "harvests",
+      "फसल कटाई"
+    ],
+    [
+      "Caterers",
+      "कैटरर्स"
+    ],
+    [
+      "Catering",
+      "कैटरिंग"
+    ],
+    [
+      "Exchange",
+      "कृषि विनिमय"
+    ],
+    [
+      "Terminal",
+      "टर्मिनल"
+    ],
+    [
+      "Corridor",
+      "गलियारा"
+    ],
+    [
+      "Procured",
+      "खरीदा गया"
+    ],
+    [
+      "PROCURED",
+      "खरीदा गया"
+    ],
+    [
+      "procured",
+      "खरीदा गया"
+    ],
+    [
+      "Purchase",
+      "खरीद"
+    ],
+    [
+      "purchase",
+      "खरीद"
+    ],
+    [
+      "Contract",
+      "अनुबंध"
+    ],
+    [
+      "contract",
+      "अनुबंध"
+    ],
+    [
+      "Tribunal",
+      "न्यायाधिकरण"
+    ],
+    [
+      "Ratified",
+      "स्वीकृत"
+    ],
+    [
+      "ratified",
+      "स्वीकृत"
+    ],
+    [
+      "Deposits",
+      "जमा"
+    ],
+    [
+      "deposits",
+      "जमा"
+    ],
+    [
+      "Advances",
+      "अग्रिम"
+    ],
+    [
+      "Disburse",
+      "संवितरित करें"
+    ],
+    [
+      "Payments",
+      "भुगतान"
+    ],
+    [
+      "Credited",
+      "क्रेडिट हुआ"
+    ],
+    [
+      "credited",
+      "क्रेडिट हुआ"
+    ],
+    [
+      "Discount",
+      "छूट"
+    ],
+    [
+      "Interest",
+      "ब्याज"
+    ],
+    [
+      "Reserves",
+      "आरक्षित निधि"
+    ],
+    [
+      "reserves",
+      "आरक्षित निधि"
+    ],
+    [
+      "Arhatiya",
+      "आढ़तिया"
+    ],
+    [
+      "Dispatch",
+      "रवाना करें"
+    ],
+    [
+      "dispatch",
+      "रवाना"
+    ],
+    [
+      "Delivery",
+      "डिलीवरी पहुंच"
+    ],
+    [
+      "DELIVERY",
+      "डिलीवरी"
+    ],
+    [
+      "delivery",
+      "डिलीवरी"
+    ],
+    [
+      "Distance",
+      "दूरी"
+    ],
+    [
+      "Tracking",
+      "लाइव ट्रैकिंग"
+    ],
+    [
+      "tracking",
+      "ट्रैकिंग"
+    ],
+    [
+      "Readings",
+      "रीडिंग्स"
+    ],
+    [
+      "readings",
+      "रीडिंग्स"
+    ],
+    [
+      "Chambers",
+      "कक्ष"
+    ],
+    [
+      "chambers",
+      "कक्ष"
+    ],
+    [
+      "Humidity",
+      "नमी आर्द्रता"
+    ],
+    [
+      "Capacity",
+      "क्षमता"
+    ],
+    [
+      "Hermetic",
+      "हवाबंद"
+    ],
+    [
+      "Moisture",
+      "नमी"
+    ],
+    [
+      "moisture",
+      "नमी"
+    ],
+    [
+      "Verified",
+      "सत्यापित"
+    ],
+    [
+      "verified",
+      "सत्यापित"
+    ],
+    [
+      "Spoilage",
+      "खराबी"
+    ],
+    [
+      "Shortage",
+      "कमी"
+    ],
+    [
+      "Disputes",
+      "विवाद"
+    ],
+    [
+      "Resolved",
+      "हल किया गया"
+    ],
+    [
+      "resolved",
+      "हल"
+    ],
+    [
+      "Releases",
+      "रिलीज"
+    ],
+    [
+      "Evidence",
+      "साक्ष्य सबूत"
+    ],
+    [
+      "evidence",
+      "साक्ष्य"
+    ],
+    [
+      "Insights",
+      "मंडी अंतर्दृष्टि"
+    ],
+    [
+      "insights",
+      "अंतर्दृष्टि"
+    ],
+    [
+      "Forecast",
+      "पूर्वानुमान"
+    ],
+    [
+      "forecast",
+      "पूर्वानुमान"
+    ],
+    [
+      "Arrivals",
+      "आवक"
+    ],
+    [
+      "arrivals",
+      "आवक"
+    ],
+    [
+      "Advisory",
+      "सलाहकार"
+    ],
+    [
+      "advisory",
+      "सलाह"
+    ],
+    [
+      "Strategy",
+      "रणनीति"
+    ],
+    [
+      "Velocity",
+      "गति वेग"
+    ],
+    [
+      "Awaiting",
+      "प्रतीक्षारत"
+    ],
+    [
+      "awaiting",
+      "प्रतीक्षारत"
+    ],
+    [
+      "Download",
+      "डाउनलोड करें"
+    ],
+    [
+      "download",
+      "डाउनलोड करें"
+    ],
+    [
+      "Receipts",
+      "रसीदें"
+    ],
+    [
+      "receipts",
+      "रसीदें"
+    ],
+    [
+      "Settings",
+      "सेटिंग्स"
+    ],
+    [
+      "Overview",
+      "अवलोकन"
+    ],
+    [
+      "Previous",
+      "पिछला"
+    ],
+    [
+      "Messages",
+      "संदेश"
+    ],
+    [
+      "Contacts",
+      "संपर्क"
+    ],
+    [
+      "Feedback",
+      "प्रतिक्रिया"
+    ],
+    [
+      "Language",
+      "भाषा"
+    ],
+    [
+      "Distress",
+      "संकटग्रस्त माल"
+    ],
+    [
+      "Critical",
+      "गंभीर"
+    ],
+    [
+      "Required",
+      "अनिवार्य"
+    ],
+    [
+      "Optional",
+      "वैकल्पिक"
+    ],
+    [
+      "Standard",
+      "मानक"
+    ],
+    [
+      "Realtime",
+      "रियल-टाइम"
+    ],
+    [
+      "Security",
+      "सुरक्षा"
+    ],
+    [
+      "Tomorrow",
+      "कल"
+    ],
+    [
+      "Location",
+      "स्थान"
+    ],
+    [
+      "location",
+      "स्थान"
+    ],
+    [
+      "District",
+      "जिला"
+    ],
+    [
+      "district",
+      "जिला"
+    ],
+    [
+      "Regional",
+      "क्षेत्रीय"
+    ],
+    [
+      "Cheapest",
+      "सबसे सस्ता"
+    ],
+    [
+      "Kilogram",
+      "किलोग्राम"
+    ],
+    [
+      "Passbook",
+      "पासबुक"
+    ],
+    [
+      "Steppers",
+      "कदम"
+    ],
+    [
+      "Whenever",
+      "जब भी"
+    ],
+    [
+      "Received",
+      "प्राप्त हुआ"
+    ],
+    [
+      "received",
+      "प्राप्त"
+    ],
+    [
+      "Response",
+      "प्रतिक्रिया"
+    ],
+    [
+      "response",
+      "जवाब"
+    ],
+    [
+      "Initiate",
+      "शुरू करें"
+    ],
+    [
+      "initiate",
+      "प्रारंभ करें"
+    ],
+    [
+      "Assigned",
+      "आवंटित"
+    ],
+    [
+      "assigned",
+      "आवंटित"
+    ],
+    [
+      "Withheld",
+      "रोका गया"
+    ],
+    [
+      "withheld",
+      "रोका गया"
+    ],
+    [
+      "Specific",
+      "विशिष्ट"
+    ],
+    [
+      "specific",
+      "विशिष्ट"
+    ],
+    [
+      "Protocol",
+      "प्रोटोकॉल"
+    ],
+    [
+      "protocol",
+      "प्रोटोकॉल"
+    ],
+    [
+      "Triggers",
+      "ट्रिगर"
+    ],
+    [
+      "triggers",
+      "ट्रिगर"
+    ],
+    [
+      "Keywords",
+      "कीवर्ड"
+    ],
+    [
+      "keywords",
+      "कीवर्ड"
+    ],
+    [
+      "Position",
+      "स्थिति"
+    ],
+    [
+      "position",
+      "स्थिति"
+    ],
+    [
+      "Seasonal",
+      "मौसमी"
+    ],
+    [
+      "seasonal",
+      "मौसमी"
+    ],
+    [
+      "corridor",
+      "गलियारा"
+    ],
+    [
+      "Facility",
+      "सुविधा"
+    ],
+    [
+      "Flexible",
+      "लचीला"
+    ],
+    [
+      "flexible",
+      "लचीला"
+    ],
+    [
+      "Strictly",
+      "सख्ती से"
+    ],
+    [
+      "strictly",
+      "कड़ाई से"
+    ],
+    [
+      "Registry",
+      "रजिस्ट्री"
+    ],
+    [
+      "registry",
+      "पंजी"
+    ],
+    [
+      "Internet",
+      "इंटरनेट"
+    ],
+    [
+      "Executed",
+      "निष्पादित"
+    ],
+    [
+      "executed",
+      "निष्पादित"
+    ],
+    [
+      "Realized",
+      "प्राप्त"
+    ],
+    [
+      "realized",
+      "प्राप्त"
+    ],
+    [
+      "Maximize",
+      "अधिकतम करें"
+    ],
+    [
+      "maximize",
+      "अधिकतम"
+    ],
+    [
+      "Directly",
+      "सीधे"
+    ],
+    [
+      "directly",
+      "सीधे"
+    ],
+    [
+      "Pressure",
+      "दबाव"
+    ],
+    [
+      "pressure",
+      "दबाव"
+    ],
+    [
+      "Matching",
+      "अनुकूल मिलान"
+    ],
+    [
+      "matching",
+      "मिलान"
+    ],
+    [
+      "Vidarbha",
+      "विदर्भ"
+    ],
+    [
+      "Khandesh",
+      "खानदेश"
+    ],
+    [
+      "Sahyadri",
+      "सह्याद्री"
+    ],
+    [
+      "Shivneri",
+      "शिवनेरी"
+    ],
+    [
+      "Business",
+      "व्यवसाय"
+    ],
+    [
+      "CONTRACT",
+      "अनुबंध"
+    ],
+    [
+      "Concepts",
+      "संकल्पनाएं"
+    ],
+    [
+      "Deshmukh",
+      "देशमुख"
+    ],
+    [
+      "Division",
+      "प्रभाग"
+    ],
+    [
+      "External",
+      "बाहरी"
+    ],
+    [
+      "Holdings",
+      "होल्डिंग्स"
+    ],
+    [
+      "Physical",
+      "भौतिक"
+    ],
+    [
+      "physical",
+      "भौतिक"
+    ],
+    [
+      "Quantity",
+      "मात्रा"
+    ],
+    [
+      "quantity",
+      "मात्रा"
+    ],
+    [
+      "Reliance",
+      "रिलायंस"
+    ],
+    [
+      "Schedule",
+      "समय सारणी"
+    ],
+    [
+      "schedule",
+      "समय सारणी"
+    ],
+    [
+      "SCHEDULE",
+      "समय सारणी"
+    ],
+    [
+      "Polished",
+      "पॉलिश"
+    ],
+    [
+      "polished",
+      "पॉलिश"
+    ],
+    [
+      "Curcumin",
+      "करक्यूमिन"
+    ],
+    [
+      "curcumin",
+      "करक्यूमिन"
+    ],
+    [
+      "Services",
+      "सेवाएं"
+    ],
+    [
+      "Simulate",
+      "सिम्युलेट करें"
+    ],
+    [
+      "Sourcing",
+      "सोर्सिंग खरीद"
+    ],
+    [
+      "sourcing",
+      "सोर्सिंग"
+    ],
+    [
+      "Transfer",
+      "स्थानांतरण"
+    ],
+    [
+      "capacity",
+      "क्षमता"
+    ],
+    [
+      "disabled",
+      "अक्षम"
+    ],
+    [
+      "hermetic",
+      "हवाबंद"
+    ],
+    [
+      "tribunal",
+      "न्यायाधिकरण"
+    ],
+    [
+      "Malegaon",
+      "मालेगांव"
+    ],
+    [
+      "Bhiwapur",
+      "भिवापुर"
+    ],
+    [
+      "Gultekdi",
+      "गुलटेकड़ी"
+    ],
+    [
+      "Hadapsar",
+      "हड़पसर"
+    ],
+    [
+      "Ardhapur",
+      "अर्धापुर"
+    ],
+    [
+      "Sambhaji",
+      "संभाजीनगर"
+    ],
+    [
+      "Anandrao",
+      "आनंदराव"
+    ],
+    [
+      "releases",
+      "रिलीज"
+    ],
+    [
+      "Rajapuri",
+      "राजापुरी"
+    ],
+    [
+      "Disputed",
+      "विवादित"
+    ],
+    [
+      "disputed",
+      "विवादित"
+    ],
+    [
+      "Farmgate",
+      "फार्मगेट"
+    ],
+    [
+      "farmgate",
+      "फार्मगेट"
+    ],
+    [
+      "Describe",
+      "वर्णन करें"
+    ],
+    [
+      "describe",
+      "वर्णन करें"
+    ],
+    [
+      "happened",
+      "हुआ"
+    ],
+    [
+      "overview",
+      "अवलोकन"
+    ],
+    [
+      "terminal",
+      "टर्मिनल"
+    ],
+    [
+      "Released",
+      "जारी किया गया"
+    ],
+    [
+      "released",
+      "जारी किया गया"
+    ],
+    [
+      "Mismatch",
+      "बेमेल"
+    ],
+    [
+      "mismatch",
+      "बेमेल"
+    ],
+    [
+      "language",
+      "भाषा"
+    ],
+    [
+      "clearing",
+      "निकासी"
+    ],
+    [
+      "Clearing",
+      "निकासी"
+    ],
+    [
+      "seedless",
+      "बीजहीन"
+    ],
+    [
+      "Screened",
+      "छांटा गया"
+    ],
+    [
+      "screened",
+      "छांटा गया"
+    ],
+    [
+      "standard",
+      "मानक"
+    ],
+    [
+      "Commerce",
+      "व्यापार"
+    ],
+    [
+      "commerce",
+      "व्यापार"
+    ],
+    [
+      "EXPECTED",
+      "अपेक्षित"
+    ],
+    [
+      "Expected",
+      "अपेक्षित"
+    ],
+    [
+      "expected",
+      "अपेक्षित"
+    ],
+    [
+      "Incoming",
+      "आने वाले"
+    ],
+    [
+      "incoming",
+      "आने वाले"
+    ],
+    [
+      "Shipment",
+      "खेप"
+    ],
+    [
+      "shipment",
+      "खेप"
+    ],
+    [
+      "Director",
+      "निदेशक"
+    ],
+    [
+      "director",
+      "निदेशक"
+    ],
+    [
+      "positive",
+      "सकारात्मक"
+    ],
+    [
+      "Positive",
+      "सकारात्मक"
+    ],
+    [
+      "caterers",
+      "कैटरर्स"
+    ],
+    [
+      "Fallback",
+      "बैकअप"
+    ],
+    [
+      "fallback",
+      "बैकअप"
+    ],
+    [
+      "Packing",
+      "पैकिंग"
+    ],
+    [
+      "packing",
+      "पैकिंग"
+    ],
+    [
+      "Chilled",
+      "चिल्ड"
+    ],
+    [
+      "chilled",
+      "चिल्ड"
+    ],
+    [
+      "Cleaned",
+      "साफ किया गया"
+    ],
+    [
+      "cleaned",
+      "साफ किया गया"
+    ],
+    [
+      "Sourced",
+      "प्राप्त"
+    ],
+    [
+      "sourced",
+      "प्राप्त"
+    ],
+    [
+      "CEILING",
+      "अधिकतम सीमा"
+    ],
+    [
+      "ceiling",
+      "अधिकतम सीमा"
+    ],
+    [
+      "Produce",
+      "कृषि उपज"
+    ],
+    [
+      "PRODUCE",
+      "कृषि उपज"
+    ],
+    [
+      "produce",
+      "कृषि उपज"
+    ],
+    [
+      "Millets",
+      "मोटे अनाज (मिलेट्स)"
+    ],
+    [
+      "Cereals",
+      "अनाज"
+    ],
+    [
+      "Legumes",
+      "फलियां"
+    ],
+    [
+      "Soybean",
+      "सोयाबीन"
+    ],
+    [
+      "soybean",
+      "सोयाबीन"
+    ],
+    [
+      "Compost",
+      "खाद कंपोस्ट"
+    ],
+    [
+      "Harvest",
+      "कटाई"
+    ],
+    [
+      "harvest",
+      "कटाई"
+    ],
+    [
+      "Sellers",
+      "विक्रेता"
+    ],
+    [
+      "Farmers",
+      "किसान"
+    ],
+    [
+      "farmers",
+      "किसान"
+    ],
+    [
+      "Kitchen",
+      "किचन"
+    ],
+    [
+      "Network",
+      "नेटवर्क"
+    ],
+    [
+      "Demands",
+      "मांगें"
+    ],
+    [
+      "Procure",
+      "खरीदें"
+    ],
+    [
+      "Counter",
+      "काउंटर ऑफर"
+    ],
+    [
+      "counter",
+      "काउंटर ऑफर"
+    ],
+    [
+      "Binding",
+      "बाध्यकारी"
+    ],
+    [
+      "Trustee",
+      "ट्रस्टी"
+    ],
+    [
+      "TRUSTEE",
+      "ट्रस्टी"
+    ],
+    [
+      "Signoff",
+      "साइनऑफ"
+    ],
+    [
+      "signoff",
+      "साइनऑफ"
+    ],
+    [
+      "Deposit",
+      "जमा राशि"
+    ],
+    [
+      "deposit",
+      "जमा"
+    ],
+    [
+      "Advance",
+      "अग्रिम राशि"
+    ],
+    [
+      "advance",
+      "अग्रिम"
+    ],
+    [
+      "Tranche",
+      "किस्त चरण"
+    ],
+    [
+      "TRANCHE",
+      "किस्त"
+    ],
+    [
+      "tranche",
+      "किस्त"
+    ],
+    [
+      "Balance",
+      "शेष राशि"
+    ],
+    [
+      "balance",
+      "शेष"
+    ],
+    [
+      "Settled",
+      "निपटान पूर्ण"
+    ],
+    [
+      "Payment",
+      "भुगतान"
+    ],
+    [
+      "payment",
+      "भुगतान"
+    ],
+    [
+      "Payable",
+      "देय"
+    ],
+    [
+      "Pledges",
+      "गिरवी"
+    ],
+    [
+      "Lending",
+      "उधार"
+    ],
+    [
+      "lending",
+      "उधार"
+    ],
+    [
+      "Capital",
+      "पूंजी"
+    ],
+    [
+      "capital",
+      "पूंजी"
+    ],
+    [
+      "Hedging",
+      "हेजिंग"
+    ],
+    [
+      "spreads",
+      "अंतर"
+    ],
+    [
+      "Savings",
+      "बचत"
+    ],
+    [
+      "SAVINGS",
+      "बचत"
+    ],
+    [
+      "savings",
+      "बचत"
+    ],
+    [
+      "Average",
+      "औसत"
+    ],
+    [
+      "Minimum",
+      "न्यूनतम"
+    ],
+    [
+      "minimum",
+      "न्यूनतम"
+    ],
+    [
+      "Maximum",
+      "अधिकतम"
+    ],
+    [
+      "maximum",
+      "अधिकतम"
+    ],
+    [
+      "Ceiling",
+      "अधिकतम सीमा"
+    ],
+    [
+      "Freight",
+      "भाड़ा"
+    ],
+    [
+      "freight",
+      "भाड़ा"
+    ],
+    [
+      "Haulage",
+      "ढुलाई"
+    ],
+    [
+      "Transit",
+      "मार्ग में (ट्रांजिट)"
+    ],
+    [
+      "TRANSIT",
+      "मार्ग में"
+    ],
+    [
+      "transit",
+      "ट्रांजिट"
+    ],
+    [
+      "Vehicle",
+      "वाहन"
+    ],
+    [
+      "Payload",
+      "पेलोड क्षमता"
+    ],
+    [
+      "Highway",
+      "राजमार्ग"
+    ],
+    [
+      "Storage",
+      "भंडारण"
+    ],
+    [
+      "storage",
+      "भंडारण"
+    ],
+    [
+      "Chamber",
+      "शीत कक्ष"
+    ],
+    [
+      "chamber",
+      "कक्ष"
+    ],
+    [
+      "Climate",
+      "जलवायु"
+    ],
+    [
+      "CLIMATE",
+      "जलवायु"
+    ],
+    [
+      "Cooling",
+      "शीतलन"
+    ],
+    [
+      "Plastic",
+      "प्लास्टिक"
+    ],
+    [
+      "Loading",
+      "लोडिंग"
+    ],
+    [
+      "Quality",
+      "गुणवत्ता"
+    ],
+    [
+      "Assayed",
+      "परखा गया"
+    ],
+    [
+      "inspect",
+      "निरीक्षण करें"
+    ],
+    [
+      "Spoiled",
+      "खराब"
+    ],
+    [
+      "Damaged",
+      "क्षतिग्रस्त"
+    ],
+    [
+      "Missing",
+      "लापता/कम"
+    ],
+    [
+      "missing",
+      "कम"
+    ],
+    [
+      "Dispute",
+      "विवाद"
+    ],
+    [
+      "Release",
+      "रिलीज करें"
+    ],
+    [
+      "Dossier",
+      "दस्तावेज फाइल"
+    ],
+    [
+      "Insight",
+      "विश्लेषण"
+    ],
+    [
+      "Bullish",
+      "तेजी (बुलिश)"
+    ],
+    [
+      "Bearish",
+      "मंदी (बेयरिश)"
+    ],
+    [
+      "Neutral",
+      "स्थिर (न्यूट्रल)"
+    ],
+    [
+      "Arrival",
+      "आवक"
+    ],
+    [
+      "arrival",
+      "आवक"
+    ],
+    [
+      "Volumes",
+      "मात्राएं"
+    ],
+    [
+      "volumes",
+      "मात्राएं"
+    ],
+    [
+      "Tonnage",
+      "टन भार"
+    ],
+    [
+      "tonnage",
+      "टन भार"
+    ],
+    [
+      "Heatmap",
+      "हीटमैप"
+    ],
+    [
+      "Indices",
+      "सूचकांक"
+    ],
+    [
+      "indices",
+      "सूचकांक"
+    ],
+    [
+      "Copilot",
+      "एआई कोपायलट"
+    ],
+    [
+      "copilot",
+      "कोपायलट"
+    ],
+    [
+      "Filters",
+      "फ़िल्टर्स"
+    ],
+    [
+      "Actions",
+      "कार्रवाई"
+    ],
+    [
+      "Pending",
+      "लंबित"
+    ],
+    [
+      "pending",
+      "लंबित"
+    ],
+    [
+      "Booking",
+      "बुकिंग"
+    ],
+    [
+      "Confirm",
+      "पुष्टि करें"
+    ],
+    [
+      "confirm",
+      "पुष्टि करें"
+    ],
+    [
+      "Details",
+      "विवरण"
+    ],
+    [
+      "details",
+      "विवरण"
+    ],
+    [
+      "Receipt",
+      "रसीद"
+    ],
+    [
+      "receipt",
+      "रसीद"
+    ],
+    [
+      "Invoice",
+      "चालान बिल"
+    ],
+    [
+      "Voucher",
+      "वाउचर"
+    ],
+    [
+      "Summary",
+      "सारांश"
+    ],
+    [
+      "summary",
+      "सारांश"
+    ],
+    [
+      "Reports",
+      "रिपोर्ट्स"
+    ],
+    [
+      "reports",
+      "रिपोर्ट्स"
+    ],
+    [
+      "History",
+      "इतिहास"
+    ],
+    [
+      "Profile",
+      "प्रोफ़ाइल"
+    ],
+    [
+      "profile",
+      "प्रोफ़ाइल"
+    ],
+    [
+      "Showing",
+      "दिखा रहा है"
+    ],
+    [
+      "Message",
+      "संदेश"
+    ],
+    [
+      "message",
+      "संदेश"
+    ],
+    [
+      "Contact",
+      "संपर्क"
+    ],
+    [
+      "Explain",
+      "समझाएं"
+    ],
+    [
+      "Morning",
+      "प्रभात"
+    ],
+    [
+      "Evening",
+      "संध्या"
+    ],
+    [
+      "Salvage",
+      "साल्वैज"
+    ],
+    [
+      "Urgency",
+      "तात्कालिकता"
+    ],
+    [
+      "Warning",
+      "चेतावनी"
+    ],
+    [
+      "Success",
+      "सफल"
+    ],
+    [
+      "Instant",
+      "तत्काल"
+    ],
+    [
+      "Refresh",
+      "रिफ्रेश करें"
+    ],
+    [
+      "Offline",
+      "ऑफलाइन"
+    ],
+    [
+      "Digital",
+      "डिजिटल"
+    ],
+    [
+      "Minutes",
+      "मिनट"
+    ],
+    [
+      "minutes",
+      "मिनट"
+    ],
+    [
+      "Seconds",
+      "सेकंड"
+    ],
+    [
+      "seconds",
+      "सेकंड"
+    ],
+    [
+      "Central",
+      "केंद्रीय"
+    ],
+    [
+      "Highest",
+      "उच्चतम"
+    ],
+    [
+      "Nearest",
+      "निकटतम"
+    ],
+    [
+      "Optimal",
+      "अनुकूल"
+    ],
+    [
+      "Quintal",
+      "क्विंटल"
+    ],
+    [
+      "quintal",
+      "क्विंटल"
+    ],
+    [
+      "Partial",
+      "आंशिक"
+    ],
+    [
+      "Checker",
+      "जांचकर्ता"
+    ],
+    [
+      "Channel",
+      "चैनल"
+    ],
+    [
+      "Banking",
+      "बैंकिंग"
+    ],
+    [
+      "Account",
+      "खाता"
+    ],
+    [
+      "Privacy",
+      "गोपनीयता"
+    ],
+    [
+      "Without",
+      "के बिना"
+    ],
+    [
+      "without",
+      "के बिना"
+    ],
+    [
+      "Against",
+      "के विरुद्ध"
+    ],
+    [
+      "against",
+      "के खिलाफ"
+    ],
+    [
+      "Another",
+      "अन्य"
+    ],
+    [
+      "another",
+      "दूसरा"
+    ],
+    [
+      "Explore",
+      "अन्वेषण करें"
+    ],
+    [
+      "explore",
+      "देखें"
+    ],
+    [
+      "Receive",
+      "प्राप्त करें"
+    ],
+    [
+      "receive",
+      "प्राप्त करें"
+    ],
+    [
+      "replies",
+      "उत्तर"
+    ],
+    [
+      "Replies",
+      "जवाब"
+    ],
+    [
+      "Request",
+      "अनुरोध"
+    ],
+    [
+      "request",
+      "अनुरोध"
+    ],
+    [
+      "Holding",
+      "होल्डिंग"
+    ],
+    [
+      "Jointly",
+      "संयुक्त रूप से"
+    ],
+    [
+      "jointly",
+      "संयुक्त रूप से"
+    ],
+    [
+      "Partner",
+      "साझेदार"
+    ],
+    [
+      "partner",
+      "साझेदार"
+    ],
+    [
+      "Weather",
+      "मौसम"
+    ],
+    [
+      "weather",
+      "मौसम"
+    ],
+    [
+      "Complex",
+      "परिसर"
+    ],
+    [
+      "complex",
+      "परिसर"
+    ],
+    [
+      "Cluster",
+      "क्लस्टर समूह"
+    ],
+    [
+      "cluster",
+      "क्लस्टर"
+    ],
+    [
+      "Marking",
+      "चिह्नित करना"
+    ],
+    [
+      "marking",
+      "अंकन"
+    ],
+    [
+      "Reflect",
+      "दर्शाता है"
+    ],
+    [
+      "reflect",
+      "दर्शाता है"
+    ],
+    [
+      "Records",
+      "अभिलेख"
+    ],
+    [
+      "records",
+      "रिकॉर्ड"
+    ],
+    [
+      "Remains",
+      "रहता है"
+    ],
+    [
+      "remains",
+      "बचता है"
+    ],
+    [
+      "Willing",
+      "इच्छुक"
+    ],
+    [
+      "willing",
+      "सहमत"
+    ],
+    [
+      "Premium",
+      "प्रीमियम"
+    ],
+    [
+      "premium",
+      "प्रीमियम"
+    ],
+    [
+      "Primary",
+      "प्राथमिक"
+    ],
+    [
+      "primary",
+      "प्राथमिक"
+    ],
+    [
+      "Padding",
+      "पैडिंग"
+    ],
+    [
+      "padding",
+      "पैडिंग"
+    ],
+    [
+      "Trained",
+      "प्रशिक्षित"
+    ],
+    [
+      "trained",
+      "प्रशिक्षित"
+    ],
+    [
+      "Appears",
+      "दिखता है"
+    ],
+    [
+      "appears",
+      "प्रतीत होता है"
+    ],
+    [
+      "English",
+      "English"
+    ],
+    [
+      "Marathi",
+      "मराठी"
+    ],
+    [
+      "ACCOUNT",
+      "खाता"
+    ],
+    [
+      "AUCTION",
+      "नीलामी"
+    ],
+    [
+      "Auction",
+      "नीलामी"
+    ],
+    [
+      "auction",
+      "नीलामी"
+    ],
+    [
+      "Already",
+      "पहले से"
+    ],
+    [
+      "Ambient",
+      "परिवेशी"
+    ],
+    [
+      "account",
+      "खाता"
+    ],
+    [
+      "Compare",
+      "तुलना करें"
+    ],
+    [
+      "Created",
+      "निर्मित"
+    ],
+    [
+      "Current",
+      "वर्तमान"
+    ],
+    [
+      "DEPOSIT",
+      "जमा करें"
+    ],
+    [
+      "Express",
+      "एक्सप्रेस"
+    ],
+    [
+      "Forward",
+      "आगे भेजें"
+    ],
+    [
+      "forward",
+      "आगे"
+    ],
+    [
+      "Gateway",
+      "गेटवे"
+    ],
+    [
+      "Insured",
+      "बीमित"
+    ],
+    [
+      "Kishore",
+      "किशोर"
+    ],
+    [
+      "locking",
+      "लॉक करना"
+    ],
+    [
+      "NETWORK",
+      "नेटवर्क"
+    ],
+    [
+      "Permits",
+      "परमिट"
+    ],
+    [
+      "REVERSE",
+      "रिवर्स"
+    ],
+    [
+      "reverse",
+      "रिवर्स"
+    ],
+    [
+      "Secured",
+      "सुरक्षित"
+    ],
+    [
+      "VIRTUAL",
+      "वर्चुअल"
+    ],
+    [
+      "climate",
+      "जलवायु"
+    ],
+    [
+      "instant",
+      "तत्काल"
+    ],
+    [
+      "procure",
+      "खरीदें"
+    ],
+    [
+      "quality",
+      "गुणवत्ता"
+    ],
+    [
+      "salvage",
+      "साल्वैज"
+    ],
+    [
+      "updated",
+      "अपडेटेड"
+    ],
+    [
+      "variety",
+      "किस्म"
+    ],
+    [
+      "Manchar",
+      "मंचर"
+    ],
+    [
+      "Kalamna",
+      "कलमना"
+    ],
+    [
+      "Indapur",
+      "इंदापुर"
+    ],
+    [
+      "Pachora",
+      "पाचोरा"
+    ],
+    [
+      "Tasgaon",
+      "तासगांव"
+    ],
+    [
+      "Sangola",
+      "सांगोला"
+    ],
+    [
+      "Phaltan",
+      "फलटण"
+    ],
+    [
+      "Vadgaon",
+      "वडगांव"
+    ],
+    [
+      "Shiroli",
+      "शिरोली"
+    ],
+    [
+      "Shirpur",
+      "शिरपुर"
+    ],
+    [
+      "Shahada",
+      "शहादा"
+    ],
+    [
+      "Karanja",
+      "कारंजा"
+    ],
+    [
+      "Degloor",
+      "देगलूर"
+    ],
+    [
+      "Paithan",
+      "पैठन"
+    ],
+    [
+      "Alibaug",
+      "अलिबाग"
+    ],
+    [
+      "digital",
+      "डिजिटल"
+    ],
+    [
+      "DIGITAL",
+      "डिजिटल"
+    ],
+    [
+      "trustee",
+      "ट्रस्टी"
+    ],
+    [
+      "Officer",
+      "अधिकारी"
+    ],
+    [
+      "officer",
+      "अधिकारी"
+    ],
+    [
+      "Pickups",
+      "पिकअप"
+    ],
+    [
+      "happens",
+      "होता है"
+    ],
+    [
+      "Drivers",
+      "चालक"
+    ],
+    [
+      "Village",
+      "गांव"
+    ],
+    [
+      "village",
+      "गांव"
+    ],
+    [
+      "Command",
+      "आदेश"
+    ],
+    [
+      "command",
+      "आदेश"
+    ],
+    [
+      "genuine",
+      "वास्तविक"
+    ],
+    [
+      "Genuine",
+      "वास्तविक"
+    ],
+    [
+      "Bargain",
+      "मोलभाव"
+    ],
+    [
+      "bargain",
+      "मोलभाव"
+    ],
+    [
+      "highway",
+      "हाईवे"
+    ],
+    [
+      "Surplus",
+      "अतिरिक्त"
+    ],
+    [
+      "surplus",
+      "अतिरिक्त"
+    ],
+    [
+      "PARTIAL",
+      "आंशिक"
+    ],
+    [
+      "Machine",
+      "मशीन"
+    ],
+    [
+      "machine",
+      "मशीन"
+    ],
+    [
+      "loading",
+      "लोडिंग"
+    ],
+    [
+      "Selling",
+      "बिक्री"
+    ],
+    [
+      "selling",
+      "बिक्री"
+    ],
+    [
+      "OFFERED",
+      "प्रस्तावित"
+    ],
+    [
+      "Offered",
+      "प्रस्तावित"
+    ],
+    [
+      "offered",
+      "प्रस्तावित"
+    ],
+    [
+      "Inspect",
+      "निरीक्षण करें"
+    ],
+    [
+      "Restore",
+      "बहाल करें"
+    ],
+    [
+      "restore",
+      "बहाल करें"
+    ],
+    [
+      "Suspend",
+      "निलंबित करें"
+    ],
+    [
+      "suspend",
+      "निलंबित करें"
+    ],
+    [
+      "Trading",
+      "व्यापार"
+    ],
+    [
+      "trading",
+      "व्यापार"
+    ],
+    [
+      "De-list",
+      "सूची से हटाएं"
+    ],
+    [
+      "de-list",
+      "सूची से हटाएं"
+    ],
+    [
+      "Re-list",
+      "पुनः सूचीबद्ध करें"
+    ],
+    [
+      "re-list",
+      "पुनः सूचीबद्ध करें"
+    ],
+    [
+      "Payouts",
+      "भुगतान"
+    ],
+    [
+      "payouts",
+      "भुगतान"
+    ],
+    [
+      "release",
+      "जारी करें"
+    ],
+    [
+      "Cleared",
+      "स्वीकृत"
+    ],
+    [
+      "cleared",
+      "स्वीकृत"
+    ],
+    [
+      "Mumbai",
+      "मुंबई"
+    ],
+    [
+      "mumbai",
+      "मुंबई"
+    ],
+    [
+      "Mature",
+      "परिपक्व"
+    ],
+    [
+      "mature",
+      "परिपक्व"
+    ],
+    [
+      "MATURE",
+      "परिपक्व"
+    ],
+    [
+      "Packed",
+      "पैक"
+    ],
+    [
+      "packed",
+      "पैक"
+    ],
+    [
+      "PACKED",
+      "पैक"
+    ],
+    [
+      "Crates",
+      "क्रेट्स"
+    ],
+    [
+      "crates",
+      "क्रेट्स"
+    ],
+    [
+      "Origin",
+      "मूल स्रोत"
+    ],
+    [
+      "origin",
+      "स्रोत"
+    ],
+    [
+      "Review",
+      "समीक्षा करें"
+    ],
+    [
+      "review",
+      "समीक्षा"
+    ],
+    [
+      "Grains",
+      "अनाज"
+    ],
+    [
+      "Pulses",
+      "दालें"
+    ],
+    [
+      "pulses",
+      "दालें"
+    ],
+    [
+      "Fruits",
+      "फल"
+    ],
+    [
+      "Spices",
+      "मसाले"
+    ],
+    [
+      "Cotton",
+      "कपास"
+    ],
+    [
+      "Tomato",
+      "टमाटर"
+    ],
+    [
+      "Potato",
+      "आलू"
+    ],
+    [
+      "Banana",
+      "केला"
+    ],
+    [
+      "Grapes",
+      "अंगूर"
+    ],
+    [
+      "Orange",
+      "संतरा"
+    ],
+    [
+      "Chilli",
+      "मिर्च"
+    ],
+    [
+      "Bhagwa",
+      "भगवा अनार"
+    ],
+    [
+      "Shivam",
+      "शिवम"
+    ],
+    [
+      "Hybrid",
+      "हाइब्रिड"
+    ],
+    [
+      "Curing",
+      "क्यूरिंग"
+    ],
+    [
+      "Finger",
+      "हल्दी फिंगर"
+    ],
+    [
+      "Buyers",
+      "क्रेता"
+    ],
+    [
+      "buyers",
+      "क्रेता"
+    ],
+    [
+      "Seller",
+      "विक्रेता"
+    ],
+    [
+      "SELLER",
+      "विक्रेता"
+    ],
+    [
+      "seller",
+      "विक्रेता"
+    ],
+    [
+      "Farmer",
+      "किसान"
+    ],
+    [
+      "FARMER",
+      "किसान"
+    ],
+    [
+      "farmer",
+      "किसान"
+    ],
+    [
+      "Trader",
+      "व्यापारी"
+    ],
+    [
+      "Retail",
+      "खुदरा"
+    ],
+    [
+      "Makers",
+      "निर्माता"
+    ],
+    [
+      "Market",
+      "बाजार"
+    ],
+    [
+      "Mandis",
+      "मंडियां"
+    ],
+    [
+      "Portal",
+      "पोर्टल"
+    ],
+    [
+      "PORTAL",
+      "पोर्टल"
+    ],
+    [
+      "Demand",
+      "मांग कोटा"
+    ],
+    [
+      "Quotas",
+      "कोटा"
+    ],
+    [
+      "quotas",
+      "कोटा"
+    ],
+    [
+      "Buyout",
+      "बायआउट"
+    ],
+    [
+      "Offers",
+      "प्रस्ताव"
+    ],
+    [
+      "Clause",
+      "खंड शर्त"
+    ],
+    [
+      "Escrow",
+      "एस्क्रो सुरक्षित"
+    ],
+    [
+      "ESCROW",
+      "एस्क्रो"
+    ],
+    [
+      "escrow",
+      "एस्क्रो"
+    ],
+    [
+      "Payout",
+      "भुगतान"
+    ],
+    [
+      "payout",
+      "भुगतान"
+    ],
+    [
+      "Credit",
+      "क्रेडिट"
+    ],
+    [
+      "credit",
+      "क्रेडिट"
+    ],
+    [
+      "Refund",
+      "रिफंड"
+    ],
+    [
+      "refund",
+      "रिफंड"
+    ],
+    [
+      "Rebate",
+      "छूट"
+    ],
+    [
+      "rebate",
+      "छूट"
+    ],
+    [
+      "Pledge",
+      "गिरवी रसीद"
+    ],
+    [
+      "pledge",
+      "गिरवी"
+    ],
+    [
+      "Tenure",
+      "अवधि"
+    ],
+    [
+      "Liquid",
+      "तरल"
+    ],
+    [
+      "Prices",
+      "भाव"
+    ],
+    [
+      "prices",
+      "भाव"
+    ],
+    [
+      "Tariff",
+      "टैरिफ"
+    ],
+    [
+      "Hamali",
+      "हमाली तुलाई"
+    ],
+    [
+      "hamali",
+      "हमाली"
+    ],
+    [
+      "Broker",
+      "दलाल"
+    ],
+    [
+      "Spread",
+      "मार्जिन अंतर"
+    ],
+    [
+      "Losses",
+      "नुकसान"
+    ],
+    [
+      "losses",
+      "नुकसान"
+    ],
+    [
+      "Saving",
+      "बचत"
+    ],
+    [
+      "Values",
+      "मान"
+    ],
+    [
+      "Landed",
+      "लैंडेड पहुंच"
+    ],
+    [
+      "landed",
+      "पहुंच लागत"
+    ],
+    [
+      "Amount",
+      "राशि"
+    ],
+    [
+      "AMOUNT",
+      "राशि"
+    ],
+    [
+      "Hauler",
+      "ट्रांसपोर्टर"
+    ],
+    [
+      "Delays",
+      "देरी"
+    ],
+    [
+      "delays",
+      "देरी"
+    ],
+    [
+      "Reefer",
+      "रीफर वाहन"
+    ],
+    [
+      "Driver",
+      "चालक"
+    ],
+    [
+      "driver",
+      "चालक"
+    ],
+    [
+      "Sealed",
+      "सील बंद"
+    ],
+    [
+      "Sensor",
+      "सेंसर"
+    ],
+    [
+      "Beacon",
+      "बीकन"
+    ],
+    [
+      "Stored",
+      "संग्रहित"
+    ],
+    [
+      "Crates",
+      "क्रेट्स"
+    ],
+    [
+      "crates",
+      "क्रेट्स"
+    ],
+    [
+      "Inward",
+      "आवक"
+    ],
+    [
+      "Pickup",
+      "पिकअप"
+    ],
+    [
+      "pickup",
+      "पिकअप"
+    ],
+    [
+      "Grades",
+      "ग्रेड श्रेणी"
+    ],
+    [
+      "Assays",
+      "जांच"
+    ],
+    [
+      "assays",
+      "जांच"
+    ],
+    [
+      "Rotten",
+      "सड़ा हुआ"
+    ],
+    [
+      "rotten",
+      "सड़ा हुआ"
+    ],
+    [
+      "Claims",
+      "दावे"
+    ],
+    [
+      "Freeze",
+      "फ्रीज करें"
+    ],
+    [
+      "Frozen",
+      "फ्रीज"
+    ],
+    [
+      "Ruling",
+      "निर्णय"
+    ],
+    [
+      "ruling",
+      "निर्णय"
+    ],
+    [
+      "Trends",
+      "रुझान ट्रेंड्स"
+    ],
+    [
+      "trends",
+      "रुझान"
+    ],
+    [
+      "Inflow",
+      "आवक प्रवाह"
+    ],
+    [
+      "Volume",
+      "मात्रा आयतन"
+    ],
+    [
+      "Curves",
+      "वक्र"
+    ],
+    [
+      "curves",
+      "वक्र"
+    ],
+    [
+      "Search",
+      "खोजें"
+    ],
+    [
+      "search",
+      "खोजें"
+    ],
+    [
+      "Filter",
+      "फ़िल्टर करें"
+    ],
+    [
+      "filter",
+      "फ़िल्टर"
+    ],
+    [
+      "Action",
+      "कार्रवाई"
+    ],
+    [
+      "ACTION",
+      "कार्रवाई"
+    ],
+    [
+      "Status",
+      "स्थिति"
+    ],
+    [
+      "STATUS",
+      "स्थिति"
+    ],
+    [
+      "status",
+      "स्थिति"
+    ],
+    [
+      "Active",
+      "सक्रिय"
+    ],
+    [
+      "active",
+      "सक्रिय"
+    ],
+    [
+      "Booked",
+      "बुक किया गया"
+    ],
+    [
+      "Cancel",
+      "रद्द करें"
+    ],
+    [
+      "cancel",
+      "रद्द करें"
+    ],
+    [
+      "Submit",
+      "जमा करें"
+    ],
+    [
+      "submit",
+      "जमा करें"
+    ],
+    [
+      "Delete",
+      "हटाएं"
+    ],
+    [
+      "Ledger",
+      "लेजर बही"
+    ],
+    [
+      "Report",
+      "रिपोर्ट"
+    ],
+    [
+      "Logout",
+      "लॉगआउट"
+    ],
+    [
+      "Select",
+      "चुनें"
+    ],
+    [
+      "select",
+      "चुनें"
+    ],
+    [
+      "Choose",
+      "चुनें"
+    ],
+    [
+      "Create",
+      "बनाएं"
+    ],
+    [
+      "Change",
+      "बदलें"
+    ],
+    [
+      "Switch",
+      "बदलें"
+    ],
+    [
+      "Urgent",
+      "अति आवश्यक"
+    ],
+    [
+      "Custom",
+      "कस्टम"
+    ],
+    [
+      "Manual",
+      "मैनुअल"
+    ],
+    [
+      "Synced",
+      "सिंक हुआ"
+    ],
+    [
+      "Online",
+      "ऑनलाइन"
+    ],
+    [
+      "Number",
+      "संख्या"
+    ],
+    [
+      "NUMBER",
+      "संख्या"
+    ],
+    [
+      "Months",
+      "महीने"
+    ],
+    [
+      "Origin",
+      "मूल स्थान"
+    ],
+    [
+      "origin",
+      "मूल स्थान"
+    ],
+    [
+      "Higher",
+      "अधिक"
+    ],
+    [
+      "Lowest",
+      "न्यूनतम"
+    ],
+    [
+      "Better",
+      "बेहतर"
+    ],
+    [
+      "Branch",
+      "शाखा"
+    ],
+    [
+      "Holder",
+      "धारक"
+    ],
+    [
+      "Wallet",
+      "वॉलेट"
+    ],
+    [
+      "Engine",
+      "इंजन प्रणाली"
+    ],
+    [
+      "ENGINE",
+      "इंजन"
+    ],
+    [
+      "System",
+      "प्रणाली"
+    ],
+    [
+      "Policy",
+      "नीति"
+    ],
+    [
+      "Within",
+      "के भीतर"
+    ],
+    [
+      "within",
+      "के भीतर"
+    ],
+    [
+      "Across",
+      "भर में"
+    ],
+    [
+      "across",
+      "भर"
+    ],
+    [
+      "During",
+      "के दौरान"
+    ],
+    [
+      "during",
+      "के दौरान"
+    ],
+    [
+      "Browse",
+      "ब्राउज़ करें"
+    ],
+    [
+      "browse",
+      "ब्राउज़"
+    ],
+    [
+      "Unlock",
+      "अनलॉक करें"
+    ],
+    [
+      "unlock",
+      "अनलॉक करें"
+    ],
+    [
+      "Mutual",
+      "आपसी"
+    ],
+    [
+      "mutual",
+      "आपसी"
+    ],
+    [
+      "Stream",
+      "स्ट्रीम"
+    ],
+    [
+      "stream",
+      "स्ट्रीम"
+    ],
+    [
+      "Attach",
+      "संलग्न करें"
+    ],
+    [
+      "attach",
+      "जोड़ें"
+    ],
+    [
+      "Upload",
+      "अपलोड करें"
+    ],
+    [
+      "upload",
+      "अपलोड करें"
+    ],
+    [
+      "Filing",
+      "दाखिल करना"
+    ],
+    [
+      "filing",
+      "दाखिल करना"
+    ],
+    [
+      "Radius",
+      "दायरा"
+    ],
+    [
+      "radius",
+      "दायरा"
+    ],
+    [
+      "Marked",
+      "चिह्नित"
+    ],
+    [
+      "marked",
+      "चिह्नित"
+    ],
+    [
+      "Mapped",
+      "मैप किया गया"
+    ],
+    [
+      "mapped",
+      "मैप"
+    ],
+    [
+      "Signal",
+      "सिग्नल"
+    ],
+    [
+      "signal",
+      "सिग्नल"
+    ],
+    [
+      "Bypass",
+      "बायपास करें"
+    ],
+    [
+      "bypass",
+      "बायपास"
+    ],
+    [
+      "Direct",
+      "सीधे खरीद"
+    ],
+    [
+      "direct",
+      "सीधा"
+    ],
+    [
+      "DIRECT",
+      "सीधे"
+    ],
+    [
+      "Yellow",
+      "पीला"
+    ],
+    [
+      "yellow",
+      "पीला"
+    ],
+    [
+      "Border",
+      "बॉर्डर"
+    ],
+    [
+      "border",
+      "बॉर्डर"
+    ],
+    [
+      "Orders",
+      "ऑर्डर्स"
+    ],
+    [
+      "orders",
+      "ऑर्डर्स"
+    ],
+    [
+      "ORDERS",
+      "ऑर्डर्स"
+    ],
+    [
+      "Appear",
+      "दिखता है"
+    ],
+    [
+      "appear",
+      "दिखता है"
+    ],
+    [
+      "Indian",
+      "भारतीय"
+    ],
+    [
+      "Konkan",
+      "कोंकण"
+    ],
+    [
+      "ACTIVE",
+      "सक्रिय"
+    ],
+    [
+      "Accept",
+      "स्वीकारें"
+    ],
+    [
+      "accept",
+      "स्वीकारें"
+    ],
+    [
+      "Agreed",
+      "सहमति"
+    ],
+    [
+      "BRANCH",
+      "शाखा"
+    ],
+    [
+      "Buffer",
+      "बफर स्टॉक"
+    ],
+    [
+      "Client",
+      "ग्राहक"
+    ],
+    [
+      "client",
+      "ग्राहक"
+    ],
+    [
+      "EICHER",
+      "आयशर"
+    ],
+    [
+      "Entire",
+      "संपूर्ण"
+    ],
+    [
+      "Export",
+      "निर्यात"
+    ],
+    [
+      "export",
+      "निर्यात"
+    ],
+    [
+      "Google",
+      "गूगल"
+    ],
+    [
+      "ISSUED",
+      "जारी किया गया"
+    ],
+    [
+      "Jadhav",
+      "जाधव"
+    ],
+    [
+      "Locked",
+      "लॉक किया गया"
+    ],
+    [
+      "locked",
+      "लॉक"
+    ],
+    [
+      "Rajesh",
+      "राजेश"
+    ],
+    [
+      "Rating",
+      "रेटिंग"
+    ],
+    [
+      "rating",
+      "रेटिंग"
+    ],
+    [
+      "return",
+      "वापसी"
+    ],
+    [
+      "Selvam",
+      "सेल्वम"
+    ],
+    [
+      "Shinde",
+      "शिंदे"
+    ],
+    [
+      "Source",
+      "स्रोत"
+    ],
+    [
+      "Target",
+      "लक्षित"
+    ],
+    [
+      "target",
+      "लक्षित"
+    ],
+    [
+      "Thorat",
+      "थोरात"
+    ],
+    [
+      "VOLUME",
+      "मात्रा"
+    ],
+    [
+      "Weight",
+      "वजन"
+    ],
+    [
+      "weight",
+      "वजन"
+    ],
+    [
+      "beacon",
+      "बीकन"
+    ],
+    [
+      "change",
+      "बदलें"
+    ],
+    [
+      "demand",
+      "मांग"
+    ],
+    [
+      "diesel",
+      "डीजल"
+    ],
+    [
+      "frozen",
+      "फ्रीज"
+    ],
+    [
+      "higher",
+      "अधिक"
+    ],
+    [
+      "linked",
+      "जुड़ा हुआ"
+    ],
+    [
+      "mandis",
+      "मंडियां"
+    ],
+    [
+      "market",
+      "बाजार"
+    ],
+    [
+      "portal",
+      "पोर्टल"
+    ],
+    [
+      "report",
+      "रिपोर्ट"
+    ],
+    [
+      "sensor",
+      "सेंसर"
+    ],
+    [
+      "tested",
+      "परीक्षित"
+    ],
+    [
+      "Junnar",
+      "जुन्नर"
+    ],
+    [
+      "Rahata",
+      "राहाता"
+    ],
+    [
+      "Rahuri",
+      "राहुरी"
+    ],
+    [
+      "Hingna",
+      "हिंगणा"
+    ],
+    [
+      "Chopda",
+      "चोपड़ा"
+    ],
+    [
+      "Barshi",
+      "बार्शी"
+    ],
+    [
+      "Shirol",
+      "शिरोल"
+    ],
+    [
+      "Kannad",
+      "कन्नड़"
+    ],
+    [
+      "Basmat",
+      "बसमत"
+    ],
+    [
+      "Dharur",
+      "धारूर"
+    ],
+    [
+      "Omerga",
+      "उमरगा"
+    ],
+    [
+      "Kalamb",
+      "कलंब"
+    ],
+    [
+      "Devgad",
+      "देवगढ़"
+    ],
+    [
+      "Kavita",
+      "कविता"
+    ],
+    [
+      "Sanjay",
+      "संजय"
+    ],
+    [
+      "Sangli",
+      "सांगली"
+    ],
+    [
+      "Matrix",
+      "मैट्रिक्स तालिका"
+    ],
+    [
+      "matrix",
+      "मैट्रिक्स"
+    ],
+    [
+      "Hunter",
+      "खोजकर्ता"
+    ],
+    [
+      "hunter",
+      "खोजकर्ता"
+    ],
+    [
+      "logout",
+      "लॉगआउट"
+    ],
+    [
+      "switch",
+      "बदलें"
+    ],
+    [
+      "Launch",
+      "शुरू करें"
+    ],
+    [
+      "launch",
+      "शुरू करें"
+    ],
+    [
+      "Fleets",
+      "फ्लीट"
+    ],
+    [
+      "Sector",
+      "सेक्टर"
+    ],
+    [
+      "sector",
+      "सेक्टर"
+    ],
+    [
+      "chilli",
+      "मिर्च"
+    ],
+    [
+      "reefer",
+      "रीफर"
+    ],
+    [
+      "Global",
+      "ग्लोबल"
+    ],
+    [
+      "global",
+      "ग्लोबल"
+    ],
+    [
+      "grains",
+      "अनाज"
+    ],
+    [
+      "Excess",
+      "अत्यधिक"
+    ],
+    [
+      "excess",
+      "अत्यधिक"
+    ],
+    [
+      "Shimla",
+      "शिमला"
+    ],
+    [
+      "shimla",
+      "शिमला"
+    ],
+    [
+      "unsold",
+      "अबिना बिका"
+    ],
+    [
+      "Unsold",
+      "अबिना बिका"
+    ],
+    [
+      "Listen",
+      "सुनें"
+    ],
+    [
+      "listen",
+      "सुनें"
+    ],
+    [
+      "offers",
+      "प्रस्ताव"
+    ],
+    [
+      "booked",
+      "बुक किया गया"
+    ],
+    [
+      "Trucks",
+      "ट्रक"
+    ],
+    [
+      "trucks",
+      "ट्रक"
+    ],
+    [
+      "STEADY",
+      "स्थिर"
+    ],
+    [
+      "Steady",
+      "स्थिर"
+    ],
+    [
+      "steady",
+      "स्थिर"
+    ],
+    [
+      "finger",
+      "गांठ"
+    ],
+    [
+      "Filled",
+      "भरा हुआ"
+    ],
+    [
+      "filled",
+      "भरा हुआ"
+    ],
+    [
+      "Season",
+      "मौसम"
+    ],
+    [
+      "season",
+      "मौसम"
+    ],
+    [
+      "strong",
+      "मजबूत"
+    ],
+    [
+      "Strong",
+      "मजबूत"
+    ],
+    [
+      "Triage",
+      "कार्य प्राथमिकता"
+    ],
+    [
+      "triage",
+      "प्राथमिकता"
+    ],
+    [
+      "Access",
+      "पहुंच"
+    ],
+    [
+      "access",
+      "पहुंच"
+    ],
+    [
+      "Remove",
+      "हटाएं"
+    ],
+    [
+      "remove",
+      "हटाएं"
+    ],
+    [
+      "Gunny",
+      "बोरी"
+    ],
+    [
+      "gunny",
+      "बोरी"
+    ],
+    [
+      "Hands",
+      "पंजे"
+    ],
+    [
+      "hands",
+      "पंजे"
+    ],
+    [
+      "Bulbs",
+      "गांठ"
+    ],
+    [
+      "bulbs",
+      "गांठ"
+    ],
+    [
+      "Lined",
+      "अस्तरयुक्त"
+    ],
+    [
+      "lined",
+      "अस्तरयुक्त"
+    ],
+    [
+      "QUOTA",
+      "कोटा"
+    ],
+    [
+      "quota",
+      "कोटा"
+    ],
+    [
+      "Crops",
+      "फसलें"
+    ],
+    [
+      "crops",
+      "फसलें"
+    ],
+    [
+      "Grain",
+      "अनाज"
+    ],
+    [
+      "grain",
+      "अनाज"
+    ],
+    [
+      "Spice",
+      "मसाला"
+    ],
+    [
+      "Onion",
+      "प्याज"
+    ],
+    [
+      "onion",
+      "प्याज"
+    ],
+    [
+      "Mango",
+      "आम"
+    ],
+    [
+      "Jowar",
+      "ज्वार"
+    ],
+    [
+      "Paddy",
+      "धान"
+    ],
+    [
+      "Hapus",
+      "हापुस"
+    ],
+    [
+      "Garwa",
+      "गरवा प्याज"
+    ],
+    [
+      "Naine",
+      "ग्रैंड नैन"
+    ],
+    [
+      "Grand",
+      "ग्रैंड"
+    ],
+    [
+      "Fresh",
+      "ताजा"
+    ],
+    [
+      "Puree",
+      "प्यूरी"
+    ],
+    [
+      "Sauce",
+      "सॉस"
+    ],
+    [
+      "Gluts",
+      "अत्यधिक आवक"
+    ],
+    [
+      "gluts",
+      "अत्यधिक आवक"
+    ],
+    [
+      "Buyer",
+      "क्रेता"
+    ],
+    [
+      "BUYER",
+      "क्रेता"
+    ],
+    [
+      "buyer",
+      "क्रेता"
+    ],
+    [
+      "Trade",
+      "व्यापार"
+    ],
+    [
+      "Maker",
+      "निर्माता"
+    ],
+    [
+      "Mandi",
+      "मंडी"
+    ],
+    [
+      "Quota",
+      "कोटा"
+    ],
+    [
+      "Offer",
+      "प्रस्ताव"
+    ],
+    [
+      "offer",
+      "प्रस्ताव"
+    ],
+    [
+      "Legal",
+      "कानूनी"
+    ],
+    [
+      "Vault",
+      "वॉल्ट"
+    ],
+    [
+      "Loans",
+      "ऋण"
+    ],
+    [
+      "loans",
+      "ऋण"
+    ],
+    [
+      "Funds",
+      "फंड निधि"
+    ],
+    [
+      "funds",
+      "फंड निधि"
+    ],
+    [
+      "Costs",
+      "लागत"
+    ],
+    [
+      "costs",
+      "लागत"
+    ],
+    [
+      "Price",
+      "भाव मूल्य"
+    ],
+    [
+      "PRICE",
+      "भाव मूल्य"
+    ],
+    [
+      "price",
+      "भाव"
+    ],
+    [
+      "Rates",
+      "दर"
+    ],
+    [
+      "rates",
+      "दर"
+    ],
+    [
+      "Taxes",
+      "कर"
+    ],
+    [
+      "Tolls",
+      "टोल टैक्स"
+    ],
+    [
+      "tolls",
+      "टोल टैक्स"
+    ],
+    [
+      "Saved",
+      "बचत"
+    ],
+    [
+      "saved",
+      "बचत"
+    ],
+    [
+      "Value",
+      "मूल्य"
+    ],
+    [
+      "value",
+      "मूल्य"
+    ],
+    [
+      "Total",
+      "कुल"
+    ],
+    [
+      "TOTAL",
+      "कुल"
+    ],
+    [
+      "total",
+      "कुल"
+    ],
+    [
+      "Modal",
+      "मॉडल दर"
+    ],
+    [
+      "MODAL",
+      "मॉडल दर"
+    ],
+    [
+      "modal",
+      "मॉडल"
+    ],
+    [
+      "Floor",
+      "न्यूनतम तल"
+    ],
+    [
+      "Truck",
+      "ट्रक"
+    ],
+    [
+      "truck",
+      "ट्रक"
+    ],
+    [
+      "Fleet",
+      "फ्लीट बेड़ा"
+    ],
+    [
+      "fleet",
+      "फ्लीट"
+    ],
+    [
+      "Cargo",
+      "कार्गो"
+    ],
+    [
+      "Route",
+      "मार्ग"
+    ],
+    [
+      "Gross",
+      "सकल वजन"
+    ],
+    [
+      "Slips",
+      "पर्चियां"
+    ],
+    [
+      "slips",
+      "पर्चियां"
+    ],
+    [
+      "Track",
+      "ट्रैक करें"
+    ],
+    [
+      "Store",
+      "संग्रहित करें"
+    ],
+    [
+      "Silos",
+      "साइलो"
+    ],
+    [
+      "silos",
+      "साइलो"
+    ],
+    [
+      "Solar",
+      "सौर ऊर्जा"
+    ],
+    [
+      "Stack",
+      "चट्टा (स्टैक)"
+    ],
+    [
+      "Slots",
+      "स्लॉट्स"
+    ],
+    [
+      "slots",
+      "स्लॉट्स"
+    ],
+    [
+      "Space",
+      "स्थान"
+    ],
+    [
+      "space",
+      "स्थान"
+    ],
+    [
+      "Boxes",
+      "डिब्बे"
+    ],
+    [
+      "Crate",
+      "क्रेट"
+    ],
+    [
+      "Gunny",
+      "सन बोरी"
+    ],
+    [
+      "Loose",
+      "खुला माल"
+    ],
+    [
+      "Grade",
+      "ग्रेड श्रेणी"
+    ],
+    [
+      "Assay",
+      "परख जांच"
+    ],
+    [
+      "Score",
+      "स्कोर"
+    ],
+    [
+      "Claim",
+      "दावा"
+    ],
+    [
+      "Proof",
+      "प्रमाण"
+    ],
+    [
+      "Trend",
+      "रुझान"
+    ],
+    [
+      "Close",
+      "बंद करें"
+    ],
+    [
+      "close",
+      "बंद करें"
+    ],
+    [
+      "Print",
+      "प्रिंट करें"
+    ],
+    [
+      "print",
+      "प्रिंट करें"
+    ],
+    [
+      "Audit",
+      "ऑडिट"
+    ],
+    [
+      "Table",
+      "तालिका"
+    ],
+    [
+      "Enter",
+      "दर्ज करें"
+    ],
+    [
+      "enter",
+      "दर्ज करें"
+    ],
+    [
+      "Phone",
+      "फ़ोन नंबर"
+    ],
+    [
+      "Guide",
+      "मार्गदर्शिका"
+    ],
+    [
+      "Night",
+      "रात्रि"
+    ],
+    [
+      "Hello",
+      "नमस्ते"
+    ],
+    [
+      "Click",
+      "क्लिक करें"
+    ],
+    [
+      "Alert",
+      "अलर्ट"
+    ],
+    [
+      "Today",
+      "आज"
+    ],
+    [
+      "today",
+      "आज"
+    ],
+    [
+      "Hours",
+      "घंटे"
+    ],
+    [
+      "hours",
+      "घंटे"
+    ],
+    [
+      "Month",
+      "माह"
+    ],
+    [
+      "month",
+      "महीना"
+    ],
+    [
+      "State",
+      "राज्य"
+    ],
+    [
+      "Quick",
+      "त्वरित"
+    ],
+    [
+      "Lower",
+      "कम"
+    ],
+    [
+      "Units",
+      "इकाइयां"
+    ],
+    [
+      "Lakhs",
+      "लाख"
+    ],
+    [
+      "Ratio",
+      "अनुपात"
+    ],
+    [
+      "Empty",
+      "खाली"
+    ],
+    [
+      "Fully",
+      "पूरी तरह से"
+    ],
+    [
+      "Ready",
+      "तैयार"
+    ],
+    [
+      "Layer",
+      "परत"
+    ],
+    [
+      "Terms",
+      "नियम व शर्तें"
+    ],
+    [
+      "terms",
+      "शर्तें"
+    ],
+    [
+      "Shall",
+      "होगा"
+    ],
+    [
+      "shall",
+      "होगा"
+    ],
+    [
+      "Under",
+      "के तहत"
+    ],
+    [
+      "under",
+      "के अंतर्गत"
+    ],
+    [
+      "Until",
+      "तक"
+    ],
+    [
+      "until",
+      "तक"
+    ],
+    [
+      "While",
+      "जबकि"
+    ],
+    [
+      "while",
+      "जबकि"
+    ],
+    [
+      "Other",
+      "अन्य"
+    ],
+    [
+      "other",
+      "अन्य"
+    ],
+    [
+      "Every",
+      "प्रत्येक"
+    ],
+    [
+      "every",
+      "हर"
+    ],
+    [
+      "Party",
+      "पक्षकार"
+    ],
+    [
+      "party",
+      "पक्ष"
+    ],
+    [
+      "Trial",
+      "परीक्षण"
+    ],
+    [
+      "trial",
+      "ट्रायल"
+    ],
+    [
+      "Shelf",
+      "शेल्फ लाइफ"
+    ],
+    [
+      "shelf",
+      "शेल्फ लाइफ"
+    ],
+    [
+      "Point",
+      "बिंदु"
+    ],
+    [
+      "point",
+      "बिंदु"
+    ],
+    [
+      "Board",
+      "बोर्ड"
+    ],
+    [
+      "board",
+      "बोर्ड"
+    ],
+    [
+      "Marks",
+      "अंक"
+    ],
+    [
+      "White",
+      "सफेद"
+    ],
+    [
+      "white",
+      "सफेद"
+    ],
+    [
+      "Color",
+      "रंग"
+    ],
+    [
+      "color",
+      "रंग"
+    ],
+    [
+      "Style",
+      "शैली"
+    ],
+    [
+      "style",
+      "शैली"
+    ],
+    [
+      "Event",
+      "घटना"
+    ],
+    [
+      "event",
+      "इवेंट"
+    ],
+    [
+      "Cards",
+      "कार्ड्स"
+    ],
+    [
+      "Order",
+      "ऑर्डर"
+    ],
+    [
+      "order",
+      "ऑर्डर"
+    ],
+    [
+      "Match",
+      "मिलान"
+    ],
+    [
+      "match",
+      "मिलान"
+    ],
+    [
+      "Hindi",
+      "हिन्दी"
+    ],
+    [
+      "India",
+      "भारत"
+    ],
+    [
+      "MIHAN",
+      "मिहान"
+    ],
+    [
+      "Agent",
+      "एजेंट"
+    ],
+    [
+      "Belts",
+      "क्षेत्र"
+    ],
+    [
+      "belts",
+      "क्षेत्र"
+    ],
+    [
+      "Chain",
+      "आपूर्ति श्रृंखला"
+    ],
+    [
+      "chain",
+      "श्रृंखला"
+    ],
+    [
+      "ENTER",
+      "दर्ज करें"
+    ],
+    [
+      "Final",
+      "अंतिम"
+    ],
+    [
+      "final",
+      "अंतिम"
+    ],
+    [
+      "Heavy",
+      "भारी"
+    ],
+    [
+      "Index",
+      "सूचकांक"
+    ],
+    [
+      "Issue",
+      "मुद्दा/समस्या"
+    ],
+    [
+      "issue",
+      "मुद्दा"
+    ],
+    [
+      "Kisan",
+      "किसान"
+    ],
+    [
+      "Model",
+      "मॉडल"
+    ],
+    [
+      "Multi",
+      "मल्टी"
+    ],
+    [
+      "Nodal",
+      "नोडल"
+    ],
+    [
+      "nodal",
+      "नोडल"
+    ],
+    [
+      "Patil",
+      "पाटिल"
+    ],
+    [
+      "Photo",
+      "फोटो"
+    ],
+    [
+      "Plate",
+      "नंबर प्लेट"
+    ],
+    [
+      "plate",
+      "नंबर प्लेट"
+    ],
+    [
+      "SMART",
+      "स्मार्ट"
+    ],
+    [
+      "Smart",
+      "स्मार्ट"
+    ],
+    [
+      "smart",
+      "स्मार्ट"
+    ],
+    [
+      "Short",
+      "कम"
+    ],
+    [
+      "Speed",
+      "गति"
+    ],
+    [
+      "Trail",
+      "ऑडिट ट्रेल"
+    ],
+    [
+      "Trust",
+      "विश्वास"
+    ],
+    [
+      "trust",
+      "विश्वास"
+    ],
+    [
+      "assay",
+      "परख"
+    ],
+    [
+      "based",
+      "आधारित"
+    ],
+    [
+      "claim",
+      "दावा"
+    ],
+    [
+      "favor",
+      "पक्ष में"
+    ],
+    [
+      "feeds",
+      "अपडेट्स"
+    ],
+    [
+      "fully",
+      "पूरी तरह से"
+    ],
+    [
+      "major",
+      "प्रमुख"
+    ],
+    [
+      "mandi",
+      "मंडी"
+    ],
+    [
+      "times",
+      "बार"
+    ],
+    [
+      "Vashi",
+      "वाशी"
+    ],
+    [
+      "Katol",
+      "काटोल"
+    ],
+    [
+      "Raver",
+      "रावेर"
+    ],
+    [
+      "Karad",
+      "कराड"
+    ],
+    [
+      "Sakri",
+      "साक्री"
+    ],
+    [
+      "Warud",
+      "वरुड"
+    ],
+    [
+      "Ambad",
+      "अंबड"
+    ],
+    [
+      "Nagar",
+      "अहमदनगर"
+    ],
+    [
+      "Shahu",
+      "शाहू"
+    ],
+    [
+      "APMCs",
+      "मंडियां"
+    ],
+    [
+      "Euler",
+      "ऑयलर"
+    ],
+    [
+      "crate",
+      "क्रेट"
+    ],
+    [
+      "ready",
+      "तैयार"
+    ],
+    [
+      "click",
+      "क्लिक करें"
+    ],
+    [
+      "Names",
+      "नाम"
+    ],
+    [
+      "lower",
+      "कम"
+    ],
+    [
+      "Voice",
+      "आवाज"
+    ],
+    [
+      "voice",
+      "आवाज"
+    ],
+    [
+      "Green",
+      "हरी"
+    ],
+    [
+      "green",
+      "हरी"
+    ],
+    [
+      "grade",
+      "ग्रेड"
+    ],
+    [
+      "Speak",
+      "बोलें"
+    ],
+    [
+      "speak",
+      "बोलें"
+    ],
+    [
+      "Press",
+      "दबाएं"
+    ],
+    [
+      "press",
+      "दबाएं"
+    ],
+    [
+      "photo",
+      "फोटो"
+    ],
+    [
+      "track",
+      "ट्रैक करें"
+    ],
+    [
+      "vault",
+      "वॉल्ट"
+    ],
+    [
+      "TODAY",
+      "आज"
+    ],
+    [
+      "STORE",
+      "भंडारण करें"
+    ],
+    [
+      "store",
+      "भंडारण"
+    ],
+    [
+      "Whole",
+      "साबुत"
+    ],
+    [
+      "whole",
+      "साबुत"
+    ],
+    [
+      "gross",
+      "सकल"
+    ],
+    [
+      "fresh",
+      "ताजा"
+    ],
+    [
+      "quick",
+      "त्वरित"
+    ],
+    [
+      "trend",
+      "रुझान"
+    ],
+    [
+      "Brix",
+      "ब्रिक्स"
+    ],
+    [
+      "brix",
+      "ब्रिक्स"
+    ],
+    [
+      "Jute",
+      "जूट"
+    ],
+    [
+      "jute",
+      "जूट"
+    ],
+    [
+      "Bags",
+      "बोरियां"
+    ],
+    [
+      "bags",
+      "बोरियां"
+    ],
+    [
+      "Skin",
+      "छिलका"
+    ],
+    [
+      "skin",
+      "छिलका"
+    ],
+    [
+      "Agro",
+      "कृषि एग्रो"
+    ],
+    [
+      "Agri",
+      "कृषि"
+    ],
+    [
+      "AGRI",
+      "कृषि"
+    ],
+    [
+      "Crop",
+      "फसल"
+    ],
+    [
+      "Food",
+      "खाद्य"
+    ],
+    [
+      "Feed",
+      "पशु आहार"
+    ],
+    [
+      "Yard",
+      "मंडी प्रांगण"
+    ],
+    [
+      "Hubs",
+      "हब केंद्र"
+    ],
+    [
+      "Buys",
+      "खरीद"
+    ],
+    [
+      "Bids",
+      "प्रस्ताव"
+    ],
+    [
+      "Deed",
+      "विलेख"
+    ],
+    [
+      "Paid",
+      "चुकाया गया"
+    ],
+    [
+      "paid",
+      "चुकाया"
+    ],
+    [
+      "Lien",
+      "ग्रहणाधिकार"
+    ],
+    [
+      "lien",
+      "ग्रहणाधिकार"
+    ],
+    [
+      "Loan",
+      "ऋण"
+    ],
+    [
+      "loan",
+      "ऋण"
+    ],
+    [
+      "Pool",
+      "पूल"
+    ],
+    [
+      "Cost",
+      "लागत"
+    ],
+    [
+      "cost",
+      "लागत"
+    ],
+    [
+      "Rate",
+      "दर भाव"
+    ],
+    [
+      "RATE",
+      "दर भाव"
+    ],
+    [
+      "rate",
+      "दर"
+    ],
+    [
+      "Fees",
+      "शुल्क"
+    ],
+    [
+      "Cess",
+      "सेस उपकर"
+    ],
+    [
+      "cess",
+      "सेस उपकर"
+    ],
+    [
+      "Toll",
+      "टोल"
+    ],
+    [
+      "Loss",
+      "नुकसान"
+    ],
+    [
+      "loss",
+      "नुकसान"
+    ],
+    [
+      "Save",
+      "सहेजें"
+    ],
+    [
+      "Maxi",
+      "मैक्सी"
+    ],
+    [
+      "Mini",
+      "मिनी"
+    ],
+    [
+      "Calc",
+      "गणना"
+    ],
+    [
+      "Axle",
+      "एक्सल"
+    ],
+    [
+      "Road",
+      "सड़क"
+    ],
+    [
+      "Tare",
+      "खाली वाहन वजन (टारे)"
+    ],
+    [
+      "Slip",
+      "पर्ची रसीद"
+    ],
+    [
+      "slip",
+      "पर्ची"
+    ],
+    [
+      "Pass",
+      "गेट पास"
+    ],
+    [
+      "pass",
+      "गेट पास"
+    ],
+    [
+      "Gate",
+      "गेट द्वार"
+    ],
+    [
+      "gate",
+      "गेट"
+    ],
+    [
+      "Seal",
+      "सुरक्षा सील"
+    ],
+    [
+      "Silo",
+      "साइलो"
+    ],
+    [
+      "silo",
+      "साइलो"
+    ],
+    [
+      "Temp",
+      "तापमान"
+    ],
+    [
+      "Slot",
+      "स्लॉट"
+    ],
+    [
+      "Pack",
+      "पैक"
+    ],
+    [
+      "Bags",
+      "बोरियां"
+    ],
+    [
+      "Jute",
+      "जूट"
+    ],
+    [
+      "Book",
+      "बुक करें"
+    ],
+    [
+      "book",
+      "बुक करें"
+    ],
+    [
+      "Edit",
+      "संपादित करें"
+    ],
+    [
+      "edit",
+      "संपादित करें"
+    ],
+    [
+      "View",
+      "देखें"
+    ],
+    [
+      "view",
+      "देखें"
+    ],
+    [
+      "Copy",
+      "कॉपी करें"
+    ],
+    [
+      "Logs",
+      "लॉग्स"
+    ],
+    [
+      "Grid",
+      "ग्रिड"
+    ],
+    [
+      "List",
+      "सूची"
+    ],
+    [
+      "Show",
+      "दिखाएं"
+    ],
+    [
+      "show",
+      "दिखाएं"
+    ],
+    [
+      "Hide",
+      "छिपाएं"
+    ],
+    [
+      "More",
+      "अधिक देखें"
+    ],
+    [
+      "Less",
+      "कम देखें"
+    ],
+    [
+      "Next",
+      "आगे"
+    ],
+    [
+      "Prev",
+      "पीछे"
+    ],
+    [
+      "Post",
+      "पोस्ट करें"
+    ],
+    [
+      "Send",
+      "भेजें"
+    ],
+    [
+      "send",
+      "भेजें"
+    ],
+    [
+      "Type",
+      "प्रकार / लिखें"
+    ],
+    [
+      "TYPE",
+      "प्रकार"
+    ],
+    [
+      "type",
+      "लिखें"
+    ],
+    [
+      "Chat",
+      "चैट"
+    ],
+    [
+      "chat",
+      "चैट"
+    ],
+    [
+      "Call",
+      "कॉल करें"
+    ],
+    [
+      "Help",
+      "मदद"
+    ],
+    [
+      "Find",
+      "खोजें"
+    ],
+    [
+      "Best",
+      "सर्वोत्तम"
+    ],
+    [
+      "Good",
+      "शुभ"
+    ],
+    [
+      "Info",
+      "जानकारी"
+    ],
+    [
+      "Auto",
+      "स्वचालित"
+    ],
+    [
+      "Live",
+      "लाइव"
+    ],
+    [
+      "live",
+      "लाइव"
+    ],
+    [
+      "Real",
+      "वास्तविक"
+    ],
+    [
+      "REAL",
+      "वास्तविक"
+    ],
+    [
+      "Sync",
+      "सिंक करें"
+    ],
+    [
+      "sync",
+      "सिंक"
+    ],
+    [
+      "Hash",
+      "हैश"
+    ],
+    [
+      "Code",
+      "कोड"
+    ],
+    [
+      "CODE",
+      "कोड"
+    ],
+    [
+      "Name",
+      "नाम"
+    ],
+    [
+      "NAME",
+      "नाम"
+    ],
+    [
+      "Date",
+      "दिनांक तारीख"
+    ],
+    [
+      "DATE",
+      "दिनांक"
+    ],
+    [
+      "Time",
+      "समय"
+    ],
+    [
+      "TIME",
+      "समय"
+    ],
+    [
+      "time",
+      "समय"
+    ],
+    [
+      "Days",
+      "दिन"
+    ],
+    [
+      "days",
+      "दिन"
+    ],
+    [
+      "Hour",
+      "घंटा"
+    ],
+    [
+      "Mins",
+      "मिनट"
+    ],
+    [
+      "mins",
+      "मिनट"
+    ],
+    [
+      "Year",
+      "वर्ष"
+    ],
+    [
+      "year",
+      "वर्ष"
+    ],
+    [
+      "Fast",
+      "तेज"
+    ],
+    [
+      "High",
+      "उच्च"
+    ],
+    [
+      "Unit",
+      "इकाई"
+    ],
+    [
+      "unit",
+      "इकाई"
+    ],
+    [
+      "Zero",
+      "शून्य"
+    ],
+    [
+      "zero",
+      "शून्य"
+    ],
+    [
+      "Free",
+      "मुफ्त"
+    ],
+    [
+      "Full",
+      "पूर्ण"
+    ],
+    [
+      "Bank",
+      "बैंक"
+    ],
+    [
+      "Card",
+      "कार्ड"
+    ],
+    [
+      "Step",
+      "चरण"
+    ],
+    [
+      "Your",
+      "आपका"
+    ],
+    [
+      "your",
+      "आपका"
+    ],
+    [
+      "From",
+      "से"
+    ],
+    [
+      "from",
+      "से"
+    ],
+    [
+      "With",
+      "के साथ"
+    ],
+    [
+      "with",
+      "के साथ"
+    ],
+    [
+      "Will",
+      "होगा"
+    ],
+    [
+      "will",
+      "होगा"
+    ],
+    [
+      "Upon",
+      "पर"
+    ],
+    [
+      "upon",
+      "पर"
+    ],
+    [
+      "This",
+      "यह"
+    ],
+    [
+      "this",
+      "यह"
+    ],
+    [
+      "Just",
+      "बस"
+    ],
+    [
+      "just",
+      "सिर्फ"
+    ],
+    [
+      "Hold",
+      "होल्ड रोकें"
+    ],
+    [
+      "hold",
+      "होल्ड"
+    ],
+    [
+      "Wash",
+      "धुलाई"
+    ],
+    [
+      "wash",
+      "धुलाई"
+    ],
+    [
+      "Life",
+      "जीवन काल"
+    ],
+    [
+      "life",
+      "आयु"
+    ],
+    [
+      "Draw",
+      "आहरण"
+    ],
+    [
+      "draw",
+      "निकालना"
+    ],
+    [
+      "File",
+      "फ़ाइल"
+    ],
+    [
+      "file",
+      "फ़ाइल"
+    ],
+    [
+      "Govt",
+      "सरकारी"
+    ],
+    [
+      "govt",
+      "सरकारी"
+    ],
+    [
+      "Apps",
+      "ऐप्स"
+    ],
+    [
+      "apps",
+      "ऐप्स"
+    ],
+    [
+      "Gold",
+      "स्वर्ण"
+    ],
+    [
+      "gold",
+      "स्वर्ण"
+    ],
+    [
+      "Font",
+      "फ़ॉन्ट"
+    ],
+    [
+      "font",
+      "फ़ॉन्ट"
+    ],
+    [
+      "Lots",
+      "लॉट्स"
+    ],
+    [
+      "lots",
+      "लॉट्स"
+    ],
+    [
+      "Open",
+      "खुला"
+    ],
+    [
+      "open",
+      "खोलें"
+    ],
+    [
+      "Sold",
+      "बिक चुका"
+    ],
+    [
+      "sold",
+      "बिका"
+    ],
+    [
+      "MIDC",
+      "एमआईडीसी"
+    ],
+    [
+      "BANK",
+      "बैंक"
+    ],
+    [
+      "bank",
+      "बैंक"
+    ],
+    [
+      "Back",
+      "वापस"
+    ],
+    [
+      "Base",
+      "आधार"
+    ],
+    [
+      "Bulk",
+      "थोक बल्क"
+    ],
+    [
+      "bulk",
+      "थोक"
+    ],
+    [
+      "Case",
+      "मामला"
+    ],
+    [
+      "Cash",
+      "नकद"
+    ],
+    [
+      "Cold",
+      "शीत कोल्ड"
+    ],
+    [
+      "cold",
+      "शीत"
+    ],
+    [
+      "Cred",
+      "क्रेड"
+    ],
+    [
+      "Dost",
+      "दोस्त पिकअप"
+    ],
+    [
+      "Dual",
+      "दोहरा"
+    ],
+    [
+      "dual",
+      "दोहरा"
+    ],
+    [
+      "FPOs",
+      "एफपीओ"
+    ],
+    [
+      "Farm",
+      "खेत"
+    ],
+    [
+      "farm",
+      "खेत"
+    ],
+    [
+      "Fuel",
+      "ईंधन"
+    ],
+    [
+      "IFSC",
+      "आईएफएससी कोड"
+    ],
+    [
+      "IMPS",
+      "आईएमपीएस"
+    ],
+    [
+      "Lead",
+      "प्रमुख"
+    ],
+    [
+      "Lock",
+      "लॉक करें"
+    ],
+    [
+      "lock",
+      "लॉक करें"
+    ],
+    [
+      "Mega",
+      "मुख्य"
+    ],
+    [
+      "Mode",
+      "मोड तरीका"
+    ],
+    [
+      "mode",
+      "तरीका"
+    ],
+    [
+      "Navi",
+      "नवी"
+    ],
+    [
+      "Near",
+      "पास"
+    ],
+    [
+      "Orig",
+      "मूल"
+    ],
+    [
+      "Park",
+      "पार्क"
+    ],
+    [
+      "ROOM",
+      "कक्ष"
+    ],
+    [
+      "Risk",
+      "जोखिम"
+    ],
+    [
+      "Safe",
+      "सुरक्षित"
+    ],
+    [
+      "YONO",
+      "योनो"
+    ],
+    [
+      "auto",
+      "स्वचालित"
+    ],
+    [
+      "best",
+      "सर्वश्रेष्ठ"
+    ],
+    [
+      "code",
+      "कोड"
+    ],
+    [
+      "crop",
+      "फसल"
+    ],
+    [
+      "data",
+      "डेटा"
+    ],
+    [
+      "dist",
+      "जिला"
+    ],
+    [
+      "eNWR",
+      "ई-एनडब्ल्यूआर"
+    ],
+    [
+      "held",
+      "रोका गया"
+    ],
+    [
+      "info",
+      "जानकारी"
+    ],
+    [
+      "into",
+      "में"
+    ],
+    [
+      "load",
+      "लोड"
+    ],
+    [
+      "rata",
+      "अनुपात"
+    ],
+    [
+      "real",
+      "वास्तविक"
+    ],
+    [
+      "term",
+      "अवधि"
+    ],
+    [
+      "true",
+      "सत्य"
+    ],
+    [
+      "yard",
+      "मंडी प्रांगण"
+    ],
+    [
+      "Kaij",
+      "केज"
+    ],
+    [
+      "Wada",
+      "वाडा"
+    ],
+    [
+      "name",
+      "नाम"
+    ],
+    [
+      "Peak",
+      "शीर्ष स्तर"
+    ],
+    [
+      "peak",
+      "शीर्ष स्तर"
+    ],
+    [
+      "Side",
+      "पक्ष"
+    ],
+    [
+      "side",
+      "तरफ"
+    ],
+    [
+      "cuts",
+      "कटौती"
+    ],
+    [
+      "than",
+      "से"
+    ],
+    [
+      "Role",
+      "भूमिका"
+    ],
+    [
+      "role",
+      "भूमिका"
+    ],
+    [
+      "navi",
+      "नवी"
+    ],
+    [
+      "next",
+      "अगले"
+    ],
+    [
+      "bids",
+      "बोलियां"
+    ],
+    [
+      "call",
+      "कॉल करें"
+    ],
+    [
+      "HOLD",
+      "रोकें"
+    ],
+    [
+      "SELL",
+      "बेचें"
+    ],
+    [
+      "Sell",
+      "बेचें"
+    ],
+    [
+      "sell",
+      "बेचें"
+    ],
+    [
+      "pack",
+      "पैक"
+    ],
+    [
+      "list",
+      "सूचीबद्ध करें"
+    ],
+    [
+      "rise",
+      "वृद्धि"
+    ],
+    [
+      "Rise",
+      "वृद्धि"
+    ],
+    [
+      "SOY",
+      "सोयाबीन"
+    ],
+    [
+      "ONI",
+      "प्याज"
+    ],
+    [
+      "TOM",
+      "टमाटर"
+    ],
+    [
+      "Raw",
+      "कच्चा"
+    ],
+    [
+      "Dry",
+      "सूखा"
+    ],
+    [
+      "Bio",
+      "जैविक बायो"
+    ],
+    [
+      "Hub",
+      "हब केंद्र"
+    ],
+    [
+      "Buy",
+      "खरीदें"
+    ],
+    [
+      "buy",
+      "खरीदें"
+    ],
+    [
+      "Bid",
+      "बोली"
+    ],
+    [
+      "bid",
+      "बोली"
+    ],
+    [
+      "Pay",
+      "भुगतान करें"
+    ],
+    [
+      "pay",
+      "भुगतान करें"
+    ],
+    [
+      "Fee",
+      "शुल्क"
+    ],
+    [
+      "fee",
+      "शुल्क"
+    ],
+    [
+      "Tax",
+      "कर"
+    ],
+    [
+      "tax",
+      "कर"
+    ],
+    [
+      "Avg",
+      "औसत"
+    ],
+    [
+      "Min",
+      "न्यूनतम"
+    ],
+    [
+      "Max",
+      "अधिकतम"
+    ],
+    [
+      "Cap",
+      "कैप सीमा"
+    ],
+    [
+      "Net",
+      "शुद्ध वजन"
+    ],
+    [
+      "Box",
+      "बॉक्स"
+    ],
+    [
+      "box",
+      "डिब्बा"
+    ],
+    [
+      "Bag",
+      "बोरी"
+    ],
+    [
+      "Lab",
+      "प्रयोगशाला"
+    ],
+    [
+      "lab",
+      "प्रयोगशाला"
+    ],
+    [
+      "Log",
+      "लॉग"
+    ],
+    [
+      "All",
+      "सभी"
+    ],
+    [
+      "all",
+      "सभी"
+    ],
+    [
+      "New",
+      "नया"
+    ],
+    [
+      "new",
+      "नया"
+    ],
+    [
+      "Add",
+      "जोड़ें"
+    ],
+    [
+      "Top",
+      "शीर्ष"
+    ],
+    [
+      "Day",
+      "दिन"
+    ],
+    [
+      "day",
+      "दिन"
+    ],
+    [
+      "Hrs",
+      "घंटे"
+    ],
+    [
+      "Low",
+      "कम"
+    ],
+    [
+      "You",
+      "आप"
+    ],
+    [
+      "you",
+      "आप"
+    ],
+    [
+      "For",
+      "के लिए"
+    ],
+    [
+      "for",
+      "के लिए"
+    ],
+    [
+      "And",
+      "और"
+    ],
+    [
+      "and",
+      "और"
+    ],
+    [
+      "Are",
+      "हैं"
+    ],
+    [
+      "are",
+      "हैं"
+    ],
+    [
+      "Now",
+      "अभी"
+    ],
+    [
+      "now",
+      "अभी"
+    ],
+    [
+      "Per",
+      "प्रति"
+    ],
+    [
+      "per",
+      "प्रति"
+    ],
+    [
+      "Has",
+      "है"
+    ],
+    [
+      "has",
+      "है"
+    ],
+    [
+      "Any",
+      "कोई भी"
+    ],
+    [
+      "any",
+      "कोई"
+    ],
+    [
+      "How",
+      "कैसे"
+    ],
+    [
+      "how",
+      "कैसे"
+    ],
+    [
+      "See",
+      "देखें"
+    ],
+    [
+      "see",
+      "देखें"
+    ],
+    [
+      "Ask",
+      "पूछें"
+    ],
+    [
+      "ask",
+      "पूछें"
+    ],
+    [
+      "Cut",
+      "कटौती"
+    ],
+    [
+      "cut",
+      "कटौती"
+    ],
+    [
+      "Key",
+      "मुख्य"
+    ],
+    [
+      "key",
+      "प्रमुख"
+    ],
+    [
+      "App",
+      "ऐप"
+    ],
+    [
+      "Web",
+      "वेब"
+    ],
+    [
+      "Red",
+      "लाल"
+    ],
+    [
+      "red",
+      "लाल"
+    ],
+    [
+      "Lot",
+      "लॉट"
+    ],
+    [
+      "lot",
+      "लॉट"
+    ],
+    [
+      "Out",
+      "समाप्त"
+    ],
+    [
+      "out",
+      "बाहर"
+    ],
+    [
+      "BKC",
+      "बीकेसी"
+    ],
+    [
+      "Ace",
+      "छोटा हाथी (एस)"
+    ],
+    [
+      "Act",
+      "अधिनियम"
+    ],
+    [
+      "BAN",
+      "प्रतिबंध"
+    ],
+    [
+      "BUY",
+      "खरीदें"
+    ],
+    [
+      "ERP",
+      "ईआरपी"
+    ],
+    [
+      "FPO",
+      "एफपीओ"
+    ],
+    [
+      "Fix",
+      "तय करें"
+    ],
+    [
+      "IoT",
+      "आईओटी"
+    ],
+    [
+      "Lic",
+      "लाइसेंस"
+    ],
+    [
+      "Ltd",
+      "लिमिटेड"
+    ],
+    [
+      "Nex",
+      "नेक्स"
+    ],
+    [
+      "POs",
+      "खरीद आदेश"
+    ],
+    [
+      "Pro",
+      "प्रो"
+    ],
+    [
+      "pro",
+      "प्रो"
+    ],
+    [
+      "Pvt",
+      "प्राइवेट"
+    ],
+    [
+      "Sep",
+      "सितंबर"
+    ],
+    [
+      "Tri",
+      "त्रिपक्षीय"
+    ],
+    [
+      "Use",
+      "उपयोग"
+    ],
+    [
+      "use",
+      "उपयोग"
+    ],
+    [
+      "dry",
+      "सूखा"
+    ],
+    [
+      "hub",
+      "हब"
+    ],
+    [
+      "low",
+      "कम"
+    ],
+    [
+      "max",
+      "अधिकतम"
+    ],
+    [
+      "via",
+      "के माध्यम से"
+    ],
+    [
+      "bag",
+      "बोरी"
+    ],
+    [
+      "REF",
+      "संदर्भ"
+    ],
+    [
+      "due",
+      "कारण"
+    ],
+    [
+      "Due",
+      "कारण"
+    ],
+    [
+      "RH",
+      "सापेक्ष आर्द्रता"
+    ],
+    [
+      "JS",
+      "जेएस"
+    ],
+    [
+      "No",
+      "सं."
+    ],
+    [
+      "Qt",
+      "क्विंटल"
+    ],
+    [
+      "Kg",
+      "किग्रा"
+    ],
+    [
+      "kg",
+      "किग्रा"
+    ],
+    [
+      "To",
+      "तक / को"
+    ],
+    [
+      "to",
+      "तक"
+    ],
+    [
+      "In",
+      "में"
+    ],
+    [
+      "in",
+      "में"
+    ],
+    [
+      "On",
+      "पर"
+    ],
+    [
+      "on",
+      "पर"
+    ],
+    [
+      "At",
+      "पर"
+    ],
+    [
+      "at",
+      "पर"
+    ],
+    [
+      "Of",
+      "का / के / की"
+    ],
+    [
+      "of",
+      "का"
+    ],
+    [
+      "Or",
+      "या"
+    ],
+    [
+      "or",
+      "या"
+    ],
+    [
+      "By",
+      "द्वारा"
+    ],
+    [
+      "by",
+      "द्वारा"
+    ],
+    [
+      "Is",
+      "है"
+    ],
+    [
+      "is",
+      "है"
+    ],
+    [
+      "Vs",
+      "बनाम"
+    ],
+    [
+      "vs",
+      "बनाम"
+    ],
+    [
+      "An",
+      "एक"
+    ],
+    [
+      "an",
+      "एक"
+    ],
+    [
+      "As",
+      "के रूप में"
+    ],
+    [
+      "as",
+      "जैसे"
+    ],
+    [
+      "If",
+      "यदि"
+    ],
+    [
+      "if",
+      "यदि"
+    ],
+    [
+      "AI",
+      "एआई"
+    ],
+    [
+      "BB",
+      "बीबी"
+    ],
+    [
+      "BY",
+      "द्वारा"
+    ],
+    [
+      "EV",
+      "ईवी"
+    ],
+    [
+      "PM",
+      "अपराह्न"
+    ],
+    [
+      "AM",
+      "पूर्वाह्न"
+    ],
+    [
+      "PO",
+      "खरीद आदेश"
+    ],
+    [
+      "QA",
+      "गुणवत्ता जांच"
+    ],
+    [
+      "QC",
+      "गुणवत्ता नियंत्रण"
+    ],
+    [
+      "QR",
+      "क्यूआर कोड"
+    ],
+    [
+      "Re",
+      "पुनः"
+    ],
+    [
+      "Up",
+      "ऊपर"
+    ],
+    [
+      "up",
+      "ऊपर"
+    ],
+    [
+      "be",
+      "हो"
+    ],
+    [
+      "ph",
+      "खोजें"
+    ],
+    [
+      "am",
+      "हूँ"
+    ],
+    [
+      "I",
+      "मैं"
+    ],
+    [
+      "i",
+      "मैं"
+    ],
+    [
+      "a",
+      "एक"
+    ],
+    [
+      "A",
+      "ए"
+    ]
+  ]
+};
 
   // Pre-compiled Single-Pass Fast Translation Engine
 
@@ -5250,6 +16777,9 @@
 
 
   function tText(str, lang) {
+    if (!str || typeof str !== "string") return str;
+    // Bypass email or UPI IDs
+    if (str.includes("@") || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+$/.test(str.trim())) return str;
     if (!str || typeof str !== 'string') return str;
     const l = lang || getFarmerLanguage();
     if (l === 'en') return translateFarmerToEnglish(str);
@@ -5346,6 +16876,12 @@
       }
     }
 
+    // SINGLE-PASS WORD REGEX PASS IN FARMER
+    const reg = WORD_REGEX[l];
+    if (reg) {
+      const map = WORD_MAP[l];
+      res = res.replace(reg, (match) => map[match] || match);
+    }
     return res;
   }
 
@@ -5556,6 +17092,19 @@
 
       const menu = document.getElementById('language-dropdown-menu');
       if (menu) menu.style.display = 'none';
+
+      const liteBtnText = document.getElementById('btn-toggle-lite-text');
+      if (liteBtnText) {
+        if (lang === 'en') liteBtnText.textContent = 'Simple Farmer Mode';
+        else if (lang === 'hi') liteBtnText.textContent = 'सरल किसान मोड';
+        else if (lang === 'mr') liteBtnText.textContent = 'सरल शेतकरी मोड';
+      }
+      const micLabel = document.getElementById('lite-floating-mic-label');
+      if (micLabel) {
+        if (lang === 'en') micLabel.textContent = 'Speak Command';
+        else if (lang === 'hi') micLabel.textContent = 'बोलकर आदेश दें';
+        else if (lang === 'mr') micLabel.textContent = 'बोलून सांगा';
+      }
     }
 
     // Re-render dynamic views across all farmer pages
