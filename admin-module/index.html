@@ -45,12 +45,12 @@
         if (!token || !user) {
           const defaultAdmin = {
             id: 'USR_ADMIN_001',
-            name: 'Dr. A. Venkatesh',
-            role: 'Platform Administrator',
+            name: 'Vikram Malhotra',
+            role: 'Platform Operations Lead',
             roleKey: 'admin',
             roleId: 'ROLE_ADMIN',
-            email: 'admin@agrinex.gov.in',
-            phone: '9000000001',
+            email: 'operations@agrinex.in',
+            phone: '9820155432',
             moduleDir: 'admin-module'
           };
           token = `AGX_ADMIN_DEMO_${Date.now()}`;
@@ -298,11 +298,11 @@
             <span class="badge-notification" id="header-pending-badge">14</span>
           </button>
 
-          <div class="profile-widget">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Dr. R. K. Shinde" class="profile-avatar" />
+          <div class="profile-widget" onclick="openAdminProfileModal()" style="cursor: pointer;" title="Click to view & edit admin profile">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80" alt="Vikram Malhotra" class="profile-avatar" />
             <div class="profile-info">
-              <span class="profile-name">Dr. R. K. Shinde, IAS</span>
-              <span class="profile-role">Chief Mandi Commissioner</span>
+              <span class="profile-name">Vikram Malhotra</span>
+              <span class="profile-role">Platform Operations Lead</span>
             </div>
           </div>
         </div>
@@ -315,12 +315,12 @@
         <div class="executive-status-bar">
           <div class="executive-status-left">
             <div class="executive-avatar-badge">
-              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Dr. R. K. Shinde" class="executive-avatar-img" />
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80" alt="Vikram Malhotra" class="executive-avatar-img" />
               <span class="status-live-dot" title="Live Master Desk Active"></span>
             </div>
             <div class="executive-details">
               <div class="executive-name-row">
-                <span class="executive-name">Dr. R. K. Shinde, IAS</span>
+                <span class="executive-name">Vikram Malhotra</span>
                 <span class="executive-role-pill">Central APMC Control Desk</span>
               </div>
               <div class="executive-subtext">
@@ -765,9 +765,14 @@
               <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin: 0;">🚚 Logistics Fleet Telemetry & MSWC Storage Hubs</h2>
               <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">312 active orders in transport with IoT temperature telemetry and state warehousing capacity</span>
             </div>
-            <span class="badge" style="background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; font-weight: 800; padding: 4px 12px; font-size: 0.74rem;">
-              ❄️ 98,000 MT Total Capacity Tracked
-            </span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <a href="manage-dispatches.html" class="btn btn-primary btn-sm" style="font-weight: 800; display: inline-flex; align-items: center; gap: 6px; background: #0c5a36; text-decoration: none; padding: 7px 16px; border-radius: 8px;">
+                <span>🚚</span> Manage Fleet Dispatches ↗
+              </a>
+              <span class="badge" style="background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; font-weight: 800; padding: 4px 12px; font-size: 0.74rem;">
+                ❄️ 98,000 MT Total Capacity Tracked
+              </span>
+            </div>
           </div>
 
           <!-- Active Deliveries Table -->
@@ -1107,6 +1112,185 @@
     </div>
   </div>
 
+  <!-- Manage Fleet Dispatches Governance Modal -->
+  <div class="modal-overlay" id="modal-manage-dispatches">
+    <div class="modal-box-lg" style="max-width: 1040px; width: 94vw;">
+      <div style="padding: 18px 24px; background: linear-gradient(135deg, #0c5a36 0%, #064e3b 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+            🚚
+          </div>
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 800; margin: 0; color: #ffffff;">Manage Fleet Dispatches & Transport Governance</h3>
+            <span style="font-size: 0.75rem; color: #a7f3d0;">Live Transit Permits • Digital Gate Passes • 4-Digit Escrow Release PINs</span>
+          </div>
+        </div>
+        <button onclick="closeAdminDispatchModal()" style="font-size: 1.8rem; color: #ffffff; background: none; border: none; cursor: pointer; line-height: 1;">&times;</button>
+      </div>
+
+      <div style="padding: 20px 24px; max-height: 75vh; overflow-y: auto;">
+        <!-- Controls bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; gap: 6px; border-bottom: 2px solid #e2e8f0; padding-bottom: 2px;">
+            <button class="filter-tab-btn active" id="modal-tab-all" onclick="setModalDispatchTab('all', this)">All Dispatches (7)</button>
+            <button class="filter-tab-btn" id="modal-tab-transit" onclick="setModalDispatchTab('transit', this)">In Transit (4)</button>
+            <button class="filter-tab-btn" id="modal-tab-available" onclick="setModalDispatchTab('available', this)">Available / Staging (2)</button>
+            <button class="filter-tab-btn" id="modal-tab-delivered" onclick="setModalDispatchTab('delivered', this)">Delivered (1)</button>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="text" id="modal-dispatch-search" placeholder="Search orders, trucks, crops..." oninput="filterModalDispatches(this.value)" class="form-input" style="padding: 6px 12px; font-size: 0.8rem; width: 220px; border-radius: 8px; border: 1px solid #cbd5e1;" />
+            <a href="manage-dispatches.html" class="btn btn-outline btn-sm" style="font-size: 0.78rem; font-weight: 700; text-decoration: none;">Full Page ↗</a>
+          </div>
+        </div>
+
+        <!-- Dispatches Table -->
+        <div class="table-container" style="overflow-x: auto;">
+          <table class="data-table" style="width: 100%; border-collapse: collapse; font-size: 0.84rem;">
+            <thead>
+              <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
+                <th style="padding: 10px 12px;">Produce & Order</th>
+                <th style="padding: 10px 12px;">Quantity</th>
+                <th style="padding: 10px 12px;">Pickup & Farmer</th>
+                <th style="padding: 10px 12px;">Destination & Route</th>
+                <th style="padding: 10px 12px;">Freight Escrow</th>
+                <th style="padding: 10px 12px;">Status</th>
+                <th style="padding: 10px 12px; text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="modal-admin-orders-tbody">
+              <!-- Injected dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIGITAL GATE PASS MODAL (Index Overlay) -->
+  <div class="modal-overlay" id="modal-gate-pass">
+    <div class="modal-card" style="max-width: 500px; padding: 0;" id="modal-gate-pass-body"></div>
+  </div>
+
+  <!-- 4-DIGIT PIN VERIFICATION MODAL (Index Overlay) -->
+  <div class="modal-overlay" id="modal-verify-pin">
+    <div class="modal-card" style="max-width: 440px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">
+        <h3 style="font-size:1.15rem; font-weight:800; color:#0f172a;">🔐 Verify Delivery &amp; Release Escrow</h3>
+        <button onclick="closePinModal()" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:#64748b;">&times;</button>
+      </div>
+      <p style="font-size:0.85rem; color:#475569; line-height:1.5; margin-bottom:16px;">
+        Enter the <strong>4-digit PIN</strong> verified by the buyer receiving dock staff to officially release freight payout.
+      </p>
+      <div style="margin-bottom:18px;">
+        <label style="display:block; font-size:0.8rem; font-weight:700; color:#334155; margin-bottom:6px;">Delivery PIN</label>
+        <input type="text" id="delivery-pin-input" maxlength="4" placeholder="8821" style="width:100%; font-size:1.4rem; letter-spacing:6px; text-align:center; font-weight:800; color:#0c5a36; padding:10px; border:2px solid #cbd5e1; border-radius:10px;" />
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitDeliveryPin()" style="background:#0c5a36;">✓ Verify &amp; Settle Escrow</button>
+    </div>
+  </div>
+
+  <!-- ADMIN PROFILE & GOVERNANCE CREDENTIALS MODAL -->
+  <div class="modal-overlay" id="modal-admin-profile">
+    <div class="modal-content" style="max-width: 640px; padding: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">Platform Admin Profile</h3>
+          <span class="badge" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-size: 0.72rem; font-weight: 800;">🛡️ Tier-1 Clearances</span>
+        </div>
+        <button type="button" onclick="closeAdminProfileModal()" style="font-size: 1.5rem; color: #64748b; font-weight: 700; cursor: pointer; background: none; border: none; line-height: 1;">&times;</button>
+      </div>
+
+      <!-- Admin Identity Hero Card -->
+      <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 14px; padding: 20px; color: #ffffff; display: flex; align-items: center; gap: 16px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25);">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80" alt="Vikram Malhotra" id="admin-profile-avatar-img" style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #38bdf8; box-shadow: 0 2px 8px rgba(0,0,0,0.35);" />
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <h4 style="font-size: 1.25rem; font-weight: 800; color: #ffffff;" id="admin-display-name">Vikram Malhotra</h4>
+            <span style="background: rgba(56, 189, 248, 0.2); color: #7dd3fc; border: 1px solid #38bdf8; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">ID: AGX-ADM-001</span>
+          </div>
+          <p style="font-size: 0.82rem; color: #cbd5e1; margin-top: 2px;" id="admin-display-role">Platform Operations Lead • AgriNex Platform Operations &amp; Governance</p>
+          <div style="display: flex; gap: 10px; margin-top: 8px; font-size: 0.74rem; color: #94a3b8; flex-wrap: wrap;">
+            <span>🏢 <strong>HQ Mumbai</strong></span>
+            <span>•</span>
+            <span>🏛️ <strong>305 Mandis Jurisdiction</strong></span>
+            <span>•</span>
+            <span>🔐 <strong>Dual-Key Escrow Signer</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Profile Form -->
+      <form id="form-edit-admin-profile" onsubmit="saveAdminProfile(event)">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="admin-input-name">Executive Officer Name</label>
+            <input type="text" id="admin-input-name" class="form-input" value="Vikram Malhotra" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="admin-input-role">Designation / Official Role</label>
+            <input type="text" id="admin-input-role" class="form-input" value="Platform Operations Lead" required />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="admin-input-email">Official Operations Email</label>
+            <input type="email" id="admin-input-email" class="form-input" value="operations@agrinex.in" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="admin-input-phone">Direct Secured Line</label>
+            <input type="text" id="admin-input-phone" class="form-input" value="+91 98201 55432" required />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="admin-input-department">Agency / Department</label>
+            <input type="text" id="admin-input-department" class="form-input" value="AgriNex Platform Operations &amp; Governance" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="admin-input-hq">Headquarters / Duty Station</label>
+            <input type="text" id="admin-input-hq" class="form-input" value="AgriNex Operations HQ, Nariman Point, Mumbai" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="admin-input-jurisdiction">Statutory Mandi Regulatory Jurisdiction</label>
+          <input type="text" id="admin-input-jurisdiction" class="form-input" value="305 APMC Mandis across 36 Districts (Maharashtra State)" required />
+        </div>
+
+        <!-- Governance Multi-Sig Clearance Box -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin: 16px 0;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <strong style="font-size: 0.85rem; color: #0f172a; display: flex; align-items: center; gap: 6px;">
+              <span>🔐</span> Active Governance Authorizations
+            </strong>
+            <span style="font-size: 0.72rem; color: #0284c7; font-weight: 700; background: #e0f2fe; padding: 2px 8px; border-radius: 6px; border: 1px solid #bae6fd;">Multi-Sig Active: AGX-SEC-9942</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-size: 0.78rem; color: #334155;">
+            <div>Dual-Key Escrow: <strong style="color: #166534;">Authorized</strong></div>
+            <div>Mandi MSP Calibrate: <strong style="color: #0c5a36;">Enabled</strong></div>
+            <div>Tribunal Bench: <strong style="color: #0f172a;">Chief Arbiter</strong></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: space-between; align-items: center; margin-top: 18px; border-top: 1px solid #e2e8f0; padding-top: 16px;">
+          <a href="../login_details/admin_login.html" onclick="localStorage.removeItem('agrinex_active_session');" class="btn btn-outline" style="color: #dc2626; border-color: #fca5a5; background: #fef2f2; text-decoration: none; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            <span>Sign Out &amp; Switch Role</span>
+          </a>
+          <div style="display: flex; gap: 12px;">
+            <button type="button" class="btn btn-outline" onclick="closeAdminProfileModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="background: #0f172a; border-color: #0f172a;">Save Profile Changes</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../logistics-module/js/data.js"></script>
   <script src="js/data.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/admin-api.js"></script>

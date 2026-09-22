@@ -5,11 +5,11 @@
 
 const ADMIN_GOVERNANCE_DATA = {
   profile: {
-    name: "Dr. R. K. Shinde, IAS",
-    role: "Chief Mandi Commissioner & Escrow Regulator",
-    agency: "Maharashtra State Agricultural Marketing Board (MSAMB)",
-    location: "MSAMB Central Governance HQ, Pune, Maharashtra",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80",
+    name: "Vikram Malhotra",
+    role: "Platform Operations Lead",
+    agency: "AgriNex Platform Operations & Governance",
+    location: "AgriNex Operations HQ, Mumbai, Maharashtra",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80",
     notificationsCount: 7,
     mandiJurisdiction: "305 APMC Mandis across 36 Districts"
   },
@@ -225,7 +225,7 @@ const ADMIN_GOVERNANCE_DATA = {
       farmerClaim: "Farmer states 50 Qt tomatoes were harvested at perfect 4.8% TSS grade with zero rot at farm pickup.",
       buyerClaim: "Buyer claims 12% produce suffered transit squishing due to standard crates used instead of perforated plastic.",
       status: "Arbitration In Progress",
-      hearingDate: "Today, 03:00 PM (Bench: Dr. Shinde)",
+      hearingDate: "Today, 03:00 PM (Bench: Vikram Malhotra)",
       proposedResolution: "Buyer accepts 92% volume (₹ 40,480); 8% logistics transit allowance (₹ 3,520) credited to Farmer from Logistics Transit Insurance.",
       pickupEvidence: {
         photo: "../farmer-module/assets/images/tomato.jpg",
@@ -394,7 +394,7 @@ const ADMIN_GOVERNANCE_DATA = {
 
   // Immutable Audit Trail
   auditTrail: [
-    { timestamp: "15 Sep 2026 11:30:12", action: "35% Advance Escrow Released", targetId: "ESC-MH-2026-899", amount: "₹ 52,500", actor: "Dr. R. K. Shinde (IAS)", txHash: "0x88f2a...91b4", status: "Success" },
+    { timestamp: "15 Sep 2026 11:30:12", action: "35% Advance Escrow Released", targetId: "ESC-MH-2026-899", amount: "₹ 52,500", actor: "Vikram Malhotra", txHash: "0x88f2a...91b4", status: "Success" },
     { timestamp: "15 Sep 2026 10:45:00", action: "Buyer KYC Approved & Credit Limit Set", targetId: "KYC-BUYER-1088", amount: "Limit: ₹ 50L", actor: "Mandi Board Registrar", txHash: "0x34c1b...77ae", status: "Success" },
     { timestamp: "15 Sep 2026 09:12:44", action: "APMC Price Ceiling Adjusted (+5%)", targetId: "CROP-ONI", amount: "Ceiling: ₹ 28/kg", actor: "State Mandi Price Committee", txHash: "0x9920d...11fe", status: "Success" },
     { timestamp: "14 Sep 2026 18:00:20", action: "Dispute Settled & Compensation Awarded", targetId: "DISP-MH-8809", amount: "₹ 18,000", actor: "Arbitration Tribunal Bench", txHash: "0xaa19c...55d0", status: "Success" }
@@ -513,7 +513,7 @@ const ADMIN_GOVERNANCE_DATA = {
     maxMoisturePct: 10.0
   },
 
-  // Users Directory (Farmers, FPOs, Buyers)
+  // Users Directory (Farmers, Buyers, Logistics)
   users: [
     {
       id: "USR-FRM-01",
@@ -523,23 +523,23 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Lasalgaon, Nashik",
       crops: "Tomato (Shivam), Red Onion",
       kycDoc: "Satbara 7/12 Land Record #4412",
-      status: "Verified",
+      status: "Active",
       riskScore: "Low Risk (98/100)",
       joinedDate: "12-Jan-2026",
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80"
     },
     {
-      id: "USR-FPO-01",
-      name: "Sahyadri Farmers Producer Co. (SFPC)",
-      category: "FPO",
+      id: "USR-LOG-01",
+      name: "MahaKisan Cold-Chain Logistics Ltd.",
+      category: "Logistics",
       phone: "+91 98230 55120",
-      location: "Dindori, Nashik (1,250 Farmers)",
-      crops: "Grapes, Tomato, Pomegranate",
-      kycDoc: "SFAC Registration & APMC Mandi License #SFAC-MH-99",
-      status: "Verified",
+      location: "Nashik - Mumbai Expressway Hub",
+      crops: "45 Reefer Cold Trucks (IoT GPS & Temp)",
+      kycDoc: "National Transport Permit & VAHAN Commercial Fleet RC #MH-15-TC-8890",
+      status: "Active",
       riskScore: "Verified (100/100)",
       joinedDate: "05-Nov-2025",
-      avatar: "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=80&auto=format&fit=crop&q=80"
+      avatar: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=80&auto=format&fit=crop&q=80"
     },
     {
       id: "USR-FRM-02",
@@ -549,7 +549,7 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Latur Mega Yard, Marathwada",
       crops: "Yellow Soybean, Chana",
       kycDoc: "Satbara 7/12 Land Record #1088",
-      status: "Verified",
+      status: "Active",
       riskScore: "Low Risk (95/100)",
       joinedDate: "18-Feb-2026",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop&q=80"
@@ -561,9 +561,9 @@ const ADMIN_GOVERNANCE_DATA = {
       phone: "+91 98229 33011",
       location: "Tasgaon, Sangli",
       crops: "Turmeric, Raisins",
-      kycDoc: "Satbara 7/12 Uploaded (Pending Land OCR)",
-      status: "Pending Verification",
-      riskScore: "Review Required",
+      kycDoc: "Satbara 7/12 Record #8821",
+      status: "Active",
+      riskScore: "Moderate (84/100)",
       joinedDate: "Yesterday",
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80"
     },
@@ -574,24 +574,37 @@ const ADMIN_GOVERNANCE_DATA = {
       phone: "+91 97631 88450",
       location: "Pandharpur, Solapur",
       crops: "Bhagwa Pomegranate, Jowar",
-      kycDoc: "Aadhaar e-KYC Pending Biometric Match",
-      status: "Pending Verification",
-      riskScore: "Review Required",
+      kycDoc: "Aadhaar e-KYC Verified",
+      status: "Suspended",
+      riskScore: "High Risk Flag (42/100)",
       joinedDate: "Today, 08:30 AM",
       avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&auto=format&fit=crop&q=80"
     },
     {
-      id: "USR-FPO-02",
-      name: "Balaji Agri Farmer Producer Hub",
-      category: "FPO",
+      id: "USR-LOG-02",
+      name: "Sahyadri Agro Transporters & Express",
+      category: "Logistics",
       phone: "+91 94211 44890",
-      location: "Ahmednagar (420 Farmers)",
-      crops: "Maize, Bajra, Onion",
-      kycDoc: "Board Resolution & APMC Wholesale License",
-      status: "Pending Verification",
-      riskScore: "Review Required",
+      location: "Pune - Latur Transit Yard",
+      crops: "28 Heavy Multi-Axle Freight Carriers",
+      kycDoc: "All-India Goods Permit & Fastag Fleet KYC",
+      status: "Active",
+      riskScore: "Verified (92/100)",
       joinedDate: "Today, 09:15 AM",
-      avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=80&auto=format&fit=crop&q=80"
+      avatar: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      id: "USR-LOG-03",
+      name: "Vashi Express Agro Carriers",
+      category: "Logistics",
+      phone: "+91 98220 99411",
+      location: "Navi Mumbai APMC Terminal",
+      crops: "16 Temperature-Controlled Reefer Vans",
+      kycDoc: "APMC Transporter License & Commercial Insurance",
+      status: "Active",
+      riskScore: "Verified (99/100)",
+      joinedDate: "14-Jan-2026",
+      avatar: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=80&auto=format&fit=crop&q=80"
     },
     {
       id: "USR-BYR-01",
@@ -603,7 +616,7 @@ const ADMIN_GOVERNANCE_DATA = {
       gstin: "27AABCB9812M1ZK",
       kycDoc: "APMC State Wholesale License #MH-APMC-8821",
       creditLimit: "₹ 75,00,000",
-      status: "Verified",
+      status: "Active",
       riskScore: "Verified (100/100)",
       joinedDate: "10-Oct-2025",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80"
@@ -618,7 +631,7 @@ const ADMIN_GOVERNANCE_DATA = {
       gstin: "27AACCA5541L1Z2",
       kycDoc: "Corporate ROC & Mandi Direct Purchase License",
       creditLimit: "₹ 2,50,00,000",
-      status: "Verified",
+      status: "Active",
       riskScore: "Verified (100/100)",
       joinedDate: "15-Aug-2025",
       avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&auto=format&fit=crop&q=80"
@@ -633,7 +646,7 @@ const ADMIN_GOVERNANCE_DATA = {
       gstin: "27AAACK1234F1Z8",
       kycDoc: "FSSAI Mega License & APMC Compliance Bond",
       creditLimit: "₹ 1,20,00,000",
-      status: "Verified",
+      status: "Active",
       riskScore: "Verified (100/100)",
       joinedDate: "01-Sep-2025",
       avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&auto=format&fit=crop&q=80"
@@ -646,10 +659,10 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Nashik Export Hub",
       businessType: "Export Merchant",
       gstin: "27AAACS8841F1ZL",
-      kycDoc: "APEDA Export Certification (Awaiting Mandi Guarantee)",
+      kycDoc: "APEDA Export Certification #EXP-9921",
       creditLimit: "₹ 40,00,000",
-      status: "Pending Verification",
-      riskScore: "Review Required",
+      status: "Active",
+      riskScore: "Verified (96/100)",
       joinedDate: "Today, 07:45 AM",
       avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&auto=format&fit=crop&q=80"
     },
@@ -661,10 +674,10 @@ const ADMIN_GOVERNANCE_DATA = {
       location: "Pune Market Yard",
       businessType: "Wholesale Supermarket",
       gstin: "27AABCM3312R1ZZ",
-      kycDoc: "GSTIN Tax Clearance Certificate Pending",
+      kycDoc: "APMC License #MH-PUN-99",
       creditLimit: "₹ 25,00,000",
-      status: "Pending Verification",
-      riskScore: "Review Required",
+      status: "Active",
+      riskScore: "Verified (94/100)",
       joinedDate: "Today, 08:10 AM",
       avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=80&auto=format&fit=crop&q=80"
     }
@@ -911,57 +924,35 @@ const ADMIN_GOVERNANCE_DATA = {
     },
     {
       id: "ACT-07",
-      category: "User KYC",
-      badgeClass: "badge-gov-pending",
-      title: "Farmer Land Record Approval: Ganesh Khot",
-      entity: "Satbara 7/12 Tasgaon, Sangli (#4412)",
-      amount: "Crop: Turmeric",
-      urgency: "Awaiting Admin Sign",
-      targetAction: "approve-user",
-      targetId: "USR-FRM-03"
-    },
-    {
-      id: "ACT-08",
-      category: "User KYC",
-      badgeClass: "badge-gov-pending",
-      title: "Farmer Aadhaar Verification: Tukaram Jadhav",
-      entity: "Pandharpur, Solapur Land Holding 4.5 Ha",
-      amount: "Crop: Pomegranate",
-      urgency: "Biometric Uploaded",
-      targetAction: "approve-user",
+      category: "Security & Fraud",
+      badgeClass: "badge-gov-hold",
+      title: "Duplicate GSTIN Inward Flag: Tukaram Jadhav",
+      entity: "Pandharpur, Solapur (#USR-FRM-04)",
+      amount: "Risk Score: 42/100",
+      urgency: "Immediate Action Required",
+      targetAction: "suspend-user",
       targetId: "USR-FRM-04"
     },
     {
+      id: "ACT-08",
+      category: "Compliance Check",
+      badgeClass: "badge-gov-pending",
+      title: "Repeated Transit Delay Flag: Vashi Express Agro",
+      entity: "Reefer Fleet Transporter (#USR-LOG-03)",
+      amount: "3 Transit Late Flags",
+      urgency: "Notice Issued",
+      targetAction: "suspend-user",
+      targetId: "USR-LOG-03"
+    },
+    {
       id: "ACT-09",
-      category: "User KYC",
+      category: "Market Integrity",
       badgeClass: "badge-gov-pending",
-      title: "FPO Registration Clearance: Balaji Agri Hub",
-      entity: "Ahmednagar FPO (420 Farmers, Board Res. Signed)",
-      amount: "Maize, Bajra",
-      urgency: "Mandatory SFAC Check",
-      targetAction: "approve-user",
-      targetId: "USR-FPO-02"
-    },
-    {
-      id: "ACT-10",
-      category: "Buyer KYC",
-      badgeClass: "badge-gov-pending",
-      title: "Buyer Trade License: Sahyadri Fresh Agro Exports",
-      entity: "APEDA Export License & Mandi Guarantee Bond",
-      amount: "Credit Limit: ₹ 40L",
-      urgency: "Pending License Seal",
-      targetAction: "approve-user",
-      targetId: "USR-BYR-04"
-    },
-    {
-      id: "ACT-11",
-      category: "Buyer KYC",
-      badgeClass: "badge-gov-pending",
-      title: "Buyer Corporate Clearance: Mahamandi Retailers",
-      entity: "GSTIN Verification & APMC License #MH-PUN-99",
-      amount: "Credit Limit: ₹ 25L",
-      urgency: "Tax Clearance Verified",
-      targetAction: "approve-user",
+      title: "Unusual Bid Cancellation Audit: Mahamandi Retailers",
+      entity: "Pune Market Yard (#USR-BYR-05)",
+      amount: "High Cancel Rate",
+      urgency: "Under Trade Audit",
+      targetAction: "suspend-user",
       targetId: "USR-BYR-05"
     },
     {
@@ -997,6 +988,190 @@ const ADMIN_GOVERNANCE_DATA = {
       targetAction: "market-check",
       targetId: "CROP-SUN"
     }
+  ],
+
+  // Maharashtra APMC GIS Map Data (Cluster Mandis, MSWC Hubs, and Live Transit Corridors)
+  gisMapData: {
+    mandis: [
+      { id: "APMC-01", name: "Lasalgaon APMC", district: "Nashik", lat: 20.1472, lng: 74.2259, primaryCrop: "Red Onion & Garlic", modalRate: "₹ 19.50/kg", arrivals: "6,850 Qt", status: "Alert (Hoarding Risk)", badgeClass: "badge-gov-hold", statusColor: "#e11d48" },
+      { id: "APMC-02", name: "Vashi Terminal Yard", district: "Navi Mumbai", lat: 19.0771, lng: 73.0039, primaryCrop: "Wholesale Consolidated & Veg", modalRate: "₹ 22.00/kg", arrivals: "14,200 Qt", status: "Optimal (Active Intake)", badgeClass: "badge-gov-clear", statusColor: "#059669" },
+      { id: "APMC-03", name: "Narayangaon APMC Hub", district: "Pune", lat: 19.1227, lng: 73.9781, primaryCrop: "Tomato & Exotic Greens", modalRate: "₹ 22.00/kg", arrivals: "8,400 Qt", status: "MSP Breach Watch", badgeClass: "badge-gov-pending", statusColor: "#d97706" },
+      { id: "APMC-04", name: "Nagpur Central Yard", district: "Nagpur", lat: 21.1458, lng: 79.0882, primaryCrop: "Nagpur Orange & Cotton", modalRate: "₹ 44.50/kg", arrivals: "5,100 Qt", status: "Optimal", badgeClass: "badge-gov-clear", statusColor: "#059669" },
+      { id: "APMC-05", name: "Latur Pulse & Oilseed APMC", district: "Latur", lat: 18.4088, lng: 76.5604, primaryCrop: "Soybean & Toor Dal", modalRate: "₹ 48.00/kg", arrivals: "7,350 Qt", status: "Optimal", badgeClass: "badge-gov-clear", statusColor: "#059669" },
+      { id: "APMC-06", name: "Solapur Pomegranate & Onion APMC", district: "Solapur", lat: 17.6599, lng: 75.9064, primaryCrop: "Bhagwa Pomegranate & Onion", modalRate: "₹ 82.00/kg", arrivals: "3,800 Qt", status: "Optimal", badgeClass: "badge-gov-clear", statusColor: "#059669" },
+      { id: "APMC-07", name: "Kolhapur Jaggery & Cane APMC", district: "Kolhapur", lat: 16.7050, lng: 74.2433, primaryCrop: "GI Kolhapuri Jaggery & Rice", modalRate: "₹ 46.00/kg", arrivals: "4,200 Qt", status: "Optimal", badgeClass: "badge-gov-clear", statusColor: "#059669" }
+    ],
+    coldStorages: [
+      { id: "MSWC-01", name: "MSWC Narayangaon Hub", district: "Pune", lat: 19.1250, lng: 73.9800, capacity: "12,000 MT", occupancy: "79%", temp: "2.8°C", humidity: "91%", status: "Near Peak", statusColor: "#0284c7" },
+      { id: "MSWC-02", name: "MSWC Nashik Cold Chain", district: "Nashik", lat: 19.9975, lng: 73.7898, capacity: "18,000 MT", occupancy: "86%", temp: "1.4°C", humidity: "94%", status: "Critical (86%)", statusColor: "#d97706" },
+      { id: "MSWC-03", name: "MSWC Latur Dry & Cold Hub", district: "Latur", lat: 18.4120, lng: 76.5650, capacity: "25,000 MT", occupancy: "60%", temp: "8.5°C", humidity: "65%", status: "Available", statusColor: "#059669" },
+      { id: "MSWC-04", name: "MSWC Nagpur Citrus Complex", district: "Nagpur", lat: 21.1500, lng: 79.0920, capacity: "20,000 MT", occupancy: "73%", temp: "4.2°C", humidity: "88%", status: "Normal", statusColor: "#059669" }
+    ],
+    routes: [
+      {
+        id: "ROUTE-01",
+        name: "Nashik to Vashi Corridor via Kasara Ghat",
+        truckId: "MH-15-EG-4412",
+        driver: "Sachin Kadam",
+        cargo: "Tomato (Shivam Hybrid) - 14 MT",
+        temp: "+4.1°C (Nominal)",
+        status: "Navigating Kasara Ghat Elevation",
+        waypoints: [
+          [20.0000, 73.7800],
+          [19.7120, 73.4860],
+          [19.2403, 73.1305],
+          [19.0771, 73.0039]
+        ]
+      },
+      {
+        id: "ROUTE-02",
+        name: "Pune to Vashi Express Haul",
+        truckId: "MH-12-RN-8831",
+        driver: "Ganesh More",
+        cargo: "Pomegranate (Bhagwa) - 10 MT",
+        temp: "+3.8°C (Nominal)",
+        status: "Expressway Km 42 (Lonavala Pass)",
+        waypoints: [
+          [18.5204, 73.8567],
+          [18.7546, 73.4062],
+          [19.0771, 73.0039]
+        ]
+      }
+    ]
+  },
+
+  // AI Market Price Anomaly & Anti-Hoarding Surveillance Engine
+  marketAnomalies: [
+    {
+      id: "ANOMALY-01",
+      mandi: "Lasalgaon APMC, Nashik",
+      crop: "Red Onion (Nashik Garwa)",
+      cropId: "CROP-ONION",
+      anomalyType: "Suspected Cartel Hoarding",
+      severity: "CRITICAL",
+      badgeClass: "badge-gov-hold",
+      metrics: "Arrivals dropped -46% in 48h, while wholesale modal price spiked +38% (₹ 27.50 vs 14-day avg ₹ 19.90)",
+      description: "Traders syndicate holding warehouse stocks off-market to create artificial regional supply constriction before festive demand cycle.",
+      recommendedAction: "Issue Statutory Form-IV Inspection & Release 5,000 MT MSWC Buffer",
+      status: "Active Alert",
+      timestamp: "28 mins ago"
+    },
+    {
+      id: "ANOMALY-02",
+      mandi: "Narayangaon Hub, Pune",
+      crop: "Tomato (Abhinav / Shivam)",
+      cropId: "CROP-TOM",
+      anomalyType: "Distress Price Crash (< MSP)",
+      severity: "HIGH",
+      badgeClass: "badge-gov-pending",
+      metrics: "Unregulated non-APMC arrivals surge (+62%), spot price collapsed to ₹ 9.50/kg (-24% below statutory MSP floor)",
+      description: "Predatory off-market broker discounts triggering panic farmer selloffs at local gate.",
+      recommendedAction: "Activate MSP Price Deficiency Support & Route to Processing Hubs",
+      status: "Active Alert",
+      timestamp: "1 hour ago"
+    }
+  ],
+
+  // Multilingual Public Crisis Advisory Broadcast Templates
+  advisoryTemplates: [
+    {
+      id: "ADV-01",
+      title: "Unseasonal Rain & Hailstorm Warning",
+      category: "Weather Disaster",
+      textMarathi: "महत्त्वाची सूचना: नाशिक, पुणे आणि अहमदनगर जिल्ह्यांत पुढील ४८ तासांत अवकाळी पाऊस आणि गारपिटीचा इशारा देण्यात आला आहे. सर्व शेतकऱ्यांनी काढणी केलेला शेतमाल सुरक्षित शेड किंवा जवळच्या MSWC शीतगृहात हलवावा.",
+      textHindi: "महत्वपूर्ण सूचना: नाशिक, पुणे और अहमदनगर जिलों में अगले 48 घंटों में बेमौसम बारिश और ओलावृष्टि की चेतावनी दी गई है। सभी किसान अपनी कटी हुई फसल सुरक्षित गोदाम या नजदीकी MSWC कोल्ड स्टोरेज में स्थानांतरित करें।",
+      textEnglish: "URGENT ADVISORY: IMD alerts severe unseasonal rains & hailstorms across Nashik, Pune & Ahmednagar districts within next 48 hours. Farmers are advised to immediately move harvested lots into sheltered MSWC storage hubs.",
+      targetDistricts: "Nashik, Pune, Ahmednagar (68 APMC Mandis)",
+      estimatedReach: "18,450 Verified Farmers"
+    },
+    {
+      id: "ADV-02",
+      title: "MSP Emergency Procurement Drive",
+      category: "Price Support",
+      textMarathi: "शासकीय हमीभाव खरेदी सूचना: सोलापूर आणि लातूर एपीएमसी मध्ये सोयाबीन आणि हरभरा हमीभाव (MSP) खरेदी केंद्र सुरू करण्यात आले आहेत. शेतकर्‍यांनी थेट शासकीय केंद्रावर नोंदणी करावी.",
+      textHindi: "सरकारी एमएसपी खरीद सूचना: सोलापुर और लातुर एपीएमसी में सोयाबीन और चना की सरकारी न्यूनतम समर्थन मूल्य (MSP) खरीद केंद्र तत्काल प्रभाव से सक्रिय कर दिए गए हैं।",
+      textEnglish: "GOVERNMENT MSP NOTICE: Direct Minimum Support Price (MSP) procurement counters for Soybean and Chana are now operational across Latur and Solapur APMCs. Direct DBT bank payouts guaranteed.",
+      targetDistricts: "Latur, Solapur, Osmanabad (42 APMC Mandis)",
+      estimatedReach: "12,200 Verified Farmers"
+    },
+    {
+      id: "ADV-03",
+      title: "Pest Infestation (Fall Armyworm) Containment",
+      category: "Crop Health",
+      textMarathi: "कृषी सल्ला: मका व ज्वारी पिकांवर लष्करी अळीचा प्रादुर्भाव आढळून आला आहे. कृषी विद्यापीठाने शिफारस केलेल्या जैविक कीटकनाशकांची फवारणी तातडीने करा.",
+      textHindi: "कृषि परामर्श: मक्का और ज्वार की फसलों में फॉल आर्मीवर्म कीट के प्रकोप की सूचना मिली है। किसान तुरंत कृषि विभाग द्वारा अनुशंसित जैविक कीटनाशक का छिड़काव करें।",
+      textEnglish: "CROP HEALTH ALERT: Fall Armyworm infestation reported in Maize clusters of Aurangabad and Jalna. Follow MPKV Rahuri biological spray protocols to contain spread.",
+      targetDistricts: "Chhatrapati Sambhajinagar, Jalna (31 APMC Mandis)",
+      estimatedReach: "9,800 Verified Farmers"
+    }
+  ],
+
+  // FPO Federation Oversight & Bulk Credit Desk
+  fpoFederations: [
+    {
+      id: "FPO-MH-01",
+      name: "Sahyadri Farmers Producer Co. Ltd",
+      regNo: "CIN-U01403MH2011PTC212345",
+      headquarters: "Mohadi, Nashik",
+      leadCommodity: "Grapes, Tomato & Export Veg",
+      memberCount: 2240,
+      totalAcreage: "8,500 Acres",
+      nabardRating: "AAA (Apex Tier)",
+      ratingClass: "badge-gov-clear",
+      sanctionedWorkingCapital: "₹ 5,00,00,000",
+      utilizedCapital: "₹ 3,40,00,000",
+      freightSubsidyApproved: "₹ 24,50,000",
+      subsidyStatus: "Cleared (State 40% Share)",
+      status: "Fully Compliant & Active"
+    },
+    {
+      id: "FPO-MH-02",
+      name: "MahaFPO Apex Agricultural Federation",
+      regNo: "CIN-U01111MH2014PTC256789",
+      headquarters: "Shivajinagar, Pune",
+      leadCommodity: "Soybean, Pulses & Onion",
+      memberCount: 5120,
+      totalAcreage: "19,200 Acres",
+      nabardRating: "AA+ (High Security)",
+      ratingClass: "badge-gov-clear",
+      sanctionedWorkingCapital: "₹ 8,50,00,000",
+      utilizedCapital: "₹ 5,80,00,000",
+      freightSubsidyApproved: "₹ 48,00,000",
+      subsidyStatus: "Pending Nodal Approval",
+      status: "Pending Subsidy Disbursement"
+    },
+    {
+      id: "FPO-MH-03",
+      name: "Godavari Bio-Organic Producers Co.",
+      regNo: "CIN-U01400MH2018PTC304561",
+      headquarters: "Nanded, Marathwada",
+      leadCommodity: "Turmeric, Cotton & Jowar",
+      memberCount: 1650,
+      totalAcreage: "5,800 Acres",
+      nabardRating: "AA (Standard Tier)",
+      ratingClass: "badge-gov-pending",
+      sanctionedWorkingCapital: "₹ 3,00,00,000",
+      utilizedCapital: "₹ 1,90,00,000",
+      freightSubsidyApproved: "₹ 15,20,000",
+      subsidyStatus: "Under Verification",
+      status: "Active Working Line"
+    },
+    {
+      id: "FPO-MH-04",
+      name: "Vidarbha Cotton & Orange Growers FPO",
+      regNo: "CIN-U01200MH2020PTC345112",
+      headquarters: "Kalmeshwar, Nagpur",
+      leadCommodity: "Bt Cotton & Nagpur Orange",
+      memberCount: 1980,
+      totalAcreage: "7,400 Acres",
+      nabardRating: "AA+ (High Security)",
+      ratingClass: "badge-gov-clear",
+      sanctionedWorkingCapital: "₹ 4,20,00,000",
+      utilizedCapital: "₹ 2,80,00,000",
+      freightSubsidyApproved: "₹ 22,00,000",
+      subsidyStatus: "Cleared (State 40% Share)",
+      status: "Fully Compliant & Active"
+    }
   ]
 };
 
@@ -1028,7 +1203,7 @@ class AgriNexAdminGovernance {
     item.riskScore = "Verified (100/100)";
     this.saveEscrowCases(cases);
 
-    this.addAuditLog(`Escrow Dual-Key Payout Approved (${item.type})`, item.id, item.payoutFormatted, "Dr. R. K. Shinde (IAS)");
+    this.addAuditLog(`Escrow Dual-Key Payout Approved (${item.type})`, item.id, item.payoutFormatted, "Vikram Malhotra");
     return { success: true, message: `Successfully authorized payout of ${item.payoutFormatted} to ${item.farmerName} via RTGS!` };
   }
 
@@ -1041,7 +1216,7 @@ class AgriNexAdminGovernance {
     item.riskScore = "Audit Flag (60/100)";
     this.saveEscrowCases(cases);
 
-    this.addAuditLog(`Escrow Quarantined / On Hold`, item.id, item.payoutFormatted, "Dr. R. K. Shinde (IAS)");
+    this.addAuditLog(`Escrow Quarantined / On Hold`, item.id, item.payoutFormatted, "Vikram Malhotra");
     return { success: true, message: `Escrow payout for ${item.id} has been placed on quarantine hold.` };
   }
 
@@ -1079,13 +1254,18 @@ class AgriNexAdminGovernance {
   }
 
   static getGrievances() {
+    let cases = ADMIN_GOVERNANCE_DATA.tribunalCases;
     try {
       if (typeof localStorage !== "undefined") {
         const stored = localStorage.getItem("agrinex_admin_tribunal");
-        if (stored) return JSON.parse(stored);
+        if (stored) cases = JSON.parse(stored);
       }
     } catch(e) {}
-    return ADMIN_GOVERNANCE_DATA.tribunalCases;
+    return cases.map(g => ({
+      ...g,
+      id: g.id || g.ticketId,
+      ticketId: g.ticketId || g.id
+    }));
   }
 
   static saveGrievances(cases) {
@@ -1102,7 +1282,7 @@ class AgriNexAdminGovernance {
 
   static resolveGrievanceWithSplit(ticketId, splitData = null, awardText = null) {
     const cases = this.getGrievances();
-    const item = cases.find(g => g.ticketId === ticketId);
+    const item = cases.find(g => g.ticketId === ticketId || g.id === ticketId);
     if (!item) return { success: false, message: "Tribunal ticket not found" };
 
     item.status = "Settled & Enforced by Tribunal ✓";
@@ -1117,18 +1297,33 @@ class AgriNexAdminGovernance {
     this.saveGrievances(cases);
 
     const logAmt = splitData ? `Farmer: ₹${splitData.farmerPayout.toLocaleString('en-IN')}` : item.disputedFormatted;
-    this.addAuditLog(`Tribunal Binding Award Issued (${item.ticketId})`, item.lotId, logAmt, "Dr. R. K. Shinde (IAS)");
-    return { success: true, message: `Legally binding MSAMB Tribunal award enforced for ${item.ticketId}!` };
+    this.addAuditLog(`Tribunal Binding Award Issued (${item.ticketId || item.id})`, item.lotId, logAmt, "Vikram Malhotra");
+    return { success: true, message: `Legally binding MSAMB Tribunal award enforced for ${item.ticketId || item.id}!` };
   }
 
   static getAuditLogs() {
+    let logs = ADMIN_GOVERNANCE_DATA.auditTrail;
     try {
       if (typeof localStorage !== "undefined") {
         const stored = localStorage.getItem("agrinex_admin_audit");
-        if (stored) return JSON.parse(stored);
+        if (stored) logs = JSON.parse(stored);
       }
     } catch(e) {}
-    return ADMIN_GOVERNANCE_DATA.auditTrail;
+
+    // Ensure backwards and cross-attribute compatibility
+    return logs.map((l, index) => ({
+      id: l.id || `EVT-${9000 - index}`,
+      timestamp: l.timestamp || "Just now",
+      action: l.action || "Governance Event",
+      targetId: l.targetId || l.entity || "Platform Core",
+      entity: l.entity || l.targetId || "Platform Core",
+      amount: l.amount || "N/A",
+      actor: l.actor || l.officer || "Vikram Malhotra",
+      officer: l.officer || l.actor || "Vikram Malhotra",
+      txHash: l.txHash || l.hash || ("0x" + Math.random().toString(16).substring(2, 8)),
+      hash: l.hash || l.txHash || ("0x" + Math.random().toString(16).substring(2, 8)),
+      status: l.status || "Success"
+    }));
   }
 
   static addAuditLog(action, targetId, amount, actor) {
@@ -1136,16 +1331,23 @@ class AgriNexAdminGovernance {
     const now = new Date();
     const dateStr = `${now.getDate()} Sep 2026 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
     const hash = '0x' + Math.random().toString(16).substring(2, 7) + '...' + Math.random().toString(16).substring(2, 6);
+    const newId = `EVT-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    logs.unshift({
+    const newLog = {
+      id: newId,
       timestamp: dateStr,
       action: action,
       targetId: targetId,
+      entity: targetId,
       amount: amount || "N/A",
-      actor: actor || "Dr. R. K. Shinde (IAS)",
+      actor: actor || "Vikram Malhotra",
+      officer: actor || "Vikram Malhotra",
       txHash: hash,
+      hash: hash,
       status: "Success"
-    });
+    };
+
+    logs.unshift(newLog);
 
     try {
       if (typeof localStorage !== "undefined") {
@@ -1181,7 +1383,7 @@ class AgriNexAdminGovernance {
 
   static evaluateFastTrackAutoArbitration(ticketId) {
     const cases = this.getGrievances();
-    const item = cases.find(g => g.ticketId === ticketId);
+    const item = cases.find(g => g.ticketId === ticketId || g.id === ticketId);
     if (!item) return { success: false, message: "Dispute ticket not found" };
 
     if (item.status.includes("Settled")) {
@@ -1215,6 +1417,10 @@ class AgriNexAdminGovernance {
     return this.resolveGrievanceWithSplit(ticketId, splitData, awardText);
   }
 
+  static evaluateFastTrackArbitration(ticketId) {
+    return this.evaluateFastTrackAutoArbitration(ticketId);
+  }
+
   static getUsers() {
     try {
       if (typeof localStorage !== "undefined") {
@@ -1233,17 +1439,50 @@ class AgriNexAdminGovernance {
     } catch(e) {}
   }
 
-  static approveUser(userId) {
+  static removeUser(userId, reason = "Admin Enforcement / De-listed") {
     const users = this.getUsers();
     const u = users.find(x => x.id === userId);
     if (!u) return { success: false, message: "User not found" };
 
-    u.status = "Verified";
-    u.riskScore = "Verified (100/100)";
+    // Mark as Removed / De-listed (Soft delete to protect financial audit trail)
+    u.status = "Removed";
+    u.riskScore = "De-listed (0/100)";
+    u.isRemoved = true;
     this.saveUsers(users);
 
-    this.addAuditLog(`KYC Verification Approved`, `${u.name} (${u.id})`, u.category, "Dr. R. K. Shinde (IAS)");
-    return { success: true, message: `Successfully verified and approved ${u.name}!` };
+    this.addAuditLog(`User Account De-listed & Removed`, `${u.name} (${u.id})`, `Reason: ${reason}`, "Vikram Malhotra");
+    return { success: true, message: `Successfully de-listed and removed ${u.name} from active platform trading.`, user: u };
+  }
+
+  static suspendUser(userId, reason = "Compliance Hold / Anti-Fraud Enforcement") {
+    const users = this.getUsers();
+    const u = users.find(x => x.id === userId);
+    if (!u) return { success: false, message: "User not found" };
+
+    u.status = "Suspended";
+    u.riskScore = "Suspended (Flagged)";
+    this.saveUsers(users);
+
+    this.addAuditLog(`User Account Suspended`, `${u.name} (${u.id})`, `Reason: ${reason}`, "Vikram Malhotra");
+    return { success: true, message: `Suspended trading account for ${u.name}.`, user: u };
+  }
+
+  static reactivateUser(userId) {
+    const users = this.getUsers();
+    const u = users.find(x => x.id === userId);
+    if (!u) return { success: false, message: "User not found" };
+
+    u.status = "Active";
+    u.riskScore = "Verified (100/100)";
+    delete u.isRemoved;
+    this.saveUsers(users);
+
+    this.addAuditLog(`User Account Re-activated`, `${u.name} (${u.id})`, u.category, "Vikram Malhotra");
+    return { success: true, message: `Re-activated account for ${u.name}!`, user: u };
+  }
+
+  static approveUser(userId) {
+    return this.reactivateUser(userId);
   }
 
   static getActiveDeals() {
@@ -1284,6 +1523,10 @@ class AgriNexAdminGovernance {
     return { success: true, message: `Emergency sale broadcast sent for ${item.crop} (${item.volume}) at ${item.distressPrice}!` };
   }
 
+  static broadcastEmergency(lotId) {
+    return this.broadcastEmergencyLot(lotId);
+  }
+
   static getPendingActions() {
     try {
       if (typeof localStorage !== "undefined") {
@@ -1312,8 +1555,12 @@ class AgriNexAdminGovernance {
       this.approveEscrow(item.targetId);
     } else if (item.targetAction === "resolve-dispute") {
       this.evaluateFastTrackAutoArbitration(item.targetId);
-    } else if (item.targetAction === "approve-user") {
-      this.approveUser(item.targetId);
+    } else if (item.targetAction === "suspend-user") {
+      this.suspendUser(item.targetId, "Priority Action Enforcement");
+    } else if (item.targetAction === "remove-user") {
+      this.removeUser(item.targetId, "Admin Enforcement");
+    } else if (item.targetAction === "approve-user" || item.targetAction === "reactivate-user") {
+      this.reactivateUser(item.targetId);
     } else if (item.targetAction === "broadcast-emergency") {
       this.broadcastEmergencyLot(item.targetId);
     }
@@ -1327,6 +1574,103 @@ class AgriNexAdminGovernance {
     }
 
     return { success: true, message: `Action resolved: ${item.title}` };
+  }
+
+  // --- GIS Map Data ---
+  static getGisMapData() {
+    return ADMIN_GOVERNANCE_DATA.gisMapData;
+  }
+
+  // --- Market Price Anomalies & Anti-Hoarding ---
+  static getMarketAnomalies() {
+    try {
+      if (typeof localStorage !== "undefined") {
+        const stored = localStorage.getItem("agrinex_admin_anomalies");
+        if (stored) return JSON.parse(stored);
+      }
+    } catch(e) {}
+    return ADMIN_GOVERNANCE_DATA.marketAnomalies;
+  }
+
+  static saveMarketAnomalies(anomalies) {
+    try {
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("agrinex_admin_anomalies", JSON.stringify(anomalies));
+      }
+    } catch(e) {}
+  }
+
+  static resolveMarketAnomaly(anomalyId, actionType) {
+    const list = this.getMarketAnomalies();
+    const item = list.find(a => a.id === anomalyId);
+    if (!item) return { success: false, message: "Anomaly alert not found" };
+
+    if (actionType === "form-iv-notice") {
+      item.status = "Form-IV Notice Issued";
+      item.badgeClass = "badge-gov-clear";
+      this.addAuditLog("Statutory Anti-Hoarding Notice Issued", `${item.mandi} (${item.crop})`, "Form-IV Summons Dispatched", "Market Surveillance Admin");
+    } else if (actionType === "buffer-release") {
+      item.status = "Buffer Stock Liquidation Activated";
+      item.badgeClass = "badge-gov-clear";
+      this.addAuditLog("MSWC Buffer Stock Released", `${item.crop} - 5,000 MT`, "Stabilization Price ₹ 21/kg", "Chief Mandi Commissioner");
+    } else if (actionType === "flying-squad") {
+      item.status = "Flying Squad Deployed";
+      item.badgeClass = "badge-gov-clear";
+      this.addAuditLog("Mandi Flying Squad Deployed", item.mandi, "Emergency Stock & Weighbridge Audit", "State Vigilance Officer");
+    } else {
+      item.status = "Resolved";
+      item.badgeClass = "badge-gov-clear";
+    }
+
+    this.saveMarketAnomalies(list);
+    return { success: true, message: `Intervention executed: ${item.status}` };
+  }
+
+  // --- Advisory Broadcast Templates ---
+  static getAdvisoryTemplates() {
+    return ADMIN_GOVERNANCE_DATA.advisoryTemplates;
+  }
+
+  // --- FPO Federation Governance ---
+  static getFpoFederations() {
+    try {
+      if (typeof localStorage !== "undefined") {
+        const stored = localStorage.getItem("agrinex_admin_fpos");
+        if (stored) return JSON.parse(stored);
+      }
+    } catch(e) {}
+    return ADMIN_GOVERNANCE_DATA.fpoFederations;
+  }
+
+  static saveFpoFederations(fpos) {
+    try {
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("agrinex_admin_fpos", JSON.stringify(fpos));
+      }
+    } catch(e) {}
+  }
+
+  static sanctionFpoWorkingCapital(fpoId, addAmountCr = 1.0) {
+    const fpos = this.getFpoFederations();
+    const item = fpos.find(f => f.id === fpoId);
+    if (!item) return { success: false, message: "FPO not found" };
+
+    item.sanctionedWorkingCapital = `₹ ${(parseFloat(item.sanctionedWorkingCapital.replace(/[^0-9.]/g, '')) + addAmountCr * 10000000).toLocaleString('en-IN')}`;
+    this.saveFpoFederations(fpos);
+    this.addAuditLog("FPO Credit Line Enhanced", item.name, `+₹ ${addAmountCr} Cr Working Capital`, "State Agricultural Credit Board");
+    return { success: true, message: `Sanctioned additional credit line for ${item.name}` };
+  }
+
+  static disburseFpoSubsidy(fpoId) {
+    const fpos = this.getFpoFederations();
+    const item = fpos.find(f => f.id === fpoId);
+    if (!item) return { success: false, message: "FPO not found" };
+
+    item.subsidyStatus = "Disbursed via Direct DBT";
+    item.status = "Fully Compliant & Active";
+    this.saveFpoFederations(fpos);
+    this.addAuditLog("Bulk Transport Subsidy Disbursed", item.name, item.freightSubsidyApproved, "MahaGov Nodal DBT Cell");
+    return { success: true, message: `Disbursed 40% Freight Subsidy (${item.freightSubsidyApproved}) to ${item.name}` };
   }
 }
 

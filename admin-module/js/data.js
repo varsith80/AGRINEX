@@ -5,11 +5,11 @@
 
 const ADMIN_GOVERNANCE_DATA = {
   profile: {
-    name: "Dr. R. K. Shinde, IAS",
-    role: "Chief Mandi Commissioner & Escrow Regulator",
-    agency: "Maharashtra State Agricultural Marketing Board (MSAMB)",
-    location: "MSAMB Central Governance HQ, Pune, Maharashtra",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80",
+    name: "Vikram Malhotra",
+    role: "Platform Operations Lead",
+    agency: "AgriNex Platform Operations & Governance",
+    location: "AgriNex Operations HQ, Mumbai, Maharashtra",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80",
     notificationsCount: 7,
     mandiJurisdiction: "305 APMC Mandis across 36 Districts"
   },
@@ -225,7 +225,7 @@ const ADMIN_GOVERNANCE_DATA = {
       farmerClaim: "Farmer states 50 Qt tomatoes were harvested at perfect 4.8% TSS grade with zero rot at farm pickup.",
       buyerClaim: "Buyer claims 12% produce suffered transit squishing due to standard crates used instead of perforated plastic.",
       status: "Arbitration In Progress",
-      hearingDate: "Today, 03:00 PM (Bench: Dr. Shinde)",
+      hearingDate: "Today, 03:00 PM (Bench: Vikram Malhotra)",
       proposedResolution: "Buyer accepts 92% volume (₹ 40,480); 8% logistics transit allowance (₹ 3,520) credited to Farmer from Logistics Transit Insurance.",
       pickupEvidence: {
         photo: "../farmer-module/assets/images/tomato.jpg",
@@ -394,7 +394,7 @@ const ADMIN_GOVERNANCE_DATA = {
 
   // Immutable Audit Trail
   auditTrail: [
-    { timestamp: "15 Sep 2026 11:30:12", action: "35% Advance Escrow Released", targetId: "ESC-MH-2026-899", amount: "₹ 52,500", actor: "Dr. R. K. Shinde (IAS)", txHash: "0x88f2a...91b4", status: "Success" },
+    { timestamp: "15 Sep 2026 11:30:12", action: "35% Advance Escrow Released", targetId: "ESC-MH-2026-899", amount: "₹ 52,500", actor: "Vikram Malhotra", txHash: "0x88f2a...91b4", status: "Success" },
     { timestamp: "15 Sep 2026 10:45:00", action: "Buyer KYC Approved & Credit Limit Set", targetId: "KYC-BUYER-1088", amount: "Limit: ₹ 50L", actor: "Mandi Board Registrar", txHash: "0x34c1b...77ae", status: "Success" },
     { timestamp: "15 Sep 2026 09:12:44", action: "APMC Price Ceiling Adjusted (+5%)", targetId: "CROP-ONI", amount: "Ceiling: ₹ 28/kg", actor: "State Mandi Price Committee", txHash: "0x9920d...11fe", status: "Success" },
     { timestamp: "14 Sep 2026 18:00:20", action: "Dispute Settled & Compensation Awarded", targetId: "DISP-MH-8809", amount: "₹ 18,000", actor: "Arbitration Tribunal Bench", txHash: "0xaa19c...55d0", status: "Success" }
@@ -1203,7 +1203,7 @@ class AgriNexAdminGovernance {
     item.riskScore = "Verified (100/100)";
     this.saveEscrowCases(cases);
 
-    this.addAuditLog(`Escrow Dual-Key Payout Approved (${item.type})`, item.id, item.payoutFormatted, "Dr. R. K. Shinde (IAS)");
+    this.addAuditLog(`Escrow Dual-Key Payout Approved (${item.type})`, item.id, item.payoutFormatted, "Vikram Malhotra");
     return { success: true, message: `Successfully authorized payout of ${item.payoutFormatted} to ${item.farmerName} via RTGS!` };
   }
 
@@ -1216,7 +1216,7 @@ class AgriNexAdminGovernance {
     item.riskScore = "Audit Flag (60/100)";
     this.saveEscrowCases(cases);
 
-    this.addAuditLog(`Escrow Quarantined / On Hold`, item.id, item.payoutFormatted, "Dr. R. K. Shinde (IAS)");
+    this.addAuditLog(`Escrow Quarantined / On Hold`, item.id, item.payoutFormatted, "Vikram Malhotra");
     return { success: true, message: `Escrow payout for ${item.id} has been placed on quarantine hold.` };
   }
 
@@ -1297,7 +1297,7 @@ class AgriNexAdminGovernance {
     this.saveGrievances(cases);
 
     const logAmt = splitData ? `Farmer: ₹${splitData.farmerPayout.toLocaleString('en-IN')}` : item.disputedFormatted;
-    this.addAuditLog(`Tribunal Binding Award Issued (${item.ticketId || item.id})`, item.lotId, logAmt, "Dr. R. K. Shinde (IAS)");
+    this.addAuditLog(`Tribunal Binding Award Issued (${item.ticketId || item.id})`, item.lotId, logAmt, "Vikram Malhotra");
     return { success: true, message: `Legally binding MSAMB Tribunal award enforced for ${item.ticketId || item.id}!` };
   }
 
@@ -1318,8 +1318,8 @@ class AgriNexAdminGovernance {
       targetId: l.targetId || l.entity || "Platform Core",
       entity: l.entity || l.targetId || "Platform Core",
       amount: l.amount || "N/A",
-      actor: l.actor || l.officer || "Dr. R. K. Shinde (IAS)",
-      officer: l.officer || l.actor || "Dr. R. K. Shinde (IAS)",
+      actor: l.actor || l.officer || "Vikram Malhotra",
+      officer: l.officer || l.actor || "Vikram Malhotra",
       txHash: l.txHash || l.hash || ("0x" + Math.random().toString(16).substring(2, 8)),
       hash: l.hash || l.txHash || ("0x" + Math.random().toString(16).substring(2, 8)),
       status: l.status || "Success"
@@ -1340,8 +1340,8 @@ class AgriNexAdminGovernance {
       targetId: targetId,
       entity: targetId,
       amount: amount || "N/A",
-      actor: actor || "Dr. R. K. Shinde (IAS)",
-      officer: actor || "Dr. R. K. Shinde (IAS)",
+      actor: actor || "Vikram Malhotra",
+      officer: actor || "Vikram Malhotra",
       txHash: hash,
       hash: hash,
       status: "Success"
@@ -1450,7 +1450,7 @@ class AgriNexAdminGovernance {
     u.isRemoved = true;
     this.saveUsers(users);
 
-    this.addAuditLog(`User Account De-listed & Removed`, `${u.name} (${u.id})`, `Reason: ${reason}`, "Dr. R. K. Shinde (IAS)");
+    this.addAuditLog(`User Account De-listed & Removed`, `${u.name} (${u.id})`, `Reason: ${reason}`, "Vikram Malhotra");
     return { success: true, message: `Successfully de-listed and removed ${u.name} from active platform trading.`, user: u };
   }
 
@@ -1463,7 +1463,7 @@ class AgriNexAdminGovernance {
     u.riskScore = "Suspended (Flagged)";
     this.saveUsers(users);
 
-    this.addAuditLog(`User Account Suspended`, `${u.name} (${u.id})`, `Reason: ${reason}`, "Dr. R. K. Shinde (IAS)");
+    this.addAuditLog(`User Account Suspended`, `${u.name} (${u.id})`, `Reason: ${reason}`, "Vikram Malhotra");
     return { success: true, message: `Suspended trading account for ${u.name}.`, user: u };
   }
 
@@ -1477,7 +1477,7 @@ class AgriNexAdminGovernance {
     delete u.isRemoved;
     this.saveUsers(users);
 
-    this.addAuditLog(`User Account Re-activated`, `${u.name} (${u.id})`, u.category, "Dr. R. K. Shinde (IAS)");
+    this.addAuditLog(`User Account Re-activated`, `${u.name} (${u.id})`, u.category, "Vikram Malhotra");
     return { success: true, message: `Re-activated account for ${u.name}!`, user: u };
   }
 

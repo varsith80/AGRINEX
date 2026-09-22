@@ -15,6 +15,7 @@
 
   // 1. PERSON / OFFICER / FARMER / DRIVER TRANSLATIONS
   const PERSON_MAP = {
+    'Vikram Malhotra': { hi: 'विक्रम मल्होत्रा', mr: 'विक्रम मल्होत्रा' },
     'Dr. R. K. Shinde, IAS': { hi: 'डॉ. आर. के. शिंदे, आईएएस', mr: 'डॉ. आर. के. शिंदे, आयएएस' },
     'Dr. R. K. Shinde': { hi: 'डॉ. आर. के. शिंदे', mr: 'डॉ. आर. के. शिंदे' },
     'Patil Rameshwar': { hi: 'पाटिल रामेश्वर', mr: 'पाटील रामेश्वर' },
@@ -1019,6 +1020,8 @@
     ['Track →', 'ट्रैक करें →', 'मागोवा घ्या →'],
     ['Triage →', 'कार्यवाही →', 'निवारण करा →'],
     ['Triage All', 'सभी की समीक्षा करें', 'सर्व निवारण करा'],
+    ['Vikram Malhotra', 'विक्रम मल्होत्रा', 'विक्रम मल्होत्रा'],
+    ['Platform Operations Lead', 'प्लेटफ़ॉर्म ऑपरेशंस लीड', 'प्लॅटफॉर्म ऑपरेशन्स लीड'],
     ['Dr. R. K. Shinde, IAS', 'डॉ. आर. के. शिंदे, आईएएस', 'डॉ. आर. के. शिंदे, आयएएस'],
     ['Central APMC Control Desk', 'केंद्रीय एपीएमसी नियंत्रण कक्ष', 'केंद्रीय बाजार समिती नियंत्रण कक्ष'],
     ['305 Mandis Live Across Maharashtra', 'महाराष्ट्र भर में 305 मंडियां लाइव', 'महाराष्ट्रभरातील ३०५ बाजार समित्या थेट कार्यरत'],
@@ -1597,7 +1600,7 @@
 
     // 4. Executive Banner
     const execName = document.querySelector('.executive-name');
-    if (execName) execName.textContent = tText('Dr. R. K. Shinde, IAS', l);
+    if (execName) execName.textContent = tText('Vikram Malhotra', l);
 
     const execRole = document.querySelector('.executive-role-pill');
     if (execRole) execRole.textContent = tText('Central APMC Control Desk', l);

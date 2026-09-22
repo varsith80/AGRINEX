@@ -1,4 +1,4 @@
-﻿/* Base Styles & Reset */
+/* Base Styles & Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -230,7 +230,7 @@ input, select, textarea {
   opacity: 1;
 }
 
-.modal-content {
+.modal-content, .modal-card, .modal-box, .modal-box-lg {
   background: #ffffff;
   border-radius: var(--radius-xl);
   max-width: 520px;
@@ -240,6 +240,7 @@ input, select, textarea {
   box-shadow: var(--shadow-lg);
   padding: 26px;
   animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #e2e8f0;
 }
 
 @keyframes modalPop {

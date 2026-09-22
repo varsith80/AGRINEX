@@ -87,6 +87,11 @@ function initNavigation() {
   const navItems = document.querySelectorAll(".sidebar-nav .nav-item");
   navItems.forEach(item => {
     item.addEventListener("click", (e) => {
+      const link = item.querySelector("a");
+      const href = link ? (link.getAttribute("href") || "") : "";
+      if (href && !href.startsWith("#")) {
+        return; // Allow direct navigation to .html pages like manage-dispatches.html
+      }
       const section = item.getAttribute("data-section");
       if (section) {
         e.preventDefault();
@@ -99,6 +104,9 @@ function initNavigation() {
     if (link) {
       link.addEventListener("click", (e) => {
         const href = link.getAttribute("href") || "";
+        if (href && !href.startsWith("#")) {
+          return; // Allow normal link click
+        }
         const section = item.getAttribute("data-section");
         if (section || href.startsWith("#")) {
           e.preventDefault();
@@ -132,6 +140,15 @@ function switchSection(sectionId, subFilter = null, updateHash = true) {
   if (cleanId === "escrow" || cleanId === "escrow-clearances" || cleanId === "escrow-governance") cleanId = "deals-payments";
   if (cleanId === "mandi" || cleanId === "mandi-desk" || cleanId === "mandi-governance") cleanId = "market-data";
   if (cleanId === "tribunal" || cleanId === "tribunal-bench" || cleanId === "grievance-arbitration") cleanId = "grievances";
+
+  if (cleanId === "manage-dispatches" || cleanId === "dispatches") {
+    if (typeof openAdminDispatchModal === 'function') {
+      openAdminDispatchModal();
+      return;
+    }
+    window.location.href = "manage-dispatches.html";
+    return;
+  }
 
   const targetSec = document.getElementById(`section-${cleanId}`);
   if (!targetSec) return;
@@ -1198,7 +1215,7 @@ async function handleApproveEscrow(caseId) {
       try {
         const apiRes = await window.AdminAPI.releaseDualKeyEscrow(
           caseId,
-          'Dr. R. K. Shinde, IAS (Commissioner MSAMB)',
+          'Vikram Malhotra (Operations Lead)',
           'State Nodal Escrow Officer (SBI Agri Wing)',
           '9012',
           res.case ? res.case.payoutFormatted : '₹ 1,17,000'
@@ -2452,7 +2469,7 @@ function exportAuditLedgerCSV() {
     const cleanTarget = `"${(log.targetId || log.entity || '').replace(/"/g, '""')}"`;
     const cleanAmount = `"${(log.amount || 'N/A').replace(/"/g, '""')}"`;
     const cleanHash = `"${(log.txHash || log.hash || '').replace(/"/g, '""')}"`;
-    const cleanOfficer = `"${(log.actor || log.officer || 'Dr. R. K. Shinde (IAS)').replace(/"/g, '""')}"`;
+    const cleanOfficer = `"${(log.actor || log.officer || 'Vikram Malhotra').replace(/"/g, '""')}"`;
     const cleanStatus = `"${(log.status || 'Success').replace(/"/g, '""')}"`;
     csvContent += `${cleanId},${cleanTime},${cleanAction},${cleanTarget},Maharashtra Mandi Board,${cleanAmount},${cleanHash},${cleanOfficer},${cleanStatus}\n`;
   });
@@ -2574,8 +2591,8 @@ function downloadOfficialAuditPDF() {
           </p>
         </div>
         <div style="text-align: right;">
-          <div style="font-weight: 900; color: #0f172a;">Dr. R. K. Shinde, IAS</div>
-          <div style="font-size: 11px; color: #64748b;">Chief Mandi Commissioner & Escrow Regulator</div>
+          <div style="font-weight: 900; color: #0f172a;">Vikram Malhotra</div>
+          <div style="font-size: 11px; color: #64748b;">Platform Operations Lead & Escrow Regulator</div>
           <div style="font-size: 9px; color: #059669; font-weight: 700;">Digital Signature: 0x7f2a99...msamb</div>
         </div>
     </body>
@@ -2676,5 +2693,282 @@ function initLiveFleetTelemetry() {
     console.debug('[AgriNex Telemetry] Stream heartbeat retry.');
   });
 }
+
+/* =========================================================================
+   19. MANAGE FLEET DISPATCHES GOVERNANCE MODAL HANDLERS
+   ========================================================================= */
+let activeModalDispatchTab = 'all';
+let currentAdminDispatchActiveOrder = null;
+
+function openAdminDispatchModal() {
+  const modal = document.getElementById("modal-manage-dispatches");
+  if (!modal) {
+    window.location.href = "manage-dispatches.html";
+    return;
+  }
+  renderModalAdminDispatches();
+  modal.classList.add("active");
+}
+
+function closeAdminDispatchModal() {
+  const modal = document.getElementById("modal-manage-dispatches");
+  if (modal) modal.classList.remove("active");
+}
+
+function setModalDispatchTab(tab, btn) {
+  activeModalDispatchTab = tab;
+  document.querySelectorAll("#modal-manage-dispatches .filter-tab-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  renderModalAdminDispatches();
+}
+
+function filterModalDispatches(q) {
+  const query = (q || '').toLowerCase().trim();
+  const rows = document.querySelectorAll("#modal-admin-orders-tbody tr");
+  rows.forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(query) ? "" : "none";
+  });
+}
+
+function renderModalAdminDispatches() {
+  const tbody = document.getElementById("modal-admin-orders-tbody");
+  if (!tbody || !window.logisticsData || !window.logisticsData.dispatchOrders) return;
+
+  const filtered = window.logisticsData.dispatchOrders.filter(o => {
+    if (activeModalDispatchTab === 'available') return o.deliveryStatus === 'Available';
+    if (activeModalDispatchTab === 'transit') return o.deliveryStatus === 'In Transit';
+    if (activeModalDispatchTab === 'delivered') return o.deliveryStatus === 'Delivered';
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:32px; color:#64748b; font-weight:600;">No dispatches found in this tab.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(o => `
+    <tr style="border-bottom:1px solid #f1f5f9;">
+      <td style="padding:10px 12px;">
+        <div style="display:flex; gap:8px; align-items:center;">
+          <img src="../${o.image || 'farmer-module/assets/images/tomato.jpg'}" alt="${o.cropName}" style="width:36px; height:36px; border-radius:6px; object-fit:cover; border:1px solid #e2e8f0;" onerror="this.src='../farmer-module/assets/images/wheat-logo.png'" />
+          <div>
+            <strong style="font-size:0.84rem; color:#0f172a; display:block;">${o.cropName}</strong>
+            <span style="font-size:0.7rem; color:#64748b; font-family:monospace; font-weight:700;">${o.orderCode}</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding:10px 12px;">
+        <strong style="color:#0c5a36; font-size:0.86rem;">${o.quantityQt} Qt</strong>
+        <div style="font-size:0.7rem; color:#64748b;">${(o.quantityKg || (o.quantityQt * 100)).toLocaleString()} kg</div>
+      </td>
+      <td style="padding:10px 12px;">
+        <div style="font-size:0.8rem; color:#334155; font-weight:700;">${o.pickupFarmerName}</div>
+        <div style="font-size:0.7rem; color:#64748b;">📍 ${o.pickupAddress.split(',')[0]}</div>
+      </td>
+      <td style="padding:10px 12px;">
+        <div style="font-size:0.8rem; color:#0f172a; font-weight:700;">${o.buyerName || o.deliveryAddress.split(',')[0]}</div>
+        <div style="font-size:0.7rem; color:#0284c7; font-weight:700;">⚡ ${o.shortestDistanceKm || o.distanceKm} km (${o.etaTime || 'In transit'})</div>
+      </td>
+      <td style="padding:10px 12px;">
+        <strong style="font-size:0.88rem; color:#0c5a36;">${o.freightFormatted}</strong>
+      </td>
+      <td style="padding:10px 12px;">
+        <span class="badge" style="background:${o.deliveryStatus === 'In Transit' ? '#eff6ff' : (o.deliveryStatus === 'Delivered' ? '#f0fdf4' : '#f8fafc')}; color:${o.deliveryStatus === 'In Transit' ? '#1d4ed8' : (o.deliveryStatus === 'Delivered' ? '#15803d' : '#64748b')}; border:1px solid ${o.deliveryStatus === 'In Transit' ? '#bfdbfe' : (o.deliveryStatus === 'Delivered' ? '#bbf7d0' : '#cbd5e1')}; font-weight:800; padding:2px 7px; border-radius:5px; font-size:0.7rem;">
+          ${o.deliveryStatus === 'Delivered' ? '✓ ' : ''}${o.deliveryStatus}
+        </span>
+      </td>
+      <td style="padding:10px 12px; text-align:right;">
+        <div style="display:inline-flex; gap:5px;">
+          <button class="btn btn-outline" style="padding:4px 8px; font-size:0.72rem; font-weight:700; cursor:pointer;" onclick="openGatePassModal('${o.orderCode}')">
+            📑 Gate Pass
+          </button>
+          <a href="../logistics-module/index.html?orderCode=${o.orderCode}" class="btn btn-primary" style="padding:4px 8px; font-size:0.72rem; font-weight:700; background:#0284c7; text-decoration:none;" target="_blank">
+            🗺️ Route
+          </a>
+          ${o.deliveryStatus === 'In Transit' ? `
+            <button class="btn btn-primary" style="padding:4px 8px; font-size:0.72rem; font-weight:700; background:#0c5a36; cursor:pointer;" onclick="openPinModal('${o.orderCode}')">
+              🔐 PIN
+            </button>
+          ` : ''}
+        </div>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function openGatePassModal(orderCode) {
+  const order = (window.logisticsData?.dispatchOrders || []).find(o => o.orderCode === orderCode);
+  if (!order) return;
+
+  const modal = document.getElementById("modal-gate-pass");
+  const body = document.getElementById("modal-gate-pass-body");
+  if (!modal || !body) return;
+
+  body.innerHTML = `
+    <div style="background: linear-gradient(135deg, #064e3b 0%, #0c5a36 100%); color: #ffffff; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0; border-bottom: 3px solid #10b981;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 0.68rem; background: rgba(255, 255, 255, 0.22); color: #ffffff; padding: 2px 7px; border-radius: 4px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;">OFFICIAL e-GATE PASS</span>
+          <span style="font-size: 0.68rem; background: #10b981; color: #ffffff; padding: 2px 7px; border-radius: 4px; font-weight: 800;">VERIFIED</span>
+        </div>
+        <h3 style="font-size: 1.18rem; font-weight: 800; color: #ffffff; margin: 0;">${order.orderCode} • APMC Transit Permit</h3>
+      </div>
+      <button onclick="closeGatePassModal()" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); font-size: 1.3rem; color: #ffffff; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; line-height: 1;">&times;</button>
+    </div>
+
+    <div style="padding: 20px 22px; background: #ffffff;">
+      <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 10px; padding: 14px; text-align: center; margin-bottom: 16px;">
+        <svg width="220" height="42" viewBox="0 0 200 48" fill="#0f172a" style="display: block; margin: 0 auto 6px auto;">
+          <rect x="0" y="0" width="4" height="48"/><rect x="8" y="0" width="8" height="48"/><rect x="20" y="0" width="4" height="48"/>
+          <rect x="28" y="0" width="12" height="48"/><rect x="44" y="0" width="4" height="48"/><rect x="52" y="0" width="6" height="48"/>
+          <rect x="62" y="0" width="10" height="48"/><rect x="76" y="0" width="4" height="48"/><rect x="84" y="0" width="8" height="48"/>
+          <rect x="96" y="0" width="14" height="48"/><rect x="114" y="0" width="4" height="48"/><rect x="122" y="0" width="8" height="48"/>
+          <rect x="134" y="0" width="6" height="48"/><rect x="144" y="0" width="10" height="48"/><rect x="158" y="0" width="6" height="48"/>
+          <rect x="168" y="0" width="8" height="48"/><rect x="180" y="0" width="4" height="48"/><rect x="188" y="0" width="10" height="48"/>
+        </svg>
+        <div style="font-family: monospace; font-size: 0.72rem; font-weight: 800; color: #475569; letter-spacing: 2px;">
+          PERMIT: AGX-GP-${order.orderCode}-2026
+        </div>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 14px; font-size: 0.84rem; display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+          <span style="color: #64748b;">Consignment Produce:</span>
+          <strong style="color: #0f172a;">${order.cropName} (${order.quantityQt} Qt / ${(order.quantityKg || (order.quantityQt * 100)).toLocaleString()} kg)</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+          <span style="color: #64748b;">Assigned Driver & Truck:</span>
+          <strong style="color: #0f172a;">${order.driverName || 'Verified Transporter'} (${order.vehicleNo || 'Tata 407 Reefer'})</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+          <span style="color: #64748b;">Origin Pickup:</span>
+          <strong style="color: #0c5a36;">📍 ${order.pickupAddress}</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+          <span style="color: #64748b;">Destination Intake:</span>
+          <strong style="color: #0369a1;">📍 ${order.deliveryAddress}</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: #64748b;">Guaranteed Freight Escrow:</span>
+          <strong style="color: #15803d; font-size: 0.95rem;">${order.freightFormatted} (Locked)</strong>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 14px; gap: 10px;">
+        <button class="btn btn-outline" onclick="window.print()" style="padding: 8px 16px; font-size: 0.82rem; font-weight: 700; cursor: pointer;">
+          🖨️ Print Pass
+        </button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-outline" onclick="closeGatePassModal()" style="padding: 8px 16px; font-size: 0.82rem; font-weight: 700;">
+            Close
+          </button>
+          <a href="../logistics-module/index.html?orderCode=${order.orderCode}" target="_blank" class="btn btn-primary" style="padding: 8px 18px; font-size: 0.82rem; font-weight: 800; background: #0c5a36; text-decoration: none;">
+            🚚 View Live GPS Route ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add("active");
+}
+
+function closeGatePassModal() {
+  const modal = document.getElementById("modal-gate-pass");
+  if (modal) modal.classList.remove("active");
+}
+
+function openPinModal(orderCode) {
+  currentAdminDispatchActiveOrder = orderCode;
+  const modal = document.getElementById("modal-verify-pin");
+  const input = document.getElementById("delivery-pin-input");
+  if (input) {
+    input.value = "";
+    setTimeout(() => input.focus(), 150);
+  }
+  if (modal) modal.classList.add("active");
+}
+
+function closePinModal() {
+  const modal = document.getElementById("modal-verify-pin");
+  if (modal) modal.classList.remove("active");
+}
+
+async function submitDeliveryPin() {
+  const input = document.getElementById("delivery-pin-input");
+  const pin = input ? input.value.trim() : "";
+  if (!pin || pin.length < 4) {
+    alert("Please enter the complete 4-digit PIN verified by receiving dock staff.");
+    return;
+  }
+
+  const orderCode = currentAdminDispatchActiveOrder;
+  try {
+    const res = await fetch('/api/logistics/verify-pin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order_code: orderCode, pin: pin })
+    });
+    const data = await res.json();
+    if (data && data.success) {
+      const order = (window.logisticsData?.dispatchOrders || []).find(o => o.orderCode === orderCode);
+      if (order) {
+        order.deliveryStatus = "Delivered";
+        order.escrowStatus = "Released & Settled";
+      }
+      closePinModal();
+      if (typeof renderModalAdminDispatches === 'function') renderModalAdminDispatches();
+      if (typeof renderAdminDispatches === 'function') renderAdminDispatches();
+      alert(`✅ Delivery Verified! Freight payout released for ${orderCode}.`);
+      return;
+    } else {
+      const order = (window.logisticsData?.dispatchOrders || []).find(o => o.orderCode === orderCode);
+      if (order && order.deliveryPin && pin === String(order.deliveryPin).trim()) {
+        order.deliveryStatus = "Delivered";
+        order.escrowStatus = "Released & Settled";
+        closePinModal();
+        if (typeof renderModalAdminDispatches === 'function') renderModalAdminDispatches();
+        if (typeof renderAdminDispatches === 'function') renderAdminDispatches();
+        alert(`✅ Delivery Verified! Freight payout released for ${orderCode}.`);
+        return;
+      }
+      alert(data.error || "Invalid delivery PIN. Please verify with receiving manager.");
+    }
+  } catch (e) {
+    const order = (window.logisticsData?.dispatchOrders || []).find(o => o.orderCode === orderCode);
+    if (order && order.deliveryPin && pin === String(order.deliveryPin).trim()) {
+      order.deliveryStatus = "Delivered";
+      order.escrowStatus = "Released & Settled";
+      closePinModal();
+      if (typeof renderModalAdminDispatches === 'function') renderModalAdminDispatches();
+      if (typeof renderAdminDispatches === 'function') renderAdminDispatches();
+      alert(`✅ Delivery Verified! Freight payout released for ${orderCode}.`);
+    } else {
+      alert("Invalid PIN or connection error. Please verify PIN and try again.");
+    }
+  }
+}
+
+// Expose dispatch and profile functions
+if (typeof window !== "undefined") {
+  window.openAdminDispatchModal = openAdminDispatchModal;
+  window.closeAdminDispatchModal = closeAdminDispatchModal;
+  window.setModalDispatchTab = setModalDispatchTab;
+  window.filterModalDispatches = filterModalDispatches;
+  window.renderModalAdminDispatches = renderModalAdminDispatches;
+  window.openGatePassModal = openGatePassModal;
+  window.closeGatePassModal = closeGatePassModal;
+  window.openPinModal = openPinModal;
+  window.closePinModal = closePinModal;
+  window.submitDeliveryPin = submitDeliveryPin;
+
+  if (typeof openAdminProfileModal !== "undefined") {
+    window.openAdminProfileModal = openAdminProfileModal;
+    window.closeAdminProfileModal = closeAdminProfileModal;
+    window.saveAdminProfile = saveAdminProfile;
+  }
+}
+
+
 
 

@@ -39,12 +39,12 @@
         if (!token || !user) {
           const defaultAdmin = {
             id: 'USR_ADMIN_001',
-            name: 'Dr. A. Venkatesh',
-            role: 'Platform Administrator',
+            name: 'Vikram Malhotra',
+            role: 'Platform Operations Lead',
             roleKey: 'admin',
             roleId: 'ROLE_ADMIN',
-            email: 'admin@agrinex.gov.in',
-            phone: '9000000001',
+            email: 'operations@agrinex.in',
+            phone: '9820155432',
             moduleDir: 'admin-module'
           };
           token = `AGX_ADMIN_DEMO_${Date.now()}`;
@@ -387,10 +387,10 @@
             </div>
           </div>
           <a href="index.html" class="btn btn-outline" style="font-size: 0.78rem;">&larr; Back to HQ</a>
-          <div class="profile-widget">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Dr. R. K. Shinde" class="profile-avatar" />
+          <div class="profile-widget" onclick="openAdminProfileModal()" style="cursor: pointer;" title="Click to view & edit admin profile">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80" alt="Vikram Malhotra" class="profile-avatar" />
             <div class="profile-info">
-              <span class="profile-name">Dr. R. K. Shinde, IAS</span>
+              <span class="profile-name">Vikram Malhotra</span>
               <span class="profile-role">Tribunal Presiding Officer</span>
             </div>
           </div>
@@ -683,7 +683,7 @@
             <textarea id="award-order-text" rows="3" style="width: 100%; border: 1px solid #fda4af; border-radius: 8px; padding: 10px; font-size: 0.82rem; color: #1e293b; line-height: 1.45; background: #ffffff; resize: vertical;"></textarea>
             
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 0.76rem; color: #64748b;">
-              <div>Presiding Officer: <strong>Dr. R. K. Shinde, IAS</strong></div>
+              <div>Presiding Officer: <strong>Vikram Malhotra</strong></div>
               <div>Arbitration SLA: <strong style="color: #15803d;">Instant RTGS Release Trigger</strong></div>
             </div>
           </div>
@@ -705,6 +705,105 @@
 
       </div>
 
+    </div>
+  </div>
+
+  <!-- ADMIN PROFILE & GOVERNANCE CREDENTIALS MODAL -->
+  <div class="modal-overlay" id="modal-admin-profile">
+    <div class="modal-content" style="max-width: 640px; padding: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">Platform Admin Profile</h3>
+          <span class="badge" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-size: 0.72rem; font-weight: 800;">🛡️ Tier-1 Clearances</span>
+        </div>
+        <button type="button" onclick="closeAdminProfileModal()" style="font-size: 1.5rem; color: #64748b; font-weight: 700; cursor: pointer; background: none; border: none; line-height: 1;">&times;</button>
+      </div>
+
+      <!-- Admin Identity Hero Card -->
+      <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 14px; padding: 20px; color: #ffffff; display: flex; align-items: center; gap: 16px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25);">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80" alt="Vikram Malhotra" id="admin-profile-avatar-img" style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #38bdf8; box-shadow: 0 2px 8px rgba(0,0,0,0.35);" />
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <h4 style="font-size: 1.25rem; font-weight: 800; color: #ffffff;" id="admin-display-name">Vikram Malhotra</h4>
+            <span style="background: rgba(56, 189, 248, 0.2); color: #7dd3fc; border: 1px solid #38bdf8; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">ID: AGX-ADM-001</span>
+          </div>
+          <p style="font-size: 0.82rem; color: #cbd5e1; margin-top: 2px;" id="admin-display-role">Platform Operations Lead • AgriNex Platform Operations &amp; Governance</p>
+          <div style="display: flex; gap: 10px; margin-top: 8px; font-size: 0.74rem; color: #94a3b8; flex-wrap: wrap;">
+            <span>🏢 <strong>HQ Mumbai</strong></span>
+            <span>•</span>
+            <span>🏛️ <strong>305 Mandis Jurisdiction</strong></span>
+            <span>•</span>
+            <span>🔐 <strong>Dual-Key Escrow Signer</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Profile Form -->
+      <form id="form-edit-admin-profile" onsubmit="saveAdminProfile(event)">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="admin-input-name">Executive Officer Name</label>
+            <input type="text" id="admin-input-name" class="form-input" value="Vikram Malhotra" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="admin-input-role">Designation / Official Role</label>
+            <input type="text" id="admin-input-role" class="form-input" value="Platform Operations Lead" required />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="admin-input-email">Official Operations Email</label>
+            <input type="email" id="admin-input-email" class="form-input" value="operations@agrinex.in" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="admin-input-phone">Direct Secured Line</label>
+            <input type="text" id="admin-input-phone" class="form-input" value="+91 98201 55432" required />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="admin-input-department">Agency / Department</label>
+            <input type="text" id="admin-input-department" class="form-input" value="AgriNex Platform Operations &amp; Governance" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="admin-input-hq">Headquarters / Duty Station</label>
+            <input type="text" id="admin-input-hq" class="form-input" value="AgriNex Operations HQ, Nariman Point, Mumbai" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="admin-input-jurisdiction">Statutory Mandi Regulatory Jurisdiction</label>
+          <input type="text" id="admin-input-jurisdiction" class="form-input" value="305 APMC Mandis across 36 Districts (Maharashtra State)" required />
+        </div>
+
+        <!-- Governance Multi-Sig Clearance Box -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin: 16px 0;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <strong style="font-size: 0.85rem; color: #0f172a; display: flex; align-items: center; gap: 6px;">
+              <span>🔐</span> Active Governance Authorizations
+            </strong>
+            <span style="font-size: 0.72rem; color: #0284c7; font-weight: 700; background: #e0f2fe; padding: 2px 8px; border-radius: 6px; border: 1px solid #bae6fd;">Multi-Sig Active: AGX-SEC-9942</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-size: 0.78rem; color: #334155;">
+            <div>Dual-Key Escrow: <strong style="color: #166534;">Authorized</strong></div>
+            <div>Mandi MSP Calibrate: <strong style="color: #0c5a36;">Enabled</strong></div>
+            <div>Tribunal Bench: <strong style="color: #0f172a;">Chief Arbiter</strong></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: space-between; align-items: center; margin-top: 18px; border-top: 1px solid #e2e8f0; padding-top: 16px;">
+          <a href="../login_details/admin_login.html" onclick="localStorage.removeItem('agrinex_active_session');" class="btn btn-outline" style="color: #dc2626; border-color: #fca5a5; background: #fef2f2; text-decoration: none; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            <span>Sign Out &amp; Switch Role</span>
+          </a>
+          <div style="display: flex; gap: 12px;">
+            <button type="button" class="btn btn-outline" onclick="closeAdminProfileModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="background: #0f172a; border-color: #0f172a;">Save Profile Changes</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1027,6 +1126,7 @@
           });
         }
       }
+    }
   </script>
   <script src="../assets/js/agrinex-auth-bridge.js"></script>
 </body>

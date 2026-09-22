@@ -1299,7 +1299,7 @@ const server = http.createServer(async (req, res) => {
       db.audit_logs.unshift({
         txHash,
         caseId,
-        officerA: officerA || 'Dr. R. K. Shinde, IAS',
+        officerA: officerA || 'Vikram Malhotra',
         officerB: officerB || 'Escrow Trustee Desk',
         action: 'DUAL_KEY_ESCROW_RELEASED',
         amount: payoutAmount || '₹ 1,17,000',
