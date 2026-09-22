@@ -297,7 +297,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="farmer-global-search" placeholder="Search crop lots, mandi rates, buyer bids, orders..." oninput="if(typeof handleSearchCrops==='function')handleSearchCrops(this.value);if(typeof filterChatContacts==='function')filterChatContacts(this.value);" />
+            <input type="text" id="farmer-global-search" placeholder="Search crop lots, mandi rates, buyer bids, orders..." oninput="if(typeof handleSearchCrops==='function')handleSearchCrops(this.value);if(typeof filterChatContacts==='function')filterChatContacts(this.value);if(typeof renderFPOPageDemands==='function')renderFPOPageDemands(this.value);if(typeof handleSearchTable==='function')handleSearchTable(this.value);if(typeof handleSearch==='function')handleSearch(this.value);if(typeof handleSearchBids==='function')handleSearchBids(this.value);if(typeof handleSearchOrders==='function')handleSearchOrders(this.value);" />
           </div>
         </div>
 
@@ -336,7 +336,7 @@
           </button>
 
           <!-- Quick Action: List Crop -->
-          <button class="navbar-btn-create" id="btn-open-create-modal" onclick="if(typeof openCreateListingModal==='function'){openCreateListingModal();}else if(document.getElementById('modal-create-lot')){/* opened by dashboard.js on index */}else{window.location.href='my-crops.html?action=new';}">
+          <button class="navbar-btn-create" id="btn-open-create-modal" onclick="if(typeof openCreateListingModal==='function'){openCreateListingModal();}else if(document.getElementById('modal-create-listing')){document.getElementById('modal-create-listing').classList.add('active');}else{window.location.href='my-crops.html?action=new';}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -531,6 +531,11 @@
     ];
 
     let currentTab = 'all';
+    let currentSearchTerm = '';
+    function handleSearchBids(val) {
+      currentSearchTerm = (val || '').trim().toLowerCase();
+      renderBids();
+    }
     let currentCrop = 'All';
     let activeBid = null;
 
@@ -568,7 +573,8 @@
       const filtered = BIDS_DATA.filter(b => {
         const matchTab = (currentTab === 'all') || (b.status === currentTab);
         const matchCrop = (currentCrop === 'All') || (b.crop.toLowerCase() === currentCrop.toLowerCase());
-        return matchTab && matchCrop;
+        const matchSearch = !currentSearchTerm || b.crop.toLowerCase().includes(currentSearchTerm) || b.variety.toLowerCase().includes(currentSearchTerm) || b.buyer_name.toLowerCase().includes(currentSearchTerm);
+        return matchTab && matchCrop && matchSearch;
       });
 
       document.getElementById('stat-bids-count').innerText = BIDS_DATA.filter(b => b.status === 'pending').length + ' Bids';
@@ -705,7 +711,7 @@
 
     loadBids();
   </script>
-  <script src="js/api.js"></script>
+  
   <script src="js/i18n.js"></script>
   <script src="../assets/js/agrinex-auth-bridge.js"></script>
 </body>

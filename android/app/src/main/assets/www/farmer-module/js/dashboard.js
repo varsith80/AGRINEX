@@ -2,9 +2,15 @@ document.addEventListener("DOMContentLoaded", () => {
   renderListings();
   syncListingsFromBackend();
   renderFPOHub();
+  if (window.AgriNexFPOHub && typeof window.AgriNexFPOHub.syncFromServer === 'function') {
+    window.AgriNexFPOHub.syncFromServer();
+  }
   setupModals();
   setupNavigation();
   setupLocationChange();
+  if (window.location.hash === '#profile') {
+    setTimeout(openProfileModal, 100);
+  }
 
   const createForm = document.getElementById("form-create-listing");
   if (createForm) {
@@ -26,6 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           showToast("🎉 Crop lot published to marketplace!");
           await syncListingsFromBackend();
+
+          // Broadcast to Buyer and Admin tabs immediately
+          if (typeof BroadcastChannel !== 'undefined') {
+            const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+            syncChannel.postMessage({ type: 'LOT_CREATED', crop: cropName });
+          }
+
           document.getElementById("modal-create-listing").classList.remove("active");
           createForm.reset();
           return;
@@ -205,6 +218,13 @@ function setProduceFilter(filterType) {
   renderListings();
 }
 
+let currentProduceSearch = '';
+function handleSearchCrops(val) {
+  currentProduceSearch = (val || '').trim().toLowerCase();
+  renderListings();
+}
+window.handleSearchCrops = handleSearchCrops;
+
 function renderListings() {
   const tableBody = document.getElementById("listings-tbody");
   if (!tableBody || !farmerData || !farmerData.listings) return;
@@ -235,6 +255,14 @@ function renderListings() {
 
   // Filter listings based on selected tab
   let items = farmerData.listings;
+  if (currentProduceSearch) {
+    items = items.filter(item => 
+      (item.crop && item.crop.toLowerCase().includes(currentProduceSearch)) ||
+      (item.grade && item.grade.toLowerCase().includes(currentProduceSearch)) ||
+      (item.buyerName && item.buyerName.toLowerCase().includes(currentProduceSearch)) ||
+      (item.id && item.id.toLowerCase().includes(currentProduceSearch))
+    );
+  }
   if (window.currentProduceFilter === 'active') {
     items = items.filter(item => !item.status || !item.status.includes("Sold"));
   } else if (window.currentProduceFilter === 'emergency') {
@@ -323,6 +351,23 @@ function renderListings() {
     `;
   }).join("");
 }
+
+function openCreateListingModal() {
+  const modalCreate = document.getElementById("modal-create-listing");
+  if (modalCreate) {
+    const dateInput = document.getElementById("new-crop-harvest-date");
+    if (dateInput && !dateInput.value) {
+      dateInput.value = new Date().toISOString().split('T')[0];
+    }
+    modalCreate.classList.add("active");
+  }
+}
+function closeCreateListingModal() {
+  const modalCreate = document.getElementById("modal-create-listing");
+  if (modalCreate) modalCreate.classList.remove("active");
+}
+window.openCreateListingModal = openCreateListingModal;
+window.closeCreateListingModal = closeCreateListingModal;
 
 function openProfileModal() {
   const modalProfile = document.getElementById("modal-profile");

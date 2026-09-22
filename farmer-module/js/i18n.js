@@ -470,6 +470,8 @@
 
   // 8. UI PHRASE REPLACEMENTS (High Precision Ordering - Longest Strings First)
   const RAW_PHRASES = [
+    ["Dual-Key Protected", "दोहरी-कुंजी सुरक्षित", "दुहेरी-किल्ली सुरक्षित"],
+    ["Dual-Key", "दोहरी-कुंजी", "दुहेरी-किल्ली"],
     ["File complaints, payment delays & dispute redressal","शिकायतें, भुगतान में देरी और विवाद निवारण दर्ज करें","तक्रारी, पेमेंट विलंब आणि वाद निवारण दाखल करा"],
     ["Filter lots needing immediate emergency salvage","तत्काल आपातकालीन बिक्री की आवश्यकता वाले लॉट फ़िल्टर करें","तातडीच्या संकट विक्रीची आवश्यकता असलेले लॉट्स फिल्टर करा"],
     ["🔒 35% ADVANCE ESCROW PROTECTED","🔒 35% अग्रिम एस्क्रो सुरक्षित","🔒 ३५% आगाऊ एस्क्रो सुरक्षित"],
