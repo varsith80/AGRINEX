@@ -1,0 +1,43 @@
+name: Render Keep-Alive Watchdog
+
+on:
+  schedule:
+    # Runs every 10 minutes (cron format: minute hour day month day-of-week)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab anytime
+
+jobs:
+  keep-alive-ping:
+    name: Ping Render Web Service
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send HTTP Keep-Alive Ping
+        run: |
+          # If secret RENDER_APP_URL is set in GitHub repository settings, use it.
+          # Otherwise defaults to https://agrinex.onrender.com
+          APP_URL="${{ secrets.RENDER_APP_URL }}"
+          if [ -z "$APP_URL" ]; then
+            APP_URL="https://agrinex.onrender.com"
+          fi
+          
+          # Remove trailing slash
+          CLEAN_URL=$(echo "$APP_URL" | sed 's:/*$::')
+          PING_ENDPOINT="$CLEAN_URL/api/health"
+          
+          echo "=================================================="
+          echo "AgriNex Render Keep-Alive Watchdog"
+          echo "Target Endpoint: $PING_ENDPOINT"
+          echo "Timestamp: $(date -u)"
+          echo "=================================================="
+          
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "$PING_ENDPOINT" || echo "000")
+          
+          echo "HTTP Response Status Code: $HTTP_CODE"
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 400 ]; then
+            echo "SUCCESS: Render container is awake and responding promptly."
+          else
+            echo "NOTICE: Service may be waking up from cold start (Status: $HTTP_CODE). Retrying in 10s..."
+            sleep 10
+            RETRY_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 45 "$PING_ENDPOINT" || echo "000")
+            echo "Retry Status Code: $RETRY_CODE"
+          fi

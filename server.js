@@ -852,6 +852,22 @@ const server = http.createServer(async (req, res) => {
   const [urlPath, queryString] = req.url.split('?');
   const queryParams = new URLSearchParams(queryString || '');
 
+  // Fast Health & Uptime Check (Used by Render Keep-Alive, UptimeRobot, cron-job.org)
+  if (urlPath === '/health' || urlPath === '/ping' || urlPath === '/api/health') {
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Cache-Control': 'no-cache, no-store, must-revalidate'
+    });
+    res.end(JSON.stringify({
+      status: 'online',
+      app: 'AgriNex Unified Agricultural Platform',
+      uptime_seconds: Math.round(process.uptime()),
+      timestamp: new Date().toISOString()
+    }));
+    return;
+  }
+
   // ================= API ROUTES =================
   if (urlPath.startsWith('/api/')) {
     db = loadDB();
@@ -2133,8 +2149,8 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    // 1. Health & Database Status
-    if (urlPath === '/api/health') {
+    // 1. Health & Database Status (Used by Cloud Keep-Alive & Monitoring)
+    if (urlPath === '/api/health' || urlPath === '/health' || urlPath === '/ping') {
       return sendJSON(res, 200, {
         status: 'online',
         app: 'AgriNex Unified Agricultural Platform API',
@@ -3886,7 +3902,37 @@ server.listen(PORT, async () => {
   } catch (err) {
     console.error('Database initialization warning:', err.message);
   }
+
+  // Automatic Keep-Alive for Cloud Hosting (Render / Railway)
+  // Prevents free tier instances from sleeping after 15 min of inactivity
+  const externalAppUrl = process.env.RENDER_EXTERNAL_URL || process.env.APP_URL || process.env.PUBLIC_URL;
+  if (externalAppUrl) {
+    const PING_INTERVAL = 8 * 60 * 1000; // 8 minutes
+    console.log(`[Keep-Alive] Cloud deployment detected. Self-ping active for: ${externalAppUrl} (every 8 min)`);
+    setTimeout(() => performSelfPing(externalAppUrl), 20000);
+    setInterval(() => performSelfPing(externalAppUrl), PING_INTERVAL);
+  } else {
+    console.log('[Keep-Alive] Local development mode. Set RENDER_EXTERNAL_URL or APP_URL in production to enable cloud self-ping.');
+  }
 });
+
+function performSelfPing(baseUrl) {
+  try {
+    const pingTarget = `${baseUrl.replace(/\/$/, '')}/api/health`;
+    const client = pingTarget.startsWith('https') ? https : http;
+    const req = client.get(pingTarget, (res) => {
+      console.log(`[Keep-Alive] Self-ping successful (${pingTarget}) - Status: ${res.statusCode}`);
+    });
+    req.on('error', (err) => {
+      console.warn(`[Keep-Alive] Ping notice: ${err.message}`);
+    });
+    req.setTimeout(15000, () => {
+      req.destroy();
+    });
+  } catch (err) {
+    console.warn(`[Keep-Alive] Error: ${err.message}`);
+  }
+}
 
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err);
