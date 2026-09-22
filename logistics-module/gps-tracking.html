@@ -424,17 +424,20 @@
               </div>
             </div>
 
-            <!-- Linked UPI VPA Strip -->
-            <div class="dc-upi-strip">
-              <span class="dc-upi-label">LINKED UPI VPA:</span>
-              <span class="dc-upi-vpa" id="dc-upi-vpa">9842199812@okhdfcbank</span>
-            </div>
-
-            <!-- Big Green Withdraw Button -->
-            <button type="button" class="dc-btn-withdraw" id="dc-btn-withdraw" onclick="withdrawDriverEarnings()">
-              <span>⚡</span>
-              <span id="dc-btn-withdraw-text">Withdraw ₹3,840 to Bank Account</span>
-            </button>
+            <!-- Shift Settlement & Dedicated Wallet Link -->
+            <a href="profile.html" style="display:flex; justify-content:space-between; align-items:center; background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:12px; padding:12px 16px; margin-top:14px; text-decoration:none; color:#166534; box-shadow:0 1px 3px rgba(0,0,0,0.03); transition:all 0.2s ease;">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:1.25rem;">👛</span>
+                <div>
+                  <div style="font-size:0.7rem; color:#475569; font-weight:700; text-transform:uppercase; letter-spacing:0.4px;">Shift Wallet Balance</div>
+                  <div style="color:#0c5a36; font-size:1.05rem; font-weight:900;" id="dc-stat-settled-summary">₹3,840 Settled</div>
+                </div>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px; font-size:0.8rem; color:#15803d; font-weight:800; background:white; padding:6px 12px; border-radius:8px; border:1px solid #bbf7d0;">
+                <span>Payouts</span>
+                <span>&rarr;</span>
+              </div>
+            </a>
           </div>
 
           <!-- CURRENT TRIP FARE BREAKDOWN CARD -->

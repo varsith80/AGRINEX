@@ -65,7 +65,7 @@
           <li class="nav-item active" onclick="window.location.href='profile.html'">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
-              <span>Passbook &amp; Profile</span>
+              <span>Wallet &amp; Passbook</span>
             </div>
           </li>
 
@@ -182,6 +182,45 @@
               <div style="font-size:0.82rem; color:#475569; margin-top:3px;">Fleet Captain • GreenWays Transit, Nashik Hub</div>
               <div style="font-size:0.78rem; color:#64748b;">Vehicle: <strong>MH-15-AQ-9011</strong> • Rating: <strong style="color:#d97706;">4.95 ★★★★★</strong></div>
             </div>
+          </div>
+        </div>
+
+        <!-- Dedicated Driver Wallet & Instant UPI Payout Section -->
+        <div style="background: linear-gradient(135deg, #064e3b 0%, #0c5a36 60%, #15803d 100%); border-radius: 16px; padding: 24px; color: #ffffff; margin-bottom: 22px; box-shadow: 0 10px 25px -5px rgba(12, 90, 54, 0.3);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+            <div>
+              <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.15); padding:4px 10px; border-radius:999px; font-size:0.75rem; font-weight:700; letter-spacing:0.5px; text-transform:uppercase;">
+                <span>👛</span> Official Payout Wallet
+              </div>
+              <div style="font-size: 0.85rem; color: #a7f3d0; margin-top: 10px; font-weight: 600;">AVAILABLE SHIFT SETTLED BALANCE</div>
+              <div style="font-size: 2.2rem; font-weight: 900; color: #ffffff; line-height: 1.1; margin-top: 2px;" id="profile-wallet-balance">₹3,840</div>
+              <div style="font-size: 0.78rem; color: #d1fae5; margin-top: 4px;">Milestone funds automatically cleared upon PIN delivery verification</div>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 14px; padding: 16px 20px; min-width: 260px;">
+              <div style="font-size: 0.72rem; color: #a7f3d0; font-weight: 700; text-transform: uppercase;">Linked Settlement Account</div>
+              <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+                <span style="font-size:1.2rem;">🏦</span>
+                <div>
+                  <div style="font-weight: 800; font-size: 0.95rem; color: #ffffff;">HDFC Bank (•••• 4910)</div>
+                  <div style="font-size: 0.75rem; color: #d1fae5;">UPI ID: <strong id="dc-upi-vpa" style="color:#ffffff;">9842199812@okhdfcbank</strong></div>
+                </div>
+              </div>
+              <div style="margin-top: 14px;">
+                <button type="button" class="btn" id="dc-btn-withdraw" onclick="withdrawDriverEarnings()" style="width:100%; background:#22c55e; color:#052e16; font-weight:900; font-size:0.92rem; padding:12px 18px; border-radius:10px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 14px rgba(34, 197, 94, 0.4); transition:all 0.2s ease;">
+                  <span>⚡</span>
+                  <span id="dc-btn-withdraw-text">Withdraw ₹3,840 to Bank</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:24px; margin-top:20px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.15); flex-wrap:wrap; font-size:0.8rem; color:#d1fae5;">
+            <div>Lifetime Settled Freight: <strong style="color:#ffffff;">₹48,920</strong></div>
+            <div>•</div>
+            <div>Payout Processing Fee: <strong style="color:#ffffff;">₹0 (Direct IMPS/UPI)</strong></div>
+            <div>•</div>
+            <div>Transfer Speed: <strong style="color:#ffffff;">⚡ Instant (< 15 sec)</strong></div>
           </div>
         </div>
 

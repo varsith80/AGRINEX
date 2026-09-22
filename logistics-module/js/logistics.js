@@ -444,35 +444,66 @@ function updateConsoleMissionUI(order) {
 }
 
 /**
- * Instant UPI Payout Withdrawal
+ * Instant UPI Payout Withdrawal (Consolidated Wallet Payout Handler)
  */
 function withdrawDriverEarnings() {
-  const settledAmount = logisticsData.profile.settledToday || 3840;
+  const settledAmount = (logisticsData.profile && logisticsData.profile.settledToday) || 3840;
   if (settledAmount <= 0) {
-    alert("No pending earnings to withdraw at this moment.");
+    if (typeof showToast === "function") {
+      showToast("ℹ️ No pending earnings to withdraw at this moment.");
+    } else {
+      alert("No pending earnings to withdraw at this moment.");
+    }
     return;
   }
 
-  const upiId = logisticsData.profile.upiId || "9842199812@okhdfcbank";
+  const upiId = (logisticsData.profile && logisticsData.profile.upiId) || "9842199812@okhdfcbank";
   const withdrawBtn = document.getElementById("dc-btn-withdraw");
   if (withdrawBtn) {
     withdrawBtn.disabled = true;
-    withdrawBtn.innerHTML = `<span>⏳</span> Initiating Instant UPI Transfer...`;
+    withdrawBtn.innerHTML = `<span>⏳</span> Transferring to ${upiId}...`;
   }
 
   setTimeout(() => {
     const txnRef = "UPI-AGX-" + Math.floor(100000 + Math.random() * 900000);
-    showToast(`⚡ Instant Settlement Successful! ₹${settledAmount.toLocaleString()} credited to ${upiId} (Ref: ${txnRef}).`);
+    if (typeof showToast === "function") {
+      showToast(`⚡ Instant Settlement Successful! ₹${settledAmount.toLocaleString()} credited to ${upiId} (Ref: ${txnRef}).`);
+    } else {
+      alert(`⚡ Instant Settlement Successful! ₹${settledAmount.toLocaleString()} credited to ${upiId} (Ref: ${txnRef}).`);
+    }
 
-    // Reset settled amount
-    logisticsData.profile.settledToday = 0;
+    // Reset settled amount in session state
+    if (logisticsData.profile) logisticsData.profile.settledToday = 0;
+
     const settledEl = document.getElementById("dc-stat-settled");
     if (settledEl) settledEl.textContent = "₹0";
+
+    const settledSummaryEl = document.getElementById("dc-stat-settled-summary");
+    if (settledSummaryEl) settledSummaryEl.textContent = "₹0 Settled";
+
+    const walletBalEl = document.getElementById("profile-wallet-balance");
+    if (walletBalEl) walletBalEl.textContent = "₹0";
 
     if (withdrawBtn) {
       withdrawBtn.disabled = true;
       withdrawBtn.innerHTML = `<span>✓</span> ₹${settledAmount.toLocaleString()} Settled to Bank`;
       withdrawBtn.style.background = "#64748b";
+    }
+
+    // Append entry to live Passbook if on profile page
+    if (logisticsData.passbook) {
+      logisticsData.passbook.unshift({
+        txId: txnRef,
+        orderCode: "DAILY-PAYOUT",
+        crop: "Daily Shift Instant Settlement",
+        buyer: `UPI Transfer (${upiId})`,
+        amount: `₹${settledAmount.toLocaleString()}`,
+        date: "Today, Just now",
+        status: "Settled"
+      });
+      if (typeof renderPassbook === "function") {
+        renderPassbook();
+      }
     }
   }, 900);
 }
