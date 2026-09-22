@@ -849,7 +849,101 @@ const AgriNexCommandPalette = {
 };
 
 /* =========================================================================
-   5. CONTEXTUAL DEEP-LINKING BRIDGE
+   5. AGRINEX SIDEBAR & MOBILE DRAWER CONTROLLER
+   ========================================================================= */
+const AgriNexSidebar = {
+  init() {
+    const sidebar = document.querySelector('.sidebar');
+    if (!sidebar) return;
+
+    // Create backdrop if not already existing
+    let backdrop = document.querySelector('.sidebar-mobile-backdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.className = 'sidebar-mobile-backdrop';
+      document.body.appendChild(backdrop);
+    }
+
+    // Toggle desktop collapse button
+    const toggleBtn = document.getElementById('sidebar-toggle-btn');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleCollapse();
+      });
+    }
+
+    // Toggle mobile off-canvas drawer
+    document.addEventListener('click', (e) => {
+      const mobileToggle = e.target.closest('.mobile-sidebar-toggle') || e.target.closest('#mobile-sidebar-toggle');
+      if (mobileToggle) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.toggleMobileDrawer();
+        return;
+      }
+
+      // Close mobile drawer if clicking backdrop
+      if (e.target.classList.contains('sidebar-mobile-backdrop')) {
+        this.closeMobileDrawer();
+        return;
+      }
+
+      // If clicked inside sidebar on a nav link and in mobile viewport, auto-close drawer
+      if (window.innerWidth <= 1024 && e.target.closest('.sidebar .nav-item')) {
+        this.closeMobileDrawer();
+      }
+    });
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        this.toggleCollapse();
+      }
+      if (e.key === 'Escape' && sidebar.classList.contains('mobile-open')) {
+        this.closeMobileDrawer();
+      }
+    });
+
+    // Restore desktop collapsed state
+    const isCollapsed = localStorage.getItem('agrinex_admin_sidebar_collapsed') === 'true';
+    if (isCollapsed && window.innerWidth > 1024) {
+      sidebar.classList.add('collapsed');
+    }
+  },
+
+  toggleCollapse() {
+    const sidebar = document.querySelector('.sidebar');
+    if (!sidebar) return;
+    if (window.innerWidth <= 1024) {
+      this.toggleMobileDrawer();
+      return;
+    }
+    sidebar.classList.toggle('collapsed');
+    localStorage.setItem('agrinex_admin_sidebar_collapsed', sidebar.classList.contains('collapsed'));
+  },
+
+  toggleMobileDrawer() {
+    const sidebar = document.querySelector('.sidebar');
+    const backdrop = document.querySelector('.sidebar-mobile-backdrop');
+    if (!sidebar) return;
+    const isOpen = sidebar.classList.toggle('mobile-open');
+    if (backdrop) backdrop.classList.toggle('active', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  },
+
+  closeMobileDrawer() {
+    const sidebar = document.querySelector('.sidebar');
+    const backdrop = document.querySelector('.sidebar-mobile-backdrop');
+    if (sidebar) sidebar.classList.remove('mobile-open');
+    if (backdrop) backdrop.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+};
+
+/* =========================================================================
+   6. CONTEXTUAL DEEP-LINKING BRIDGE
    ========================================================================= */
 const AgriNexDeepLink = {
   // Jump between modules with contextual pre-filtered parameters

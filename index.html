@@ -1396,8 +1396,106 @@
     }
 
     /* -------------------------------------------------------------
-       Responsive Breakpoints
+       Responsive Breakpoints & Mobile Optimization
        ------------------------------------------------------------- */
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      width: 40px;
+      height: 40px;
+      border-radius: 9px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.25rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .mobile-menu-btn:hover,
+    .mobile-menu-btn:active {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: #86efac;
+      color: #86efac;
+    }
+
+    /* Mobile Navigation Drawer */
+    .mobile-nav-drawer {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(8, 45, 25, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 999;
+      flex-direction: column;
+      padding: 24px 20px;
+      overflow-y: auto;
+      gap: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      animation: mobileDrawerFade 0.2s ease-out;
+    }
+
+    .mobile-nav-drawer.active {
+      display: flex;
+    }
+
+    @keyframes mobileDrawerFade {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .mobile-nav-links a {
+      color: #f1f5f9;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.15s ease;
+    }
+
+    .mobile-nav-links a:hover,
+    .mobile-nav-links a:active {
+      background: rgba(255, 255, 255, 0.16);
+      color: #86efac;
+      transform: translateX(4px);
+    }
+
+    .mobile-nav-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .mobile-nav-actions .btn-header-register,
+    .mobile-nav-actions .btn-header-login {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+      padding: 13px;
+      font-size: 0.95rem;
+    }
+
     @media (max-width: 1100px) {
       .hero-split-grid {
         grid-template-columns: 1fr;
@@ -1423,27 +1521,119 @@
       }
       .site-header {
         padding: 0 16px;
+        height: 64px;
+      }
+      .mobile-nav-drawer {
+        top: 64px;
       }
       .header-nav {
         display: none;
       }
+      .header-actions {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: flex;
+      }
+      .hero-wrap {
+        padding: 28px 16px 24px 16px;
+      }
       .hero-main-title {
-        font-size: 2.3rem;
+        font-size: 1.95rem;
+        line-height: 1.2;
+      }
+      .hero-description {
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+      .hero-actions-row {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+      }
+      .hero-actions-row .btn-primary-green,
+      .hero-actions-row .btn-secondary-white {
+        width: 100%;
+        justify-content: center;
+      }
+      .hero-trust-chips {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        width: 100%;
+      }
+      .trust-chip {
+        width: 100%;
+      }
+      .hero-photo-card {
+        max-width: 100%;
+        height: auto;
+      }
+      .hero-photo-card img {
+        height: 280px;
+      }
+      .photo-floating-badge-top,
+      .photo-floating-badge-bottom {
+        font-size: 0.76rem;
+        padding: 8px 12px;
+      }
+      .portals-section-wrap {
+        padding: 40px 16px;
+      }
+      .section-heading {
+        font-size: 1.65rem;
       }
       .portals-grid-4 {
         grid-template-columns: 1fr;
+        gap: 18px;
       }
       .metrics-grid-4 {
         grid-template-columns: 1fr;
+        gap: 14px;
       }
       .mandi-details-grid {
         grid-template-columns: 1fr;
       }
       .footer-container {
         grid-template-columns: 1fr;
+        gap: 28px;
       }
       .cta-clean-box {
-        padding: 36px 20px;
+        padding: 32px 18px;
+      }
+      .cta-title {
+        font-size: 1.5rem;
+      }
+      .cta-actions-wrap {
+        flex-direction: column;
+        width: 100%;
+      }
+      .cta-actions-wrap a {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-heading {
+        font-size: 1.3rem;
+      }
+      .brand-subtitle {
+        display: none;
+      }
+      .hero-main-title {
+        font-size: 1.68rem;
+      }
+      .ticker-badge-wrap {
+        padding: 0 10px 0 12px;
+      }
+      .ticker-tag {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+      }
+      .master-footer {
+        padding: 40px 16px 20px 16px;
       }
     }
   </style>
@@ -1476,7 +1666,29 @@
         <span>→</span>
       </a>
     </div>
+
+    <!-- Mobile Hamburger Menu Button -->
+    <button type="button" class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle navigation menu" onclick="toggleMobileNav()">
+      <span id="mobile-menu-icon">☰</span>
+    </button>
   </header>
+
+  <!-- Mobile Navigation Drawer Overlay -->
+  <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+    <div class="mobile-nav-links">
+      <a href="#portals" onclick="toggleMobileNav()"><span>🌾 Stakeholder Portals</span> <span>→</span></a>
+      <a href="#mandi-rates" onclick="toggleMobileNav()"><span>📈 Mandi Benchmarks</span> <span>→</span></a>
+      <a href="#infrastructure" onclick="toggleMobileNav()"><span>🚚 Cold-Chain Fleet</span> <span>→</span></a>
+      <a href="#about" onclick="toggleMobileNav()"><span>🛡️ About AgriNex</span> <span>→</span></a>
+    </div>
+    <div class="mobile-nav-actions">
+      <a href="login_details/index.html" class="btn-header-login">
+        <span>Login Gateway</span>
+        <span>→</span>
+      </a>
+      <a href="login_details/register.html" class="btn-header-register">Register New Account</a>
+    </div>
+  </div>
 
   <!-- Real-Time APMC Mandi Ticker -->
   <div class="mandi-ticker-strip">
@@ -1989,7 +2201,19 @@
 
       revealElements.forEach(el => revealObserver.observe(el));
 
-      // 2. Smooth Number Roll-Up Counter
+      // 2. Mobile Navigation Toggle
+      window.toggleMobileNav = function() {
+        const drawer = document.getElementById('mobile-nav-drawer');
+        const icon = document.getElementById('mobile-menu-icon');
+        if (!drawer) return;
+        const isActive = drawer.classList.toggle('active');
+        if (icon) {
+          icon.innerText = isActive ? '✕' : '☰';
+        }
+        document.body.style.overflow = isActive ? 'hidden' : '';
+      };
+
+      // 3. Smooth Number Roll-Up Counter
       let countersAnimated = false;
       function animateCounters(container) {
         if (countersAnimated) return;
