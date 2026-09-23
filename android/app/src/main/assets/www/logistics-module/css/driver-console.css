@@ -498,6 +498,61 @@ body.driver-console-body {
   background: #f8fafc;
 }
 
+.map-layer-selector-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.map-layer-btn {
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  background: transparent;
+  color: #475569;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.map-layer-btn:hover {
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.map-layer-btn.active {
+  background: #0c5a36 !important;
+  color: #ffffff !important;
+  font-weight: 800;
+  box-shadow: 0 1px 3px rgba(12, 90, 54, 0.3);
+}
+
+#btn-map-traffic.active {
+  background: #fef2f2 !important;
+  color: #b91c1c !important;
+  border-color: #fca5a5 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25);
+}
+
+.map-fullscreen-active {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 99999 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  background: #ffffff !important;
+}
+
+.map-fullscreen-active .dc-leaflet-container {
+  height: calc(100vh - 65px) !important;
+}
+
 /* Shortest Route Indicator Pill Inside Map */
 .dc-map-route-indicator {
   position: absolute;

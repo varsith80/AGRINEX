@@ -13,7 +13,7 @@ const logisticsData = {
     phone: "+91 98230 45892",
     vehicleNo: "Tata Ace EV (MH-15-AX-8910)",
     vehicleTag: "TATA ACE EV • MH-15-AX-8910",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80",
+    avatar: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315803d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>",
     rating: "4.92",
     tripsCompleted: 428,
     ratingScore: "4.92 Rating • 428 Trips Completed",
@@ -42,7 +42,7 @@ const logisticsData = {
   },
   stats: {
     activeFleet: 24,
-    activeFleetSubtitle: "Trucks connected via IoT GPS",
+    activeFleetSubtitle: "Trucks connected via Haversine Telematics",
     inTransitConsignments: 4,
     inTransitSubtitle: "Active live highway trips",
     onTimeRate: "99.4%",
@@ -62,7 +62,8 @@ const logisticsData = {
     fuelRangeKm: "110 km",
     currentLocation: "NH 544 Highway Corridor, Erode - Salem Belt",
     destination: "Erode Mandi Central Aggregation Hub",
-    lastGpsPing: "Just now (4G Telematics)"
+    lastGpsPing: "Just now (Haversine Telematics)",
+    calculationMethod: "Haversine Great-Circle Geodesic Formula (Pure Latitude & Longitude - No GPS hardware dependency)"
   },
   dispatchOrders: [
     {

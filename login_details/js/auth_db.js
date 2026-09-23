@@ -46,7 +46,7 @@ const DEFAULT_AGRINEX_ACCOUNTS = {
     phone: "9822099887",
     password: "Logistics@123",
     name: "Karthik Raja (GreenWays Transit)",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80",
+    avatar: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315803d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>",
     location: "Nashik Regional Transport Hub, MH",
     latitude: 19.9975,
     longitude: 73.7898,
@@ -140,7 +140,7 @@ class AgriNexAuth {
     const roleMap = {
       farmer: { role: "Farmer", roleId: "ROLE_FARMER", moduleDir: "farmer-module", themeColor: "#15803d", defaultAvatar: "../farmer-module/assets/images/farmer-avatar.jpg", defaultLat: 20.1472, defaultLng: 74.2255 },
       buyer: { role: "Buyer / Mill", roleId: "ROLE_BUYER", moduleDir: "buyer-module", themeColor: "#2563eb", defaultAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80", defaultLat: 19.0760, defaultLng: 73.0076 },
-      logistics: { role: "Logistics Provider", roleId: "ROLE_LOGISTICS", moduleDir: "logistics-module", themeColor: "#7c3aed", defaultAvatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80", defaultLat: 19.9975, defaultLng: 73.7898 },
+      logistics: { role: "Logistics Provider", roleId: "ROLE_LOGISTICS", moduleDir: "logistics-module", themeColor: "#7c3aed", defaultAvatar: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315803d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>", defaultLat: 19.9975, defaultLng: 73.7898 },
       admin: { role: "Platform Administrator", roleId: "ROLE_ADMIN", moduleDir: "admin-module", themeColor: "#dc2626", defaultAvatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80", defaultLat: 13.0827, defaultLng: 80.2707 }
     };
 

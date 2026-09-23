@@ -40,7 +40,7 @@
           <li class="nav-item" onclick="window.location.href='gps-tracking.html'" style="background: rgba(234, 88, 12, 0.12); border: 1px solid rgba(234, 88, 12, 0.3);">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.2"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
-              <span style="color:#fdba74; font-weight:700;">Driver &amp; GPS Console</span>
+              <span style="color:#fdba74; font-weight:700;">Live GPS Tracking</span>
             </div>
             <span style="background:#ea580c; color:#ffffff; font-size:0.62rem; font-weight:800; padding:1px 6px; border-radius:999px;">LIVE</span>
           </li>
@@ -65,7 +65,7 @@
           <li class="nav-item active" onclick="window.location.href='profile.html'">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
-              <span>Passbook &amp; Profile</span>
+              <span>Wallet &amp; Passbook</span>
             </div>
           </li>
 
@@ -87,7 +87,12 @@
       <!-- User Profile at bottom -->
       <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto;">
         <div style="display:flex; align-items:center; gap:10px; padding: 6px 4px;">
-          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80" alt="Dinesh Yadav" style="width:34px; height:34px; border-radius:50%; border:2px solid #4ade80;" />
+          <div style="width:34px; height:34px; min-width:34px; border-radius:50%; background: linear-gradient(135deg, #0c5a36 0%, #15803d 100%); display:flex; align-items:center; justify-content:center; border:2px solid #4ade80; color:#ffffff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
           <div style="min-width:0; flex:1;">
             <div style="font-size:0.8rem; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Dinesh Yadav</div>
             <div style="font-size:0.65rem; color:#86efac;">Verified Fleet Partner • Nashik</div>
@@ -156,7 +161,12 @@
 
           <!-- Carrier Profile Info -->
           <div class="profile-widget" onclick="window.location.href='profile.html'" title="Click to view & edit logistics carrier profile" style="cursor: pointer;">
-            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop&q=80" alt="Dinesh Yadav" class="profile-avatar" />
+            <div style="width:34px; height:34px; min-width:34px; border-radius:50%; background: linear-gradient(135deg, #0c5a36 0%, #15803d 100%); display:flex; align-items:center; justify-content:center; border:2px solid #16a34a; color:#ffffff;" class="profile-avatar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
             <div class="profile-info">
               <span class="profile-name">Dinesh Yadav</span>
               <span class="profile-role">Logistics Partner</span>
@@ -173,7 +183,12 @@
         <!-- Driver Profile Card -->
         <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:22px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
           <div style="display:flex; gap:18px; align-items:center; flex-wrap:wrap;">
-            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=160&auto=format&fit=crop&q=80" alt="Dinesh Yadav" style="width:72px; height:72px; border-radius:50%; border:3px solid #0c5a36; object-fit:cover;" />
+            <div style="width:72px; height:72px; min-width:72px; border-radius:50%; background: linear-gradient(135deg, #0c5a36 0%, #15803d 100%); display:flex; align-items:center; justify-content:center; border:3px solid #0c5a36; color:#ffffff; box-shadow: 0 4px 14px rgba(12, 90, 54, 0.25);">
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
             <div>
               <div style="display:flex; gap:8px; align-items:center;">
                 <h2 style="font-size:1.3rem; font-weight:800; color:#0f172a; margin:0;">Dinesh Yadav</h2>
@@ -182,6 +197,45 @@
               <div style="font-size:0.82rem; color:#475569; margin-top:3px;">Fleet Captain • GreenWays Transit, Nashik Hub</div>
               <div style="font-size:0.78rem; color:#64748b;">Vehicle: <strong>MH-15-AQ-9011</strong> • Rating: <strong style="color:#d97706;">4.95 ★★★★★</strong></div>
             </div>
+          </div>
+        </div>
+
+        <!-- Dedicated Driver Wallet & Instant UPI Payout Section -->
+        <div style="background: linear-gradient(135deg, #064e3b 0%, #0c5a36 60%, #15803d 100%); border-radius: 16px; padding: 24px; color: #ffffff; margin-bottom: 22px; box-shadow: 0 10px 25px -5px rgba(12, 90, 54, 0.3);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+            <div>
+              <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.15); padding:4px 10px; border-radius:999px; font-size:0.75rem; font-weight:700; letter-spacing:0.5px; text-transform:uppercase;">
+                <span>👛</span> Official Payout Wallet
+              </div>
+              <div style="font-size: 0.85rem; color: #a7f3d0; margin-top: 10px; font-weight: 600;">AVAILABLE SHIFT SETTLED BALANCE</div>
+              <div style="font-size: 2.2rem; font-weight: 900; color: #ffffff; line-height: 1.1; margin-top: 2px;" id="profile-wallet-balance">₹3,840</div>
+              <div style="font-size: 0.78rem; color: #d1fae5; margin-top: 4px;">Milestone funds automatically cleared upon PIN delivery verification</div>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 14px; padding: 16px 20px; min-width: 260px;">
+              <div style="font-size: 0.72rem; color: #a7f3d0; font-weight: 700; text-transform: uppercase;">Linked Settlement Account</div>
+              <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+                <span style="font-size:1.2rem;">🏦</span>
+                <div>
+                  <div style="font-weight: 800; font-size: 0.95rem; color: #ffffff;">HDFC Bank (•••• 4910)</div>
+                  <div style="font-size: 0.75rem; color: #d1fae5;">UPI ID: <strong id="dc-upi-vpa" style="color:#ffffff;">9842199812@okhdfcbank</strong></div>
+                </div>
+              </div>
+              <div style="margin-top: 14px;">
+                <button type="button" class="btn" id="dc-btn-withdraw" onclick="withdrawDriverEarnings()" style="width:100%; background:#22c55e; color:#052e16; font-weight:900; font-size:0.92rem; padding:12px 18px; border-radius:10px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 14px rgba(34, 197, 94, 0.4); transition:all 0.2s ease;">
+                  <span>⚡</span>
+                  <span id="dc-btn-withdraw-text">Withdraw ₹3,840 to Bank</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:24px; margin-top:20px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.15); flex-wrap:wrap; font-size:0.8rem; color:#d1fae5;">
+            <div>Lifetime Settled Freight: <strong style="color:#ffffff;">₹48,920</strong></div>
+            <div>•</div>
+            <div>Payout Processing Fee: <strong style="color:#ffffff;">₹0 (Direct IMPS/UPI)</strong></div>
+            <div>•</div>
+            <div>Transfer Speed: <strong style="color:#ffffff;">⚡ Instant (< 15 sec)</strong></div>
           </div>
         </div>
 

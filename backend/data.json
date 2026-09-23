@@ -14523,14 +14523,22 @@
       "driverPhone": "+91 97230 44819",
       "vehicle_no": "TN-33-AX-8910",
       "vehicleNo": "TN-33-AX-8910",
-      "accepted_at": "2026-09-22T10:38:56.591Z",
+      "accepted_at": "2026-09-23T08:29:28.519Z",
       "delivery_pin": "8821",
       "deliveryPin": "8821",
       "escrow_status": "Released & Settled",
-      "delivered_at": "2026-09-22T10:38:56.653Z"
+      "delivered_at": "2026-09-23T08:29:28.572Z"
     }
   ],
   "logistics_passbook": [
+    {
+      "txId": "TXN-2026-796",
+      "orderCode": "CLUSTER-AGX-801",
+      "crop": "Fresh Produce Consignment (undefined Qt)",
+      "amount": "₹ 0",
+      "date": "Today, 01:59 PM",
+      "status": "✓ Settled"
+    },
     {
       "txId": "TXN-2026-194",
       "orderCode": "CLUSTER-AGX-801",

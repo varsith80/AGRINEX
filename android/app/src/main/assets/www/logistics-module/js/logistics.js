@@ -65,15 +65,20 @@ async function syncLogisticsDataFromAPI() {
 }
 
 /**
- * Calculate Great-Circle Haversine Distance between two GPS coordinates in kilometers
+ * Calculate Great-Circle Haversine Distance between two Latitude & Longitude coordinates in kilometers.
+ * Pure Spherical Geodesic Trigonometry — No GPS hardware dependency.
+ * Computes exact distance using farmer's registered Latitude & Longitude.
  */
 function haversineDistance(coord1, coord2) {
   if (!coord1 || !coord2) return 0;
+  const c1 = Array.isArray(coord1) ? coord1 : [coord1.lat || coord1.latitude, coord1.lng || coord1.longitude];
+  const c2 = Array.isArray(coord2) ? coord2 : [coord2.lat || coord2.latitude, coord2.lng || coord2.longitude];
+  if (c1[0] === undefined || c2[0] === undefined) return 0;
   const R = 6371; // Earth radius in km
-  const dLat = (coord2[0] - coord1[0]) * Math.PI / 180;
-  const dLon = (coord2[1] - coord1[1]) * Math.PI / 180;
+  const dLat = (c2[0] - c1[0]) * Math.PI / 180;
+  const dLon = (c2[1] - c1[1]) * Math.PI / 180;
   const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(coord1[0] * Math.PI / 180) * Math.cos(coord2[0] * Math.PI / 180) *
+            Math.cos(c1[0] * Math.PI / 180) * Math.cos(c2[0] * Math.PI / 180) *
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return parseFloat((R * c).toFixed(1));
@@ -163,14 +168,65 @@ function calculateShortestRoute(origin, waypoints = [], destination) {
 }
 
 /**
- * Driver & Fleet Console Interactive Map Instance
+ * Driver & Fleet Console Interactive Map Instance (Open-Source Google Maps Engine)
  */
 let dcActiveMap = null;
+let dcCurrentTileLayer = null;
+let dcActiveLayerKey = 'googleRoads';
+let dcTrafficLayerGroup = null;
+let dcTrafficEnabled = false;
 let dcTruckMarker = null;
 let dcShortestPolyline = null;
 let dcHighwayPolyline = null;
 let dcStopMarkers = [];
 let dcActiveRouteMode = 'shortest'; // 'shortest' or 'highway'
+
+// Open-Source Google Map & Tile Providers (No API Key Required)
+const DC_MAP_TILES = {
+  googleRoads: {
+    name: 'Google Roads',
+    url: 'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+    options: {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: '&copy; Google Maps (Open Telematics)'
+    }
+  },
+  googleHybrid: {
+    name: 'Satellite Hybrid',
+    url: 'https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
+    options: {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: '&copy; Google Satellite &copy; Google Maps'
+    }
+  },
+  googleTerrain: {
+    name: 'Terrain',
+    url: 'https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
+    options: {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: '&copy; Google Terrain'
+    }
+  },
+  osm: {
+    name: 'OpenStreetMap',
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    options: {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }
+  },
+  carto: {
+    name: 'Carto Voyager',
+    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    options: {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap &copy; CARTO'
+    }
+  }
+};
 
 function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
   const mapContainer = document.getElementById("dc-leaflet-map") || document.getElementById("logistics-radar-map");
@@ -182,6 +238,8 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
   if (dcActiveMap) {
     dcActiveMap.remove();
     dcActiveMap = null;
+    dcCurrentTileLayer = null;
+    dcTrafficLayerGroup = null;
   }
 
   // Determine Truck Origin and Waypoints
@@ -197,11 +255,8 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
     scrollWheelZoom: false
   }).setView(truckCoords, 11);
 
-  // CartoDB Voyager Tiles (Crisp, High-DPI, Professional Telematics)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CARTO',
-    maxZoom: 19
-  }).addTo(dcActiveMap);
+  // Set Default Tile Layer (Open-Source Google Roads)
+  applyMapTileLayer(dcActiveLayerKey || 'googleRoads');
 
   // Calculate Shortest Route vs Highway Route
   const routeData = calculateShortestRoute(truckCoords, stops, destCoords);
@@ -252,11 +307,20 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
       iconAnchor: [55, 15]
     });
     const marker = L.marker(stop.coords, { icon: stopIcon }).addTo(dcActiveMap);
+    const stopLat = stop.coords ? stop.coords[0] : 0;
+    const stopLng = stop.coords ? stop.coords[1] : 0;
     marker.bindPopup(`
-      <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:4px; min-width:180px;">
-        <strong style="color:#0c5a36; font-size:0.88rem;">${stop.label || stop.shortTitle}</strong>
-        <div style="font-size:0.75rem; color:#475569; margin-top:3px;">${stop.loadText || 'Harvest Load Point'}</div>
-        <div style="font-size:0.72rem; color:#d97706; font-weight:800; margin-top:2px;">Status: ${stop.status || 'Pending'}</div>
+      <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:5px; min-width:210px;">
+        <div style="font-size:0.68rem; background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:800; display:inline-block; margin-bottom:4px;">
+          🌾 FARMER REGISTERED LOCATION
+        </div>
+        <strong style="color:#0c5a36; font-size:0.88rem; display:block;">${stop.label || stop.shortTitle}</strong>
+        <div style="font-size:0.75rem; color:#475569; margin-top:3px;">${stop.locationName || order.pickupAddress}</div>
+        <div style="font-size:0.75rem; color:#0f172a; margin-top:2px;">Farmer: <strong>${stop.farmerName || order.pickupFarmerName || 'Registered Farmer'}</strong></div>
+        <div style="font-size:0.72rem; color:#1e40af; font-family:monospace; margin-top:3px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">
+          🌐 Lat: ${stopLat.toFixed(4)}° N, Long: ${stopLng.toFixed(4)}° E
+        </div>
+        <div style="font-size:0.72rem; color:#d97706; font-weight:800; margin-top:3px;">Status: ${stop.status || 'Pending'}</div>
       </div>
     `);
     dcStopMarkers.push(marker);
@@ -275,11 +339,22 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
     iconAnchor: [60, 15]
   });
   const hubMarker = L.marker(destCoords, { icon: hubIcon }).addTo(dcActiveMap);
+  const destLat = destCoords[0];
+  const destLng = destCoords[1];
+  const haversineDirectKm = haversineDistance(truckCoords, destCoords);
   hubMarker.bindPopup(`
-    <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:4px;">
-      <strong style="color:#b45309; font-size:0.9rem;">🏢 Mandi Delivery Terminal</strong>
+    <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:5px; min-width:200px;">
+      <div style="font-size:0.68rem; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:800; display:inline-block; margin-bottom:4px;">
+        🏢 APMC DELIVERY TERMINAL
+      </div>
+      <strong style="color:#b45309; font-size:0.9rem; display:block;">${order.buyerName || 'Mandi Delivery Terminal'}</strong>
       <div style="font-size:0.75rem; color:#475569; margin-top:2px;">${order.deliveryAddress}</div>
-      <div style="font-size:0.72rem; color:#15803d; font-weight:700; margin-top:3px;">Receiving Dock Open • PIN Verification</div>
+      <div style="font-size:0.72rem; color:#1e40af; font-family:monospace; margin-top:3px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">
+        🌐 Drop Lat: ${destLat.toFixed(4)}° N, Long: ${destLng.toFixed(4)}° E
+      </div>
+      <div style="font-size:0.72rem; color:#15803d; font-weight:700; margin-top:3px;">
+        📐 Haversine Direct: ${haversineDirectKm} km (No GPS hardware)
+      </div>
     </div>
   `);
 
@@ -304,13 +379,148 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
         <span style="font-size:0.7rem; background:#dbeafe; color:#1e40af; padding:2px 6px; border-radius:4px; font-weight:800;">${order.truckSpeed || '54 km/h'}</span>
       </div>
       <div style="font-size:0.75rem; color:#334155;">Speed: <strong>54 km/h (Normal Cruise)</strong></div>
-      <div style="font-size:0.75rem; color:#15803d; font-weight:700; margin-top:2px;">⚡ Shortest Route Active (29.7 km)</div>
+      <div style="font-size:0.72rem; color:#1e40af; font-family:monospace; margin-top:2px;">
+        🌐 Truck Lat: ${truckCoords[0].toFixed(4)}° N, Long: ${truckCoords[1].toFixed(4)}° E
+      </div>
+      <div style="font-size:0.75rem; color:#15803d; font-weight:700; margin-top:2px;">📐 Haversine Shortest Route Active (29.7 km)</div>
       <div style="font-size:0.72rem; color:#d97706; margin-top:2px;">Next: <strong>${stops[order.activeStopIndex || 0]?.shortTitle || 'Stop 1'}</strong></div>
     </div>
   `).openPopup();
 
+  // Update UI card with exact registered farmer location
+  updateFarmerRegisteredLocationUI(order);
+
+  // Create Traffic Layer Simulation Group
+  setupMapTrafficLayer(highwayPoints);
+
   // Auto-fit to route bounds
   showFullConsoleRoute();
+}
+
+/**
+ * Update UI Card with the Exact Location where the Farmer had Registered
+ * Pure Great-Circle Geodesic calculation via Haversine formula (No GPS hardware)
+ */
+function updateFarmerRegisteredLocationUI(order) {
+  if (!order) return;
+  const nameEl = document.getElementById('dc-farmer-reg-name');
+  const locEl = document.getElementById('dc-farmer-reg-loc');
+  const coordsEl = document.getElementById('dc-farmer-reg-coords');
+  const distEl = document.getElementById('dc-farmer-haversine-dist');
+
+  const pickupName = order.pickupFarmerName || order.farmerName || 'Perumal (Registered Farmer)';
+  const pickupAddress = order.pickupAddress || order.pickupLocation || order.pickup_location || 'Lasalgaon APMC Yard, Nashik, Maharashtra';
+  const rawCoords = order.pickupCoords || [order.pickupLatitude || 20.1472, order.pickupLongitude || 74.2255];
+  const destCoords = order.deliveryCoords || [19.0760, 73.0076];
+
+  const lat = Array.isArray(rawCoords) ? rawCoords[0] : (rawCoords.lat || rawCoords.latitude || 20.1472);
+  const lng = Array.isArray(rawCoords) ? rawCoords[1] : (rawCoords.lng || rawCoords.longitude || 74.2255);
+
+  const directHaversine = haversineDistance([lat, lng], destCoords);
+
+  if (nameEl) nameEl.textContent = pickupName;
+  if (locEl) locEl.textContent = pickupAddress;
+  if (coordsEl) {
+    coordsEl.textContent = `Lat: ${parseFloat(lat).toFixed(4)}° N, Long: ${parseFloat(lng).toFixed(4)}° E`;
+  }
+  if (distEl) {
+    distEl.textContent = `${directHaversine} km (Direct Geodesic)`;
+  }
+}
+
+/**
+ * Apply Tile Layer by key (with error resilience and fallback to OSM)
+ */
+function applyMapTileLayer(key) {
+  if (!dcActiveMap) return;
+  const config = DC_MAP_TILES[key] || DC_MAP_TILES.googleRoads;
+
+  if (dcCurrentTileLayer) {
+    dcActiveMap.removeLayer(dcCurrentTileLayer);
+  }
+
+  dcActiveLayerKey = key;
+  try {
+    dcCurrentTileLayer = L.tileLayer(config.url, config.options).addTo(dcActiveMap);
+    dcCurrentTileLayer.on('tileerror', function() {
+      // Automatic fallback if Google tiles are throttled or offline
+      if (key !== 'osm') {
+        console.warn(`[Map] Tile provider ${key} issue, falling back to OpenStreetMap.`);
+        switchMapLayer('osm');
+      }
+    });
+  } catch (err) {
+    dcCurrentTileLayer = L.tileLayer(DC_MAP_TILES.osm.url, DC_MAP_TILES.osm.options).addTo(dcActiveMap);
+  }
+
+  // Update UI active buttons if present
+  document.querySelectorAll('.map-layer-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-layer') === key);
+  });
+}
+
+/**
+ * Switch Base Map Layer (Google Roads, Satellite Hybrid, Terrain, OSM, Carto)
+ */
+function switchMapLayer(key) {
+  applyMapTileLayer(key);
+  showToast(`🗺️ Switched to ${DC_MAP_TILES[key]?.name || key}`);
+}
+
+/**
+ * Setup Simulated Highway Traffic Layer (Green / Amber / Red Flow)
+ */
+function setupMapTrafficLayer(points = []) {
+  if (!dcActiveMap) return;
+  dcTrafficLayerGroup = L.layerGroup();
+
+  if (points.length >= 2) {
+    // Add colored traffic congestion line segments
+    const segment1 = [points[0], points[1]];
+    const segment2 = [points[1], points[2] || points[1]];
+    const segment3 = [points[2] || points[1], points[points.length - 1]];
+
+    L.polyline(segment1, { color: '#16a34a', weight: 4, opacity: 0.8, lineCap: 'round' }).bindTooltip('Highway Traffic: Smooth (55 km/h)').addTo(dcTrafficLayerGroup);
+    L.polyline(segment2, { color: '#eab308', weight: 5, opacity: 0.85, lineCap: 'round' }).bindTooltip('Mandi Approach: Moderate (32 km/h)').addTo(dcTrafficLayerGroup);
+    L.polyline(segment3, { color: '#ef4444', weight: 5, opacity: 0.9, lineCap: 'round' }).bindTooltip('Dock Entry: Congestion / Unloading Queue (12 km/h)').addTo(dcTrafficLayerGroup);
+  }
+}
+
+/**
+ * Toggle Live Traffic Flow Overlay
+ */
+function toggleMapTraffic() {
+  if (!dcActiveMap || !dcTrafficLayerGroup) return;
+  dcTrafficEnabled = !dcTrafficEnabled;
+
+  const btn = document.getElementById('btn-map-traffic');
+  if (dcTrafficEnabled) {
+    dcActiveMap.addLayer(dcTrafficLayerGroup);
+    if (btn) btn.classList.add('active');
+    showToast('🚦 Live Traffic Flow Simulation: ACTIVE (NH-544 & Mandi Corridor)');
+  } else {
+    dcActiveMap.removeLayer(dcTrafficLayerGroup);
+    if (btn) btn.classList.remove('active');
+    showToast('🚦 Traffic Overlay: Hidden');
+  }
+}
+
+/**
+ * Toggle Fullscreen Map View
+ */
+function toggleMapFullscreen() {
+  const wrapper = document.querySelector('.dc-map-wrapper') || document.getElementById('logistics-radar-map')?.parentElement;
+  if (!wrapper) return;
+
+  const isFullscreen = wrapper.classList.toggle('map-fullscreen-active');
+  const btn = document.getElementById('btn-map-fullscreen');
+  if (btn) {
+    btn.innerHTML = isFullscreen ? '<span>🗗</span> <span>Exit Fullscreen</span>' : '<span>⛶</span> <span>Fullscreen</span>';
+  }
+
+  setTimeout(() => {
+    if (dcActiveMap) dcActiveMap.invalidateSize();
+  }, 200);
 }
 
 /**
@@ -395,7 +605,7 @@ function advanceMissionStop(orderCode = "CLUSTER-AGX-801") {
     // Update UI elements
     updateConsoleMissionUI(order);
     showToast(`✅ Arrived at Stop 1 (${currentStop.shortTitle})! Loaded 14 Crates (350 kg). Farmer Ravi Kumar OTP #7291 Verified.`);
-    if (dcActiveMap && nextStop.coords) {
+    if (dcActiveMap && dcTruckMarker && nextStop && nextStop.coords) {
       dcTruckMarker.setLatLng(currentStop.coords);
       dcActiveMap.panTo(nextStop.coords);
     }
@@ -404,11 +614,11 @@ function advanceMissionStop(orderCode = "CLUSTER-AGX-801") {
     currentStop.status = "COMPLETED";
     order.activeStopIndex = 2;
     const finalStop = order.stops[2];
-    finalStop.status = "IN PROGRESS";
+    if (finalStop) finalStop.status = "IN PROGRESS";
 
     updateConsoleMissionUI(order);
     showToast(`✅ Arrived at Stop 2 (${currentStop.shortTitle})! Loaded 18 Crates (450 kg). Farmer Senthil OTP #4819 Verified. Proceeding to Erode Central Mandi.`);
-    if (dcActiveMap && finalStop.coords) {
+    if (dcActiveMap && dcTruckMarker && finalStop && finalStop.coords) {
       dcTruckMarker.setLatLng(currentStop.coords);
       dcActiveMap.panTo(finalStop.coords);
     }
@@ -444,35 +654,66 @@ function updateConsoleMissionUI(order) {
 }
 
 /**
- * Instant UPI Payout Withdrawal
+ * Instant UPI Payout Withdrawal (Consolidated Wallet Payout Handler)
  */
 function withdrawDriverEarnings() {
-  const settledAmount = logisticsData.profile.settledToday || 3840;
+  const settledAmount = (logisticsData.profile && logisticsData.profile.settledToday) || 3840;
   if (settledAmount <= 0) {
-    alert("No pending earnings to withdraw at this moment.");
+    if (typeof showToast === "function") {
+      showToast("ℹ️ No pending earnings to withdraw at this moment.");
+    } else {
+      alert("No pending earnings to withdraw at this moment.");
+    }
     return;
   }
 
-  const upiId = logisticsData.profile.upiId || "9842199812@okhdfcbank";
+  const upiId = (logisticsData.profile && logisticsData.profile.upiId) || "9842199812@okhdfcbank";
   const withdrawBtn = document.getElementById("dc-btn-withdraw");
   if (withdrawBtn) {
     withdrawBtn.disabled = true;
-    withdrawBtn.innerHTML = `<span>⏳</span> Initiating Instant UPI Transfer...`;
+    withdrawBtn.innerHTML = `<span>⏳</span> Transferring to ${upiId}...`;
   }
 
   setTimeout(() => {
     const txnRef = "UPI-AGX-" + Math.floor(100000 + Math.random() * 900000);
-    showToast(`⚡ Instant Settlement Successful! ₹${settledAmount.toLocaleString()} credited to ${upiId} (Ref: ${txnRef}).`);
+    if (typeof showToast === "function") {
+      showToast(`⚡ Instant Settlement Successful! ₹${settledAmount.toLocaleString()} credited to ${upiId} (Ref: ${txnRef}).`);
+    } else {
+      alert(`⚡ Instant Settlement Successful! ₹${settledAmount.toLocaleString()} credited to ${upiId} (Ref: ${txnRef}).`);
+    }
 
-    // Reset settled amount
-    logisticsData.profile.settledToday = 0;
+    // Reset settled amount in session state
+    if (logisticsData.profile) logisticsData.profile.settledToday = 0;
+
     const settledEl = document.getElementById("dc-stat-settled");
     if (settledEl) settledEl.textContent = "₹0";
+
+    const settledSummaryEl = document.getElementById("dc-stat-settled-summary");
+    if (settledSummaryEl) settledSummaryEl.textContent = "₹0 Settled";
+
+    const walletBalEl = document.getElementById("profile-wallet-balance");
+    if (walletBalEl) walletBalEl.textContent = "₹0";
 
     if (withdrawBtn) {
       withdrawBtn.disabled = true;
       withdrawBtn.innerHTML = `<span>✓</span> ₹${settledAmount.toLocaleString()} Settled to Bank`;
       withdrawBtn.style.background = "#64748b";
+    }
+
+    // Append entry to live Passbook if on profile page
+    if (logisticsData.passbook) {
+      logisticsData.passbook.unshift({
+        txId: txnRef,
+        orderCode: "DAILY-PAYOUT",
+        crop: "Daily Shift Instant Settlement",
+        buyer: `UPI Transfer (${upiId})`,
+        amount: `₹${settledAmount.toLocaleString()}`,
+        date: "Today, Just now",
+        status: "Settled"
+      });
+      if (typeof renderPassbook === "function") {
+        renderPassbook();
+      }
     }
   }, 900);
 }
