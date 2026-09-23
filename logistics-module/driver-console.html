@@ -45,7 +45,7 @@
           <li class="nav-item active" onclick="window.location.href='gps-tracking.html'" style="background: rgba(234, 88, 12, 0.12); border: 1px solid rgba(234, 88, 12, 0.3);">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.2"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
-              <span style="font-weight: 700; color: #c2410c;" id="nav-live-console">Driver &amp; GPS Console</span>
+              <span style="font-weight: 700; color: #c2410c;" id="nav-live-console">Live GPS Tracking</span>
             </div>
             <span class="nav-badge" style="background: #ea580c; color: white; font-size: 0.62rem; padding: 1px 6px; border-radius: 999px; font-weight: 800;">LIVE</span>
           </li>
@@ -202,19 +202,36 @@
 
           <!-- INTERACTIVE MAP CONTAINER WITH SHORTEST ROUTE TELEMETRY -->
           <div class="dc-map-wrapper">
-            <!-- Floating Top Right Controls -->
+            <!-- Floating Top Right Controls: Open-Source Google Maps Engine -->
             <div class="dc-map-floating-controls">
+              <!-- Layer switcher pills -->
+              <div class="map-layer-selector-group" style="display: flex; background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); border-radius: 8px; padding: 2px; border: 1px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                <button type="button" class="map-layer-btn active" data-layer="googleRoads" onclick="switchMapLayer('googleRoads')" style="padding: 4px 8px; font-size: 0.7rem; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; background: #0c5a36; color: #ffffff;">🗺️ Roads</button>
+                <button type="button" class="map-layer-btn" data-layer="googleHybrid" onclick="switchMapLayer('googleHybrid')" style="padding: 4px 8px; font-size: 0.7rem; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; background: transparent; color: #334155;">🛰️ Satellite</button>
+                <button type="button" class="map-layer-btn" data-layer="googleTerrain" onclick="switchMapLayer('googleTerrain')" style="padding: 4px 8px; font-size: 0.7rem; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; background: transparent; color: #334155;">🏔️ Terrain</button>
+                <button type="button" class="map-layer-btn" data-layer="osm" onclick="switchMapLayer('osm')" style="padding: 4px 8px; font-size: 0.7rem; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; background: transparent; color: #334155;">🌐 OSM</button>
+              </div>
+
+              <!-- Traffic simulation toggle -->
+              <button type="button" id="btn-map-traffic" class="dc-map-ctrl-btn" onclick="toggleMapTraffic()" title="Toggle Live Highway Traffic Congestion Flow">
+                <span>🚦</span>
+                <span>Traffic</span>
+              </button>
               <button type="button" class="dc-map-ctrl-btn" onclick="recenterConsoleMap()" title="Recenter Map on Driver Truck">
-                <span>🔄</span>
+                <span>🎯</span>
                 <span>Recenter</span>
               </button>
               <button type="button" class="dc-map-ctrl-btn" onclick="showFullConsoleRoute()" title="Show Complete Waypoint Route">
-                <span>🗺️</span>
+                <span>📐</span>
                 <span>Full Route</span>
               </button>
-              <button type="button" class="dc-map-ctrl-btn" style="color:#0284c7; font-weight:800;" onclick="openGoogleMapsNavigation(currentActiveMissionCode)" title="Open in Google Maps">
+              <button type="button" class="dc-map-ctrl-btn" style="color:#0284c7; font-weight:800; border-color: #bae6fd; background: #f0f9ff;" onclick="openGoogleMapsNavigation(currentActiveMissionCode)" title="Open in Google Maps">
                 <span>↗️</span>
                 <span>Google Maps</span>
+              </button>
+              <button type="button" id="btn-map-fullscreen" class="dc-map-ctrl-btn" onclick="toggleMapFullscreen()" title="Toggle Fullscreen Map">
+                <span>⛶</span>
+                <span>Fullscreen</span>
               </button>
             </div>
 
@@ -657,7 +674,7 @@
         en: {
           brand: "AgriNex Driver & Fleet Console",
           heading: "DRIVER SHIFT WORKFLOW",
-          missionNav: "Active Mission & Map",
+          missionNav: "Live GPS Tracking",
           dutyNav: "Duty & Profile",
           earningsNav: "Earnings & UPI Payout",
           loadsNav: "Nearby Load Broadcasts",
@@ -672,7 +689,7 @@
         hi: {
           brand: "एग्रीनेक्स ड्राइवर व फ्लीट कंसोल",
           heading: "ड्राइवर शिफ्ट कार्यप्रवाह",
-          missionNav: "सक्रिय मिशन व नक्शा",
+          missionNav: "लाइव जीपीएस ट्रैकिंग",
           dutyNav: "ड्यूटी व प्रोफाइल",
           earningsNav: "कमाई व UPI भुगतान",
           loadsNav: "नजदीकी माल प्रसारण",
@@ -684,20 +701,20 @@
           caption: "प्रत्येक गाँव स्टॉप पर पहुँचने, क्रेट लोड करने और आगे बढ़ने पर इस बटन को दबाएँ।",
           withdrawText: "₹3,840 बैंक खाते में ट्रांसफर करें"
         },
-        ta: {
-          brand: "அக்ரிநெக்ஸ் ஓட்டுநர் மற்றும் கடற்படை கன்சோல்",
-          heading: "ஓட்டுநர் பணிப்பாய்வு",
-          missionNav: "செயலில் உள்ள மிஷன் & வரைபடம்",
-          dutyNav: "பணி & சுயவிவரம்",
-          earningsNav: "வருமானம் & UPI பணம்",
-          loadsNav: "அருகிலுள்ள சுமை வாய்ப்புகள்",
-          podNav: "விநியோக ஒப்படைப்பு",
-          diagNav: "வாகன கண்டறிதல்",
-          sosNav: "அவசர SOS",
-          activeBadge: "செயலில் உள்ள மிஷன்",
-          taskLabel: "தற்போதைய பணி:",
-          caption: "ஒவ்வொரு கிராம நிறுத்தத்திற்கும் வந்து பெட்டிகளை ஏற்றிய பின் இந்த பொத்தானை அழுத்தவும்.",
-          withdrawText: "₹3,840 வங்கி கணக்கிற்கு மாற்றவும்"
+        mr: {
+          brand: "अ‍ॅग्रीनेक्स ड्रायव्हर आणि फ्लीट कन्सोल",
+          heading: "ड्रायव्हर शिफ्ट कार्यप्रवाह",
+          missionNav: "थेट GPS ट्रॅकिंग",
+          dutyNav: "कर्तव्य व प्रोफाइल",
+          earningsNav: "कमाई व UPI पैसे",
+          loadsNav: "जवळचे माल प्रेषण",
+          podNav: "POD डिलिव्हरी हस्तांतरण",
+          diagNav: "वाहन तपासणी",
+          sosNav: "आपत्कालीन SOS",
+          activeBadge: "सक्रिय मोहीम",
+          taskLabel: "सध्याचे सक्रिय काम:",
+          caption: "प्रत्येक गावात पोहोचल्यावर, क्रेट्स भरून पुढे जाताना हे बटण दाबा.",
+          withdrawText: "₹3,840 बँक खात्यात वर्ग करा"
         }
       };
 

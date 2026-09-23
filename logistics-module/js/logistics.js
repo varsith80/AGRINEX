@@ -163,14 +163,65 @@ function calculateShortestRoute(origin, waypoints = [], destination) {
 }
 
 /**
- * Driver & Fleet Console Interactive Map Instance
+ * Driver & Fleet Console Interactive Map Instance (Open-Source Google Maps Engine)
  */
 let dcActiveMap = null;
+let dcCurrentTileLayer = null;
+let dcActiveLayerKey = 'googleRoads';
+let dcTrafficLayerGroup = null;
+let dcTrafficEnabled = false;
 let dcTruckMarker = null;
 let dcShortestPolyline = null;
 let dcHighwayPolyline = null;
 let dcStopMarkers = [];
 let dcActiveRouteMode = 'shortest'; // 'shortest' or 'highway'
+
+// Open-Source Google Map & Tile Providers (No API Key Required)
+const DC_MAP_TILES = {
+  googleRoads: {
+    name: 'Google Roads',
+    url: 'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+    options: {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: '&copy; Google Maps (Open Telematics)'
+    }
+  },
+  googleHybrid: {
+    name: 'Satellite Hybrid',
+    url: 'https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
+    options: {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: '&copy; Google Satellite &copy; Google Maps'
+    }
+  },
+  googleTerrain: {
+    name: 'Terrain',
+    url: 'https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
+    options: {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: '&copy; Google Terrain'
+    }
+  },
+  osm: {
+    name: 'OpenStreetMap',
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    options: {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }
+  },
+  carto: {
+    name: 'Carto Voyager',
+    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    options: {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap &copy; CARTO'
+    }
+  }
+};
 
 function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
   const mapContainer = document.getElementById("dc-leaflet-map") || document.getElementById("logistics-radar-map");
@@ -182,6 +233,8 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
   if (dcActiveMap) {
     dcActiveMap.remove();
     dcActiveMap = null;
+    dcCurrentTileLayer = null;
+    dcTrafficLayerGroup = null;
   }
 
   // Determine Truck Origin and Waypoints
@@ -197,11 +250,8 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
     scrollWheelZoom: false
   }).setView(truckCoords, 11);
 
-  // CartoDB Voyager Tiles (Crisp, High-DPI, Professional Telematics)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CARTO',
-    maxZoom: 19
-  }).addTo(dcActiveMap);
+  // Set Default Tile Layer (Open-Source Google Roads)
+  applyMapTileLayer(dcActiveLayerKey || 'googleRoads');
 
   // Calculate Shortest Route vs Highway Route
   const routeData = calculateShortestRoute(truckCoords, stops, destCoords);
@@ -309,8 +359,106 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
     </div>
   `).openPopup();
 
+  // Create Traffic Layer Simulation Group
+  setupMapTrafficLayer(highwayPoints);
+
   // Auto-fit to route bounds
   showFullConsoleRoute();
+}
+
+/**
+ * Apply Tile Layer by key (with error resilience and fallback to OSM)
+ */
+function applyMapTileLayer(key) {
+  if (!dcActiveMap) return;
+  const config = DC_MAP_TILES[key] || DC_MAP_TILES.googleRoads;
+
+  if (dcCurrentTileLayer) {
+    dcActiveMap.removeLayer(dcCurrentTileLayer);
+  }
+
+  dcActiveLayerKey = key;
+  try {
+    dcCurrentTileLayer = L.tileLayer(config.url, config.options).addTo(dcActiveMap);
+    dcCurrentTileLayer.on('tileerror', function() {
+      // Automatic fallback if Google tiles are throttled or offline
+      if (key !== 'osm') {
+        console.warn(`[Map] Tile provider ${key} issue, falling back to OpenStreetMap.`);
+        switchMapLayer('osm');
+      }
+    });
+  } catch (err) {
+    dcCurrentTileLayer = L.tileLayer(DC_MAP_TILES.osm.url, DC_MAP_TILES.osm.options).addTo(dcActiveMap);
+  }
+
+  // Update UI active buttons if present
+  document.querySelectorAll('.map-layer-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-layer') === key);
+  });
+}
+
+/**
+ * Switch Base Map Layer (Google Roads, Satellite Hybrid, Terrain, OSM, Carto)
+ */
+function switchMapLayer(key) {
+  applyMapTileLayer(key);
+  showToast(`🗺️ Switched to ${DC_MAP_TILES[key]?.name || key}`);
+}
+
+/**
+ * Setup Simulated Highway Traffic Layer (Green / Amber / Red Flow)
+ */
+function setupMapTrafficLayer(points = []) {
+  if (!dcActiveMap) return;
+  dcTrafficLayerGroup = L.layerGroup();
+
+  if (points.length >= 2) {
+    // Add colored traffic congestion line segments
+    const segment1 = [points[0], points[1]];
+    const segment2 = [points[1], points[2] || points[1]];
+    const segment3 = [points[2] || points[1], points[points.length - 1]];
+
+    L.polyline(segment1, { color: '#16a34a', weight: 4, opacity: 0.8, lineCap: 'round' }).bindTooltip('Highway Traffic: Smooth (55 km/h)').addTo(dcTrafficLayerGroup);
+    L.polyline(segment2, { color: '#eab308', weight: 5, opacity: 0.85, lineCap: 'round' }).bindTooltip('Mandi Approach: Moderate (32 km/h)').addTo(dcTrafficLayerGroup);
+    L.polyline(segment3, { color: '#ef4444', weight: 5, opacity: 0.9, lineCap: 'round' }).bindTooltip('Dock Entry: Congestion / Unloading Queue (12 km/h)').addTo(dcTrafficLayerGroup);
+  }
+}
+
+/**
+ * Toggle Live Traffic Flow Overlay
+ */
+function toggleMapTraffic() {
+  if (!dcActiveMap || !dcTrafficLayerGroup) return;
+  dcTrafficEnabled = !dcTrafficEnabled;
+
+  const btn = document.getElementById('btn-map-traffic');
+  if (dcTrafficEnabled) {
+    dcActiveMap.addLayer(dcTrafficLayerGroup);
+    if (btn) btn.classList.add('active');
+    showToast('🚦 Live Traffic Flow Simulation: ACTIVE (NH-544 & Mandi Corridor)');
+  } else {
+    dcActiveMap.removeLayer(dcTrafficLayerGroup);
+    if (btn) btn.classList.remove('active');
+    showToast('🚦 Traffic Overlay: Hidden');
+  }
+}
+
+/**
+ * Toggle Fullscreen Map View
+ */
+function toggleMapFullscreen() {
+  const wrapper = document.querySelector('.dc-map-wrapper') || document.getElementById('logistics-radar-map')?.parentElement;
+  if (!wrapper) return;
+
+  const isFullscreen = wrapper.classList.toggle('map-fullscreen-active');
+  const btn = document.getElementById('btn-map-fullscreen');
+  if (btn) {
+    btn.innerHTML = isFullscreen ? '<span>🗗</span> <span>Exit Fullscreen</span>' : '<span>⛶</span> <span>Fullscreen</span>';
+  }
+
+  setTimeout(() => {
+    if (dcActiveMap) dcActiveMap.invalidateSize();
+  }, 200);
 }
 
 /**
@@ -395,7 +543,7 @@ function advanceMissionStop(orderCode = "CLUSTER-AGX-801") {
     // Update UI elements
     updateConsoleMissionUI(order);
     showToast(`✅ Arrived at Stop 1 (${currentStop.shortTitle})! Loaded 14 Crates (350 kg). Farmer Ravi Kumar OTP #7291 Verified.`);
-    if (dcActiveMap && nextStop.coords) {
+    if (dcActiveMap && dcTruckMarker && nextStop && nextStop.coords) {
       dcTruckMarker.setLatLng(currentStop.coords);
       dcActiveMap.panTo(nextStop.coords);
     }
@@ -404,11 +552,11 @@ function advanceMissionStop(orderCode = "CLUSTER-AGX-801") {
     currentStop.status = "COMPLETED";
     order.activeStopIndex = 2;
     const finalStop = order.stops[2];
-    finalStop.status = "IN PROGRESS";
+    if (finalStop) finalStop.status = "IN PROGRESS";
 
     updateConsoleMissionUI(order);
     showToast(`✅ Arrived at Stop 2 (${currentStop.shortTitle})! Loaded 18 Crates (450 kg). Farmer Senthil OTP #4819 Verified. Proceeding to Erode Central Mandi.`);
-    if (dcActiveMap && finalStop.coords) {
+    if (dcActiveMap && dcTruckMarker && finalStop && finalStop.coords) {
       dcTruckMarker.setLatLng(currentStop.coords);
       dcActiveMap.panTo(finalStop.coords);
     }

@@ -65,7 +65,7 @@
           <li class="nav-item" onclick="window.location.href='gps-tracking.html'" style="background: rgba(234, 88, 12, 0.12); border: 1px solid rgba(234, 88, 12, 0.3);">
             <div class="nav-item-left">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.2"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
-              <span style="font-weight: 700; color: #c2410c;" id="nav-live-console">Driver &amp; GPS Console</span>
+              <span style="font-weight: 700; color: #c2410c;" id="nav-live-console">Live GPS Tracking</span>
             </div>
             <span class="nav-badge" style="background: #ea580c; color: white; font-size: 0.62rem; padding: 1px 6px; border-radius: 999px; font-weight: 800;">LIVE</span>
           </li>
@@ -169,7 +169,7 @@
           <!-- Driver Console Fast Action Button -->
           <a href="gps-tracking.html" class="navbar-btn-create" style="background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); text-decoration: none; color: white; display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 0.85rem; padding: 8px 16px; border-radius: 999px; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);">
             <span>📡</span>
-            <span id="btn-open-driver-console">Driver Console</span>
+            <span id="btn-open-driver-console">Live GPS Tracking</span>
           </a>
 
           <!-- Notification Bell -->
@@ -251,9 +251,9 @@
         </div>
       </section>
 
-      <!-- LIVE RADAR TELEMETRY PREVIEW -->
-      <section style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 24px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <!-- LIVE RADAR TELEMETRY PREVIEW WITH OPEN-SOURCE GOOGLE MAP CONTROLS -->
+      <section style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="background: #ea580c; color: white; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 4px;">ACTIVE RADAR</span>
@@ -263,12 +263,45 @@
               Optimal Shortest Permutation active: <strong style="color: #059669;">Saves 8.7 km &amp; 22 mins</strong> vs standard state highway
             </div>
           </div>
-          <div style="display: flex; gap: 10px;">
-            <a href="gps-tracking.html" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px; text-decoration: none; color: #334155;">Full Screen Telematics &rarr;</a>
+
+          <!-- Open-Source Google Map Controls Toolbar -->
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <!-- Map Layer Selectors -->
+            <div class="map-layer-selector-group" style="display: flex; background: #f1f5f9; border-radius: 8px; padding: 2px; border: 1px solid #cbd5e1;">
+              <button type="button" class="map-layer-btn active" data-layer="googleRoads" onclick="switchMapLayer('googleRoads')" style="padding: 5px 10px; font-size: 0.72rem; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; background: #ffffff; color: #0f172a; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">🗺️ Roads</button>
+              <button type="button" class="map-layer-btn" data-layer="googleHybrid" onclick="switchMapLayer('googleHybrid')" style="padding: 5px 10px; font-size: 0.72rem; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; background: transparent; color: #475569;">🛰️ Satellite</button>
+              <button type="button" class="map-layer-btn" data-layer="googleTerrain" onclick="switchMapLayer('googleTerrain')" style="padding: 5px 10px; font-size: 0.72rem; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; background: transparent; color: #475569;">🏔️ Terrain</button>
+              <button type="button" class="map-layer-btn" data-layer="osm" onclick="switchMapLayer('osm')" style="padding: 5px 10px; font-size: 0.72rem; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; background: transparent; color: #475569;">🌐 OSM</button>
+            </div>
+
+            <!-- Traffic Toggle -->
+            <button type="button" id="btn-map-traffic" onclick="toggleMapTraffic()" class="btn btn-outline" style="font-size: 0.75rem; padding: 6px 11px; display: inline-flex; align-items: center; gap: 5px; font-weight: 700;" title="Toggle Simulated Live Highway Traffic">
+              <span>🚦 Traffic</span>
+            </button>
+
+            <!-- Recenter -->
+            <button type="button" onclick="recenterConsoleMap()" class="btn btn-outline" style="font-size: 0.75rem; padding: 6px 11px; display: inline-flex; align-items: center; gap: 4px; font-weight: 700;" title="Center on Vehicle GPS">
+              <span>🎯 Center</span>
+            </button>
+
+            <!-- Full Route -->
+            <button type="button" onclick="showFullConsoleRoute()" class="btn btn-outline" style="font-size: 0.75rem; padding: 6px 11px; display: inline-flex; align-items: center; gap: 4px; font-weight: 700;" title="Fit Whole Route">
+              <span>📐 Fit Route</span>
+            </button>
+
+            <!-- Google Maps External -->
+            <button type="button" onclick="openGoogleMapsNavigation('CLUSTER-AGX-801')" class="btn btn-outline" style="font-size: 0.75rem; padding: 6px 11px; color: #0284c7; border-color: #bae6fd; background: #f0f9ff; font-weight: 800;" title="Open in Google Maps">
+              <span>↗️ Google Maps</span>
+            </button>
+
+            <!-- Fullscreen Telematics Link -->
+            <a href="gps-tracking.html" class="btn btn-primary" style="font-size: 0.75rem; padding: 6px 13px; text-decoration: none; background: #0c5a36; display: inline-flex; align-items: center; gap: 4px;">
+              <span>🛰️ Telematics &rarr;</span>
+            </a>
           </div>
         </div>
 
-        <div style="height: 320px; border-radius: 12px; overflow: hidden; border: 1px solid #cbd5e1;" id="logistics-radar-map"></div>
+        <div style="height: 380px; border-radius: 14px; overflow: hidden; border: 1.5px solid #cbd5e1; position: relative; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);" id="logistics-radar-map"></div>
       </section>
 
       <!-- ACTIVE DISPATCHES & ORDERS TABLE -->
