@@ -401,15 +401,24 @@
 
           <div class="listings-table-container">
             <table class="data-table">
+              <colgroup>
+                <col style="width: 24%;">
+                <col style="width: 8%;">
+                <col style="width: 10%;">
+                <col style="width: 14%;">
+                <col style="width: 16%;">
+                <col style="width: 10%;">
+                <col style="width: 18%;">
+              </colgroup>
               <thead>
                 <tr>
-                  <th>Crop</th>
-                  <th>Grade</th>
-                  <th>Quantity</th>
-                  <th>Expected Price (₹/kg & ₹/Qt)</th>
-                  <th>Best Bid (₹/kg & ₹/Qt)</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th class="col-crop">Crop</th>
+                  <th class="col-grade" style="text-align: center;">Grade</th>
+                  <th class="col-qty">Qty</th>
+                  <th class="col-price">Floor Price</th>
+                  <th class="col-price">Best Bid</th>
+                  <th class="col-status" style="text-align: center;">Status</th>
+                  <th class="col-actions" style="text-align: right;">Action</th>
                 </tr>
               </thead>
               <tbody id="listings-tbody">

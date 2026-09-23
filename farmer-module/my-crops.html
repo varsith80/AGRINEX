@@ -993,29 +993,27 @@
           <div class="listings-table-container">
 
             <table class="data-table">
-
+              <colgroup>
+                <col style="width: 22%;">
+                <col style="width: 8%;">
+                <col style="width: 9%;">
+                <col style="width: 11%;">
+                <col style="width: 11%;">
+                <col style="width: 14%;">
+                <col style="width: 9%;">
+                <col style="width: 16%;">
+              </colgroup>
               <thead>
-
                 <tr>
-
-                  <th>Crop & Lot Details</th>
-
-                  <th>Quality Grade</th>
-
-                  <th>Volume (Qt)</th>
-
-                  <th>Expected Floor</th>
-
-                  <th>Current Best Bid</th>
-
-                  <th>Buyer & Verification</th>
-
-                  <th>Status</th>
-
-                  <th style="text-align: right;">Actions</th>
-
+                  <th class="col-crop">Crop</th>
+                  <th class="col-grade" style="text-align: center;">Grade</th>
+                  <th class="col-qty">Qty</th>
+                  <th class="col-price">Floor Price</th>
+                  <th class="col-price">Best Bid</th>
+                  <th class="col-buyer">Buyer</th>
+                  <th class="col-status" style="text-align: center;">Status</th>
+                  <th class="col-actions" style="text-align: right;">Action</th>
                 </tr>
-
               </thead>
 
               <tbody id="crops-table-tbody">
@@ -1689,94 +1687,57 @@
 
 
         return `
-
           <tr style="${isEmergency && !isSold ? 'background-color: #fffaf0;' : ''}">
-
-            <td>
-
-              <div class="crop-cell">
-
-                <img src="${item.image}" alt="${item.crop}" class="crop-thumb" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
-
+            <td class="col-crop">
+              <div class="crop-cell" style="gap: 10px;">
+                <img src="${item.image}" alt="${item.crop}" class="crop-thumb" style="width: 44px; height: 44px; border-radius: 8px;" onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=150&auto=format&fit=crop&q=80'" />
                 <div>
-
-                  <div class="crop-name">${dispCrop}</div>
-
-                  <div style="font-size: 0.72rem; color: #64748b;">${item.id} • ${item.shelfLife || 'Perishable'}</div>
-
-                  ${isEmergency && !isSold ? `<span style="font-size: 0.7rem; color: #dc2626; font-weight: 800;">⚡ ${window.tText ? window.tText('Emergency Salvage Active') : 'Emergency Salvage Active'}</span>` : ''}
-
+                  <div class="crop-name" style="font-size: 0.88rem; font-weight: 800;">${dispCrop}</div>
+                  <div style="font-size: 0.7rem; color: #64748b;">${item.id} • ${item.shelfLife || 'Fresh'}</div>
+                  ${isEmergency && !isSold ? `<span style="font-size: 0.68rem; color: #dc2626; font-weight: 800;">⚡ ${window.tText ? window.tText('Emergency Active') : 'Emergency Active'}</span>` : ''}
                 </div>
-
               </div>
-
             </td>
-
-            <td>
-
-              <span class="badge ${item.gradeBadgeClass}">${dispGrade}</span>
-
+            <td class="col-grade" style="text-align: center; padding-left: 2px; padding-right: 2px;">
+              <span class="badge ${item.gradeBadgeClass}" style="white-space: nowrap; font-size: 0.74rem; padding: 3px 8px;">${dispGrade}</span>
             </td>
-
-            <td>
-
-              <strong style="color: #0f172a; font-weight: 700;">${item.quantity}</strong>
-
+            <td class="col-qty">
+              <strong style="color: #0f172a; font-weight: 800; font-size: 0.88rem;">${(item.quantity || '').split('(')[0].trim()}</strong>
+              <div style="font-size: 0.68rem; color: #64748b;">${(item.quantity || '').includes('(') ? (item.quantity.match(/\((.*?)\)/)?.[1] || '') : ''}</div>
             </td>
-
-            <td>
-
-              <span class="price-main">${item.expectedPrice}</span>
-
+            <td class="col-price">
+              <span class="price-main" style="font-size: 0.88rem;">${(item.expectedPrice || '').split('(')[0].trim()}</span>
+              <div style="font-size: 0.68rem; color: #64748b;">${(item.expectedPrice || '').includes('(') ? (item.expectedPrice.match(/\((.*?)\)/)?.[1] || '') : ''}</div>
             </td>
-
-            <td>
-
+            <td class="col-price">
               <div class="crop-details">
-
-                <span class="price-main" style="${isEmergency ? 'color: #dc2626; font-weight: 800;' : 'color: #15803d; font-weight: 800;'}">${item.bestBid}</span>
-
+                <span class="price-main" style="${isEmergency ? 'color: #dc2626;' : 'color: #15803d;'} font-weight: 800; font-size: 0.88rem;">${(item.bestBid || '').split('(')[0].trim()}</span>
+                <div style="font-size: 0.68rem; color: #64748b;">${(item.bestBid || '').includes('(') ? (item.bestBid.match(/\((.*?)\)/)?.[1] || '') : ''}</div>
               </div>
-
             </td>
-
-            <td>
-
-              <div style="font-size: 0.8rem; font-weight: 700; color: #1e293b;">${item.buyerName}</div>
-
-              <span style="font-size: 0.7rem; color: #166534;">✓ ${window.tText ? window.tText('Escrow Verified') : 'Escrow Verified'}</span>
-
+            <td class="col-buyer">
+              <div style="font-size: 0.8rem; font-weight: 700; color: #1e293b; max-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${item.buyerName}">${(item.buyerName || '').split('(')[0].trim()}</div>
+              <span style="font-size: 0.68rem; color: #166534; font-weight: 700;">✓ ${window.tText ? window.tText('Verified') : 'Verified'}</span>
             </td>
-
-            <td>
-
-              <span class="badge ${item.statusBadgeClass}">${dispStatus}</span>
-
+            <td class="col-status" style="text-align: center;">
+              <span class="badge ${item.statusBadgeClass}" style="white-space: nowrap; font-size: 0.72rem; padding: 3px 8px;">${dispStatus}</span>
             </td>
-
-            <td style="text-align: right;">
-
-              <div style="display: inline-flex; gap: 6px; align-items: center;">
-
-                <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.76rem;" onclick="openLotDetail('${item.id}')">${window.tText ? window.tText('View') : 'View'}</button>
-
+            <td class="col-actions" style="text-align: right; white-space: nowrap;">
+              <div style="display: inline-flex; gap: 4px; align-items: center; justify-content: flex-end;">
+                <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.74rem;" onclick="openLotDetail('${item.id}')">${window.tText ? window.tText('View') : 'View'}</button>
                 ${!isSold && !isEmergency ? `
-                  <button class="btn-emergency-action" style="padding: 5px 10px; font-size: 0.74rem;" onclick="openEmergencyModal('${item.id}')">
-                    <span>🚨</span> ${window.tText ? window.tText('Emergency') : 'Emergency'}
+                  <button class="btn-emergency-action" style="padding: 4px 9px; font-size: 0.74rem; white-space: nowrap;" onclick="openEmergencyModal('${item.id}')">
+                    <span>🚨</span> ${window.tText ? window.tText('Emergency Sale') : 'Emergency Sale'}
                   </button>
                 ` : ''}
                 ${isEmergency && !isSold ? `
-                  <button class="btn-emergency-action" style="padding: 5px 10px; font-size: 0.74rem; background: #0c5a36;" onclick="openEmergencyOffersModal('${item.id}')">
+                  <button class="btn-emergency-action" style="padding: 4px 9px; font-size: 0.74rem; background: #0c5a36; white-space: nowrap;" onclick="openEmergencyOffersModal('${item.id}')">
                     <span>⚡</span> ${window.tText ? window.tText('Offers') : 'Offers'}
                   </button>
                 ` : ''}
-
               </div>
-
             </td>
-
           </tr>
-
         `;
 
       }).join("");

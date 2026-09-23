@@ -1,4 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Sync registered farmer profile and exact coordinates if registered
+  try {
+    const storedUser = localStorage.getItem("agrinex_user");
+    if (storedUser) {
+      const u = JSON.parse(storedUser);
+      if (u.name && farmerData && farmerData.profile) farmerData.profile.name = u.name;
+      if (u.location && farmerData && farmerData.profile) farmerData.profile.location = u.location;
+      if (u.latitude !== undefined && farmerData && farmerData.profile) {
+        farmerData.profile.latitude = parseFloat(u.latitude);
+      }
+      if (u.longitude !== undefined && farmerData && farmerData.profile) {
+        farmerData.profile.longitude = parseFloat(u.longitude);
+      }
+      if (farmerData && farmerData.profile && farmerData.profile.latitude && farmerData.profile.longitude) {
+        farmerData.profile.coordinates = [farmerData.profile.latitude, farmerData.profile.longitude];
+      }
+
+      // Update UI elements with exact registered farmer details
+      const nameEl = document.querySelector(".profile-name");
+      if (nameEl && u.name) nameEl.textContent = u.name;
+      const profileDisplayNameEl = document.getElementById("profile-display-name");
+      if (profileDisplayNameEl && u.name) profileDisplayNameEl.textContent = u.name;
+      const profileNameInput = document.getElementById("profile-input-name");
+      if (profileNameInput && u.name) profileNameInput.value = u.name;
+      const profileLocInput = document.getElementById("profile-input-location");
+      if (profileLocInput && u.location) profileLocInput.value = u.location;
+      const profileLatInput = document.getElementById("profile-input-latitude");
+      if (profileLatInput && u.latitude) profileLatInput.value = u.latitude;
+      const profileLngInput = document.getElementById("profile-input-longitude");
+      if (profileLngInput && u.longitude) profileLngInput.value = u.longitude;
+    }
+  } catch (e) {}
+
   renderListings();
   syncListingsFromBackend();
   renderFPOHub();
@@ -312,36 +345,39 @@ function renderListings() {
             </div>
           </div>
         </td>
-        <td>
-          <span class="badge ${item.gradeBadgeClass}">${dispGrade}</span>
+        <td class="col-grade" style="text-align: center; padding-left: 2px; padding-right: 2px;">
+          <span class="badge ${item.gradeBadgeClass}" style="white-space: nowrap; font-size: 0.74rem; padding: 3px 8px;">${dispGrade}</span>
         </td>
-        <td>
-          <strong style="color: #0f172a; font-weight: 800; font-size: 0.94rem;">${item.quantity}</strong>
+        <td class="col-qty">
+          <strong style="color: #0f172a; font-weight: 800; font-size: 0.88rem;">${(item.quantity || '').split('(')[0].trim()}</strong>
+          <div style="font-size: 0.68rem; color: #64748b;">${(item.quantity || '').includes('(') ? (item.quantity.match(/\((.*?)\)/)?.[1] || '') : ''}</div>
         </td>
-        <td>
-          <span class="price-main">${item.expectedPrice}</span>
+        <td class="col-price">
+          <span class="price-main" style="font-size: 0.88rem;">${(item.expectedPrice || '').split('(')[0].trim()}</span>
+          <div style="font-size: 0.68rem; color: #64748b;">${(item.expectedPrice || '').includes('(') ? (item.expectedPrice.match(/\((.*?)\)/)?.[1] || '') : ''}</div>
         </td>
-        <td>
+        <td class="col-price">
           <div class="crop-details">
-            <span class="price-main" style="${isEmergency ? 'color: #dc2626; font-weight: 800;' : 'color: #166534;'}">${item.bestBid}</span>
-            <span class="price-subtext" style="display: flex; align-items: center; gap: 4px;">
-              <span style="color: #15803d; font-weight: 800;">✓</span> ${dispBuyer}
+            <span class="price-main" style="${isEmergency ? 'color: #dc2626;' : 'color: #166534;'} font-weight: 800; font-size: 0.88rem;">${(item.bestBid || '').split('(')[0].trim()}</span>
+            <div style="font-size: 0.68rem; color: #64748b;">${(item.bestBid || '').includes('(') ? (item.bestBid.match(/\((.*?)\)/)?.[1] || '') : ''}</div>
+            <span class="price-subtext" style="display: flex; align-items: center; gap: 4px; font-size: 0.68rem;">
+              <span style="color: #15803d; font-weight: 800;">✓</span> ${(dispBuyer || '').split('(')[0].trim()}
             </span>
           </div>
         </td>
-        <td>
-          <span class="badge ${item.statusBadgeClass}">${dispStatus}</span>
+        <td class="col-status" style="text-align: center;">
+          <span class="badge ${item.statusBadgeClass}" style="white-space: nowrap; font-size: 0.72rem; padding: 3px 8px;">${dispStatus}</span>
         </td>
-        <td>
-          <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-            <button class="btn btn-outline btn-view-lot" style="padding: 6px 12px; font-size: 0.8rem; font-weight: 700;" onclick="openLotDetail('${item.id}')">${window.tText ? window.tText('View') : 'View'}</button>
+        <td class="col-actions" style="text-align: right; white-space: nowrap;">
+          <div style="display: inline-flex; gap: 4px; align-items: center; justify-content: flex-end;">
+            <button class="btn btn-outline btn-view-lot" style="padding: 4px 8px; font-size: 0.74rem; font-weight: 700;" onclick="openLotDetail('${item.id}')">${window.tText ? window.tText('View') : 'View'}</button>
             ${!isSold && !isEmergency ? `
-              <button class="btn-emergency-action" onclick="openEmergencyModal('${item.id}')" title="No buyers? Activate instant breakeven sale with food processors, composters & caterers">
+              <button class="btn-emergency-action" style="padding: 4px 9px; font-size: 0.74rem; white-space: nowrap;" onclick="openEmergencyModal('${item.id}')" title="No buyers? Activate instant breakeven sale with food processors, composters & caterers">
                 <span>🚨</span> ${window.tText ? window.tText('Emergency Sale') : 'Emergency Sale'}
               </button>
             ` : ''}
             ${isEmergency && !isSold ? `
-              <button class="btn-emergency-action" style="background: #0c5a36;" onclick="openEmergencyOffersModal('${item.id}')" title="Review live salvage bids">
+              <button class="btn-emergency-action" style="background: #0c5a36; padding: 4px 9px; font-size: 0.74rem; white-space: nowrap;" onclick="openEmergencyOffersModal('${item.id}')" title="Review live salvage bids">
                 <span>⚡</span> ${window.tText ? window.tText('Offers') : 'Offers'} (${item.emergencyOffers ? item.emergencyOffers.length : 3})
               </button>
             ` : ''}
@@ -469,11 +505,27 @@ function setupModals() {
       const newName = document.getElementById("profile-input-name") ? document.getElementById("profile-input-name").value : "";
       const newPhone = document.getElementById("profile-input-phone") ? document.getElementById("profile-input-phone").value : "";
       const newLocation = document.getElementById("profile-input-location") ? document.getElementById("profile-input-location").value : "";
+      const newLat = document.getElementById("profile-input-latitude") ? parseFloat(document.getElementById("profile-input-latitude").value) : 20.1472;
+      const newLng = document.getElementById("profile-input-longitude") ? parseFloat(document.getElementById("profile-input-longitude").value) : 74.2255;
 
       if (farmerData && farmerData.profile) {
         farmerData.profile.name = newName;
         farmerData.profile.location = newLocation;
+        farmerData.profile.latitude = newLat;
+        farmerData.profile.longitude = newLng;
+        farmerData.profile.coordinates = [newLat, newLng];
       }
+
+      // Persist to user session
+      try {
+        let user = JSON.parse(localStorage.getItem("agrinex_user") || "{}");
+        user.name = newName;
+        user.location = newLocation;
+        user.latitude = newLat;
+        user.longitude = newLng;
+        user.coordinates = [newLat, newLng];
+        localStorage.setItem("agrinex_user", JSON.stringify(user));
+      } catch (err) {}
 
       // Update UI elements
       const nameEl = document.querySelector(".profile-name");
@@ -486,7 +538,7 @@ function setupModals() {
       if (profileDisplayNameEl) profileDisplayNameEl.textContent = newName;
 
       closeProfileModal();
-      showToast("Farmer Profile & KYC Information updated successfully!");
+      showToast("Farmer Profile, Registered Location & Coordinates updated successfully!");
     });
   }
 }
