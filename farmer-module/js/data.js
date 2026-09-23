@@ -7,6 +7,10 @@ const farmerData = {
     "name": "Perumal",
     "role": "Progressive Farmer & FPO Director",
     "location": "Lasalgaon APMC Yard, Nashik, Maharashtra",
+    "latitude": 20.1472,
+    "longitude": 74.2255,
+    "coordinates": [20.1472, 74.2255],
+    "calculationMethod": "Haversine Spherical Geodesic (Latitude & Longitude Coordinates)",
     "avatar": "assets/images/farmer-avatar.jpg",
     "notificationsCount": 5,
     "messagesCount": 3

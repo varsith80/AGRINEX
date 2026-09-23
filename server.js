@@ -2100,14 +2100,27 @@ const server = http.createServer(async (req, res) => {
         const speed = Math.floor(55 + Math.random() * 15);
         const freshnessScore = Math.max(92, 100 - Math.floor(Math.abs(parseFloat(currentTemp) - 4.0) * 4));
 
+        const lat = 19.9975 + (Math.random() * 0.01 - 0.005);
+        const lng = 73.7898 + (Math.random() * 0.01 - 0.005);
+
         const telemetryPayload = {
           reefer_temp_c: parseFloat(currentTemp),
           humidity_pct: humidity,
           speed_kmh: speed,
           freshness_score: `${freshnessScore}%`,
           current_location: `Samruddhi Corridor Checkpoint ~ ${Math.floor(25 + Math.random() * 20)} km to Terminal`,
-          gps_lat: 19.9975 + (Math.random() * 0.01 - 0.005),
-          gps_lng: 73.7898 + (Math.random() * 0.01 - 0.005),
+          latitude: lat,
+          longitude: lng,
+          coordinates: [lat, lng],
+          gps_lat: lat,
+          gps_lng: lng,
+          calculation_basis: 'Haversine Great-Circle Geodesic from Farmer Registered Coordinates',
+          farmer_registered_location: {
+            farmer_name: 'Perumal (Registered Farmer)',
+            location: 'Lasalgaon APMC Yard, Nashik, Maharashtra',
+            latitude: 20.1472,
+            longitude: 74.2255
+          },
           battery_pct: 98,
           timestamp: new Date().toISOString()
         };

@@ -542,6 +542,29 @@
           <input type="text" id="profile-input-location" class="form-input" value="Lasalgaon APMC Yard, Nashik, Maharashtra" required />
         </div>
 
+        <!-- Registered Farm Coordinates (Haversine Geo-point) -->
+        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 12px; margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label class="form-label" style="margin: 0; color: #166534; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+              <span>🌐</span> Registered Farm Coordinates (Haversine Geo-point)
+            </label>
+            <span style="font-size: 0.68rem; background: #bbf7d0; color: #14532d; padding: 2px 8px; border-radius: 999px; font-weight: 800;">PURE LAT/LONG • NO GPS NEEDED</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" style="font-size: 0.74rem;">Registered Latitude (° N)</label>
+              <input type="number" id="profile-input-latitude" class="form-input" step="0.0001" value="20.1472" required />
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" style="font-size: 0.74rem;">Registered Longitude (° E)</label>
+              <input type="number" id="profile-input-longitude" class="form-input" step="0.0001" value="74.2255" required />
+            </div>
+          </div>
+          <div style="font-size: 0.72rem; color: #15803d; margin-top: 6px;">
+            📐 Logistics distance is computed via the <strong>Haversine Great-Circle formula</strong> directly from your registered Latitude &amp; Longitude coordinates.
+          </div>
+        </div>
+
         <div class="form-group">
           <label class="form-label">Primary Cultivated Crops</label>
           <input type="text" id="profile-input-crops" class="form-input" value="Red Onion (Nashik Garwa), Tomato (Shivam), Grand Naine Banana, Kolam Rice" required />

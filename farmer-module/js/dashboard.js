@@ -1,4 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Sync registered farmer profile and exact coordinates if registered
+  try {
+    const storedUser = localStorage.getItem("agrinex_user");
+    if (storedUser) {
+      const u = JSON.parse(storedUser);
+      if (u.name && farmerData && farmerData.profile) farmerData.profile.name = u.name;
+      if (u.location && farmerData && farmerData.profile) farmerData.profile.location = u.location;
+      if (u.latitude !== undefined && farmerData && farmerData.profile) {
+        farmerData.profile.latitude = parseFloat(u.latitude);
+      }
+      if (u.longitude !== undefined && farmerData && farmerData.profile) {
+        farmerData.profile.longitude = parseFloat(u.longitude);
+      }
+      if (farmerData && farmerData.profile && farmerData.profile.latitude && farmerData.profile.longitude) {
+        farmerData.profile.coordinates = [farmerData.profile.latitude, farmerData.profile.longitude];
+      }
+
+      // Update UI elements with exact registered farmer details
+      const nameEl = document.querySelector(".profile-name");
+      if (nameEl && u.name) nameEl.textContent = u.name;
+      const profileDisplayNameEl = document.getElementById("profile-display-name");
+      if (profileDisplayNameEl && u.name) profileDisplayNameEl.textContent = u.name;
+      const profileNameInput = document.getElementById("profile-input-name");
+      if (profileNameInput && u.name) profileNameInput.value = u.name;
+      const profileLocInput = document.getElementById("profile-input-location");
+      if (profileLocInput && u.location) profileLocInput.value = u.location;
+      const profileLatInput = document.getElementById("profile-input-latitude");
+      if (profileLatInput && u.latitude) profileLatInput.value = u.latitude;
+      const profileLngInput = document.getElementById("profile-input-longitude");
+      if (profileLngInput && u.longitude) profileLngInput.value = u.longitude;
+    }
+  } catch (e) {}
+
   renderListings();
   syncListingsFromBackend();
   renderFPOHub();
@@ -469,11 +502,27 @@ function setupModals() {
       const newName = document.getElementById("profile-input-name") ? document.getElementById("profile-input-name").value : "";
       const newPhone = document.getElementById("profile-input-phone") ? document.getElementById("profile-input-phone").value : "";
       const newLocation = document.getElementById("profile-input-location") ? document.getElementById("profile-input-location").value : "";
+      const newLat = document.getElementById("profile-input-latitude") ? parseFloat(document.getElementById("profile-input-latitude").value) : 20.1472;
+      const newLng = document.getElementById("profile-input-longitude") ? parseFloat(document.getElementById("profile-input-longitude").value) : 74.2255;
 
       if (farmerData && farmerData.profile) {
         farmerData.profile.name = newName;
         farmerData.profile.location = newLocation;
+        farmerData.profile.latitude = newLat;
+        farmerData.profile.longitude = newLng;
+        farmerData.profile.coordinates = [newLat, newLng];
       }
+
+      // Persist to user session
+      try {
+        let user = JSON.parse(localStorage.getItem("agrinex_user") || "{}");
+        user.name = newName;
+        user.location = newLocation;
+        user.latitude = newLat;
+        user.longitude = newLng;
+        user.coordinates = [newLat, newLng];
+        localStorage.setItem("agrinex_user", JSON.stringify(user));
+      } catch (err) {}
 
       // Update UI elements
       const nameEl = document.querySelector(".profile-name");
@@ -486,7 +535,7 @@ function setupModals() {
       if (profileDisplayNameEl) profileDisplayNameEl.textContent = newName;
 
       closeProfileModal();
-      showToast("Farmer Profile & KYC Information updated successfully!");
+      showToast("Farmer Profile, Registered Location & Coordinates updated successfully!");
     });
   }
 }

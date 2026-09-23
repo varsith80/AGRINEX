@@ -65,15 +65,20 @@ async function syncLogisticsDataFromAPI() {
 }
 
 /**
- * Calculate Great-Circle Haversine Distance between two GPS coordinates in kilometers
+ * Calculate Great-Circle Haversine Distance between two Latitude & Longitude coordinates in kilometers.
+ * Pure Spherical Geodesic Trigonometry — No GPS hardware dependency.
+ * Computes exact distance using farmer's registered Latitude & Longitude.
  */
 function haversineDistance(coord1, coord2) {
   if (!coord1 || !coord2) return 0;
+  const c1 = Array.isArray(coord1) ? coord1 : [coord1.lat || coord1.latitude, coord1.lng || coord1.longitude];
+  const c2 = Array.isArray(coord2) ? coord2 : [coord2.lat || coord2.latitude, coord2.lng || coord2.longitude];
+  if (c1[0] === undefined || c2[0] === undefined) return 0;
   const R = 6371; // Earth radius in km
-  const dLat = (coord2[0] - coord1[0]) * Math.PI / 180;
-  const dLon = (coord2[1] - coord1[1]) * Math.PI / 180;
+  const dLat = (c2[0] - c1[0]) * Math.PI / 180;
+  const dLon = (c2[1] - c1[1]) * Math.PI / 180;
   const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(coord1[0] * Math.PI / 180) * Math.cos(coord2[0] * Math.PI / 180) *
+            Math.cos(c1[0] * Math.PI / 180) * Math.cos(c2[0] * Math.PI / 180) *
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return parseFloat((R * c).toFixed(1));
@@ -302,11 +307,20 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
       iconAnchor: [55, 15]
     });
     const marker = L.marker(stop.coords, { icon: stopIcon }).addTo(dcActiveMap);
+    const stopLat = stop.coords ? stop.coords[0] : 0;
+    const stopLng = stop.coords ? stop.coords[1] : 0;
     marker.bindPopup(`
-      <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:4px; min-width:180px;">
-        <strong style="color:#0c5a36; font-size:0.88rem;">${stop.label || stop.shortTitle}</strong>
-        <div style="font-size:0.75rem; color:#475569; margin-top:3px;">${stop.loadText || 'Harvest Load Point'}</div>
-        <div style="font-size:0.72rem; color:#d97706; font-weight:800; margin-top:2px;">Status: ${stop.status || 'Pending'}</div>
+      <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:5px; min-width:210px;">
+        <div style="font-size:0.68rem; background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:800; display:inline-block; margin-bottom:4px;">
+          🌾 FARMER REGISTERED LOCATION
+        </div>
+        <strong style="color:#0c5a36; font-size:0.88rem; display:block;">${stop.label || stop.shortTitle}</strong>
+        <div style="font-size:0.75rem; color:#475569; margin-top:3px;">${stop.locationName || order.pickupAddress}</div>
+        <div style="font-size:0.75rem; color:#0f172a; margin-top:2px;">Farmer: <strong>${stop.farmerName || order.pickupFarmerName || 'Registered Farmer'}</strong></div>
+        <div style="font-size:0.72rem; color:#1e40af; font-family:monospace; margin-top:3px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">
+          🌐 Lat: ${stopLat.toFixed(4)}° N, Long: ${stopLng.toFixed(4)}° E
+        </div>
+        <div style="font-size:0.72rem; color:#d97706; font-weight:800; margin-top:3px;">Status: ${stop.status || 'Pending'}</div>
       </div>
     `);
     dcStopMarkers.push(marker);
@@ -325,11 +339,22 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
     iconAnchor: [60, 15]
   });
   const hubMarker = L.marker(destCoords, { icon: hubIcon }).addTo(dcActiveMap);
+  const destLat = destCoords[0];
+  const destLng = destCoords[1];
+  const haversineDirectKm = haversineDistance(truckCoords, destCoords);
   hubMarker.bindPopup(`
-    <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:4px;">
-      <strong style="color:#b45309; font-size:0.9rem;">🏢 Mandi Delivery Terminal</strong>
+    <div style="font-family:'Plus Jakarta Sans',sans-serif; padding:5px; min-width:200px;">
+      <div style="font-size:0.68rem; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:800; display:inline-block; margin-bottom:4px;">
+        🏢 APMC DELIVERY TERMINAL
+      </div>
+      <strong style="color:#b45309; font-size:0.9rem; display:block;">${order.buyerName || 'Mandi Delivery Terminal'}</strong>
       <div style="font-size:0.75rem; color:#475569; margin-top:2px;">${order.deliveryAddress}</div>
-      <div style="font-size:0.72rem; color:#15803d; font-weight:700; margin-top:3px;">Receiving Dock Open • PIN Verification</div>
+      <div style="font-size:0.72rem; color:#1e40af; font-family:monospace; margin-top:3px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">
+        🌐 Drop Lat: ${destLat.toFixed(4)}° N, Long: ${destLng.toFixed(4)}° E
+      </div>
+      <div style="font-size:0.72rem; color:#15803d; font-weight:700; margin-top:3px;">
+        📐 Haversine Direct: ${haversineDirectKm} km (No GPS hardware)
+      </div>
     </div>
   `);
 
@@ -354,16 +379,53 @@ function initConsoleMap(orderCode = "CLUSTER-AGX-801") {
         <span style="font-size:0.7rem; background:#dbeafe; color:#1e40af; padding:2px 6px; border-radius:4px; font-weight:800;">${order.truckSpeed || '54 km/h'}</span>
       </div>
       <div style="font-size:0.75rem; color:#334155;">Speed: <strong>54 km/h (Normal Cruise)</strong></div>
-      <div style="font-size:0.75rem; color:#15803d; font-weight:700; margin-top:2px;">⚡ Shortest Route Active (29.7 km)</div>
+      <div style="font-size:0.72rem; color:#1e40af; font-family:monospace; margin-top:2px;">
+        🌐 Truck Lat: ${truckCoords[0].toFixed(4)}° N, Long: ${truckCoords[1].toFixed(4)}° E
+      </div>
+      <div style="font-size:0.75rem; color:#15803d; font-weight:700; margin-top:2px;">📐 Haversine Shortest Route Active (29.7 km)</div>
       <div style="font-size:0.72rem; color:#d97706; margin-top:2px;">Next: <strong>${stops[order.activeStopIndex || 0]?.shortTitle || 'Stop 1'}</strong></div>
     </div>
   `).openPopup();
+
+  // Update UI card with exact registered farmer location
+  updateFarmerRegisteredLocationUI(order);
 
   // Create Traffic Layer Simulation Group
   setupMapTrafficLayer(highwayPoints);
 
   // Auto-fit to route bounds
   showFullConsoleRoute();
+}
+
+/**
+ * Update UI Card with the Exact Location where the Farmer had Registered
+ * Pure Great-Circle Geodesic calculation via Haversine formula (No GPS hardware)
+ */
+function updateFarmerRegisteredLocationUI(order) {
+  if (!order) return;
+  const nameEl = document.getElementById('dc-farmer-reg-name');
+  const locEl = document.getElementById('dc-farmer-reg-loc');
+  const coordsEl = document.getElementById('dc-farmer-reg-coords');
+  const distEl = document.getElementById('dc-farmer-haversine-dist');
+
+  const pickupName = order.pickupFarmerName || order.farmerName || 'Perumal (Registered Farmer)';
+  const pickupAddress = order.pickupAddress || order.pickupLocation || order.pickup_location || 'Lasalgaon APMC Yard, Nashik, Maharashtra';
+  const rawCoords = order.pickupCoords || [order.pickupLatitude || 20.1472, order.pickupLongitude || 74.2255];
+  const destCoords = order.deliveryCoords || [19.0760, 73.0076];
+
+  const lat = Array.isArray(rawCoords) ? rawCoords[0] : (rawCoords.lat || rawCoords.latitude || 20.1472);
+  const lng = Array.isArray(rawCoords) ? rawCoords[1] : (rawCoords.lng || rawCoords.longitude || 74.2255);
+
+  const directHaversine = haversineDistance([lat, lng], destCoords);
+
+  if (nameEl) nameEl.textContent = pickupName;
+  if (locEl) locEl.textContent = pickupAddress;
+  if (coordsEl) {
+    coordsEl.textContent = `Lat: ${parseFloat(lat).toFixed(4)}° N, Long: ${parseFloat(lng).toFixed(4)}° E`;
+  }
+  if (distEl) {
+    distEl.textContent = `${directHaversine} km (Direct Geodesic)`;
+  }
 }
 
 /**

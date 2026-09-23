@@ -42,7 +42,7 @@ const logisticsData = {
   },
   stats: {
     activeFleet: 24,
-    activeFleetSubtitle: "Trucks connected via IoT GPS",
+    activeFleetSubtitle: "Trucks connected via Haversine Telematics",
     inTransitConsignments: 4,
     inTransitSubtitle: "Active live highway trips",
     onTimeRate: "99.4%",
@@ -62,7 +62,8 @@ const logisticsData = {
     fuelRangeKm: "110 km",
     currentLocation: "NH 544 Highway Corridor, Erode - Salem Belt",
     destination: "Erode Mandi Central Aggregation Hub",
-    lastGpsPing: "Just now (4G Telematics)"
+    lastGpsPing: "Just now (Haversine Telematics)",
+    calculationMethod: "Haversine Great-Circle Geodesic Formula (Pure Latitude & Longitude - No GPS hardware dependency)"
   },
   dispatchOrders: [
     {

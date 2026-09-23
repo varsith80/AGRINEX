@@ -409,6 +409,39 @@
             </div>
           </div>
 
+          <!-- FARMER REGISTERED LOCATION & HAVERSINE TELEMATICS CARD -->
+          <div class="dc-card" style="border-left: 4px solid #16a34a; background: linear-gradient(to bottom, #ffffff, #f0fdf4);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h3 class="dc-payout-title" style="color:#14532d; font-size:0.95rem; margin:0; display:flex; align-items:center; gap:6px;">
+                <span>🌾</span>
+                <span>Farmer's Registered Location</span>
+              </h3>
+              <span style="font-size:0.63rem; background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:999px; font-weight:800; border:1px solid #86efac;">
+                HAVERSINE GEODESIC
+              </span>
+            </div>
+            
+            <div style="font-size:0.8rem; line-height:1.6; color:#334155; margin-bottom:10px;">
+              <div>Farmer Name: <strong id="dc-farmer-reg-name" style="color:#0f172a;">Ravi Kumar &amp; Cluster Farmers</strong></div>
+              <div>Registered Farm Location: <strong id="dc-farmer-reg-loc" style="color:#0f172a;">Farmgate A, Thindal, Erode, TN 638012</strong></div>
+              <div style="display:flex; align-items:center; gap:6px; margin-top:4px;">
+                <span style="color:#16a34a; font-weight:800;">📍 Registered Coordinates:</span>
+                <span id="dc-farmer-reg-coords" style="font-family:monospace; background:#e2e8f0; padding:1px 6px; border-radius:4px; font-size:0.75rem; font-weight:700;">Lat: 11.3190° N, Long: 77.6880° E</span>
+              </div>
+            </div>
+
+            <!-- Haversine Computation Callout -->
+            <div style="background:#ffffff; border:1px solid #bbf7d0; border-radius:8px; padding:10px; font-size:0.75rem; color:#166534;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <strong>📐 Distance Engine:</strong>
+                <span id="dc-farmer-haversine-dist" style="font-weight:800; color:#047857;">Pure Spherical Trigonometry</span>
+              </div>
+              <p style="margin:0; line-height:1.4; color:#15803d;">
+                Distance is calculated via the <strong>Great-Circle Haversine Formula</strong> directly from the farmer's registered Latitude &amp; Longitude. <em>Zero GPS hardware dependency.</em>
+              </p>
+            </div>
+          </div>
+
           <!-- SHIFT EARNINGS & INSTANT PAYOUT CARD -->
           <div class="dc-card">
             <div class="dc-payout-header">

@@ -111,7 +111,45 @@
           </div>
           <div class="form-group">
             <label class="form-label">Location / District *</label>
-            <input type="text" id="reg-location" class="form-input" placeholder="e.g. Erode, Tamil Nadu" required />
+            <input type="text" id="reg-location" class="form-input" placeholder="e.g. Lasalgaon, Nashik" value="Lasalgaon APMC Yard, Nashik, Maharashtra" required />
+          </div>
+        </div>
+
+        <!-- Exact Latitude & Longitude Coordinates for Haversine Calculation -->
+        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 12px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label class="form-label" style="margin: 0; color: #166534; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+              <span>🌐</span> Exact Registered Coordinates (Haversine Geo-point) *
+            </label>
+            <span style="font-size: 0.68rem; background: #bbf7d0; color: #14532d; padding: 2px 8px; border-radius: 999px; font-weight: 800;">NO GPS HARDWARE REQUIRED</span>
+          </div>
+          <p style="font-size: 0.73rem; color: #15803d; margin: 0 0 10px 0; line-height: 1.4;">
+            AgriNex computes pickup and freight distance via the <strong>Haversine Geodesic Formula</strong> directly from your registered Latitude &amp; Longitude.
+          </p>
+
+          <div style="margin-bottom: 8px;">
+            <label class="form-label" style="font-size: 0.74rem; color: #1e293b;">Quick-Select APMC Mandi / Farmgate Region:</label>
+            <select id="reg-preset-mandi" class="form-input" style="font-size: 0.8rem; padding: 7px 10px;" onchange="applyMandiPreset(this.value)">
+              <option value="lasalgaon" selected>📍 Lasalgaon APMC Mega Yard, Nashik (Lat: 20.1472° N, Long: 74.2255° E)</option>
+              <option value="narayangaon">📍 Narayangaon APMC Yard, Junnar, Pune (Lat: 19.1197° N, Long: 73.9782° E)</option>
+              <option value="pimpalgaon">📍 Pimpalgaon Baswant APMC, Nashik (Lat: 20.1738° N, Long: 73.9856° E)</option>
+              <option value="sangli">📍 Sangli Spices &amp; Turmeric Park, Sangli (Lat: 16.8524° N, Long: 74.5815° E)</option>
+              <option value="erode">📍 Thindal Farmgate Cluster, Erode, TN (Lat: 11.3190° N, Long: 77.6880° E)</option>
+              <option value="latur">📍 Latur Mega Silo Complex, Marathwada (Lat: 18.4088° N, Long: 76.5604° E)</option>
+              <option value="nagpur">📍 Kalmeshwar Citrus Yard, Nagpur (Lat: 21.2333° N, Long: 78.9167° E)</option>
+              <option value="custom">✏️ Enter Custom Latitude &amp; Longitude</option>
+            </select>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" style="font-size: 0.74rem;">Latitude (° N) *</label>
+              <input type="number" id="reg-latitude" class="form-input" step="0.0001" placeholder="e.g. 20.1472" value="20.1472" required />
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" style="font-size: 0.74rem;">Longitude (° E) *</label>
+              <input type="number" id="reg-longitude" class="form-input" step="0.0001" placeholder="e.g. 74.2255" value="74.2255" required />
+            </div>
           </div>
         </div>
 
@@ -185,6 +223,26 @@
       }
     }
 
+    const MANDI_COORDINATE_PRESETS = {
+      lasalgaon: { name: "Lasalgaon APMC Yard, Nashik, Maharashtra", lat: 20.1472, lng: 74.2255 },
+      narayangaon: { name: "Narayangaon APMC Yard, Junnar, Pune", lat: 19.1197, lng: 73.9782 },
+      pimpalgaon: { name: "Pimpalgaon Baswant APMC, Nashik", lat: 20.1738, lng: 73.9856 },
+      sangli: { name: "Sangli Spices & Turmeric Park, Sangli", lat: 16.8524, lng: 74.5815 },
+      erode: { name: "Thindal Farmgate Cluster, Erode, Tamil Nadu", lat: 11.3190, lng: 77.6880 },
+      latur: { name: "Latur Mega Silo Complex, Marathwada", lat: 18.4088, lng: 76.5604 },
+      nagpur: { name: "Kalmeshwar Citrus Yard, Nagpur", lat: 21.2333, lng: 78.9167 }
+    };
+
+    function applyMandiPreset(presetKey) {
+      if (presetKey === 'custom') return;
+      const preset = MANDI_COORDINATE_PRESETS[presetKey];
+      if (preset) {
+        document.getElementById('reg-location').value = preset.name;
+        document.getElementById('reg-latitude').value = preset.lat;
+        document.getElementById('reg-longitude').value = preset.lng;
+      }
+    }
+
     function handleRegisterSubmit(e) {
       e.preventDefault();
       const alertBox = document.getElementById('auth-alert');
@@ -194,6 +252,10 @@
       const email = document.getElementById('reg-email').value;
       const org = document.getElementById('reg-org').value;
       const location = document.getElementById('reg-location').value;
+      const latInput = document.getElementById('reg-latitude');
+      const lngInput = document.getElementById('reg-longitude');
+      const latitude = latInput ? parseFloat(latInput.value) : 20.1472;
+      const longitude = lngInput ? parseFloat(lngInput.value) : 74.2255;
       const password = document.getElementById('reg-password').value;
       const confirmPassword = document.getElementById('reg-password-confirm').value;
 
@@ -216,7 +278,9 @@
         phone: phone,
         password: password,
         location: location,
-        businessName: org
+        businessName: org,
+        latitude: latitude,
+        longitude: longitude
       });
 
       if (result.success) {
