@@ -847,7 +847,19 @@ async function syncListingsFromBackend() {
           if (el && el.id) emergencyMap[el.id] = el;
         });
 
-        farmerData.listings = crops.map(c => {
+        // In farmer module alone: list 5 core produce crops
+        const allowedIds = ['LOT-TOM-02', 'LOT-SOY-04', 'LOT-POM-07', 'LOT-RIC-09', 'LOT-WHT-12'];
+        let farmerCrops = crops.filter(c => allowedIds.includes(c.id));
+        if (farmerCrops.length === 0) {
+          farmerCrops = crops.slice(0, 5);
+        } else if (farmerCrops.length < 5) {
+          const others = crops.filter(c => !allowedIds.includes(c.id));
+          farmerCrops = farmerCrops.concat(others.slice(0, 5 - farmerCrops.length));
+        } else if (farmerCrops.length > 5) {
+          farmerCrops = farmerCrops.slice(0, 5);
+        }
+
+        farmerData.listings = farmerCrops.map(c => {
           const emg = emergencyMap[c.id] || {};
           const isEmergency = Boolean(c.isEmergencySale || emg.isEmergencySale);
           const isSold = Boolean((c.status && c.status.includes("Sold")) || emg.isSold);
