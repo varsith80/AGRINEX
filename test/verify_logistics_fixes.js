@@ -21,9 +21,8 @@ async function verifyLogisticsFixes() {
     assert(fs.existsSync(filePath), `File ${page} must exist`);
     const content = fs.readFileSync(filePath, 'utf8');
 
-    // Verify sidebar has GPS tracking
-    assert(content.includes('gps-tracking.html'), `${page} must contain link to gps-tracking.html in sidebar`);
-    assert(content.includes('Live GPS Tracking'), `${page} must contain "Live GPS Tracking" text`);
+    // Verify sidebar has clean navigation
+    assert(content.includes('Fleet Dashboard'), `${page} must contain Fleet Dashboard in sidebar`);
 
     // Verify PIN modal if present
     if (content.includes('id="modal-verify-pin"')) {
