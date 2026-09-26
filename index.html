@@ -107,20 +107,31 @@
     }
 
     /* -------------------------------------------------------------
-       1. Master Deep-Green Brand Header
+       1. Master Deep-Green Glassmorphic Brand Header
        ------------------------------------------------------------- */
     .site-header {
-      background: #0d4a2b;
+      background: rgba(13, 74, 43, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       color: #ffffff;
       padding: 0 32px;
       height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 4px 14px rgba(13, 74, 43, 0.25);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 32px -4px rgba(7, 42, 24, 0.35);
       position: sticky;
       top: 0;
       z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(7, 42, 24, 0.96);
+      height: 66px;
+      box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.4);
+      border-bottom-color: rgba(134, 239, 172, 0.2);
     }
 
     .brand-area {
@@ -128,18 +139,30 @@
       align-items: center;
       gap: 14px;
       text-decoration: none;
+      transition: transform 0.25s ease;
+    }
+
+    .brand-area:hover {
+      transform: translateY(-1px);
     }
 
     .brand-logo-card {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       background: #ffffff;
-      border-radius: 10px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 4px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      padding: 5px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(134, 239, 172, 0.3);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+
+    .brand-area:hover .brand-logo-card {
+      transform: rotate(-4deg) scale(1.06);
+      box-shadow: 0 6px 20px rgba(134, 239, 172, 0.4), 0 0 0 2px #86efac;
     }
 
     .brand-logo-card img {
@@ -149,44 +172,84 @@
     }
 
     .brand-heading {
-      font-size: 1.55rem;
+      font-size: 1.6rem;
       font-weight: 900;
       color: #ffffff;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
       line-height: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .brand-heading span {
-      color: #86efac;
+      background: linear-gradient(135deg, #86efac 0%, #4ade80 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .brand-subtitle {
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       color: #a7f3d0;
-      font-weight: 600;
-      margin-top: 2px;
-      letter-spacing: 0.04em;
+      font-weight: 700;
+      margin-top: 3px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0.9;
     }
 
     .header-nav {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.18);
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .header-nav a {
-      color: #f1f5f9;
+      color: #cbd5e1;
       font-size: 0.88rem;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      transition: all 0.15s ease;
+      padding: 8px 18px;
+      border-radius: 999px;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .header-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #86efac;
+      border-radius: 2px;
+      transform: translateX(-50%);
+      transition: width 0.25s ease;
     }
 
     .header-nav a:hover {
-      background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .header-nav a:hover::after {
+      width: 60%;
+    }
+
+    .header-nav a.nav-link-active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.16);
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+    }
+
+    .header-nav a.nav-link-active::after {
+      width: 70%;
+      background: #fef08a;
     }
 
     .header-actions {
@@ -196,40 +259,54 @@
     }
 
     .btn-header-register {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      font-size: 0.85rem;
-      font-weight: 700;
-      padding: 8px 18px;
-      border-radius: 999px;
-      text-decoration: none;
-      transition: all 0.15s ease;
-    }
-
-    .btn-header-register:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: #ffffff;
-    }
-
-    .btn-header-login {
-      background: #fef08a;
-      color: #082d19;
+      border: 1px solid rgba(255, 255, 255, 0.3);
       font-size: 0.86rem;
-      font-weight: 800;
+      font-weight: 700;
       padding: 9px 20px;
       border-radius: 999px;
       text-decoration: none;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      transition: all 0.15s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-header-register:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #86efac;
+      color: #86efac;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-header-login {
+      background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
+      color: #082d19;
+      font-size: 0.88rem;
+      font-weight: 800;
+      padding: 10px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(254, 240, 138, 0.3), 0 2px 6px rgba(0, 0, 0, 0.2);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .btn-header-login:hover {
-      background: #fde047;
-      transform: translateY(-1px);
+      background: linear-gradient(135deg, #ffffff 0%, #fef08a 100%);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 22px rgba(254, 240, 138, 0.45);
+    }
+
+    .btn-header-login span.arr {
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+
+    .btn-header-login:hover span.arr {
+      transform: translateX(4px);
     }
 
     /* -------------------------------------------------------------
@@ -1267,12 +1344,12 @@
     }
 
     /* -------------------------------------------------------------
-       Global Scroll Reveal & Stagger Animation Utilities
+       Global Scroll Reveal & Interactive Animation Engine
        ------------------------------------------------------------- */
     .scroll-reveal {
       opacity: 0;
-      transform: translate3d(0, 26px, 0);
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translate3d(0, 32px, 0);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform;
     }
 
@@ -1283,24 +1360,76 @@
 
     .stagger-group > * {
       opacity: 0;
-      transform: translate3d(0, 22px, 0);
-      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translate3d(0, 26px, 0);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform;
     }
 
-    .stagger-group.is-visible > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translate3d(0, 0, 0); }
-    .stagger-group.is-visible > *:nth-child(2) { transition-delay: 0.15s; opacity: 1; transform: translate3d(0, 0, 0); }
-    .stagger-group.is-visible > *:nth-child(3) { transition-delay: 0.25s; opacity: 1; transform: translate3d(0, 0, 0); }
-    .stagger-group.is-visible > *:nth-child(4) { transition-delay: 0.35s; opacity: 1; transform: translate3d(0, 0, 0); }
+    .stagger-group.is-visible > *:nth-child(1) { transition-delay: 0.08s; opacity: 1; transform: translate3d(0, 0, 0); }
+    .stagger-group.is-visible > *:nth-child(2) { transition-delay: 0.18s; opacity: 1; transform: translate3d(0, 0, 0); }
+    .stagger-group.is-visible > *:nth-child(3) { transition-delay: 0.28s; opacity: 1; transform: translate3d(0, 0, 0); }
+    .stagger-group.is-visible > *:nth-child(4) { transition-delay: 0.38s; opacity: 1; transform: translate3d(0, 0, 0); }
 
+    /* Interactive 3D Card Hover & Glass Lighting */
+    .portal-cockpit-card {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portal-cockpit-card::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: -100px;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(22, 163, 74, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .portal-cockpit-card:hover::before {
+      opacity: 1;
+    }
+
+    .portal-cockpit-card:hover {
+      transform: translateY(-8px) scale(1.018);
+      box-shadow: 0 20px 42px -10px rgba(13, 74, 43, 0.16), 0 8px 20px -4px rgba(15, 23, 42, 0.06);
+    }
+
+    /* Shimmer light sweep for buttons */
+    .btn-header-login, .btn-portal-enter, .btn-cta-gold {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-header-login::after, .btn-portal-enter::after, .btn-cta-gold::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -80%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      transform: rotate(25deg);
+      transition: all 0.7s ease;
+    }
+
+    .btn-header-login:hover::after, .btn-portal-enter:hover::after, .btn-cta-gold:hover::after {
+      left: 140%;
+    }
+
+    /* Smooth Mandi Card Cross-Fade Animation */
     .mandi-animating {
-      animation: mandiCrossFade 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: mandiCrossFade 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes mandiCrossFade {
       0% {
-        opacity: 0.2;
-        transform: translate3d(0, 8px, 0);
+        opacity: 0.15;
+        transform: translate3d(0, 10px, 0);
       }
       100% {
         opacity: 1;
@@ -1663,7 +1792,7 @@
       <a href="login_details/register.html" class="btn-header-register">Register</a>
       <a href="login_details/index.html" class="btn-header-login">
         <span>Login Gateway</span>
-        <span>→</span>
+        <span class="arr">→</span>
       </a>
     </div>
 
@@ -2255,6 +2384,65 @@
           requestAnimationFrame(updateCounter);
         });
       }
+
+      // 4. Interactive Mouse-Tracking Spotlight & 3D Tilt on Stakeholder Portal Cards
+      document.querySelectorAll('.portal-cockpit-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          // Dynamic Spotlight
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+          
+          // Subtle 3D Tilt
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -3.5;
+          const rotateY = ((x - centerX) / centerX) * 3.5;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.018)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = '';
+        });
+      });
+
+      // 5. Sticky Header Scroll Effect & Active Section Highlighting
+      const siteHeader = document.querySelector('.site-header');
+      const navLinks = document.querySelectorAll('.header-nav a');
+      const sections = document.querySelectorAll('section[id], footer[id]');
+
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+
+        // Toggle glassmorphic header shrink
+        if (siteHeader) {
+          if (scrollY > 30) {
+            siteHeader.classList.add('scrolled');
+          } else {
+            siteHeader.classList.remove('scrolled');
+          }
+        }
+
+        // Active link highlighting based on section visibility
+        let currentSectionId = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 120;
+          const sectionHeight = section.offsetHeight;
+          if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+            currentSectionId = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('nav-link-active');
+          if (currentSectionId && link.getAttribute('href') === `#${currentSectionId}`) {
+            link.classList.add('nav-link-active');
+          }
+        });
+      });
     });
   </script>
 
