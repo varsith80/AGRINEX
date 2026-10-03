@@ -541,17 +541,6 @@ function bootBuyerDashboard() {
   // Initial Sync from Live Backend
   syncBuyerDataFromBackend();
 
-  // Background Auto-Sync Interval (every 4 seconds)
-  setInterval(() => {
-    syncBuyerDataFromBackend();
-  }, 4000);
-
-  // Sync on tab visibility change or focus
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') syncBuyerDataFromBackend();
-  });
-  window.addEventListener('focus', () => syncBuyerDataFromBackend());
-
   // Ensure initial language is applied across all loaded modules
   try {
     if (typeof window.setBuyerLanguage === 'function' && typeof window.getBuyerLanguage === 'function') {

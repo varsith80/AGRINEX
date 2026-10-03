@@ -520,6 +520,13 @@
         </div>
 
         <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
+          <!-- Live Real-Time Mandi Auto-Sync Indicator -->
+          <div class="live-sync-badge" id="farmer-insights-sync-badge" title="Live Mandi data updating automatically every 4s" style="margin-right: 4px;">
+            <span class="live-pulse-dot"></span>
+            <span class="live-sync-title">Mandi Live:</span>
+            <span class="live-sync-time" id="farmer-insights-sync-time">--:--:--</span>
+          </div>
+
           <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
           <div class="lang-selector-widget" style="position: relative;">
             <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
@@ -602,9 +609,12 @@
           </div>
 
           <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 0.78rem; color: #047857; font-weight: 600;" id="live-timestamp">
-              Synced: Today, Live
-            </span>
+            <div class="live-sync-badge" style="padding: 4px 10px;">
+              <span class="live-pulse-dot"></span>
+              <span style="font-size: 0.78rem; color: #166534; font-weight: 700;" id="live-timestamp">
+                Synced: Today, Live
+              </span>
+            </div>
             <button class="btn-sync-refresh" onclick="triggerMandiRefresh()">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" id="refresh-icon">
                 <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
@@ -969,15 +979,41 @@
       return "assets/images/hero-field.jpg";
     }
 
-    async function loadMarketData() {
+    function updateFarmerInsightsTimestamp() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+      const syncEl = document.getElementById("farmer-insights-sync-time");
+      if (syncEl) syncEl.textContent = timeStr;
+      const liveTsEl = document.getElementById("live-timestamp");
+      if (liveTsEl) liveTsEl.textContent = `Live Synced: ${timeStr} • APMC Realtime`;
+      
+      const badge = document.getElementById("farmer-insights-sync-badge");
+      if (badge) {
+        badge.classList.add("synced-pulse");
+        setTimeout(() => badge.classList.remove("synced-pulse"), 800);
+      }
+    }
+
+    async function loadMarketData(isSilentAutoSync = false) {
       try {
-        let res = await fetch("/api/mandi/forecasts?t=" + Date.now());
+        let res = null;
+        if (isSilentAutoSync) {
+          res = await fetch("/api/mandi/update-rates", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+          });
+        }
+        if (!res || !res.ok) {
+          res = await fetch("/api/mandi/forecasts?t=" + Date.now());
+        }
         if (!res.ok) {
           res = await fetch("data/mandi_live_analytics.json?t=" + Date.now());
         }
         if (res.ok) {
-          marketData = await res.json();
+          const json = await res.json();
+          marketData = (json.success && json.data) ? json.data : json;
           renderDashboard();
+          updateFarmerInsightsTimestamp();
         }
       } catch (err) {
         try {
@@ -985,6 +1021,7 @@
           if (fallbackRes.ok) {
             marketData = await fallbackRes.json();
             renderDashboard();
+            updateFarmerInsightsTimestamp();
           }
         } catch (e) {
           console.error("Error loading live market data:", e);
@@ -1519,6 +1556,7 @@
         if (json.success && json.data) {
           marketData = json.data;
           renderDashboard();
+          updateFarmerInsightsTimestamp();
           showNotificationToast("✅ Live Maharashtra Mandi Rates Updated! Synced APMC yards across Nashik, Lasalgaon, Pune, Solapur & Latur.");
         } else {
           await loadMarketData();
@@ -1552,7 +1590,19 @@
       }, 4000);
     }
 
-    document.addEventListener("DOMContentLoaded", loadMarketData);
+    let _farmerInsightsInterval = null;
+    function startFarmerInsightsAutoSync() {
+      if (_farmerInsightsInterval) clearInterval(_farmerInsightsInterval);
+      _farmerInsightsInterval = setInterval(async () => {
+        if (document.hidden) return;
+        await loadMarketData(true);
+      }, 4000);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadMarketData();
+      startFarmerInsightsAutoSync();
+    });
   </script>
   <script src="js/i18n.js"></script>
   <script src="../assets/js/agrinex-auth-bridge.js"></script>

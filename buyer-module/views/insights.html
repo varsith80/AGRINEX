@@ -13,9 +13,10 @@
           </div>
           
           <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <div style="font-size: 0.76rem; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 8px; display: flex; align-items: center; gap: 6px;">
-              <span style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block;"></span>
-              <span id="mandi-live-timestamp">Synced: Today at 09:00 AM • e-NAM & APMC Live</span>
+            <div class="live-sync-badge" id="buyer-insights-sync-badge" style="padding: 6px 14px; cursor: default;" title="Real-time APMC Mandi & e-NAM continuous auto-update active">
+              <span class="live-pulse-dot"></span>
+              <span class="live-sync-title" style="margin-right: 2px;">Mandi Live:</span>
+              <span id="mandi-live-timestamp" class="live-sync-time" style="font-family: inherit;">Synced: Today at 09:00:00 AM • e-NAM & APMC Live</span>
             </div>
             <button class="btn btn-outline btn-sm" onclick="openLandedCostCalculator()" style="border-color: #1e3a8a; color: #1e3a8a; display: flex; align-items: center; gap: 6px; font-weight: 700; background: #eff6ff;">
               <span>🚚</span>

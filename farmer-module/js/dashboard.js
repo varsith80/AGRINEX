@@ -33,31 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
   } catch (e) {}
 
   renderListings();
-  runFarmerAutoSync();
-
-  // Background Auto-Sync Interval (every 4 seconds)
-  setInterval(() => {
-    runFarmerAutoSync();
-  }, 4000);
-
-  // Sync on tab visibility change or focus
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") runFarmerAutoSync();
-  });
-  window.addEventListener("focus", () => runFarmerAutoSync());
-
-  // Real-time Cross-Module BroadcastChannel Sync
-  if (typeof BroadcastChannel !== 'undefined') {
-    const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
-    syncChannel.onmessage = (event) => {
-      runFarmerAutoSync();
-    };
+  syncListingsFromBackend();
+  renderFPOHub();
+  if (window.AgriNexFPOHub && typeof window.AgriNexFPOHub.syncFromServer === 'function') {
+    window.AgriNexFPOHub.syncFromServer();
   }
-  window.addEventListener("storage", (e) => {
-    if (e.key && e.key.startsWith('agrinex_')) {
-      runFarmerAutoSync();
-    }
-  });
 
   setupModals();
   setupNavigation();

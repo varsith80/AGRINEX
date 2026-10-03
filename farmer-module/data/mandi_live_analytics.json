@@ -1,15 +1,15 @@
 {
   "metadata": {
-    "generated_at": "2026-10-03 19:18:43",
+    "generated_at": "2026-10-03 19:36:59",
     "data_source": "Maharashtra State Agricultural Marketing Board (MSAMB Live API) & Agmarknet Verified",
     "model_version": "AgriNex AI/ML TimeSeries-HoltWinters v3.0 (Maharashtra APMC Feed)",
-    "total_mandi_volume_qt": 753224,
-    "avg_modal_price": 6524,
+    "total_mandi_volume_qt": 741109,
+    "avg_modal_price": 6551,
     "overall_market_trend": "Stable",
     "top_gainer": {
-      "commodity": "Raw Cotton",
-      "gain_pct": 0.9,
-      "current_price": 7292
+      "commodity": "Soybean",
+      "gain_pct": 2.4,
+      "current_price": 4687
     },
     "chart_days": [
       "Sep 27",
@@ -40,64 +40,64 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Export Calibrated",
-      "modal_price": 1822,
-      "arrivals_qt": 85616,
+      "modal_price": 1830,
+      "arrivals_qt": 85344,
       "history_7d": [
-        1857,
         1906,
         1866,
         1847,
         1846,
         1837,
-        1822
+        1822,
+        1830
       ],
-      "change_1w_pct": -1.9,
+      "change_1w_pct": -4,
       "forecast": {
-        "target_price_7d": 1769,
-        "pct_change_7d": -2.9,
-        "confidence_pct": 81,
+        "target_price_7d": 1747,
+        "pct_change_7d": -4.5,
+        "confidence_pct": 90,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 1822,
-            "lower_bound": 1784,
-            "upper_bound": 1860
+            "forecast_price": 1813,
+            "lower_bound": 1775,
+            "upper_bound": 1851
           },
           {
             "day_offset": 2,
-            "forecast_price": 1813,
-            "lower_bound": 1759,
-            "upper_bound": 1867
+            "forecast_price": 1802,
+            "lower_bound": 1748,
+            "upper_bound": 1856
           },
           {
             "day_offset": 3,
-            "forecast_price": 1804,
-            "lower_bound": 1738,
-            "upper_bound": 1870
+            "forecast_price": 1791,
+            "lower_bound": 1725,
+            "upper_bound": 1857
           },
           {
             "day_offset": 4,
-            "forecast_price": 1796,
-            "lower_bound": 1720,
-            "upper_bound": 1872
+            "forecast_price": 1780,
+            "lower_bound": 1704,
+            "upper_bound": 1856
           },
           {
             "day_offset": 5,
-            "forecast_price": 1787,
-            "lower_bound": 1702,
-            "upper_bound": 1872
+            "forecast_price": 1769,
+            "lower_bound": 1684,
+            "upper_bound": 1854
           },
           {
             "day_offset": 6,
-            "forecast_price": 1778,
-            "lower_bound": 1685,
-            "upper_bound": 1871
+            "forecast_price": 1758,
+            "lower_bound": 1665,
+            "upper_bound": 1851
           },
           {
             "day_offset": 7,
-            "forecast_price": 1769,
-            "lower_bound": 1669,
-            "upper_bound": 1869
+            "forecast_price": 1747,
+            "lower_bound": 1646,
+            "upper_bound": 1848
           }
         ],
         "signal": "BEARISH"
@@ -111,7 +111,7 @@
           "target_mandi": "Vashi Wholesale APMC",
           "state": "Maharashtra",
           "distance_km": 195,
-          "mandi_modal_price": 2042,
+          "mandi_modal_price": 2050,
           "freight_cost_qt": 180,
           "net_gain_qt": 40,
           "roi_pct": 2.2,
@@ -121,7 +121,7 @@
           "target_mandi": "Gultekdi APMC",
           "state": "Maharashtra",
           "distance_km": 210,
-          "mandi_modal_price": 1962,
+          "mandi_modal_price": 1970,
           "freight_cost_qt": 190,
           "net_gain_qt": 0,
           "roi_pct": 0,
@@ -138,64 +138,64 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A 55mm+ Bold",
-      "modal_price": 2128,
-      "arrivals_qt": 138277,
+      "modal_price": 2169,
+      "arrivals_qt": 133516,
       "history_7d": [
-        2151,
         2139,
         2094,
         2123,
         2173,
         2162,
-        2128
+        2128,
+        2169
       ],
-      "change_1w_pct": -1.1,
+      "change_1w_pct": 1.4,
       "forecast": {
-        "target_price_7d": 2157,
-        "pct_change_7d": 1.4,
+        "target_price_7d": 2205,
+        "pct_change_7d": 1.7,
         "confidence_pct": 78,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 2145,
-            "lower_bound": 2101,
-            "upper_bound": 2189
-          },
-          {
-            "day_offset": 2,
-            "forecast_price": 2147,
-            "lower_bound": 2084,
+            "forecast_price": 2165,
+            "lower_bound": 2120,
             "upper_bound": 2210
           },
           {
+            "day_offset": 2,
+            "forecast_price": 2172,
+            "lower_bound": 2108,
+            "upper_bound": 2236
+          },
+          {
             "day_offset": 3,
-            "forecast_price": 2149,
-            "lower_bound": 2072,
-            "upper_bound": 2226
+            "forecast_price": 2178,
+            "lower_bound": 2100,
+            "upper_bound": 2256
           },
           {
             "day_offset": 4,
-            "forecast_price": 2151,
-            "lower_bound": 2063,
-            "upper_bound": 2239
+            "forecast_price": 2185,
+            "lower_bound": 2095,
+            "upper_bound": 2275
           },
           {
             "day_offset": 5,
-            "forecast_price": 2153,
-            "lower_bound": 2054,
-            "upper_bound": 2252
+            "forecast_price": 2191,
+            "lower_bound": 2090,
+            "upper_bound": 2292
           },
           {
             "day_offset": 6,
-            "forecast_price": 2155,
-            "lower_bound": 2047,
-            "upper_bound": 2263
+            "forecast_price": 2198,
+            "lower_bound": 2088,
+            "upper_bound": 2308
           },
           {
             "day_offset": 7,
-            "forecast_price": 2157,
-            "lower_bound": 2040,
-            "upper_bound": 2274
+            "forecast_price": 2205,
+            "lower_bound": 2086,
+            "upper_bound": 2324
           }
         ],
         "signal": "NEUTRAL"
@@ -209,7 +209,7 @@
           "target_mandi": "Vashi APMC Market",
           "state": "Maharashtra",
           "distance_km": 220,
-          "mandi_modal_price": 2408,
+          "mandi_modal_price": 2449,
           "freight_cost_qt": 220,
           "net_gain_qt": 60,
           "roi_pct": 2.8,
@@ -219,7 +219,7 @@
           "target_mandi": "Surat APMC",
           "state": "Gujarat",
           "distance_km": 260,
-          "mandi_modal_price": 2438,
+          "mandi_modal_price": 2479,
           "freight_cost_qt": 250,
           "net_gain_qt": 60,
           "roi_pct": 2.8,
@@ -236,64 +236,64 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Export Quality",
-      "modal_price": 3620,
-      "arrivals_qt": 30791,
+      "modal_price": 3653,
+      "arrivals_qt": 30242,
       "history_7d": [
-        3638,
         3649,
         3653,
         3705,
         3641,
         3642,
-        3620
+        3620,
+        3653
       ],
-      "change_1w_pct": -0.5,
+      "change_1w_pct": 0.1,
       "forecast": {
-        "target_price_7d": 3622,
-        "pct_change_7d": 0.1,
+        "target_price_7d": 3614,
+        "pct_change_7d": -1.1,
         "confidence_pct": 78,
         "forecast_points": [
           {
             "day_offset": 1,
             "forecast_price": 3638,
-            "lower_bound": 3563,
-            "upper_bound": 3713
+            "lower_bound": 3562,
+            "upper_bound": 3714
           },
           {
             "day_offset": 2,
-            "forecast_price": 3635,
-            "lower_bound": 3529,
+            "forecast_price": 3634,
+            "lower_bound": 3527,
             "upper_bound": 3741
           },
           {
             "day_offset": 3,
-            "forecast_price": 3632,
-            "lower_bound": 3502,
+            "forecast_price": 3630,
+            "lower_bound": 3498,
             "upper_bound": 3762
           },
           {
             "day_offset": 4,
-            "forecast_price": 3630,
-            "lower_bound": 3479,
-            "upper_bound": 3781
+            "forecast_price": 3626,
+            "lower_bound": 3474,
+            "upper_bound": 3778
           },
           {
             "day_offset": 5,
-            "forecast_price": 3627,
-            "lower_bound": 3459,
-            "upper_bound": 3795
+            "forecast_price": 3622,
+            "lower_bound": 3452,
+            "upper_bound": 3792
           },
           {
             "day_offset": 6,
-            "forecast_price": 3624,
-            "lower_bound": 3440,
-            "upper_bound": 3808
+            "forecast_price": 3618,
+            "lower_bound": 3432,
+            "upper_bound": 3804
           },
           {
             "day_offset": 7,
-            "forecast_price": 3622,
-            "lower_bound": 3423,
-            "upper_bound": 3821
+            "forecast_price": 3614,
+            "lower_bound": 3413,
+            "upper_bound": 3815
           }
         ],
         "signal": "NEUTRAL"
@@ -307,7 +307,7 @@
           "target_mandi": "Vashi Spices Terminal",
           "state": "Maharashtra",
           "distance_km": 190,
-          "mandi_modal_price": 3910,
+          "mandi_modal_price": 3943,
           "freight_cost_qt": 180,
           "net_gain_qt": 110,
           "roi_pct": 3,
@@ -324,64 +324,64 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A 29mm+ Staple",
-      "modal_price": 7292,
-      "arrivals_qt": 76350,
+      "modal_price": 7367,
+      "arrivals_qt": 74019,
       "history_7d": [
-        7226,
         7257,
         7302,
         7325,
         7214,
         7297,
-        7292
+        7292,
+        7367
       ],
-      "change_1w_pct": 0.9,
+      "change_1w_pct": 1.5,
       "forecast": {
-        "target_price_7d": 7333,
-        "pct_change_7d": 0.6,
+        "target_price_7d": 7387,
+        "pct_change_7d": 0.3,
         "confidence_pct": 78,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 7295,
-            "lower_bound": 7143,
-            "upper_bound": 7447
+            "forecast_price": 7330,
+            "lower_bound": 7177,
+            "upper_bound": 7483
           },
           {
             "day_offset": 2,
-            "forecast_price": 7301,
-            "lower_bound": 7087,
-            "upper_bound": 7515
+            "forecast_price": 7340,
+            "lower_bound": 7123,
+            "upper_bound": 7557
           },
           {
             "day_offset": 3,
-            "forecast_price": 7308,
-            "lower_bound": 7045,
-            "upper_bound": 7571
+            "forecast_price": 7349,
+            "lower_bound": 7084,
+            "upper_bound": 7614
           },
           {
             "day_offset": 4,
-            "forecast_price": 7314,
-            "lower_bound": 7011,
-            "upper_bound": 7617
+            "forecast_price": 7359,
+            "lower_bound": 7053,
+            "upper_bound": 7665
           },
           {
             "day_offset": 5,
-            "forecast_price": 7321,
-            "lower_bound": 6982,
-            "upper_bound": 7660
+            "forecast_price": 7368,
+            "lower_bound": 7026,
+            "upper_bound": 7710
           },
           {
             "day_offset": 6,
-            "forecast_price": 7327,
-            "lower_bound": 6956,
-            "upper_bound": 7698
+            "forecast_price": 7378,
+            "lower_bound": 7003,
+            "upper_bound": 7753
           },
           {
             "day_offset": 7,
-            "forecast_price": 7333,
-            "lower_bound": 6932,
-            "upper_bound": 7734
+            "forecast_price": 7387,
+            "lower_bound": 6982,
+            "upper_bound": 7792
           }
         ],
         "signal": "NEUTRAL"
@@ -395,7 +395,7 @@
           "target_mandi": "Rajkot APMC",
           "state": "Gujarat",
           "distance_km": 740,
-          "mandi_modal_price": 7812,
+          "mandi_modal_price": 7887,
           "freight_cost_qt": 450,
           "net_gain_qt": 70,
           "roi_pct": 1,
@@ -412,78 +412,78 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Export Calibrated",
-      "modal_price": 8092,
-      "arrivals_qt": 40896,
+      "modal_price": 8129,
+      "arrivals_qt": 41293,
       "history_7d": [
-        8272,
         8145,
         8167,
         8053,
         8010,
         8035,
-        8092
+        8092,
+        8129
       ],
-      "change_1w_pct": -2.2,
+      "change_1w_pct": -0.2,
       "forecast": {
-        "target_price_7d": 7823,
-        "pct_change_7d": -3.3,
-        "confidence_pct": 82,
+        "target_price_7d": 8027,
+        "pct_change_7d": -1.3,
+        "confidence_pct": 78,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 8007,
-            "lower_bound": 7839,
-            "upper_bound": 8175
+            "forecast_price": 8071,
+            "lower_bound": 7902,
+            "upper_bound": 8240
           },
           {
             "day_offset": 2,
-            "forecast_price": 7977,
-            "lower_bound": 7739,
-            "upper_bound": 8215
+            "forecast_price": 8063,
+            "lower_bound": 7824,
+            "upper_bound": 8302
           },
           {
             "day_offset": 3,
-            "forecast_price": 7946,
-            "lower_bound": 7655,
-            "upper_bound": 8237
+            "forecast_price": 8056,
+            "lower_bound": 7763,
+            "upper_bound": 8349
           },
           {
             "day_offset": 4,
-            "forecast_price": 7915,
-            "lower_bound": 7579,
-            "upper_bound": 8251
+            "forecast_price": 8049,
+            "lower_bound": 7711,
+            "upper_bound": 8387
           },
           {
             "day_offset": 5,
-            "forecast_price": 7884,
-            "lower_bound": 7508,
-            "upper_bound": 8260
+            "forecast_price": 8042,
+            "lower_bound": 7664,
+            "upper_bound": 8420
           },
           {
             "day_offset": 6,
-            "forecast_price": 7854,
-            "lower_bound": 7442,
-            "upper_bound": 8266
+            "forecast_price": 8034,
+            "lower_bound": 7620,
+            "upper_bound": 8448
           },
           {
             "day_offset": 7,
-            "forecast_price": 7823,
-            "lower_bound": 7378,
-            "upper_bound": 8268
+            "forecast_price": 8027,
+            "lower_bound": 7580,
+            "upper_bound": 8474
           }
         ],
-        "signal": "BEARISH"
+        "signal": "NEUTRAL"
       },
       "advisory": {
-        "verdict": "SELL IMMEDIATELY — SUPPLY PRESSURE",
-        "rationale": "Table grape domestic arrivals peaking in Nashik belt; cold storage space utilization at 90%."
+        "verdict": "HOLD / REGULAR DISPATCH",
+        "rationale": "Export packaging units maintaining regular daily harvest intake quotas."
       },
       "arbitrage_matrix": [
         {
           "target_mandi": "APMC Vashi Cold Storage",
           "state": "Maharashtra",
           "distance_km": 195,
-          "mandi_modal_price": 8692,
+          "mandi_modal_price": 8729,
           "freight_cost_qt": 250,
           "net_gain_qt": 350,
           "roi_pct": 4.3,
@@ -500,64 +500,64 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A 250g+ Calibrated",
-      "modal_price": 10797,
-      "arrivals_qt": 15660,
+      "modal_price": 10599,
+      "arrivals_qt": 16397,
       "history_7d": [
-        10921,
         11019,
         10906,
         10883,
         10933,
         10905,
-        10797
+        10797,
+        10599
       ],
-      "change_1w_pct": -1.1,
+      "change_1w_pct": -3.8,
       "forecast": {
-        "target_price_7d": 10721,
-        "pct_change_7d": -0.7,
-        "confidence_pct": 78,
+        "target_price_7d": 10387,
+        "pct_change_7d": -2,
+        "confidence_pct": 86,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 10837,
-            "lower_bound": 10613,
-            "upper_bound": 11061
+            "forecast_price": 10681,
+            "lower_bound": 10461,
+            "upper_bound": 10901
           },
           {
             "day_offset": 2,
-            "forecast_price": 10817,
-            "lower_bound": 10500,
-            "upper_bound": 11134
+            "forecast_price": 10632,
+            "lower_bound": 10320,
+            "upper_bound": 10944
           },
           {
             "day_offset": 3,
-            "forecast_price": 10798,
-            "lower_bound": 10409,
-            "upper_bound": 11187
+            "forecast_price": 10583,
+            "lower_bound": 10201,
+            "upper_bound": 10965
           },
           {
             "day_offset": 4,
-            "forecast_price": 10779,
-            "lower_bound": 10330,
-            "upper_bound": 11228
+            "forecast_price": 10534,
+            "lower_bound": 10093,
+            "upper_bound": 10975
           },
           {
             "day_offset": 5,
-            "forecast_price": 10760,
-            "lower_bound": 10258,
-            "upper_bound": 11262
+            "forecast_price": 10485,
+            "lower_bound": 9992,
+            "upper_bound": 10978
           },
           {
             "day_offset": 6,
-            "forecast_price": 10741,
-            "lower_bound": 10191,
-            "upper_bound": 11291
+            "forecast_price": 10436,
+            "lower_bound": 9896,
+            "upper_bound": 10976
           },
           {
             "day_offset": 7,
-            "forecast_price": 10721,
-            "lower_bound": 10127,
-            "upper_bound": 11315
+            "forecast_price": 10387,
+            "lower_bound": 9804,
+            "upper_bound": 10970
           }
         ],
         "signal": "NEUTRAL"
@@ -571,7 +571,7 @@
           "target_mandi": "Bengaluru APMC Yard",
           "state": "Karnataka",
           "distance_km": 480,
-          "mandi_modal_price": 11647,
+          "mandi_modal_price": 11449,
           "freight_cost_qt": 380,
           "net_gain_qt": 470,
           "roi_pct": 4.4,
@@ -588,64 +588,64 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Cleaned Yellow",
-      "modal_price": 4591,
-      "arrivals_qt": 83237,
+      "modal_price": 4687,
+      "arrivals_qt": 79298,
       "history_7d": [
-        4585,
         4578,
         4588,
         4540,
         4627,
         4591,
-        4591
+        4591,
+        4687
       ],
-      "change_1w_pct": 0.1,
+      "change_1w_pct": 2.4,
       "forecast": {
-        "target_price_7d": 4613,
-        "pct_change_7d": 0.5,
+        "target_price_7d": 4727,
+        "pct_change_7d": 0.9,
         "confidence_pct": 78,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 4596,
-            "lower_bound": 4501,
-            "upper_bound": 4691
+            "forecast_price": 4649,
+            "lower_bound": 4552,
+            "upper_bound": 4746
           },
           {
             "day_offset": 2,
-            "forecast_price": 4599,
-            "lower_bound": 4464,
-            "upper_bound": 4734
+            "forecast_price": 4662,
+            "lower_bound": 4524,
+            "upper_bound": 4800
           },
           {
             "day_offset": 3,
-            "forecast_price": 4601,
-            "lower_bound": 4436,
-            "upper_bound": 4766
-          },
-          {
-            "day_offset": 4,
-            "forecast_price": 4604,
-            "lower_bound": 4413,
-            "upper_bound": 4795
-          },
-          {
-            "day_offset": 5,
-            "forecast_price": 4607,
-            "lower_bound": 4394,
-            "upper_bound": 4820
-          },
-          {
-            "day_offset": 6,
-            "forecast_price": 4610,
-            "lower_bound": 4376,
+            "forecast_price": 4675,
+            "lower_bound": 4506,
             "upper_bound": 4844
           },
           {
+            "day_offset": 4,
+            "forecast_price": 4688,
+            "lower_bound": 4493,
+            "upper_bound": 4883
+          },
+          {
+            "day_offset": 5,
+            "forecast_price": 4701,
+            "lower_bound": 4483,
+            "upper_bound": 4919
+          },
+          {
+            "day_offset": 6,
+            "forecast_price": 4714,
+            "lower_bound": 4475,
+            "upper_bound": 4953
+          },
+          {
             "day_offset": 7,
-            "forecast_price": 4613,
-            "lower_bound": 4360,
-            "upper_bound": 4866
+            "forecast_price": 4727,
+            "lower_bound": 4469,
+            "upper_bound": 4985
           }
         ],
         "signal": "NEUTRAL"
@@ -659,7 +659,7 @@
           "target_mandi": "Indore Mandi Terminal",
           "state": "Madhya Pradesh",
           "distance_km": 560,
-          "mandi_modal_price": 5001,
+          "mandi_modal_price": 5097,
           "freight_cost_qt": 340,
           "net_gain_qt": 70,
           "roi_pct": 1.5,
@@ -676,81 +676,81 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Export Calibrated",
-      "modal_price": 14144,
-      "arrivals_qt": 25035,
+      "modal_price": 14380,
+      "arrivals_qt": 24411,
       "history_7d": [
-        14254,
         14353,
         14468,
         14712,
         14138,
         14170,
-        14144
+        14144,
+        14380
       ],
-      "change_1w_pct": -0.8,
+      "change_1w_pct": 0.2,
       "forecast": {
-        "target_price_7d": 13976,
-        "pct_change_7d": -1.2,
+        "target_price_7d": 13987,
+        "pct_change_7d": -2.7,
         "confidence_pct": 78,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 14182,
-            "lower_bound": 13888,
-            "upper_bound": 14476
+            "forecast_price": 14211,
+            "lower_bound": 13912,
+            "upper_bound": 14510
           },
           {
             "day_offset": 2,
-            "forecast_price": 14148,
-            "lower_bound": 13732,
-            "upper_bound": 14564
+            "forecast_price": 14173,
+            "lower_bound": 13750,
+            "upper_bound": 14596
           },
           {
             "day_offset": 3,
-            "forecast_price": 14113,
-            "lower_bound": 13604,
-            "upper_bound": 14622
+            "forecast_price": 14136,
+            "lower_bound": 13618,
+            "upper_bound": 14654
           },
           {
             "day_offset": 4,
-            "forecast_price": 14079,
-            "lower_bound": 13491,
-            "upper_bound": 14667
+            "forecast_price": 14099,
+            "lower_bound": 13501,
+            "upper_bound": 14697
           },
           {
             "day_offset": 5,
-            "forecast_price": 14044,
-            "lower_bound": 13387,
-            "upper_bound": 14701
-          },
-          {
-            "day_offset": 6,
-            "forecast_price": 14010,
-            "lower_bound": 13290,
+            "forecast_price": 14062,
+            "lower_bound": 13394,
             "upper_bound": 14730
           },
           {
+            "day_offset": 6,
+            "forecast_price": 14024,
+            "lower_bound": 13292,
+            "upper_bound": 14756
+          },
+          {
             "day_offset": 7,
-            "forecast_price": 13976,
-            "lower_bound": 13198,
-            "upper_bound": 14754
+            "forecast_price": 13987,
+            "lower_bound": 13196,
+            "upper_bound": 14778
           }
         ],
-        "signal": "NEUTRAL"
+        "signal": "BEARISH"
       },
       "advisory": {
-        "verdict": "HOLD / REGULAR DISPATCH",
-        "rationale": "Steady high-end domestic gifting and retail demand."
+        "verdict": "SELL IMMEDIATELY — SUPPLY PRESSURE",
+        "rationale": "Peak season arrivals arriving in coastal mandis."
       },
       "arbitrage_matrix": [
         {
           "target_mandi": "Crawford Market Mumbai",
           "state": "Maharashtra",
           "distance_km": 340,
-          "mandi_modal_price": 15244,
+          "mandi_modal_price": 15480,
           "freight_cost_qt": 420,
           "net_gain_qt": 680,
-          "roi_pct": 4.8,
+          "roi_pct": 4.7,
           "is_viable": true
         }
       ]
@@ -764,78 +764,78 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Bold Grain",
-      "modal_price": 5239,
-      "arrivals_qt": 48914,
+      "modal_price": 5237,
+      "arrivals_qt": 51317,
       "history_7d": [
-        5333,
         5355,
         5352,
         5285,
         5278,
         5272,
-        5239
+        5239,
+        5237
       ],
-      "change_1w_pct": -1.8,
+      "change_1w_pct": -2.2,
       "forecast": {
-        "target_price_7d": 5133,
-        "pct_change_7d": -2,
-        "confidence_pct": 90,
+        "target_price_7d": 5099,
+        "pct_change_7d": -2.6,
+        "confidence_pct": 94,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 5238,
-            "lower_bound": 5129,
-            "upper_bound": 5347
+            "forecast_price": 5218,
+            "lower_bound": 5109,
+            "upper_bound": 5327
           },
           {
             "day_offset": 2,
-            "forecast_price": 5221,
-            "lower_bound": 5067,
-            "upper_bound": 5375
+            "forecast_price": 5198,
+            "lower_bound": 5044,
+            "upper_bound": 5352
           },
           {
             "day_offset": 3,
-            "forecast_price": 5203,
-            "lower_bound": 5014,
-            "upper_bound": 5392
+            "forecast_price": 5178,
+            "lower_bound": 4989,
+            "upper_bound": 5367
           },
           {
             "day_offset": 4,
-            "forecast_price": 5186,
-            "lower_bound": 4968,
-            "upper_bound": 5404
+            "forecast_price": 5158,
+            "lower_bound": 4940,
+            "upper_bound": 5376
           },
           {
             "day_offset": 5,
-            "forecast_price": 5168,
-            "lower_bound": 4924,
-            "upper_bound": 5412
+            "forecast_price": 5138,
+            "lower_bound": 4895,
+            "upper_bound": 5381
           },
           {
             "day_offset": 6,
-            "forecast_price": 5151,
-            "lower_bound": 4884,
-            "upper_bound": 5418
+            "forecast_price": 5118,
+            "lower_bound": 4851,
+            "upper_bound": 5385
           },
           {
             "day_offset": 7,
-            "forecast_price": 5133,
-            "lower_bound": 4845,
-            "upper_bound": 5421
+            "forecast_price": 5099,
+            "lower_bound": 4811,
+            "upper_bound": 5387
           }
         ],
-        "signal": "NEUTRAL"
+        "signal": "BEARISH"
       },
       "advisory": {
-        "verdict": "HOLD / REGULAR DISPATCH",
-        "rationale": "Balanced miller off-take and regulated procurement keeping prices range-bound."
+        "verdict": "SELL IMMEDIATELY — SUPPLY PRESSURE",
+        "rationale": "NAFED buffer stock release in central markets tempering spot bids."
       },
       "arbitrage_matrix": [
         {
           "target_mandi": "Gultekdi Pune APMC",
           "state": "Maharashtra",
           "distance_km": 440,
-          "mandi_modal_price": 5619,
+          "mandi_modal_price": 5617,
           "freight_cost_qt": 310,
           "net_gain_qt": 70,
           "roi_pct": 1.3,
@@ -852,64 +852,64 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Double Polished",
-      "modal_price": 14039,
-      "arrivals_qt": 35506,
+      "modal_price": 13922,
+      "arrivals_qt": 37606,
       "history_7d": [
-        14311,
         13951,
         14195,
         14047,
         14096,
         14158,
-        14039
+        14039,
+        13922
       ],
-      "change_1w_pct": -1.9,
+      "change_1w_pct": -0.2,
       "forecast": {
-        "target_price_7d": 13956,
-        "pct_change_7d": -0.6,
+        "target_price_7d": 13955,
+        "pct_change_7d": 0.2,
         "confidence_pct": 78,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 14057,
-            "lower_bound": 13765,
-            "upper_bound": 14349
+            "forecast_price": 14013,
+            "lower_bound": 13724,
+            "upper_bound": 14302
           },
           {
             "day_offset": 2,
-            "forecast_price": 14040,
-            "lower_bound": 13627,
-            "upper_bound": 14453
+            "forecast_price": 14003,
+            "lower_bound": 13594,
+            "upper_bound": 14412
           },
           {
             "day_offset": 3,
-            "forecast_price": 14023,
-            "lower_bound": 13517,
-            "upper_bound": 14529
+            "forecast_price": 13994,
+            "lower_bound": 13493,
+            "upper_bound": 14495
           },
           {
             "day_offset": 4,
-            "forecast_price": 14007,
-            "lower_bound": 13423,
-            "upper_bound": 14591
+            "forecast_price": 13984,
+            "lower_bound": 13405,
+            "upper_bound": 14563
           },
           {
             "day_offset": 5,
-            "forecast_price": 13990,
-            "lower_bound": 13337,
-            "upper_bound": 14643
+            "forecast_price": 13974,
+            "lower_bound": 13327,
+            "upper_bound": 14621
           },
           {
             "day_offset": 6,
-            "forecast_price": 13973,
-            "lower_bound": 13258,
-            "upper_bound": 14688
+            "forecast_price": 13965,
+            "lower_bound": 13256,
+            "upper_bound": 14674
           },
           {
             "day_offset": 7,
-            "forecast_price": 13956,
-            "lower_bound": 13184,
-            "upper_bound": 14728
+            "forecast_price": 13955,
+            "lower_bound": 13189,
+            "upper_bound": 14721
           }
         ],
         "signal": "NEUTRAL"
@@ -923,7 +923,7 @@
           "target_mandi": "Erode Spices Market",
           "state": "Tamil Nadu",
           "distance_km": 780,
-          "mandi_modal_price": 14689,
+          "mandi_modal_price": 14572,
           "freight_cost_qt": 450,
           "net_gain_qt": 200,
           "roi_pct": 1.4,
@@ -940,64 +940,64 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Juicy Calibrated",
-      "modal_price": 4692,
-      "arrivals_qt": 55938,
+      "modal_price": 4779,
+      "arrivals_qt": 53494,
       "history_7d": [
-        4853,
         4783,
         4791,
         4855,
         4836,
         4726,
-        4692
+        4692,
+        4779
       ],
-      "change_1w_pct": -3.3,
+      "change_1w_pct": -0.1,
       "forecast": {
-        "target_price_7d": 4609,
-        "pct_change_7d": -1.8,
+        "target_price_7d": 4671,
+        "pct_change_7d": -2.3,
         "confidence_pct": 78,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 4721,
-            "lower_bound": 4623,
-            "upper_bound": 4819
+            "forecast_price": 4739,
+            "lower_bound": 4640,
+            "upper_bound": 4838
           },
           {
             "day_offset": 2,
-            "forecast_price": 4702,
-            "lower_bound": 4564,
-            "upper_bound": 4840
+            "forecast_price": 4728,
+            "lower_bound": 4587,
+            "upper_bound": 4869
           },
           {
             "day_offset": 3,
-            "forecast_price": 4684,
-            "lower_bound": 4515,
-            "upper_bound": 4853
+            "forecast_price": 4716,
+            "lower_bound": 4544,
+            "upper_bound": 4888
           },
           {
             "day_offset": 4,
-            "forecast_price": 4665,
-            "lower_bound": 4470,
-            "upper_bound": 4860
+            "forecast_price": 4705,
+            "lower_bound": 4506,
+            "upper_bound": 4904
           },
           {
             "day_offset": 5,
-            "forecast_price": 4647,
-            "lower_bound": 4429,
-            "upper_bound": 4865
+            "forecast_price": 4693,
+            "lower_bound": 4471,
+            "upper_bound": 4915
           },
           {
             "day_offset": 6,
-            "forecast_price": 4628,
-            "lower_bound": 4389,
-            "upper_bound": 4867
+            "forecast_price": 4682,
+            "lower_bound": 4439,
+            "upper_bound": 4925
           },
           {
             "day_offset": 7,
-            "forecast_price": 4609,
-            "lower_bound": 4351,
-            "upper_bound": 4867
+            "forecast_price": 4671,
+            "lower_bound": 4408,
+            "upper_bound": 4934
           }
         ],
         "signal": "NEUTRAL"
@@ -1011,7 +1011,7 @@
           "target_mandi": "Bhopal Mandi Yard",
           "state": "Madhya Pradesh",
           "distance_km": 350,
-          "mandi_modal_price": 5082,
+          "mandi_modal_price": 5169,
           "freight_cost_qt": 280,
           "net_gain_qt": 110,
           "roi_pct": 2.3,
@@ -1028,64 +1028,64 @@
       "state": "Maharashtra",
       "source": "MSAMB & e-NAM Verified",
       "grade": "Grade A Export Calibrated",
-      "modal_price": 1834,
-      "arrivals_qt": 117004,
+      "modal_price": 1864,
+      "arrivals_qt": 114172,
       "history_7d": [
-        1896,
         1908,
         1863,
         1827,
         1811,
         1856,
-        1834
+        1834,
+        1864
       ],
-      "change_1w_pct": -3.3,
+      "change_1w_pct": -2.3,
       "forecast": {
-        "target_price_7d": 1748,
-        "pct_change_7d": -4.7,
-        "confidence_pct": 80,
+        "target_price_7d": 1803,
+        "pct_change_7d": -3.3,
+        "confidence_pct": 78,
         "forecast_points": [
           {
             "day_offset": 1,
-            "forecast_price": 1817,
-            "lower_bound": 1779,
-            "upper_bound": 1855
+            "forecast_price": 1836,
+            "lower_bound": 1796,
+            "upper_bound": 1876
           },
           {
             "day_offset": 2,
-            "forecast_price": 1806,
-            "lower_bound": 1752,
-            "upper_bound": 1860
+            "forecast_price": 1830,
+            "lower_bound": 1773,
+            "upper_bound": 1887
           },
           {
             "day_offset": 3,
-            "forecast_price": 1794,
-            "lower_bound": 1728,
-            "upper_bound": 1860
+            "forecast_price": 1825,
+            "lower_bound": 1755,
+            "upper_bound": 1895
           },
           {
             "day_offset": 4,
-            "forecast_price": 1783,
-            "lower_bound": 1707,
-            "upper_bound": 1859
+            "forecast_price": 1820,
+            "lower_bound": 1739,
+            "upper_bound": 1901
           },
           {
             "day_offset": 5,
-            "forecast_price": 1771,
-            "lower_bound": 1686,
-            "upper_bound": 1856
+            "forecast_price": 1814,
+            "lower_bound": 1723,
+            "upper_bound": 1905
           },
           {
             "day_offset": 6,
-            "forecast_price": 1760,
-            "lower_bound": 1667,
-            "upper_bound": 1853
+            "forecast_price": 1809,
+            "lower_bound": 1710,
+            "upper_bound": 1908
           },
           {
             "day_offset": 7,
-            "forecast_price": 1748,
-            "lower_bound": 1647,
-            "upper_bound": 1849
+            "forecast_price": 1803,
+            "lower_bound": 1696,
+            "upper_bound": 1910
           }
         ],
         "signal": "BEARISH"
@@ -1099,10 +1099,10 @@
           "target_mandi": "Surat APMC",
           "state": "Gujarat",
           "distance_km": 290,
-          "mandi_modal_price": 2104,
+          "mandi_modal_price": 2134,
           "freight_cost_qt": 210,
           "net_gain_qt": 60,
-          "roi_pct": 3.3,
+          "roi_pct": 3.2,
           "is_viable": true
         }
       ]

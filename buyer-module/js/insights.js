@@ -254,12 +254,16 @@
   let tableSortKey = 'default'; // 'default', 'crop', 'arrivals', 'minPrice', 'modalPrice', 'maxPrice', 'arbitrage'
   let tableSortDir = 'desc'; // 'asc', 'desc'
 
-  // Automatic live market ticker sync every 45s if page is active
+  // Automatic live market ticker sync every 4s strictly when Insights view is active
   let _liveSyncInterval = null;
   function startLiveMandiTicker() {
     if (_liveSyncInterval) clearInterval(_liveSyncInterval);
     _liveSyncInterval = setInterval(async () => {
       if (document.hidden) return;
+      const insightsView = document.getElementById('view-insights');
+      if (insightsView && !insightsView.classList.contains('active-view')) {
+        return; // Strictly only run live sync on Market Insights page
+      }
       try {
         const res = await fetch('/api/buyer/mandi-sync', { method: 'POST' });
         if (res.ok) {
@@ -276,7 +280,7 @@
           }
         }
       } catch(e) {}
-    }, 45000);
+    }, 4000);
   }
 
   // Initialize View
@@ -1645,14 +1649,19 @@
     const el = document.getElementById('mandi-live-timestamp');
     if (el) {
       const now = new Date();
-      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
       const lang = (window.getBuyerLanguage && window.getBuyerLanguage()) || 'en';
       if (lang === 'mr') {
-        el.textContent = `सिंक झाले: आज ${timeStr} • ई-नाम व बाजार समिती थेट`;
+        el.textContent = `सिंक वेळ: ${timeStr} • ई-नाम व बाजार समिती थेट`;
       } else if (lang === 'hi') {
-        el.textContent = `सिंक हुआ: आज ${timeStr} • ई-नाम व मंडी लाइव`;
+        el.textContent = `सिंक समय: ${timeStr} • ई-नाम व मंडी लाइव`;
       } else {
-        el.textContent = `Synced: Today at ${timeStr} • e-NAM & APMC Live`;
+        el.textContent = `Live Synced: ${timeStr} • e-NAM & APMC Realtime`;
+      }
+      const badge = document.getElementById('buyer-insights-sync-badge');
+      if (badge) {
+        badge.classList.add('synced-pulse');
+        setTimeout(() => badge.classList.remove('synced-pulse'), 800);
       }
     }
   }
