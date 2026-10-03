@@ -819,6 +819,13 @@
         </div>
 
         <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
+          <!-- Live Auto-Sync Status Indicator -->
+          <div id="farmer-live-sync-indicator" class="live-sync-badge" title="Auto-updating live from server database">
+            <span class="live-pulse-dot"></span>
+            <span class="live-sync-title">Live Sync</span>
+            <span class="live-sync-time" id="farmer-sync-time">Updating...</span>
+          </div>
+
           <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
           <div class="lang-selector-widget" style="position: relative;">
             <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
@@ -1295,32 +1302,86 @@
 
 
   <!-- Scripts -->
-
+  <script src="js/api.js"></script>
   <script src="js/data.js?v=3"></script>
-
   <script src="js/emergency_sale.js?v=3"></script>
-
   <script src="js/fpo_hub.js?v=3"></script>
 
-  
-
   <script>
-
     let currentFilter = 'all';
-
     let currentCategory = 'all';
-
     let currentSearch = '';
-
     let currentView = 'grid';
 
+    function updateFarmerSyncTimestamp() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+      const timeEl = document.getElementById("farmer-sync-time");
+      if (timeEl) {
+        timeEl.textContent = `Updated: ${timeStr}`;
+      }
+      const badgeEl = document.getElementById("farmer-live-sync-indicator");
+      if (badgeEl) {
+        badgeEl.classList.add("synced-pulse");
+        setTimeout(() => badgeEl.classList.remove("synced-pulse"), 800);
+      }
+    }
 
+    async function syncCropsFromBackend() {
+      try {
+        if (window.AgriNexAPI) {
+          const crops = await window.AgriNexAPI.getCrops();
+          if (crops && crops.length > 0) {
+            const allowedIds = ['LOT-TOM-02', 'LOT-SOY-04', 'LOT-POM-07', 'LOT-RIC-09', 'LOT-WHT-12'];
+            let farmerCrops = crops.filter(c => allowedIds.includes(c.id) || (c.id && !c.id.startsWith('LOT-NAS-') && !c.id.startsWith('LOT-FRE-') && !c.id.startsWith('LOT-TEST-')));
+            if (farmerCrops.length === 0) farmerCrops = crops.slice(0, 10);
+            farmerData.listings = farmerCrops.map(c => {
+              const qtyQt = c.quantity_qt || c.quantityNumber || 50;
+              const priceQt = c.price_per_qt || c.expectedPriceNumber || 2000;
+              const priceKg = c.price_per_kg ? c.price_per_kg : (priceQt / 100);
+              return {
+                id: c.id,
+                crop: (c.crop || c.crop_name || "Produce") + (c.variety ? ` (${c.variety})` : ''),
+                category: c.category || 'Vegetables',
+                shelfLife: c.shelf_life || "14 Days",
+                harvestDate: c.harvestDate || 'Current Season',
+                image: c.image || c.image_url || 'assets/images/tomato.jpg',
+                grade: c.grade || 'Grade A',
+                quantity: `${qtyQt} Qt (${(qtyQt * 100).toLocaleString()} kg)`,
+                quantityNumber: qtyQt,
+                expectedPrice: `₹ ${priceKg.toFixed(2)} /kg (₹ ${priceQt.toLocaleString()} /Qt)`,
+                expectedPriceNumber: priceQt,
+                bestBid: `₹ ${(priceKg * 1.02).toFixed(2)} /kg`,
+                bestBidNumber: Math.round(priceQt * 1.02),
+                buyerName: c.buyer_name || "Reliance Retail Hub",
+                status: c.status || "Active (Bids Open)",
+                statusBadgeClass: c.statusBadgeClass || "badge-status-open",
+                location: c.mandi || "Lasalgaon APMC Yard, Nashik"
+              };
+            });
+            renderAllCrops();
+            updateKpis();
+          }
+        }
+      } catch(e) {}
+      updateFarmerSyncTimestamp();
+    }
 
     document.addEventListener("DOMContentLoaded", () => {
-
       renderAllCrops();
-
       updateKpis();
+      syncCropsFromBackend();
+
+      setInterval(syncCropsFromBackend, 4000);
+      window.addEventListener("focus", syncCropsFromBackend);
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") syncCropsFromBackend();
+      });
+      if (typeof BroadcastChannel !== 'undefined') {
+        const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+        syncChannel.onmessage = () => syncCropsFromBackend();
+      }
+
       if (new URLSearchParams(window.location.search).get('action') === 'new') {
         setTimeout(openCreateListingModal, 150);
       }

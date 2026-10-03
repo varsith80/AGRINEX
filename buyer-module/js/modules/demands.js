@@ -642,32 +642,23 @@ async function syncDemandsFromBackend() {
     try {
       const serverDemands = await window.apiClient.getDemands();
       if (Array.isArray(serverDemands) && serverDemands.length > 0) {
-        const existingIds = new Set((buyerData.buyerDemands || []).map(d => d.id));
-        let added = false;
-        serverDemands.forEach(sd => {
-          if (!existingIds.has(sd.id)) {
-            buyerData.buyerDemands.push({
-              ...sd,
-              image: sd.image || getCropImage(sd.crop),
-              statusLabel: sd.statusLabel || '● Broadcasting Quota',
-              statusClass: sd.statusClass || 'badge-status-open'
-            });
-            existingIds.add(sd.id);
-            added = true;
-          }
-        });
-        if (added) {
-          try {
-            localStorage.setItem('agrinex_buyer_demands', JSON.stringify(buyerData.buyerDemands));
-          } catch (e) {}
-          renderBuyerDemands();
-        }
+        buyerData.buyerDemands = serverDemands.map(sd => ({
+          ...sd,
+          image: sd.image ? sd.image.split('?')[0] : getCropImage(sd.crop),
+          statusLabel: sd.statusLabel || (sd.status === 'Fulfilled' ? '✓ Quota Fulfilled' : '● Broadcasting Quota'),
+          statusClass: sd.statusClass || (sd.status === 'Fulfilled' ? 'badge-status-dispatched' : 'badge-status-open')
+        }));
+        try {
+          localStorage.setItem('agrinex_buyer_demands', JSON.stringify(buyerData.buyerDemands));
+        } catch (e) {}
+        if (typeof renderBuyerDemands === 'function') renderBuyerDemands();
       }
     } catch (err) {
       console.warn('Backend demands fetch skipped, using local store', err);
     }
   }
 }
+window.syncDemandsFromBackend = syncDemandsFromBackend;
 
   // Allow deleting/cancelling any unwanted or duplicate quotas
   async function deleteDemandQuota(demandId) {

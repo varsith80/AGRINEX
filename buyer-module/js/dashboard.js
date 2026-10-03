@@ -438,6 +438,75 @@ function showNotification(msg) {
   showToast(msg, 'info');
 }
 
+function updateBuyerSyncTimestamp() {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+  const timeEl = document.getElementById('buyer-sync-time');
+  if (timeEl) {
+    timeEl.textContent = `Updated: ${timeStr}`;
+  }
+  const badgeEl = document.getElementById('buyer-live-sync-indicator');
+  if (badgeEl) {
+    badgeEl.classList.add('synced-pulse');
+    setTimeout(() => badgeEl.classList.remove('synced-pulse'), 800);
+  }
+}
+
+async function syncBuyerDataFromBackend() {
+  try {
+    // 1. Fetch live marketplace lots
+    if (window.apiClient && typeof window.apiClient.getMarketplaceLots === 'function') {
+      try {
+        await window.apiClient.getMarketplaceLots();
+      } catch (err) {}
+    }
+
+    // 2. Fetch live demands
+    if (typeof window.syncDemandsFromBackend === 'function') {
+      try {
+        await window.syncDemandsFromBackend();
+      } catch (err) {}
+    }
+
+    // 3. Fetch live shipments / consignments from server
+    try {
+      const res = await fetch('/api/logistics/shipments');
+      if (res.ok) {
+        const ships = await res.json();
+        if (Array.isArray(ships) && ships.length > 0) {
+          buyerData.consignments = ships;
+          localStorage.setItem('agrinex_buyer_consignments', JSON.stringify(ships));
+          if (typeof renderBuyerConsignments === 'function') renderBuyerConsignments();
+        }
+      }
+    } catch (e) {}
+
+    // 4. Fetch live escrow contracts from server
+    try {
+      const res = await fetch('/api/escrow/contracts');
+      if (res.ok) {
+        const escrows = await res.json();
+        if (Array.isArray(escrows) && escrows.length > 0) {
+          buyerData.escrowContracts = escrows;
+          if (typeof renderBuyerEscrowVault === 'function') renderBuyerEscrowVault();
+        }
+      }
+    } catch (e) {}
+
+    // 5. Update UI
+    loadPersistedBuyerState();
+    if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
+    if (typeof renderBuyerDemands === 'function') renderBuyerDemands();
+    if (typeof updateBuyerMarketStats === 'function') updateBuyerMarketStats();
+
+    updateBuyerSyncTimestamp();
+  } catch (err) {
+    console.warn('[Buyer AutoSync Warning]', err);
+  }
+}
+window.syncBuyerDataFromBackend = syncBuyerDataFromBackend;
+window.updateBuyerSyncTimestamp = updateBuyerSyncTimestamp;
+
 // -------------------------------------------------------------
 // APPLICATION BOOTSTRAPPER
 // -------------------------------------------------------------
@@ -469,6 +538,20 @@ function bootBuyerDashboard() {
   try { if (typeof renderChatSidebar === 'function') renderChatSidebar(); } catch(e) { console.error('Chat sidebar error:', e); }
   try { initLocationSwitcher(); } catch(e) { console.error('Location switcher error:', e); }
 
+  // Initial Sync from Live Backend
+  syncBuyerDataFromBackend();
+
+  // Background Auto-Sync Interval (every 4 seconds)
+  setInterval(() => {
+    syncBuyerDataFromBackend();
+  }, 4000);
+
+  // Sync on tab visibility change or focus
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') syncBuyerDataFromBackend();
+  });
+  window.addEventListener('focus', () => syncBuyerDataFromBackend());
+
   // Ensure initial language is applied across all loaded modules
   try {
     if (typeof window.setBuyerLanguage === 'function' && typeof window.getBuyerLanguage === 'function') {
@@ -478,47 +561,21 @@ function bootBuyerDashboard() {
 
   // Listen for Cross-Tab / Cross-Module live events
   window.addEventListener('storage', (e) => {
-    if (e.key === 'agrinex_verified_lots' || e.key === 'agrinex_crops_updated' || e.key === 'agrinex_buyer_demands' || e.key === 'agrinex_admin_mandi_prices') {
-      try {
-        loadPersistedBuyerState();
-        if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
-        if (typeof renderBuyerDemands === 'function') renderBuyerDemands();
-        if (typeof updateBuyerMarketStats === 'function') updateBuyerMarketStats();
-        if (typeof window.refreshBuyerMarketInsights === 'function') window.refreshBuyerMarketInsights();
-      } catch(err) {}
+    if (e.key === 'agrinex_verified_lots' || e.key === 'agrinex_crops_updated' || e.key === 'agrinex_buyer_demands' || e.key === 'agrinex_admin_mandi_prices' || (e.key && e.key.startsWith('agrinex_'))) {
+      syncBuyerDataFromBackend();
     }
   });
 
   if (typeof BroadcastChannel !== 'undefined') {
     const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
     syncChannel.onmessage = async (event) => {
-      if (event.data && event.data.type === 'LOT_CREATED') {
-        if (window.apiClient) {
-          try {
-            await window.apiClient.getMarketplaceLots();
-          } catch(err) {}
-        }
-        loadPersistedBuyerState();
-        if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
-        if (typeof updateBuyerMarketStats === 'function') updateBuyerMarketStats();
-      }
-      if (event.data && event.data.type === 'DEMANDS_UPDATED') {
-        loadPersistedBuyerState();
-        if (typeof renderBuyerDemands === 'function') renderBuyerDemands();
-      }
-      if (event.data && (event.data.type === 'MANDI_PRICE_UPDATED' || event.data.type === 'CROPS_UPDATED')) {
-        loadPersistedBuyerState();
-        if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
-        if (typeof window.refreshBuyerMarketInsights === 'function') window.refreshBuyerMarketInsights();
-      }
+      syncBuyerDataFromBackend();
     };
   }
 
   if (window.AgriNexBus && typeof window.AgriNexBus.on === 'function') {
     window.AgriNexBus.on('mandi:price_calibrated', () => {
-      loadPersistedBuyerState();
-      if (typeof renderVerifiedLots === 'function') renderVerifiedLots();
-      if (typeof window.refreshBuyerMarketInsights === 'function') window.refreshBuyerMarketInsights();
+      syncBuyerDataFromBackend();
     });
   }
 

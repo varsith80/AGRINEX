@@ -246,6 +246,13 @@
         </div>
 
         <div class="navbar-right">
+          <!-- Live Auto-Sync Status Indicator -->
+          <div id="buyer-live-sync-indicator" class="live-sync-badge" title="Auto-updating live from server database">
+            <span class="live-pulse-dot"></span>
+            <span class="live-sync-title">Live Sync</span>
+            <span class="live-sync-time" id="buyer-sync-time">Updating...</span>
+          </div>
+
           <!-- Simple Mode / Enterprise Mode Toggle Button -->
           <button type="button" id="btn-toggle-lite-mode" class="btn-navbar-pill mode-toggle" onclick="toggleLiteMode()" title="Switch Simple / Enterprise View">
             <span class="mode-icon">🌱</span>

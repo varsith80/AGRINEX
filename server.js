@@ -1882,6 +1882,10 @@ const server = http.createServer(async (req, res) => {
       if (targetCrop) {
         targetCrop.quantity_kg = Math.max(0, (targetCrop.quantity_kg || 0) - qtyKg);
         targetCrop.quantity_qt = Math.round(targetCrop.quantity_kg / 100);
+        if (targetCrop.quantity_kg <= 0) {
+          targetCrop.status = 'Sold (Under Escrow)';
+          targetCrop.statusBadgeClass = 'badge-status-dispatched';
+        }
       }
 
       saveDB(db);

@@ -33,11 +33,32 @@ document.addEventListener("DOMContentLoaded", () => {
   } catch (e) {}
 
   renderListings();
-  syncListingsFromBackend();
-  renderFPOHub();
-  if (window.AgriNexFPOHub && typeof window.AgriNexFPOHub.syncFromServer === 'function') {
-    window.AgriNexFPOHub.syncFromServer();
+  runFarmerAutoSync();
+
+  // Background Auto-Sync Interval (every 4 seconds)
+  setInterval(() => {
+    runFarmerAutoSync();
+  }, 4000);
+
+  // Sync on tab visibility change or focus
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") runFarmerAutoSync();
+  });
+  window.addEventListener("focus", () => runFarmerAutoSync());
+
+  // Real-time Cross-Module BroadcastChannel Sync
+  if (typeof BroadcastChannel !== 'undefined') {
+    const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
+    syncChannel.onmessage = (event) => {
+      runFarmerAutoSync();
+    };
   }
+  window.addEventListener("storage", (e) => {
+    if (e.key && e.key.startsWith('agrinex_')) {
+      runFarmerAutoSync();
+    }
+  });
+
   setupModals();
   setupNavigation();
   setupLocationChange();
@@ -835,6 +856,43 @@ function showToast(message) {
 }
 
 
+async function syncStatsFromBackend() {
+  try {
+    if (window.AgriNexAPI && typeof window.AgriNexAPI.getDashboardStats === 'function') {
+      const data = await window.AgriNexAPI.getDashboardStats();
+      if (data && data.stats) {
+        const stats = data.stats;
+        const activeBidsEl = document.getElementById("stat-active-bids");
+        if (activeBidsEl && stats.active_bids !== undefined) {
+          activeBidsEl.textContent = stats.active_bids;
+        }
+        const shipmentsEl = document.getElementById("stat-pending-shipments");
+        if (shipmentsEl && stats.in_transit_shipments !== undefined) {
+          shipmentsEl.textContent = stats.in_transit_shipments;
+        }
+        const profitEl = document.getElementById("stat-estimated-profit");
+        if (profitEl && stats.estimated_profit !== undefined) {
+          profitEl.textContent = stats.estimated_profit;
+        }
+      }
+    }
+  } catch(e) {}
+}
+
+function updateFarmerSyncTimestamp() {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+  const timeEl = document.getElementById("farmer-sync-time");
+  if (timeEl) {
+    timeEl.textContent = `Updated: ${timeStr}`;
+  }
+  const badgeEl = document.getElementById("farmer-live-sync-indicator");
+  if (badgeEl) {
+    badgeEl.classList.add("synced-pulse");
+    setTimeout(() => badgeEl.classList.remove("synced-pulse"), 800);
+  }
+}
+
 async function syncListingsFromBackend() {
   try {
     if (window.AgriNexAPI) {
@@ -847,16 +905,11 @@ async function syncListingsFromBackend() {
           if (el && el.id) emergencyMap[el.id] = el;
         });
 
-        // In farmer module alone: list 5 core produce crops
+        // In farmer module alone: list core produce crops plus any newly created crops
         const allowedIds = ['LOT-TOM-02', 'LOT-SOY-04', 'LOT-POM-07', 'LOT-RIC-09', 'LOT-WHT-12'];
-        let farmerCrops = crops.filter(c => allowedIds.includes(c.id));
+        let farmerCrops = crops.filter(c => allowedIds.includes(c.id) || (c.id && !c.id.startsWith('LOT-NAS-') && !c.id.startsWith('LOT-FRE-') && !c.id.startsWith('LOT-TEST-')));
         if (farmerCrops.length === 0) {
           farmerCrops = crops.slice(0, 5);
-        } else if (farmerCrops.length < 5) {
-          const others = crops.filter(c => !allowedIds.includes(c.id));
-          farmerCrops = farmerCrops.concat(others.slice(0, 5 - farmerCrops.length));
-        } else if (farmerCrops.length > 5) {
-          farmerCrops = farmerCrops.slice(0, 5);
         }
 
         farmerData.listings = farmerCrops.map(c => {
@@ -920,6 +973,22 @@ async function syncListingsFromBackend() {
     console.log("Using cached farmerData:", e.message);
   }
 }
+
+async function runFarmerAutoSync() {
+  try {
+    await syncListingsFromBackend();
+    await syncStatsFromBackend();
+    if (window.AgriNexFPOHub && typeof window.AgriNexFPOHub.syncFromServer === 'function') {
+      await window.AgriNexFPOHub.syncFromServer();
+      if (typeof renderFPOHub === 'function') renderFPOHub();
+    }
+    updateFarmerSyncTimestamp();
+  } catch (e) {
+    console.warn("Farmer auto-sync error:", e.message);
+  }
+}
+window.runFarmerAutoSync = runFarmerAutoSync;
+
 
 /**
  * Setup Navigation & Mobile Off-Canvas Drawer

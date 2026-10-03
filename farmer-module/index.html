@@ -154,6 +154,13 @@
         </div>
 
         <div class="navbar-right" style="display: flex; align-items: center; gap: 12px;">
+          <!-- Live Auto-Sync Status Indicator -->
+          <div id="farmer-live-sync-indicator" class="live-sync-badge" title="Auto-updating live from server database">
+            <span class="live-pulse-dot"></span>
+            <span class="live-sync-title">Live Sync</span>
+            <span class="live-sync-time" id="farmer-sync-time">Updating...</span>
+          </div>
+
           <!-- Language Selector Widget (English, हिन्दी, मराठी) -->
           <div class="lang-selector-widget" style="position: relative;">
             <button type="button" id="btn-language-selector" onclick="toggleLanguageMenu()" style="display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 700; color: #0c5a36; background: #e8f5ed; padding: 6px 14px; border-radius: 999px; border: 1.5px solid #bbf7d0; cursor: pointer; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s ease;" title="Change Language / भाषा बदला / भाषा बदलें">
