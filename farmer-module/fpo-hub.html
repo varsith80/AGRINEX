@@ -618,6 +618,7 @@
       if (typeof AgriNexFPOHub !== 'undefined') return AgriNexFPOHub;
       return null;
     }
+    const getFPOEngine = getHubEngine;
 
     function initFPOHub() {
       renderFPOPageDemands();
@@ -625,7 +626,7 @@
       renderCompletedPools();
       renderBoardMembers();
 
-      const engine = getFPOEngine();
+      const engine = getHubEngine();
       if (engine && typeof engine.syncFromServer === 'function') {
         engine.syncFromServer();
       }
@@ -637,8 +638,12 @@
     } else {
       initFPOHub();
     }
+
+    window.addEventListener("focus", initFPOHub);
+    document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "visible") initFPOHub();
     });
+
     if (typeof BroadcastChannel !== 'undefined') {
       const syncChannel = new BroadcastChannel('agrinex_cross_module_sync');
       syncChannel.onmessage = () => initFPOHub();
@@ -991,7 +996,8 @@
       const engine = getHubEngine();
       if (!engine) return;
 
-      const result = engine.contributeToPool(demandId, "Ramesh Patel", qty);
+      const farmerName = (window.farmerData && farmerData.profile && farmerData.profile.name) ? `${farmerData.profile.name} (You)` : "Perumal (You)";
+      const result = engine.contributeToPool(demandId, qty, farmerName);
       if (result.success) {
         closeFPOModal();
         renderFPOPageDemands();

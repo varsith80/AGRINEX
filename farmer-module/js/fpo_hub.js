@@ -351,7 +351,8 @@ class AgriNexFPOHub {
         const isMe = c.name && (
           c.name.toLowerCase().includes("you") || 
           c.name.toLowerCase().includes("patil") || 
-          c.name.toLowerCase().includes("ramesh")
+          c.name.toLowerCase().includes("ramesh") ||
+          c.name.toLowerCase().includes("perumal")
         );
         if (isMe) {
           const totalVal = c.qty * d.targetPriceNumber;
